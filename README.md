@@ -22,6 +22,8 @@ Git blob SHA-1 của TSV trên kho nguồn, đã đối chiếu bằng `git hash
 
 Để tải lại một tệp, dùng URL dạng `https://huggingface.co/datasets/google/fleurs/resolve/70bb2e84b976b7e960aa89f1c648e09c59f894dd/data/vi_vn/<tên-tệp>?download=true`. Cấu trúc và tên tệp trong `data/raw/fleurs/vi_vn/` trùng đường dẫn `data/vi_vn/` trên nguồn. Kiểm tra SHA-256 bằng `Get-FileHash data/raw/fleurs/vi_vn/audio/test.tar.gz -Algorithm SHA256` (đổi tên tệp cho các split khác). Có thể đọc trực tiếp TSV và kho tar.gz; chỉ giải nén split cần dùng để tiết kiệm dung lượng.
 
+Bản lưu trên Google Drive nằm tại `G:\My Drive\Seventh Semester\PBL6\dataset\FLEURS_vi_vn_70bb2e84.zip` (2.368.837.561 byte, SHA-256 `405d169c0fe07b97168a5a6b08987946aa682955bd998987ee2900be21c92496`). ZIP có sáu tệp nguồn giữ nguyên cấu trúc dưới `FLEURS_vi_vn/`, cùng `SOURCE_INFO.txt` và `SOURCE_SHA256SUMS.txt`; toàn bộ tám entry đã được đọc lại để kiểm tra CRC và kích thước. Checksum của ZIP cũng được lưu cạnh archive trong `FLEURS_vi_vn_70bb2e84.zip.sha256.txt`.
+
 ## ViMD
 
 Toàn bộ [ViMD Dataset](https://huggingface.co/datasets/nguyendv02/ViMD_Dataset) được tải vào `D:\PBL6\dataset\ViMD_Dataset` và đóng gói để lưu tại `G:\My Drive\Seventh Semester\PBL6\dataset\ViMD_Dataset_3a5b301`. Dữ liệu gốc không được đưa vào Git.
