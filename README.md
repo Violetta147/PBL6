@@ -34,3 +34,16 @@ Toàn bộ [ViMD Dataset](https://huggingface.co/datasets/nguyendv02/ViMD_Datase
 - Vai trò: benchmark phụ trợ để phân tích sai số theo vùng/tỉnh và người nói. Nguồn chủ yếu là chương trình phát thanh địa phương, nên không thay thế bộ hội thoại tự thu trong điều kiện micro, khoảng cách và tiếng ồn thực tế.
 
 Khi khôi phục, giải nén tất cả ZIP train/valid/test vào cùng một thư mục, sau đó giải nén `ViMD_metadata.zip`. Giữ nguyên split gốc; không dùng test để chọn model, tinh chỉnh, tạo prompt hoặc xây từ điển sửa lỗi. Đối chiếu file đã giải nén với `SOURCE_SHA256SUMS.txt` trước khi chạy thí nghiệm.
+
+## VIVOS 1.0
+
+Bản gốc [VIVOS 1.0](https://zenodo.org/records/7068130) được tải về `D:\PBL6\dataset\VIVOS_1.0\vivos.tar.gz`, đóng gói không nén lại thành `D:\PBL6\dataset\VIVOS_1.0_Zenodo_7068130.zip`, rồi lưu tại `G:\My Drive\Seventh Semester\PBL6\dataset\VIVOS_1.0_Zenodo_7068130.zip`. Dữ liệu gốc không được đưa vào Git.
+
+- Phiên bản nguồn: VIVOS 1.0, DOI `10.5281/zenodo.7068130`, tải ngày 26/09/2026.
+- Giấy phép: CC BY-NC-SA 4.0; trang nguồn nêu corpus chỉ dùng cho mục đích học thuật.
+- Tệp nguồn `vivos.tar.gz`: 1.474.408.300 byte; MD5 chính thức `72972a8b14050f3f11ea7c3debabd7af`; SHA-256 đã tính `147477f7a7702cbafc2ee3808d1c142989d0dbc8d9fce8e07d5f329d5119e4ca`.
+- Gói Drive: 1.474.409.282 byte; SHA-256 `2e1236bd5284504555fbbabd31f102482c6c44ab342709f889d3c5ad296b544b`. Hash đọc lại từ ổ G trùng bản trên D.
+- ZIP chứa nguyên vẹn `vivos.tar.gz`, `SOURCE_INFO.txt` và `CHECKSUMS.txt`; tệp âm thanh chưa được giải nén hoặc biến đổi.
+- Vai trò: benchmark nhỏ trên lời đọc thu trong môi trường yên tĩnh. VIVOS phù hợp để kiểm tra pipeline và so sánh baseline, nhưng không thay thế bộ hội thoại tự thu với khoảng cách, tiếng ồn và thiết bị thực tế.
+
+Khi sử dụng, giải nén ZIP rồi kiểm tra `vivos.tar.gz` theo `CHECKSUMS.txt` trước khi giải nén corpus. Giữ split gốc; không dùng test để chọn mô hình, prompt, từ điển sửa lỗi hoặc cấu hình tiền xử lý.
