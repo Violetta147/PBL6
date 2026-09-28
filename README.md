@@ -49,3 +49,16 @@ Bản gốc [VIVOS 1.0](https://zenodo.org/records/7068130) được tải về 
 - Vai trò: benchmark nhỏ trên lời đọc thu trong môi trường yên tĩnh. VIVOS phù hợp để kiểm tra pipeline và so sánh baseline, nhưng không thay thế bộ hội thoại tự thu với khoảng cách, tiếng ồn và thiết bị thực tế.
 
 Khi sử dụng, giải nén ZIP rồi kiểm tra `vivos.tar.gz` theo `CHECKSUMS.txt` trước khi giải nén corpus. Giữ split gốc; không dùng test để chọn mô hình, prompt, từ điển sửa lỗi hoặc cấu hình tiền xử lý.
+
+## VietSuperSpeech
+
+Toàn bộ [VietSuperSpeech](https://huggingface.co/datasets/thanhnew2001/VietSuperSpeech) được tải vào `D:\PBL6\dataset\VietSuperSpeech_git` và lưu trên Google Drive tại [VietSuperSpeech_cbf624ae](https://drive.google.com/drive/folders/1iK8ye-gBiUCRR1m6bAS1X7DdcQXncJcd), tương ứng `G:\My Drive\Seventh Semester\PBL6\dataset\VietSuperSpeech_cbf624ae`. Dữ liệu gốc không được đưa vào Git của dự án.
+
+- Phiên bản nguồn: commit `cbf624ae9b30e1c2793a27e95b262115c69601f3` của kho Hugging Face, tải ngày 27–28/09/2026.
+- Giấy phép ghi trong README của nguồn: MIT. Âm thanh được trích từ các nguồn video; quyền đối với nội dung gốc chưa được kiểm tra riêng.
+- Bản nguồn tại commit này có 118.264 tệp, trong đó 118.260 tệp Git LFS, tổng cộng 62.619.407.773 byte. Nhãn phiên âm được tạo bằng mô hình Zipformer-30M-RNNT-6000h theo README của nguồn, nên cần xem là nhãn máy và kiểm tra chất lượng trước khi dùng.
+- Bản lưu Drive gồm 15 ZIP (`VietSuperSpeech_cbf624ae_part01-of-15.zip` đến `part15-of-15.zip`) và 15 tệp `.sha256.txt` tương ứng; tổng dung lượng ZIP là 62.688.053.113 byte. Mỗi ZIP độc lập, lưu tệp dưới tiền tố `VietSuperSpeech/` và chứa `SOURCE_INFO.txt`, `FILE_SHA256SUMS.txt` riêng. Thư mục Drive còn có `SOURCE_SHA256SUMS.txt` tổng hợp 118.264 dòng và checksum của manifest này.
+- Khi đóng gói, SHA-256 của từng tệp LFS được so với OID nguồn. SHA-256 của từng ZIP đã được đối chiếu sau khi chép sang ổ G. Google Drive đã liệt kê đủ 15 ZIP và 15 checksum; kiểm tra cấu trúc ZIP cho thấy đủ 118.264 đường dẫn tệp nguồn, không trùng và không thiếu manifest.
+- Vai trò: dữ liệu huấn luyện/phân tích độ bền trên tiếng nói hội thoại. Không dùng làm tập kiểm thử khóa cuối cùng nếu chưa kiểm tra nhãn, nguồn âm thanh và phân chia theo người nói/nguồn video.
+
+Để khôi phục, tải đủ 15 ZIP rồi giải nén tất cả vào cùng một thư mục. Trước khi giải nén, kiểm tra SHA-256 của mỗi ZIP theo tệp `.sha256.txt` cùng tên. Sau khi giải nén, đối chiếu dữ liệu trong thư mục `VietSuperSpeech/` với `SOURCE_SHA256SUMS.txt` tổng hợp; các tệp `FILE_SHA256SUMS.txt` trùng tên ở mỗi ZIP nên sẽ ghi đè nhau nếu giải nén tất cả vào cùng chỗ. Giữ nguyên `train.json`, `dev.json` và cấu trúc `audio/` của bản nguồn.
