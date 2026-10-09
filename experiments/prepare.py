@@ -6,13 +6,42 @@ import random
 import tarfile
 import zipfile
 from pathlib import Path
-from common import read_fleurs, sha256, write_csv
+from common import read_csv, read_fleurs, sha256, write_csv
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
 def selected(rows, count):
     return sorted(random.Random(42).sample(rows, count), key=lambda row: row['id'])
+
+
+def build_package():
+    package = ROOT / 'data/derived/stt_b01_b03_package.zip'
+    package.parent.mkdir(parents=True, exist_ok=True)
+    excluded = {'__pycache__', 'results', 'attempts', '.ipynb_checkpoints'}
+    state_files = {'PROGRESS.md', 'VALIDATION.md', 'verification.json', 'package_receipt.json'}
+    with zipfile.ZipFile(package, 'w', zipfile.ZIP_DEFLATED) as zip:
+        for directory in [ROOT / 'experiments', ROOT / 'data/derived/stt_b01_b03']:
+            for path in sorted(directory.rglob('*')):
+                if path.is_file() and not excluded.intersection(path.parts) and path.name not in state_files:
+                    zip.write(path, path.relative_to(ROOT).as_posix())
+        self_manifest = ROOT / 'experiments/manifests/self_dev20.csv'
+        if self_manifest.exists():
+            for row in read_csv(self_manifest):
+                source = (ROOT / row['audio_path']).resolve()
+                if not source.is_relative_to(ROOT.resolve()) or row['split'] != 'dev':
+                    raise ValueError('Only self-recorded dev under the workspace may be packaged')
+                if row['consent'] != 'yes' or row['label_verified'] != 'yes' or sha256(source) != row['audio_sha256']:
+                    raise ValueError('Self-recorded audio/consent/reference not verified')
+                zip.write(source, source.relative_to(ROOT).as_posix())
+    with zipfile.ZipFile(package) as zip:
+        if zip.testzip() is not None:
+            raise ValueError('ZIP CRC failure')
+    receipt = dict(package=package.relative_to(ROOT).as_posix(), bytes=package.stat().st_size,
+                   sha256=sha256(package), crc_verified=True, contains_test_audio=False)
+    (ROOT / 'experiments/package_receipt.json').write_text(json.dumps(receipt, indent=2), encoding='utf-8')
+    print(json.dumps(receipt))
+    return package
 
 
 def extract_selected(archive, rows, destination):
@@ -50,7 +79,11 @@ def extract_selected(archive, rows, destination):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--source', type=Path, default=ROOT / 'data/raw/fleurs/vi_vn')
+    parser.add_argument('--package-only', action='store_true', help='Repackage code/selected WAVs without rescanning raw tarballs')
     args = parser.parse_args()
+    if args.package_only:
+        build_package()
+        return
     manifests = ROOT / 'experiments/manifests'
     pilot = selected(read_fleurs(args.source / 'train.tsv', 'train'), 10)
     dev = selected(read_fleurs(args.source / 'dev.tsv', 'dev'), 100)
@@ -69,13 +102,7 @@ def main():
                       audio_derivation='soundfile: IEEE float WAV -> PCM16, mono16kHz unchanged',
                       source_tsv_sha256={s: sha256(args.source / f'{s}.tsv') for s in ['train', 'dev', 'test']})
     (manifests / 'selection.json').write_text(json.dumps(provenance, ensure_ascii=False, indent=2), encoding='utf-8')
-    package = ROOT / 'data/derived/stt_b01_b03_package.zip'
-    with zipfile.ZipFile(package, 'w', zipfile.ZIP_DEFLATED) as zip:
-        for directory in [ROOT / 'experiments', ROOT / 'data/derived/stt_b01_b03']:
-            for path in sorted(directory.rglob('*')):
-                if path.is_file() and not any(p in path.parts for p in ['__pycache__', 'results', '.ipynb_checkpoints']):
-                    zip.write(path, path.relative_to(ROOT).as_posix())
-    print(json.dumps(dict(package=str(package), bytes=package.stat().st_size, sha256=sha256(package))))
+    build_package()
 
 
 if __name__ == '__main__':

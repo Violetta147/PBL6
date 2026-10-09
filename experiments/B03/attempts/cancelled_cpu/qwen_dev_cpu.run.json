@@ -1,0 +1,48 @@
+{
+  "signature": {
+    "model": "qwen",
+    "manifest_sha256": "a4a257c6d20f98fb5d1667076f1cf4bc146689acde9f9de8242ad88f2aedaca8",
+    "runner_sha256": "dee17d6037f72d463b83d70758f3579bcf8137dbf16174d61a1e2f6926c07678",
+    "scoring_sha256": "9e4ceeb03ebe765e5e2b72181cf0221cb32774fdbea7f4b354cbe1b4bed7da64",
+    "requested_device": "cpu",
+    "threads": 2
+  },
+  "environment": {
+    "python": "3.13.11 | packaged by Anaconda, Inc. | (main, Dec 10 2025, 21:21:58) [MSC v.1929 64 bit (AMD64)]",
+    "platform": "Windows-10-10.0.19045-SP0",
+    "processor": "Intel64 Family 6 Model 142 Stepping 9, GenuineIntel",
+    "packages": {
+      "torch": "2.11.0",
+      "numpy": "2.4.3",
+      "qwen-asr": "0.0.6",
+      "transformers": "4.57.6",
+      "soundfile": "0.14.0",
+      "huggingface-hub": "0.36.2",
+      "accelerate": "1.12.0",
+      "librosa": "1.0.0",
+      "qwen-omni-utils": "0.0.9"
+    },
+    "COLAB_RELEASE_TAG": null,
+    "framework_env": {
+      "USE_TF": "0",
+      "USE_FLAX": "0"
+    }
+  },
+  "started_utc": "2026-10-09T17:31:14.937891+00:00",
+  "finished": false,
+  "backend": {
+    "device": "cpu",
+    "threads": 2,
+    "gpu": null,
+    "checkpoint": "Qwen/Qwen3-ASR-0.6B",
+    "revision": "5eb144179a02acc5e5ba31e748d22b0cf3e303b0",
+    "runtime": "qwen-asr Transformers",
+    "dtype": "torch.float32",
+    "decoding": {
+      "language": "Vietnamese",
+      "batch_size": 1,
+      "max_new_tokens": 512
+    }
+  },
+  "load_seconds": 157.67365079999945
+}

@@ -32,14 +32,15 @@ def verify(path, manifest):
                                    [text.replace(' ', '') for text in predictions])
     assert abs(summary['WER_ws'] - word.wer) < 1e-12, 'Independent corpus WER mismatch'
     assert abs(summary['CER'] - char.cer) < 1e-12, 'Independent corpus CER mismatch'
-    return dict(path=str(path.relative_to(ROOT)), verified=True, **summary)
+    location = path.relative_to(ROOT) if path.is_relative_to(ROOT) else path
+    return dict(path=str(location), verified=True, **summary)
 
 
 def main():
     runs = [('B01/results/whisper_pilot.jsonl', 'pilot.csv'),
             ('B02/results/whisper_dev.jsonl', 'fleurs_dev100.csv'),
             ('B02/results/zipformer_dev.jsonl', 'fleurs_dev100.csv')]
-    for name in ['qwen_dev.jsonl', 'qwen_dev_cpu.jsonl']:
+    for name in ['qwen_dev.jsonl']:
         if (ROOT / 'experiments/B03/results' / name).exists():
             runs.append((f'B03/results/{name}', 'fleurs_dev100.csv'))
     checks = [verify(ROOT / 'experiments' / run, ROOT / 'experiments/manifests' / manifest)

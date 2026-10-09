@@ -1,0 +1,18 @@
+{
+  "status": "cancelled_by_user",
+  "cancelled_utc": "2026-10-09T22:57:51.8859436Z",
+  "predictions": 6,
+  "total_expected": 100,
+  "used_in_comparison": false,
+  "reason": "User prohibits Qwen inference on laptop CPU; use Colab GPU only.",
+  "preserved_files": [
+    {
+      "file": "qwen_dev_cpu.jsonl",
+      "sha256": "C49AA1B71E8B463392A248797482F4A1D8424C452B375C426602E205B3221D6A"
+    },
+    {
+      "file": "qwen_dev_cpu.run.json",
+      "sha256": "0BDD566F94D4373E6ACBBDB0B93908BF3F5FAE37FD2DF8FDDC38650FB4EBFFDD"
+    }
+  ]
+}

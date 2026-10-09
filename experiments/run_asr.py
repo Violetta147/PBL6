@@ -18,6 +18,13 @@ ZIPFORMER_URL = f'https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-mo
 QWEN_REVISION = '5eb144179a02acc5e5ba31e748d22b0cf3e303b0'
 
 
+def require_qwen_gpu(model_name, device, cuda_available=None):
+    if model_name != 'qwen':
+        return
+    if device == 'cpu' or cuda_available is False:
+        raise ValueError('Qwen is GPU-only for this project. Run it on Colab CUDA; CPU fallback is disabled.')
+
+
 def environment():
     versions = {}
     for name in ['torch', 'numpy', 'openai-whisper', 'sherpa-onnx', 'qwen-asr', 'transformers',
@@ -32,6 +39,7 @@ def environment():
 
 
 def load_backend(model_name, device, threads):
+    require_qwen_gpu(model_name, device)
     import numpy as np
     import soundfile as sf
     cache = ROOT / 'data/models'
@@ -72,6 +80,7 @@ def load_backend(model_name, device, threads):
         return infer, lambda: None, details
 
     import torch
+    require_qwen_gpu(model_name, device, torch.cuda.is_available())
     torch.manual_seed(42)
     torch.set_num_threads(threads)
     if device == 'auto':
@@ -132,6 +141,7 @@ def main():
     parser.add_argument('--device', choices=['auto', 'cpu', 'cuda'], default='auto')
     parser.add_argument('--threads', type=int, default=2)
     args = parser.parse_args()
+    require_qwen_gpu(args.model, args.device)
     if args.model == 'qwen':
         # This backend uses PyTorch. Avoid loading unused TensorFlow/Flax on RAM-limited PCs.
         os.environ['USE_TF'] = '0'
