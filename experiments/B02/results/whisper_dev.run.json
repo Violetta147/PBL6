@@ -1,0 +1,46 @@
+{
+  "signature": {
+    "model": "whisper",
+    "manifest_sha256": "a4a257c6d20f98fb5d1667076f1cf4bc146689acde9f9de8242ad88f2aedaca8",
+    "runner_sha256": "ca446abb3e6ecccca1792558300a7b78f07c711cdca20163505f4425d34054e0",
+    "scoring_sha256": "9e4ceeb03ebe765e5e2b72181cf0221cb32774fdbea7f4b354cbe1b4bed7da64",
+    "requested_device": "cpu",
+    "threads": 2
+  },
+  "environment": {
+    "python": "3.13.11 | packaged by Anaconda, Inc. | (main, Dec 10 2025, 21:21:58) [MSC v.1929 64 bit (AMD64)]",
+    "platform": "Windows-10-10.0.19045-SP0",
+    "processor": "Intel64 Family 6 Model 142 Stepping 9, GenuineIntel",
+    "packages": {
+      "torch": "2.11.0",
+      "numpy": "2.4.3",
+      "openai-whisper": "20250625",
+      "sherpa-onnx": "1.13.8",
+      "transformers": "5.3.0",
+      "soundfile": "0.14.0"
+    },
+    "COLAB_RELEASE_TAG": null
+  },
+  "started_utc": "2026-10-09T17:15:29.651894+00:00",
+  "finished": true,
+  "backend": {
+    "device": "cpu",
+    "threads": 2,
+    "gpu": null,
+    "checkpoint": "openai/whisper-base multilingual",
+    "runtime": "openai-whisper",
+    "weights_url": "https://openaipublic.azureedge.net/main/whisper/models/ed3a0b6b1c0edf879ad9b11b1af5a0e6ab5db9205f891f668f8b0e6c6326e34e/base.pt",
+    "weights_sha256": "ed3a0b6b1c0edf879ad9b11b1af5a0e6ab5db9205f891f668f8b0e6c6326e34e",
+    "decoding": {
+      "language": "vi",
+      "task": "transcribe",
+      "temperature": 0.0,
+      "condition_on_previous_text": false,
+      "fp16": false
+    }
+  },
+  "load_seconds": 7.1807896000000255,
+  "ended_utc": "2026-10-09T17:21:27.157995+00:00",
+  "total": 100,
+  "completed": 100
+}

@@ -1,6 +1,6 @@
 # Kế hoạch lean: 7 buổi học và demo STT
 
-Phiên bản 2.0 — 09/10/2026. Một người phụ trách STT, một buổi gặp thầy mỗi tuần, còn bảy tuần. Buổi 1 là lần gặp tiếp theo; chưa có ngày cụ thể. Các phần dưới đây là việc dự kiến, chưa có kết quả ASR đã đo.
+Phiên bản 2.0 — cập nhật tiến độ 10/10/2026. Một người phụ trách STT, một buổi gặp thầy mỗi tuần, còn bảy tuần. Buổi 1 là lần gặp tiếp theo; chưa có ngày cụ thể. Kết quả đã chạy và phần còn thiếu được ghi tại [tiến độ thực hành](experiments/PROGRESS.md).
 
 Mục tiêu là học cách dùng model có sẵn, so sánh có căn cứ và tìm phương án cho Pi 4. Làm theo [đặc tả lean](SPEC_ASR_PI4_RESEARCH_20261009.md); kiến thức cần tra ở [ghi chú khái niệm](REVIEW_CONCEPTS_20261009.md). Không cần hoàn thiện một sản phẩm lớn trước khi có thứ để demo.
 
@@ -26,16 +26,16 @@ Buổi 1–5 dùng pilot/dev để học và điều chỉnh. Test chỉ dùng �
 
 ## B01 — Chạy một câu qua baseline
 
-- [ ] Chọn 5–10 audio FLEURS train, đọc đúng transcript và input.
-- [ ] Chạy C0 Whisper-base trên Colab; lưu text và model/môi trường đã dùng.
+- [x] Chọn 10 audio FLEURS train; kiểm tra transcript và input.
+- [x] Chạy C0 Whisper-base, lưu text và model/môi trường; lần đã đo dùng CPU laptop do Computer Use/Colab lỗi, notebook Colab có sẵn để chạy lại.
 - [ ] Nghe một mẫu, đối chiếu nhãn/output, tính một WER bằng tay; kiểm kê Pi/micro.
 
 **Demo:** phát audio và hiện text do model tạo. Chỉ ra model nhận đúng/sai ở đâu. **Xong khi:** chạy lại được, output có lưu và giải thích được audio → model → text. Chưa cần Pi inference hoặc bộ chấm hoàn chỉnh trong buổi đầu.
 
 ## B02 — So hai model và học cách chấm
 
-- [ ] Viết hàm chuẩn hóa/scorer chung; kiểm tra dấu tiếng Việt, lỗi chèn/xóa/thay và nhãn rỗng bằng đáp án tính tay.
-- [ ] Chạy C0/C1 trên 100 FLEURS dev đã chọn cố định; giữ đủ output/status.
+- [x] Viết hàm chuẩn hóa/scorer chung; kiểm tra dấu tiếng Việt, lỗi chèn/xóa/thay và nhãn rỗng bằng đáp án tính tay.
+- [x] Chạy C0/C1 trên 100 FLEURS dev đã chọn cố định; giữ đủ output/status.
 - [ ] Thu và kiểm tra khoảng 20 câu dev của nhóm, ghi điều kiện và người/phiên; chuẩn bị kế hoạch test tách biệt.
 
 **Demo:** cùng một audio hiện hai transcript và cách tính WER/CER; mở bảng dev, chỉ một khác biệt đáng chú ý. **Xong khi:** hai model được chấm cùng dữ liệu/quy tắc. Nếu chưa đủ nhãn tự thu, hoàn thành trước khi chốt cấu hình ở B05.

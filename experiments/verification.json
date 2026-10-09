@@ -1,0 +1,35 @@
+[
+  {
+    "path": "experiments\\B01\\results\\whisper_pilot.jsonl",
+    "verified": true,
+    "total": 10,
+    "completed": 10,
+    "reference_units": 320,
+    "reference_chars": 1133,
+    "WER_ws": 0.36875,
+    "CER": 0.20388349514563106,
+    "false_captions_per_minute": null
+  },
+  {
+    "path": "experiments\\B02\\results\\whisper_dev.jsonl",
+    "verified": true,
+    "total": 100,
+    "completed": 100,
+    "reference_units": 2797,
+    "reference_chars": 9702,
+    "WER_ws": 0.49374329638898823,
+    "CER": 0.33920841063698204,
+    "false_captions_per_minute": null
+  },
+  {
+    "path": "experiments\\B02\\results\\zipformer_dev.jsonl",
+    "verified": true,
+    "total": 100,
+    "completed": 100,
+    "reference_units": 2797,
+    "reference_chars": 9702,
+    "WER_ws": 0.07508044333214157,
+    "CER": 0.053494124922696354,
+    "false_captions_per_minute": null
+  }
+]
