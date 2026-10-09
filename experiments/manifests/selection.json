@@ -1,0 +1,15 @@
+{
+  "seed": 42,
+  "selection": "random.sample on original TSV row order; then sort by ID",
+  "source": "google/fleurs",
+  "revision": "70bb2e84b976b7e960aa89f1c648e09c59f894dd",
+  "pilot": 10,
+  "dev": 100,
+  "test_ids_only": 200,
+  "audio_derivation": "soundfile: IEEE float WAV -> PCM16, mono16kHz unchanged",
+  "source_tsv_sha256": {
+    "train": "c714df11001942e0d1b3a00c0928828b30beb2e6331786032f7bf75d8ff88563",
+    "dev": "c9bc17cede9765b1c75cb7a608f7066cb6bb6f8245cc75d721a5217a5dffb414",
+    "test": "eb744c2be5f677b49c35527d428a4f647294bd0f67abd790c296e91efaaffb93"
+  }
+}

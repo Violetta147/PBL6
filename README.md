@@ -2,6 +2,8 @@
 
 ## Tài liệu định hướng hiện tại
 
+[Thực hành buổi 1–3](experiments/README.md) chứa mã dùng chung, ba notebook và manifest chọn mẫu. Xem output/run metadata để phân biệt mã đã chuẩn bị với model đã chạy; dữ liệu tự thu cần bản ghi thật và nhãn đã nghe kiểm tra.
+
 [Kế hoạch lean: 7 tuần, 7 buổi demo](PLAN_DEMO_STT_7_BUOI.md) là nơi bắt đầu: chạy baseline → học cách chấm và so ba model → đo Pi → thử micro → báo cáo kết quả. Mỗi tuần một buổi gặp thầy, với công việc vừa đủ để học và demo.
 
 [Đặc tả lean ASR trên Pi 4, phiên bản 2.0](SPEC_ASR_PI4_RESEARCH_20261009.md) tập trung vào Whisper-base, Zipformer-30M và Qwen3-ASR-0.6B; WER/CER, tốc độ/RAM và demo thu âm → chữ. Dùng model có sẵn, baseline đủ tốt thì giữ. Một notebook, script/CLI Pi khi cần và báo cáo ngắn là đủ; tích hợp kính và phần mở rộng làm sau nếu sẵn sàng.
