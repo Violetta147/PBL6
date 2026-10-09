@@ -6,13 +6,13 @@ Phiên bản 2.0 — 09/10/2026. Một người phụ trách STT, bảy tuần, 
 
 ## 1. Mục tiêu cần giải quyết
 
-**Tìm một mô hình STT tiếng Việt có sẵn phù hợp với Pi 4, bằng cách so sánh chất lượng phiên âm, tốc độ và RAM, rồi thử thu âm thành chữ.** Kết quả phục vụ hướng phụ đề kính thông minh; SLR vẫn là phần đóng góp riêng cần ưu tiên nguồn lực.
+**Tìm một mô hình STT tiếng Việt có sẵn phù hợp với Pi 4, bằng cách so sánh chất lượng phiên âm, tốc độ và RAM, rồi thử thu âm thành chữ.** Kết quả phục vụ hướng phụ đề kính thông minh.
 
 Ba câu hỏi: trên cùng audio, các model khác nhau thế nào; model nhỏ nào phù hợp Pi hơn; khi thu bằng micro, tiếng ồn/khoảng cách/chia đoạn gây lỗi gì? Đầu ra là bảng so sánh, vài lỗi có audio/nhãn/output và một demo cơ bản.
 
 Dùng trọng số pretrained; **baseline đủ tốt thì giữ**. Không cần training hoặc cải tiến thuật toán để hoàn thành STT. Tính mới ở phần này là khảo sát lựa chọn hiện nay, gồm model năm 2026, và kết quả thử nghiệm do nhóm tự tạo; không tuyên bố phát minh ASR mới.
 
-Phần bắt buộc dừng ở thu âm → STT → chữ trên terminal/màn hình đang có. Kính thật và kết nối SLR làm sau nếu đã sẵn sàng. App điện thoại, dịch vụ nhiều người, phụ đề tạm, nhận diện người nói và thiết kế kính không nằm trong phần STT này.
+Phần bắt buộc dừng ở thu âm → STT → chữ trên terminal/màn hình đang có. Kính thật làm sau nếu đã sẵn sàng. App điện thoại, dịch vụ nhiều người, phụ đề tạm, nhận diện người nói và thiết kế kính không nằm trong phần STT này.
 
 ## 2. Dùng tài nguyên đang có
 
@@ -119,4 +119,4 @@ Báo cáo khoảng 4–6 trang, điều chỉnh theo yêu cầu học phần: b�
 
 Làm B01 trong [kế hoạch](PLAN_DEMO_STT_7_BUOI.md): một audio → C0 → lưu text → kiểm tra WER bằng tay. Học waveform, sample rate, frontend và evaluation đúng lúc cần từ [khóa Audio Hugging Face](https://huggingface.co/learn/audio-course/chapter0/introduction).
 
-Năm stage/35 bước ML là kiến thức tham chiếu, không còn là checklist phải triển khai. Kính thật, SLR interface, partial, thống kê suy luận và model mở rộng làm sau phần cốt lõi. Mỗi tuần ưu tiên một kết quả thử nghiệm để demo theo lịch đã chốt.
+Năm stage/35 bước ML là kiến thức tham chiếu, không còn là checklist phải triển khai. Kính thật, partial, thống kê suy luận và model mở rộng làm sau phần cốt lõi. Mỗi tuần ưu tiên một kết quả thử nghiệm để demo theo lịch đã chốt.

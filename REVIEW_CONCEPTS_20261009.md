@@ -4,7 +4,7 @@ Bản rút gọn — 09/10/2026. Đây là tài liệu học để tra khi thự
 
 ## 1. STT, ASR và baseline
 
-ASR/STT ở đây cùng chỉ nhận dạng tiếng nói thành chữ. Thu micro, VAD, chia đoạn và hiện chữ là các phần xung quanh model. SLR nhận dạng ngôn ngữ ký hiệu là bài toán riêng; không phải triển khai SLR để đánh giá STT.
+ASR/STT ở đây cùng chỉ nhận dạng tiếng nói thành chữ. Thu micro, VAD, chia đoạn và hiện chữ là các phần xung quanh model.
 
 Baseline là phương án tham chiếu có cấu hình rõ, không mặc định đồng nghĩa “không training”. Trong đề tài này, chủ động chọn baseline pretrained và giữ trọng số. PhoWhisper/PhoASR được tác giả fine-tune không có nghĩa người dùng checkpoint phải fine-tune lại. Baseline đáp ứng mục tiêu có thể là lựa chọn cuối.
 

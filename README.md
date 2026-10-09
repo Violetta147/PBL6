@@ -4,7 +4,7 @@
 
 [Kế hoạch lean: 7 tuần, 7 buổi demo](PLAN_DEMO_STT_7_BUOI.md) là nơi bắt đầu: chạy baseline → học cách chấm và so ba model → đo Pi → thử micro → báo cáo kết quả. Mỗi tuần một buổi gặp thầy, với công việc vừa đủ để học và demo.
 
-[Đặc tả lean ASR trên Pi 4, phiên bản 2.0](SPEC_ASR_PI4_RESEARCH_20261009.md) tập trung vào Whisper-base, Zipformer-30M và Qwen3-ASR-0.6B; WER/CER, tốc độ/RAM và demo thu âm → chữ. Dùng model có sẵn, baseline đủ tốt thì giữ. Một notebook, script/CLI Pi khi cần và báo cáo ngắn là đủ; tích hợp kính/SLR và phần mở rộng làm sau nếu sẵn sàng.
+[Đặc tả lean ASR trên Pi 4, phiên bản 2.0](SPEC_ASR_PI4_RESEARCH_20261009.md) tập trung vào Whisper-base, Zipformer-30M và Qwen3-ASR-0.6B; WER/CER, tốc độ/RAM và demo thu âm → chữ. Dùng model có sẵn, baseline đủ tốt thì giữ. Một notebook, script/CLI Pi khi cần và báo cáo ngắn là đủ; tích hợp kính và phần mở rộng làm sau nếu sẵn sàng.
 
 [Ghi chú khái niệm](REVIEW_CONCEPTS_20261009.md) là tài liệu tra ngắn khi thực hành. [Trang đặc tả cũ](SPEC_STT_SMART_GLASSES.md) dẫn về phạm vi hiện hành; các bản chi tiết trước đây còn trong Git. [Kiểm tra bộ tài liệu](VALIDATION_SPEC_ASR_PI4_20261009.md) phân biệt kế hoạch với kết quả đã đo. Không bắt buộc làm đủ 35 bước ML hoặc tự huấn luyện STT.
 

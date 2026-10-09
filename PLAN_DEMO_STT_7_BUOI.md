@@ -8,7 +8,7 @@ Mục tiêu là học cách dùng model có sẵn, so sánh có căn cứ và t�
 
 Chọn một đầu ra nhỏ, làm cho chạy được, lưu output rồi tập demo khoảng 3–5 phút. Trình bày: tuần này thêm gì → cho thấy kết quả → một lỗi/điều học được → bước tiếp theo. Video ngắn và bảng đã lưu là dự phòng khi mạng/thiết bị lỗi; luôn nói rõ live hay ghi trước. Không lấy output người khác hoặc dữ liệu mock làm kết quả model của nhóm.
 
-Giữ một notebook so sánh, script/CLI Pi khi cần, một bảng kết quả và ghi chú tiến độ ngắn. Chưa cần UI, dashboard, giao diện SLR hoặc báo cáo riêng từng stage. Mỗi thay đổi mã hoàn chỉnh cập nhật tài liệu/test, chạy kiểm tra liên quan rồi commit theo `AGENTS.md`.
+Giữ một notebook so sánh, script/CLI Pi khi cần, một bảng kết quả và ghi chú tiến độ ngắn. Chưa cần UI, dashboard hoặc báo cáo riêng từng stage. Mỗi thay đổi mã hoàn chỉnh cập nhật tài liệu/test, chạy kiểm tra liên quan rồi commit theo `AGENTS.md`.
 
 ## Bảy buổi
 
@@ -68,7 +68,7 @@ Nếu Pi vướng cài đặt, dùng output/video đã chạy thành công nếu
 
 **Demo:** nói vào micro và thấy chữ; cho thấy một trường hợp khó cùng nhận xét. **Xong khi:** luồng cơ bản hoạt động, giới hạn được ghi và cấu hình cuối đã chốt. Có thể dùng nhận từng lượt nếu chưa theo kịp nói liên tục.
 
-Nếu chưa có micro, replay WAV theo tốc độ thực qua cùng VAD/ASR và gọi đúng là replay. Giữ phần demo tệp ở B04 chạy được. SLR interface hoặc màn hình kính chỉ nối nếu đã sẵn sàng và không làm chậm đánh giá.
+Nếu chưa có micro, replay WAV theo tốc độ thực qua cùng VAD/ASR và gọi đúng là replay. Giữ phần demo tệp ở B04 chạy được. Màn hình kính chỉ nối nếu đã sẵn sàng và không làm chậm đánh giá.
 
 ## B06 — Đánh giá cuối
 
@@ -92,7 +92,7 @@ Không lấy lỗi test để sửa rồi gọi bản sau là đánh giá độc
 
 Kiểm tra/mượn micro từ B01. Thu dev ở B02, test từ B04 và hoàn tất trước chốt B05; ưu tiên người khác nhau giữa dev/test, nếu không thì tách phiên và ghi giới hạn. Lưu output và vài dòng ghi chú sau mỗi lượt thử, không đợi tuần cuối. Bảng/log là bằng chứng nghiên cứu; vài câu đẹp để demo không thay thế toàn tập đánh giá.
 
-Khi chậm, bỏ model mở rộng, partial và phần tích hợp kính/SLR chưa có. Giữ ba việc: so model, đo Pi và demo audio → chữ. Không bắt buộc đủ 35 bước ML, stress test nhiều lượt, khoảng tin cậy, giao thức phụ đề riêng hoặc nhiều lớp phần mềm.
+Khi chậm, bỏ model mở rộng, partial và phần tích hợp kính chưa có. Giữ ba việc: so model, đo Pi và demo audio → chữ. Không bắt buộc đủ 35 bước ML, stress test nhiều lượt, khoảng tin cậy, giao thức phụ đề riêng hoặc nhiều lớp phần mềm.
 
 ## Theo dõi ngắn gọn
 
