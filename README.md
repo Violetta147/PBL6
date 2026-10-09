@@ -2,6 +2,8 @@
 
 ## Tài liệu định hướng hiện tại
 
+[Kế hoạch 7 tuần, 7 buổi demo](PLAN_DEMO_STT_7_BUOI.md) chia công việc theo lịch gặp thầy một buổi mỗi tuần. Mỗi buổi có checklist, nội dung demo, tiêu chí hoàn thành, bằng chứng và phương án dự phòng. Bắt đầu thực hiện theo mã B01–B07; dùng đặc tả bên dưới để tra giao thức kỹ thuật.
+
 [Đặc tả nghiên cứu ASR trên Pi 4 — 09/10/2026](SPEC_ASR_PI4_RESEARCH_20261009.md) là bản mới để thực hiện phần STT: một người, bảy tuần, dùng checkpoint có sẵn; so sánh Whisper-base, Zipformer-30M và Qwen3-ASR-0.6B trên Colab, rồi đo các ứng viên nhỏ trên Raspberry Pi 4B 8 GB. Nếu baseline đủ tốt, không cần huấn luyện thêm. Phần STT hỗ trợ hướng nghiên cứu SLR của đồ án.
 
 Giữ [đặc tả cũ](SPEC_STT_SMART_GLASSES.md) làm lịch sử và [bản rà soát khái niệm](REVIEW_CONCEPTS_20261009.md) làm tài liệu học. Phạm vi hiện tại theo bản mới. [Biên bản kiểm tra đặc tả](VALIDATION_SPEC_ASR_PI4_20261009.md) ghi những gì đã kiểm tra và những phép đo chưa thực hiện.
