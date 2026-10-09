@@ -1,4 +1,12 @@
-# PBL6 — dữ liệu tiếng nói tiếng Việt
+# PBL6 — nghiên cứu STT tiếng Việt cho kính thông minh
+
+## Tài liệu định hướng hiện tại
+
+[Đặc tả nghiên cứu ASR trên Pi 4 — 09/10/2026](SPEC_ASR_PI4_RESEARCH_20261009.md) là bản mới để thực hiện phần STT: một người, bảy tuần, dùng checkpoint có sẵn; so sánh Whisper-base, Zipformer-30M và Qwen3-ASR-0.6B trên Colab, rồi đo các ứng viên nhỏ trên Raspberry Pi 4B 8 GB. Nếu baseline đủ tốt, không cần huấn luyện thêm. Phần STT hỗ trợ hướng nghiên cứu SLR của đồ án.
+
+Giữ [đặc tả cũ](SPEC_STT_SMART_GLASSES.md) làm lịch sử và [bản rà soát khái niệm](REVIEW_CONCEPTS_20261009.md) làm tài liệu học. Phạm vi hiện tại theo bản mới. [Biên bản kiểm tra đặc tả](VALIDATION_SPEC_ASR_PI4_20261009.md) ghi những gì đã kiểm tra và những phép đo chưa thực hiện.
+
+Các mục dưới đây giữ thông tin nguồn, phiên bản và cách khôi phục dữ liệu đã lưu.
 
 ## FLEURS `vi_vn`
 
@@ -8,7 +16,7 @@ Bộ dữ liệu FLEURS `vi_vn` được tải từ [google/fleurs](https://hugg
 - Giấy phép: [CC BY 4.0](https://huggingface.co/datasets/google/fleurs) theo dataset card. Khi sử dụng, ghi nguồn và trích dẫn bài báo FLEURS theo dataset card.
 - Split gốc: `train` 2.994 dòng, `dev` 361 dòng, `test` 857 dòng. Trong thư viện Hugging Face, `dev` tương ứng `validation`.
 - Metadata TSV gốc có 10 dòng chỉ gồm 6 cột thay vì 7 (`train`: 4, `test`: 6); giữ nguyên bản nguồn. Khi viết bộ đọc dữ liệu, kiểm tra độ rộng từng dòng trước khi gán tên cột.
-- Vai trò theo [bản đặc tả](SPEC_STT_SMART_GLASSES.md): FLEURS là benchmark phụ trợ trên lời đọc. Giữ `test` độc lập; không dùng transcript hoặc âm thanh `test` để tinh chỉnh mô hình, prompt hay từ điển sửa lỗi.
+- Vai trò theo [bản đặc tả mới](SPEC_ASR_PI4_RESEARCH_20261009.md): FLEURS là benchmark công khai chính trên lời đọc, bổ sung bằng tập hội thoại tự thu. Giữ `test` độc lập với quá trình chọn cấu hình; không dùng transcript hoặc âm thanh `test` để tinh chỉnh mô hình, prompt hay từ điển sửa lỗi. Một số checkpoint có thể đã dùng FLEURS khi huấn luyện, nên không mặc định benchmark này hoàn toàn chưa được model thấy.
 
 Các tệp âm thanh nén có SHA-256 chính thức (LFS OID của kho nguồn):
 
