@@ -20,13 +20,15 @@ QWEN_REVISION = '5eb144179a02acc5e5ba31e748d22b0cf3e303b0'
 
 def environment():
     versions = {}
-    for name in ['torch', 'numpy', 'openai-whisper', 'sherpa-onnx', 'qwen-asr', 'transformers', 'soundfile']:
+    for name in ['torch', 'numpy', 'openai-whisper', 'sherpa-onnx', 'qwen-asr', 'transformers',
+                 'soundfile', 'huggingface-hub', 'accelerate', 'librosa', 'qwen-omni-utils']:
         try:
             versions[name] = importlib.metadata.version(name)
         except importlib.metadata.PackageNotFoundError:
             pass
     return dict(python=sys.version, platform=platform.platform(), processor=platform.processor(),
-                packages=versions, COLAB_RELEASE_TAG=os.environ.get('COLAB_RELEASE_TAG'))
+                packages=versions, COLAB_RELEASE_TAG=os.environ.get('COLAB_RELEASE_TAG'),
+                framework_env={name: os.environ.get(name) for name in ['USE_TF', 'USE_FLAX']})
 
 
 def load_backend(model_name, device, threads):
@@ -103,6 +105,8 @@ def load_backend(model_name, device, threads):
         from qwen_asr import Qwen3ASRModel
         local = snapshot_download('Qwen/Qwen3-ASR-0.6B', revision=QWEN_REVISION,
                                   cache_dir=str(cache / 'huggingface'),
+                                  local_dir=str(cache / 'Qwen3-ASR-0.6B' / QWEN_REVISION),
+                                  token=False,
                                   allow_patterns=['*.json', '*.safetensors', '*.txt', '*.model', '*.jinja'])
         dtype = torch.bfloat16 if device == 'cuda' and torch.cuda.is_bf16_supported() else torch.float32
         model = Qwen3ASRModel.from_pretrained(local, dtype=dtype, device_map=device,
@@ -128,6 +132,10 @@ def main():
     parser.add_argument('--device', choices=['auto', 'cpu', 'cuda'], default='auto')
     parser.add_argument('--threads', type=int, default=2)
     args = parser.parse_args()
+    if args.model == 'qwen':
+        # This backend uses PyTorch. Avoid loading unused TensorFlow/Flax on RAM-limited PCs.
+        os.environ['USE_TF'] = '0'
+        os.environ['USE_FLAX'] = '0'
     rows = read_csv(args.manifest)
     if not rows or len({r['id'] for r in rows}) != len(rows):
         raise ValueError('Manifest empty or duplicate IDs')

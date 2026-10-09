@@ -39,9 +39,9 @@ def main():
     runs = [('B01/results/whisper_pilot.jsonl', 'pilot.csv'),
             ('B02/results/whisper_dev.jsonl', 'fleurs_dev100.csv'),
             ('B02/results/zipformer_dev.jsonl', 'fleurs_dev100.csv')]
-    qwen = ROOT / 'experiments/B03/results/qwen_dev.jsonl'
-    if qwen.exists():
-        runs.append(('B03/results/qwen_dev.jsonl', 'fleurs_dev100.csv'))
+    for name in ['qwen_dev.jsonl', 'qwen_dev_cpu.jsonl']:
+        if (ROOT / 'experiments/B03/results' / name).exists():
+            runs.append((f'B03/results/{name}', 'fleurs_dev100.csv'))
     checks = [verify(ROOT / 'experiments' / run, ROOT / 'experiments/manifests' / manifest)
               for run, manifest in runs]
     report = ROOT / 'experiments/verification.json'

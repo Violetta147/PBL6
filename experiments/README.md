@@ -11,6 +11,8 @@ Chạy local cũng được: cài các thư viện cần cho checkpoint đang ch
 
 WAV nguồn FLEURS là IEEE float. `prepare.py` cần `soundfile==0.14.0` và tạo bản dẫn xuất PCM16 mono16kHz để các backend dùng cùng audio. Không resample hoặc thay header giả; rate giữ nguyên. Manifest lưu hash của cả nguồn lẫn bản dẫn xuất, archive raw không đổi.
 
+Qwen tải vào `local_dir` theo revision để không cần quyền tạo symlink trên Windows; không thay đổi Developer Mode/quyền hệ thống. Backend dùng PyTorch, tắt việc import TensorFlow/Flax không cần thiết để giảm RAM. Lần local CPU và lần Colab GPU dùng output riêng; không ghi đè kết quả cũ.
+
 Kiểm tra: `python -m unittest discover -s experiments/tests -v`. `jiwer==4.0.0` cung cấp kiểm tra độc lập cho khoảng cách edit. Notebook JSON và code cell được kiểm tra khi chạy `make_notebooks.py`.
 
 Nguồn runtime: [Whisper](https://github.com/openai/whisper), [Zipformer ONNX](https://k2-fsa.github.io/sherpa/onnx/pretrained_models/offline-transducer/zipformer-transducer-models.html), [Qwen3-ASR](https://huggingface.co/Qwen/Qwen3-ASR-0.6B). Phiên bản package được ghim; các phụ thuộc thực tế và checkpoint hash/revision được lưu trong metadata. FLEURS: [google/fleurs](https://huggingface.co/datasets/google/fleurs), revision `70bb2e84b976b7e960aa89f1c648e09c59f894dd`, CC BY 4.0. Đây là đánh giá nội bộ subset, không phải điểm XTREME-S chính thức.

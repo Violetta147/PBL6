@@ -1,0 +1,29 @@
+{
+  "signature": {
+    "model": "qwen",
+    "manifest_sha256": "a4a257c6d20f98fb5d1667076f1cf4bc146689acde9f9de8242ad88f2aedaca8",
+    "runner_sha256": "ca446abb3e6ecccca1792558300a7b78f07c711cdca20163505f4425d34054e0",
+    "scoring_sha256": "9e4ceeb03ebe765e5e2b72181cf0221cb32774fdbea7f4b354cbe1b4bed7da64",
+    "requested_device": "cpu",
+    "threads": 2
+  },
+  "environment": {
+    "python": "3.13.11 | packaged by Anaconda, Inc. | (main, Dec 10 2025, 21:21:58) [MSC v.1929 64 bit (AMD64)]",
+    "platform": "Windows-10-10.0.19045-SP0",
+    "processor": "Intel64 Family 6 Model 142 Stepping 9, GenuineIntel",
+    "packages": {
+      "torch": "2.11.0",
+      "numpy": "2.4.3",
+      "qwen-asr": "0.0.6",
+      "transformers": "4.57.6",
+      "soundfile": "0.14.0"
+    },
+    "COLAB_RELEASE_TAG": null
+  },
+  "started_utc": "2026-10-09T17:27:33.211590+00:00",
+  "finished": false,
+  "terminal_exit_code": 1,
+  "failure_stage": "snapshot_download before inference",
+  "error": "OSError [WinError 1314] A required privilege is not held by the client while creating symlink for preprocessor_config.json",
+  "predictions_created": 0
+}

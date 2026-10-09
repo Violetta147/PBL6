@@ -17,3 +17,5 @@ Runtime local không phải Pi/Colab. Kết quả đo trên CPU laptop và các 
 FLEURS dev100, cùng 2.797 đơn vị reference và 9.702 ký tự: Whisper-base WER_ws 49,3743%, CER 33,9208%; Zipformer ONNX INT8 WER_ws 7,5080%, CER 5,3494%. Cả hai hoàn tất 100/100 trên CPU laptop. Đây là so sánh checkpoint/runtime trên subset nội bộ, không phải điểm XTREME-S chính thức. C1 liệt kê FLEURS trong nguồn huấn luyện, nên không kết luận mức chênh này là khả năng tổng quát trên dữ liệu hoàn toàn mới; cần bảng tự thu riêng.
 
 Qwen sẽ thử CPU laptop nếu Computer Use không thao tác Colab được. Đây là thay đổi nơi chạy để tiếp tục thí nghiệm chất lượng, không phải số đo GPU/Pi. Notebook GPU vẫn giữ để chạy lại khi Colab sử dụng được.
+
+Lần tải Qwen CPU đầu tiên kết thúc lỗi `WinError 1314` khi thư viện Hugging Face tạo symlink; chưa có prediction. Metadata lỗi được giữ trong `B03/attempts`. Đã sửa sang tải `local_dir` bằng tệp thường, giữ revision, và dùng PyTorch mà không import TensorFlow/Flax không cần thiết. Không đổi quyền hoặc cài đặt bảo mật Windows.
