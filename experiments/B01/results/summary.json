@@ -1,0 +1,16 @@
+[
+  {
+    "model": "whisper",
+    "corpus": "fleurs_vi_vn",
+    "split": "train",
+    "device": "cpu",
+    "runtime": "openai-whisper",
+    "total": 10,
+    "completed": 10,
+    "reference_units": 320,
+    "reference_chars": 1133,
+    "WER_ws": 0.36875,
+    "CER": 0.20388349514563106,
+    "false_captions_per_minute": null
+  }
+]

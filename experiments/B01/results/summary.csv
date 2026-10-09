@@ -1,0 +1,2 @@
+model,corpus,split,device,runtime,total,completed,reference_units,reference_chars,WER_ws,CER,false_captions_per_minute
+whisper,fleurs_vi_vn,train,cpu,openai-whisper,10,10,320,1133,0.36875,0.20388349514563106,
