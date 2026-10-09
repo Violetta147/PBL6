@@ -1,52 +1,21 @@
-# Biên bản kiểm tra đặc tả ASR trên Pi 4
+# Kiểm tra bộ tài liệu lean
 
-Ngày 09/10/2026. Đối tượng là [bản đặc tả mới](SPEC_ASR_PI4_RESEARCH_20261009.md) và phần dẫn đường cập nhật trong [README](README.md). Đây là kiểm tra tài liệu và dữ liệu nguồn phục vụ lập kế hoạch, chưa phải kết quả thực nghiệm ASR.
+Ngày 09/10/2026, phiên bản phạm vi 2.0. Kiểm tra [đặc tả](SPEC_ASR_PI4_RESEARCH_20261009.md), [kế hoạch](PLAN_DEMO_STT_7_BUOI.md), [ghi chú học tập](REVIEW_CONCEPTS_20261009.md), trang đặc tả cũ và [README](README.md). Đây là kiểm tra tài liệu, chưa phải thực nghiệm ASR.
 
-## Phạm vi nguồn đã rà soát
+## Phạm vi được thống nhất
 
-Đã đọc nội dung của cả chín task được người dùng tham chiếu: Trend 2025-2026; Tìm dataset bổ sung cho PBL6; Concepts; All Stagé; HuggingFace ASR course; Bài tập STT; Machine learning pipelines and Scientific Workflow; labeling; Khởi tạo Git và tạo AGENTS.md. Với `labeling`, đã đọc các trang lịch sử để lấy quy trình nhãn và giới hạn nguồn. Đã đọc thêm các trang chia sẻ Stage 3–5 và bài tập lớp được dẫn từ task, kết hợp tài liệu xuất hiện có trong workspace.
+Ba ứng viên C0/C1/C2; trọng số có sẵn; một notebook và script/CLI Pi khi cần. Đánh giá dự kiến: 100 FLEURS dev/200 test, 20 câu tự thu dev/30–50 test, khoảng 2 phút không có lời nói. Benchmark Pi 20 tệp dev × hai lượt, thử micro 5–10 phút. B01–B07 tương ứng một buổi mỗi tuần.
 
-Hai hình Concepts dùng đường dẫn nội bộ không được xác minh riêng. Kiến trúc của đặc tả mới không phụ thuộc hình đó. Thông tin chat được xem là bối cảnh học tập; không tái sử dụng bảng WER hoặc tuyên bố trong chat như số đo của PBL6.
+Bỏ các yêu cầu bắt buộc về đủ 35 bước ML, phụ đề tạm, giao thức caption/SLR riêng, bộ phần mềm nhiều tầng, chiến dịch thu dữ liệu lớn, stress test ba lượt và thống kê suy luận. Giữ scorer chung, chọn trên dev, test sau chốt, ghi lỗi/coverage, phân biệt Pi/Colab và lưu output.
 
-Đã đối chiếu nguồn chính thức của Whisper/whisper.cpp, sherpa-onnx và model card Zipformer, Qwen3-ASR, PhoASR, PhoWhisper, Parakeet tiếng Việt và Parakeet TDT v3; tham khảo công bố Cohere, Whisper-Streaming/SimulStreaming, khóa Audio Hugging Face, JiWER, tài liệu Raspberry Pi và FAQ Colab. Các liên kết được đặt cạnh nội dung tương ứng trong đặc tả. Danh mục corpus ngoài giao thức chính giữ trạng thái khảo sát; không tuyên bố đã xác minh mới toàn bộ giấy phép hoặc nhãn của mọi corpus.
+Tài liệu cũ trở thành trang dẫn; ghi chú Concepts giữ các điểm cần cho học tập. Bản chi tiết trước thay đổi xem bằng `git show c566918:<tên-file>`. Quy tắc làm việc trong AGENTS.md và các nguồn dữ liệu không thay đổi.
 
-Cấu hình Pi, laptop, Colab Pro/250 credits, Drive 5 TB và home server HDD 1 TB lấy từ thông tin người dùng cung cấp. Chưa kiểm tra tài khoản Colab, quota Drive hoặc đăng nhập thiết bị/server. Không đưa serial Pi vào tài liệu vì không cần cho thí nghiệm.
+## Kiểm tra tài liệu: đạt
 
-## Kết quả kiểm tra tài liệu
+Đã kiểm tra đủ 10 mục đặc tả, T1–T5 và B01–B07 với ba việc chuẩn bị mỗi buổi. Số mẫu và phạm vi thống nhất, test sau chốt B05; liên kết tệp tồn tại, code fence cân bằng, không có lỗi Unicode/khoảng trắng. Đối chiếu Git xác nhận phần nguồn/revision/checksum dataset trong README giữ nguyên, AGENTS.md và .gitignore không đổi; chỉ sáu tệp tài liệu thuộc thay đổi này. Kiểm tra `git diff --check` đạt. Đây là kiểm tra tài liệu, không phải kiểm thử runtime hoặc chất lượng model.
 
-- Đủ 22 mục chính, năm stage và 35 bước liên tiếp; mỗi bước có cách áp dụng cho inference pretrained hoặc phương án thay thế phù hợp.
-- Đủ ba ứng viên chính C0/C1/C2, tiny dự phòng và danh mục mở rộng có giới hạn; phân biệt model, artifact, runtime, precision và môi trường chạy.
-- Có sáu thí nghiệm E0–E5, lịch bảy tuần, dev/test, cách khóa cấu hình, tiêu chí dừng và phương án khi runtime/thiết bị không đáp ứng.
-- Có giao thức WER_ws/CER tiếng Việt, nhãn rỗng, inference thất bại, coverage, WER toàn luồng, RAM/nhiệt, timestamp và các cấp độ đo hiển thị.
-- Có hợp đồng caption để nối với SLR, quy tắc partial/final và UTF-8; phần cải tiến STT là tùy chọn theo yêu cầu mới của giảng viên.
-- Các code fence cân bằng; hai khối JSON parse thành công; đoạn Python minh họa parse bằng `ast.parse` thành công. Đây là kiểm tra cú pháp, không xác nhận package/API đã chạy.
-- Các liên kết Markdown đến tệp trong kho được kiểm tra tồn tại. Chín liên kết task không trùng ID. Các đường dẫn/cấu trúc script tương lai được đánh dấu là kế hoạch.
-- `git diff --check` và kiểm tra nội dung mới không phát hiện lỗi khoảng trắng hoặc ký tự thay thế Unicode. Cảnh báo LF/CRLF của cấu hình Git trên Windows không phải lỗi nội dung.
+Các nguồn model/runtime đã được đối chiếu trong đợt soạn trước cùng ngày; lần này sửa phạm vi và cách tổ chức công việc, không thực hiện một đợt tìm kiếm model mới. Các liên kết chính vẫn nằm trong đặc tả. Chín chat tham chiếu và các trang Stage/bài tập là bối cảnh đã đọc; chúng không tạo thêm checklist bắt buộc.
 
-Không thêm bộ unit test giả cho thay đổi chỉ tài liệu. Các kiểm thử cần có khi triển khai mã đã được quy định ở mục 15 của đặc tả.
+## Trạng thái thực nghiệm
 
-## Kiểm tra FLEURS và bảo toàn tài liệu cũ
-
-Đọc lại TSV bằng Python `csv.reader(delimiter='\t')`, giữ nguyên bản nguồn:
-
-| Split | Số bản ghi | Dòng 7 cột | Dòng 6 cột |
-|---|---:|---:|---:|
-| train | 2.994 | 2.990 | 4 |
-| dev | 361 | 361 | 0 |
-| test | 857 | 851 | 6 |
-
-Các dòng 6 cột có trường văn bản chứa chuỗi literal `\t`, nên cần parser có quy tắc thay vì bỏ mẫu. Đặc tả cho phép dùng trường transcript nguyên bản thứ ba nhất quán và tự chuẩn hóa để chấm. Chưa viết parser hoặc giải nén audio trong thay đổi này.
-
-SHA-256 của `SPEC_STT_SMART_GLASSES.md` trước và sau thay đổi trùng nhau:
-
-```text
-bed8267bdd674754d4ec0dc524c3c4fa4ad7b39075d5b6ad4279e5ca313bfa9b
-```
-
-Các bản lưu dataset trên Drive đã được kiểm tra sự hiện diện/kích thước để định hướng sử dụng. Các kiểm tra CRC/hash toàn bộ archive được ghi trong README từ các đợt tải trước; không chạy lại việc đọc hàng chục GB archive ở lần soạn đặc tả này.
-
-## Những gì chưa được thực hiện
-
-Chưa tải checkpoint mới, cài runtime trên Pi/Colab, chạy inference, huấn luyện, thu audio, đo WER/CER, đo hiệu năng Pi hoặc thử màn hình/kính. Các ngưỡng kỹ thuật trong đặc tả là mục tiêu đề xuất; mọi bảng kết quả còn ghi “chưa đo”. Các lệnh Bash và đoạn Python là hướng dẫn khởi đầu cần xác nhận trong môi trường đích.
-
-Thay đổi được giới hạn ở bản đặc tả mới, biên bản này và phần dẫn đường/role FLEURS trong README. Giữ nguyên đặc tả cũ, tài liệu rà soát khái niệm, dữ liệu và các file export chưa được theo dõi. Commit chỉ chứa ba tệp tài liệu của thay đổi; chưa push remote.
+Chưa có inference, thu âm, training, đo WER/CER, benchmark Pi hoặc thử kính trong thay đổi này. Mọi số mẫu/thời lượng là kế hoạch; các ô kết quả thực nghiệm phải ghi “chưa đo” đến khi chạy. Không xác nhận quota/thiết bị từ xa, không tải lại archive hoặc kiểm tra lại CRC toàn bộ dữ liệu ở lần sửa tài liệu này.

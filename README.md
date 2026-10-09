@@ -2,13 +2,13 @@
 
 ## Tài liệu định hướng hiện tại
 
-[Kế hoạch 7 tuần, 7 buổi demo](PLAN_DEMO_STT_7_BUOI.md) chia công việc theo lịch gặp thầy một buổi mỗi tuần. Mỗi buổi có checklist, nội dung demo, tiêu chí hoàn thành, bằng chứng và phương án dự phòng. Bắt đầu thực hiện theo mã B01–B07; dùng đặc tả bên dưới để tra giao thức kỹ thuật.
+[Kế hoạch lean: 7 tuần, 7 buổi demo](PLAN_DEMO_STT_7_BUOI.md) là nơi bắt đầu: chạy baseline → học cách chấm và so ba model → đo Pi → thử micro → báo cáo kết quả. Mỗi tuần một buổi gặp thầy, với công việc vừa đủ để học và demo.
 
-[Đặc tả nghiên cứu ASR trên Pi 4 — 09/10/2026](SPEC_ASR_PI4_RESEARCH_20261009.md) là bản mới để thực hiện phần STT: một người, bảy tuần, dùng checkpoint có sẵn; so sánh Whisper-base, Zipformer-30M và Qwen3-ASR-0.6B trên Colab, rồi đo các ứng viên nhỏ trên Raspberry Pi 4B 8 GB. Nếu baseline đủ tốt, không cần huấn luyện thêm. Phần STT hỗ trợ hướng nghiên cứu SLR của đồ án.
+[Đặc tả lean ASR trên Pi 4, phiên bản 2.0](SPEC_ASR_PI4_RESEARCH_20261009.md) tập trung vào Whisper-base, Zipformer-30M và Qwen3-ASR-0.6B; WER/CER, tốc độ/RAM và demo thu âm → chữ. Dùng model có sẵn, baseline đủ tốt thì giữ. Một notebook, script/CLI Pi khi cần và báo cáo ngắn là đủ; tích hợp kính/SLR và phần mở rộng làm sau nếu sẵn sàng.
 
-Giữ [đặc tả cũ](SPEC_STT_SMART_GLASSES.md) làm lịch sử và [bản rà soát khái niệm](REVIEW_CONCEPTS_20261009.md) làm tài liệu học. Phạm vi hiện tại theo bản mới. [Biên bản kiểm tra đặc tả](VALIDATION_SPEC_ASR_PI4_20261009.md) ghi những gì đã kiểm tra và những phép đo chưa thực hiện.
+[Ghi chú khái niệm](REVIEW_CONCEPTS_20261009.md) là tài liệu tra ngắn khi thực hành. [Trang đặc tả cũ](SPEC_STT_SMART_GLASSES.md) dẫn về phạm vi hiện hành; các bản chi tiết trước đây còn trong Git. [Kiểm tra bộ tài liệu](VALIDATION_SPEC_ASR_PI4_20261009.md) phân biệt kế hoạch với kết quả đã đo. Không bắt buộc làm đủ 35 bước ML hoặc tự huấn luyện STT.
 
-Các mục dưới đây giữ thông tin nguồn, phiên bản và cách khôi phục dữ liệu đã lưu.
+Các mục dưới đây giữ nguồn, phiên bản và cách khôi phục dataset đã lưu. Đây là kho tham khảo, không phải danh sách corpus cần dùng hết. Phần lean chỉ cần subset FLEURS và bộ tự thu nhỏ.
 
 ## FLEURS `vi_vn`
 
@@ -18,7 +18,7 @@ Bộ dữ liệu FLEURS `vi_vn` được tải từ [google/fleurs](https://hugg
 - Giấy phép: [CC BY 4.0](https://huggingface.co/datasets/google/fleurs) theo dataset card. Khi sử dụng, ghi nguồn và trích dẫn bài báo FLEURS theo dataset card.
 - Split gốc: `train` 2.994 dòng, `dev` 361 dòng, `test` 857 dòng. Trong thư viện Hugging Face, `dev` tương ứng `validation`.
 - Metadata TSV gốc có 10 dòng chỉ gồm 6 cột thay vì 7 (`train`: 4, `test`: 6); giữ nguyên bản nguồn. Khi viết bộ đọc dữ liệu, kiểm tra độ rộng từng dòng trước khi gán tên cột.
-- Vai trò theo [bản đặc tả mới](SPEC_ASR_PI4_RESEARCH_20261009.md): FLEURS là benchmark công khai chính trên lời đọc, bổ sung bằng tập hội thoại tự thu. Giữ `test` độc lập với quá trình chọn cấu hình; không dùng transcript hoặc âm thanh `test` để tinh chỉnh mô hình, prompt hay từ điển sửa lỗi. Một số checkpoint có thể đã dùng FLEURS khi huấn luyện, nên không mặc định benchmark này hoàn toàn chưa được model thấy.
+- Vai trò theo [đặc tả lean](SPEC_ASR_PI4_RESEARCH_20261009.md): chọn cố định 100 mẫu dev và 200 mẫu test, bổ sung 20 câu tự thu dev và 30–50 câu test. Báo đúng subset đã chạy; giữ test ngoài quá trình chọn cấu hình. Một số checkpoint có thể đã dùng FLEURS khi huấn luyện, nên không mặc định benchmark này hoàn toàn chưa được model thấy.
 
 Các tệp âm thanh nén có SHA-256 chính thức (LFS OID của kho nguồn):
 
@@ -43,7 +43,7 @@ Toàn bộ [ViMD Dataset](https://huggingface.co/datasets/nguyendv02/ViMD_Datase
 - Bản gốc: 132 tệp, 59.828.312.520 byte; gồm 103 shard `train`, 13 shard `valid`, 14 shard `test`, `README.md` và `.gitattributes`.
 - Bản lưu Drive: 13 ZIP train, 2 ZIP validation, 2 ZIP test và 1 ZIP metadata. Mỗi ZIP độc lập, dùng chế độ lưu không nén lại và giữ nguyên các tệp Parquet.
 - `SOURCE_SHA256SUMS.txt` trong thư mục Drive chứa SHA-256 chính thức của 130 shard LFS và SHA-256 của hai tệp metadata. `SOURCE_INFO.txt` ghi revision và cách khôi phục.
-- Vai trò: benchmark phụ trợ để phân tích sai số theo vùng/tỉnh và người nói. Nguồn chủ yếu là chương trình phát thanh địa phương, nên không thay thế bộ hội thoại tự thu trong điều kiện micro, khoảng cách và tiếng ồn thực tế.
+- Vai trò tham khảo/mở rộng: phân tích sai số theo vùng/tỉnh khi có câu hỏi cụ thể. Không cần khôi phục ViMD cho kế hoạch lean. Nguồn phát thanh địa phương không thay thế audio tự thu qua micro thực tế.
 
 Khi khôi phục, giải nén tất cả ZIP train/valid/test vào cùng một thư mục, sau đó giải nén `ViMD_metadata.zip`. Giữ nguyên split gốc; không dùng test để chọn model, tinh chỉnh, tạo prompt hoặc xây từ điển sửa lỗi. Đối chiếu file đã giải nén với `SOURCE_SHA256SUMS.txt` trước khi chạy thí nghiệm.
 
@@ -56,7 +56,7 @@ Bản gốc [VIVOS 1.0](https://zenodo.org/records/7068130) được tải về 
 - Tệp nguồn `vivos.tar.gz`: 1.474.408.300 byte; MD5 chính thức `72972a8b14050f3f11ea7c3debabd7af`; SHA-256 đã tính `147477f7a7702cbafc2ee3808d1c142989d0dbc8d9fce8e07d5f329d5119e4ca`.
 - Gói Drive: 1.474.409.282 byte; SHA-256 `2e1236bd5284504555fbbabd31f102482c6c44ab342709f889d3c5ad296b544b`. Hash đọc lại từ ổ G trùng bản trên D.
 - ZIP chứa nguyên vẹn `vivos.tar.gz`, `SOURCE_INFO.txt` và `CHECKSUMS.txt`; tệp âm thanh chưa được giải nén hoặc biến đổi.
-- Vai trò: benchmark nhỏ trên lời đọc thu trong môi trường yên tĩnh. VIVOS phù hợp để kiểm tra pipeline và so sánh baseline, nhưng không thay thế bộ hội thoại tự thu với khoảng cách, tiếng ồn và thiết bị thực tế.
+- Vai trò dự phòng: lời đọc nhỏ để kiểm tra pipeline nếu cần. Kế hoạch lean không bắt buộc thêm VIVOS vào bảng so sánh; nguồn này không thay thế audio tự thu.
 
 Khi sử dụng, giải nén ZIP rồi kiểm tra `vivos.tar.gz` theo `CHECKSUMS.txt` trước khi giải nén corpus. Giữ split gốc; không dùng test để chọn mô hình, prompt, từ điển sửa lỗi hoặc cấu hình tiền xử lý.
 
@@ -69,6 +69,6 @@ Toàn bộ [VietSuperSpeech](https://huggingface.co/datasets/thanhnew2001/VietSu
 - Bản nguồn tại commit này có 118.264 tệp, trong đó 118.260 tệp Git LFS, tổng cộng 62.619.407.773 byte. Nhãn phiên âm được tạo bằng mô hình Zipformer-30M-RNNT-6000h theo README của nguồn, nên cần xem là nhãn máy và kiểm tra chất lượng trước khi dùng.
 - Bản lưu Drive gồm 15 ZIP (`VietSuperSpeech_cbf624ae_part01-of-15.zip` đến `part15-of-15.zip`) và 15 tệp `.sha256.txt` tương ứng; tổng dung lượng ZIP là 62.688.053.113 byte. Mỗi ZIP độc lập, lưu tệp dưới tiền tố `VietSuperSpeech/` và chứa `SOURCE_INFO.txt`, `FILE_SHA256SUMS.txt` riêng. Thư mục Drive còn có `SOURCE_SHA256SUMS.txt` tổng hợp 118.264 dòng và checksum của manifest này.
 - Khi đóng gói, SHA-256 của từng tệp LFS được so với OID nguồn. SHA-256 của từng ZIP đã được đối chiếu sau khi chép sang ổ G. Google Drive đã liệt kê đủ 15 ZIP và 15 checksum; kiểm tra cấu trúc ZIP cho thấy đủ 118.264 đường dẫn tệp nguồn, không trùng và không thiếu manifest.
-- Vai trò: dữ liệu huấn luyện/phân tích độ bền trên tiếng nói hội thoại. Không dùng làm tập kiểm thử khóa cuối cùng nếu chưa kiểm tra nhãn, nguồn âm thanh và phân chia theo người nói/nguồn video.
+- Vai trò: lưu làm nguồn nghiên cứu sau này, không cần trong kế hoạch lean dùng inference pretrained. Nhãn máy chưa kiểm tra không dùng làm tập đánh giá chính, đặc biệt khi chấm chính Zipformer tạo nhãn.
 
 Để khôi phục, tải đủ 15 ZIP rồi giải nén tất cả vào cùng một thư mục. Trước khi giải nén, kiểm tra SHA-256 của mỗi ZIP theo tệp `.sha256.txt` cùng tên. Sau khi giải nén, đối chiếu dữ liệu trong thư mục `VietSuperSpeech/` với `SOURCE_SHA256SUMS.txt` tổng hợp; các tệp `FILE_SHA256SUMS.txt` trùng tên ở mỗi ZIP nên sẽ ghi đè nhau nếu giải nén tất cả vào cùng chỗ. Giữ nguyên `train.json`, `dev.json` và cấu trúc `audio/` của bản nguồn.
