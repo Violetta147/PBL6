@@ -45,7 +45,7 @@ Buổi 1–5 dùng pilot/dev để học và điều chỉnh. Test chỉ dùng �
 - [x] Chạy C2 Qwen3-ASR-0.6B trên Colab A100 bằng Transformers; đủ 100/100 cùng subset dev, output và metadata đã lưu.
 - [x] Chấm ba model trên 100 FLEURS dev; chấm lại bằng JiWER khớp, bảng ba model đã lưu.
 - [ ] Chấm ba model trên 20 câu tự thu dev, giữ bảng riêng; audio thật chưa có.
-- [ ] Nghe 3–5 lỗi, ghi model nào đáng thử trên Pi; dùng điểm dev, không mở test để chọn.
+- [x] Nghe ba câu lỗi và đối chiếu nhãn/output, người thực hiện xác nhận ngày 10/10/2026; Zipformer là ứng viên thử trên Pi theo bảng dev, chưa khẳng định chất lượng phụ đề đã đạt. Test vẫn đóng.
 
 **Demo:** ba transcript cạnh nhau và bảng chất lượng; [kịch bản B03](experiments/B03/DEMO.md) có năm audio để nghe. Trên dev đã đo, Zipformer WER_ws 7,5080%, Qwen 9,7605%, Whisper-base 49,3743%. Giải thích model mới năm 2026 giúp nghiên cứu điều gì, không mặc định nó thắng hoặc phải chạy trên Pi. **Xong khi:** có bảng ba model, output từng mẫu và nhận xét có căn cứ; bảng tự thu vẫn cần trước chốt B05.
 

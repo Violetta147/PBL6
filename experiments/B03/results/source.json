@@ -28,6 +28,16 @@
     "package_runner_scoring_manifest_hashes": true,
     "copied_baselines_identical": true
   },
-  "listening_verified": false,
+  "listening_verified": true,
+  "listening_verification": {
+    "confirmation_date": "2026-10-10",
+    "confirmed_by": "project participant via chat",
+    "scope": "Participant listened to and compared these three samples with references; not an audit of all dev100 labels.",
+    "ids": [
+      "fleurs/dev/4767212356465567922.wav",
+      "fleurs/dev/14301804876253465717.wav",
+      "fleurs/dev/5380420816515716433.wav"
+    ]
+  },
   "self_recorded_dev_measured": false
 }
