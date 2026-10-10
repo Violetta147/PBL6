@@ -5,7 +5,7 @@ Mục tiêu vẫn là hoàn thành cả ba buổi theo kế hoạch. Mã đã ch
 | Phần | Bằng chứng hiện có | Phần còn thiếu |
 |---|---|---|
 | B01 | Whisper-base trên CPU laptop: 10/10 pilot; JSONL, metadata và summary đã lưu | Người thực hiện nghe audio và trình diễn; micro/màn hình chưa xác nhận |
-| B02 | 11 test pass; Whisper và Zipformer cùng 100/100 dev; bảng hai model đã lưu | 20 bản ghi dev thật và demo nghe/đối chiếu |
+| B02 | 13 test pass; Whisper và Zipformer cùng 100/100 dev; bảng hai model đã lưu | 20 bản ghi dev thật và demo nghe/đối chiếu |
 | B03 | Qwen Colab A100 hoàn tất 100/100 dev; bảng ba model được chấm lại độc lập; DEMO có năm câu đối chiếu | Bảng 20 câu tự thu và xác nhận đã nghe 3–5 lỗi |
 
 Gói trên ổ Drive G: `G:/My Drive/Seventh Semester/PBL6/STT_B01_B03/stt_b01_b03_package.zip`, 29.291.600 byte, SHA-256 `e154ef97a09cc332b180cf04f884b2d41faa475b711115c44ab3fecf0316f7f2`. Hash đọc lại bản G khớp local, CRC ZIP đạt. Gói chứa 110 WAV dẫn xuất và mã/notebook; không có WAV hoặc reference test. Notebook riêng đã được chép vào thư mục gốc `STT_B01_B03`; hash bản G khớp nguồn. Đồng bộ cloud được kiểm tra riêng, không suy từ việc chép ổ G.
