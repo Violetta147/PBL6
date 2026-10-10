@@ -22,7 +22,11 @@ Nhận xét dưới đây dựa trên text đã lưu. Người trình bày cần
 | [39175139941883407](../../data/derived/stt_b01_b03/dev/39175139941883407.wav) | 54,84% | 35,48% | 0,00% | Qwen khớp reference có `19.500 km²` và `14`; Zipformer viết số/đơn vị bằng chữ, tạo 11 lỗi theo scorer hiện tại. Điểm này phản ánh cả cách viết số. |
 | [4767212356465567922](../../data/derived/stt_b01_b03/dev/4767212356465567922.wav) | 60,87% | 21,74% | 43,48% | Qwen có `nói chín` thay `nổi tiếng`, cùng lỗi tên riêng và cụm khác; Zipformer có 5 lỗi, Qwen 10. Model mới vẫn có câu kém hơn. |
 | [14301804876253465717](../../data/derived/stt_b01_b03/dev/14301804876253465717.wav) | 68,52% | 25,93% | 37,04% | Tên vận động viên, `trượt tuyết`, `về đích` và Super-G đều khó; Qwen viết `13/14` trong khi nhãn viết `mười ba/mười bốn`. Cần tách lỗi nhận âm và khác cách viết. |
-| [12943089570068506915](../../data/derived/stt_b01_b03/dev/12943089570068506915.wav) | 63,64% | 39,39% | 36,36% | `108`, `56`, tên món ăn và Baba Shyam; cả ba còn lỗi. Qwen tốt hơn Zipformer một lỗi theo khoảng trắng ở câu này. |
+| [5380420816515716433](../../data/derived/stt_b01_b03/dev/5380420816515716433.wav) | 77,27% | 13,64% | 36,36% | Xe buýt Coaster: Zipformer có 3 lỗi nhưng giữ `vốn rất thoải mái và chắc chắn`; Qwen có 8 lỗi, gồm `vũng các thỏi máy`. Cả hai còn lỗi `loại` và Coaster. |
+
+Ba transcript người thực hiện gửi từ ô nghe (ID 4767212356465567922, 14301804876253465717 và 5380420816515716433) khớp prediction đã lưu. Chúng được chọn theo WER Qwen cao nhất, nên dùng để tìm lỗi và không đại diện cho toàn bộ dev100. Cần xem cả hai câu Qwen tốt hơn trong bảng này để tránh chỉ trình bày một phía. Chưa có xác nhận đã nghe và kiểm tra nhãn từng câu.
+
+Phân tích text cho thấy hai loại lỗi cần phân biệt. `mười ba/mười bốn` so với `13/14` khác cách viết số; scorer giữ quy tắc hiện hành nên vẫn tính lỗi. `vận động viên trượt tuyết` thành `phần đông viên trực tiếp`, `về đích` thành `về đất` hoặc `thoải mái` thành `thỏi máy` làm thay đổi nội dung lời nói. Các tên như bhajan, Shri Shyam, Maciej Krezel và Coaster cũng bị nhận sai; chưa thể quy toàn bộ lỗi cho tên riêng hay cách viết số. Chữ hoa của Zipformer được chuẩn hóa về chữ thường khi chấm, không tạo thêm lỗi.
 
 ## Trình bày trong 3–5 phút
 
