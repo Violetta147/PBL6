@@ -1,0 +1,33 @@
+{
+  "run_name": "qwen_gpu_20261010_023946",
+  "source_directory": "G:\\My Drive\\Seventh Semester\\PBL6\\STT_B01_B03\\runs\\qwen_gpu_20261010_023946",
+  "verified_utc": "2026-10-10T02:48:01.874913+00:00",
+  "input_receipt": {
+    "package": "data/derived/stt_b01_b03_package.zip",
+    "bytes": 29291600,
+    "sha256": "e154ef97a09cc332b180cf04f884b2d41faa475b711115c44ab3fecf0316f7f2",
+    "crc_verified": true,
+    "contains_test_audio": false
+  },
+  "source_sha256": {
+    "comparison.csv": "7b3f0f5a6793a2f2413f71d6cc92527d0cc5eeb86d0fee6d268b695e2124e354",
+    "input_receipt.json": "b12d61c6b3c096c9dee950bc5f835594463b00be6bc4e21e693e3c769a82386d",
+    "qwen_dev.jsonl": "4c2e468052fb242b44246d24e9853ee77b16c1ab9abc587965b5c54d1ffb4e92",
+    "qwen_dev.run.json": "a10eeb89e16de7acfe8281633becf5e9c53a4b1ecbf06ff3612bfe42074e36dd",
+    "summary.csv": "56618c628808f282e401a7565157e7cf69a1239105033878fbe250caf0bf06cc",
+    "summary.json": "07d12c5d2d1c054bd1a274dfc14168fe90dc8a5743ebe3334910e339b7640227",
+    "verification.json": "7e2560706dd47f5eb934eed7b64d7091cd863d8a92516b6846bb786578151ba3",
+    "whisper_dev.jsonl": "361312b9bab00810cc26967aa1d443bd380318da9f64713a5cdebfcc0045d3cc",
+    "whisper_dev.run.json": "921c1c530e021b55f9b61245f0108629532132abe0773bf7a03388abf8a158fb",
+    "zipformer_dev.jsonl": "a365fa293004c6f0e222b3a4f9532b760169562b2b6b84e599b12a1593aabd93",
+    "zipformer_dev.run.json": "b69a2b9e3a2dfbfef783d575f97982ece74dd8de22b0ffb3e899931fb809d5d9"
+  },
+  "checks": {
+    "complete_ids_audio_references_and_scores": true,
+    "independent_jiwer": true,
+    "package_runner_scoring_manifest_hashes": true,
+    "copied_baselines_identical": true
+  },
+  "listening_verified": false,
+  "self_recorded_dev_measured": false
+}

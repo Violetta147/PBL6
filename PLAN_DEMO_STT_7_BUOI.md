@@ -42,11 +42,12 @@ Buổi 1–5 dùng pilot/dev để học và điều chỉnh. Test chỉ dùng �
 
 ## B03 — Thử model mới và hoàn thành so sánh
 
-- [ ] Chạy C2 Qwen3-ASR-0.6B trên Colab, dùng backend tối thiểu; thử ít mẫu rồi chạy cùng subset dev.
-- [ ] Chấm ba model trên 100 FLEURS dev và 20 câu tự thu dev, tách hai bảng dữ liệu.
+- [x] Chạy C2 Qwen3-ASR-0.6B trên Colab A100 bằng Transformers; đủ 100/100 cùng subset dev, output và metadata đã lưu.
+- [x] Chấm ba model trên 100 FLEURS dev; chấm lại bằng JiWER khớp, bảng ba model đã lưu.
+- [ ] Chấm ba model trên 20 câu tự thu dev, giữ bảng riêng; audio thật chưa có.
 - [ ] Nghe 3–5 lỗi, ghi model nào đáng thử trên Pi; dùng điểm dev, không mở test để chọn.
 
-**Demo:** ba transcript cạnh nhau và bảng chất lượng. Giải thích model mới năm 2026 giúp nghiên cứu điều gì, không mặc định nó thắng hoặc phải chạy trên Pi. **Xong khi:** có bảng ba model, output từng mẫu và nhận xét có căn cứ.
+**Demo:** ba transcript cạnh nhau và bảng chất lượng; [kịch bản B03](experiments/B03/DEMO.md) có năm audio để nghe. Trên dev đã đo, Zipformer WER_ws 7,5080%, Qwen 9,7605%, Whisper-base 49,3743%. Giải thích model mới năm 2026 giúp nghiên cứu điều gì, không mặc định nó thắng hoặc phải chạy trên Pi. **Xong khi:** có bảng ba model, output từng mẫu và nhận xét có căn cứ; bảng tự thu vẫn cần trước chốt B05.
 
 Nếu C2 không chạy được sau khoảng một ngày xử lý môi trường, dùng PhoASR thay thế theo đặc tả và ghi lý do. Không dành tuần này mở thêm nhiều model/vLLM hoặc sửa môi trường không phục vụ inference cơ bản.
 

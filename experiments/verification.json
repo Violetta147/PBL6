@@ -31,5 +31,16 @@
     "WER_ws": 0.07508044333214157,
     "CER": 0.053494124922696354,
     "false_captions_per_minute": null
+  },
+  {
+    "path": "experiments\\B03\\results\\qwen_dev.jsonl",
+    "verified": true,
+    "total": 100,
+    "completed": 100,
+    "reference_units": 2797,
+    "reference_chars": 9702,
+    "WER_ws": 0.09760457633178406,
+    "CER": 0.06277056277056277,
+    "false_captions_per_minute": null
   }
 ]
