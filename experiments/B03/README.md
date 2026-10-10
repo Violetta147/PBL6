@@ -8,4 +8,6 @@ Qwen chỉ chạy GPU; runner không cho chạy CPU hoặc tự chuyển sang CP
 
 Ô nghe cuối notebook tự import pandas và Audio/display, nên không cần chạy ô tổng hợp trước để có các import này. Nếu kernel đã khởi động lại, chạy ô đọc Drive với `RUN_NAME` của lần đã lưu để khôi phục ROOT/RUN_DIR; sau đó chạy ô nghe, không cần chạy lại Qwen.
 
+Transcript trong ô nghe được in nguyên văn theo từng nhãn/model, tránh pandas rút gọn chuỗi dài thành `...`. Khi đổi phần hiển thị, chỉ chạy lại ô nghe; không cần chạy inference.
+
 Nghe lại 3–5 lỗi và đọc ba prediction trước khi viết kết luận. Trong bảng đã đo, Whisper/Zipformer chạy CPU laptop và Qwen chạy GPU Colab; không xếp tốc độ như cùng phần cứng. Chưa có 20 WAV tự thu thì bảng môi trường thực tế còn thiếu. Không mở test để chọn model. Zipformer là ứng viên thử Pi trước, Qwen giữ làm đối chiếu; chưa có số đo Pi để chốt cấu hình.
