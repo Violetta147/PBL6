@@ -1,6 +1,8 @@
 # Chuẩn bị 20 câu dev thật
 
-Chưa có bản ghi tự thu được xác nhận. Không thay bằng TTS hoặc lấy audio FLEURS rồi gọi là tự thu.
+Ngày 13/10/2026 đã nhận bốn bản ghi thật: câu 01–02 ở phòng ngủ và cùng hai câu ở quán cà phê. Người thực hiện xác nhận đã nghe và cả bốn khớp câu hướng dẫn. Hai phiên đều dùng Samsung Galaxy M15, ứng dụng ghi âm có sẵn, khoảng cách xấp xỉ 30 cm. Phiên phòng ngủ có điều hòa phía trên đang chạy; phiên cà phê có điều hòa lớn, chim hót, tiếng nhân viên tầng 1 khi người thu ở tầng 2 và tiếng ồn ngẫu nhiên từ khách khác. Không tự gán mức nhiễu hoặc thêm tiếng nhạc/máy pha cà phê chưa được xác nhận.
+
+Các bản gốc M4A được giữ trên Drive và sao lưu local; WAV mono 16 kHz PCM16 đã tạo và kiểm tra. Metadata tại `self_recorded_inventory.csv`, manifest đo bốn bản tại `../manifests/self_dev_pairs4.csv`; label đã được người thực hiện xác nhận, không lấy output model làm nhãn. Đây là hai câu ở hai phiên, chưa phải bộ 20 câu dev. Hai bản phòng ngủ thuộc câu 01–02 của bộ 20; hai bản cà phê là bản đối chiếu thêm, không thay câu 03–20. Chưa tạo `self_dev20.csv`. Không thay bằng TTS hoặc lấy audio FLEURS rồi gọi là tự thu.
 
 Đọc 20 câu trong `self_dev_template.csv`. Có thể dùng ứng dụng ghi âm đang có trên điện thoại hoặc micro laptop/tai nghe; chưa cần mua thiết bị. Không mặc định điện thoại tốt hơn laptop: khoảng cách, hướng micro, tiếng ồn và xử lý âm thanh của ứng dụng đều ảnh hưởng. Micro tai nghe gần miệng thuận tiện cho bản thu rõ, nhưng không đại diện cho kính thu tiếng người đối diện ở xa. Xem [hướng dẫn đặt micro của Shure](https://service.shure.com/articles/en_US/Knowledge/critical-distance-and-microphone-placement).
 

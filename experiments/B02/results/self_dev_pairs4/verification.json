@@ -1,0 +1,24 @@
+[
+  {
+    "path": "experiments\\B02\\results\\self_dev_pairs4\\whisper.jsonl",
+    "verified": true,
+    "total": 4,
+    "completed": 4,
+    "reference_units": 36,
+    "reference_chars": 114,
+    "WER_ws": 0.1388888888888889,
+    "CER": 0.07894736842105263,
+    "false_captions_per_minute": null
+  },
+  {
+    "path": "experiments\\B02\\results\\self_dev_pairs4\\zipformer.jsonl",
+    "verified": true,
+    "total": 4,
+    "completed": 4,
+    "reference_units": 36,
+    "reference_chars": 114,
+    "WER_ws": 0.0,
+    "CER": 0.0,
+    "false_captions_per_minute": null
+  }
+]

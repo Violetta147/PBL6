@@ -1,0 +1,3 @@
+model,corpus,split,device,runtime,total,completed,reference_units,reference_chars,WER_ws,CER,false_captions_per_minute
+whisper,self_recorded,dev,cpu,openai-whisper,4,4,36,114,0.1388888888888889,0.07894736842105263,
+zipformer,self_recorded,dev,cpu,sherpa-onnx offline ONNX INT8,4,4,36,114,0.0,0.0,

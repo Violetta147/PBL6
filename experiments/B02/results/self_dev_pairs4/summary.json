@@ -1,0 +1,30 @@
+[
+  {
+    "model": "whisper",
+    "corpus": "self_recorded",
+    "split": "dev",
+    "device": "cpu",
+    "runtime": "openai-whisper",
+    "total": 4,
+    "completed": 4,
+    "reference_units": 36,
+    "reference_chars": 114,
+    "WER_ws": 0.1388888888888889,
+    "CER": 0.07894736842105263,
+    "false_captions_per_minute": null
+  },
+  {
+    "model": "zipformer",
+    "corpus": "self_recorded",
+    "split": "dev",
+    "device": "cpu",
+    "runtime": "sherpa-onnx offline ONNX INT8",
+    "total": 4,
+    "completed": 4,
+    "reference_units": 36,
+    "reference_chars": 114,
+    "WER_ws": 0.0,
+    "CER": 0.0,
+    "false_captions_per_minute": null
+  }
+]

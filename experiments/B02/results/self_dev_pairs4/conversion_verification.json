@@ -1,0 +1,64 @@
+{
+  "conversion_date": "2026-10-13",
+  "decoder_package": "imageio-ffmpeg==0.6.0",
+  "decoder_version": "ffmpeg version 7.1-essentials_build-www.gyan.dev Copyright (c) 2000-2024 the FFmpeg developers",
+  "command_options": [
+    "-map",
+    "0:a:0",
+    "-vn",
+    "-ac",
+    "1",
+    "-ar",
+    "16000",
+    "-c:a",
+    "pcm_s16le"
+  ],
+  "files": [
+    {
+      "filename": "self_01.m4a",
+      "duration_s": 5.3546875,
+      "frames": 85675,
+      "peak_abs": 30640,
+      "format_verified": true,
+      "original_hash_unchanged": true,
+      "local_raw_hash_matches": true,
+      "drive_wav_hash_matches": true
+    },
+    {
+      "filename": "self_02.m4a",
+      "duration_s": 4.2026875,
+      "frames": 67243,
+      "peak_abs": 30933,
+      "format_verified": true,
+      "original_hash_unchanged": true,
+      "local_raw_hash_matches": true,
+      "drive_wav_hash_matches": true
+    },
+    {
+      "filename": "self_01_cafe.m4a",
+      "duration_s": 4.3093125,
+      "frames": 68949,
+      "peak_abs": 26730,
+      "format_verified": true,
+      "original_hash_unchanged": true,
+      "local_raw_hash_matches": true,
+      "drive_wav_hash_matches": true
+    },
+    {
+      "filename": "self_02_cafe.m4a",
+      "duration_s": 4.2453125,
+      "frames": 67925,
+      "peak_abs": 23380,
+      "format_verified": true,
+      "original_hash_unchanged": true,
+      "local_raw_hash_matches": true,
+      "drive_wav_hash_matches": true
+    }
+  ],
+  "labels_human_verified": true,
+  "full_self_dev20_ready": false,
+  "label_confirmation_date": "2026-10-13",
+  "consent_basis": "Participant supplied their own self-recordings for the project.",
+  "metadata_confirmation": "Participant confirmed both sessions used Samsung Galaxy M15, preinstalled voice recorder and approximately 30 cm distance.",
+  "manifest_sha256": "5ab46ff7a9f02a6208e0841ddf78fb110275e96c6cf8f2e1b8ffe6c7fa3ecf63"
+}

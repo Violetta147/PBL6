@@ -1,0 +1,5 @@
+id,reference,audio_path,whisper_prediction,whisper_status,whisper_WER_ws,whisper_CER,zipformer_prediction,zipformer_status,zipformer_WER_ws,zipformer_CER
+self/dev/01,Tôi muốn xem phụ đề của câu nói này.,data/self_recorded/dev/self_01.wav,Tòi muốn xem phụ đề của câu nói này,ok,0.1111111111111111,0.037037037037037035,TÔI MUỐN XEM PHỤ ĐỀ CỦA CÂU NÓI NÀY,ok,0.0,0.0
+self/dev/02,Bạn có thể nói chậm hơn một chút không?,data/self_recorded/dev/self_02.wav,Bạn có thể nói chậm hơn 1 chút không?,ok,0.1111111111111111,0.1,BẠN CÓ THỂ NÓI CHẬM HƠN MỘT CHÚT KHÔNG,ok,0.0,0.0
+self/dev/cafe/01,Tôi muốn xem phụ đề của câu nói này.,data/self_recorded/dev/self_01_cafe.wav,Tôi muốn xem phục đề của câu nói này,ok,0.1111111111111111,0.037037037037037035,TÔI MUỐN XEM PHỤ ĐỀ CỦA CÂU NÓI NÀY,ok,0.0,0.0
+self/dev/cafe/02,Bạn có thể nói chậm hơn một chút không?,data/self_recorded/dev/self_02_cafe.wav,Bạn có thể nói chặn hơn hộp chút không?,ok,0.2222222222222222,0.13333333333333333,BẠN CÓ THỂ NÓI CHẬM HƠN MỘT CHÚT KHÔNG,ok,0.0,0.0
