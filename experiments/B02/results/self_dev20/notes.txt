@@ -1,0 +1,7 @@
+T2-self-dev20 — 13/10/2026. So sánh model có sẵn trên cùng 20 audio tự thu đã nghe kiểm tra nhãn; không training, không mở test.
+Một người, Galaxy M15, ứng dụng ghi âm có sẵn, khoảng 30 cm. Bộ chính: 2 câu phòng ngủ có điều hòa, 18 câu cà phê có tiếng nền đã ghi trong metadata. Hai bản cà phê câu 01/02 không nằm trong bộ chính.
+Whisper-base CPU 2 luồng: 20/20, WER_ws 50/181 = 27,6243%, CER 108/607 = 17,7924%. Có lỗi âm và khác cách viết số; giữ nguyên scorer đã chốt.
+Zipformer-30M ONNX INT8 CPU 2 luồng: 20/20, WER_ws 1/181 = 0,5525%, CER 1/607 = 0,1647%. Câu 14: “gốc” thành “góc”.
+Hai run đã kiểm tra ID/hash/nhãn và chấm lại bằng JiWER. Prediction/.run.json, summary.csv, comparison.csv, summary_by_session.csv, verification.json và conversion_verification.json nằm cùng thư mục.
+Kết quả chỉ mô tả tập nhỏ một người đọc; 2/18 câu khác nhau không chứng minh riêng tác động tiếng ồn, chưa đại diện kính thu người đối diện. Không gộp với FLEURS hoặc bộ bốn đối chiếu.
+Qwen chưa chạy self dev20. Bước tiếp theo: dùng notebook GPU riêng, giữ cùng WAV/nhãn/scorer, chấm ba model rồi nghe lỗi trước khi kết luận ứng viên Pi.

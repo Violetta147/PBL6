@@ -2,7 +2,9 @@
 
 Mã dùng chung nằm tại đây; mỗi buổi có một notebook và thư mục `results` riêng. Không training. Dữ liệu lớn và model ở `data/` được Git bỏ qua. Kết quả chỉ được coi là đã đo khi có JSONL và `.run.json` từ lần chạy thật.
 
-**Để chạy tiếp ngay:** mở `B03_Qwen_Colab_GPU.ipynb` tại `My Drive/Seventh Semester/PBL6/STT_B01_B03`, chọn GPU rồi chạy các ô theo thứ tự. Notebook đọc gói ZIP và hai baseline đã đo từ Drive, chỉ chạy thêm Qwen, ghi từng prediction và bảng kết quả vào `runs/qwen_gpu_...`. Nếu runtime ngắt, nhập tên lần chạy cũ vào `RUN_NAME` để tiếp tục. Không cần tải lại ZIP qua hộp thoại upload. `make_qwen_notebook.py` tạo notebook này; ba notebook bên dưới vẫn phục vụ học từng buổi từ đầu.
+**Để chạy tiếp ngay:** self dev20 đã đủ và Whisper/Zipformer đã chạy 20/20. Mở notebook **B03_Self_dev20_Qwen_GPU.ipynb** trong `My Drive/Seventh Semester/PBL6/STT_B01_B03`, chọn GPU và chạy các ô theo thứ tự. Notebook đọc gói tự thu và hai baseline đã đo, chỉ chạy thêm Qwen; output vào `runs/self_dev20_qwen_v1`. Giữ RUN_NAME cố định để tiếp tục/xem lại; không chạy Qwen CPU. Hai baseline CPU ở `B02/results/self_dev20/`; nhãn và metadata đã được người thực hiện nghe xác nhận. B03 tự thu còn chờ lần chạy GPU thực tế và bảng ba model.
+
+Notebook `B03_Qwen_Colab_GPU.ipynb` và gói FLEURS cũ giữ nguyên: cả ba model FLEURS dev100 đã hoàn tất, không cần inference lại để xem kết quả. Các bước dưới đây là cách tái tạo thí nghiệm từ đầu, không phải phần còn thiếu hiện tại.
 
 1. `python experiments/prepare.py`: chọn seed 42, khôi phục 10 WAV train pilot và 100 WAV dev, lưu 200 ID test mà không khôi phục WAV/nhãn test vào gói Colab.
 2. Mở notebook B01/B02/B03 trong Colab, chọn GPU, upload `data/derived/stt_b01_b03_package.zip` khi được hỏi. B03 có thể chạy cả ba buổi; output vẫn tách theo buổi. Colab Pro cấp GPU nào thì ghi GPU đó.

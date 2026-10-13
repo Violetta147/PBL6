@@ -1,0 +1,5 @@
+model,session,total,completed,reference_units,reference_chars,WER_ws,CER,false_captions_per_minute
+whisper,bedroom_01,2,2,18,57,0.1111111111111111,0.07017543859649122,
+whisper,cafe_01,18,18,163,550,0.294478527607362,0.1890909090909091,
+zipformer,bedroom_01,2,2,18,57,0.0,0.0,
+zipformer,cafe_01,18,18,163,550,0.006134969325153374,0.0018181818181818182,

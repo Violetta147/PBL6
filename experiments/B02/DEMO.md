@@ -17,4 +17,17 @@ Các nhận xét dưới đây dựa trên text đã lưu; cần phát audio và
 2. [15936085030676963416.wav](../../data/derived/stt_b01_b03/dev/15936085030676963416.wav): ngày tháng, số năm, tên người và tên cung điện. Hai model cùng WER_ws 34,4828% nhưng lỗi khác nhau. Zipformer viết nhiều số bằng chữ trong khi reference có chữ số; scorer hiện hành vẫn tính khác. Cùng điểm không đồng nghĩa cùng transcript hoặc cùng lỗi.
 3. [12943089570068506915.wav](../../data/derived/stt_b01_b03/dev/12943089570068506915.wav): `108`, `56`, tên món ăn và tên người. Whisper WER_ws 63,6364%, Zipformer 39,3939%. Dùng mẫu này để giải thích lỗi số/tên riêng và giới hạn của bộ chấm chưa chuẩn hóa số theo nghĩa.
 
-Demo 3–5 phút: mở summary → chọn một ID chung → nghe WAV → đối chiếu hai transcript → giải thích một lỗi và giới hạn tập dữ liệu. Chưa cần làm UI. Phần 20 câu tự thu còn thiếu; [THU_AM.md](THU_AM.md) chỉ dẫn chuẩn bị, không phải dữ liệu đã thu.
+Demo 3–5 phút: mở summary → chọn một ID chung → nghe WAV → đối chiếu hai transcript → giải thích một lỗi và giới hạn tập dữ liệu. Chưa cần làm UI. Phần self dev20 đã có bảng riêng ngày 13/10; không trộn với FLEURS trong bảng trên.
+
+## Hai baseline trên self dev20
+
+20 câu chính đã được người thực hiện nghe xác nhận nhãn: 2 phòng ngủ có điều hòa, 18 cà phê; cùng Galaxy M15, ứng dụng ghi âm có sẵn và khoảng 30 cm. Tổng 181 đơn vị reference/607 ký tự. Whisper-base và Zipformer đều chạy CPU hai luồng, cùng WAV/scorer, hoàn tất 20/20. [Bảng tổng hợp](results/self_dev20/summary.csv) và [prediction từng câu](results/self_dev20/comparison.csv) tách khỏi FLEURS và bộ bốn đối chiếu.
+
+| Model | WER_ws | CER |
+|---|---:|---:|
+| Whisper-base | 27,6243% | 17,7924% |
+| Zipformer ONNX INT8 | 0,5525% | 0,1647% |
+
+Câu 14 có [audio thật](../../data/self_recorded/dev/self_14.wav), reference “Hãy giữ lại bản thu gốc để kiểm tra.”; Zipformer nhận “HÃY GIỮ LẠI BẢN THU GÓC ĐỂ KIỂM TRA”, Whisper nhận “Khảy giữ lại bản thù góc để kiếm chào”. Lỗi “gốc/góc” là lỗi dấu; không bỏ dấu để làm điểm thấp hơn. Các câu số còn có khác biệt cách viết số. Nhãn đã được người thực hiện nghe kiểm tra; khi demo hãy phát audio và đọc prediction thực tế.
+
+Đây là 20 câu ngắn một người đọc, điện thoại gần miệng; chưa đại diện kính nghe người đối diện. Phân bố 2/18 câu khác nhau không đủ tách riêng tác động tiếng ồn. Qwen trên self dev20 chưa chạy; test và số đo Pi chưa có. Giữ Zipformer làm ứng viên thử tiếp, chưa chốt chất lượng sử dụng từ tập nhỏ này.

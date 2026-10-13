@@ -37,7 +37,7 @@ Buổi 1–5 dùng pilot/dev để học và điều chỉnh. Test chỉ dùng �
 
 - [x] Viết hàm chuẩn hóa/scorer chung; kiểm tra dấu tiếng Việt, lỗi chèn/xóa/thay và nhãn rỗng bằng đáp án tính tay.
 - [x] Chạy C0/C1 trên 100 FLEURS dev đã chọn cố định; giữ đủ output/status.
-- [ ] Hoàn thành 20 câu dev của nhóm và kế hoạch test tách biệt. Ngày 13/10 đã có câu 01–02 ở hai phiên phòng ngủ/cà phê, đủ metadata và nhãn đã nghe xác nhận; còn câu 03–20. Hai bản cà phê là bản đối chiếu thêm, không thay câu mới.
+- [x] Hoàn thành 20 câu dev chính ngày 13/10: 2 phòng ngủ, 18 cà phê; người thực hiện nghe xác nhận nhãn, metadata/manifest/WAV đã kiểm tra. Hai baseline chạy đủ 20/20, bảng riêng đã lưu. Hai bản cà phê câu 01–02 giữ ngoài bộ chính. Test tự thu sẽ dùng phiên/người khác khi có thể ở B05, giữ riêng đến khi chốt cấu hình; hiện chưa thu hoặc chạy test.
 
 **Demo:** cùng một audio hiện hai transcript và cách tính WER/CER; mở bảng dev, chỉ một khác biệt đáng chú ý. **Xong khi:** hai model được chấm cùng dữ liệu/quy tắc. Nếu chưa đủ nhãn tự thu, hoàn thành trước khi chốt cấu hình ở B05.
 
@@ -45,7 +45,7 @@ Buổi 1–5 dùng pilot/dev để học và điều chỉnh. Test chỉ dùng �
 
 - [x] Chạy C2 Qwen3-ASR-0.6B trên Colab A100 bằng Transformers; đủ 100/100 cùng subset dev, output và metadata đã lưu.
 - [x] Chấm ba model trên 100 FLEURS dev; chấm lại bằng JiWER khớp, bảng ba model đã lưu.
-- [ ] Chấm ba model trên 20 câu tự thu dev, giữ bảng riêng. Đã có bốn bản thật và bảng Whisper/Zipformer trên bộ nhỏ này; chưa đủ self dev20, Qwen chưa chạy audio tự thu.
+- [ ] Chấm ba model trên self dev20, giữ bảng riêng. Whisper/Zipformer đã chạy đủ 20/20; Qwen chờ người thực hiện chạy notebook GPU riêng `B03_Self_dev20_Qwen_GPU.ipynb`, sau đó kiểm tra bảng ba model và nghe đối chiếu. Không dùng kết quả FLEURS thay cho tự thu.
 - [x] Nghe ba câu lỗi và đối chiếu nhãn/output, người thực hiện xác nhận ngày 10/10/2026; Zipformer là ứng viên thử trên Pi theo bảng dev, chưa khẳng định chất lượng phụ đề đã đạt. Test vẫn đóng.
 
 **Demo:** ba transcript cạnh nhau và bảng chất lượng; [kịch bản B03](experiments/B03/DEMO.md) có năm audio để nghe. Trên dev đã đo, Zipformer WER_ws 7,5080%, Qwen 9,7605%, Whisper-base 49,3743%. Giải thích model mới năm 2026 giúp nghiên cứu điều gì, không mặc định nó thắng hoặc phải chạy trên Pi. **Xong khi:** có bảng ba model, output từng mẫu và nhận xét có căn cứ; bảng tự thu vẫn cần trước chốt B05.
@@ -99,7 +99,7 @@ Khi chậm, bỏ model mở rộng, partial và phần tích hợp kính chưa c
 ## Theo dõi ngắn gọn
 
 - [x] B01: baseline chạy được; đã hoàn thành phần nghe một mẫu và tính WER. Chưa ghi nhận đã trình bày với thầy.
-- [ ] B02: hai model và scorer chung.
+- [x] B02: hai model và scorer chung; FLEURS dev100 và self dev20 có bảng riêng. Chưa ghi nhận đã trình bày với thầy.
 - [ ] B03: bảng dev ba model.
 - [ ] B04: số đo Pi.
 - [ ] B05: micro và cấu hình chốt.
