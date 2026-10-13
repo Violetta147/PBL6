@@ -1,0 +1,25 @@
+# Bức tranh toàn cảnh buổi 1 đến buổi 4
+
+Bốn buổi này đi từ **hiểu cách nhận dạng lời nói, so sánh model, đến kiểm tra model trên Raspberry Pi**. Mục tiêu là chọn một mô hình có sẵn để tạo phụ đề tiếng Việt cho hướng nghiên cứu kính thông minh. Ta chưa huấn luyện model mới; công việc chính là chuẩn bị audio, chạy nhận dạng, chấm lỗi và đo tài nguyên trên thiết bị thật.
+
+**Buổi 1: hiểu một audio đi đến kết quả như thế nào.** Ta dùng Whisper-base với 10 câu pilot lấy từ phần train của FLEURS tiếng Việt. Pilot là bộ thử nhỏ để kiểm tra luồng và học cách đọc kết quả; lấy từ train không có nghĩa ta đã huấn luyện Whisper. Model chỉ nhận audio và sinh bản chép lời, gọi là prediction. Bản chép lời chuẩn để đối chiếu gọi là reference, tức nhãn của audio; reference không được đưa vào model để giúp nó trả lời.
+
+Sau khi có prediction, ta đối chiếu với reference để đếm từ bị thay, mất hoặc thêm. Bạn đã nghe một mẫu pilot, xác nhận nhãn và đếm được bốn lỗi trên 13 đơn vị cách nhau bằng khoảng trắng, nên WER_ws của câu là 4/13 ≈ 30,77%. Với tiếng Việt, đơn vị này thường là tiếng, chưa chắc là từ hoàn chỉnh. Việc cần hiểu ở B01 là cách một lỗi trong transcript trở thành điểm số; không bắt buộc tính tay cả 10 câu. [Demo B01](../experiments/B01/DEMO.md) giữ audio và ví dụ đó.
+
+**Buổi 2: chuyển từ chạy thử sang so sánh có cùng điều kiện.** Ta chạy Whisper-base và Zipformer trên cùng 100 câu FLEURS dev, dùng cùng nhãn và cách chấm. Dev là tập dùng để xem lỗi và lựa chọn cấu hình trong quá trình làm đề tài. Không lấy điểm pilot B01 thay điểm Whisper trên dev, vì hai tập gồm những câu khác nhau.
+
+Cách chấm chung chuẩn hóa Unicode NFC, chữ thường, dấu câu và khoảng trắng; vẫn giữ dấu tiếng Việt. Vì vậy Zipformer viết hoa toàn bộ không tự tạo thêm lỗi so với Whisper. WER_ws đo lỗi ở đơn vị cách nhau bằng khoảng trắng; CER đo lỗi ký tự. Điểm cả tập được tính từ tổng lỗi chia tổng đơn vị reference tương ứng, không lấy trung bình đơn giản điểm từng câu. Prediction gốc vẫn được lưu để đọc và phân tích.
+
+B02 còn chuẩn bị dữ liệu gần tình huống của mình hơn: self dev20 gồm 20 câu chính do bạn đọc, hai câu ở phòng ngủ và 18 câu ở cà phê, bằng Galaxy M15, ứng dụng ghi âm có sẵn, khoảng cách xấp xỉ 30 cm. Bạn đã nghe và xác nhận nhãn. Hai bản cà phê đọc lại câu 01–02 được giữ riêng, không cộng vào 20 câu chính. Bộ này giúp kiểm tra lời nói tự thu, nhưng một người đọc 20 câu chưa đại diện cho nhiều giọng nói hoặc mọi môi trường.
+
+**Buổi 3: thêm Qwen và hoàn tất bảng ba model.** Qwen3-ASR-0.6B chạy trên GPU A100 của Colab, không chạy CPU laptop hoặc Pi. Nó được chấm trên đúng các câu mà hai baseline đã chạy. Trên FLEURS dev100, WER_ws của Whisper-base, Zipformer và Qwen lần lượt là 49,37%, 7,51% và 9,76%. Trên self dev20, các điểm tương ứng là 27,62%, 0,55% và 1,10%. Hai bảng được giữ riêng vì chúng đo hai bộ audio khác nhau.
+
+Kết quả này đưa Zipformer thành ứng viên thử Pi, thay vì chọn Qwen chỉ vì model mới hơn. Ta vẫn cần nghe lỗi: trên self dev20, Zipformer sai “gốc/góc” ở câu 14; Qwen sai hai lần “kết” thành “cách” ở câu 20. Điểm thấp trên bộ nhỏ không có nghĩa mọi câu đều tốt. Output, nhãn và bảng ba model nằm trong [kết quả B03](../experiments/B03/results/self_dev20/summary.csv); các điểm đã được kiểm tra lại bằng JiWER, thư viện tính lỗi bản chép lời.
+
+**Buổi 4: kiểm tra ứng viên có phù hợp Pi thật không.** Ta đưa cùng model Zipformer ONNX INT8 và self dev20 lên Pi 4B 8 GB, chạy CPU hai luồng qua hai lượt. Mỗi lượt đủ 20 câu; prediction giống laptop, WER_ws vẫn 0,55%. Với khoảng 84,16 giây audio, tổng inference mất khoảng 10,2–10,3 giây, RTF khoảng 0,12. RTF là thời gian xử lý chia thời lượng audio. Thời gian nạp model khoảng 3,74 giây được đo riêng; RAM cực đại toàn tiến trình khoảng 199 MiB. Hai lượt lặp vẫn là cùng 20 câu, không biến thành 40 mẫu độc lập.
+
+Ta cũng thử Whisper qua runtime có sẵn whisper.cpp. Whisper-base nhận đúng câu thử nhưng mất 20,87 giây cho audio 5,35 giây, nên chuyển sang tiny dự phòng theo tiêu chí đã đặt trước. Tiny chạy đủ self dev20 hai lượt, WER_ws khoảng 41,99%, tổng thời gian khoảng 171–173 giây mỗi lượt. Thời gian CLI này gồm nạp model cho từng WAV, khác phạm vi inference riêng của Zipformer; không chia hai con số để tuyên bố mức tăng tốc. Tiny cũng là checkpoint khác base, nên không coi điểm tiny/Pi là điểm Whisper-base/laptop.
+
+Đến đây, **phần thí nghiệm B01–B04 đã hoàn tất và Zipformer được chọn để thử tiếp ở B05**. Ta đã có bằng chứng audio → chữ trên Pi, cùng chất lượng, tốc độ và RAM; chưa có kết quả thu micro, chia đoạn lời nói liên tục hoặc hiển thị kính. Pi hiện chưa có micro, nên B05 có thể bắt đầu bằng replay audio theo thời gian thực rồi thử phần phát hiện đoạn có lời nói, gọi là VAD, trước khi nối ASR. B04 chưa chứng minh độ trễ phụ đề trong hội thoại thực tế. Tập test dành cho đánh giá cuối vẫn chưa mở.
+
+Việc bạn làm ngay là theo [hướng dẫn demo B04](../experiments/B04/DEMO.md), chạy một WAV trên Pi và tập giải thích vì sao chọn Zipformer. Chưa cần chạy lại toàn bộ benchmark hay huấn luyện thêm. Bảng kết quả, metadata và log đã được lưu; việc tập demo và trình bày với thầy vẫn cần bạn thực hiện.
