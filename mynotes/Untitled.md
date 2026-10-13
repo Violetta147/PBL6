@@ -70,3 +70,17 @@ nối ASR là sao nhỉ?
 -> “Nối ASR” nghĩa là đưa đoạn audio mà VAD đã gom/chốt vào model nhận dạng, rồi lấy text trả ra để hiển thị. Ví dụ VAD phát hiện bạn nói xong “Tôi muốn xem phụ đề” thì chuyển audio của đoạn đó sang Zipformer. Đây là ghép các bước xử lý có sẵn, không phải nối trọng số hoặc huấn luyện hai model cùng nhau.
 
 
+Tức là hiện tại ta chấm theo tiếng, chưa chấm theo từ hoàn chỉnh à?
+-> Đúng hơn là chấm theo đơn vị tách bằng khoảng trắng, trong tiếng Việt thường tương ứng với tiếng. Ví dụ “học sinh” được tính thành hai đơn vị, dù là một từ ghép. Vì vậy ta ghi WER_ws để nói rõ cách tách này, không mặc định đó là WER đã tách từ tiếng Việt.
+
+Tại sao chưa thêm chấm theo từ và theo câu? Hai cách đó khác gì?
+-> Ban đầu ta giữ WER_ws và CER để pipeline đơn giản, thống nhất giữa các model. Muốn chấm WER theo từ, cần dùng cùng một bộ tách từ cho cả reference và prediction; điểm còn phụ thuộc công cụ này. Theo câu có thể tính tỷ lệ câu có ít nhất một lỗi, gọi là SER, hoặc tỷ lệ câu khớp hoàn toàn sau chuẩn hóa. Cách chấm câu dễ hiểu nhưng câu sai một tiếng và câu sai gần hết đều bị tính là một câu lỗi. Các chỉ số bổ sung cho nhau; hiện bạn đã chọn chưa thêm chỉ số mới.
+
+Bộ tách từ tiếng Việt là gì, nó làm như thế nào?
+-> Đây là công cụ xác định những tiếng nào thuộc cùng một từ, dựa vào từ điển hoặc mô hình đã học và ngữ cảnh. Ví dụ “Tôi là học sinh trung học”: tách bằng khoảng trắng cho “Tôi | là | học | sinh | trung | học”, gồm sáu đơn vị; bộ tách từ có thể cho “Tôi | là | học_sinh | trung_học”, gồm bốn từ. Dấu gạch dưới chỉ biểu diễn các tiếng thuộc cùng một từ. Tiếng Việt thường đặt khoảng trắng giữa các tiếng nên chỉ nhìn dấu cách chưa đủ xác định ranh giới từ; công cụ cũng có thể tách sai.
+
+Bộ tách từ có nghe audio hay sửa chữ mà ASR nhận sai không?
+-> Không trong cách dùng đang bàn. Nó xử lý văn bản sau ASR để xác định ranh giới từ, không nghe audio và không được dùng để sửa nội dung prediction. Nếu chấm WER theo từ thì áp dụng cùng công cụ, phiên bản và quy tắc cho reference lẫn prediction, đồng thời vẫn giữ văn bản gốc.
+
+Nếu sau này thêm các chỉ số này thì có phải chạy lại model không?
+-> Không cần chạy lại model nếu prediction và reference đã được lưu đầy đủ. Có thể tính thêm điểm từ các văn bản đó, giữ điểm WER_ws/CER cũ để đối chiếu. Hiện ta chỉ ghi lại kiến thức này; chưa cài bộ tách từ, chưa sửa scorer hoặc bổ sung bảng điểm.
