@@ -148,3 +148,27 @@ Nếu bộ tách từ không sửa nội dung thì cái gì sửa lỗi ASR?
 -> Có thể thêm bước hậu xử lý sửa lỗi văn bản ASR: bộ kiểm tra chính tả, quy tắc từ vựng hoặc mô hình ngôn ngữ dùng ngữ cảnh để đề xuất sửa. Một số cách giải mã ASR cũng dùng thông tin ngôn ngữ ngay khi chọn transcript, nhưng không bảo đảm mọi lỗi đều được sửa. Bộ tách từ chỉ xác định ranh giới từ; thêm dấu câu/viết hoa lại cũng chưa đồng nghĩa sửa đúng những từ đã nhận sai.
 
 Bước sửa có thể hữu ích nhưng cũng có thể đổi một câu đúng thành sai, nhất là tên riêng, số hoặc phủ định. Nếu thử, luôn lưu prediction gốc và prediction đã sửa, chấm hai bản riêng trên cùng reference; không dùng nhãn chuẩn làm đầu vào cho bộ sửa trong thí nghiệm. Ta hiện chưa thêm bước sửa lỗi, nên bảng đang phản ánh output ASR sau quy tắc chuẩn hóa chấm điểm, không phải transcript đã được sửa nội dung.
+
+Có nên dừng đề tài vì còn nhiều mâu thuẫn trong thí nghiệm không?
+-> Nên tạm dừng mở rộng để rà lại điều kiện đo và kết luận, chưa cần bỏ đề tài. Transcript, WER_ws/CER và số đo riêng từng cấu hình vẫn có giá trị. Phần chưa chặt nhất là so tốc độ khác phạm vi/chính sách nạp model và gọi B04 hoàn tất quá rộng. Giữ bằng chứng cũ, ghi đúng giới hạn; chỉ đo lại những phần cần cho quyết định tiếp theo.
+
+Có nên chọn định tính rồi nhanh chóng dựng pipeline kính thông minh thay vì tiếp tục thí nghiệm không?
+-> Có thể ưu tiên pipeline và chọn Zipformer tạm thời dựa trên model/runtime có sẵn, mức dễ tích hợp cùng WER/CER và số đo riêng đã có. Không cần bỏ định lượng hoặc gọi Zipformer là tốt nhất. Thí nghiệm tiếp theo chỉ cần trả lời các câu hỏi phục vụ pipeline: nhận đúng không, chờ bao lâu, chia đoạn có mất lời không, im lặng có sinh chữ không. Chưa cần thêm model hay huấn luyện để bắt đầu.
+
+Nếu ưu tiên pipeline thì kế hoạch 7 buổi cũ còn dùng được không, hay phải tạo file kế hoạch mới?
+-> Nên giữ một file kế hoạch chính và điều chỉnh ngay trong đó để tránh hai bản cùng có vẻ đang áp dụng. B01–B03 giữ kết quả; B04 giữ số đo và đánh dấu hạn chế so tốc độ; B05 dựng pipeline cơ bản; B06 đánh giá pipeline đã chốt bằng bộ audio mới nhỏ và số đo phù hợp; B07 demo/báo cáo. Phép so tốc độ đối chứng Whisper–Zipformer có thể là phần bổ sung nếu cần. Đây là hướng điều chỉnh đã bàn, chưa đồng nghĩa file kế hoạch 7 buổi đã được sửa theo hướng mới.
+
+Có nên bắt đầu chat mới sau khi rà soát không?
+-> Có thể, vì chat hiện tại dài và có nhiều đính chính. Cần bàn giao ngắn gồm mục tiêu hiện tại, đường dẫn bằng chứng, điều đã đo, giới hạn và bước tiếp theo. File hỏi–đáp giúp giải thích kiến thức nhưng không thay bản trạng thái ngắn. Đổi chat không tự làm các phép đo trở nên đồng nhất; kết luận vẫn phải dựa trên mã/output đã kiểm tra.
+
+Có nên tạo báo cáo DEMO Markdown riêng trong reports, ít chữ nhưng có hình, bảng và số liệu không?
+-> Có. Dùng reports/DEMO_BUOI_01_04.md để trình bày theo trình tự B01 → B04, lấy biểu đồ từ CSV kết quả thật và dẫn tới raw khi cần kiểm tra. File hỏi–đáp giữ phần giải thích dài; báo cáo demo chỉ giữ điều cần thấy và hiểu trên lớp. Phải ghi rõ dataset, số mẫu, checkpoint/runtime, phạm vi đo và điều chưa chứng minh; trình bày trực quan không được che hạn chế.
+
+Báo cáo demo nên giải thích vì sao, cách làm và đánh đổi như thế nào?
+-> Mỗi buổi trả lời ngắn: vì sao cần bước này → đã làm gì → cho thấy đầu ra/số đo → một lỗi hoặc điều học được → bước tiếp theo. Ví dụ B04 đưa model lên Pi vì số laptop chưa nói được tài nguyên Pi; chạy WAV trước để kiểm tra phần nhận dạng; đánh đổi là chưa đo độ trễ micro/kính. Mục tiêu là một đầu ra nhỏ chạy được và có bằng chứng, không phải làm đủ mọi thành phần rồi mới demo.
+
+DEMO Markdown có thể giống một bài thuyết trình mà không ghi “slide số mấy” không?
+-> Có. Mỗi khối có một ý chính, tiêu đề nói điều cần giải thích, ít chữ và hình/bảng đủ lớn; dùng đường phân cách để tách các phần. Giữ lý do/cách làm/đánh đổi trong vài dòng, chuyển chi tiết dài sang tài liệu hỏi–đáp hoặc nguồn kết quả. Đây vẫn là Markdown có thể đọc trong Obsidian, không tự trở thành file PowerPoint hoặc một chế độ trình chiếu đã được kiểm tra.
+
+Có nên vẽ pipeline từ đầu đến cuối như một cây Mermaid, với những component hoặc file dùng chung không?
+-> Có, nhưng các nhánh dùng chung rồi nối lại tạo thành sơ đồ có nhiều đường nối, không phải cây thuần. WAV/manifest đã chốt, runner chung và scorer/audit nên hiện thành node dùng chung; các nhánh thể hiện model/runtime/thiết bị và đầu ra riêng. Nhãn chuẩn đi vào bước chấm, không đưa vào model để giúp nhận dạng. Cần phân biệt cùng dữ liệu/hash được sao qua ZIP với cùng một file vật lý trên laptop, Drive, Colab hoặc Pi. Sơ đồ phải tách pipeline đã chạy khỏi B05 dự kiến; tách tổng quan và chi tiết để chữ vẫn đọc được.
