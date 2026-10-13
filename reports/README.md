@@ -24,3 +24,5 @@ Bản demo trước khi chuyển bố cục đã được sao lưu vào thư m�
 C0 Whisper-base trên Pi mới có smoke một câu; tiny là khảo sát bổ sung. Hai chính sách nạp/phạm vi thời gian chưa đồng nhất, nên báo cáo không biểu diễn tỷ lệ tăng tốc hoặc khẳng định đã hoàn tất benchmark đối chứng.
 
 Git giữ byte các figure/receipt và LF của script/nguồn Mermaid để hash không đổi do EOL Windows. Khoảng trắng cuối dòng có chủ đích trong Markdown (hard break) và SVG do Matplotlib sinh được giữ; diff check bỏ kiểm tra riêng blank-at-eol, vẫn kiểm tra phần lỗi còn lại.
+
+Kiểm tra cuối: 31 liên kết local trong bốn tài liệu tồn tại; bốn nguồn Mermaid có endpoint cạnh được định nghĩa (chưa phải kiểm tra renderer đầy đủ). Kiểm tra blob Git ban đầu phát hiện SVG bị đổi EOL khi stage trước khi có attributes; đã stage lại theo attributes và xác minh cả script cùng bốn hình PNG/SVG trong index khớp SHA-256 receipt. Không sửa hình hoặc số liệu để khớp hash.
