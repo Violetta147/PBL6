@@ -2,3 +2,7 @@
 experiments/B04/results/whisper_* -text
 experiments/B04/results/whisper_*/** -text
 experiments/B04/run_whisper_cpp_pi.py text eol=lf
+# Preserve hashes recorded by the report's plotting source receipt.
+reports/generate_demo_figures.py text eol=lf
+reports/figures/* -text
+reports/diagrams/*.mmd text eol=lf

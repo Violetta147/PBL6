@@ -1,0 +1,8 @@
+flowchart LR
+    AUDIO["Replay WAV theo thời gian thực<br/>micro khi có thiết bị"]
+    VAD["VAD / chốt đoạn nếu cần<br/>nạp một lần khi khởi động"]
+    ASR["ASR giữ trong RAM<br/>nhận từng đoạn audio"]
+    TEXT["Hiện text<br/>lưu thời gian và lỗi"]
+    AUDIO -.-> VAD -.-> ASR -.-> TEXT
+    classDef planned fill:#f6f7f9,stroke:#6b7280,stroke-dasharray:5 5,color:#374151;
+    class AUDIO,VAD,ASR,TEXT planned;

@@ -1,0 +1,35 @@
+flowchart TB
+    RF["FLEURS gốc + transcript"] --> PRE["prepare.py<br/>chọn ID, xuất WAV mono 16 kHz"]
+    RS["M4A Galaxy M15<br/>nhãn đã nghe xác nhận"] --> PS["WAV mono 16 kHz<br/>metadata người / phiên / điều kiện"]
+    subgraph DATA["WAV và manifest đã chốt"]
+        P["Pilot: FLEURS train 10<br/>pilot.csv"]
+        F["FLEURS dev100<br/>fleurs_dev100.csv"]
+        S["Self dev20<br/>self_dev20.csv"]
+    end
+    subgraph RUN["Các nhánh đã chạy - từng manifest là một run riêng"]
+        W["Whisper-base<br/>openai-whisper / laptop CPU"]
+        Z["Zipformer INT8<br/>sherpa-onnx / laptop CPU"]
+        Q["Qwen 0.6B<br/>Transformers / Colab A100"]
+        PI["Pi 4 / self dev20<br/>nhánh chi tiết bên dưới"]
+    end
+    PRE --> P
+    PRE --> F
+    PS --> S
+    P --> W
+    F --> W
+    F --> Z
+    F --> Q
+    S --> W
+    S --> Z
+    S --> Q
+    S --> PI
+    W --> R["Transcript gốc + metadata<br/>B01, B02, B03, B04/results"]
+    Z --> R
+    Q --> R
+    PI --> R
+    R --> A["Chấm / kiểm tra dùng chung<br/>common.py + verify_results.py + JiWER"]
+    M["Reference + ID/hash từ manifest<br/>chỉ dùng đối chiếu, không đưa nhãn vào ASR"] --> A
+    A --> T["Bảng riêng theo dataset và cấu hình<br/>summary.csv / comparison.csv"]
+    T --> REPORT["reports/DEMO_BUOI_01_04.md<br/>biểu đồ + số đo + giới hạn"]
+    classDef shared fill:#e6f1f7,stroke:#236b8e,color:#17354a;
+    class P,F,S,M,A,T shared;

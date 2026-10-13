@@ -1,0 +1,12 @@
+flowchart TB
+    RAW["FLEURS + transcript / M4A tự thu + nhãn đã nghe"] --> INPUT["WAV mono 16 kHz + manifest<br/>pilot 10 / FLEURS dev100 / self dev20"]
+    INPUT --> LAP["Laptop CPU<br/>pilot: Whisper-base<br/>dev100 và self20: Whisper + Zipformer"]
+    INPUT --> COL["Colab A100<br/>Qwen 0.6B<br/>dev100 và self20 qua ZIP"]
+    INPUT --> PI["Pi 4 / self20<br/>Zipformer + Whisper-tiny<br/>base chỉ smoke một câu"]
+    LAP --> OUT["Transcript gốc + metadata riêng từng run"]
+    COL --> OUT
+    PI --> OUT
+    OUT --> AUDIT["Dùng chung scorer / audit<br/>common.py + verify_results.py + JiWER"]
+    REF["Reference trong manifest<br/>không đưa nhãn vào ASR"] --> AUDIT
+    AUDIT --> TABLE["Bảng riêng theo dataset, checkpoint, runtime"]
+    TABLE --> REPORT["Biểu đồ + số đo + giới hạn trong báo cáo"]

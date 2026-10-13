@@ -1,0 +1,70 @@
+{
+  "purpose": "Saved quality metrics; not a latency comparison or independent test",
+  "generator_sha256": "7fbf1a3ddc4b1ee413af9df38ca9ebb1f63b36b2d0b26c0518111b47a8275e9e",
+  "figures": [
+    {
+      "source": "experiments/B03/results/summary.csv",
+      "source_sha256": "56618c628808f282e401a7565157e7cf69a1239105033878fbe250caf0bf06cc",
+      "records_per_model": 100,
+      "model_order": [
+        "whisper",
+        "zipformer",
+        "qwen"
+      ],
+      "percent_values": {
+        "WER_ws": [
+          49.37432963889882,
+          7.5080443332141575,
+          9.760457633178406
+        ],
+        "CER": [
+          33.920841063698205,
+          5.349412492269636,
+          6.277056277056277
+        ]
+      },
+      "outputs": [
+        {
+          "path": "reports/figures/fleurs_dev100.png",
+          "sha256": "cddb06405a719cd238a7bf16799c7628e701899829aa02d27c701e4d934fac61"
+        },
+        {
+          "path": "reports/figures/fleurs_dev100.svg",
+          "sha256": "e4ecf906ce7d059af6b6c9be6423473dac57206883890e34f33d1341fd07d4c7"
+        }
+      ]
+    },
+    {
+      "source": "experiments/B03/results/self_dev20/summary.csv",
+      "source_sha256": "0a633d14aedf5b7ce72c0f1f0adb222e04dda56c4cc2a2779ebb6d50944b6ccf",
+      "records_per_model": 20,
+      "model_order": [
+        "whisper",
+        "zipformer",
+        "qwen"
+      ],
+      "percent_values": {
+        "WER_ws": [
+          27.624309392265197,
+          0.5524861878453038,
+          1.1049723756906076
+        ],
+        "CER": [
+          17.792421746293247,
+          0.16474464579901155,
+          1.3179571663920924
+        ]
+      },
+      "outputs": [
+        {
+          "path": "reports/figures/self_dev20.png",
+          "sha256": "67fdd7eb31d534a01c90da1ea7a596fd7948aa0fa76332ff29a78830fa205fdb"
+        },
+        {
+          "path": "reports/figures/self_dev20.svg",
+          "sha256": "89c15ed662461ffc3626dc6a52ec3cc9a4540167b97378dfae43760fa6441b4a"
+        }
+      ]
+    }
+  ]
+}

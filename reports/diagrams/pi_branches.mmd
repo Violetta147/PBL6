@@ -1,0 +1,23 @@
+flowchart TB
+    S["Cùng self dev20 + manifest<br/>sao sang Pi qua ZIP, kiểm tra hash"]
+    subgraph ACTUAL["Đã chạy trên Pi 4 / CPU hai luồng"]
+        Z["Zipformer INT8<br/>cùng gói model/hash như laptop"]
+        ZRUN["Nạp một lần mỗi lượt<br/>20 WAV tuần tự x 2 lượt"]
+        ZOUT["zipformer_r1 / zipformer_r2<br/>inference + wall + RAM + transcript"]
+        B["Whisper-base / whisper.cpp<br/>smoke một WAV"]
+        T["Whisper-tiny / whisper.cpp<br/>khảo sát bổ sung"]
+        TRUN["Mỗi WAV mở CLI mới, nạp lại<br/>20 WAV tuần tự x 2 lượt"]
+        TOUT["whisper_tiny_r1 / whisper_tiny_r2<br/>wall CLI + RAM + transcript"]
+    end
+    S --> Z
+    Z --> ZRUN --> ZOUT
+    S --> B
+    B -->|"đã chuyển tiny do chậm"| T
+    S --> T
+    T --> TRUN --> TOUT
+    B -.-> GAP["C0-base/Pi còn thiếu<br/>chưa chạy đủ cùng self dev20"]
+    ZOUT --> A["Cùng scorer + audit<br/>chấm riêng từng checkpoint/run"]
+    TOUT --> A
+    A --> LIMIT["Chất lượng có bảng theo cấu hình<br/>tốc độ chưa cùng chính sách nạp/phạm vi"]
+    classDef gap fill:#fff0da,stroke:#bc6b13,color:#653908;
+    class GAP,LIMIT gap;
