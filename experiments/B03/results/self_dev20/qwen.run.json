@@ -1,0 +1,51 @@
+{
+  "signature": {
+    "model": "qwen",
+    "manifest_sha256": "1cfcd5f86d088ee5fdf1d6e920a04a1872fe1e72ea8e722ab4200e5eb30fd3da",
+    "runner_sha256": "9821c648d9a3ef152c0a80b275923c24060e176c6b9e7a6a849e4eec748ae02b",
+    "scoring_sha256": "9e4ceeb03ebe765e5e2b72181cf0221cb32774fdbea7f4b354cbe1b4bed7da64",
+    "requested_device": "cuda",
+    "threads": 2
+  },
+  "environment": {
+    "python": "3.13.15 (main, Aug  6 2026, 11:06:22) [GCC 13.3.0]",
+    "platform": "Linux-6.6.122+-x86_64-with-glibc2.39",
+    "processor": "x86_64",
+    "packages": {
+      "torch": "2.11.0+cu130",
+      "numpy": "2.1.3",
+      "qwen-asr": "0.0.6",
+      "transformers": "4.57.6",
+      "soundfile": "0.14.0",
+      "huggingface-hub": "0.36.2",
+      "accelerate": "1.12.0",
+      "librosa": "0.11.0",
+      "qwen-omni-utils": "0.0.9"
+    },
+    "COLAB_RELEASE_TAG": "release-colab-external-images_20261009-060058_RC00",
+    "framework_env": {
+      "USE_TF": "0",
+      "USE_FLAX": "0"
+    }
+  },
+  "started_utc": "2026-10-13T10:03:45.729290+00:00",
+  "finished": true,
+  "backend": {
+    "device": "cuda",
+    "threads": 2,
+    "gpu": "NVIDIA A100-SXM4-40GB",
+    "checkpoint": "Qwen/Qwen3-ASR-0.6B",
+    "revision": "5eb144179a02acc5e5ba31e748d22b0cf3e303b0",
+    "runtime": "qwen-asr Transformers",
+    "dtype": "torch.bfloat16",
+    "decoding": {
+      "language": "Vietnamese",
+      "batch_size": 1,
+      "max_new_tokens": 512
+    }
+  },
+  "load_seconds": 21.33808332700005,
+  "ended_utc": "2026-10-13T10:04:20.159935+00:00",
+  "total": 20,
+  "completed": 20
+}

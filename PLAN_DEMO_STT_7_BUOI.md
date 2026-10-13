@@ -45,7 +45,7 @@ Buổi 1–5 dùng pilot/dev để học và điều chỉnh. Test chỉ dùng �
 
 - [x] Chạy C2 Qwen3-ASR-0.6B trên Colab A100 bằng Transformers; đủ 100/100 cùng subset dev, output và metadata đã lưu.
 - [x] Chấm ba model trên 100 FLEURS dev; chấm lại bằng JiWER khớp, bảng ba model đã lưu.
-- [ ] Chấm ba model trên self dev20, giữ bảng riêng. Whisper/Zipformer đã chạy đủ 20/20; Qwen chờ người thực hiện chạy notebook GPU riêng `B03_Self_dev20_Qwen_GPU.ipynb`, sau đó kiểm tra bảng ba model và nghe đối chiếu. Không dùng kết quả FLEURS thay cho tự thu.
+- [x] Chấm ba model trên self dev20, giữ bảng riêng. Qwen hoàn tất 20/20 trên A100 ngày 13/10, run `self_dev20_qwen_v1`; receipt/hash/nhãn và JiWER đã kiểm tra. WER_ws Whisper 27,6243%, Zipformer 0,5525%, Qwen 1,1050%. Output/bảng ba model ở B03/results/self_dev20. Cần nghe thêm câu 20 trước khi trình bày phân tích bằng nghe; không dùng kết quả FLEURS thay tự thu.
 - [x] Nghe ba câu lỗi và đối chiếu nhãn/output, người thực hiện xác nhận ngày 10/10/2026; Zipformer là ứng viên thử trên Pi theo bảng dev, chưa khẳng định chất lượng phụ đề đã đạt. Test vẫn đóng.
 
 **Demo:** ba transcript cạnh nhau và bảng chất lượng; [kịch bản B03](experiments/B03/DEMO.md) có năm audio để nghe. Trên dev đã đo, Zipformer WER_ws 7,5080%, Qwen 9,7605%, Whisper-base 49,3743%. Giải thích model mới năm 2026 giúp nghiên cứu điều gì, không mặc định nó thắng hoặc phải chạy trên Pi. **Xong khi:** có bảng ba model, output từng mẫu và nhận xét có căn cứ; bảng tự thu vẫn cần trước chốt B05.
@@ -100,7 +100,7 @@ Khi chậm, bỏ model mở rộng, partial và phần tích hợp kính chưa c
 
 - [x] B01: baseline chạy được; đã hoàn thành phần nghe một mẫu và tính WER. Chưa ghi nhận đã trình bày với thầy.
 - [x] B02: hai model và scorer chung; FLEURS dev100 và self dev20 có bảng riêng. Chưa ghi nhận đã trình bày với thầy.
-- [ ] B03: bảng dev ba model.
+- [x] B03: có bảng ba model trên FLEURS dev100 và self dev20, đã kiểm tra độc lập. Còn nghe thêm lỗi tự thu/tập demo; chưa ghi nhận đã trình bày với thầy.
 - [ ] B04: số đo Pi.
 - [ ] B05: micro và cấu hình chốt.
 - [ ] B06: kết quả test.

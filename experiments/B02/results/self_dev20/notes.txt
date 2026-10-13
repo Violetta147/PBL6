@@ -4,4 +4,4 @@ Whisper-base CPU 2 luồng: 20/20, WER_ws 50/181 = 27,6243%, CER 108/607 = 17,79
 Zipformer-30M ONNX INT8 CPU 2 luồng: 20/20, WER_ws 1/181 = 0,5525%, CER 1/607 = 0,1647%. Câu 14: “gốc” thành “góc”.
 Hai run đã kiểm tra ID/hash/nhãn và chấm lại bằng JiWER. Prediction/.run.json, summary.csv, comparison.csv, summary_by_session.csv, verification.json và conversion_verification.json nằm cùng thư mục.
 Kết quả chỉ mô tả tập nhỏ một người đọc; 2/18 câu khác nhau không chứng minh riêng tác động tiếng ồn, chưa đại diện kính thu người đối diện. Không gộp với FLEURS hoặc bộ bốn đối chiếu.
-Qwen chưa chạy self dev20. Bước tiếp theo: dùng notebook GPU riêng, giữ cùng WAV/nhãn/scorer, chấm ba model rồi nghe lỗi trước khi kết luận ứng viên Pi.
+Cập nhật sau lần baseline: Qwen self_dev20_qwen_v1 đã hoàn tất trên A100, WER_ws 1,1050%, CER 1,3180%. Bảng ba model và kiểm tra độc lập ở B03/results/self_dev20; nghe thêm lỗi câu 20 trước khi trình bày và đo Pi.

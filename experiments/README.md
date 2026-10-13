@@ -2,7 +2,7 @@
 
 Mã dùng chung nằm tại đây; mỗi buổi có một notebook và thư mục `results` riêng. Không training. Dữ liệu lớn và model ở `data/` được Git bỏ qua. Kết quả chỉ được coi là đã đo khi có JSONL và `.run.json` từ lần chạy thật.
 
-**Để chạy tiếp ngay:** self dev20 đã đủ và Whisper/Zipformer đã chạy 20/20. Mở notebook **B03_Self_dev20_Qwen_GPU.ipynb** trong `My Drive/Seventh Semester/PBL6/STT_B01_B03`, chọn GPU và chạy các ô theo thứ tự. Notebook đọc gói tự thu và hai baseline đã đo, chỉ chạy thêm Qwen; output vào `runs/self_dev20_qwen_v1`. Giữ RUN_NAME cố định để tiếp tục/xem lại; không chạy Qwen CPU. Hai baseline CPU ở `B02/results/self_dev20/`; nhãn và metadata đã được người thực hiện nghe xác nhận. B03 tự thu còn chờ lần chạy GPU thực tế và bảng ba model.
+**Trạng thái hiện tại:** đã chạy/chấm đủ ba model trên FLEURS dev100 và self dev20; các bảng giữ riêng. Xem `B03/results/self_dev20/summary.csv` và `comparison.csv` để chuẩn bị báo cáo; Qwen tự thu run `self_dev20_qwen_v1` trên A100 đã kiểm tra độc lập, không cần inference lại. Nghe thêm câu 20 tự thu và tập demo; bước thử nghiệm kế tiếp là B04 trên Pi. Test chưa mở. Notebook `B03_Self_dev20_Qwen_GPU.ipynb` có thể mở lại phần đọc Drive/nghe để xem kết quả đã lưu; runner Qwen vẫn chỉ cho phép GPU.
 
 Notebook `B03_Qwen_Colab_GPU.ipynb` và gói FLEURS cũ giữ nguyên: cả ba model FLEURS dev100 đã hoàn tất, không cần inference lại để xem kết quả. Các bước dưới đây là cách tái tạo thí nghiệm từ đầu, không phải phần còn thiếu hiện tại.
 

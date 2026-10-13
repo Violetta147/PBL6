@@ -1,0 +1,35 @@
+[
+  {
+    "path": "experiments\\B02\\results\\self_dev20\\whisper.jsonl",
+    "verified": true,
+    "total": 20,
+    "completed": 20,
+    "reference_units": 181,
+    "reference_chars": 607,
+    "WER_ws": 0.27624309392265195,
+    "CER": 0.17792421746293247,
+    "false_captions_per_minute": null
+  },
+  {
+    "path": "experiments\\B02\\results\\self_dev20\\zipformer.jsonl",
+    "verified": true,
+    "total": 20,
+    "completed": 20,
+    "reference_units": 181,
+    "reference_chars": 607,
+    "WER_ws": 0.0055248618784530384,
+    "CER": 0.0016474464579901153,
+    "false_captions_per_minute": null
+  },
+  {
+    "path": "experiments\\B03\\results\\self_dev20\\qwen.jsonl",
+    "verified": true,
+    "total": 20,
+    "completed": 20,
+    "reference_units": 181,
+    "reference_chars": 607,
+    "WER_ws": 0.011049723756906077,
+    "CER": 0.013179571663920923,
+    "false_captions_per_minute": null
+  }
+]

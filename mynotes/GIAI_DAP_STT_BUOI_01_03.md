@@ -62,7 +62,7 @@ chỉ một khác biệt đáng chú y là sao nhỉ?
 Và ở buổi 3 sau khi chạy C2 vẫn lưu output và metadata như buổi 2 và buổi 1 chứ?
 -> Đúng. Kết quả Qwen nằm trong runs/qwen_gpu_20261010_023946 trên Drive; bản sao prediction/metadata và bảng ba model nằm trong B03/results của dự án.
 Có vẻ ta vẫn chưa score 3 model trên 20 file tự thu (tập validation) thì phải?
--> Đúng, bảng ba model self dev20 còn chờ Qwen. Ngày 13/10 đã đủ 20 câu chính (2 phòng ngủ/18 cà phê), nhãn nghe xác nhận, WAV/metadata/manifest đã kiểm tra. Whisper/Zipformer đã chạy đủ 20/20; hai bản cà phê câu 01–02 và bảng bốn bản cũ giữ riêng. Qwen tự thu chờ bạn chạy notebook GPU riêng.
+-> Bảng ba model self dev20 đã hoàn tất ngày 13/10: cả ba chạy đủ 20/20, nhãn/metadata/hash và JiWER đã kiểm tra. WER_ws Whisper 27,6243%, Zipformer 0,5525%, Qwen 1,1050%. Bộ chính 2 phòng ngủ/18 cà phê; hai bản cà phê câu 01–02 và bảng bốn bản cũ giữ riêng.
 Sau có cần 1 bảng riêng nữa đúng ko?
 -> Đúng, bảng self dev20 tách khỏi bảng FLEURS dev100. Không gộp điểm hai nguồn thành một số rồi bỏ tên dữ liệu.
 
@@ -116,7 +116,7 @@ Trả lời theo từng nhóm:
 -> Đó là ưu tiên mạnh, có điều kiện “nếu được”, không phải cấm tuyệt đối. Phạm vi hiện tại dùng model/runtime có sẵn và không huấn luyện; chỉ cân nhắc thay đổi khi có bằng chứng cần thiết và thống nhất lại phạm vi.
 
 nếu không thực sự cần thiết nếu baseline đủ tốt nghĩa là gì theo ý của tôi?
--> Nếu baseline đáp ứng chất lượng và tốc độ cần cho demo thì giữ, không thêm training/cải tiến cho đủ hình thức. Đã có self dev20 nhưng tập nhỏ một người đọc chưa đủ kết luận chất lượng sử dụng; vẫn cần bảng Qwen tự thu và số đo Pi.
+-> Nếu baseline đáp ứng chất lượng và tốc độ cần cho demo thì giữ, không thêm training/cải tiến cho đủ hình thức. Đã có bảng ba model self dev20 nhưng tập nhỏ một người đọc chưa đủ kết luận chất lượng sử dụng; vẫn cần số đo Pi và đánh giá test sau khi chốt cấu hình.
 
 Mình muốn chia thành nhiều giai đoạn thí nghiệm, bạn đánh giá trên thang điểm 100 bạn đã đáp ứng được yêu cầu này chưa?
 -> Tôi tự đánh giá khoảng 70/100, không phải chỉ số đo khách quan: đã chia bảy buổi và có output riêng B01–B03, nhưng giải thích hai nguồn dev còn lẫn, notebook thao tác chưa thuận và phần tự thu chưa xong.
@@ -153,7 +153,7 @@ NEXT ACTIONS để hoàn thành buổi 01-03
 
 1. [x] B01: đã chạy 10 mẫu pilot, xác nhận thiết bị thu; bạn đã nghe mẫu DEMO, xác nhận nhãn đúng và tính được WER theo output. Câu mẫu có 4 lỗi thay thế trên 13 đơn vị, WER_ws ≈ 30,77%. Không bắt buộc nghe/tính tay cả 10 câu.
 2. [x] B02: đã đủ 20 câu chính (01–02 phòng ngủ, 03–20 cà phê), nhãn được nghe xác nhận, WAV/metadata/manifest đã kiểm tra. Whisper/Zipformer chạy đủ 20/20; WER_ws 27,6243% và 0,5525%, có bảng riêng. Hai bản cà phê câu 01–02 và bảng bốn bản cũ giữ ngoài bộ chính.
-3. [ ] B03: mở B03_Self_dev20_Qwen_GPU.ipynb trong STT_B01_B03 trên Drive, chọn GPU và chạy các ô. Giữ RUN_NAME=self_dev20_qwen_v1; notebook dùng lại hai baseline đã đo và chỉ chạy Qwen. Sau đó kiểm tra bảng ba model/nhãn/output và nghe lỗi; không chạy lại FLEURS dev100.
+3. [x] B03: Qwen run self_dev20_qwen_v1 đã hoàn tất trên A100; bảng ba model self dev20 kiểm tra độc lập khớp Colab, lưu tại B03/results/self_dev20. Qwen chỉ sai hai lần “kết” thành “cách” ở câu 20; nghe thêm câu này khi tập demo. Không cần chạy lại model.
 4. [ ] Tập demo ngắn từ output đã lưu: audio → reference/prediction → điểm → lỗi/giới hạn → ứng viên thử Pi. Giữ test đóng; không cần chạy lại FLEURS dev100 đã hoàn tất.
 
 ## Giải đáp bổ sung — 13/10/2026
@@ -198,7 +198,10 @@ Tại sao không lấy trung bình đơn giản điểm từng câu? Có khác k
 -> Có. Câu A có 2 đơn vị, 1 lỗi: WER 50%; câu B có 20 đơn vị, 1 lỗi: WER 5%. Trung bình từng câu là 27,5%, coi hai câu có trọng lượng bằng nhau; WER toàn tập là (1+1)/(2+20) ≈ 9,09%, coi mỗi đơn vị reference có trọng lượng bằng nhau. Dự án dùng tổng lỗi/tổng đơn vị; CER cũng dùng tổng lỗi ký tự/tổng ký tự, không lấy trung bình đơn giản từng câu.
 
 Nếu kết quả đã nằm trong experiments thì khi làm báo cáo dùng gì? NEXT ACTIONS đã tới đâu?
--> Dùng output từng run, metadata, bảng điểm và DEMO để viết nhận xét; file giải đáp chỉ cần tra khi quên. B01 và B02 đã xong phần thực hành; FLEURS dev100 đã chạy đủ ba model; self dev20 đã có nhãn/metadata và hai baseline. Tiếp theo bạn chạy Qwen bằng notebook GPU riêng rồi kiểm tra/nghe bảng ba model tự thu; xem NEXT ACTIONS phía trên. Chưa có số đo Pi hoặc đánh giá test.
+-> Dùng output từng run, metadata, bảng điểm và DEMO để viết nhận xét; file giải đáp chỉ cần tra khi quên. B01 và B02 đã xong phần thực hành; FLEURS dev100 đã chạy đủ ba model; self dev20 đã có nhãn/metadata và hai baseline. Qwen đã chạy xong và bảng ba model tự thu đã được kiểm tra; tiếp theo nghe thêm câu 20, tập demo rồi đo ứng viên trên Pi; xem NEXT ACTIONS phía trên. Chưa có số đo Pi hoặc đánh giá test.
 
 WAV trong DEMO B01 có phải một trong 10 mẫu pilot? Có cần nghe hết 10 câu và tính WER từng câu không?
 -> Đúng, WAV 18182759805207678941 thuộc bộ 10 mẫu pilot. B01 chỉ yêu cầu nghe/đối chiếu và tính tay một mẫu; không bắt buộc nghe hay tính tay cả 10. Bạn đã xác nhận nhãn đúng và tính được WER theo output DEMO ngày 13/10. Output đó khớp JSONL đã lưu: 4 thay thế, 0 xóa, 0 chèn trên 13 đơn vị, WER_ws ≈ 30,77%. Đây là điểm một câu; WER_ws toàn bộ pilot là 36,875%.
+
+Tại sao Zipformer viết hoa hết, Whisper viết hoa đầu câu còn Qwen viết thường?
+-> Gói Zipformer đang dùng có token chữ hoa nên output giữ chữ hoa; Whisper/Qwen sinh cách viết theo model. Qwen self20 viết thường nhưng FLEURS trước có chữ hoa, không phải luôn viết thường. Scorer đưa cả reference/prediction về chữ thường bằng lower(), nên khác kiểu chữ không thêm WER/CER. Output gốc được giữ để đối chiếu; lỗi “kết” thành “cách” vẫn bị tính vì khác nội dung.

@@ -1,0 +1,44 @@
+[
+  {
+    "model": "whisper",
+    "corpus": "self_recorded",
+    "split": "dev",
+    "device": "cpu",
+    "runtime": "openai-whisper",
+    "total": 20,
+    "completed": 20,
+    "reference_units": 181,
+    "reference_chars": 607,
+    "WER_ws": 0.27624309392265195,
+    "CER": 0.17792421746293247,
+    "false_captions_per_minute": null
+  },
+  {
+    "model": "zipformer",
+    "corpus": "self_recorded",
+    "split": "dev",
+    "device": "cpu",
+    "runtime": "sherpa-onnx offline ONNX INT8",
+    "total": 20,
+    "completed": 20,
+    "reference_units": 181,
+    "reference_chars": 607,
+    "WER_ws": 0.0055248618784530384,
+    "CER": 0.0016474464579901153,
+    "false_captions_per_minute": null
+  },
+  {
+    "model": "qwen",
+    "corpus": "self_recorded",
+    "split": "dev",
+    "device": "cuda",
+    "runtime": "qwen-asr Transformers",
+    "total": 20,
+    "completed": 20,
+    "reference_units": 181,
+    "reference_chars": 607,
+    "WER_ws": 0.011049723756906077,
+    "CER": 0.013179571663920923,
+    "false_captions_per_minute": null
+  }
+]

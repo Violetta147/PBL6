@@ -1,0 +1,6 @@
+Qwen self dev20 — run self_dev20_qwen_v1, 13/10/2026. Model pretrained; không huấn luyện hoặc chạy Qwen CPU.
+20/20 trên Colab A100-SXM4-40GB bfloat16, qwen-asr 0.0.6 và Transformers 4.57.6; revision giữ như FLEURS. Raw prediction/metadata sao từ Drive không đổi.
+WER_ws 2/181 = 1,1050%; CER 8/607 = 1,3180%. Chỉ câu 20 sai hai lần “kết” thành “cách”; 19 câu còn lại khớp sau chuẩn hóa. Chữ hoa/thường không tạo lỗi do scorer dùng lower/NFC.
+Whisper/Zipformer CPU được dùng lại nguyên vẹn: WER_ws 27,6243% / 0,5525%, CER 17,7924% / 0,1647%. Cùng WAV/nhãn, khác phần cứng nên không so thời gian như cùng thiết bị.
+Receipt, manifest/audio/reference và chữ ký runner/scorer đã kiểm tra; JiWER độc lập khớp. Bảng CSV local byte-identical với Colab, summary JSON khớp cấu trúc dù xuống dòng khác. Nguồn/hash tại source.json, kết quả kiểm tra tại verification.json.
+Tập nhỏ một người đọc; Zipformer/Qwen chênh một lỗi đơn vị trên self20, không đủ kết luận tổng quát. Nhãn audio đã được nghe xác nhận; chưa có xác nhận người thực hiện nghe riêng lỗi prediction Qwen câu 20. Bước tiếp theo: nghe thêm/tập demo và đo Pi; test vẫn đóng.

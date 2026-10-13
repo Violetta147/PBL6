@@ -32,4 +32,20 @@ Phân tích text cho thấy hai loại lỗi cần phân biệt. `mười ba/mư
 
 Mở bảng ba model, nói rõ tập dev100 và thiết bị. Phát một câu Qwen tốt hơn và một câu Zipformer tốt hơn, hiện ba transcript cùng reference. Giải thích khác cách viết số và một lỗi nhận âm. Kết thúc bằng quyết định thử Zipformer ONNX INT8 trên Pi trước, giữ Qwen trên Colab làm đối chiếu.
 
-Đây là ứng viên cho bước đo Pi, chưa phải cấu hình kính đã chốt. [Model card Zipformer](https://huggingface.co/hynt/Zipformer-30M-RNNT-6000h) liệt kê FLEURS trong dữ liệu huấn luyện; kết quả này chưa chứng minh khả năng tổng quát trên môi trường mới. Còn thiếu 20 câu tự thu. Cả ba còn lỗi làm sai nội dung trong các mẫu đã nghe; WER trung bình thấp nhất không đồng nghĩa phụ đề đã đạt yêu cầu sử dụng. Giữ test đóng; chưa cần fine-tune hoặc thêm model trước khi bổ sung dữ liệu thực tế và số đo Pi.
+Đây là ứng viên cho bước đo Pi, chưa phải cấu hình kính đã chốt. [Model card Zipformer](https://huggingface.co/hynt/Zipformer-30M-RNNT-6000h) liệt kê FLEURS trong dữ liệu huấn luyện; kết quả này chưa chứng minh khả năng tổng quát trên môi trường mới. Bảng self dev20 đã hoàn tất riêng ở phần dưới. Cả ba còn lỗi làm sai nội dung trong các mẫu đã nghe; WER trung bình thấp nhất không đồng nghĩa phụ đề đã đạt yêu cầu sử dụng. Giữ test đóng; chưa cần fine-tune hoặc thêm model trước khi bổ sung dữ liệu thực tế và số đo Pi.
+
+## Self dev20 — ba model đã chạy ngày 13/10
+
+Run Qwen `self_dev20_qwen_v1` hoàn tất 20/20 trên A100-SXM4-40GB bfloat16; hai baseline CPU được dùng lại nguyên vẹn. Cùng 20 WAV/nhãn đã nghe xác nhận, 181 đơn vị reference/607 ký tự; kiểm tra input/code/nhãn/hash và JiWER độc lập đều đạt. [Bảng tổng hợp](results/self_dev20/summary.csv), [đối chiếu từng câu](results/self_dev20/comparison.csv), nguồn/hash tại [source.json](results/self_dev20/source.json). Tách khỏi FLEURS và bộ bốn đối chiếu.
+
+| Model/runtime | WER_ws | CER | Hoàn tất |
+|---|---:|---:|---:|
+| Whisper-base, CPU laptop | 27,6243% | 17,7924% | 20/20 |
+| Zipformer ONNX INT8, CPU laptop | 0,5525% | 0,1647% | 20/20 |
+| Qwen3-ASR-0.6B Transformers, A100 | 1,1050% | 1,3180% | 20/20 |
+
+Qwen chỉ sai [câu 20](../../data/self_recorded/dev/self_20.wav): reference “Kết quả trên máy tính chưa phải kết quả trên kính.”, prediction “cách quả trên máy tính chưa phải cách quả trên kính”. Hai lần “kết” thành “cách” tạo 2 lỗi đơn vị và 8 lỗi ký tự; 19 câu còn lại khớp sau chuẩn hóa. Zipformer sai “gốc/góc” câu 14. Nhận xét này dựa trên text và nhãn đã xác nhận; người trình bày cần nghe thêm câu 20 trước khi gọi đây là phân tích bằng nghe. Ô nghe lấy top 3 WER Qwen nên hai câu WER 0 cũng xuất hiện khi chỉ một câu lỗi; chúng không phải ba lỗi khác nhau.
+
+Gói Zipformer dùng token chữ hoa; Whisper/Qwen giữ cách viết model sinh ra, runner không ép kiểu chữ. Qwen self20 viết thường nhưng FLEURS trước có chữ hoa; không kết luận mọi output Qwen đều viết thường. Scorer dùng lower/NFC trên cả reference/prediction nên chữ hoa/thường không thêm WER/CER. Giữ output gốc; chưa cần thêm phần mềm phục hồi chữ hoa/dấu câu cho nghiên cứu này.
+
+Bộ nhỏ một người đọc, điện thoại cách miệng khoảng 30 cm, 2 câu phòng ngủ/18 câu cà phê. Chênh WER Zipformer/Qwen trên self20 là một lỗi đơn vị, chưa đủ kết luận hơn kém tổng quát. Zipformer vẫn là ứng viên thực tế để đo Pi; chưa cần training. Phần chạy/chấm B01–B03 đã xong, còn tập demo/nghe thêm lỗi và B04 đo Pi; chưa mở test, chưa chứng minh chạy trên kính.

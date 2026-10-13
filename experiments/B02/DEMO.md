@@ -30,4 +30,4 @@ Demo 3–5 phút: mở summary → chọn một ID chung → nghe WAV → đối
 
 Câu 14 có [audio thật](../../data/self_recorded/dev/self_14.wav), reference “Hãy giữ lại bản thu gốc để kiểm tra.”; Zipformer nhận “HÃY GIỮ LẠI BẢN THU GÓC ĐỂ KIỂM TRA”, Whisper nhận “Khảy giữ lại bản thù góc để kiếm chào”. Lỗi “gốc/góc” là lỗi dấu; không bỏ dấu để làm điểm thấp hơn. Các câu số còn có khác biệt cách viết số. Nhãn đã được người thực hiện nghe kiểm tra; khi demo hãy phát audio và đọc prediction thực tế.
 
-Đây là 20 câu ngắn một người đọc, điện thoại gần miệng; chưa đại diện kính nghe người đối diện. Phân bố 2/18 câu khác nhau không đủ tách riêng tác động tiếng ồn. Qwen trên self dev20 chưa chạy; test và số đo Pi chưa có. Giữ Zipformer làm ứng viên thử tiếp, chưa chốt chất lượng sử dụng từ tập nhỏ này.
+Đây là 20 câu ngắn một người đọc, điện thoại gần miệng; chưa đại diện kính nghe người đối diện. Phân bố 2/18 câu khác nhau không đủ tách riêng tác động tiếng ồn. Qwen self dev20 đã hoàn tất và bảng ba model nằm ở B03/results/self_dev20; test và số đo Pi chưa có. Giữ Zipformer làm ứng viên thử tiếp, chưa chốt chất lượng sử dụng từ tập nhỏ này.
