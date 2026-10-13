@@ -43,7 +43,7 @@ flowchart TB
 
 **Dùng chung** nghĩa là cùng nội dung/phiên bản đã kiểm tra hash; Colab/Pi nhận **bản sao qua ZIP**, không dùng chung một file vật lý. Mỗi manifest chọn một lượt chạy riêng. Sơ đồ là luồng logic; scorer có trong runner và được audit chấm lại sau đó.
 
-[Chi tiết nguồn, file và nhánh xử lý](PIPELINES_BUOI_01_04.md)
+Chi tiết file và nguồn nằm ở phần tra cứu cuối **chính tài liệu này**.
 
 ---
 
@@ -204,7 +204,7 @@ Base: **một câu smoke**, wall **20,869 s** / audio **5,355 s**. Sau đó đã
 
 Test cuối chưa chạy · Không lời nói chưa đo → false captions chưa có điểm, không phải 0.
 
-[Những điểm chưa chặt](DIEM_CHUA_CHAT_BUOI_01_04.md) · [Bảng FLEURS](../experiments/B03/results/summary.csv) · [Bảng self dev20](../experiments/B03/results/self_dev20/summary.csv)
+Các điểm chưa chặt được liệt kê ở cuối tài liệu. · [Bảng FLEURS](../experiments/B03/results/summary.csv) · [Bảng self dev20](../experiments/B03/results/self_dev20/summary.csv)
 
 ---
 
@@ -242,3 +242,108 @@ flowchart LR
 | 4:00–5:00 | Nêu hạn chế và bước tiếp theo | C0/so tốc độ/pipeline còn thiếu gì |
 
 **Không gọi hoàn tất phần mình chưa đo.** Khi cần giải thích dài, mở [hỏi–đáp B01–B04](../mynotes/TONG_QUAN_VA_HOI_DAP_STT_BUOI_01_04.md).
+
+---
+
+## Tra cứu · File và thành phần dùng chung
+
+Phần dưới để giải thích khi cần, không phải đọc hết trong demo 3–5 phút.
+
+```mermaid
+flowchart TB
+    RF["FLEURS gốc + transcript"] --> PRE["prepare.py<br/>chọn ID, xuất WAV mono 16 kHz"]
+    RS["M4A Galaxy M15<br/>nhãn đã nghe xác nhận"] --> PS["WAV mono 16 kHz<br/>metadata người / phiên / điều kiện"]
+    subgraph DATA["WAV và manifest đã chốt"]
+        P["Pilot: FLEURS train 10<br/>pilot.csv"]
+        F["FLEURS dev100<br/>fleurs_dev100.csv"]
+        S["Self dev20<br/>self_dev20.csv"]
+    end
+    subgraph RUN["Các nhánh đã chạy - từng manifest là một run riêng"]
+        W["Whisper-base<br/>openai-whisper / laptop CPU"]
+        Z["Zipformer INT8<br/>sherpa-onnx / laptop CPU"]
+        Q["Qwen 0.6B<br/>Transformers / Colab A100"]
+        PI["Pi 4 / self dev20<br/>nhánh chi tiết bên dưới"]
+    end
+    PRE --> P
+    PRE --> F
+    PS --> S
+    P --> W
+    F --> W
+    F --> Z
+    F --> Q
+    S --> W
+    S --> Z
+    S --> Q
+    S --> PI
+    W --> R["Transcript gốc + metadata<br/>B01, B02, B03, B04/results"]
+    Z --> R
+    Q --> R
+    PI --> R
+    R --> A["Chấm / kiểm tra dùng chung<br/>common.py + verify_results.py + JiWER"]
+    M["Reference + ID/hash từ manifest<br/>chỉ dùng đối chiếu, không đưa nhãn vào ASR"] --> A
+    A --> T["Bảng riêng theo dataset và cấu hình<br/>summary.csv / comparison.csv"]
+    T --> REPORT["reports/DEMO_BUOI_01_04.md<br/>biểu đồ + số đo + giới hạn"]
+    classDef shared fill:#e6f1f7,stroke:#236b8e,color:#17354a;
+    class P,F,S,M,A,T shared;
+```
+
+| Thành phần dùng chung | File hoặc thư mục thực tế | Vai trò |
+|---|---|---|
+| Chuẩn bị FLEURS | [prepare.py](../experiments/prepare.py) | Chọn ID và khôi phục WAV pilot/dev; không huấn luyện |
+| FLEURS pilot | [pilot.csv](../experiments/manifests/pilot.csv), data/derived/stt_b01_b03/train | 10 câu train cho B01 |
+| FLEURS dev | [fleurs_dev100.csv](../experiments/manifests/fleurs_dev100.csv), data/derived/stt_b01_b03/dev | Cùng 100 WAV cho ba model |
+| Self dev20 | [self_dev20.csv](../experiments/manifests/self_dev20.csv), data/self_recorded/dev | Cùng 20 WAV cho B02/B03/B04 |
+| Runner laptop/Colab | [run_asr.py](../experiments/run_asr.py) | Nạp backend một lần/run; lần lượt nhận dạng WAV |
+| Scorer | [common.py](../experiments/common.py) | NFC/chuẩn hóa và WER_ws/CER, được gọi trong runner |
+| Audit | [verify_results.py](../experiments/verify_results.py) | ID/reference/audio hash; chấm lại bằng scorer và JiWER |
+| Kết quả tự thu laptop | [B02/results/self_dev20](../experiments/B02/results/self_dev20/summary.csv) | Baseline đã lưu, B03 tái sử dụng; không chạy lại trên Colab |
+| Kết quả Qwen/so ba model | [B03/results](../experiments/B03/results/summary.csv), [self_dev20](../experiments/B03/results/self_dev20/summary.csv) | Qwen GPU + bảng hợp nhất cùng dữ liệu |
+
+**WAV dùng chung không có nghĩa cùng đường dẫn vật lý.** ZIP chuyển bản sao qua Drive/Colab/Pi. Receipt/hash kiểm tra nội dung và manifest; các ZIP có thể khác hash vì chứa thêm model/code/metadata khác nhau. Gói Pi chứa model Zipformer; Whisper GGML được tải riêng. Không dùng lại tên checkpoint để thay cho kiểm tra file/hash.
+
+| Nhánh | Mã thực thi | Bằng chứng |
+|---|---|---|
+| Zipformer Pi | [run_zipformer_pi.py](../experiments/B04/run_zipformer_pi.py) gọi runner chung | [measurement r1](../experiments/B04/results/zipformer_r1/measurement.json) |
+| Whisper Pi | [run_whisper_cpp_pi.py](../experiments/B04/run_whisper_cpp_pi.py) gọi CLI upstream | [tiny r1](../experiments/B04/results/whisper_tiny_r1/measurement.json), [base smoke](../experiments/B04/results/whisper_base_smoke/measurement.json) |
+
+Zipformer Pi giữ cùng gói model/hash như laptop. Whisper Pi thay runtime; tiny còn thay checkpoint so với base laptop. Hai lượt lặp không bổ sung người/câu mới. C0-base đầy đủ/Pi và phép đo tốc độ cùng chính sách nạp chưa hoàn tất.
+
+## Tra cứu · Những điểm chưa chặt
+
+Đối chiếu tài liệu hỏi–đáp, mã runner và output đã lưu ngày 13/10/2026. Cần phân biệt lỗi phép so sánh với giới hạn của thí nghiệm; không phải mọi câu hỏi khái niệm đều là mâu thuẫn.
+
+1. **Hai phạm vi thời gian khác nhau.** Zipformer có tổng inference khoảng 10,3 s; Whisper-tiny báo wall khoảng 171–173 s, gồm các việc ngoài inference. Chia hai số để báo “nhanh hơn bao nhiêu lần” không hợp lệ.
+
+2. **Hai chính sách nạp model khác nhau.** Zipformer nạp một lần cho 20 WAV; adapter Whisper.cpp nạp lại tuần tự từng WAV. Đây là khác biệt do cách triển khai phép đo, không phải yêu cầu bắt buộc của Whisper. Dùng CLI cho tiện không làm phép so trở nên đồng nhất.
+
+3. **Baseline Whisper thay cả checkpoint và runtime.** Laptop dùng base/openai-whisper, Pi có base smoke một câu rồi tiny/whisper.cpp trên 20 câu. Không gọi đây là cùng một model đã được đo đầy đủ trên hai thiết bị; C0-base/Pi còn thiếu lượt đủ self dev20. Chậm là kết quả cần ghi khi đánh giá baseline cố định; tiny chỉ là khảo sát bổ sung, không thay kết quả C0-base.
+
+4. **“B04 hoàn tất” trước đó nói quá rộng.** Đã có output và số đo từng cấu hình, nhưng chưa hoàn tất đối chiếu tốc độ cùng điều kiện, chưa có pipeline audio liên tục. Phần tổng quan cũ và các đính chính về sau trong file hỏi–đáp chưa thống nhất cách gọi trạng thái. Tôi đã đánh dấu xong quá sớm so với phạm vi kết luận.
+
+5. **Dễ biến lựa chọn thực dụng thành kết luận về kiến trúc.** Model có sẵn khác nhau ở trọng số, dữ liệu huấn luyện, kích cỡ, giải mã và runtime. Có thể so chất lượng các hệ thống trên cùng dữ liệu; chưa thể quy chênh lệch cho riêng kiến trúc hoặc INT8. Runtime/hai luồng cũng chưa được thử để chứng minh tối ưu.
+
+6. **FLEURS chưa xác minh độc lập với train của checkpoint.** Model card Zipformer liệt kê FLEURS, nhưng chưa xác minh split/ID đã dùng. Đây là điều chưa biết, không phải bằng chứng đã rò rỉ. Đổi sang FLEURS test không tự xóa nghi vấn ấy.
+
+7. **Self dev20 chưa đại diện cho sử dụng kính.** Chỉ một người đọc, 2 câu phòng ngủ/18 câu cà phê; các câu khác nội dung nên chưa cô lập được tác động môi trường. Điểm tốt trên bộ này hỗ trợ chọn ứng viên, chưa chứng minh chất lượng hội thoại nhiều người hoặc micro trên kính.
+
+8. **RTF tệp chưa là độ trễ phụ đề.** WAV đã có đủ và được chia sẵn; chưa đo chờ người nói kết thúc, VAD, hàng đợi hoặc hiển thị. ASR offline có thể ghép vào một pipeline nhận audio liên tục, nhưng không vì thế trở thành streaming ASR nguyên sinh.
+
+9. **“Chưa thử Qwen trên Pi” không đồng nghĩa “không chạy được”.** Qwen được giới hạn GPU theo phạm vi đã chọn. Có đường triển khai ONNX INT8 được ghi trong hỏi–đáp, nhưng chưa chạy/đo trên Pi. Không khẳng định bất khả thi hoặc gán điểm GPU cho bản INT8.
+
+Những việc **không tự tạo lỗi so sánh**: dùng WER_ws thay tách từ nếu ghi đúng tên; chữ hoa/thường khác nhau khi scorer xử lý giống nhau; dùng model pretrained có runtime khác nhau để so các hệ thống thực dụng; giữ dev để lựa chọn và bộ mới để đánh giá dù không huấn luyện lại. Với từng việc, phải nói rõ câu hỏi nghiên cứu và giới hạn.
+
+**Giữ được:** transcript, điểm trên các subset đã chấm, log và số đo riêng từng cấu hình. **Chưa được kết luận:** tỷ lệ tăng tốc trực tiếp, kiến trúc tốt nhất hoặc phụ đề thực tế đã đạt. Không cần bỏ toàn bộ kết quả; cần sửa cách đo hoặc thu hẹp kết luận.
+
+Chưa chạy lại benchmark khi gộp tài liệu. Kế hoạch 7 buổi đã được cập nhật riêng lên bản 3.0; C0-base/Pi và phép so tốc độ đồng nhất vẫn còn thiếu.
+
+## Tra cứu · Nguồn hình và cách sinh lại
+
+Biểu đồ chỉ đọc CSV đã lưu; không chạy lại ASR hoặc sinh dữ liệu benchmark mới. Hai hình có bản PNG/SVG trong figures/; sources.json lưu hash nguồn/script/hình và 12 giá trị phần trăm. Mermaid có nguồn trong diagrams/; các sơ đồ nhúng ngay trong tài liệu này.
+
+```powershell
+& data/stt_venv/Scripts/python.exe reports/generate_demo_figures.py
+```
+
+Mở file này trong chế độ đọc của Obsidian; đây là Markdown, chưa xuất PowerPoint. Hai PNG đã được xem trực tiếp; số, transcript và thời gian đối chiếu kết quả thật. Mermaid đã kiểm tra nguồn/fence và endpoint, chưa trực tiếp kiểm tra renderer trong Obsidian. Git giữ byte các figure/receipt và LF của nguồn để hash không đổi do EOL Windows.
+
+Các bản Markdown trước khi gộp đã được sao lưu trong thư mục ignored data/document_backups và vẫn có trong lịch sử Git. Sau lần gộp này, reports/ chỉ còn một file Markdown chính; hình, nguồn Mermaid và script là tài nguyên đi kèm, không phải các bản báo cáo khác.

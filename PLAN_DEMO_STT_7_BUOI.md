@@ -6,7 +6,7 @@ Mục tiêu: hiểu và so sánh các model có sẵn đủ để lựa chọn c
 
 **Trạng thái hiện tại:** B01–B03 có output và bảng dev. B04 đã có số đo riêng của Zipformer và khảo sát Whisper, nhưng **C0 Whisper-base chưa chạy đủ self dev20/Pi và phép so tốc độ cùng điều kiện chưa hoàn tất**. Tiny không thay C0-base. B05 chưa triển khai; Pi chưa có micro. Chưa xác nhận đã trình bày với thầy.
 
-Dùng kế hoạch này để xác định việc tiếp theo. [Tiến độ thực hành](experiments/PROGRESS.md), [báo cáo demo](reports/DEMO_BUOI_01_04.md), [bản đồ pipeline](reports/PIPELINES_BUOI_01_04.md) và [điểm chưa chặt](reports/DIEM_CHUA_CHAT_BUOI_01_04.md) dẫn tới bằng chứng. [Đặc tả](SPEC_ASR_PI4_RESEARCH_20261009.md) và [ghi chú khái niệm](REVIEW_CONCEPTS_20261009.md) là tài liệu tra cứu; chưa mặc định mọi phần của chúng đã đồng bộ với quyết định mới trong kế hoạch này.
+Dùng kế hoạch này để xác định việc tiếp theo. [Tiến độ thực hành](experiments/PROGRESS.md), [báo cáo demo gồm sơ đồ và điểm chưa chặt](reports/DEMO_BUOI_01_04.md) dẫn tới bằng chứng. [Đặc tả](SPEC_ASR_PI4_RESEARCH_20261009.md) và [ghi chú khái niệm](REVIEW_CONCEPTS_20261009.md) là tài liệu tra cứu; chưa mặc định mọi phần của chúng đã đồng bộ với quyết định mới trong kế hoạch này.
 
 ## Nhịp làm việc mỗi tuần
 
@@ -131,7 +131,7 @@ Mỗi mốc lưu vài dòng: vì sao làm → cấu hình đã chạy → output
 
 ## Việc làm tiếp theo
 
-1. Đi qua một WAV và raw/log cùng mã để người thực hiện giải thích được luồng, scorer và nguồn thời gian; rà các điểm trong reports/DIEM_CHUA_CHAT_BUOI_01_04.md.
+1. Đi qua một WAV và raw/log cùng mã để người thực hiện giải thích được luồng, scorer và nguồn thời gian; rà các điểm trong reports/DEMO_BUOI_01_04.md.
 2. Chốt giao thức B04 bổ sung và hoàn tất C0-base/C1 cùng bộ/cùng phạm vi. Đây là thí nghiệm còn thiếu, không phải nhiệm vụ đã được thực hiện khi sửa file kế hoạch.
 3. Dựng replay pipeline C1 theo B05; có thể chuẩn bị song song bước 2, nhưng giữ trạng thái và kết luận riêng.
 
