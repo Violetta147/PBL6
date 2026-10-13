@@ -28,7 +28,8 @@ Buổi 1–5 dùng pilot/dev để học và điều chỉnh. Test chỉ dùng �
 
 - [x] Chọn 10 audio FLEURS train; kiểm tra transcript và input.
 - [x] Chạy C0 Whisper-base, lưu text và model/môi trường; lần đã đo dùng CPU laptop do Computer Use/Colab lỗi, notebook Colab có sẵn để chạy lại.
-- [ ] Nghe một mẫu, đối chiếu nhãn/output, tính một WER bằng tay; kiểm kê Pi/micro.
+- [x] Xác nhận Pi 4B 8 GB và thiết bị thu dev Samsung Galaxy M15, ứng dụng ghi âm có sẵn, khoảng cách xấp xỉ 30 cm. Micro để nối trực tiếp Pi vẫn chưa chốt.
+- [ ] Nghe một mẫu pilot, đối chiếu nhãn/output và tự tính một WER bằng tay; chưa có xác nhận người thực hiện hoàn thành phần này.
 
 **Demo:** phát audio và hiện text do model tạo. Chỉ ra model nhận đúng/sai ở đâu. **Xong khi:** chạy lại được, output có lưu và giải thích được audio → model → text. Chưa cần Pi inference hoặc bộ chấm hoàn chỉnh trong buổi đầu.
 
@@ -36,7 +37,7 @@ Buổi 1–5 dùng pilot/dev để học và điều chỉnh. Test chỉ dùng �
 
 - [x] Viết hàm chuẩn hóa/scorer chung; kiểm tra dấu tiếng Việt, lỗi chèn/xóa/thay và nhãn rỗng bằng đáp án tính tay.
 - [x] Chạy C0/C1 trên 100 FLEURS dev đã chọn cố định; giữ đủ output/status.
-- [ ] Thu và kiểm tra khoảng 20 câu dev của nhóm, ghi điều kiện và người/phiên; chuẩn bị kế hoạch test tách biệt.
+- [ ] Hoàn thành 20 câu dev của nhóm và kế hoạch test tách biệt. Ngày 13/10 đã có câu 01–02 ở hai phiên phòng ngủ/cà phê, đủ metadata và nhãn đã nghe xác nhận; còn câu 03–20. Hai bản cà phê là bản đối chiếu thêm, không thay câu mới.
 
 **Demo:** cùng một audio hiện hai transcript và cách tính WER/CER; mở bảng dev, chỉ một khác biệt đáng chú ý. **Xong khi:** hai model được chấm cùng dữ liệu/quy tắc. Nếu chưa đủ nhãn tự thu, hoàn thành trước khi chốt cấu hình ở B05.
 
@@ -44,7 +45,7 @@ Buổi 1–5 dùng pilot/dev để học và điều chỉnh. Test chỉ dùng �
 
 - [x] Chạy C2 Qwen3-ASR-0.6B trên Colab A100 bằng Transformers; đủ 100/100 cùng subset dev, output và metadata đã lưu.
 - [x] Chấm ba model trên 100 FLEURS dev; chấm lại bằng JiWER khớp, bảng ba model đã lưu.
-- [ ] Chấm ba model trên 20 câu tự thu dev, giữ bảng riêng; audio thật chưa có.
+- [ ] Chấm ba model trên 20 câu tự thu dev, giữ bảng riêng. Đã có bốn bản thật và bảng Whisper/Zipformer trên bộ nhỏ này; chưa đủ self dev20, Qwen chưa chạy audio tự thu.
 - [x] Nghe ba câu lỗi và đối chiếu nhãn/output, người thực hiện xác nhận ngày 10/10/2026; Zipformer là ứng viên thử trên Pi theo bảng dev, chưa khẳng định chất lượng phụ đề đã đạt. Test vẫn đóng.
 
 **Demo:** ba transcript cạnh nhau và bảng chất lượng; [kịch bản B03](experiments/B03/DEMO.md) có năm audio để nghe. Trên dev đã đo, Zipformer WER_ws 7,5080%, Qwen 9,7605%, Whisper-base 49,3743%. Giải thích model mới năm 2026 giúp nghiên cứu điều gì, không mặc định nó thắng hoặc phải chạy trên Pi. **Xong khi:** có bảng ba model, output từng mẫu và nhận xét có căn cứ; bảng tự thu vẫn cần trước chốt B05.
