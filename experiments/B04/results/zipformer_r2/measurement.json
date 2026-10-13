@@ -1,0 +1,41 @@
+{
+  "started_utc": "2026-10-13T10:55:37.643621+00:00",
+  "model": "Raspberry Pi 4 Model B Rev 1.5",
+  "architecture": "aarch64",
+  "python": "3.13.5 (main, Aug 10 2026, 12:06:59) [GCC 14.2.0]",
+  "platform": "Linux-6.18.34+rpt-rpi-v8-aarch64-with-glibc2.41",
+  "cpu_count": 4,
+  "manifest_sha256": "1cfcd5f86d088ee5fdf1d6e920a04a1872fe1e72ea8e722ab4200e5eb30fd3da",
+  "measurement_code_sha256": "d80f019347fd8f4b59e1685d8e4d09e6c3f62bcd2cbd0f27d8135f82d4588c0e",
+  "sensors_before": {
+    "temperature": "temp=36.5'C",
+    "throttled": "throttled=0x0",
+    "arm_clock": "frequency(48)=1800457088"
+  },
+  "runtime_threads": 2,
+  "cache_note": "Fresh process; OS file cache may be warm after smoke/previous run",
+  "timing_scope": "Per-file inference excludes model loading and WAV reading",
+  "memory_scope": "GNU time peak RSS of full runner process, including loading/runtime",
+  "process_wall_seconds": 14.578363625000065,
+  "ended_utc": "2026-10-13T10:55:52.232759+00:00",
+  "sensors_after": {
+    "temperature": "temp=45.2'C",
+    "throttled": "throttled=0x0",
+    "arm_clock": "frequency(48)=1800457088"
+  },
+  "process_exit_code": 0,
+  "speed": {
+    "recordings": 20,
+    "audio_seconds": 84.1599375,
+    "inference_seconds": 10.226326323000421,
+    "inference_seconds_median": 0.5090024124999672,
+    "inference_seconds_min": 0.403814409000006,
+    "inference_seconds_max": 0.6711832659998436,
+    "RTF_total": 0.12151062164227987,
+    "RTF_median": 0.1213083253753798,
+    "RTF_min": 0.11995204270266638,
+    "RTF_max": 0.12534499277499267
+  },
+  "peak_RSS_MiB": 198.31640625,
+  "model_load_seconds": 3.7346043800000643
+}

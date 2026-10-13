@@ -1,0 +1,12 @@
+{
+  "captured_utc": "2026-10-13T10:58:51.326843+00:00",
+  "capture_scope": "after two Zipformer runs",
+  "model": "Raspberry Pi 4 Model B Rev 1.5",
+  "architecture": "aarch64",
+  "python": "3.13.5 (main, Aug 10 2026, 12:06:59) [GCC 14.2.0]",
+  "platform": "Linux-6.18.34+rpt-rpi-v8-aarch64-with-glibc2.41",
+  "cpu_count": 4,
+  "os_release": "PRETTY_NAME=\"Debian GNU/Linux 13 (trixie)\"\nNAME=\"Debian GNU/Linux\"\nVERSION_ID=\"13\"\nVERSION=\"13 (trixie)\"\nVERSION_CODENAME=trixie\nDEBIAN_VERSION_FULL=13.5\nID=debian\nHOME_URL=\"https://www.debian.org/\"\nSUPPORT_URL=\"https://www.debian.org/support\"\nBUG_REPORT_URL=\"https://bugs.debian.org/\"\n",
+  "free_h": "               total        used        free      shared  buff/cache   available\nMem:           7.6Gi       424Mi       6.4Gi        27Mi       1.0Gi       7.2Gi\nSwap:          2.0Gi          0B       2.0Gi\n",
+  "disk": "Filesystem      Size  Used Avail Use% Mounted on\n/dev/mmcblk0p2   29G  8.3G   19G  31% /\n"
+}

@@ -1,0 +1,16 @@
+{
+  "date": "2026-10-13",
+  "source": "Actual Raspberry Pi via SSH/SCP",
+  "remote_workspace": "/home/pi/PBL6_STT_B04_20261013",
+  "archive_sha256": "6d43525b3df8a64e0fc94d6b76133a4b56b701a986c6e014979b34d2a68cb50f",
+  "verified_runs": 2,
+  "each_run_same_20_dev": true,
+  "raw_exports_not_modified": true,
+  "pi_inference_measured": true,
+  "model_load_separate_from_inference": true,
+  "memory_includes_model_loading": true,
+  "os_file_cache_may_be_warm": true,
+  "not_streaming_latency": true,
+  "tests_local": 21,
+  "tests_on_pi": 3
+}

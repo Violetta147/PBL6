@@ -54,8 +54,9 @@ Nếu C2 không chạy được sau khoảng một ngày xử lý môi trường
 
 ## B04 — Đưa model nhỏ lên Pi
 
-- [ ] Chạy C0/C1 với runtime có sẵn trên Pi; nếu C0 quá chậm, thử tiny dự phòng.
-- [ ] Dùng 20 tệp dev cố định, hai lượt; ghi thời gian/RTF, RAM và nhiệt, phân biệt thời gian nạp model.
+- [x] C1 Zipformer ONNX INT8 chạy trên Pi 4B 8 GB, hai luồng CPU, ngày 13/10; cùng model hash/language/frontend như laptop.
+- [ ] Đối chiếu C0 Whisper trên Pi bằng whisper.cpp; nếu base quá chậm, thử tiny dự phòng và ghi đúng checkpoint/backend.
+- [x] Với C1, dùng đúng self dev20 qua hai lượt; có thời gian/RTF, RAM/nhiệt và nạp model riêng. WER_ws 0,5525%, CER 0,1647%; output 20/20 từng lượt giống laptop. Phần C0 còn thiếu.
 - [ ] Chọn ứng viên demo; với backend đổi giữa Colab và Pi, kiểm tra vài output và ghi khác biệt.
 
 **Demo:** Pi xử lý WAV thật, hiện text và bảng tốc độ/RAM. **Xong khi:** có kết quả từ Pi, biết cấu hình dùng gì và chọn bằng số đo. Tốc độ WAV chưa được gọi là đạt xử lý hội thoại liên tục.

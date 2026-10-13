@@ -1,0 +1,46 @@
+{
+  "signature": {
+    "model": "zipformer",
+    "manifest_sha256": "1cfcd5f86d088ee5fdf1d6e920a04a1872fe1e72ea8e722ab4200e5eb30fd3da",
+    "runner_sha256": "9821c648d9a3ef152c0a80b275923c24060e176c6b9e7a6a849e4eec748ae02b",
+    "scoring_sha256": "9e4ceeb03ebe765e5e2b72181cf0221cb32774fdbea7f4b354cbe1b4bed7da64",
+    "requested_device": "cpu",
+    "threads": 2
+  },
+  "environment": {
+    "python": "3.13.5 (main, Aug 10 2026, 12:06:59) [GCC 14.2.0]",
+    "platform": "Linux-6.18.34+rpt-rpi-v8-aarch64-with-glibc2.41",
+    "processor": "",
+    "packages": {
+      "numpy": "2.4.3",
+      "sherpa-onnx": "1.13.8",
+      "soundfile": "0.14.0"
+    },
+    "COLAB_RELEASE_TAG": null,
+    "framework_env": {
+      "USE_TF": null,
+      "USE_FLAX": null
+    }
+  },
+  "started_utc": "2026-10-13T10:54:01.101644+00:00",
+  "finished": true,
+  "backend": {
+    "checkpoint": "hynt/Zipformer-30M-RNNT-6000h",
+    "package": "sherpa-onnx-zipformer-vi-30M-int8-2026-02-09",
+    "runtime": "sherpa-onnx offline ONNX INT8",
+    "device": "cpu",
+    "threads": 2,
+    "decoding": "greedy_search",
+    "source": "https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-vi-30M-int8-2026-02-09.tar.bz2",
+    "weights_sha256": {
+      "encoder.int8.onnx": "8ef5286dd427eb108055c2ddc1982aa31e544706072d5ea228729292dacade68",
+      "decoder.onnx": "cf2aa385b82c9d5d40cd29c3188af52d0249b3b78f0d4b7eb84ad502d50c7e7f",
+      "joiner.int8.onnx": "7311d2e17b810ecea515d79c71cc4668af8759256a06fa01d27047772320c821",
+      "tokens.txt": "ca8171f8bbd516c050b627582f2125c8f5f1f6ed967ab41b0fa9aae2cf61b492"
+    }
+  },
+  "load_seconds": 3.7420858580001095,
+  "ended_utc": "2026-10-13T10:54:15.239627+00:00",
+  "total": 20,
+  "completed": 20
+}

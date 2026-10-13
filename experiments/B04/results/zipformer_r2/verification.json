@@ -1,0 +1,11 @@
+{
+  "path": "experiments/B04/results/zipformer_r2/zipformer.jsonl",
+  "verified": true,
+  "total": 20,
+  "completed": 20,
+  "reference_units": 181,
+  "reference_chars": 607,
+  "WER_ws": 0.0055248618784530384,
+  "CER": 0.0016474464579901153,
+  "false_captions_per_minute": null
+}

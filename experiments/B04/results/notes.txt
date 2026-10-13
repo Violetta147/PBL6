@@ -1,0 +1,8 @@
+B04 Zipformer — 13/10/2026. Đo model nhỏ có sẵn trực tiếp trên Pi 4B 8 GB, cùng self dev20 đã chốt; không training, không micro, không mở test.
+Pi aarch64, Raspberry Pi OS 13/Python 3.13.5. Venv riêng: sherpa-onnx 1.13.8, numpy 2.4.3, soundfile 0.14.0, jiwer 4.0.0. Giữ bốn file model có hash khớp laptop, CPU hai luồng.
+Smoke 1/1 thành công trước benchmark; smoke không đi vào bảng chất lượng/tốc độ 20 câu. Hai lượt chính là hai tiến trình mới trên cùng 20 câu, OS file cache có thể ấm.
+r1: 20/20, inference 10,278388 s trên 84,159938 s audio; RTF tổng 0,122129; median mỗi WAV 0,515397 s; peak RSS 199,0625 MiB; nạp model 3,742086 s; nhiệt 36,0→45,2°C, throttled=0x0 trước/sau.
+r2: 20/20, inference 10,226326 s; RTF tổng 0,121511; median mỗi WAV 0,509002 s; peak RSS 198,316406 MiB; nạp model 3,734604 s; nhiệt 36,5→45,2°C, throttled=0x0 trước/sau.
+Cả hai WER_ws 1/181 = 0,5525%, CER 1/607 = 0,1647%; 20/20 prediction từng lượt giống laptop. JiWER/hash/nhãn và công thức RTF/RAM đã kiểm tra độc lập local sau khi tải raw từ Pi.
+RTF chỉ inference, RAM toàn tiến trình gồm nạp model. Wall time cả tiến trình khoảng 14,6 s. Chưa phải độ trễ micro/kính hoặc streaming, không coi hai lượt thành 40 mẫu độc lập.
+Đối chiếu Whisper trên Pi còn đang chuẩn bị; chưa chốt hoàn thành toàn bộ B04 chỉ từ kết quả C1.
