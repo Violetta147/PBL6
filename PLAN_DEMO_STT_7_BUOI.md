@@ -29,7 +29,7 @@ Buổi 1–5 dùng pilot/dev để học và điều chỉnh. Test chỉ dùng �
 - [x] Chọn 10 audio FLEURS train; kiểm tra transcript và input.
 - [x] Chạy C0 Whisper-base, lưu text và model/môi trường; lần đã đo dùng CPU laptop do Computer Use/Colab lỗi, notebook Colab có sẵn để chạy lại.
 - [x] Xác nhận Pi 4B 8 GB và thiết bị thu dev Samsung Galaxy M15, ứng dụng ghi âm có sẵn, khoảng cách xấp xỉ 30 cm. Micro để nối trực tiếp Pi vẫn chưa chốt.
-- [ ] Nghe một mẫu pilot, đối chiếu nhãn/output và tự tính một WER bằng tay; chưa có xác nhận người thực hiện hoàn thành phần này.
+- [x] Nghe mẫu pilot 18182759805207678941, xác nhận nhãn đúng và tính WER theo output DEMO; người thực hiện xác nhận ngày 13/10/2026. Output khớp kết quả đã lưu: 4 thay thế / 13 đơn vị ≈ 30,77%. Không bắt buộc nghe/tính tay cả 10 câu.
 
 **Demo:** phát audio và hiện text do model tạo. Chỉ ra model nhận đúng/sai ở đâu. **Xong khi:** chạy lại được, output có lưu và giải thích được audio → model → text. Chưa cần Pi inference hoặc bộ chấm hoàn chỉnh trong buổi đầu.
 
@@ -98,7 +98,7 @@ Khi chậm, bỏ model mở rộng, partial và phần tích hợp kính chưa c
 
 ## Theo dõi ngắn gọn
 
-- [ ] B01: baseline chạy được.
+- [x] B01: baseline chạy được; đã hoàn thành phần nghe một mẫu và tính WER. Chưa ghi nhận đã trình bày với thầy.
 - [ ] B02: hai model và scorer chung.
 - [ ] B03: bảng dev ba model.
 - [ ] B04: số đo Pi.

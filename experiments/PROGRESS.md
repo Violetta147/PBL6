@@ -6,7 +6,7 @@ Cập nhật 13/10: đã nhận bốn M4A thật (hai câu ở phòng ngủ và 
 
 | Phần | Bằng chứng hiện có | Phần còn thiếu |
 |---|---|---|
-| B01 | Whisper-base trên CPU laptop: 10/10 pilot; JSONL, metadata và summary đã lưu; Pi 4B 8 GB và điện thoại thu dev Galaxy M15 đã xác nhận | Người thực hiện nghe mẫu pilot, tự tính WER và tập trình diễn; micro nối trực tiếp Pi chưa chốt |
+| B01 | Hoàn thành phần thực hành: Whisper-base 10/10 pilot có output; Pi/điện thoại thu đã xác nhận; ngày 13/10 người thực hiện xác nhận nghe đúng mẫu DEMO, nhãn đúng và tính được WER theo output | Tập trình bày nếu cần; chưa ghi nhận đã demo với thầy. Micro nối trực tiếp Pi để giai đoạn sau |
 | B02 | 13 test pass; Whisper và Zipformer cùng 100/100 FLEURS dev; đã nhận và chuẩn hóa bốn bản tự thu, nhãn được người thực hiện nghe xác nhận | Câu 03–20 của bộ dev tự thu và bảng đủ 20 câu |
 | B03 | Qwen Colab A100 hoàn tất 100/100 dev; bảng ba model được chấm lại độc lập; người thực hiện xác nhận đã nghe và đối chiếu ba câu lỗi | Bảng 20 câu tự thu; hai câu đối chiếu Qwen tốt hơn vẫn chưa xác nhận đã nghe |
 

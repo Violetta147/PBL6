@@ -2,7 +2,7 @@
 
 Lần chạy thật dùng Whisper-base đa ngôn ngữ trên CPU i5-7200U, `openai-whisper==20250625`, language `vi`, task `transcribe`, temperature 0, không nối ngữ cảnh giữa các đoạn. 10/10 pilot có output, tổng WER_ws 36,875% và CER 20,3883%. Đây là pilot lấy từ train để học luồng, không phải điểm dev hay test.
 
-Mở [WAV mẫu](../../data/derived/stt_b01_b03/train/18182759805207678941.wav) rồi đọc nhãn và kết quả. Người thực hiện cần nghe lại; tài liệu này đối chiếu văn bản đã lưu, chưa chứng nhận kiểm tra bằng tai.
+Mở [WAV mẫu](../../data/derived/stt_b01_b03/train/18182759805207678941.wav) rồi đọc nhãn và kết quả. Đây là một trong 10 mẫu pilot. Ngày 13/10/2026, người thực hiện xác nhận đã nghe, reference đúng và tính được WER theo output dưới đây; output khớp JSONL đã lưu. B01 yêu cầu nghe/đếm lỗi một mẫu, không bắt buộc nghe và tính tay cả 10. Xác nhận nhãn chỉ áp dụng mẫu này, không phải toàn bộ pilot.
 
 **Reference:** Những cây này nhìn giống cây cọ nhỏ có tán lá sắc nhọn.
 
