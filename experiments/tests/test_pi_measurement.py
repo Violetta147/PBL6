@@ -5,9 +5,19 @@ import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from B04.run_zipformer_pi import speed_stats, peak_rss_mib
+from B04.run_whisper_cpp_pi import cli_command
 
 
 class PiMeasurementTests(unittest.TestCase):
+    def test_whisper_cli_preserves_paths_and_forces_vietnamese_cpu(self):
+        command = cli_command('bin/whisper-cli', 'models/ggml-base.bin',
+                              'audio with spaces/a.wav', 'result with spaces/01')
+        self.assertEqual(command[command.index('-f') + 1], 'audio with spaces/a.wav')
+        self.assertEqual(command[command.index('-of') + 1], 'result with spaces/01')
+        self.assertEqual(command[command.index('-l') + 1], 'vi')
+        self.assertIn('-ng', command)
+        self.assertEqual(command[command.index('-t') + 1], '2')
+
     def test_rtf_total_weights_audio_duration(self):
         rows = [dict(id='a', status='ok', elapsed_s=1, duration_s=2),
                 dict(id='b', status='ok', elapsed_s=1, duration_s=20)]

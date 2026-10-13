@@ -1,0 +1,9 @@
+test_gnu_time_peak_kib_is_reported_as_mib (test_pi_measurement.PiMeasurementTests.test_gnu_time_peak_kib_is_reported_as_mib) ... ok
+test_missing_failed_or_invalid_timing_does_not_become_zero (test_pi_measurement.PiMeasurementTests.test_missing_failed_or_invalid_timing_does_not_become_zero) ... ok
+test_rtf_total_weights_audio_duration (test_pi_measurement.PiMeasurementTests.test_rtf_total_weights_audio_duration) ... ok
+test_whisper_cli_preserves_paths_and_forces_vietnamese_cpu (test_pi_measurement.PiMeasurementTests.test_whisper_cli_preserves_paths_and_forces_vietnamese_cpu) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.001s
+
+OK

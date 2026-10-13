@@ -6,3 +6,8 @@ r2: 20/20, inference 10,226326 s; RTF tổng 0,121511; median mỗi WAV 0,509002
 Cả hai WER_ws 1/181 = 0,5525%, CER 1/607 = 0,1647%; 20/20 prediction từng lượt giống laptop. JiWER/hash/nhãn và công thức RTF/RAM đã kiểm tra độc lập local sau khi tải raw từ Pi.
 RTF chỉ inference, RAM toàn tiến trình gồm nạp model. Wall time cả tiến trình khoảng 14,6 s. Chưa phải độ trễ micro/kính hoặc streaming, không coi hai lượt thành 40 mẫu độc lập.
 Đối chiếu Whisper trên Pi còn đang chuẩn bị; chưa chốt hoàn thành toàn bộ B04 chỉ từ kết quả C1.
+
+Bổ sung Whisper.cpp — 13/10/2026. Base multilingual smoke đúng một câu nhưng wall 20,868963 s cho audio 5,354688 s, RTF 3,897326, peak RSS 237,59375 MiB; chuyển tiny dự phòng theo tiêu chí trước smoke, giữ base riêng.
+Tiny multilingual hai lượt cùng self dev20: WER_ws 76/181 = 41,9889%, CER 160/607 = 26,3591%, prediction 20/20 giống giữa lượt. r1 wall 172,807085 s, RTF 2,053318, peak RSS 147,480469 MiB; r2 wall 171,309354 s, RTF 2,035521, peak RSS 147,464844 MiB. Throttled 0x0; nhiệt sau 48,7/49,6°C.
+Wall gồm nạp model từng WAV, đọc/ghi và nhận dạng; không so như cùng phạm vi inference với Zipformer. Raw/archive/hash/scorer/JiWER/timing/RAM đã audit lại local; 22 test local và 4 test Pi đạt.
+B04 thí nghiệm xong, chọn Zipformer ONNX INT8 hai luồng cho demo/B05. Chưa có micro, chưa có VAD/replay thời gian thực, chưa xác nhận đã demo với thầy. Chưa cần training hoặc thêm model.

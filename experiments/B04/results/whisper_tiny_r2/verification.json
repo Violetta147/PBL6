@@ -1,0 +1,11 @@
+{
+  "path": "experiments/B04/results/whisper_tiny_r2/whisper_cpp.jsonl",
+  "verified": true,
+  "total": 20,
+  "completed": 20,
+  "reference_units": 181,
+  "reference_chars": 607,
+  "WER_ws": 0.4198895027624309,
+  "CER": 0.26359143327841844,
+  "false_captions_per_minute": null
+}

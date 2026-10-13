@@ -55,9 +55,9 @@ Nếu C2 không chạy được sau khoảng một ngày xử lý môi trường
 ## B04 — Đưa model nhỏ lên Pi
 
 - [x] C1 Zipformer ONNX INT8 chạy trên Pi 4B 8 GB, hai luồng CPU, ngày 13/10; cùng model hash/language/frontend như laptop.
-- [ ] Đối chiếu C0 Whisper trên Pi bằng whisper.cpp; nếu base quá chậm, thử tiny dự phòng và ghi đúng checkpoint/backend.
-- [x] Với C1, dùng đúng self dev20 qua hai lượt; có thời gian/RTF, RAM/nhiệt và nạp model riêng. WER_ws 0,5525%, CER 0,1647%; output 20/20 từng lượt giống laptop. Phần C0 còn thiếu.
-- [ ] Chọn ứng viên demo; với backend đổi giữa Colab và Pi, kiểm tra vài output và ghi khác biệt.
+- [x] Đối chiếu Whisper qua whisper.cpp v1.9.5: base smoke wall RTF 3,8973 nên thử tiny dự phòng. Tiny hai lượt self dev20, WER_ws 41,9889%, CER 26,3591%, wall RTF 2,0533/2,0355. Base chỉ smoke một câu; không có điểm base toàn dev20/Pi. Wall CLI gồm nạp model mỗi WAV, khác phạm vi inference Zipformer.
+- [x] Với C1, dùng đúng self dev20 qua hai lượt; có thời gian/RTF, RAM/nhiệt và nạp model riêng. WER_ws 0,5525%, CER 0,1647%; output 20/20 từng lượt giống laptop. Whisper-base smoke và tiny dự phòng có raw riêng; không trộn hai checkpoint.
+- [x] Chọn Zipformer ONNX INT8 hai luồng cho demo WAV và B05: prediction 20/20 giống laptop, chất lượng/tốc độ phù hợp hơn tiny trong cấu hình đã đo. Hướng dẫn demo tại experiments/B04/DEMO.md; chưa ghi nhận đã trình bày với thầy.
 
 **Demo:** Pi xử lý WAV thật, hiện text và bảng tốc độ/RAM. **Xong khi:** có kết quả từ Pi, biết cấu hình dùng gì và chọn bằng số đo. Tốc độ WAV chưa được gọi là đạt xử lý hội thoại liên tục.
 
@@ -65,7 +65,7 @@ Nếu Pi vướng cài đặt, dùng output/video đã chạy thành công nếu
 
 ## B05 — Thử micro và các trường hợp thực tế
 
-- [ ] Dùng ví dụ micro + VAD có sẵn, hiện final trên terminal/màn hình; chưa cần partial hay kính thật.
+- [ ] Dùng ví dụ micro + VAD có sẵn, hiện final trên terminal/màn hình; chưa cần partial hay kính thật. Ngày 13/10 xác nhận chưa có micro cho Pi: có thể bắt đầu bằng replay theo thời gian thực, phần thu trực tiếp chờ thiết bị.
 - [ ] Thử 5–10 phút: câu ngắn, nghỉ, ồn, số/phủ định. Dùng dev để xem lỗi do model, mức thu hay chia đoạn; chỉ chỉnh đơn giản khi cần.
 - [ ] Hoàn tất 30–50 câu tự thu test và khoảng 2 phút không có lời nói; chốt model/runtime/scoring/VAD và các ID test trước B06.
 
@@ -102,7 +102,7 @@ Khi chậm, bỏ model mở rộng, partial và phần tích hợp kính chưa c
 - [x] B01: baseline chạy được; đã hoàn thành phần nghe một mẫu và tính WER. Chưa ghi nhận đã trình bày với thầy.
 - [x] B02: hai model và scorer chung; FLEURS dev100 và self dev20 có bảng riêng. Chưa ghi nhận đã trình bày với thầy.
 - [x] B03: có bảng ba model trên FLEURS dev100 và self dev20, đã kiểm tra độc lập. Còn nghe thêm lỗi tự thu/tập demo; chưa ghi nhận đã trình bày với thầy.
-- [ ] B04: số đo Pi.
+- [x] B04: số đo Pi và đối chiếu Whisper/tiny; chọn Zipformer. Chưa ghi nhận demo với thầy.
 - [ ] B05: micro và cấu hình chốt.
 - [ ] B06: kết quả test.
 - [ ] B07: demo/báo cáo cuối.

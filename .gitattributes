@@ -1,0 +1,4 @@
+# Keep measured Whisper evidence byte-identical across Windows/Linux checkouts.
+experiments/B04/results/whisper_* -text
+experiments/B04/results/whisper_*/** -text
+experiments/B04/run_whisper_cpp_pi.py text eol=lf

@@ -1,0 +1,23 @@
+	Command being timed: "/home/pi/PBL6_STT_B04_20261013/whisper_cpp_v1_9_5/build/bin/whisper-cli -m /home/pi/PBL6_STT_B04_20261013/data/models/whisper_cpp/ggml-tiny.bin -f /home/pi/PBL6_STT_B04_20261013/data/self_recorded/dev/self_13.wav -of /home/pi/PBL6_STT_B04_20261013/experiments/B04/results/whisper_tiny_r2/13 -l vi -t 2 -p 1 -bo 1 -bs 1 -tp 0 -nf -mc 0 -ng -otxt -nt"
+	User time (seconds): 16.13
+	System time (seconds): 0.22
+	Percent of CPU this job got: 196%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:08.34
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 150860
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 39891
+	Voluntary context switches: 21
+	Involuntary context switches: 128
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 16
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

@@ -1,0 +1,71 @@
+{
+  "started_utc": "2026-10-13T11:14:14.074696+00:00",
+  "board": "Raspberry Pi 4 Model B Rev 1.5",
+  "checkpoint": "openai/whisper-base multilingual GGML",
+  "runtime": "whisper.cpp v1.9.5 CPU",
+  "source_commit": "d1be6fde11ac6e0407606b4e42fe72d34add8037",
+  "model_source": "https://huggingface.co/ggerganov/whisper.cpp/resolve/5359861c739e955e79d9a303bcbc70fb988958b1/ggml-base.bin",
+  "model_sha256": "60ed5bc3dd14eea856493d334349b405782ddcaf0028d4b5df4088345fba2efe",
+  "binary_sha256": "485c7c6155177662de6f913cac8b2a7fd180457a8907f53809f2244e4b1e7c5b",
+  "runner_sha256": "60ce6e5c6ae2835700bfaa1a57894d105e2cae9ea96b6bf2f36eaee084fc8286",
+  "scoring_sha256": "9e4ceeb03ebe765e5e2b72181cf0221cb32774fdbea7f4b354cbe1b4bed7da64",
+  "manifest_sha256": "1cfcd5f86d088ee5fdf1d6e920a04a1872fe1e72ea8e722ab4200e5eb30fd3da",
+  "smoke": true,
+  "timing_scope": "Per-WAV fresh CLI process wall time INCLUDES model load, WAV read and output write",
+  "memory_scope": "Maximum GNU time peak RSS across per-WAV CLI processes; includes model load",
+  "cache_note": "OS file cache may be warm; each WAV uses a new process",
+  "sensors_before": {
+    "temperature": "temp=40.9'C",
+    "throttled": "throttled=0x0",
+    "arm_clock": "frequency(48)=1800404352"
+  },
+  "commands": [
+    [
+      "/home/pi/PBL6_STT_B04_20261013/whisper_cpp_v1_9_5/build/bin/whisper-cli",
+      "-m",
+      "/home/pi/PBL6_STT_B04_20261013/data/models/whisper_cpp/ggml-base.bin",
+      "-f",
+      "/home/pi/PBL6_STT_B04_20261013/data/self_recorded/dev/self_01.wav",
+      "-of",
+      "/home/pi/PBL6_STT_B04_20261013/experiments/B04/results/whisper_base_smoke/01",
+      "-l",
+      "vi",
+      "-t",
+      "2",
+      "-p",
+      "1",
+      "-bo",
+      "1",
+      "-bs",
+      "1",
+      "-tp",
+      "0",
+      "-nf",
+      "-mc",
+      "0",
+      "-ng",
+      "-otxt",
+      "-nt"
+    ]
+  ],
+  "finished": true,
+  "speed": {
+    "recordings": 1,
+    "audio_seconds": 5.3546875,
+    "process_wall_seconds": 20.868962609999926,
+    "process_wall_seconds_median": 20.868962609999926,
+    "process_wall_seconds_min": 20.868962609999926,
+    "process_wall_seconds_max": 20.868962609999926,
+    "RTF_total": 3.8973259615990523,
+    "RTF_median": 3.8973259615990523,
+    "RTF_min": 3.8973259615990523,
+    "RTF_max": 3.8973259615990523
+  },
+  "peak_RSS_MiB": 237.59375,
+  "sensors_after": {
+    "temperature": "temp=47.7'C",
+    "throttled": "throttled=0x0",
+    "arm_clock": "frequency(48)=1800457088"
+  },
+  "ended_utc": "2026-10-13T11:14:35.945750+00:00"
+}
