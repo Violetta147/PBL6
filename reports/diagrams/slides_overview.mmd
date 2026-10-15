@@ -1,0 +1,17 @@
+flowchart LR
+    D["WAV đã chọn<br/>FLEURS: 100 câu<br/>Tự thu: 20 câu"]
+    D --> L["Whisper + Zipformer<br/>CPU laptop"]
+    D --> C["Qwen<br/>A100 / Colab"]
+    D --> P["Thử trên Pi 4<br/>20 câu tự thu"]
+    L --> O["Transcript<br/>từng cấu hình"]
+    C --> O
+    P --> O
+    O --> S["Chấm / kiểm tra<br/>dùng chung"]
+    R["Nhãn chuẩn"] --> S
+    S --> T["Kết quả<br/>và lựa chọn"]
+    classDef data fill:#e6eff5,stroke:#236b8e,color:#192c3d;
+    classDef device fill:#fff,stroke:#7b91a2,color:#192c3d;
+    classDef result fill:#fdf2e7,stroke:#d17834,color:#192c3d;
+    class D,R,S data;
+    class L,C,P,O device;
+    class T result;

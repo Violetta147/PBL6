@@ -1,0 +1,8 @@
+flowchart LR
+    A["Audio đến dần<br/>replay WAV trước"]
+    V["Chốt đoạn nói<br/>VAD nếu cần"]
+    M["Zipformer<br/>giữ trong RAM"]
+    T["Hiển thị chữ<br/>lưu lỗi và thời gian"]
+    A -.-> V -.-> M -.-> T
+    classDef planned fill:#f1f5f9,stroke:#607d91,stroke-dasharray:6 4,color:#192c3d;
+    class A,V,M,T planned;
