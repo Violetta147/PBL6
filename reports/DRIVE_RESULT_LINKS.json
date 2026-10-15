@@ -1,0 +1,30 @@
+{
+  "verified_date": "2026-10-15",
+  "verification": "Drive connector metadata and fetched CSV text; normalized line endings compared with local sources",
+  "files": [
+    {
+      "local_path": "experiments/B03/results/summary.csv",
+      "url": "https://drive.google.com/file/d/1lWoWnkwHvUShIcGYQ09uu4GlTP657l5f/view?usp=drivesdk",
+      "id": "1lWoWnkwHvUShIcGYQ09uu4GlTP657l5f",
+      "modified_time": "2026-10-10T09:19:21.250Z",
+      "text_matches_local": true,
+      "normalized_text_sha256": "c5e4b6544eddd18038b92a03eeec61fb25b9b329b7fead94b29a678fee60fa0a"
+    },
+    {
+      "local_path": "experiments/B03/results/self_dev20/summary.csv",
+      "url": "https://drive.google.com/file/d/112zrBt1jULIuslZGv0O9ifa8ONYMQbWf/view?usp=drivesdk",
+      "id": "112zrBt1jULIuslZGv0O9ifa8ONYMQbWf",
+      "modified_time": "2026-10-13T10:04:25.787Z",
+      "text_matches_local": true,
+      "normalized_text_sha256": "951729d6ee49d53970d1e4645e35b654a35ce922afa5b1a9cdc17defef753ad4"
+    },
+    {
+      "local_path": "experiments/B04/results/zipformer_summary.csv",
+      "url": "https://drive.google.com/file/d/1KEHhdZyY9gmdD1EpkKsohbYNJ5pQgeFd/view?usp=drivesdk",
+      "id": "1KEHhdZyY9gmdD1EpkKsohbYNJ5pQgeFd",
+      "modified_time": "2026-10-13T11:26:08.246Z",
+      "text_matches_local": true,
+      "normalized_text_sha256": "c9e3db3e03ceff3ceb45f7270925d3332f7179421911c1d1b2b8f88105e0a240"
+    }
+  ]
+}

@@ -355,7 +355,7 @@ Cách mở: file Markdown dùng Marp với trang 16:9 và dấu --- để ngắt
 
 [3] JiWER, [cách chấm và đối chiếu lỗi](https://jitsi.github.io/jiwer/usage/).
 
-Kết quả đã lưu: [FLEURS](../experiments/B03/results/summary.csv), [audio tự thu](../experiments/B03/results/self_dev20/summary.csv), [Pi](../experiments/B04/results/zipformer_summary.csv).
+Kết quả đã lưu: [FLEURS](https://drive.google.com/file/d/1lWoWnkwHvUShIcGYQ09uu4GlTP657l5f/view?usp=drivesdk), [audio tự thu](https://drive.google.com/file/d/112zrBt1jULIuslZGv0O9ifa8ONYMQbWf/view?usp=drivesdk), [Pi](https://drive.google.com/file/d/1KEHhdZyY9gmdD1EpkKsohbYNJ5pQgeFd/view?usp=drivesdk).
 
 <!--
 Nguồn hình chất lượng: reports/figures/sources.json. Nguồn nền DUT: reports/themes/dut/source.json, lấy nguyên ảnh từ mẫu Canva do người dùng cung cấp; không khẳng định đây là chuẩn báo cáo bắt buộc của trường. Tài liệu giải thích chi tiết giữ tại reports/DEMO_BUOI_01_04.md. Chỉ hai định dạng để so sánh: Marp và core Slides của Obsidian.
