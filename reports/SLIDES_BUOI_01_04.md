@@ -241,18 +241,51 @@ Nguồn: ../experiments/B03/results/self_dev20/summary.csv. Kết quả hỗ tr�
 
 ---
 
-<!-- _class: formula -->
+<!-- _class: timing -->
 
-## Đọc số đo thời gian
+## Tốc độ xử lý · RTF
 
-**RTF = thời gian xử lý / thời lượng audio**
+Real-Time Factor (RTF) so thời gian xử lý với thời lượng audio; chỉ số không có đơn vị.
 
-RTF dưới 1 nghĩa là xử lý tệp nhanh hơn thời lượng của tệp ấy. Phải ghi rõ thời gian có gồm nạp model và đọc/ghi hay không.
+$$
+\mathrm{RTF}=\frac{\text{Thời gian xử lý}}{\text{Thời lượng audio}}
+$$
 
-RTF chưa cho biết người dùng phải chờ bao lâu để thấy phụ đề.
+RTF < 1: nhanh hơn thời lượng audio. RTF = 1: bằng thời lượng. RTF > 1: chậm hơn thời lượng.
+
+Ví dụ, xử lý 100 giây audio trong 10 giây: **RTF = 0,1**. Nếu báo nghịch đảo, **RTFx = 1/RTF = 10**; RTF càng thấp càng tốt, RTFx càng cao càng tốt.
+
+RTF chưa phải độ trễ phụ đề; cần ghi rõ những bước được tính giờ.
 
 <!--
-RTF inference Zipformer = tổng inference / tổng audio. R1 = 10,278388288 / 84,1599375 = 0,1221292291. Không trung bình đơn giản RTF từng tệp. Độ trễ phụ đề cần mốc đo riêng, ví dụ cuối lời nói đến phụ đề cuối; gồm chốt đoạn, hàng đợi và hiển thị. Chưa có số này. Peak RSS là RAM cao nhất toàn tiến trình, gồm runtime và nạp. 1 MiB = 2^20 byte.
+Công thức thể hiện đúng định nghĩa trong ảnh người thực hiện gửi, viết lại theo phạm vi ASR của đề tài. RTFx là nghịch đảo khi dùng cùng thời gian/audio và cùng phạm vi đo; không trộn RTF và RTFx. Ví dụ 100/10 là minh họa, không phải benchmark mới. Chỉ số tốc độ không đánh giá chất lượng nhận dạng.
+
+Độ trễ phụ đề cần mốc đo riêng, ví dụ cuối lời nói đến phụ đề cuối; còn phụ thuộc chốt đoạn, hàng đợi và hiển thị. Chưa có kết quả đo pipeline audio liên tục. RTF dưới 1 trên WAV có sẵn chưa chứng minh phụ đề trực tiếp đáp ứng tốt.
+-->
+
+---
+
+<!-- _class: timing -->
+
+## Code đang tính giờ những bước nào?
+
+| Số đo | Phạm vi được tính |
+|---|---|
+| Nhận dạng · `elapsed_s` | Từ audio trong RAM đến transcript; gồm xử lý trong runtime |
+| Cả runner · Zipformer/Pi | Khởi động, nạp model, đọc WAV, nhận dạng, chấm và ghi |
+| Wall CLI · Whisper/Pi | Khởi động, nạp model, đọc WAV, nhận dạng và ghi text mỗi tệp |
+
+**Zipformer/Pi r1:** 84,160 s audio → 10,278 s nhận dạng (**RTF ≈ 0,122**); cả runner 14,644 s (**RTF ≈ 0,174**).
+
+Nhận dạng loại trừ nạp model và đọc/ghi file. Hai số RTF trên dùng hai phạm vi thời gian khác nhau.
+
+<!--
+Đọc trực tiếp code ngày 15/10/2026:
+- experiments/run_asr.py:177–179 đo load_backend riêng bằng load_seconds. Dòng 192 đọc WAV float32, 196 đồng bộ GPU, rồi 197 mới bắt đầu perf_counter. infer(audio).strip() và đồng bộ GPU sau inference nằm trong elapsed_s; score và ghi JSONL nằm sau khi dừng timer. Bao gồm frontend/trích đặc trưng và giải mã nằm trong API runtime, không chỉ forward neural network. Hash WAV cũng kiểm tra trước timer.
+- experiments/B04/run_zipformer_pi.py:84–88 đo wall quanh subprocess chạy toàn run_asr.py. Bao gồm Python startup, model load, hash/read, inference, score, ghi JSONL/metadata/log; bao gồm overhead /usr/bin/time. verify_results.verify() ở dòng 94 chạy sau timer nên không thuộc wall. Nạp một lần cho mỗi lượt 20 WAV, không cộng thêm load_seconds lần nữa vào wall.
+- experiments/B04/run_whisper_cpp_pi.py:79–84 đo wall quanh mỗi CLI qua /usr/bin/time, gồm model load/WAV read/text write từng tệp. Đọc text/chấm/ghi JSONL của adapter ở sau timer, không tính trong số này. Nạp lại model 20 lần tuần tự trong lượt 20 WAV. Vì vậy không gọi wall CLI là inference thuần hoặc dùng nó so tỷ lệ tăng tốc với elapsed_s Zipformer.
+
+Đối chiếu measurement.json zipformer_r1: audio_seconds=84.1599375, inference_seconds=10.278388287999633, process_wall_seconds=14.643821394000042. RTF inference=0.1221292291; RTF cả runner=0.1739999081 (làm tròn 0,174). Tính toàn tập bằng tổng thời gian / tổng thời lượng, không trung bình RTF từng tệp. Chưa có mốc end-to-end cho micro/VAD/hiển thị kính. Peak RSS là RAM cao nhất toàn tiến trình, gồm runtime và nạp; 1 MiB = 2^20 byte.
 -->
 
 ---
