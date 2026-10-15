@@ -75,7 +75,7 @@ Câu hỏi hiện tại là cấu hình có sẵn nào cho ít lỗi và chạy 
 <!--
 Baseline là cấu hình ban đầu để đối chiếu. B01 dùng Whisper-base trên 10 câu pilot từ FLEURS train, chỉ inference, không huấn luyện. B02 so Whisper-base và Zipformer trên FLEURS dev100. B03 thêm Qwen trên cùng dev100, sau đó so cả ba trên self dev20. B04 đo Pi.
 
-Đây là bốn mốc nội dung, không khẳng định đã trình bày đủ bốn buổi với supervisor. B04 có kết quả Zipformer nhưng chưa hoàn tất đối chiếu Whisper-base/Pi. C0 là Whisper-base, C1 là Zipformer trong kế hoạch.
+Đây là bốn mốc nội dung, không khẳng định đã trình bày đủ bốn buổi với supervisor. B04 đo tốc độ và RAM của Zipformer trên Pi. C0 là Whisper-base, C1 là Zipformer trong kế hoạch.
 -->
 
 ---
@@ -241,104 +241,56 @@ Nguồn: ../experiments/B03/results/self_dev20/summary.csv. Kết quả hỗ tr�
 
 ---
 
-<!-- _class: timing -->
+## Đánh giá tốc độ xử lý WAV
 
-## Tốc độ xử lý · RTF
-
-Real-Time Factor (RTF) so thời gian xử lý với thời lượng audio; chỉ số không có đơn vị.
+Real-Time Factor (RTF) là tỷ lệ giữa thời gian xử lý và thời lượng audio.
 
 $$
-\mathrm{RTF}=\frac{\text{Thời gian xử lý}}{\text{Thời lượng audio}}
+\mathrm{RTF}=\frac{\text{Thời gian nhận dạng}}{\text{Thời lượng audio}}
 $$
 
-RTF < 1: nhanh hơn thời lượng audio. RTF = 1: bằng thời lượng. RTF > 1: chậm hơn thời lượng.
+RTF dưới 1 nghĩa là xử lý nhanh hơn thời lượng audio; RTF càng thấp thì tốc độ xử lý càng cao.
 
-Ví dụ, xử lý 100 giây audio trong 10 giây: **RTF = 0,1**. Nếu báo nghịch đảo, **RTFx = 1/RTF = 10**; RTF càng thấp càng tốt, RTFx càng cao càng tốt.
-
-RTF chưa phải độ trễ phụ đề; cần ghi rõ những bước được tính giờ.
+Trong phép đo này, thời gian nhận dạng gồm trích đặc trưng, chạy model và giải mã; không gồm nạp model hay đọc/ghi file.
 
 <!--
-Công thức thể hiện đúng định nghĩa trong ảnh người thực hiện gửi, viết lại theo phạm vi ASR của đề tài. RTFx là nghịch đảo khi dùng cùng thời gian/audio và cùng phạm vi đo; không trộn RTF và RTFx. Ví dụ 100/10 là minh họa, không phải benchmark mới. Chỉ số tốc độ không đánh giá chất lượng nhận dạng.
-
-Độ trễ phụ đề cần mốc đo riêng, ví dụ cuối lời nói đến phụ đề cuối; còn phụ thuộc chốt đoạn, hàng đợi và hiển thị. Chưa có kết quả đo pipeline audio liên tục. RTF dưới 1 trên WAV có sẵn chưa chứng minh phụ đề trực tiếp đáp ứng tốt.
+Phạm vi: xử lý WAV có sẵn. RTF tính bằng tổng thời gian nhận dạng / tổng thời lượng WAV. Không trung bình đơn giản RTF từng câu. Timer thực tế trong experiments/run_asr.py:197–200. Công thức và phạm vi được giữ rõ để đọc đúng số đo.
 -->
 
 ---
 
-<!-- _class: timing -->
+## Zipformer trên Raspberry Pi 4 · B04
 
-## Code đang tính giờ những bước nào?
+**Zipformer-30M INT8 · sherpa-onnx · CPU 2 luồng**  
+Raspberry Pi 4B 8 GB, hệ điều hành 64 bit.
 
-| Số đo | Phạm vi được tính |
-|---|---|
-| Nhận dạng · `elapsed_s` | Từ audio trong RAM đến transcript; gồm xử lý trong runtime |
-| Cả runner · Zipformer/Pi | Khởi động, nạp model, đọc WAV, nhận dạng, chấm và ghi |
-| Wall CLI · Whisper/Pi | Khởi động, nạp model, đọc WAV, nhận dạng và ghi text mỗi tệp |
+Mỗi lượt nạp model một lần, xử lý lần lượt 20 WAV tự thu, tổng thời lượng **84,160 giây**.
 
-**Zipformer/Pi r1:** 84,160 s audio → 10,278 s nhận dạng (**RTF ≈ 0,122**); cả runner 14,644 s (**RTF ≈ 0,174**).
-
-Nhận dạng loại trừ nạp model và đọc/ghi file. Hai số RTF trên dùng hai phạm vi thời gian khác nhau.
-
-<!--
-Đọc trực tiếp code ngày 15/10/2026:
-- experiments/run_asr.py:177–179 đo load_backend riêng bằng load_seconds. Dòng 192 đọc WAV float32, 196 đồng bộ GPU, rồi 197 mới bắt đầu perf_counter. infer(audio).strip() và đồng bộ GPU sau inference nằm trong elapsed_s; score và ghi JSONL nằm sau khi dừng timer. Bao gồm frontend/trích đặc trưng và giải mã nằm trong API runtime, không chỉ forward neural network. Hash WAV cũng kiểm tra trước timer.
-- experiments/B04/run_zipformer_pi.py:84–88 đo wall quanh subprocess chạy toàn run_asr.py. Bao gồm Python startup, model load, hash/read, inference, score, ghi JSONL/metadata/log; bao gồm overhead /usr/bin/time. verify_results.verify() ở dòng 94 chạy sau timer nên không thuộc wall. Nạp một lần cho mỗi lượt 20 WAV, không cộng thêm load_seconds lần nữa vào wall.
-- experiments/B04/run_whisper_cpp_pi.py:79–84 đo wall quanh mỗi CLI qua /usr/bin/time, gồm model load/WAV read/text write từng tệp. Đọc text/chấm/ghi JSONL của adapter ở sau timer, không tính trong số này. Nạp lại model 20 lần tuần tự trong lượt 20 WAV. Vì vậy không gọi wall CLI là inference thuần hoặc dùng nó so tỷ lệ tăng tốc với elapsed_s Zipformer.
-
-Đối chiếu measurement.json zipformer_r1: audio_seconds=84.1599375, inference_seconds=10.278388287999633, process_wall_seconds=14.643821394000042. RTF inference=0.1221292291; RTF cả runner=0.1739999081 (làm tròn 0,174). Tính toàn tập bằng tổng thời gian / tổng thời lượng, không trung bình RTF từng tệp. Chưa có mốc end-to-end cho micro/VAD/hiển thị kính. Peak RSS là RAM cao nhất toàn tiến trình, gồm runtime và nạp; 1 MiB = 2^20 byte.
--->
-
----
-
-## Tài nguyên trên Pi · B04
-
-**Pi 4B 8 GB, CPU hai luồng.** Mỗi lượt nạp model một lần rồi xử lý 20 WAV, tổng 84,160 giây audio.
-
-| Lượt | Nhận dạng | Cả runner | RAM cao nhất |
+| Lượt | Thời gian nhận dạng | RTF | RAM cao nhất |
 |---|---:|---:|---:|
-| r1 | 10,278 s | 14,644 s | 199,06 MiB |
-| r2 | 10,226 s | 14,578 s | 198,32 MiB |
+| r1 | 10,278 s | 0,122 | 199,06 MiB |
+| r2 | 10,226 s | 0,122 | 198,32 MiB |
 
-Transcript giống laptop 20/20 câu ở cả hai lượt.
+Hai lượt cho cùng transcript; khớp kết quả laptop ở cả 20 câu.
 
 <!--
-Vì sao đo Pi: điểm chất lượng trên laptop/GPU chưa trả lời model có dùng được trên phần cứng mục tiêu hay không. Pi dùng cùng gói Zipformer/hash như laptop, sherpa-onnx 1.13.8, Python 3.13.5, OS aarch64. Nạp model một lần mỗi lượt, xử lý lần lượt 20 WAV. Hai lượt không phải 40 mẫu độc lập.
+Kết quả đã lưu, không chạy lại để làm slide. sherpa-onnx 1.13.8, Python 3.13.5, OS aarch64, model package sherpa-onnx-zipformer-vi-30M-int8-2026-02-09, greedy_search, CPU provider. Nạp một lần mỗi lượt; cùng self_dev20 và cùng trọng số/hash như laptop.
 
-Thời gian inference bỏ nạp model và đọc WAV. Wall cả runner gồm khởi động, nạp, đọc, chấm trong runner và ghi; không gồm audit JiWER chạy sau. Nạp model 3,742/3,735 s đã nằm trong wall. RTF inference = inference / 84,1599375 s = 0,1221/0,1215, không phải latency từ lúc người nói kết thúc đến khi hiện chữ. Peak RSS gồm runtime và lúc nạp. Cache hệ điều hành có thể ấm. throttled=0x0 trước/sau.
+Nguồn: ../experiments/B04/results/zipformer_summary.csv và ../experiments/B04/results/zipformer_r1/measurement.json, zipformer_r2/measurement.json. Tổng audio 84.1599375 s. RTF r1=0.1221292291; r2=10.226326323/84.1599375≈0.1215; cùng làm tròn ba chữ số là 0,122. Peak RSS là RAM cao nhất toàn tiến trình, gồm nạp model/runtime; 1 MiB=2^20 byte. Cache hệ điều hành có thể ấm, throttled=0x0 trước/sau hai lượt. WER_ws=0,55%, CER=0,16%.
 
-WER_ws 0,55%, CER 0,16%, 20/20 mỗi lượt. Nguồn: ../experiments/B04/results/zipformer_summary.csv và ../experiments/B04/results/zipformer_r1/measurement.json. Lệnh demo một WAV đã có tại ../experiments/B04/DEMO.md. Không chạy lại inference để làm slide.
+Đầu vào là tệp có sẵn; chưa đo micro và phụ đề trực tiếp. Hai lượt là lặp phép đo cùng bộ audio, không phải 40 mẫu khác nhau. Lệnh demo WAV tại ../experiments/B04/DEMO.md.
 -->
 
 ---
 
 ## Nhận xét kết quả
 
-Zipformer là ứng viên để tích hợp tiếp: cho ít lỗi trên hai bộ dev và đã chạy được trên Pi.
+Nhóm chọn Zipformer để thử tích hợp tiếp vì model cho ít lỗi trên 100 câu dev FLEURS-vi và 20 câu tự thu, đồng thời đã chạy được trên Pi.
 
-Kết quả mới đúng với các cấu hình và mẫu đã thử. Bộ tự thu chỉ có một người; FLEURS chưa xác minh độc lập với dữ liệu huấn luyện của checkpoint.
+Nhóm mới đánh giá trên 100 câu dev của FLEURS-vi và 20 câu tự thu, chứ chưa đánh giá toàn bộ split dev FLEURS-vi hay hội thoại thực tế. Bộ tự thu chỉ có một người; FLEURS chưa xác minh độc lập với dữ liệu huấn luyện của checkpoint.
 
 <!--
 Không quy chênh lệch cho riêng kiến trúc, INT8 hoặc số luồng. Zipformer liệt kê FLEURS trong nguồn train nhưng chưa xác minh split/ID trùng. Một và hai lỗi trên self20 chưa đủ chứng minh ưu thế tổng quát. Đây là dev thăm dò, chưa phải test cuối.
--->
-
----
-
-## Phần còn thiếu
-
-Whisper-base trên Pi mới thử một câu, chưa chạy đủ 20 câu. Tiny là khảo sát thêm, không thay baseline base.
-
-Hai nhánh Pi khác cách nạp model và phạm vi thời gian. Chưa thể dùng số hiện tại để báo nhanh hơn bao nhiêu lần.
-
-<!--
-Phân biệt hai câu hỏi: chọn cấu hình thực dụng để thử tích hợp và nghiên cứu chỉ khác kiến trúc. Các kết quả hiện tại phục vụ câu hỏi đầu. Chưa chứng minh Zipformer là kiến trúc tốt nhất hoặc INT8 là nguyên nhân điểm tốt.
-
-Giải thích thiếu sót B04 nếu thầy hỏi: Whisper-base trên Pi mới smoke một WAV, wall 20,869 s / audio 5,355 s. Sau đó đã chạy Whisper-tiny/whisper.cpp đủ self20 x hai lượt, WER_ws 41,99%, CER 26,36%, tổng wall 172,807/171,309 s. Tiny thay checkpoint nên chỉ là khảo sát bổ sung, không thay C0-base.
-
-Adapter Whisper mở CLI và nạp lại model mỗi WAV; Zipformer nạp một lần mỗi lượt. Whisper báo wall có nạp/đọc/ghi, còn Zipformer có số inference riêng. Không chia những số khác phạm vi để tuyên bố tỷ lệ tăng tốc. Đây là thiếu sót phép đo, không phải yêu cầu của kiến trúc Whisper. Chậm vẫn là kết quả cần ghi nhận khi giữ baseline.
-
-Kế hoạch v3.0 đã giữ C0-base/Pi đầy đủ và phép so tốc độ đồng nhất ở trạng thái chưa hoàn tất. Nếu tiếp tục so baseline, dùng cùng self20/Pi/hai luồng, nạp một lần và cùng phạm vi timing; lưu lỗi hoặc timeout thay vì âm thầm thay checkpoint.
-
-Chưa đo Qwen trên Pi. Chỉ kết luận bản Qwen đang dùng chạy GPU theo phạm vi đã chọn, không kết luận mọi bản Qwen đều không chạy được trên Pi. Chưa kiểm tra input không lời nói, nên false_captions_per_minute còn trống, không phải 0.
 -->
 
 ---
@@ -351,7 +303,7 @@ Chưa đo Qwen trên Pi. Chỉ kết luận bản Qwen đang dùng chạy GPU th
 
 Audio đến dần cần được chốt thành đoạn để đưa vào ASR. Model giữ trong RAM thay vì nạp lại mỗi câu.
 
-Pi chưa có micro; bước đầu dùng replay WAV theo thời gian thực.
+Pi chưa có micro; nhóm dự định dùng replay WAV theo thời gian thực để thử luồng audio đến liên tục.
 
 <!--
 Vì sao chuyển sang pipeline: WAV đã chia sẵn chưa trả lời audio đến liên tục sẽ cho chữ lúc nào. Replay đưa từng khối audio theo nhịp thời gian thực để kiểm tra luồng; không thay kiểm tra micro thật.
@@ -373,12 +325,12 @@ Nguồn sơ đồ Mermaid: diagrams/slides_next.mmd. Nguồn kế hoạch: ../PL
 | B06 | Thử audio mới, đo lỗi, độ trễ và RAM |
 | B07 | Demo toàn luồng, tổng hợp kết quả |
 
-Trước mắt cần hoàn thành luồng audio thành phụ đề trên Pi, rồi kiểm tra trên dữ liệu mới.
+Nhóm dự định hoàn thành luồng audio thành phụ đề trên Pi để kiểm tra khả năng xử lý audio đến liên tục, rồi đánh giá trên dữ liệu mới.
 
 <!--
 Gợi ý trình bày 3–5 phút: mở mục tiêu và lộ trình thật ngắn, chỉ sơ đồ luồng; phát mẫu B01 khoảng 15–20 giây; giải thích hai biểu đồ và quyết định tạm; nêu kết quả Pi cùng giới hạn; kết thúc bằng đầu ra cụ thể của B05. Nếu chạy Pi trước lớp, dùng lệnh trong ../experiments/B04/DEMO.md sau khi đã tập thử. Đừng biến phần trình bày thành đọc hết các ghi chú.
 
-B06 theo kế hoạch: bộ mới nhỏ khoảng 30–50 câu và khoảng hai phút không lời nói nếu khả thi. Chốt cấu hình trước khi xem bộ mới; đo từ cuối lời nói đến phụ đề cuối, ghi rõ phạm vi và lỗi. Public FLEURS test200 là phần bổ sung, không chặn hoàn thiện pipeline. B04 vẫn còn việc đo C0-base/Pi và phép so đồng nhất; ưu tiên pipeline không xóa việc còn thiếu này.
+B06 theo kế hoạch: bộ mới nhỏ khoảng 30–50 câu và khoảng hai phút không lời nói nếu khả thi. Chốt cấu hình trước khi xem bộ mới; đo từ cuối lời nói đến phụ đề cuối, ghi rõ phạm vi và lỗi. Public FLEURS test200 là phần bổ sung, không chặn hoàn thiện pipeline.
 
 Tài liệu tra cứu:
 - ../reports/DEMO_BUOI_01_04.md: giải thích chi tiết, các pipeline và giới hạn.
@@ -386,7 +338,7 @@ Tài liệu tra cứu:
 - ../PLAN_DEMO_STT_7_BUOI.md: kế hoạch v3.0.
 - ../experiments/B04/DEMO.md: thao tác demo Pi.
 - ../experiments/B03/results/summary.csv và ../experiments/B03/results/self_dev20/summary.csv: chất lượng.
-- ../experiments/B04/results/zipformer_summary.csv và whisper_summary.csv: số đo từng cấu hình Pi.
+- ../experiments/B04/results/zipformer_summary.csv: số đo Zipformer trên Pi.
 
 Cách mở: file Markdown dùng Marp với trang 16:9 và dấu --- để ngắt trang. Bản HTML cùng tên là bản xem trình chiếu, dùng phím mũi tên. Trong Obsidian có thể thử lệnh Start presentation của core plugin Slides; bố cục tùy renderer, chưa xác minh trên Obsidian. HTML là bản đã render để kiểm tra bố cục. Giữ Markdown, HTML và thư mục figures cạnh nhau khi sao chép. Ghi chú nằm trong comment HTML, không xuất hiện trên trang chiếu.
 -->

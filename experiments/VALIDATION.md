@@ -79,3 +79,6 @@ Tính lại từ measurement.json r1: inference/audio = 0.1221292291; runner wal
 
 
 Ngày 15/10/2026, điền toàn bộ câu hỏi trong reports/Untitled.md theo mốc timer trong code thật, thêm đường dẫn Drive/local và audit SHA-256. 11/16 file Python khớp, 5 file không có trong cây experiments trên ổ G; ZIP đầu vào Pi chỉ có run_asr.py trong ba runner được tìm. Runner ASR, runner Whisper/Pi và runner đo Zipformer/Pi local khớp hash metadata của lần chạy. Tám file kết quả/source đối chiếu khớp, DEMO Pi khớp, README Pi khác. Audit lưu reports/DRIVE_SYNC_AUDIT_20261015.json; không xác minh cloud độc lập, không sửa Drive, không chạy lại ASR. Kiểm tra không còn ô trả lời trống, fence cân bằng và hash provenance đạt.
+
+
+Ngày 15/10/2026, theo yêu cầu trình bày cho supervisor: bỏ trang giải thích code/timer và phần so tốc độ Whisper/Pi khỏi Marp; giữ công thức RTF cùng phạm vi nhận dạng, bảng cấu hình Zipformer/Pi, thời gian/RTF/RAM hai lượt. RTF làm tròn ba số thập phân khớp measurement. Sửa giới hạn rõ 100 câu dev FLEURS-vi và 20 câu tự thu, chưa phải toàn bộ split dev; dùng chủ thể nhóm và dự định cho bước tiếp theo. Marp 16 trang render không vượt biên/ảnh thiếu, đã xem các trang sửa. Giữ chỉnh sửa khác của người dùng trong working tree; không đổi code hoặc kết quả ASR.
