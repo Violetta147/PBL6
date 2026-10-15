@@ -78,3 +78,18 @@ Trong các câu hỏi đã trả lời, có khái niệm nào tương đương i
 
 Nếu đúng như những gì đã nói, trình bày RTF cho thầy hiện tại là vô nghĩa phải không?
 -> Không. RTF vẫn trả lời được một câu hỏi cụ thể: cấu hình Zipformer đã thử trên Pi xử lý bộ WAV này nhanh đến mức nào. Ví dụ, 84,160 giây audio mất 10,278 giây nhận dạng, RTF ≈ 0,122; tính cả runner là 14,644 giây, RTF ≈ 0,174. Có thể trình bày đây là bằng chứng ban đầu về tốc độ xử lý tệp trên Pi, kèm phạm vi timer. Chưa dùng nó để nói nhanh hơn Whisper bao nhiêu lần hoặc phụ đề trực tiếp sẽ trễ bao nhiêu. Hạn chế nằm ở phép so và phạm vi kết luận, không làm số đo riêng mất ý nghĩa.
+
+2 luồng CPU có khác 2 lượt chạy không?
+-> Có. Hai luồng là cấu hình runtime thực hiện các phần tính toán có thể chạy song song trong lúc nhận dạng. Hai lượt r1/r2 là chạy lại toàn bộ phép đo trên cùng 20 WAV để kiểm tra độ ổn định; mỗi lượt đều dùng hai luồng và nạp model một lần. Hai luồng không có nghĩa là chia 20 WAV thành hai nhóm 10 câu chạy cùng lúc; runner vẫn xử lý WAV lần lượt.
+
+Hai luồng CPU là đặt bằng tham số thư viện hả?
+-> Đúng. Code gọi runner với `--threads 2`; giá trị này được truyền vào `sherpa_onnx.OfflineRecognizer.from_transducer(..., num_threads=threads, ...)`. Thư viện/runtime quản lý việc dùng luồng; nhóm không tự viết hai luồng để chia WAV. Đây là cấu hình số luồng tính toán, không khẳng định toàn tiến trình chỉ có đúng hai luồng hệ điều hành.
+
+Audio đến dần, replay WAV trước là sao?
+-> Nhóm dự định đọc WAV có sẵn thành các khối nhỏ rồi đưa vào pipeline theo nhịp thời gian thực, mô phỏng audio đang được thu liên tục. “Replay WAV trước” là cách thử ban đầu khi Pi chưa có micro: không đưa cả WAV vào ASR một lần như thí nghiệm hiện tại, cũng không cần phát loa rồi thu lại. Bước này chưa được triển khai hoặc đo trong B04.
+
+“Chốt đoạn nói, VAD nếu cần” là sao, có hợp lý về nghĩa không?
+-> Cụm này viết chưa rõ vì ghép hai nhiệm vụ. VAD xác định khối audio nào có giọng nói; quy tắc kết thúc đoạn dùng thông tin đó, chẳng hạn khoảng không có giọng nói đủ lâu, để quyết định gửi đoạn audio đã tích lũy sang ASR. VAD không tự biết người nói đã kết thúc một câu theo nghĩa ngôn ngữ. Trong sơ đồ nên ghi chức năng chính “Phân đoạn lời nói”, bổ sung “VAD + quy tắc kết thúc đoạn”; đây là phương án dự kiến.
+
+Các dòng “replay WAV trước”, “giữ trong RAM”… trong sơ đồ là ý bổ sung thì trình bày thế nào?
+-> Dòng trên là tên chức năng chính, dùng chữ đậm màu xanh đậm. Dòng dưới là cách thử/triển khai, dùng chữ nhỏ hơn và màu xám xanh. Phân cấp này giúp người nghe đọc luồng chính trước rồi mới xem chi tiết; các mũi tên nét đứt vẫn thể hiện phần dự kiến.

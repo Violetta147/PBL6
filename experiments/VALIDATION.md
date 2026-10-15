@@ -85,3 +85,8 @@ Ngày 15/10/2026, theo yêu cầu trình bày cho supervisor: bỏ trang giải 
 
 
 Ngày 15/10/2026, tạo marp_slides_tutorial theo yêu cầu, frontmatter name marp-slides-tutorial. Gồm SKILL.md, PORTING.md, hai tài liệu tham khảo và mẫu Markdown bốn trang tự chứa CSS. Hướng dẫn phân biệt core Slides/Marp, đường dẫn ảnh, nền, theme/HTML/MarkdownIt, export và xác minh lỗi preview; ghi quy tắc chủ thể nhóm, dự định và giới hạn số mẫu. Không kèm cấu hình tài khoản/đường dẫn cá nhân/asset DUT hoặc dữ liệu ASR. Đối chiếu nguồn Marpit, Obsidian và repo plugin; validator skill đạt, render mẫu bốn trang không vượt biên/ảnh thiếu. ZIP CRC đạt, năm entry khớp byte nguồn; tên thư mục trong ZIP dùng marp-slides-tutorial để phù hợp discovery. Không tự cài vào agent khác.
+
+
+Ngày 15/10/2026, thêm hỏi đáp reports/Untitled.md: hai luồng so với hai lượt, --threads 2 truyền vào num_threads của sherpa-onnx, replay WAV dự kiến và phân biệt VAD với quyết định kết thúc đoạn. Sửa sơ đồ slides_next: tên khối chính đậm xanh, cách thử/triển khai nhỏ hơn màu xám xanh; bỏ nhãn mơ hồ VAD nếu cần. CSS nhúng trong SVG và tạo lại qua render_slides.mjs; điều chỉnh độ ưu tiên selector để thắng class planned của Mermaid.
+
+Kiểm tra reports/tests/check_diagram_hierarchy.mjs qua browser: cả bốn khối có font chính 26px/600, chữ phụ 20px, khác màu và toàn bộ nhãn nằm trong hộp. Marp 16 trang không vượt biên/ảnh thiếu, đã xem sơ đồ sau sửa. HTML working được xuất lại với chỉnh sửa hiện có của người dùng; commit chỉ gồm hỏi đáp, nguồn/asset sơ đồ, renderer, bài kiểm tra và nhật ký. Chưa xác nhận UI Obsidian, không triển khai VAD/replay và không chạy lại ASR.

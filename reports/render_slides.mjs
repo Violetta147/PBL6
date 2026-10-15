@@ -4,7 +4,7 @@
 // Set PUPPETEER_SKIP_DOWNLOAD=true during installation; uses installed Chrome.
 // Run from the repository root: node reports/render_slides.mjs
 import { spawn } from 'node:child_process';
-import { access, mkdir, writeFile } from 'node:fs/promises';
+import { access, mkdir, readFile, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 
@@ -39,6 +39,26 @@ for (const name of ['slides_overview', 'slides_next']) {
     '-p', path.join(temporary, 'browser.json'), '-c', path.join(temporary, 'mermaid.json'),
     '--size', '1600', '--no-font-embed', '-b', 'transparent',
   ]);
+  if (name === 'slides_next') {
+    // Keep the function name prominent; implementation notes use a smaller,
+    // quieter line. Embed CSS in the SVG so every renderer keeps this hierarchy.
+    const svgPath = path.join(root, `reports/figures/${name}.svg`);
+    const svg = await readFile(svgPath, 'utf8');
+    const svgId = svg.match(/<svg[^>]*\bid="([\w-]+)"/)?.[1];
+    if (!svgId) throw new Error('Missing Mermaid SVG root ID');
+    const hierarchy = `
+      #${svgId} .node .text-outer-tspan:first-child .text-inner-tspan {
+        font-weight: 600 !important; fill: #14364e !important;
+      }
+      #${svgId} .node .text-outer-tspan:not(:first-child) .text-inner-tspan {
+        font-size: 20px !important; fill: #526b7b !important;
+      }
+    `;
+    if (!svg.includes('</style>') || !svg.includes('text-outer-tspan')) {
+      throw new Error('Unexpected Mermaid SVG structure; check label styling before export');
+    }
+    await writeFile(svgPath, svg.replace('</style>', hierarchy + '</style>'));
+  }
 }
 await run(path.join(modules, '@marp-team/marp-cli/marp-cli.js'), [
   '--no-stdin', 'reports/SLIDES_BUOI_01_04.md',
