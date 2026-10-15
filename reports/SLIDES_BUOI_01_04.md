@@ -5,7 +5,7 @@ size: 16:9
 paginate: false
 lang: vi
 title: Nhận dạng tiếng Việt trên Raspberry Pi 4
-backgroundImage: url('themes/dut/content.png')
+backgroundImage: url("themes/dut/content.png")
 footer: PBL6 · Báo cáo tiến độ STT
 style: |
   section {
@@ -45,11 +45,11 @@ style: |
 
 <!-- _class: cover -->
 
-<!-- _backgroundImage: url('themes/dut/cover.png') -->
+<!-- _backgroundImage: url("themes/dut/cover.png") -->
 
 # Nhận dạng tiếng Việt trên Raspberry Pi 4
 
-**Báo cáo tiến độ STT**
+**Báo cáo tiến độ luôn**
 
 Phần phụ đề cho đề tài hỗ trợ giao tiếp bằng kính thông minh.
 

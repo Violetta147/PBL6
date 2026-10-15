@@ -1,8 +1,8 @@
 <!-- Core Slides của Obsidian: mở file, Ctrl+P, Start presentation. -->
 
-### STT tiếng Việt trên Pi 4
+<span class="dut-stt-marker"></span>
 
-![[reports/themes/dut/cover.png|440]]
+### STT tiếng Việt trên Pi 4
 
 Báo cáo tiến độ STT
 
