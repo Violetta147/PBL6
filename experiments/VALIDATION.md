@@ -82,3 +82,6 @@ Ngày 15/10/2026, điền toàn bộ câu hỏi trong reports/Untitled.md theo m
 
 
 Ngày 15/10/2026, theo yêu cầu trình bày cho supervisor: bỏ trang giải thích code/timer và phần so tốc độ Whisper/Pi khỏi Marp; giữ công thức RTF cùng phạm vi nhận dạng, bảng cấu hình Zipformer/Pi, thời gian/RTF/RAM hai lượt. RTF làm tròn ba số thập phân khớp measurement. Sửa giới hạn rõ 100 câu dev FLEURS-vi và 20 câu tự thu, chưa phải toàn bộ split dev; dùng chủ thể nhóm và dự định cho bước tiếp theo. Marp 16 trang render không vượt biên/ảnh thiếu, đã xem các trang sửa. Giữ chỉnh sửa khác của người dùng trong working tree; không đổi code hoặc kết quả ASR.
+
+
+Ngày 15/10/2026, tạo marp_slides_tutorial theo yêu cầu, frontmatter name marp-slides-tutorial. Gồm SKILL.md, PORTING.md, hai tài liệu tham khảo và mẫu Markdown bốn trang tự chứa CSS. Hướng dẫn phân biệt core Slides/Marp, đường dẫn ảnh, nền, theme/HTML/MarkdownIt, export và xác minh lỗi preview; ghi quy tắc chủ thể nhóm, dự định và giới hạn số mẫu. Không kèm cấu hình tài khoản/đường dẫn cá nhân/asset DUT hoặc dữ liệu ASR. Đối chiếu nguồn Marpit, Obsidian và repo plugin; validator skill đạt, render mẫu bốn trang không vượt biên/ảnh thiếu. ZIP CRC đạt, năm entry khớp byte nguồn; tên thư mục trong ZIP dùng marp-slides-tutorial để phù hợp discovery. Không tự cài vào agent khác.
