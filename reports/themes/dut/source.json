@@ -1,0 +1,19 @@
+{
+  "source": "User-supplied Canva DUT template, downloaded via its PowerPoint export",
+  "url": "https://www.canva.com/design/DAHYAAFTlEc/Ea4o8-Nowdd6ES9krcIhxQ/edit",
+  "retrieved_date": "2026-10-15",
+  "adaptation": "Background assets reused unchanged; Marp content adapted. Not a claim of an official university reporting standard.",
+  "pptx_sha256": "ff189949ae49952a14d9aad3f879b7147951bfe25026eaf8b71fa4455cc37de2",
+  "assets": [
+    {
+      "source_member": "ppt/media/image1.png",
+      "path": "reports/themes/dut/cover.png",
+      "sha256": "5dbc52e8cbdb2138b7d06252e2d4e6970410848cd41d842e53b1a3669e28dda2"
+    },
+    {
+      "source_member": "ppt/media/image11.png",
+      "path": "reports/themes/dut/content.png",
+      "sha256": "75d206fba0c65351970673c052dbd33a889a6dc0af7e96465bd69b829eacd7f8"
+    }
+  ]
+}

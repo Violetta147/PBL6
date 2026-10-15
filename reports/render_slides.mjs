@@ -41,6 +41,6 @@ for (const name of ['slides_overview', 'slides_next']) {
   ]);
 }
 await run(path.join(modules, '@marp-team/marp-cli/marp-cli.js'), [
-  '--html', '--no-stdin', 'reports/SLIDES_BUOI_01_04.md',
+  '--no-stdin', 'reports/SLIDES_BUOI_01_04.md',
   '-o', 'reports/SLIDES_BUOI_01_04.html',
 ]);
