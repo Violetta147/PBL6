@@ -75,3 +75,6 @@ Bằng chứng và đường dẫn:
 
 Trong các câu hỏi đã trả lời, có khái niệm nào tương đương inference time không?
 -> Có: “thời gian nhận dạng” (`elapsed_s` trong run_asr.py) là inference time theo phạm vi đo của dự án: audio đã ở RAM → transcript. Tổng các elapsed_s của 20 câu được ghi thành `inference_seconds` trong kết quả Zipformer/Pi. Nó gồm trích đặc trưng, chạy mạng neural và giải mã trong runtime, không chỉ riêng forward pass của mạng; không gồm nạp model, đọc WAV, chấm hoặc ghi file. “Cả runner” và “wall CLI” là wall time, không tương đương inference time này.
+
+Nếu đúng như những gì đã nói, trình bày RTF cho thầy hiện tại là vô nghĩa phải không?
+-> Không. RTF vẫn trả lời được một câu hỏi cụ thể: cấu hình Zipformer đã thử trên Pi xử lý bộ WAV này nhanh đến mức nào. Ví dụ, 84,160 giây audio mất 10,278 giây nhận dạng, RTF ≈ 0,122; tính cả runner là 14,644 giây, RTF ≈ 0,174. Có thể trình bày đây là bằng chứng ban đầu về tốc độ xử lý tệp trên Pi, kèm phạm vi timer. Chưa dùng nó để nói nhanh hơn Whisper bao nhiêu lần hoặc phụ đề trực tiếp sẽ trễ bao nhiêu. Hạn chế nằm ở phép so và phạm vi kết luận, không làm số đo riêng mất ý nghĩa.
