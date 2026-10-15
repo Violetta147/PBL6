@@ -49,7 +49,7 @@ style: |
 
 # Nhận dạng tiếng Việt trên Raspberry Pi 4
 
-**Báo cáo tiến độ luôn**
+**Báo cáo tiến độ luồng Speech To Text**
 
 Phần phụ đề cho đề tài hỗ trợ giao tiếp bằng kính thông minh.
 
@@ -92,6 +92,30 @@ ASR là bài toán nhận dạng tiếng nói thành văn bản. Model đã họ
 
 <!--
 Whisper-base là baseline đa ngôn ngữ, Zipformer là ứng viên tiếng Việt nhỏ cho CPU; Qwen là model mới để đối chiếu. Các hệ thống khác checkpoint, dữ liệu train, kích cỡ và runtime, chưa cô lập riêng kiến trúc. Nguồn: cấu hình từng run và Hugging Face Audio Course.
+-->
+
+---
+
+## Chuẩn bị đầu vào WAV
+
+| Nguồn | Xử lý trước khi chạy model |
+|---|---|
+| FLEURS | WAV float → PCM16; giữ mono 16 kHz |
+| Điện thoại | M4A → WAV PCM16, mono 16 kHz |
+| Cả hai | Kiểm tra định dạng, thời lượng; lưu ID, nhãn và hash |
+
+Mono là một kênh âm thanh; 16 kHz là 16.000 mẫu/giây; PCM16 lưu mỗi mẫu bằng 16 bit.
+
+Giữ nguyên tiếng nền và khoảng nghỉ; chưa khử nhiễu hay dùng VAD. Các nhánh nhận cùng bản WAV đã kiểm tra.
+
+<!--
+FLEURS: experiments/prepare.py chọn 10 câu train làm pilot và 100 câu dev với seed 42. Nguồn đã là mono 16 kHz; soundfile đọc float32 rồi ghi PCM_16, không resample hay đổi thời lượng. Chuyển PCM16 giúp dùng cùng bản WAV cho các runtime, gồm whisper.cpp. Đây là thay cách biểu diễn mẫu âm thanh, có lượng tử hóa, không phải làm sạch tiếng nói.
+
+Tự thu: FFmpeg giải mã M4A, lấy luồng audio đầu tiên, chuyển về một kênh và 16 kHz, xuất pcm_s16le. Receipt lưu options -map 0:a:0 -vn -ac 1 -ar 16000 -c:a pcm_s16le tại experiments/B02/results/self_dev20/conversion_verification.json. Bản gốc được giữ lại; không chỉ đổi đuôi file. Không có bộ lọc khử nhiễu, chuẩn hóa âm lượng, cắt khoảng lặng hoặc VAD được thêm trong bước chuyển đổi này. Điều này không khẳng định ứng dụng ghi âm điện thoại không xử lý tín hiệu bên trong.
+
+experiments/import_self.py kiểm tra 20 ID riêng biệt, metadata, nhãn đã nghe xác nhận và WAV mono/16 kHz/2 byte mỗi mẫu; lưu thời lượng và SHA-256 vào manifest. Khi chạy, experiments/run_asr.py kiểm tra hash, đọc WAV thành mảng float32 và từ chối sai kênh/tần số. Pi/Colab dùng bản sao kiểm tra hash của cùng WAV, không chuẩn bị một bản audio khác riêng cho từng model.
+
+Tách ba việc: chuẩn bị file âm thanh chung trước khi chia nhánh; trích đặc trưng theo yêu cầu từng model bên trong runtime; chuẩn hóa reference/prediction khi chấm WER/CER. Unicode NFC, chữ thường và dấu câu thuộc bước xử lý văn bản khi chấm, không sửa WAV. Đặc trưng âm thanh không ép giống nhau giữa các model vì checkpoint yêu cầu frontend riêng. Ở B01–B04, WAV đã là tệp câu có sẵn; chưa đánh giá chốt đoạn cho audio liên tục.
 -->
 
 ---
