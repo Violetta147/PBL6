@@ -1,0 +1,188 @@
+{
+  "scope": "Mounted G Drive files; not independent cloud verification",
+  "code": [
+    {
+      "path": "experiments/B04/run_whisper_cpp_pi.py",
+      "status": "missing_on_drive",
+      "local_sha256": "60ce6e5c6ae2835700bfaa1a57894d105e2cae9ea96b6bf2f36eaee084fc8286",
+      "drive_sha256": null
+    },
+    {
+      "path": "experiments/B04/run_zipformer_pi.py",
+      "status": "missing_on_drive",
+      "local_sha256": "d80f019347fd8f4b59e1685d8e4d09e6c3f62bcd2cbd0f27d8135f82d4588c0e",
+      "drive_sha256": null
+    },
+    {
+      "path": "experiments/common.py",
+      "status": "identical",
+      "local_sha256": "9e4ceeb03ebe765e5e2b72181cf0221cb32774fdbea7f4b354cbe1b4bed7da64",
+      "drive_sha256": "9e4ceeb03ebe765e5e2b72181cf0221cb32774fdbea7f4b354cbe1b4bed7da64"
+    },
+    {
+      "path": "experiments/import_self.py",
+      "status": "identical",
+      "local_sha256": "2f02109bbdca21d62e0493cbd66d35f7140a184bc920b2f9a7ff9e09511fee29",
+      "drive_sha256": "2f02109bbdca21d62e0493cbd66d35f7140a184bc920b2f9a7ff9e09511fee29"
+    },
+    {
+      "path": "experiments/make_notebooks.py",
+      "status": "identical",
+      "local_sha256": "ad08f8a06ebad71596d67ebd3b97da4bd4769d9a9507ef5617912cb6e46eb7bd",
+      "drive_sha256": "ad08f8a06ebad71596d67ebd3b97da4bd4769d9a9507ef5617912cb6e46eb7bd"
+    },
+    {
+      "path": "experiments/make_qwen_notebook.py",
+      "status": "identical",
+      "local_sha256": "35f509c19e029e2e14a38596c6e03726c5f3ed1d26a630ac176beca300e602bd",
+      "drive_sha256": "35f509c19e029e2e14a38596c6e03726c5f3ed1d26a630ac176beca300e602bd"
+    },
+    {
+      "path": "experiments/make_self_notebook.py",
+      "status": "missing_on_drive",
+      "local_sha256": "ba17d1ae7127382a83932c45f18437082502cbe77d65902137e4246e8d03960d",
+      "drive_sha256": null
+    },
+    {
+      "path": "experiments/prepare.py",
+      "status": "identical",
+      "local_sha256": "2ca1c709436d01e4c12e24370989e57bbd4f5333e0d68b16d171e8a5073c4f8b",
+      "drive_sha256": "2ca1c709436d01e4c12e24370989e57bbd4f5333e0d68b16d171e8a5073c4f8b"
+    },
+    {
+      "path": "experiments/run_asr.py",
+      "status": "identical",
+      "local_sha256": "9821c648d9a3ef152c0a80b275923c24060e176c6b9e7a6a849e4eec748ae02b",
+      "drive_sha256": "9821c648d9a3ef152c0a80b275923c24060e176c6b9e7a6a849e4eec748ae02b"
+    },
+    {
+      "path": "experiments/summarize.py",
+      "status": "identical",
+      "local_sha256": "c92613dc751db5839ed1dfaf027c361f807f0448828e8fd7de043105de819036",
+      "drive_sha256": "c92613dc751db5839ed1dfaf027c361f807f0448828e8fd7de043105de819036"
+    },
+    {
+      "path": "experiments/tests/test_common.py",
+      "status": "identical",
+      "local_sha256": "af94883045d1d1d3d3fcd6a69d33965a30ff599ad3ec94afb99229f136ec123d",
+      "drive_sha256": "af94883045d1d1d3d3fcd6a69d33965a30ff599ad3ec94afb99229f136ec123d"
+    },
+    {
+      "path": "experiments/tests/test_gpu_policy.py",
+      "status": "identical",
+      "local_sha256": "60653ce227514d3de996c653fe94ada38c68474cb44a279698ec8a3f9a1221d7",
+      "drive_sha256": "60653ce227514d3de996c653fe94ada38c68474cb44a279698ec8a3f9a1221d7"
+    },
+    {
+      "path": "experiments/tests/test_notebook_listening.py",
+      "status": "identical",
+      "local_sha256": "2724e0c5ea410055a0c6a4c2b3048c1f9f4717304e27baa34eaa4914c79e5c4d",
+      "drive_sha256": "2724e0c5ea410055a0c6a4c2b3048c1f9f4717304e27baa34eaa4914c79e5c4d"
+    },
+    {
+      "path": "experiments/tests/test_pi_measurement.py",
+      "status": "missing_on_drive",
+      "local_sha256": "6ffd2d2b5d34c1e8dc2d5a5e64710435e55c277b2975f923a287a67b4aab1b73",
+      "drive_sha256": null
+    },
+    {
+      "path": "experiments/tests/test_self_notebook.py",
+      "status": "missing_on_drive",
+      "local_sha256": "d1302dead2374dfc0b4cfeac958e8f2095401669ee63344eaf273ca072d28816",
+      "drive_sha256": null
+    },
+    {
+      "path": "experiments/verify_results.py",
+      "status": "identical",
+      "local_sha256": "ee800edddf87dd23236d3f56f3f5c4ce511b2427551a29e3f1d26b8d85d7c8be",
+      "drive_sha256": "ee800edddf87dd23236d3f56f3f5c4ce511b2427551a29e3f1d26b8d85d7c8be"
+    }
+  ],
+  "results": [
+    {
+      "local": "C:\\Users\\LAPTOP T&T\\VIOLETTA\\Documents\\ChatGPT\\PBL6\\experiments\\B03\\results\\summary.csv",
+      "drive": "G:\\My Drive\\Seventh Semester\\PBL6\\STT_B01_B03\\runs\\qwen_gpu_20261010_023946\\summary.csv",
+      "identical": true
+    },
+    {
+      "local": "C:\\Users\\LAPTOP T&T\\VIOLETTA\\Documents\\ChatGPT\\PBL6\\experiments\\B03\\results\\comparison.csv",
+      "drive": "G:\\My Drive\\Seventh Semester\\PBL6\\STT_B01_B03\\runs\\qwen_gpu_20261010_023946\\comparison.csv",
+      "identical": true
+    },
+    {
+      "local": "C:\\Users\\LAPTOP T&T\\VIOLETTA\\Documents\\ChatGPT\\PBL6\\experiments\\B03\\results\\self_dev20\\summary.csv",
+      "drive": "G:\\My Drive\\Seventh Semester\\PBL6\\STT_B01_B03\\runs\\self_dev20_qwen_v1\\summary.csv",
+      "identical": true
+    },
+    {
+      "local": "C:\\Users\\LAPTOP T&T\\VIOLETTA\\Documents\\ChatGPT\\PBL6\\experiments\\B03\\results\\self_dev20\\comparison.csv",
+      "drive": "G:\\My Drive\\Seventh Semester\\PBL6\\STT_B01_B03\\runs\\self_dev20_qwen_v1\\comparison.csv",
+      "identical": true
+    },
+    {
+      "local": "C:\\Users\\LAPTOP T&T\\VIOLETTA\\Documents\\ChatGPT\\PBL6\\experiments\\B04\\results\\source.json",
+      "drive": "G:\\My Drive\\Seventh Semester\\PBL6\\STT_B01_B03\\B04_Pi_results_20261013\\source.json",
+      "identical": true
+    },
+    {
+      "local": "C:\\Users\\LAPTOP T&T\\VIOLETTA\\Documents\\ChatGPT\\PBL6\\experiments\\B04\\results\\whisper_source.json",
+      "drive": "G:\\My Drive\\Seventh Semester\\PBL6\\STT_B01_B03\\B04_Pi_results_20261013\\whisper_source.json",
+      "identical": true
+    },
+    {
+      "local": "C:\\Users\\LAPTOP T&T\\VIOLETTA\\Documents\\ChatGPT\\PBL6\\experiments\\B04\\results\\zipformer_summary.csv",
+      "drive": "G:\\My Drive\\Seventh Semester\\PBL6\\STT_B01_B03\\B04_Pi_results_20261013\\zipformer_summary.csv",
+      "identical": true
+    },
+    {
+      "local": "C:\\Users\\LAPTOP T&T\\VIOLETTA\\Documents\\ChatGPT\\PBL6\\experiments\\B04\\results\\whisper_summary.csv",
+      "drive": "G:\\My Drive\\Seventh Semester\\PBL6\\STT_B01_B03\\B04_Pi_results_20261013\\whisper_summary.csv",
+      "identical": true
+    },
+    {
+      "local": "C:\\Users\\LAPTOP T&T\\VIOLETTA\\Documents\\ChatGPT\\PBL6\\experiments\\B04\\README.md",
+      "drive": "G:\\My Drive\\Seventh Semester\\PBL6\\STT_B01_B03\\B04_Pi_results_20261013\\README.md",
+      "identical": false
+    },
+    {
+      "local": "C:\\Users\\LAPTOP T&T\\VIOLETTA\\Documents\\ChatGPT\\PBL6\\experiments\\B04\\DEMO.md",
+      "drive": "G:\\My Drive\\Seventh Semester\\PBL6\\STT_B01_B03\\B04_Pi_results_20261013\\DEMO.md",
+      "identical": true
+    }
+  ],
+  "checked_date": "2026-10-15",
+  "archives": [
+    {
+      "path": "G:\\My Drive\\Seventh Semester\\PBL6\\STT_B01_B03\\B04_Pi4_self_dev20.zip",
+      "code_entries": [
+        {
+          "entry": "experiments/run_asr.py",
+          "local_match": true
+        }
+      ]
+    },
+    {
+      "path": "G:\\My Drive\\Seventh Semester\\PBL6\\STT_B01_B03\\B04_Pi_results_20261013\\B04_zipformer_results_20261013.zip",
+      "code_entries": []
+    },
+    {
+      "path": "G:\\My Drive\\Seventh Semester\\PBL6\\STT_B01_B03\\B04_Pi_results_20261013\\B04_whisper_results_20261013.zip",
+      "code_entries": []
+    }
+  ],
+  "run_provenance": {
+    "experiments/run_asr.py": {
+      "recorded_sha256": "9821c648d9a3ef152c0a80b275923c24060e176c6b9e7a6a849e4eec748ae02b",
+      "current_sha256": "9821c648d9a3ef152c0a80b275923c24060e176c6b9e7a6a849e4eec748ae02b",
+      "matches": true
+    },
+    "experiments/B04/run_whisper_cpp_pi.py": {
+      "recorded_sha256": "60ce6e5c6ae2835700bfaa1a57894d105e2cae9ea96b6bf2f36eaee084fc8286",
+      "current_sha256": "60ce6e5c6ae2835700bfaa1a57894d105e2cae9ea96b6bf2f36eaee084fc8286",
+      "matches": true
+    },
+    "experiments/B04/run_zipformer_pi.py": {
+      "matches": true
+    }
+  }
+}
