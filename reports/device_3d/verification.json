@@ -1,0 +1,103 @@
+{
+  "date": "2026-10-28",
+  "initial": {
+    "selected": "display",
+    "exploded": 0,
+    "visible": [
+      "base",
+      "shell",
+      "front",
+      "display",
+      "camera",
+      "pi",
+      "sd",
+      "rear",
+      "speaker",
+      "microphone",
+      "power",
+      "wiring"
+    ],
+    "meshCount": 188
+  },
+  "exploded": {
+    "selected": "display",
+    "exploded": 0.9954752818904374,
+    "visible": [
+      "base",
+      "shell",
+      "front",
+      "display",
+      "camera",
+      "pi",
+      "sd",
+      "rear",
+      "speaker",
+      "microphone",
+      "power"
+    ],
+    "meshCount": 188
+  },
+  "isolated": {
+    "selected": "pi",
+    "exploded": 1,
+    "visible": [
+      "pi"
+    ],
+    "meshCount": 188
+  },
+  "inside": {
+    "selected": "pi",
+    "exploded": 0.0028798991580882916,
+    "visible": [
+      "base",
+      "display",
+      "camera",
+      "pi",
+      "sd",
+      "speaker",
+      "microphone",
+      "power",
+      "wiring"
+    ],
+    "meshCount": 188
+  },
+  "options": {
+    "selected": "pi",
+    "exploded": 0,
+    "visible": [
+      "base",
+      "display",
+      "camera",
+      "pi",
+      "sd",
+      "speaker",
+      "microphone",
+      "power",
+      "esp32",
+      "fan",
+      "wiring"
+    ],
+    "meshCount": 188
+  },
+  "picked": "camera",
+  "exports": {},
+  "phone": {
+    "width": 390,
+    "scroll": 390,
+    "canvas": 362
+  },
+  "narrow": {
+    "width": 320,
+    "scroll": 320
+  },
+  "errors": [],
+  "externalRequests": 0,
+  "glb_validation": {
+    "status": "passed in full browser export run",
+    "assembled_bytes": 1938612,
+    "exploded_bytes": 1872596,
+    "units": "meters via root matrix scale 0.001",
+    "default_optional_components": "omitted",
+    "standalone_external_requests": 0
+  }
+}
