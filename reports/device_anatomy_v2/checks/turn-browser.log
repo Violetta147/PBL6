@@ -1,0 +1,6 @@
+page 557.5757446289062×393.93939208984375 · live layers device · theme light
+order: 121 live parts and 0 static items meshed, z-buffer 1115.1514892578125×787.8787841796875
+order control (each live layer reversed at 0, 90, 180, 270): least 0 mismatched px · did not fail: the check is broken
+order: 24 states · 0 with a live pair drawn out of order (4+ interior px at 2x) · worst live pair 0 px
+pops control (part 14 hidden for one frame): nothing flagged: the check is broken
+pops, first difference: 24 steps · 0 with a surviving region

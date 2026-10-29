@@ -1,0 +1,70 @@
+clearance: 0 problems
+clearance apart: 0 problems
+terminals: 0 ends not on a mount
+loose ends: 0
+screen folds: 0
+support: 0 unsupported solids · 0 hanging tubes · 0 sunk pairs
+depth order: 0 problems
+through in mid-flight: 0 pairs
+self-overlap: 0 chunks whose outline crosses itself on screen
+wobble: 0 smoothed profiles whose slope turns between its ends
+saddles off their host apart: 0
+stand-in shapes: 0 items whose recorded shape covers too little of what it draws
+crowding: 0 pairs where a bend or end touches another line on screen
+audit · 0 tubes · 121 solids · 0 items · 1 depth states · 0 overlaps · 0 order rules · 5.5 s
+audit passed
+2026-10-28T17:20:22.025Z separation
+2026-10-28T17:20:22.239Z order scan sweep: 360 states
+2026-10-28T17:20:31.858Z order scan sweep: 100 random states, 326 event states
+2026-10-28T17:20:36.648Z order scan open-close: 41 states
+2026-10-28T17:20:37.412Z order scan open-close: 100 random states, 42 event states
+2026-10-28T17:20:39.844Z rigid
+2026-10-28T17:20:44.735Z swept
+2026-10-28T17:20:44.737Z posed
+2026-10-28T17:20:47.022Z folds, self, crowding, endon
+2026-10-28T17:20:47.022Z coverage
+2026-10-28T17:20:47.039Z continuity
+2026-10-28T17:20:47.040Z continuity device: 720 steps of 0.5° over 13 parts
+2026-10-28T17:20:50.805Z continuity left: 400 steps of 0.5 over 1 parts
+2026-10-28T17:20:50.890Z continuity right: 400 steps of 0.5 over 1 parts
+2026-10-28T17:20:50.972Z continuity roof: 400 steps of 0.225 over 1 parts
+2026-10-28T17:20:51.050Z continuity front: 400 steps of 0.2 over 4 parts
+2026-10-28T17:20:51.337Z continuity display: 400 steps of 0.375 over 2 parts
+2026-10-28T17:20:51.490Z continuity camera: 400 steps of 0.375 over 6 parts
+2026-10-28T17:20:52.489Z continuity pi: 400 steps of 0.375 over 67 parts
+2026-10-28T17:20:58.503Z continuity rear: 400 steps of 0.2 over 4 parts
+2026-10-28T17:20:58.830Z continuity speaker: 400 steps of 0.375 over 6 parts
+2026-10-28T17:21:04.667Z continuity audio: 400 steps of 0.375 over 13 parts
+2026-10-28T17:21:06.405Z continuity mic: 400 steps of 0.31942330847951594 over 3 parts
+2026-10-28T17:22:56.149Z continuity open-close: 41 frames over 121 parts
+2026-10-28T17:22:57.286Z depth oracle
+separation: 0
+unseparated: 0
+cycles: 0
+forced: 0
+swaps: 0
+layers: 0
+rigid: 0
+swept: 0
+posed: 0
+folds: 0
+self: 0
+crowding: 0
+endon: 0
+coverage: 0
+depth: 0
+continuity: 0
+worst tone step 1.5 · worst birth 13.00 px² · worst dot α step 0.000 · worst faded α step 0.094 · merges 0 · outline motion over bound 0.000 px · halving 0 of 40
+order changes: 184 states with swaps · 743 order states · 121 posed states · 2370 planes (tightest margin 0.000) · depth oracle 14 states, 6717 overlapping pairs
+  sweep at 128.000: 1353 pairs reorder (right.wall / pi.pcb; right.wall / pi.cpu; right.wall / pi.ram; right.wall / pi.usbController)
+  sweep at 64.000: 796 pairs reorder (pi.usbC / rear.bottom; pi.usbC / rear.top; pi.usbC / rear.left; pi.usbC / rear.right)
+  open-close at 0.800: 600 pairs reorder (base.trayMount.-96 / rear.bottom; base.trayMount.-96 / rear.left; pi.tray / rear.bottom; pi.tray / rear.left)
+  sweep at 243.000: 576 pairs reorder (pi.tray / rear.left; pi.tray / rear.right; pi.tray / speaker.frame; pi.tray / speaker.magnet)
+  sweep at 216.000: 541 pairs reorder (pi.gpio.18.1 / pi.gpio.19.1; pi.gpio.17.1 / pi.gpio.18.1; pi.gpio.17.1 / pi.gpio.19.1; pi.gpio.16.1 / pi.gpio.17.1)
+  sweep at 126.000: 455 pairs reorder (pi.standoff.-7.-24 / pi.sdSlot; pi.standoff.-7.24 / pi.sdSlot; base.trayMount.24 / pi.pcb; base.trayMount.24 / pi.cpu)
+  sweep at 168.000: 409 pairs reorder (roof.lid / pi.cpu; roof.lid / pi.ram; roof.lid / pi.usbController; roof.lid / pi.gpio.2.0)
+  sweep at 277.000: 383 pairs reorder (rear.right / audio.tray; rear.right / audio.ampPcb; rear.right / audio.ampIC; rear.right / audio.capacitor.28)
+  sweep at 5.000: 311 pairs reorder (base.trayMount.94 / pi.tray; base.trayMount.94 / pi.standoff.-84.-24; base.trayMount.94 / pi.standoff.-84.24; base.trayMount.94 / pi.standoff.-7.-24)
+  sweep at 253.000: 282 pairs reorder (base.foot.90.-54 / mic.mesh; base.pad.90.-54 / mic.mesh; base.plate / mic.mesh; right.wall / mic.mesh)
+turn audit · 251.83 s
+turn audit quick: no problems in what ran (quick run, undersampled: the full run is the proof)

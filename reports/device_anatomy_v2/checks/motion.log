@@ -1,0 +1,5 @@
+eval: undefined
+sheet checks/motion-contact.png · 8 frames every 180 ms · readouts 0:"96% tách · 307°" 1:"100% tách · 305°" 2:"100% tách · 305°" 3:"100% tách · 305°" 4:"100% tách · 305°" 5:"100% tách · 305°" 6:"100% tách · 305°" 7:"100% tách · 305°"
+eval: undefined
+sheet checks/closing-contact.png · 8 frames every 180 ms · readouts 0:"8% tách · 305°" 1:"0% tách · 305°" 2:"0% tách · 305°" 3:"0% tách · 305°" 4:"0% tách · 305°" 5:"0% tách · 305°" 6:"0% tách · 305°" 7:"0% tách · 305°"
+console: clean

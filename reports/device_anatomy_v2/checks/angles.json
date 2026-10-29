@@ -1,0 +1,26 @@
+[
+  [
+    "eval",
+    "deviceView.mode(\"exploded\"); deviceView.setState(-55,1,1.05)"
+  ],
+  [
+    "shot",
+    "checks/apart-angle-minus55.png"
+  ],
+  [
+    "eval",
+    "deviceView.setState(45,1,1.05)"
+  ],
+  [
+    "shot",
+    "checks/apart-angle45.png"
+  ],
+  [
+    "eval",
+    "deviceView.setState(120,1,1.05)"
+  ],
+  [
+    "shot",
+    "checks/apart-angle120.png"
+  ]
+]

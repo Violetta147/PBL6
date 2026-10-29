@@ -1,0 +1,355 @@
+{
+  "readAt": "2026-10-28T17:16:53.093Z",
+  "nodes": [
+    {
+      "id": "n_134104e874e4",
+      "name": "Touchscreen interface flexibility",
+      "statement": "Touchscreen controls allow confirmation workflows and interface layouts to change in software without changing the arrangement of physical controls on the enclosure.",
+      "aliases": [],
+      "createdAt": "2026-10-26T13:29:41.183Z",
+      "provenance": [
+        {
+          "chatId": "chat_mvoydjut_49dd56bb",
+          "messageId": "msg_mvp8e6bd_840d103d"
+        }
+      ]
+    },
+    {
+      "id": "n_39d14d212a10",
+      "name": "Acoustic echo cancellation",
+      "statement": "Acoustic echo cancellation uses the signal being played by a device as a reference to estimate and reduce that playback's acoustic contribution to the microphone recording, while attempting to preserve the interlocutor's speech; successful suppression during simultaneous speech is not guaranteed.",
+      "aliases": [
+        "AEC"
+      ],
+      "createdAt": "2026-10-27T04:58:09.476Z",
+      "provenance": [
+        {
+          "chatId": "chat_mvoydjut_49dd56bb",
+          "messageId": "msg_mvq6wbpb_5b177dd3"
+        }
+      ]
+    },
+    {
+      "id": "n_39ba5cc1a6f5",
+      "name": "Fan driver",
+      "statement": "A two-wire fan can be switched with a suitable driver circuit despite lacking a separate PWM control pin; its operating current must not be supplied directly from a GPIO, and its rated voltage and current must be established before designing the connection.",
+      "aliases": [],
+      "createdAt": "2026-10-27T05:11:23.203Z",
+      "provenance": [
+        {
+          "chatId": "chat_mvoydjut_49dd56bb",
+          "messageId": "msg_mvq80tbd_6b830839"
+        }
+      ]
+    },
+    {
+      "id": "n_39d14d212a10",
+      "name": "Acoustic echo cancellation",
+      "statement": "Acoustic echo cancellation commonly runs locally and reduces speaker output captured by the microphone, rather than removing unrelated noise such as a fan; it does not guarantee complete removal, and the available playback reference matters.",
+      "aliases": [],
+      "createdAt": "2026-10-27T05:12:14.044Z",
+      "provenance": [
+        {
+          "chatId": "chat_mvpi5z95_f3c49b6f",
+          "messageId": "msg_mvpiqr0j_255fabea"
+        }
+      ]
+    },
+    {
+      "id": "n_06ee12d309a3",
+      "name": "SPOTER clip representation",
+      "statement": "The adapted VSL400 SPOTER takes 64 frames of 128 features, including hand and body coordinates, geometric relations, and detection flags; it projects features to 108 dimensions and uses a six-layer encoder, six-layer decoder, and one class query to aggregate the clip into a single representation for 400-class prediction.",
+      "aliases": [],
+      "createdAt": "2026-10-27T05:13:05.610Z",
+      "provenance": [
+        {
+          "chatId": "src_d9fcd3d718fa",
+          "messageId": ""
+        }
+      ]
+    },
+    {
+      "id": "n_6f8a7baac952",
+      "name": "Target-device benchmarking",
+      "statement": "Real-time feasibility on Raspberry Pi 4B must be measured for camera capture, landmark extraction, SPOTER inference, and the full pipeline separately; unmeasured landmark FPS and inference-time estimates do not establish end-to-end real-time performance.",
+      "aliases": [],
+      "createdAt": "2026-10-27T05:13:05.610Z",
+      "provenance": [
+        {
+          "chatId": "src_d9fcd3d718fa",
+          "messageId": ""
+        }
+      ]
+    },
+    {
+      "id": "n_efc6d3bf9d53",
+      "name": "HDMI touchscreen connections",
+      "statement": "Connecting a Raspberry Pi 4B to an HDMI touchscreen requires a compatible micro-HDMI-to-HDMI video path and, for a USB-touch model, a separate data-capable USB touch connection; display power must also meet the display's requirements.",
+      "aliases": [],
+      "createdAt": "2026-10-27T06:17:00.803Z",
+      "provenance": [
+        {
+          "chatId": "chat_mvoydjut_49dd56bb",
+          "messageId": "msg_mvq9wl4v_65bbbc81"
+        }
+      ]
+    },
+    {
+      "id": "n_cdd9d47bc6f1",
+      "name": "Power integrity",
+      "statement": "A reliable power design must meet peak load demand and maintain the required voltage at each device despite voltage drops in cables, connectors, and distribution paths; a supply's nameplate current rating alone does not establish stable operation under changing loads.",
+      "aliases": [],
+      "createdAt": "2026-10-27T06:17:00.803Z",
+      "provenance": [
+        {
+          "chatId": "chat_mvoydjut_49dd56bb",
+          "messageId": "msg_mvqa8swd_0a0402d2"
+        }
+      ]
+    },
+    {
+      "id": "n_d2f9b95c6f8e",
+      "name": "Power distribution budget",
+      "statement": "A Raspberry Pi's supply capacity is not all available to peripherals because the Pi consumes part of it and its USB ports have separate delivery limits; peripheral loads and voltage requirements must be established before choosing a shared supply or deciding whether a powered USB hub is needed.",
+      "aliases": [],
+      "createdAt": "2026-10-27T06:17:00.803Z",
+      "provenance": [
+        {
+          "chatId": "chat_mvoydjut_49dd56bb",
+          "messageId": "msg_mvqabpi4_720d2223"
+        }
+      ]
+    },
+    {
+      "id": "n_d2f9b95c6f8e",
+      "name": "Raspberry Pi 4 USB current limit",
+      "statement": "The Raspberry Pi 4 has a combined USB-port current limit of 1.2 A across all ports, not 1.2 A per port; the full current rating of its power adapter is not available to USB peripherals.",
+      "aliases": [],
+      "createdAt": "2026-10-27T06:17:37.716Z",
+      "provenance": [
+        {
+          "chatId": "chat_mvoydjut_49dd56bb",
+          "messageId": "msg_mvqal8kd_31c920d5"
+        }
+      ]
+    },
+    {
+      "id": "n_270b7f74d6a6",
+      "name": "Hiệu năng Zipformer trên Pi",
+      "statement": "Zipformer ONNX INT8 chạy CPU hai luồng trên Raspberry Pi 4B 8 GB qua hai lượt self dev20 cho prediction giống laptop và WER_ws 0,55%. Với 84,160 giây audio, hai lượt có inference 10,278 và 10,226 giây, wall time 14,644 và 14,578 giây; thời gian nạp model khoảng 3,74 giây và RAM cực đại toàn tiến trình khoảng 199 MiB.",
+      "aliases": [],
+      "createdAt": "2026-10-27T07:07:54.553Z",
+      "provenance": [
+        {
+          "chatId": "src_656d18e1bd0c",
+          "messageId": ""
+        }
+      ]
+    },
+    {
+      "id": "n_270b7f74d6a6",
+      "name": "Zipformer on Raspberry Pi",
+      "statement": "On a Raspberry Pi 4B with 8 GB RAM and two CPU threads, Zipformer INT8 processed all 20 self-recorded WAVs totaling 84.160 seconds in each of two runs, matched the laptop predictions on all 20 utterances, and obtained 0.55% whitespace-tokenized WER and 0.16% CER. Inference took 10.278 and 10.226 seconds, with peak RSS of 199.06 and 198.32 MiB.",
+      "aliases": [],
+      "createdAt": "2026-10-27T07:10:25.200Z",
+      "provenance": [
+        {
+          "chatId": "src_038a26911ea8",
+          "messageId": ""
+        }
+      ]
+    },
+    {
+      "id": "n_6f8a7baac952",
+      "name": "End-to-end latency",
+      "statement": "End-to-end sign-language system latency includes capture, landmark or feature extraction, and prediction; model-only frames per second does not measure the complete delay.",
+      "aliases": [],
+      "createdAt": "2026-10-27T08:12:27.375Z",
+      "provenance": [
+        {
+          "chatId": "src_0a5dc96bbf21",
+          "messageId": ""
+        }
+      ]
+    },
+    {
+      "id": "n_6f8a7baac952",
+      "name": "End-to-end deployment cost",
+      "statement": "Deployment cost on an edge device includes image acquisition, keypoint extraction, sequence buffering, and inference-time processing, not just the arithmetic cost of a coordinate transformation; experiment effort additionally includes data validation, cache construction, training, and analysis.",
+      "aliases": [],
+      "createdAt": "2026-10-27T08:13:11.648Z",
+      "provenance": [
+        {
+          "chatId": "src_a5da0d4903b2",
+          "messageId": ""
+        }
+      ]
+    },
+    {
+      "id": "n_06ee12d309a3",
+      "name": "SPOTER điều chỉnh cho VSL400",
+      "statement": "Cấu hình SPOTER trong VSL400_SPOTER_iteration_v1 giữ cache 64×128 và split của baseline, chiếu tuyến tính 128→108, dùng vị trí học cho 64 frame và đầu ra 400 lớp, không trích lại landmark hay thêm chuẩn hóa và augmentation; 128 đặc trưng gồm nhiều loại thông tin, không phải 64 điểm 2D, và cờ phát hiện không phải mặt nạ bỏ frame.",
+      "aliases": [],
+      "createdAt": "2026-10-27T08:24:40.986Z",
+      "provenance": [
+        {
+          "chatId": "src_c9276ad9c3fe",
+          "messageId": ""
+        }
+      ]
+    }
+  ],
+  "chains": [
+    {
+      "id": "arg_5226857d1488",
+      "premises": [
+        "n_39d14d212a10"
+      ],
+      "conclusion": "n_1e06f359c3a0",
+      "createdAt": "2026-10-27T04:58:09.476Z",
+      "provenance": [
+        {
+          "chatId": "chat_mvoydjut_49dd56bb",
+          "messageId": ""
+        }
+      ]
+    },
+    {
+      "id": "arg_54efece11f7c",
+      "premises": [
+        "n_d221385afd00",
+        "n_39d14d212a10"
+      ],
+      "conclusion": "n_e6f022216169",
+      "createdAt": "2026-10-27T04:58:09.476Z",
+      "provenance": [
+        {
+          "chatId": "chat_mvoydjut_49dd56bb",
+          "messageId": ""
+        }
+      ]
+    },
+    {
+      "id": "arg_d2041d3e0d5f",
+      "premises": [
+        "n_06ee12d309a3"
+      ],
+      "conclusion": "n_505e96f31b5f",
+      "createdAt": "2026-10-27T05:13:05.610Z",
+      "provenance": [
+        {
+          "chatId": "src_d9fcd3d718fa",
+          "messageId": ""
+        }
+      ]
+    },
+    {
+      "id": "arg_7989778a36db",
+      "premises": [
+        "n_270b7f74d6a6"
+      ],
+      "conclusion": "n_17912096bba3",
+      "createdAt": "2026-10-27T07:07:54.553Z",
+      "provenance": [
+        {
+          "chatId": "src_656d18e1bd0c",
+          "messageId": ""
+        }
+      ]
+    },
+    {
+      "id": "arg_75f729b00122",
+      "premises": [
+        "n_270b7f74d6a6",
+        "n_3401cf709902"
+      ],
+      "conclusion": "n_5f0ee3aff047",
+      "createdAt": "2026-10-27T07:07:54.553Z",
+      "provenance": [
+        {
+          "chatId": "src_656d18e1bd0c",
+          "messageId": ""
+        }
+      ]
+    },
+    {
+      "id": "arg_9151c7a7f4af",
+      "premises": [
+        "n_e56c68cde990",
+        "n_270b7f74d6a6",
+        "n_5f0ee3aff047"
+      ],
+      "conclusion": "n_0ba2ebfc8b4d",
+      "createdAt": "2026-10-27T07:07:54.553Z",
+      "provenance": [
+        {
+          "chatId": "src_656d18e1bd0c",
+          "messageId": ""
+        }
+      ]
+    },
+    {
+      "id": "arg_e58187afa4f7",
+      "premises": [
+        "n_270b7f74d6a6",
+        "n_7c7f1410210c",
+        "n_5f0ee3aff047"
+      ],
+      "conclusion": "n_0ba2ebfc8b4d",
+      "createdAt": "2026-10-27T07:10:25.200Z",
+      "provenance": [
+        {
+          "chatId": "src_038a26911ea8",
+          "messageId": ""
+        }
+      ]
+    },
+    {
+      "id": "arg_b9b1404682e7",
+      "premises": [
+        "n_c8945df06335",
+        "n_06ee12d309a3"
+      ],
+      "conclusion": "n_557dcaa2fe3d",
+      "createdAt": "2026-10-27T08:24:40.986Z",
+      "provenance": [
+        {
+          "chatId": "src_c9276ad9c3fe",
+          "messageId": ""
+        }
+      ]
+    }
+  ],
+  "sources": {
+    "src_d9fcd3d718fa": {
+      "id": "src_d9fcd3d718fa",
+      "filePath": "TOM_TAT_SPOTER_AUGMENTATION_ERROR_ANALYSIS_CSLR.md",
+      "importedAt": "2026-10-27T05:11:32.030Z"
+    },
+    "src_656d18e1bd0c": {
+      "id": "src_656d18e1bd0c",
+      "filePath": "TONG_QUAN_VA_HOI_DAP_STT_BUOI_01_04.md",
+      "importedAt": "2026-10-27T07:05:36.272Z"
+    },
+    "src_038a26911ea8": {
+      "id": "src_038a26911ea8",
+      "filePath": "DEMO_BUOI_01_04.md",
+      "importedAt": "2026-10-27T07:08:52.034Z"
+    },
+    "src_a5da0d4903b2": {
+      "id": "src_a5da0d4903b2",
+      "filePath": "Đối đáp.md",
+      "importedAt": "2026-10-27T08:07:36.072Z"
+    },
+    "src_0a5dc96bbf21": {
+      "id": "src_0a5dc96bbf21",
+      "filePath": "SLR_Atlas_2026.md",
+      "importedAt": "2026-10-27T08:07:36.082Z"
+    },
+    "src_c9276ad9c3fe": {
+      "id": "src_c9276ad9c3fe",
+      "filePath": "SPOTER_Note_v1.md",
+      "importedAt": "2026-10-27T08:23:07.698Z"
+    }
+  }
+}

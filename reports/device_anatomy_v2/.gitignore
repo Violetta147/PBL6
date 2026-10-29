@@ -1,0 +1,4 @@
+checks/*.png
+checks/turn/
+qa-open.cjs
+build.log

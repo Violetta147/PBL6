@@ -1,0 +1,188 @@
+{
+  "version": "anatomy-v2-2026-10-29",
+  "units": "mm",
+  "estimatedEnvelope": [
+    220,
+    145,
+    216
+  ],
+  "assemblies": [
+    {
+      "id": "base",
+      "name": "Đế & gá khay",
+      "status": "Cơ khí đề xuất",
+      "size": "220 × 145 mm; ước lượng",
+      "description": "Chân cao su và khung giữ thiết bị trên bàn. Vị trí gá chưa phải bản chế tạo.",
+      "move": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "left",
+      "name": "Hông trái",
+      "status": "Cơ khí đề xuất",
+      "size": "Dày 3 mm; ước lượng",
+      "description": "Tháo hông để tiếp cận khay Pi. Vít và khe gió là bố trí minh họa.",
+      "move": [
+        -200,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "right",
+      "name": "Hông phải",
+      "status": "Cơ khí đề xuất",
+      "size": "Dày 3 mm; ước lượng",
+      "description": "Khoang nguồn và thu/phát âm thanh. Điện áp và dòng tổng chưa chốt.",
+      "move": [
+        200,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "roof",
+      "name": "Nắp trên",
+      "status": "Cơ khí đề xuất",
+      "size": "214 × 110 × 3 mm; ước lượng",
+      "description": "Nắp tháo bảo trì, mang vị trí đỡ camera khi lắp.",
+      "move": [
+        0,
+        0,
+        90
+      ]
+    },
+    {
+      "id": "front",
+      "name": "Mặt người ký",
+      "status": "Cơ khí đề xuất",
+      "size": "Cửa màn 170 × 100 mm; dự kiến",
+      "description": "Mặt trước có một màn cảm ứng, hướng người ký. Trong bản mới màn đứng; góc đặt vẫn cần thử với người dùng.",
+      "move": [
+        0,
+        80,
+        0
+      ]
+    },
+    {
+      "id": "display",
+      "name": "Màn cảm ứng 7″",
+      "status": "Phương án dự kiến",
+      "size": "NH2067: 1024 × 600; khoảng 170 × 100 mm",
+      "description": "Trang sản phẩm ghi 17 × 10 cm. Chiều dày, vùng hiển thị và lỗ gá chưa có bản vẽ. Cần HDMI cho hình, USB data cho touch và nguồn phù hợp.",
+      "move": [
+        0,
+        150,
+        0
+      ]
+    },
+    {
+      "id": "camera",
+      "name": "Webcam Aioneus",
+      "status": "Có trong trao đổi gốc",
+      "size": "USB 1080p; vỏ 72 × 28 × 28 mm ước lượng",
+      "description": "Hướng người ký để thu động tác. Chưa rõ mã sản phẩm, góc nhìn, kích thước và có micro hay không.",
+      "move": [
+        0,
+        0,
+        150
+      ]
+    },
+    {
+      "id": "pi",
+      "name": "Raspberry Pi 4B • 8 GB",
+      "status": "Có kết quả thí nghiệm",
+      "size": "PCB 85 × 56 mm; bố trí đầu nối giản lược",
+      "description": "B04 đã chạy Zipformer INT8 trên WAV. SPOTER là hướng tích hợp; chưa có benchmark toàn camera–landmark–SPOTER trên Pi.",
+      "move": [
+        -150,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "rear",
+      "name": "Mặt người đối thoại",
+      "status": "Cơ khí đề xuất",
+      "size": "Cửa loa 60 × 60 mm; ước lượng",
+      "description": "Loa hướng người đối thoại. Khu vực thu âm ở cùng phía là đề xuất, chưa kiểm chứng âm học.",
+      "move": [
+        0,
+        -80,
+        0
+      ]
+    },
+    {
+      "id": "speaker",
+      "name": "Loa & lưới bảo vệ",
+      "status": "Chưa chốt linh kiện",
+      "size": "Củ loa Ø50 mm; đại diện",
+      "description": "Phát câu đã được xác nhận. Không phải bản CAD của Loyfun 804; âm lượng, công suất và trở kháng chưa chốt.",
+      "move": [
+        0,
+        -150,
+        0
+      ]
+    },
+    {
+      "id": "audio",
+      "name": "Khay âm thanh & nguồn",
+      "status": "Chưa chốt linh kiện",
+      "size": "Khay 84 × 84 mm; ước lượng",
+      "description": "Vùng bo ampli, đầu vào DC và kết nối. Adapter đặt ngoài. Không giả định Pi cấp điện đủ cho tất cả ngoại vi.",
+      "move": [
+        150,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "mic",
+      "name": "Cụm thu âm",
+      "status": "Chưa chốt linh kiện",
+      "size": "USB/audio đại diện; chưa chốt AEC",
+      "description": "Thu lời người đối thoại. Đây không phải xác nhận micro webcam hoặc nghe/phát đồng thời đã hoạt động.",
+      "move": [
+        0,
+        -110,
+        65
+      ]
+    }
+  ],
+  "solidCount": 121,
+  "screen": {
+    "candidate": "NH2067",
+    "inches": 7,
+    "pixels": [
+      1024,
+      600
+    ],
+    "describedSize": [
+      170,
+      100
+    ],
+    "depthEstimated": 10
+  },
+  "pi": {
+    "model": "4B 8 GB",
+    "pcb": [
+      85,
+      56
+    ]
+  },
+  "omittedUnconfirmed": [
+    "ESP32",
+    "fan",
+    "battery",
+    "distance sensor"
+  ],
+  "limitations": [
+    "No manufacturing CAD",
+    "No live ML",
+    "No validated power or acoustic design",
+    "Cables not dimensioned or routed"
+  ]
+}

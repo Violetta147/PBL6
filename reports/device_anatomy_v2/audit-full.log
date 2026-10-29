@@ -1,0 +1,38 @@
+clearance: 0 problems
+clearance apart: 0 problems
+terminals: 0 ends not on a mount
+loose ends: 0
+screen folds: 0
+support: 0 unsupported solids · 0 hanging tubes · 0 sunk pairs
+depth order: 0 problems
+through in mid-flight: 0 pairs
+self-overlap: 0 chunks whose outline crosses itself on screen
+wobble: 0 smoothed profiles whose slope turns between its ends
+saddles off their host apart: 0
+stand-in shapes: 0 items whose recorded shape covers too little of what it draws
+crowding: 0 pairs where a bend or end touches another line on screen
+audit · 0 tubes · 121 solids · 0 items · 1 depth states · 0 overlaps · 0 order rules · 5.0 s
+audit passed
+2026-10-28T17:30:22.120Z separation
+2026-10-28T17:30:22.124Z order scan sweep: 360 states
+2026-10-28T17:30:37.673Z order scan sweep: 1000 random states, 326 event states
+2026-10-28T17:31:22.965Z order scan open-close: 121 states
+2026-10-28T17:31:30.085Z order scan open-close: 1000 random states, 62 event states
+2026-10-28T17:32:11.600Z rigid
+2026-10-28T17:32:19.350Z swept
+2026-10-28T17:32:19.352Z posed
+2026-10-28T17:32:50.302Z folds, self, crowding, endon
+2026-10-28T17:32:50.303Z coverage
+2026-10-28T17:32:50.333Z continuity
+2026-10-28T17:32:50.336Z continuity device: 7200 steps of 0.05° over 13 parts
+2026-10-28T17:33:57.911Z continuity left: 400 steps of 0.5 over 1 parts
+2026-10-28T17:33:58.810Z continuity right: 400 steps of 0.5 over 1 parts
+2026-10-28T17:33:59.844Z continuity roof: 400 steps of 0.225 over 1 parts
+2026-10-28T17:34:00.463Z continuity front: 400 steps of 0.2 over 4 parts
+2026-10-28T17:34:03.075Z continuity display: 400 steps of 0.375 over 2 parts
+2026-10-28T17:34:04.328Z continuity camera: 400 steps of 0.375 over 6 parts
+2026-10-28T17:34:06.974Z continuity pi: 400 steps of 0.375 over 67 parts
+2026-10-28T17:34:26.495Z continuity rear: 400 steps of 0.2 over 4 parts
+2026-10-28T17:34:27.721Z continuity speaker: 400 steps of 0.375 over 6 parts
+2026-10-28T17:34:37.809Z continuity audio: 400 steps of 0.375 over 13 parts
+2026-10-28T17:34:40.002Z continuity mic: 400 steps of 0.31942330847951594 over 3 parts

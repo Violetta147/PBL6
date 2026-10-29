@@ -1,0 +1,1 @@
+import {resolve} from 'node:path';import {pathToFileURL} from 'node:url';process.env.CHROME_PATH ||= 'C:/Program Files/Google/Chrome/Application/chrome.exe';const script=resolve('vendor/scripts/'+process.argv[2]+'.mjs');process.argv=[process.execPath,script,...process.argv.slice(3)];await import(pathToFileURL(script).href);

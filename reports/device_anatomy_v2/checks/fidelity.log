@@ -1,0 +1,47 @@
+control (base.plate drawn 2° off): fails as it should
+prisms at 12 angles: outline 5.8651 px · top 0.0642 px · faces 0.0700 px over 7096 faces (68 in crossfade windows, 0 with no kit face of that tone)
+  base.trayMount.-96 outline 0.060 at 157°
+  base.trayMount.-16 outline 0.060 at 307°
+  base.trayMount.94 outline 0.060 at 217°
+  front.right outline 0.060 at 157°
+  camera.faceInset.-25 outline 3.780 at 187°
+  camera.faceInset.20 outline 3.770 at 187°
+  pi.usbController outline 0.060 at 37°
+  pi.gpio.0.1 outline 0.060 at 277°
+  pi.gpio.2.0 outline 0.060 at 67°
+  pi.gpio.2.1 outline 0.060 at 157°
+  pi.gpio.3.0 outline 0.060 at 7°
+  pi.gpio.3.1 outline 0.060 at 247°
+  pi.gpio.4.0 outline 0.060 at 277°
+  pi.gpio.4.1 outline 0.060 at 7°
+  pi.gpio.5.1 outline 0.070 at 157°
+  pi.gpio.6.0 outline 0.060 at 127°
+  pi.gpio.6.1 outline 0.060 at 277°
+  pi.gpio.7.0 outline 0.060 at 7°
+  pi.gpio.7.1 outline 0.060 at 157°
+  pi.gpio.8.1 outline 0.060 at 127°
+  pi.gpio.9.0 outline 0.060 at 187°
+  pi.gpio.10.0 outline 0.060 at 247°
+  pi.gpio.10.1 outline 0.060 at 247°
+  pi.gpio.12.0 outline 0.060 at 157°
+  pi.gpio.12.1 outline 0.060 at 277°
+  pi.gpio.13.0 outline 0.060 at 7°
+  pi.gpio.14.0 outline 0.060 at 307°
+  pi.gpio.15.0 outline 0.060 at 37°
+  pi.gpio.16.1 outline 0.060 at 337°
+  pi.gpio.17.0 outline 0.060 at 247°
+  pi.gpio.17.1 outline 0.060 at 337°
+  pi.gpio.18.1 outline 0.060 at 7°
+  pi.gpio.19.1 outline 0.070 at 337°
+  pi.smd.0 outline 0.060 at 337°
+  pi.smd.2 outline 0.060 at 157°
+  pi.smd.3 outline 0.060 at 187°
+  pi.smd.5 outline 0.060 at 127°
+  rear.bottom outline 0.060 at 337°
+  audio.dcTerminal.0 outline 0.060 at 67°
+  audio.bridge outline 0.060 at 247°
+  mic.mesh outline 5.865 at 7°
+prisms FAILED
+rounds: 84 frames at 12 angles: outline vs kit 0.0809 px (kit rounds to 0.1), vs kit at 10x 0.0321 px · band boundaries ≤ 0.41 px apart (35134 of 4248058 interior cells differ)
+tubes: 0 chunk frames at 12 angles against tubePieces at 10x: body 0.0000 · shine 0.0000 · shade 0.0000 · edges 0.0000 · rings 0.0000 px
+fidelity failed: 1

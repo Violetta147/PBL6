@@ -1,0 +1,1 @@
+import {makeModel,follow,poses} from './model.mjs';const {P,T,R,out}=makeModel();export {P,T,R,out,follow,poses};

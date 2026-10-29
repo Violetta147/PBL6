@@ -1,0 +1,156 @@
+{
+  "separation": [],
+  "unseparated": [],
+  "cycles": [],
+  "forced": [],
+  "swaps": [],
+  "layers": [],
+  "rigid": [],
+  "swept": [],
+  "posed": [],
+  "folds": [],
+  "self": [],
+  "crowding": [],
+  "endon": [],
+  "coverage": [],
+  "depth": [],
+  "continuity": [],
+  "notes": [],
+  "stats": {
+    "planes": 2370,
+    "tightest": 0,
+    "orderStates": 743,
+    "changes": 184,
+    "posedStates": 121,
+    "continuity": {
+      "worst": {
+        "q": 1.5,
+        "birth": 12.998459861104493,
+        "dot": 0,
+        "fade": 0.09375,
+        "motion": 0,
+        "merge": 0
+      },
+      "halvingChecked": 40,
+      "halvingFails": 0,
+      "measures": 52560
+    },
+    "depthStates": 14,
+    "depthPairs": 6717,
+    "seconds": 251.831
+  },
+  "quick": true,
+  "skipped": [],
+  "changes": [
+    {
+      "family": "sweep",
+      "x": 128,
+      "count": 1353,
+      "pairs": [
+        "right.wall / pi.pcb",
+        "right.wall / pi.cpu",
+        "right.wall / pi.ram",
+        "right.wall / pi.usbController"
+      ]
+    },
+    {
+      "family": "sweep",
+      "x": 64,
+      "count": 796,
+      "pairs": [
+        "pi.usbC / rear.bottom",
+        "pi.usbC / rear.top",
+        "pi.usbC / rear.left",
+        "pi.usbC / rear.right"
+      ]
+    },
+    {
+      "family": "open-close",
+      "x": 0.8,
+      "count": 600,
+      "pairs": [
+        "base.trayMount.-96 / rear.bottom",
+        "base.trayMount.-96 / rear.left",
+        "pi.tray / rear.bottom",
+        "pi.tray / rear.left"
+      ]
+    },
+    {
+      "family": "sweep",
+      "x": 243,
+      "count": 576,
+      "pairs": [
+        "pi.tray / rear.left",
+        "pi.tray / rear.right",
+        "pi.tray / speaker.frame",
+        "pi.tray / speaker.magnet"
+      ]
+    },
+    {
+      "family": "sweep",
+      "x": 216,
+      "count": 541,
+      "pairs": [
+        "pi.gpio.18.1 / pi.gpio.19.1",
+        "pi.gpio.17.1 / pi.gpio.18.1",
+        "pi.gpio.17.1 / pi.gpio.19.1",
+        "pi.gpio.16.1 / pi.gpio.17.1"
+      ]
+    },
+    {
+      "family": "sweep",
+      "x": 126,
+      "count": 455,
+      "pairs": [
+        "pi.standoff.-7.-24 / pi.sdSlot",
+        "pi.standoff.-7.24 / pi.sdSlot",
+        "base.trayMount.24 / pi.pcb",
+        "base.trayMount.24 / pi.cpu"
+      ]
+    },
+    {
+      "family": "sweep",
+      "x": 168,
+      "count": 409,
+      "pairs": [
+        "roof.lid / pi.cpu",
+        "roof.lid / pi.ram",
+        "roof.lid / pi.usbController",
+        "roof.lid / pi.gpio.2.0"
+      ]
+    },
+    {
+      "family": "sweep",
+      "x": 277,
+      "count": 383,
+      "pairs": [
+        "rear.right / audio.tray",
+        "rear.right / audio.ampPcb",
+        "rear.right / audio.ampIC",
+        "rear.right / audio.capacitor.28"
+      ]
+    },
+    {
+      "family": "sweep",
+      "x": 5,
+      "count": 311,
+      "pairs": [
+        "base.trayMount.94 / pi.tray",
+        "base.trayMount.94 / pi.standoff.-84.-24",
+        "base.trayMount.94 / pi.standoff.-84.24",
+        "base.trayMount.94 / pi.standoff.-7.-24"
+      ]
+    },
+    {
+      "family": "sweep",
+      "x": 253,
+      "count": 282,
+      "pairs": [
+        "base.foot.90.-54 / mic.mesh",
+        "base.pad.90.-54 / mic.mesh",
+        "base.plate / mic.mesh",
+        "right.wall / mic.mesh"
+      ]
+    }
+  ]
+}

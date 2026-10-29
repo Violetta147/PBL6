@@ -1,0 +1,33 @@
+{
+  "passed": true,
+  "checks": [
+    "load 121 solids",
+    "explode",
+    "inside",
+    "isolation",
+    "keyboard",
+    "drag",
+    "pointer pick",
+    "rear",
+    "flow and research",
+    "speech pathway",
+    "source references",
+    "theme",
+    "SVG export",
+    "390/320 responsive",
+    "no JS errors",
+    "zero external requests"
+  ],
+  "widths": [
+    {
+      "inner": 390,
+      "scroll": 390
+    },
+    {
+      "inner": 320,
+      "scroll": 320
+    }
+  ],
+  "errors": [],
+  "network": []
+}
