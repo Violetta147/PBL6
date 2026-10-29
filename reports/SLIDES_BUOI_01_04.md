@@ -47,7 +47,6 @@ style: |
   .dg-image { position: relative; width: 100%; }
   .dg-image img { display: block; width: 100%; margin: 0; }
   .dg-highlight { position: absolute; left: 6.7%; top: 73.7%; width: 40.5%; height: 5.6%; border: 3px solid #df5a18; border-radius: 3px; box-sizing: border-box; pointer-events: none; }
-  .dg-caption { font-size: 17px; color: #526777; margin-top: 10px; }
 ---
 
 <!-- _class: cover -->
@@ -326,9 +325,9 @@ Nguồn sơ đồ Mermaid: diagrams/slides_next.mmd. Nguồn kế hoạch: ../PL
 
 <!-- _class: deepgram -->
 
-## Phương án thay thế: Deepgram tiếng Việt
+## Phương án thay thế: Deepgram Cloud API
 
-Nhóm dự định thử Deepgram để nhận dạng tiếng Việt qua API đám mây.
+Nhóm dự định thử Deepgram Cloud API để nhận dạng tiếng Việt.
 
 <div class="dg-layout">
 <div class="dg-copy">
@@ -343,7 +342,6 @@ Nhóm dự định thử Deepgram để nhận dạng tiếng Việt qua API đ�
 <img src="figures/dictation_user_reference.png" alt="Minh họa khái niệm dictation do người dùng cung cấp" />
 <div class="dg-highlight" aria-label="Đánh dấu Tự động thêm dấu câu và định dạng"></div>
 </div>
-<div class="dg-caption">Minh họa khái niệm dictation; ảnh do người dùng cung cấp.</div>
 </div>
 </div>
 
