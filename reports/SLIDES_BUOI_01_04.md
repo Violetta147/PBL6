@@ -317,6 +317,34 @@ Nguồn sơ đồ Mermaid: diagrams/slides_next.mmd. Nguồn kế hoạch: ../PL
 
 ---
 
+<!-- _class: references -->
+
+## Phương án thay thế: Deepgram tiếng Việt
+
+Nhóm dự định thử Deepgram để chuyển lời nói tiếng Việt thành văn bản qua dịch vụ đám mây.
+
+**Audio từ Pi → Internet → Deepgram → Phụ đề**
+
+Deepgram hỗ trợ tiếng Việt (`vi`). Pi thu và gửi audio, nhận lại văn bản; phần nhận dạng chạy trên máy chủ Deepgram.
+
+Phương án này giảm nhu cầu tính toán ASR trên Pi, nhưng phụ thuộc kết nối Internet và chi phí dịch vụ.
+
+Nhóm dự định thử trên audio tự thu để đánh giá chất lượng và độ trễ trước khi chọn phương án tích hợp.
+
+[ASR tiếng Việt](https://deepgram.com/product/speech-to-text/vietnamese) khác với tính năng [Dictation](https://developers.deepgram.com/docs/dictation) xử lý lệnh dấu câu, hiện được tài liệu ghi hỗ trợ tiếng Anh.
+
+<!--
+Đây là phương án dự kiến, chưa tích hợp hoặc đo trong các thí nghiệm đã báo cáo. Phân biệt ASR tiếng Việt với feature dictation=true chuyển spoken punctuation commands thành dấu câu. Tài liệu Dictation đánh dấu English (all available regions), nên chưa xác nhận tính năng này cho tiếng Việt. Không trình bày chất lượng hoặc tốc độ của dịch vụ như kết quả đã đo.
+
+Nguồn chính thức đối chiếu ngày 29/10/2026:
+- https://deepgram.com/product/speech-to-text/vietnamese — hỗ trợ ASR tiếng Việt qua API, dạng tệp và streaming.
+- https://developers.deepgram.com/docs/language — mã ngôn ngữ tiếng Việt vi.
+
+Ưu điểm giảm tính toán trên Pi là hệ quả của kiến trúc xử lý cloud, không phải số đo tài nguyên mới. Nếu thử, cần đo cả thời gian truyền mạng, nhận dạng và nhận kết quả; không lấy thời gian cloud so trực tiếp với RTF xử lý WAV local.
+-->
+
+---
+
 ## Công việc tiếp theo
 
 | Mã | Nội dung dự kiến |
