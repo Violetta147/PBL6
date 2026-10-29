@@ -41,6 +41,13 @@ style: |
   section.formula p:first-of-type { margin: 20px 0 35px; padding: 20px 22px; background: #e8f1f6; font-size: 34px; }
   section.example table { max-width: 800px; font-size: 27px; }
   section.references p { font-size: 25px; }
+  section.deepgram p { font-size: 25px; }
+  .dg-layout { display: grid; grid-template-columns: 0.95fr 1.05fr; gap: 28px; align-items: start; }
+  section.deepgram .dg-copy p { font-size: 23px; margin: 0 0 16px; }
+  .dg-image { position: relative; width: 100%; }
+  .dg-image img { display: block; width: 100%; margin: 0; }
+  .dg-highlight { position: absolute; left: 6.7%; top: 73.7%; width: 40.5%; height: 5.6%; border: 3px solid #df5a18; border-radius: 3px; box-sizing: border-box; pointer-events: none; }
+  .dg-caption { font-size: 17px; color: #526777; margin-top: 10px; }
 ---
 
 <!-- _class: cover -->
@@ -317,30 +324,35 @@ Nguồn sơ đồ Mermaid: diagrams/slides_next.mmd. Nguồn kế hoạch: ../PL
 
 ---
 
-<!-- _class: references -->
+<!-- _class: deepgram -->
 
 ## Phương án thay thế: Deepgram tiếng Việt
 
-Nhóm dự định thử Deepgram để chuyển lời nói tiếng Việt thành văn bản qua dịch vụ đám mây.
+Nhóm dự định thử Deepgram để nhận dạng tiếng Việt qua API đám mây.
 
-**Audio từ Pi → Internet → Deepgram → Phụ đề**
-
-Deepgram hỗ trợ tiếng Việt (`vi`). Pi thu và gửi audio, nhận lại văn bản; phần nhận dạng chạy trên máy chủ Deepgram.
-
-Phương án này giảm nhu cầu tính toán ASR trên Pi, nhưng phụ thuộc kết nối Internet và chi phí dịch vụ.
-
-Nhóm dự định thử trên audio tự thu để đánh giá chất lượng và độ trễ trước khi chọn phương án tích hợp.
-
-[ASR tiếng Việt](https://deepgram.com/product/speech-to-text/vietnamese) khác với tính năng [Dictation](https://developers.deepgram.com/docs/dictation) xử lý lệnh dấu câu, hiện được tài liệu ghi hỗ trợ tiếng Anh.
+<div class="dg-layout">
+<div class="dg-copy">
+<p><strong>Pi → Internet → Deepgram → Phụ đề</strong></p>
+<p>Pi gửi audio và nhận văn bản; phần nhận dạng tiếng Việt chạy trên máy chủ Deepgram.</p>
+<p>Giảm nhu cầu tính toán trên Pi, nhưng phụ thuộc kết nối Internet và chi phí dịch vụ.</p>
+<p>Deepgram có <a href="https://deepgram.com/pricing">200 USD credits miễn phí</a> để bắt đầu thử nghiệm.</p>
+<p>Nhóm dự định thử trên audio tự thu để đánh giá chất lượng và độ trễ.</p>
+</div>
+<div>
+<div class="dg-image">
+<img src="figures/dictation_user_reference.png" alt="Minh họa khái niệm dictation do người dùng cung cấp" />
+<div class="dg-highlight" aria-label="Đánh dấu Tự động thêm dấu câu và định dạng"></div>
+</div>
+<div class="dg-caption">Minh họa khái niệm dictation; ảnh do người dùng cung cấp.</div>
+</div>
+</div>
 
 <!--
-Đây là phương án dự kiến, chưa tích hợp hoặc đo trong các thí nghiệm đã báo cáo. Phân biệt ASR tiếng Việt với feature dictation=true chuyển spoken punctuation commands thành dấu câu. Tài liệu Dictation đánh dấu English (all available regions), nên chưa xác nhận tính năng này cho tiếng Việt. Không trình bày chất lượng hoặc tốc độ của dịch vụ như kết quả đã đo.
-
-Nguồn chính thức đối chiếu ngày 29/10/2026:
-- https://deepgram.com/product/speech-to-text/vietnamese — hỗ trợ ASR tiếng Việt qua API, dạng tệp và streaming.
-- https://developers.deepgram.com/docs/language — mã ngôn ngữ tiếng Việt vi.
-
-Ưu điểm giảm tính toán trên Pi là hệ quả của kiến trúc xử lý cloud, không phải số đo tài nguyên mới. Nếu thử, cần đo cả thời gian truyền mạng, nhận dạng và nhận kết quả; không lấy thời gian cloud so trực tiếp với RTF xử lý WAV local.
+Phương án dự kiến, chưa tích hợp/chạy benchmark. Ảnh minh họa dictation theo nghĩa chung, không phải bằng chứng riêng về tính năng của Deepgram. Khung màu cam là lớp CSS phủ lên ảnh; file PNG được giữ nguyên byte.
+Nguồn Deepgram đối chiếu ngày 29/10/2026:
+- https://deepgram.com/product/speech-to-text/vietnamese — ASR tiếng Việt.
+- https://deepgram.com/pricing — Free $200 credit then pay-as-you-go; không ghi credits cấp lại hằng tháng.
+Đã bỏ câu phân biệt Dictation khỏi nội dung chiếu theo yêu cầu. Không khẳng định dictation=true hỗ trợ lệnh dấu câu tiếng Việt. Chi phí/ưu đãi có thể thay đổi; chưa xác minh quyền lợi riêng trong tài khoản nhóm.
 -->
 
 ---
