@@ -1,6 +1,6 @@
-# STT prototype: seven-day work plan
+# STT work plan to 5 November 2026
 
-Date: 2026-11-02. Use this file for new STT work. Keep `PLAN_DEMO_STT_7_BUOI.md` as the previous plan.
+Date: 2026-11-02. Deadline: Thursday, 2026-11-05. Keep the active project at `C:\Users\LAPTOP T&T\VIOLETTA\Documents\ChatGPT\PBL6`. Do not relocate it to drive D. Use this file for new STT work. Keep `PLAN_DEMO_STT_7_BUOI.md` as the previous plan. Use `STT_SYSTEM_SPEC.md` for behavior and `STT_SHIFT_HANDOFF.md` for sequential work by five people.
 
 ## 1. Scope and dependencies
 
@@ -8,13 +8,13 @@ Build this path: microphone or recorded files -> speech-to-text engine -> subtit
 
 Allow microphone capture during text-to-speech (TTS) playback. First test the actual audio. Add acoustic echo cancellation (AEC) if speaker audio causes a problem. Do not use microphone muting as the default design. Headphones can test playback, but cannot prove that speaker echo is controlled.
 
-Use the existing Pi, webcam microphone, headphones and laptop first. Keep the sign-language recognizer outside this STT change. Define its interface to the application. Use existing sign-language and TTS code only after its owner supplies the interface and a working example. Do not start new sign-language model work.
+Use the existing Pi, webcam microphone, headphones and laptop first. Build only the STT application in this project. Do not require code or interfaces from another recognition application. Test capture during playback only when an actual playback source is available.
 
-Use seven work periods. The working schedule is 2–8 November 2026. This is a scheduling assumption, not a confirmed submission date. Ask the user for the actual deadline before a device session is booked. The agent can prepare code and test evidence before that answer.
+Complete integration and verification by Thursday, 5 November 2026. Use five sequential shifts as specified in `STT_SHIFT_HANDOFF.md`. Each person must leave a runnable command, test result and next action. Do not treat five people as five independent implementations.
 
-Keep a small ThingsBoard stage after the STT path works. The user has requested device monitoring. Do not treat this stage as a reason to postpone the first STT path. Confirm whether it must pass in this week before it takes time from required engine comparisons. Do not silently remove the stage.
+Include a small IoT path for STT session state, processing errors, software version and update status. MQTT, a cloud dashboard and over-the-air application updates are relevant. ThingsBoard is a platform candidate, not a previously confirmed platform choice. Do not build CPU/RAM dashboards or unrelated remote controls. See `STT_SYSTEM_SPEC.md` for the data contract.
 
-Account status, API spending limit, current Pi access, final test distance and the submission time are not yet known. Ask for each input before its dependent action. Do not ask for API keys in chat. Do not make paid requests until the user gives a run budget. Keep blocked engines in the comparison table with their actual status.
+The user has a Deepgram account and has used it in LearnHarness. Direct API credentials, project permissions and remaining credit have not been tested. Google Cloud billing is not set up. API spending limits and current Pi access are still required before their dependent actions. Configure credentials through backend Settings or local server authentication, not chat. Keep an unavailable engine in the comparison table with its actual status.
 
 ## 2. Fixed experiment rules
 
@@ -36,7 +36,7 @@ Use the existing pilot and development sets to check code and settings. The exis
 
 Before selecting an engine, reserve a practical new set: 10 development utterances, 20 evaluation utterances, and two minutes of non-speech audio. Ask the user to record these with the actual webcam microphone. Store original audio, reference, speaker/session, distance, environment and consent. The user must listen to and check the references. Keep development and evaluation sessions separate. Use a second speaker only if available; record the limitation if there is one speaker. Keep the 200 reserved public test IDs as a separate optional public comparison.
 
-First use one speaker in a quiet indoor room. Treat distance and dialect coverage as open test inputs. Do not claim far-field, multi-speaker or dialect coverage without those recordings. To test noise, use matched sentences and the same speaker/distance with recorded conditions. Do not create a large collection task for one person in one week.
+Use one foreground speaker, seated near the device as for desktop voice prompting. Prioritize Central Vietnamese speech. Measure the actual mouth-to-microphone distance for each session; do not invent a distance from the user's description. Start in a quiet indoor room. Do not promise separation of overlapping speakers. To test noise, use matched sentences and the same speaker/distance with recorded conditions. Keep the collection small enough for the deadline.
 
 Before opening evaluation predictions, freeze the candidate configuration and provisional engineering targets. Proposed targets are: at least 95% of speech inputs complete, corpus local RTF below 1 for continuous use, and final subtitle delay p95 at most 3 seconds for short utterances. These are proposed prototype targets, not measured results or a confirmed user requirement. Agree or revise them before the selection run. Report the sample count; p95 from a small set is descriptive.
 
@@ -52,7 +52,7 @@ Choose the lowest development WER_ws among candidates that meet the agreed compl
 | 4 / N04 | Agent: add Pi capture, bounded queues, replay and subtitle events. User: test the selected capture device on Pi. | At least one working local or cloud adapter | Microphone -> subtitles and realtime WAV replay. Capture does not wait for network I/O. No silent queue overflow, missing final text or duplicated final segments in scripted tests. |
 | 5 / N05 | Agent: connect the web interface. User: run capture on Pi and open the web application on the laptop. | N04, browser, local network | Start/Stop, engine selection, file/batch input, status and subtitles work. Test partial replacement, Stop, long silence, timeout, network loss and restart. Run local without Internet. |
 | 6 / N06 | Agent and user: freeze settings, then evaluate reserved audio and live behavior. Test playback with capture enabled. | Checked references, frozen settings, physical speaker if testing echo | Raw predictions, per-segment timestamps, scores, failures, resource readings and selection outcome. Do not claim an echo test passed with headphones. If echo causes a problem, register an AEC condition and retain raw/processed audio for comparison. |
-| 7 / N07 | Agent: finish reproducible startup and fault recovery checks. Add the small monitoring stage only after required STT gates pass. | N02–N06 or explicit failure status; monitoring scope decision | Clean-start check, repeatable local startup, preserved incomplete-run status. If monitoring is in scope: telemetry arrives and one configuration has an applied-value response. No claim that MQTT connection proves camera health. |
+| 7 / N07 | Agent: finish reproducible startup, STT telemetry and application update checks. | N02–N06 or explicit failure status; MQTT endpoint and update package | Clean-start check, session/version/error status on the dashboard, one verified application update and failure recovery. Keep an unavailable service explicit. |
 
 Dependencies are gates, not promises that a blocked stage finishes on a calendar day. Agent-only code and fixture tests can proceed while an account or Pi session is unavailable. Do not deploy to the Pi or start model runs from this document without checking their required inputs.
 
@@ -70,20 +70,20 @@ Stop closes capture, sends any permitted pending audio, requests engine finaliza
 
 The first network-loss implementation must show the failure, preserve confirmed text and offer local restart. Do not silently transfer an active session to another engine or imply uninterrupted transcription. Automatic transfer remains an open product choice. Keep failed/cloud and new/local session IDs separate. Never put cloud credentials in browser code.
 
-Keep incoming speech subtitles separate from the outgoing gloss draft. New glosses can enter the next draft during TTS playback. They do not change the text already approved for playback and are not appended to incoming speech subtitles. A TTS fixture can test this interface, but must be labeled as a fixture.
+Live provisional text and committed final text are required user-visible behaviors. A record-once mode is also useful for file capture and as a diagnostic path. It does not replace the live-text requirement. The engine capability must be explicit; an engine that only returns final segments cannot claim to provide word updates while the segment is still being recorded.
 
 ## 6. Small monitoring stage
 
-The requested direction is Pi -> MQTT -> ThingsBoard on a PC/server. Start with heartbeat, CPU/RAM, temperature and explicit application/camera states. Define states such as `not_started`, `capturing`, `stopped` and `error`; USB detection alone is not a health test. Keep the user web interface separate from the operator dashboard.
+Use Pi -> MQTT -> cloud/dashboard for application telemetry. Start with session state, chosen engine, request completion/error counts, processed audio seconds, software version and update status. Keep the user web interface separate from the operator dashboard. MQTT is not required for sending audio to a speech provider. Do not add a separate broker when the selected platform already provides the needed endpoint.
 
-One proposed setting is TTS speed for the next playback. Do not implement it before a working TTS interface defines units and allowed values. Store requested and applied values separately, with a version and rejection reason. Check current ThingsBoard documentation and installation requirements before choosing the version. Do not add a separate broker, database, OTA or remote reset without a task that requires it.
+Provide local Settings for cloud authentication, enabled local engines, selected engine, microphone, language, subtitle behavior and data retention. Do not add arbitrary remote commands. Over-the-air updates mean updating the Pi application package in this stage. Include package verification, version reporting, a health check and rollback. MCU firmware updates require an actual MCU task and remain a separate implementation choice.
 
 ## 7. User input at dependent steps
 
 1. Before N02: give the SSH/Connect session to use, confirm the run limit, and run the supplied device-check commands. Return complete output and any error. Do not repeat the previous audio bring-up unless the device has changed or a new test fails.
-2. Before N03: state whether Google Cloud STT billing and a Deepgram account are available. Configure credentials outside chat. Set the test-audio and spending cap. The agent then gives the exact local command and expected output for the prepared adapter.
-3. Before N06: record and check the small data set. Confirm the main distance, noise condition and available speakers. Do not use model output as a checked reference.
-4. Before a purchase: check the group inventory and the exact missing function. Give a purchase ceiling only if a purchase is needed. Verify current stock, accessories and delivery date before the schedule depends on an item.
+2. Before N03: configure the existing Deepgram API access locally and check its available credit. For Google, check Free Trial eligibility and billing setup. Use Speech-to-Text V2 with a documented current model; `chirp_3` is the present candidate. Set a test-audio and spending cap before paid requests.
+3. Before N06: record and check the small Central Vietnamese data set at the intended desktop distance. Store the measured distance and noise condition. Do not use model output as a checked reference.
+4. Before a purchase: compare alternatives in the BOM by benefit, limitation, extra cost and delivery. The user has not set a purchase ceiling and does not require the cheapest option. Do not ask for a ceiling before providing that comparison.
 
 ## 8. Working references
 

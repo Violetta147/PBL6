@@ -21,11 +21,21 @@ Ngày 02/11/2026. Đây là một BOM dùng chung cho các mốc phát triển. 
 | micro-HDMI -> HDMI | 1 đường hình ảnh nếu dùng màn HDMI | Kiểm tra cáp/adapter sẵn có và bộ phụ kiện trước mua. Không dùng để đưa desktop Pi lên laptop qua VNC/web. |
 | Cáp USB touch + nguồn màn | Theo đúng model màn | Là các đường riêng với HDMI. Không giả định Pi cấp đủ nguồn cho màn. |
 | Powered USB hub | Chờ kiểm tra tải/cổng | Chỉ thêm nếu thiếu cổng hoặc nguồn ngoại vi không đáp ứng. |
-| HC-SR04 / VL53L1X | Cảm biến mở rộng | HC-SR04 có trong danh sách kho; chưa chọn cho sản phẩm. Chưa cần mua VL53L1X. |
-| Pin/UPS, đo nguồn, vỏ | Giai đoạn sau | Chọn sau khi biết công suất, thời gian dự phòng và bố trí cơ khí. |
 
 **Đợt đầu: chưa xác định món bắt buộc phải mua mới để bắt đầu STT.** Có thể làm kiểm thử phần mềm và thu bằng webcam đã có. Thử vọng âm thực tế còn phụ thuộc loa; không ghi là đã đạt chỉ từ bản thu webcam hoặc tai nghe.
 
-Ưu tiên khảo sát mua trực tiếp tại Đà Nẵng (Nguyễn Hiền, SPIDER, BKM) hoặc Shopee khi phát sinh món cần mua. Chưa xác minh giá, tồn kho, bộ phụ kiện hay thời gian giao trong lượt này. Mức trần mua bổ sung chưa được cung cấp. Không đưa thời gian giao hàng chưa xác nhận vào lịch bắt buộc.
+## So sánh trước khi quyết định ngân sách
+
+| Phương án | Lợi ích | Hạn chế / việc phải thử | Chi phí bổ sung hiện biết | Khuyến nghị cho mốc 05/11 |
+|---|---|---|---|---|
+| Webcam đang có + màn hình laptop | Thu âm đã thử trên Pi; bắt đầu được ngay | Chưa đo chất lượng giọng miền Trung tại khoảng cách sử dụng thực tế | 0 đồng mua thêm | Dùng trước |
+| Micro USB riêng + laptop | Có thể chọn vị trí và hướng thu thuận tiện hơn | Phải chọn model, thử Linux, chất lượng và ngày nhận; không mặc định tốt hơn webcam | Chưa chọn model, chưa có giá xác minh | Chỉ xét nếu phép thu bằng webcam cho thấy vấn đề |
+| Mic–loa tích hợp AEC | Có thể giảm công việc định tuyến tham chiếu loa khi cần chống vọng | Cần thử đúng Pi/OS; quảng cáo lọc ồn không chứng minh AEC; chưa có nhu cầu mua đã xác nhận | Chưa có báo giá đã kiểm tra | Để sau thử vọng âm |
+| Loa riêng để thử + micro hiện có | Kiểm tra tình huống loa phát trong lúc thu | Tùy bố trí có thể thu lẫn tiếng loa; chưa phải giải pháp AEC | 0 đồng nếu nhóm tận dụng/mượn được; giá mua mới chưa kiểm tra | Tận dụng khi đến bài thử playback |
+| Touchscreen và bộ cáp/nguồn | Thiết bị dùng độc lập với laptop | Thêm chi phí, nguồn và việc tích hợp; không cần cho bản web trên laptop | Chưa chốt model/phụ kiện, không dùng giá cũ làm báo giá mới | Hoãn trong mốc đầu |
+
+Người dùng muốn xem so sánh trước, chưa chốt số tiền và không bắt buộc chọn cấu hình rẻ nhất. Đánh giá giá trị và thời gian nhận trước khi yêu cầu quyết định mua. Không tự hiểu việc chưa có trần ngân sách là quyền chi tiêu không giới hạn.
+
+Ưu tiên khảo sát mua trực tiếp tại Đà Nẵng (Nguyễn Hiền, SPIDER, BKM) hoặc Shopee khi phát sinh món cần mua. Chưa xác minh giá, tồn kho, bộ phụ kiện hay thời gian giao trong lượt này. Không đưa thời gian giao hàng chưa xác nhận vào lịch bắt buộc.
 
 Nguồn tồn kho và xác nhận thu/phát: `C:\Users\LAPTOP T&T\Downloads\iot-communication-support-system.md`, đặc biệt phần bàn giao cuối. Hướng dẫn nguồn Pi: https://www.raspberrypi.com/documentation/computers/getting-started.html . Tài liệu hãng ghi nguồn Pi 4 là 5 V–3 A; vẫn phải kiểm tra nguồn thực tế khi có tải.

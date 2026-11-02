@@ -1,6 +1,6 @@
 # PBL6 — nghiên cứu STT tiếng Việt cho kính thông minh
 
-> Công việc STT mới ngày 02/11/2026 chuyển sang thiết bị hỗ trợ giao tiếp đặt bàn. Dùng [kế hoạch một tuần](STT_PLAN_1_WEEK.md), [BOM tổng thể](STT_BOM.md) và [kiểm kê bằng chứng](experiments/inventory_20261102/README.md). Các tài liệu bảy buổi/kính thông minh bên dưới giữ vai trò lịch sử và tra cứu; không tự động là phạm vi hiện tại.
+> Giữ dự án STT tại thư mục C hiện tại. Hạn hoàn thành là thứ Năm 05/11/2026. Dùng [kế hoạch hiện tại](STT_PLAN_1_WEEK.md), [đặc tả Settings/phụ đề/IoT](STT_SYSTEM_SPEC.md), [bàn giao năm ca nối tiếp](STT_SHIFT_HANDOFF.md), [BOM tổng thể](STT_BOM.md) và [kiểm kê bằng chứng](experiments/inventory_20261102/README.md). Các tài liệu cũ bên dưới giữ vai trò lịch sử và tra cứu; không tự động là phạm vi hiện tại.
 
 ## Tài liệu định hướng hiện tại
 

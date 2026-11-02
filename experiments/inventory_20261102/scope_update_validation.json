@@ -1,0 +1,18 @@
+{
+  "date": "2026-11-02",
+  "active_workspace": "C:\\Users\\LAPTOP T&T\\VIOLETTA\\Documents\\ChatGPT\\PBL6",
+  "relocation": "cancelled during source hashing; no copy or removal",
+  "destination_exists": false,
+  "temporary_migration_script": "disabled",
+  "document_links_fences_scope": "passed",
+  "deadline": "2026-11-05",
+  "new_application_implemented": false,
+  "paid_API_calls": false,
+  "new_ASR_runs": false,
+  "unit_suite": {
+    "command": "data\\stt_venv\\Scripts\\python.exe -m unittest discover -s experiments/tests -v",
+    "tests": 22,
+    "failures": 0,
+    "seconds": 13.143
+  }
+}
