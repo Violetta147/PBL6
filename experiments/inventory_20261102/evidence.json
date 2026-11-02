@@ -1,0 +1,4889 @@
+{
+  "date": "2026-11-02",
+  "root": "C:\\Users\\LAPTOP T&T\\VIOLETTA\\Documents\\ChatGPT\\PBL6",
+  "groups": {
+    ".gitattributes": {
+      "files": 1,
+      "bytes": 385
+    },
+    ".gitignore": {
+      "files": 1,
+      "bytes": 40
+    },
+    "AGENTS.md": {
+      "files": 1,
+      "bytes": 698
+    },
+    "ChatGPT-Concepts-20261009-1926.md": {
+      "files": 1,
+      "bytes": 55318
+    },
+    "ChatGPT-Theo dõi và tóm tắt kênh AI Search-20261009-1957.md": {
+      "files": 1,
+      "bytes": 11592
+    },
+    "ChatGPT-Tìm dataset STT Việt Nam-20261009-1837.md": {
+      "files": 1,
+      "bytes": 12553
+    },
+    "ChatGPT-Tìm hiểu Stage 1 STT-20261009-1940.md": {
+      "files": 1,
+      "bytes": 10455
+    },
+    "ChatGPT-Tìm hiểu Stage 2 STT-20261009-1940.md": {
+      "files": 1,
+      "bytes": 10797
+    },
+    "Nhập Môn Dữ Liệu Âm Thanh.md": {
+      "files": 1,
+      "bytes": 14935
+    },
+    "PLAN_DEMO_STT_7_BUOI.md": {
+      "files": 1,
+      "bytes": 19860
+    },
+    "README.md": {
+      "files": 1,
+      "bytes": 10921
+    },
+    "REVIEW_CONCEPTS_20261009.md": {
+      "files": 1,
+      "bytes": 7326
+    },
+    "SPEC_ASR_PI4_RESEARCH_20261009.md": {
+      "files": 1,
+      "bytes": 14470
+    },
+    "SPEC_STT_SMART_GLASSES.md": {
+      "files": 1,
+      "bytes": 889
+    },
+    "SpeechToTextSlides.txt": {
+      "files": 1,
+      "bytes": 15342
+    },
+    "START_NEXT_CHAT_STT.md": {
+      "files": 1,
+      "bytes": 11531
+    },
+    "VALIDATION_SPEC_ASR_PI4_20261009.md": {
+      "files": 1,
+      "bytes": 3141
+    },
+    ".obsidian": {
+      "files": 50,
+      "bytes": 26435953
+    },
+    "data/drive_sync_audit_20261015.json": {
+      "files": 1,
+      "bytes": 6977
+    },
+    "data/derived": {
+      "files": 118,
+      "bytes": 102188228
+    },
+    "data/document_backups": {
+      "files": 43,
+      "bytes": 1480067
+    },
+    "data/models": {
+      "files": 6,
+      "bytes": 205625993
+    },
+    "data/notebook_backups": {
+      "files": 5,
+      "bytes": 4363063
+    },
+    "data/pi_access": {
+      "files": 2,
+      "bytes": 511
+    },
+    "data/presentation_tools": {
+      "files": 40277,
+      "bytes": 528316662
+    },
+    "data/raw": {
+      "files": 6,
+      "bytes": 2368835648
+    },
+    "data/self_recorded": {
+      "files": 46,
+      "bytes": 4519424
+    },
+    "data/stt_venv": {
+      "files": 3589,
+      "bytes": 322980807
+    },
+    "experiments": {
+      "files": 282,
+      "bytes": 1652417
+    },
+    "iot": {
+      "files": 1,
+      "bytes": 5082589
+    },
+    "marp_slides_tutorial": {
+      "files": 5,
+      "bytes": 12522
+    },
+    "mynotes": {
+      "files": 3,
+      "bytes": 83595
+    },
+    "reports": {
+      "files": 1330,
+      "bytes": 63983736
+    }
+  },
+  "manifests": {
+    "fleurs_dev100.csv": {
+      "rows": 100,
+      "sha256": "a4a257c6d20f98fb5d1667076f1cf4bc146689acde9f9de8242ad88f2aedaca8",
+      "fields": [
+        "id",
+        "filename",
+        "split",
+        "corpus",
+        "reference",
+        "source_id",
+        "audio_path",
+        "duration_s",
+        "audio_sha256",
+        "source_audio_sha256"
+      ],
+      "audio_hash_errors": []
+    },
+    "pilot.csv": {
+      "rows": 10,
+      "sha256": "264c6b60acb010d817c1becfb84940e1baaffe7c5d3c55f886f0e136416ce475",
+      "fields": [
+        "id",
+        "filename",
+        "split",
+        "corpus",
+        "reference",
+        "source_id",
+        "audio_path",
+        "duration_s",
+        "audio_sha256",
+        "source_audio_sha256"
+      ],
+      "audio_hash_errors": []
+    },
+    "self_dev20.csv": {
+      "rows": 20,
+      "sha256": "1cfcd5f86d088ee5fdf1d6e920a04a1872fe1e72ea8e722ab4200e5eb30fd3da",
+      "fields": [
+        "id",
+        "prompt_id",
+        "raw_audio_path",
+        "audio_path",
+        "speaker",
+        "session",
+        "condition",
+        "distance_cm_approx",
+        "device",
+        "recording_app",
+        "consent",
+        "label_verified",
+        "duration_s",
+        "source_audio_sha256",
+        "audio_sha256",
+        "reference",
+        "condition_description",
+        "metadata_confirmed_date",
+        "split",
+        "corpus"
+      ],
+      "audio_hash_errors": []
+    },
+    "self_dev_pairs4.csv": {
+      "rows": 4,
+      "sha256": "5ab46ff7a9f02a6208e0841ddf78fb110275e96c6cf8f2e1b8ffe6c7fa3ecf63",
+      "fields": [
+        "id",
+        "prompt_id",
+        "raw_audio_path",
+        "audio_path",
+        "speaker",
+        "session",
+        "condition",
+        "distance_cm_approx",
+        "device",
+        "recording_app",
+        "consent",
+        "label_verified",
+        "duration_s",
+        "source_audio_sha256",
+        "audio_sha256",
+        "reference",
+        "condition_description",
+        "metadata_confirmed_date",
+        "split",
+        "corpus"
+      ],
+      "audio_hash_errors": []
+    },
+    "test_ids_reserved.csv": {
+      "rows": 200,
+      "sha256": "dee56a31a55c084e8b955275df9908e577a05bddc22a41d455278c7f9d7ad99f",
+      "fields": [
+        "id",
+        "filename",
+        "split"
+      ]
+    }
+  },
+  "runs": [
+    {
+      "path": "experiments/B01/results/whisper_pilot.jsonl",
+      "rows": 10,
+      "sha256": "74cad5c518897780c0943415c9ffdad4a8f2e4bbec759524b85dcb94f0d8ec2a",
+      "summary_recomputed": {
+        "total": 10,
+        "completed": 10,
+        "reference_units": 320,
+        "reference_chars": 1133,
+        "WER_ws": 0.36875,
+        "CER": 0.20388349514563106,
+        "false_captions_per_minute": null
+      },
+      "stored_score_errors": 0,
+      "finished": true,
+      "signature": {
+        "model": "whisper",
+        "manifest_sha256": "264c6b60acb010d817c1becfb84940e1baaffe7c5d3c55f886f0e136416ce475",
+        "runner_sha256": "ca446abb3e6ecccca1792558300a7b78f07c711cdca20163505f4425d34054e0",
+        "scoring_sha256": "9e4ceeb03ebe765e5e2b72181cf0221cb32774fdbea7f4b354cbe1b4bed7da64",
+        "requested_device": "cpu",
+        "threads": 2
+      },
+      "backend": {
+        "device": "cpu",
+        "threads": 2,
+        "gpu": null,
+        "checkpoint": "openai/whisper-base multilingual",
+        "runtime": "openai-whisper",
+        "weights_url": "https://openaipublic.azureedge.net/main/whisper/models/ed3a0b6b1c0edf879ad9b11b1af5a0e6ab5db9205f891f668f8b0e6c6326e34e/base.pt",
+        "weights_sha256": "ed3a0b6b1c0edf879ad9b11b1af5a0e6ab5db9205f891f668f8b0e6c6326e34e",
+        "decoding": {
+          "language": "vi",
+          "task": "transcribe",
+          "temperature": 0.0,
+          "condition_on_previous_text": false,
+          "fp16": false
+        }
+      },
+      "environment": {
+        "python": "3.13.11 | packaged by Anaconda, Inc. | (main, Dec 10 2025, 21:21:58) [MSC v.1929 64 bit (AMD64)]",
+        "platform": "Windows-10-10.0.19045-SP0",
+        "processor": "Intel64 Family 6 Model 142 Stepping 9, GenuineIntel",
+        "packages": {
+          "torch": "2.11.0",
+          "numpy": "2.4.3",
+          "openai-whisper": "20250625",
+          "sherpa-onnx": "1.13.8",
+          "transformers": "5.3.0",
+          "soundfile": "0.14.0"
+        },
+        "COLAB_RELEASE_TAG": null
+      },
+      "matching_manifests": [
+        "pilot.csv"
+      ],
+      "independent_verification": {
+        "path": "experiments\\B01\\results\\whisper_pilot.jsonl",
+        "verified": true,
+        "total": 10,
+        "completed": 10,
+        "reference_units": 320,
+        "reference_chars": 1133,
+        "WER_ws": 0.36875,
+        "CER": 0.20388349514563106,
+        "false_captions_per_minute": null
+      }
+    },
+    {
+      "path": "experiments/B02/results/self_dev20/whisper.jsonl",
+      "rows": 20,
+      "sha256": "40acedf84e185eccd75d3a791a56474120ffadfd7b81bd3114517d905bda6aad",
+      "summary_recomputed": {
+        "total": 20,
+        "completed": 20,
+        "reference_units": 181,
+        "reference_chars": 607,
+        "WER_ws": 0.27624309392265195,
+        "CER": 0.17792421746293247,
+        "false_captions_per_minute": null
+      },
+      "stored_score_errors": 0,
+      "finished": true,
+      "signature": {
+        "model": "whisper",
+        "manifest_sha256": "1cfcd5f86d088ee5fdf1d6e920a04a1872fe1e72ea8e722ab4200e5eb30fd3da",
+        "runner_sha256": "9821c648d9a3ef152c0a80b275923c24060e176c6b9e7a6a849e4eec748ae02b",
+        "scoring_sha256": "9e4ceeb03ebe765e5e2b72181cf0221cb32774fdbea7f4b354cbe1b4bed7da64",
+        "requested_device": "cpu",
+        "threads": 2
+      },
+      "backend": {
+        "device": "cpu",
+        "threads": 2,
+        "gpu": null,
+        "checkpoint": "openai/whisper-base multilingual",
+        "runtime": "openai-whisper",
+        "weights_url": "https://openaipublic.azureedge.net/main/whisper/models/ed3a0b6b1c0edf879ad9b11b1af5a0e6ab5db9205f891f668f8b0e6c6326e34e/base.pt",
+        "weights_sha256": "ed3a0b6b1c0edf879ad9b11b1af5a0e6ab5db9205f891f668f8b0e6c6326e34e",
+        "decoding": {
+          "language": "vi",
+          "task": "transcribe",
+          "temperature": 0.0,
+          "condition_on_previous_text": false,
+          "fp16": false
+        }
+      },
+      "environment": {
+        "python": "3.13.11 | packaged by Anaconda, Inc. | (main, Dec 10 2025, 21:21:58) [MSC v.1929 64 bit (AMD64)]",
+        "platform": "Windows-10-10.0.19045-SP0",
+        "processor": "Intel64 Family 6 Model 142 Stepping 9, GenuineIntel",
+        "packages": {
+          "torch": "2.11.0",
+          "numpy": "2.4.3",
+          "openai-whisper": "20250625",
+          "sherpa-onnx": "1.13.8",
+          "transformers": "5.3.0",
+          "soundfile": "0.14.0",
+          "huggingface-hub": "1.8.0"
+        },
+        "COLAB_RELEASE_TAG": null,
+        "framework_env": {
+          "USE_TF": null,
+          "USE_FLAX": null
+        }
+      },
+      "matching_manifests": [
+        "self_dev20.csv"
+      ],
+      "independent_verification": {
+        "path": "experiments\\B02\\results\\self_dev20\\whisper.jsonl",
+        "verified": true,
+        "total": 20,
+        "completed": 20,
+        "reference_units": 181,
+        "reference_chars": 607,
+        "WER_ws": 0.27624309392265195,
+        "CER": 0.17792421746293247,
+        "false_captions_per_minute": null
+      }
+    },
+    {
+      "path": "experiments/B02/results/self_dev20/zipformer.jsonl",
+      "rows": 20,
+      "sha256": "6d9b16a9fa5e371f7a1595a4757a1aee23b4a6cb6cc30f7f251d4a93e2679e40",
+      "summary_recomputed": {
+        "total": 20,
+        "completed": 20,
+        "reference_units": 181,
+        "reference_chars": 607,
+        "WER_ws": 0.0055248618784530384,
+        "CER": 0.0016474464579901153,
+        "false_captions_per_minute": null
+      },
+      "stored_score_errors": 0,
+      "finished": true,
+      "signature": {
+        "model": "zipformer",
+        "manifest_sha256": "1cfcd5f86d088ee5fdf1d6e920a04a1872fe1e72ea8e722ab4200e5eb30fd3da",
+        "runner_sha256": "9821c648d9a3ef152c0a80b275923c24060e176c6b9e7a6a849e4eec748ae02b",
+        "scoring_sha256": "9e4ceeb03ebe765e5e2b72181cf0221cb32774fdbea7f4b354cbe1b4bed7da64",
+        "requested_device": "cpu",
+        "threads": 2
+      },
+      "backend": {
+        "checkpoint": "hynt/Zipformer-30M-RNNT-6000h",
+        "package": "sherpa-onnx-zipformer-vi-30M-int8-2026-02-09",
+        "runtime": "sherpa-onnx offline ONNX INT8",
+        "device": "cpu",
+        "threads": 2,
+        "decoding": "greedy_search",
+        "source": "https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-vi-30M-int8-2026-02-09.tar.bz2",
+        "weights_sha256": {
+          "encoder.int8.onnx": "8ef5286dd427eb108055c2ddc1982aa31e544706072d5ea228729292dacade68",
+          "decoder.onnx": "cf2aa385b82c9d5d40cd29c3188af52d0249b3b78f0d4b7eb84ad502d50c7e7f",
+          "joiner.int8.onnx": "7311d2e17b810ecea515d79c71cc4668af8759256a06fa01d27047772320c821",
+          "tokens.txt": "ca8171f8bbd516c050b627582f2125c8f5f1f6ed967ab41b0fa9aae2cf61b492"
+        }
+      },
+      "environment": {
+        "python": "3.13.11 | packaged by Anaconda, Inc. | (main, Dec 10 2025, 21:21:58) [MSC v.1929 64 bit (AMD64)]",
+        "platform": "Windows-10-10.0.19045-SP0",
+        "processor": "Intel64 Family 6 Model 142 Stepping 9, GenuineIntel",
+        "packages": {
+          "torch": "2.11.0",
+          "numpy": "2.4.3",
+          "openai-whisper": "20250625",
+          "sherpa-onnx": "1.13.8",
+          "transformers": "5.3.0",
+          "soundfile": "0.14.0",
+          "huggingface-hub": "1.8.0"
+        },
+        "COLAB_RELEASE_TAG": null,
+        "framework_env": {
+          "USE_TF": null,
+          "USE_FLAX": null
+        }
+      },
+      "matching_manifests": [
+        "self_dev20.csv"
+      ],
+      "independent_verification": {
+        "path": "experiments\\B02\\results\\self_dev20\\zipformer.jsonl",
+        "verified": true,
+        "total": 20,
+        "completed": 20,
+        "reference_units": 181,
+        "reference_chars": 607,
+        "WER_ws": 0.0055248618784530384,
+        "CER": 0.0016474464579901153,
+        "false_captions_per_minute": null
+      }
+    },
+    {
+      "path": "experiments/B02/results/self_dev_pairs4/whisper.jsonl",
+      "rows": 4,
+      "sha256": "9c7d8962b368eb16240afb65e42b73bf1655c9d3e9465b249e9f038c60ff7716",
+      "summary_recomputed": {
+        "total": 4,
+        "completed": 4,
+        "reference_units": 36,
+        "reference_chars": 114,
+        "WER_ws": 0.1388888888888889,
+        "CER": 0.07894736842105263,
+        "false_captions_per_minute": null
+      },
+      "stored_score_errors": 0,
+      "finished": true,
+      "signature": {
+        "model": "whisper",
+        "manifest_sha256": "5ab46ff7a9f02a6208e0841ddf78fb110275e96c6cf8f2e1b8ffe6c7fa3ecf63",
+        "runner_sha256": "9821c648d9a3ef152c0a80b275923c24060e176c6b9e7a6a849e4eec748ae02b",
+        "scoring_sha256": "9e4ceeb03ebe765e5e2b72181cf0221cb32774fdbea7f4b354cbe1b4bed7da64",
+        "requested_device": "cpu",
+        "threads": 2
+      },
+      "backend": {
+        "device": "cpu",
+        "threads": 2,
+        "gpu": null,
+        "checkpoint": "openai/whisper-base multilingual",
+        "runtime": "openai-whisper",
+        "weights_url": "https://openaipublic.azureedge.net/main/whisper/models/ed3a0b6b1c0edf879ad9b11b1af5a0e6ab5db9205f891f668f8b0e6c6326e34e/base.pt",
+        "weights_sha256": "ed3a0b6b1c0edf879ad9b11b1af5a0e6ab5db9205f891f668f8b0e6c6326e34e",
+        "decoding": {
+          "language": "vi",
+          "task": "transcribe",
+          "temperature": 0.0,
+          "condition_on_previous_text": false,
+          "fp16": false
+        }
+      },
+      "environment": {
+        "python": "3.13.11 | packaged by Anaconda, Inc. | (main, Dec 10 2025, 21:21:58) [MSC v.1929 64 bit (AMD64)]",
+        "platform": "Windows-10-10.0.19045-SP0",
+        "processor": "Intel64 Family 6 Model 142 Stepping 9, GenuineIntel",
+        "packages": {
+          "torch": "2.11.0",
+          "numpy": "2.4.3",
+          "openai-whisper": "20250625",
+          "sherpa-onnx": "1.13.8",
+          "transformers": "5.3.0",
+          "soundfile": "0.14.0",
+          "huggingface-hub": "1.8.0"
+        },
+        "COLAB_RELEASE_TAG": null,
+        "framework_env": {
+          "USE_TF": null,
+          "USE_FLAX": null
+        }
+      },
+      "matching_manifests": [
+        "self_dev_pairs4.csv"
+      ],
+      "independent_verification": {
+        "path": "experiments\\B02\\results\\self_dev_pairs4\\whisper.jsonl",
+        "verified": true,
+        "total": 4,
+        "completed": 4,
+        "reference_units": 36,
+        "reference_chars": 114,
+        "WER_ws": 0.1388888888888889,
+        "CER": 0.07894736842105263,
+        "false_captions_per_minute": null
+      }
+    },
+    {
+      "path": "experiments/B02/results/self_dev_pairs4/zipformer.jsonl",
+      "rows": 4,
+      "sha256": "e9be109333654447e47251136ea79016f0a1e0d4eac8b56ec9f9ab30a516ed36",
+      "summary_recomputed": {
+        "total": 4,
+        "completed": 4,
+        "reference_units": 36,
+        "reference_chars": 114,
+        "WER_ws": 0.0,
+        "CER": 0.0,
+        "false_captions_per_minute": null
+      },
+      "stored_score_errors": 0,
+      "finished": true,
+      "signature": {
+        "model": "zipformer",
+        "manifest_sha256": "5ab46ff7a9f02a6208e0841ddf78fb110275e96c6cf8f2e1b8ffe6c7fa3ecf63",
+        "runner_sha256": "9821c648d9a3ef152c0a80b275923c24060e176c6b9e7a6a849e4eec748ae02b",
+        "scoring_sha256": "9e4ceeb03ebe765e5e2b72181cf0221cb32774fdbea7f4b354cbe1b4bed7da64",
+        "requested_device": "cpu",
+        "threads": 2
+      },
+      "backend": {
+        "checkpoint": "hynt/Zipformer-30M-RNNT-6000h",
+        "package": "sherpa-onnx-zipformer-vi-30M-int8-2026-02-09",
+        "runtime": "sherpa-onnx offline ONNX INT8",
+        "device": "cpu",
+        "threads": 2,
+        "decoding": "greedy_search",
+        "source": "https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-vi-30M-int8-2026-02-09.tar.bz2",
+        "weights_sha256": {
+          "encoder.int8.onnx": "8ef5286dd427eb108055c2ddc1982aa31e544706072d5ea228729292dacade68",
+          "decoder.onnx": "cf2aa385b82c9d5d40cd29c3188af52d0249b3b78f0d4b7eb84ad502d50c7e7f",
+          "joiner.int8.onnx": "7311d2e17b810ecea515d79c71cc4668af8759256a06fa01d27047772320c821",
+          "tokens.txt": "ca8171f8bbd516c050b627582f2125c8f5f1f6ed967ab41b0fa9aae2cf61b492"
+        }
+      },
+      "environment": {
+        "python": "3.13.11 | packaged by Anaconda, Inc. | (main, Dec 10 2025, 21:21:58) [MSC v.1929 64 bit (AMD64)]",
+        "platform": "Windows-10-10.0.19045-SP0",
+        "processor": "Intel64 Family 6 Model 142 Stepping 9, GenuineIntel",
+        "packages": {
+          "torch": "2.11.0",
+          "numpy": "2.4.3",
+          "openai-whisper": "20250625",
+          "sherpa-onnx": "1.13.8",
+          "transformers": "5.3.0",
+          "soundfile": "0.14.0",
+          "huggingface-hub": "1.8.0"
+        },
+        "COLAB_RELEASE_TAG": null,
+        "framework_env": {
+          "USE_TF": null,
+          "USE_FLAX": null
+        }
+      },
+      "matching_manifests": [
+        "self_dev_pairs4.csv"
+      ],
+      "independent_verification": {
+        "path": "experiments\\B02\\results\\self_dev_pairs4\\zipformer.jsonl",
+        "verified": true,
+        "total": 4,
+        "completed": 4,
+        "reference_units": 36,
+        "reference_chars": 114,
+        "WER_ws": 0.0,
+        "CER": 0.0,
+        "false_captions_per_minute": null
+      }
+    },
+    {
+      "path": "experiments/B02/results/whisper_dev.jsonl",
+      "rows": 100,
+      "sha256": "361312b9bab00810cc26967aa1d443bd380318da9f64713a5cdebfcc0045d3cc",
+      "summary_recomputed": {
+        "total": 100,
+        "completed": 100,
+        "reference_units": 2797,
+        "reference_chars": 9702,
+        "WER_ws": 0.49374329638898823,
+        "CER": 0.33920841063698204,
+        "false_captions_per_minute": null
+      },
+      "stored_score_errors": 0,
+      "finished": true,
+      "signature": {
+        "model": "whisper",
+        "manifest_sha256": "a4a257c6d20f98fb5d1667076f1cf4bc146689acde9f9de8242ad88f2aedaca8",
+        "runner_sha256": "ca446abb3e6ecccca1792558300a7b78f07c711cdca20163505f4425d34054e0",
+        "scoring_sha256": "9e4ceeb03ebe765e5e2b72181cf0221cb32774fdbea7f4b354cbe1b4bed7da64",
+        "requested_device": "cpu",
+        "threads": 2
+      },
+      "backend": {
+        "device": "cpu",
+        "threads": 2,
+        "gpu": null,
+        "checkpoint": "openai/whisper-base multilingual",
+        "runtime": "openai-whisper",
+        "weights_url": "https://openaipublic.azureedge.net/main/whisper/models/ed3a0b6b1c0edf879ad9b11b1af5a0e6ab5db9205f891f668f8b0e6c6326e34e/base.pt",
+        "weights_sha256": "ed3a0b6b1c0edf879ad9b11b1af5a0e6ab5db9205f891f668f8b0e6c6326e34e",
+        "decoding": {
+          "language": "vi",
+          "task": "transcribe",
+          "temperature": 0.0,
+          "condition_on_previous_text": false,
+          "fp16": false
+        }
+      },
+      "environment": {
+        "python": "3.13.11 | packaged by Anaconda, Inc. | (main, Dec 10 2025, 21:21:58) [MSC v.1929 64 bit (AMD64)]",
+        "platform": "Windows-10-10.0.19045-SP0",
+        "processor": "Intel64 Family 6 Model 142 Stepping 9, GenuineIntel",
+        "packages": {
+          "torch": "2.11.0",
+          "numpy": "2.4.3",
+          "openai-whisper": "20250625",
+          "sherpa-onnx": "1.13.8",
+          "transformers": "5.3.0",
+          "soundfile": "0.14.0"
+        },
+        "COLAB_RELEASE_TAG": null
+      },
+      "matching_manifests": [
+        "fleurs_dev100.csv"
+      ],
+      "independent_verification": {
+        "path": "experiments\\B02\\results\\whisper_dev.jsonl",
+        "verified": true,
+        "total": 100,
+        "completed": 100,
+        "reference_units": 2797,
+        "reference_chars": 9702,
+        "WER_ws": 0.49374329638898823,
+        "CER": 0.33920841063698204,
+        "false_captions_per_minute": null
+      }
+    },
+    {
+      "path": "experiments/B02/results/zipformer_dev.jsonl",
+      "rows": 100,
+      "sha256": "a365fa293004c6f0e222b3a4f9532b760169562b2b6b84e599b12a1593aabd93",
+      "summary_recomputed": {
+        "total": 100,
+        "completed": 100,
+        "reference_units": 2797,
+        "reference_chars": 9702,
+        "WER_ws": 0.07508044333214157,
+        "CER": 0.053494124922696354,
+        "false_captions_per_minute": null
+      },
+      "stored_score_errors": 0,
+      "finished": true,
+      "signature": {
+        "model": "zipformer",
+        "manifest_sha256": "a4a257c6d20f98fb5d1667076f1cf4bc146689acde9f9de8242ad88f2aedaca8",
+        "runner_sha256": "ca446abb3e6ecccca1792558300a7b78f07c711cdca20163505f4425d34054e0",
+        "scoring_sha256": "9e4ceeb03ebe765e5e2b72181cf0221cb32774fdbea7f4b354cbe1b4bed7da64",
+        "requested_device": "cpu",
+        "threads": 2
+      },
+      "backend": {
+        "checkpoint": "hynt/Zipformer-30M-RNNT-6000h",
+        "package": "sherpa-onnx-zipformer-vi-30M-int8-2026-02-09",
+        "runtime": "sherpa-onnx offline ONNX INT8",
+        "device": "cpu",
+        "threads": 2,
+        "decoding": "greedy_search",
+        "source": "https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-vi-30M-int8-2026-02-09.tar.bz2",
+        "weights_sha256": {
+          "encoder.int8.onnx": "8ef5286dd427eb108055c2ddc1982aa31e544706072d5ea228729292dacade68",
+          "decoder.onnx": "cf2aa385b82c9d5d40cd29c3188af52d0249b3b78f0d4b7eb84ad502d50c7e7f",
+          "joiner.int8.onnx": "7311d2e17b810ecea515d79c71cc4668af8759256a06fa01d27047772320c821",
+          "tokens.txt": "ca8171f8bbd516c050b627582f2125c8f5f1f6ed967ab41b0fa9aae2cf61b492"
+        }
+      },
+      "environment": {
+        "python": "3.13.11 | packaged by Anaconda, Inc. | (main, Dec 10 2025, 21:21:58) [MSC v.1929 64 bit (AMD64)]",
+        "platform": "Windows-10-10.0.19045-SP0",
+        "processor": "Intel64 Family 6 Model 142 Stepping 9, GenuineIntel",
+        "packages": {
+          "torch": "2.11.0",
+          "numpy": "2.4.3",
+          "openai-whisper": "20250625",
+          "sherpa-onnx": "1.13.8",
+          "transformers": "5.3.0",
+          "soundfile": "0.14.0"
+        },
+        "COLAB_RELEASE_TAG": null
+      },
+      "matching_manifests": [
+        "fleurs_dev100.csv"
+      ],
+      "independent_verification": {
+        "path": "experiments\\B02\\results\\zipformer_dev.jsonl",
+        "verified": true,
+        "total": 100,
+        "completed": 100,
+        "reference_units": 2797,
+        "reference_chars": 9702,
+        "WER_ws": 0.07508044333214157,
+        "CER": 0.053494124922696354,
+        "false_captions_per_minute": null
+      }
+    },
+    {
+      "path": "experiments/B03/attempts/cancelled_cpu/qwen_dev_cpu.jsonl",
+      "rows": 6,
+      "sha256": "c49aa1b71e8b463392a248797482f4a1d8424c452b375c426602e205b3221d6a",
+      "summary_recomputed": {
+        "total": 6,
+        "completed": 6,
+        "reference_units": 161,
+        "reference_chars": 555,
+        "WER_ws": 0.16149068322981366,
+        "CER": 0.11171171171171171,
+        "false_captions_per_minute": null
+      },
+      "stored_score_errors": 0,
+      "finished": false,
+      "signature": {
+        "model": "qwen",
+        "manifest_sha256": "a4a257c6d20f98fb5d1667076f1cf4bc146689acde9f9de8242ad88f2aedaca8",
+        "runner_sha256": "dee17d6037f72d463b83d70758f3579bcf8137dbf16174d61a1e2f6926c07678",
+        "scoring_sha256": "9e4ceeb03ebe765e5e2b72181cf0221cb32774fdbea7f4b354cbe1b4bed7da64",
+        "requested_device": "cpu",
+        "threads": 2
+      },
+      "backend": {
+        "device": "cpu",
+        "threads": 2,
+        "gpu": null,
+        "checkpoint": "Qwen/Qwen3-ASR-0.6B",
+        "revision": "5eb144179a02acc5e5ba31e748d22b0cf3e303b0",
+        "runtime": "qwen-asr Transformers",
+        "dtype": "torch.float32",
+        "decoding": {
+          "language": "Vietnamese",
+          "batch_size": 1,
+          "max_new_tokens": 512
+        }
+      },
+      "environment": {
+        "python": "3.13.11 | packaged by Anaconda, Inc. | (main, Dec 10 2025, 21:21:58) [MSC v.1929 64 bit (AMD64)]",
+        "platform": "Windows-10-10.0.19045-SP0",
+        "processor": "Intel64 Family 6 Model 142 Stepping 9, GenuineIntel",
+        "packages": {
+          "torch": "2.11.0",
+          "numpy": "2.4.3",
+          "qwen-asr": "0.0.6",
+          "transformers": "4.57.6",
+          "soundfile": "0.14.0",
+          "huggingface-hub": "0.36.2",
+          "accelerate": "1.12.0",
+          "librosa": "1.0.0",
+          "qwen-omni-utils": "0.0.9"
+        },
+        "COLAB_RELEASE_TAG": null,
+        "framework_env": {
+          "USE_TF": "0",
+          "USE_FLAX": "0"
+        }
+      },
+      "matching_manifests": [
+        "fleurs_dev100.csv"
+      ],
+      "verification_scope": "partial/smoke/unfinished: no claim of full-manifest completion"
+    },
+    {
+      "path": "experiments/B03/results/qwen_dev.jsonl",
+      "rows": 100,
+      "sha256": "4c2e468052fb242b44246d24e9853ee77b16c1ab9abc587965b5c54d1ffb4e92",
+      "summary_recomputed": {
+        "total": 100,
+        "completed": 100,
+        "reference_units": 2797,
+        "reference_chars": 9702,
+        "WER_ws": 0.09760457633178406,
+        "CER": 0.06277056277056277,
+        "false_captions_per_minute": null
+      },
+      "stored_score_errors": 0,
+      "finished": true,
+      "signature": {
+        "model": "qwen",
+        "manifest_sha256": "a4a257c6d20f98fb5d1667076f1cf4bc146689acde9f9de8242ad88f2aedaca8",
+        "runner_sha256": "9821c648d9a3ef152c0a80b275923c24060e176c6b9e7a6a849e4eec748ae02b",
+        "scoring_sha256": "9e4ceeb03ebe765e5e2b72181cf0221cb32774fdbea7f4b354cbe1b4bed7da64",
+        "requested_device": "cuda",
+        "threads": 2
+      },
+      "backend": {
+        "device": "cuda",
+        "threads": 2,
+        "gpu": "NVIDIA A100-SXM4-40GB",
+        "checkpoint": "Qwen/Qwen3-ASR-0.6B",
+        "revision": "5eb144179a02acc5e5ba31e748d22b0cf3e303b0",
+        "runtime": "qwen-asr Transformers",
+        "dtype": "torch.bfloat16",
+        "decoding": {
+          "language": "Vietnamese",
+          "batch_size": 1,
+          "max_new_tokens": 512
+        }
+      },
+      "environment": {
+        "python": "3.13.15 (main, Aug  6 2026, 11:06:22) [GCC 13.3.0]",
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.39",
+        "processor": "x86_64",
+        "packages": {
+          "torch": "2.11.0+cu130",
+          "numpy": "2.1.3",
+          "qwen-asr": "0.0.6",
+          "transformers": "4.57.6",
+          "soundfile": "0.14.0",
+          "huggingface-hub": "0.36.2",
+          "accelerate": "1.12.0",
+          "librosa": "0.11.0",
+          "qwen-omni-utils": "0.0.9"
+        },
+        "COLAB_RELEASE_TAG": "release-colab-external-images_20261008-060111_RC00",
+        "framework_env": {
+          "USE_TF": "0",
+          "USE_FLAX": "0"
+        }
+      },
+      "matching_manifests": [
+        "fleurs_dev100.csv"
+      ],
+      "independent_verification": {
+        "path": "experiments\\B03\\results\\qwen_dev.jsonl",
+        "verified": true,
+        "total": 100,
+        "completed": 100,
+        "reference_units": 2797,
+        "reference_chars": 9702,
+        "WER_ws": 0.09760457633178406,
+        "CER": 0.06277056277056277,
+        "false_captions_per_minute": null
+      }
+    },
+    {
+      "path": "experiments/B03/results/self_dev20/qwen.jsonl",
+      "rows": 20,
+      "sha256": "d841cbb5047d9cb465598a84a07a2ecc70ea7ec22189be2200106c3ac9672174",
+      "summary_recomputed": {
+        "total": 20,
+        "completed": 20,
+        "reference_units": 181,
+        "reference_chars": 607,
+        "WER_ws": 0.011049723756906077,
+        "CER": 0.013179571663920923,
+        "false_captions_per_minute": null
+      },
+      "stored_score_errors": 0,
+      "finished": true,
+      "signature": {
+        "model": "qwen",
+        "manifest_sha256": "1cfcd5f86d088ee5fdf1d6e920a04a1872fe1e72ea8e722ab4200e5eb30fd3da",
+        "runner_sha256": "9821c648d9a3ef152c0a80b275923c24060e176c6b9e7a6a849e4eec748ae02b",
+        "scoring_sha256": "9e4ceeb03ebe765e5e2b72181cf0221cb32774fdbea7f4b354cbe1b4bed7da64",
+        "requested_device": "cuda",
+        "threads": 2
+      },
+      "backend": {
+        "device": "cuda",
+        "threads": 2,
+        "gpu": "NVIDIA A100-SXM4-40GB",
+        "checkpoint": "Qwen/Qwen3-ASR-0.6B",
+        "revision": "5eb144179a02acc5e5ba31e748d22b0cf3e303b0",
+        "runtime": "qwen-asr Transformers",
+        "dtype": "torch.bfloat16",
+        "decoding": {
+          "language": "Vietnamese",
+          "batch_size": 1,
+          "max_new_tokens": 512
+        }
+      },
+      "environment": {
+        "python": "3.13.15 (main, Aug  6 2026, 11:06:22) [GCC 13.3.0]",
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.39",
+        "processor": "x86_64",
+        "packages": {
+          "torch": "2.11.0+cu130",
+          "numpy": "2.1.3",
+          "qwen-asr": "0.0.6",
+          "transformers": "4.57.6",
+          "soundfile": "0.14.0",
+          "huggingface-hub": "0.36.2",
+          "accelerate": "1.12.0",
+          "librosa": "0.11.0",
+          "qwen-omni-utils": "0.0.9"
+        },
+        "COLAB_RELEASE_TAG": "release-colab-external-images_20261009-060058_RC00",
+        "framework_env": {
+          "USE_TF": "0",
+          "USE_FLAX": "0"
+        }
+      },
+      "matching_manifests": [
+        "self_dev20.csv"
+      ],
+      "independent_verification": {
+        "path": "experiments\\B03\\results\\self_dev20\\qwen.jsonl",
+        "verified": true,
+        "total": 20,
+        "completed": 20,
+        "reference_units": 181,
+        "reference_chars": 607,
+        "WER_ws": 0.011049723756906077,
+        "CER": 0.013179571663920923,
+        "false_captions_per_minute": null
+      }
+    },
+    {
+      "path": "experiments/B04/results/smoke/zipformer.jsonl",
+      "rows": 1,
+      "sha256": "f4724497ac72f43ad407f538be89d36948bed74ff34e11f525b27aa0de0b36a6",
+      "summary_recomputed": {
+        "total": 1,
+        "completed": 1,
+        "reference_units": 9,
+        "reference_chars": 27,
+        "WER_ws": 0.0,
+        "CER": 0.0,
+        "false_captions_per_minute": null
+      },
+      "stored_score_errors": 0,
+      "finished": true,
+      "signature": {
+        "model": "zipformer",
+        "manifest_sha256": "b9d6887f77fe454b6c4a64e643d8ddb65c28b19dd6af1df449cf0a907e1c8792",
+        "runner_sha256": "9821c648d9a3ef152c0a80b275923c24060e176c6b9e7a6a849e4eec748ae02b",
+        "scoring_sha256": "9e4ceeb03ebe765e5e2b72181cf0221cb32774fdbea7f4b354cbe1b4bed7da64",
+        "requested_device": "cpu",
+        "threads": 2
+      },
+      "backend": {
+        "checkpoint": "hynt/Zipformer-30M-RNNT-6000h",
+        "package": "sherpa-onnx-zipformer-vi-30M-int8-2026-02-09",
+        "runtime": "sherpa-onnx offline ONNX INT8",
+        "device": "cpu",
+        "threads": 2,
+        "decoding": "greedy_search",
+        "source": "https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-vi-30M-int8-2026-02-09.tar.bz2",
+        "weights_sha256": {
+          "encoder.int8.onnx": "8ef5286dd427eb108055c2ddc1982aa31e544706072d5ea228729292dacade68",
+          "decoder.onnx": "cf2aa385b82c9d5d40cd29c3188af52d0249b3b78f0d4b7eb84ad502d50c7e7f",
+          "joiner.int8.onnx": "7311d2e17b810ecea515d79c71cc4668af8759256a06fa01d27047772320c821",
+          "tokens.txt": "ca8171f8bbd516c050b627582f2125c8f5f1f6ed967ab41b0fa9aae2cf61b492"
+        }
+      },
+      "environment": {
+        "python": "3.13.5 (main, Aug 10 2026, 12:06:59) [GCC 14.2.0]",
+        "platform": "Linux-6.18.34+rpt-rpi-v8-aarch64-with-glibc2.41",
+        "processor": "",
+        "packages": {
+          "numpy": "2.4.3",
+          "sherpa-onnx": "1.13.8",
+          "soundfile": "0.14.0"
+        },
+        "COLAB_RELEASE_TAG": null,
+        "framework_env": {
+          "USE_TF": null,
+          "USE_FLAX": null
+        }
+      },
+      "matching_manifests": [],
+      "verification_scope": "partial/smoke/unfinished: no claim of full-manifest completion"
+    },
+    {
+      "path": "experiments/B04/results/whisper_base_smoke/whisper_cpp.jsonl",
+      "rows": 1,
+      "sha256": "f78e943228210a7225ca0150f3880be0c22282be80096e59b0818816d1b9d153",
+      "summary_recomputed": {
+        "total": 1,
+        "completed": 1,
+        "reference_units": 9,
+        "reference_chars": 27,
+        "WER_ws": 0.0,
+        "CER": 0.0,
+        "false_captions_per_minute": null
+      },
+      "stored_score_errors": 0,
+      "finished": true,
+      "signature": {
+        "manifest_sha256": "1cfcd5f86d088ee5fdf1d6e920a04a1872fe1e72ea8e722ab4200e5eb30fd3da"
+      },
+      "backend": {
+        "started_utc": "2026-10-13T11:14:14.074696+00:00",
+        "board": "Raspberry Pi 4 Model B Rev 1.5",
+        "checkpoint": "openai/whisper-base multilingual GGML",
+        "runtime": "whisper.cpp v1.9.5 CPU",
+        "source_commit": "d1be6fde11ac6e0407606b4e42fe72d34add8037",
+        "model_source": "https://huggingface.co/ggerganov/whisper.cpp/resolve/5359861c739e955e79d9a303bcbc70fb988958b1/ggml-base.bin",
+        "model_sha256": "60ed5bc3dd14eea856493d334349b405782ddcaf0028d4b5df4088345fba2efe",
+        "binary_sha256": "485c7c6155177662de6f913cac8b2a7fd180457a8907f53809f2244e4b1e7c5b",
+        "runner_sha256": "60ce6e5c6ae2835700bfaa1a57894d105e2cae9ea96b6bf2f36eaee084fc8286",
+        "scoring_sha256": "9e4ceeb03ebe765e5e2b72181cf0221cb32774fdbea7f4b354cbe1b4bed7da64",
+        "manifest_sha256": "1cfcd5f86d088ee5fdf1d6e920a04a1872fe1e72ea8e722ab4200e5eb30fd3da",
+        "smoke": true,
+        "timing_scope": "Per-WAV fresh CLI process wall time INCLUDES model load, WAV read and output write",
+        "memory_scope": "Maximum GNU time peak RSS across per-WAV CLI processes; includes model load",
+        "cache_note": "OS file cache may be warm; each WAV uses a new process",
+        "sensors_before": {
+          "temperature": "temp=40.9'C",
+          "throttled": "throttled=0x0",
+          "arm_clock": "frequency(48)=1800404352"
+        },
+        "commands": [
+          [
+            "/home/pi/PBL6_STT_B04_20261013/whisper_cpp_v1_9_5/build/bin/whisper-cli",
+            "-m",
+            "/home/pi/PBL6_STT_B04_20261013/data/models/whisper_cpp/ggml-base.bin",
+            "-f",
+            "/home/pi/PBL6_STT_B04_20261013/data/self_recorded/dev/self_01.wav",
+            "-of",
+            "/home/pi/PBL6_STT_B04_20261013/experiments/B04/results/whisper_base_smoke/01",
+            "-l",
+            "vi",
+            "-t",
+            "2",
+            "-p",
+            "1",
+            "-bo",
+            "1",
+            "-bs",
+            "1",
+            "-tp",
+            "0",
+            "-nf",
+            "-mc",
+            "0",
+            "-ng",
+            "-otxt",
+            "-nt"
+          ]
+        ],
+        "finished": true,
+        "speed": {
+          "recordings": 1,
+          "audio_seconds": 5.3546875,
+          "process_wall_seconds": 20.868962609999926,
+          "process_wall_seconds_median": 20.868962609999926,
+          "process_wall_seconds_min": 20.868962609999926,
+          "process_wall_seconds_max": 20.868962609999926,
+          "RTF_total": 3.8973259615990523,
+          "RTF_median": 3.8973259615990523,
+          "RTF_min": 3.8973259615990523,
+          "RTF_max": 3.8973259615990523
+        },
+        "peak_RSS_MiB": 237.59375,
+        "sensors_after": {
+          "temperature": "temp=47.7'C",
+          "throttled": "throttled=0x0",
+          "arm_clock": "frequency(48)=1800457088"
+        },
+        "ended_utc": "2026-10-13T11:14:35.945750+00:00"
+      },
+      "environment": null,
+      "matching_manifests": [
+        "self_dev20.csv"
+      ],
+      "verification_scope": "partial/smoke/unfinished: no claim of full-manifest completion"
+    },
+    {
+      "path": "experiments/B04/results/whisper_tiny_r1/whisper_cpp.jsonl",
+      "rows": 20,
+      "sha256": "eab9d5f385db3b977ffaf62db8efa6c8ad6b3e2eeb69924e8a256823a237a4c0",
+      "summary_recomputed": {
+        "total": 20,
+        "completed": 20,
+        "reference_units": 181,
+        "reference_chars": 607,
+        "WER_ws": 0.4198895027624309,
+        "CER": 0.26359143327841844,
+        "false_captions_per_minute": null
+      },
+      "stored_score_errors": 0,
+      "finished": true,
+      "signature": {
+        "manifest_sha256": "1cfcd5f86d088ee5fdf1d6e920a04a1872fe1e72ea8e722ab4200e5eb30fd3da"
+      },
+      "backend": {
+        "started_utc": "2026-10-13T11:16:54.502300+00:00",
+        "board": "Raspberry Pi 4 Model B Rev 1.5",
+        "checkpoint": "openai/whisper-tiny multilingual GGML",
+        "runtime": "whisper.cpp v1.9.5 CPU",
+        "source_commit": "d1be6fde11ac6e0407606b4e42fe72d34add8037",
+        "model_source": "https://huggingface.co/ggerganov/whisper.cpp/resolve/5359861c739e955e79d9a303bcbc70fb988958b1/ggml-tiny.bin",
+        "model_sha256": "be07e048e1e599ad46341c8d2a135645097a538221678b7acdd1b1919c6e1b21",
+        "binary_sha256": "485c7c6155177662de6f913cac8b2a7fd180457a8907f53809f2244e4b1e7c5b",
+        "runner_sha256": "60ce6e5c6ae2835700bfaa1a57894d105e2cae9ea96b6bf2f36eaee084fc8286",
+        "scoring_sha256": "9e4ceeb03ebe765e5e2b72181cf0221cb32774fdbea7f4b354cbe1b4bed7da64",
+        "manifest_sha256": "1cfcd5f86d088ee5fdf1d6e920a04a1872fe1e72ea8e722ab4200e5eb30fd3da",
+        "smoke": false,
+        "timing_scope": "Per-WAV fresh CLI process wall time INCLUDES model load, WAV read and output write",
+        "memory_scope": "Maximum GNU time peak RSS across per-WAV CLI processes; includes model load",
+        "cache_note": "OS file cache may be warm; each WAV uses a new process",
+        "sensors_before": {
+          "temperature": "temp=37.9'C",
+          "throttled": "throttled=0x0",
+          "arm_clock": "frequency(48)=1800457088"
+        },
+        "commands": [
+          [
+            "/home/pi/PBL6_STT_B04_20261013/whisper_cpp_v1_9_5/build/bin/whisper-cli",
+            "-m",
+            "/home/pi/PBL6_STT_B04_20261013/data/models/whisper_cpp/ggml-tiny.bin",
+            "-f",
+            "/home/pi/PBL6_STT_B04_20261013/data/self_recorded/dev/self_01.wav",
+            "-of",
+            "/home/pi/PBL6_STT_B04_20261013/experiments/B04/results/whisper_tiny_r1/01",
+            "-l",
+            "vi",
+            "-t",
+            "2",
+            "-p",
+            "1",
+            "-bo",
+            "1",
+            "-bs",
+            "1",
+            "-tp",
+            "0",
+            "-nf",
+            "-mc",
+            "0",
+            "-ng",
+            "-otxt",
+            "-nt"
+          ],
+          [
+            "/home/pi/PBL6_STT_B04_20261013/whisper_cpp_v1_9_5/build/bin/whisper-cli",
+            "-m",
+            "/home/pi/PBL6_STT_B04_20261013/data/models/whisper_cpp/ggml-tiny.bin",
+            "-f",
+            "/home/pi/PBL6_STT_B04_20261013/data/self_recorded/dev/self_02.wav",
+            "-of",
+            "/home/pi/PBL6_STT_B04_20261013/experiments/B04/results/whisper_tiny_r1/02",
+            "-l",
+            "vi",
+            "-t",
+            "2",
+            "-p",
+            "1",
+            "-bo",
+            "1",
+            "-bs",
+            "1",
+            "-tp",
+            "0",
+            "-nf",
+            "-mc",
+            "0",
+            "-ng",
+            "-otxt",
+            "-nt"
+          ],
+          [
+            "/home/pi/PBL6_STT_B04_20261013/whisper_cpp_v1_9_5/build/bin/whisper-cli",
+            "-m",
+            "/home/pi/PBL6_STT_B04_20261013/data/models/whisper_cpp/ggml-tiny.bin",
+            "-f",
+            "/home/pi/PBL6_STT_B04_20261013/data/self_recorded/dev/self_03.wav",
+            "-of",
+            "/home/pi/PBL6_STT_B04_20261013/experiments/B04/results/whisper_tiny_r1/03",
+            "-l",
+            "vi",
+            "-t",
+            "2",
+            "-p",
+            "1",
+            "-bo",
+            "1",
+            "-bs",
+            "1",
+            "-tp",
+            "0",
+            "-nf",
+            "-mc",
+            "0",
+            "-ng",
+            "-otxt",
+            "-nt"
+          ],
+          [
+            "/home/pi/PBL6_STT_B04_20261013/whisper_cpp_v1_9_5/build/bin/whisper-cli",
+            "-m",
+            "/home/pi/PBL6_STT_B04_20261013/data/models/whisper_cpp/ggml-tiny.bin",
+            "-f",
+            "/home/pi/PBL6_STT_B04_20261013/data/self_recorded/dev/self_04.wav",
+            "-of",
+            "/home/pi/PBL6_STT_B04_20261013/experiments/B04/results/whisper_tiny_r1/04",
+            "-l",
+            "vi",
+            "-t",
+            "2",
+            "-p",
+            "1",
+            "-bo",
+            "1",
+            "-bs",
+            "1",
+            "-tp",
+            "0",
+            "-nf",
+            "-mc",
+            "0",
+            "-ng",
+            "-otxt",
+            "-nt"
+          ],
+          [
+            "/home/pi/PBL6_STT_B04_20261013/whisper_cpp_v1_9_5/build/bin/whisper-cli",
+            "-m",
+            "/home/pi/PBL6_STT_B04_20261013/data/models/whisper_cpp/ggml-tiny.bin",
+            "-f",
+            "/home/pi/PBL6_STT_B04_20261013/data/self_recorded/dev/self_05.wav",
+            "-of",
+            "/home/pi/PBL6_STT_B04_20261013/experiments/B04/results/whisper_tiny_r1/05",
+            "-l",
+            "vi",
+            "-t",
+            "2",
+            "-p",
+            "1",
+            "-bo",
+            "1",
+            "-bs",
+            "1",
+            "-tp",
+            "0",
+            "-nf",
+            "-mc",
+            "0",
+            "-ng",
+            "-otxt",
+            "-nt"
+          ],
+          [
+            "/home/pi/PBL6_STT_B04_20261013/whisper_cpp_v1_9_5/build/bin/whisper-cli",
+            "-m",
+            "/home/pi/PBL6_STT_B04_20261013/data/models/whisper_cpp/ggml-tiny.bin",
+            "-f",
+            "/home/pi/PBL6_STT_B04_20261013/data/self_recorded/dev/self_06.wav",
+            "-of",
+            "/home/pi/PBL6_STT_B04_20261013/experiments/B04/results/whisper_tiny_r1/06",
+            "-l",
+            "vi",
+            "-t",
+            "2",
+            "-p",
+            "1",
+            "-bo",
+            "1",
+            "-bs",
+            "1",
+            "-tp",
+            "0",
+            "-nf",
+            "-mc",
+            "0",
+            "-ng",
+            "-otxt",
+            "-nt"
+          ],
+          [
+            "/home/pi/PBL6_STT_B04_20261013/whisper_cpp_v1_9_5/build/bin/whisper-cli",
+            "-m",
+            "/home/pi/PBL6_STT_B04_20261013/data/models/whisper_cpp/ggml-tiny.bin",
+            "-f",
+            "/home/pi/PBL6_STT_B04_20261013/data/self_recorded/dev/self_07.wav",
+            "-of",
+            "/home/pi/PBL6_STT_B04_20261013/experiments/B04/results/whisper_tiny_r1/07",
+            "-l",
+            "vi",
+            "-t",
+            "2",
+            "-p",
+            "1",
+            "-bo",
+            "1",
+            "-bs",
+            "1",
+            "-tp",
+            "0",
+            "-nf",
+            "-mc",
+            "0",
+            "-ng",
+            "-otxt",
+            "-nt"
+          ],
+          [
+            "/home/pi/PBL6_STT_B04_20261013/whisper_cpp_v1_9_5/build/bin/whisper-cli",
+            "-m",
+            "/home/pi/PBL6_STT_B04_20261013/data/models/whisper_cpp/ggml-tiny.bin",
+            "-f",
+            "/home/pi/PBL6_STT_B04_20261013/data/self_recorded/dev/self_08.wav",
+            "-of",
+            "/home/pi/PBL6_STT_B04_20261013/experiments/B04/results/whisper_tiny_r1/08",
+            "-l",
+            "vi",
+            "-t",
+            "2",
+            "-p",
+            "1",
+            "-bo",
+            "1",
+            "-bs",
+            "1",
+            "-tp",
+            "0",
+            "-nf",
+            "-mc",
+            "0",
+            "-ng",
+            "-otxt",
+            "-nt"
+          ],
+          [
+            "/home/pi/PBL6_STT_B04_20261013/whisper_cpp_v1_9_5/build/bin/whisper-cli",
+            "-m",
+            "/home/pi/PBL6_STT_B04_20261013/data/models/whisper_cpp/ggml-tiny.bin",
+            "-f",
+            "/home/pi/PBL6_STT_B04_20261013/data/self_recorded/dev/self_09.wav",
+            "-of",
+            "/home/pi/PBL6_STT_B04_20261013/experiments/B04/results/whisper_tiny_r1/09",
+            "-l",
+            "vi",
+            "-t",
+            "2",
+            "-p",
+            "1",
+            "-bo",
+            "1",
+            "-bs",
+            "1",
+            "-tp",
+            "0",
+            "-nf",
+            "-mc",
+            "0",
+            "-ng",
+            "-otxt",
+            "-nt"
+          ],
+          [
+            "/home/pi/PBL6_STT_B04_20261013/whisper_cpp_v1_9_5/build/bin/whisper-cli",
+            "-m",
+            "/home/pi/PBL6_STT_B04_20261013/data/models/whisper_cpp/ggml-tiny.bin",
+            "-f",
+            "/home/pi/PBL6_STT_B04_20261013/data/self_recorded/dev/self_10.wav",
+            "-of",
+            "/home/pi/PBL6_STT_B04_20261013/experiments/B04/results/whisper_tiny_r1/10",
+            "-l",
+            "vi",
+            "-t",
+            "2",
+            "-p",
+            "1",
+            "-bo",
+            "1",
+            "-bs",
+            "1",
+            "-tp",
+            "0",
+            "-nf",
+            "-mc",
+            "0",
+            "-ng",
+            "-otxt",
+            "-nt"
+          ],
+          [
+            "/home/pi/PBL6_STT_B04_20261013/whisper_cpp_v1_9_5/build/bin/whisper-cli",
+            "-m",
+            "/home/pi/PBL6_STT_B04_20261013/data/models/whisper_cpp/ggml-tiny.bin",
+            "-f",
+            "/home/pi/PBL6_STT_B04_20261013/data/self_recorded/dev/self_11.wav",
+            "-of",
+            "/home/pi/PBL6_STT_B04_20261013/experiments/B04/results/whisper_tiny_r1/11",
+            "-l",
+            "vi",
+            "-t",
+            "2",
+            "-p",
+            "1",
+            "-bo",
+            "1",
+            "-bs",
+            "1",
+            "-tp",
+            "0",
+            "-nf",
+            "-mc",
+            "0",
+            "-ng",
+            "-otxt",
+            "-nt"
+          ],
+          [
+            "/home/pi/PBL6_STT_B04_20261013/whisper_cpp_v1_9_5/build/bin/whisper-cli",
+            "-m",
+            "/home/pi/PBL6_STT_B04_20261013/data/models/whisper_cpp/ggml-tiny.bin",
+            "-f",
+            "/home/pi/PBL6_STT_B04_20261013/data/self_recorded/dev/self_12.wav",
+            "-of",
+            "/home/pi/PBL6_STT_B04_20261013/experiments/B04/results/whisper_tiny_r1/12",
+            "-l",
+            "vi",
+            "-t",
+            "2",
+            "-p",
+            "1",
+            "-bo",
+            "1",
+            "-bs",
+            "1",
+            "-tp",
+            "0",
+            "-nf",
+            "-mc",
+            "0",
+            "-ng",
+            "-otxt",
+            "-nt"
+          ],
+          [
+            "/home/pi/PBL6_STT_B04_20261013/whisper_cpp_v1_9_5/build/bin/whisper-cli",
+            "-m",
+            "/home/pi/PBL6_STT_B04_20261013/data/models/whisper_cpp/ggml-tiny.bin",
+            "-f",
+            "/home/pi/PBL6_STT_B04_20261013/data/self_recorded/dev/self_13.wav",
+            "-of",
+            "/home/pi/PBL6_STT_B04_20261013/experiments/B04/results/whisper_tiny_r1/13",
+            "-l",
+            "vi",
+            "-t",
+            "2",
+            "-p",
+            "1",
+            "-bo",
+            "1",
+            "-bs",
+            "1",
+            "-tp",
+            "0",
+            "-nf",
+            "-mc",
+            "0",
+            "-ng",
+            "-otxt",
+            "-nt"
+          ],
+          [
+            "/home/pi/PBL6_STT_B04_20261013/whisper_cpp_v1_9_5/build/bin/whisper-cli",
+            "-m",
+            "/home/pi/PBL6_STT_B04_20261013/data/models/whisper_cpp/ggml-tiny.bin",
+            "-f",
+            "/home/pi/PBL6_STT_B04_20261013/data/self_recorded/dev/self_14.wav",
+            "-of",
+            "/home/pi/PBL6_STT_B04_20261013/experiments/B04/results/whisper_tiny_r1/14",
+            "-l",
+            "vi",
+            "-t",
+            "2",
+            "-p",
+            "1",
+            "-bo",
+            "1",
+            "-bs",
+            "1",
+            "-tp",
+            "0",
+            "-nf",
+            "-mc",
+            "0",
+            "-ng",
+            "-otxt",
+            "-nt"
+          ],
+          [
+            "/home/pi/PBL6_STT_B04_20261013/whisper_cpp_v1_9_5/build/bin/whisper-cli",
+            "-m",
+            "/home/pi/PBL6_STT_B04_20261013/data/models/whisper_cpp/ggml-tiny.bin",
+            "-f",
+            "/home/pi/PBL6_STT_B04_20261013/data/self_recorded/dev/self_15.wav",
+            "-of",
+            "/home/pi/PBL6_STT_B04_20261013/experiments/B04/results/whisper_tiny_r1/15",
+            "-l",
+            "vi",
+            "-t",
+            "2",
+            "-p",
+            "1",
+            "-bo",
+            "1",
+            "-bs",
+            "1",
+            "-tp",
+            "0",
+            "-nf",
+            "-mc",
+            "0",
+            "-ng",
+            "-otxt",
+            "-nt"
+          ],
+          [
+            "/home/pi/PBL6_STT_B04_20261013/whisper_cpp_v1_9_5/build/bin/whisper-cli",
+            "-m",
+            "/home/pi/PBL6_STT_B04_20261013/data/models/whisper_cpp/ggml-tiny.bin",
+            "-f",
+            "/home/pi/PBL6_STT_B04_20261013/data/self_recorded/dev/self_16.wav",
+            "-of",
+            "/home/pi/PBL6_STT_B04_20261013/experiments/B04/results/whisper_tiny_r1/16",
+            "-l",
+            "vi",
+            "-t",
+            "2",
+            "-p",
+            "1",
+            "-bo",
+            "1",
+            "-bs",
+            "1",
+            "-tp",
+            "0",
+            "-nf",
+            "-mc",
+            "0",
+            "-ng",
+            "-otxt",
+            "-nt"
+          ],
+          [
+            "/home/pi/PBL6_STT_B04_20261013/whisper_cpp_v1_9_5/build/bin/whisper-cli",
+            "-m",
+            "/home/pi/PBL6_STT_B04_20261013/data/models/whisper_cpp/ggml-tiny.bin",
+            "-f",
+            "/home/pi/PBL6_STT_B04_20261013/data/self_recorded/dev/self_17.wav",
+            "-of",
+            "/home/pi/PBL6_STT_B04_20261013/experiments/B04/results/whisper_tiny_r1/17",
+            "-l",
+            "vi",
+            "-t",
+            "2",
+            "-p",
+            "1",
+            "-bo",
+            "1",
+            "-bs",
+            "1",
+            "-tp",
+            "0",
+            "-nf",
+            "-mc",
+            "0",
+            "-ng",
+            "-otxt",
+            "-nt"
+          ],
+          [
+            "/home/pi/PBL6_STT_B04_20261013/whisper_cpp_v1_9_5/build/bin/whisper-cli",
+            "-m",
+            "/home/pi/PBL6_STT_B04_20261013/data/models/whisper_cpp/ggml-tiny.bin",
+            "-f",
+            "/home/pi/PBL6_STT_B04_20261013/data/self_recorded/dev/self_18.wav",
+            "-of",
+            "/home/pi/PBL6_STT_B04_20261013/experiments/B04/results/whisper_tiny_r1/18",
+            "-l",
+            "vi",
+            "-t",
+            "2",
+            "-p",
+            "1",
+            "-bo",
+            "1",
+            "-bs",
+            "1",
+            "-tp",
+            "0",
+            "-nf",
+            "-mc",
+            "0",
+            "-ng",
+            "-otxt",
+            "-nt"
+          ],
+          [
+            "/home/pi/PBL6_STT_B04_20261013/whisper_cpp_v1_9_5/build/bin/whisper-cli",
+            "-m",
+            "/home/pi/PBL6_STT_B04_20261013/data/models/whisper_cpp/ggml-tiny.bin",
+            "-f",
+            "/home/pi/PBL6_STT_B04_20261013/data/self_recorded/dev/self_19.wav",
+            "-of",
+            "/home/pi/PBL6_STT_B04_20261013/experiments/B04/results/whisper_tiny_r1/19",
+            "-l",
+            "vi",
+            "-t",
+            "2",
+            "-p",
+            "1",
+            "-bo",
+            "1",
+            "-bs",
+            "1",
+            "-tp",
+            "0",
+            "-nf",
+            "-mc",
+            "0",
+            "-ng",
+            "-otxt",
+            "-nt"
+          ],
+          [
+            "/home/pi/PBL6_STT_B04_20261013/whisper_cpp_v1_9_5/build/bin/whisper-cli",
+            "-m",
+            "/home/pi/PBL6_STT_B04_20261013/data/models/whisper_cpp/ggml-tiny.bin",
+            "-f",
+            "/home/pi/PBL6_STT_B04_20261013/data/self_recorded/dev/self_20.wav",
+            "-of",
+            "/home/pi/PBL6_STT_B04_20261013/experiments/B04/results/whisper_tiny_r1/20",
+            "-l",
+            "vi",
+            "-t",
+            "2",
+            "-p",
+            "1",
+            "-bo",
+            "1",
+            "-bs",
+            "1",
+            "-tp",
+            "0",
+            "-nf",
+            "-mc",
+            "0",
+            "-ng",
+            "-otxt",
+            "-nt"
+          ]
+        ],
+        "finished": true,
+        "speed": {
+          "recordings": 20,
+          "audio_seconds": 84.1599375,
+          "process_wall_seconds": 172.80708489299786,
+          "process_wall_seconds_median": 8.565642342499814,
+          "process_wall_seconds_min": 8.33801391399993,
+          "process_wall_seconds_max": 9.139945105000152,
+          "RTF_total": 2.053317647639625,
+          "RTF_median": 2.063853671473734,
+          "RTF_min": 1.5754081096235975,
+          "RTF_max": 2.7046765868389366
+        },
+        "peak_RSS_MiB": 147.48046875,
+        "sensors_after": {
+          "temperature": "temp=48.7'C",
+          "throttled": "throttled=0x0",
+          "arm_clock": "frequency(48)=1800457088"
+        },
+        "ended_utc": "2026-10-13T11:19:47.930137+00:00"
+      },
+      "environment": null,
+      "matching_manifests": [
+        "self_dev20.csv"
+      ],
+      "independent_verification": {
+        "path": "experiments\\B04\\results\\whisper_tiny_r1\\whisper_cpp.jsonl",
+        "verified": true,
+        "total": 20,
+        "completed": 20,
+        "reference_units": 181,
+        "reference_chars": 607,
+        "WER_ws": 0.4198895027624309,
+        "CER": 0.26359143327841844,
+        "false_captions_per_minute": null
+      }
+    },
+    {
+      "path": "experiments/B04/results/whisper_tiny_r2/whisper_cpp.jsonl",
+      "rows": 20,
+      "sha256": "775a0ceafc633b7917a0b040a6bfbde72690e2cfcc01ce22a036624b0da55b1b",
+      "summary_recomputed": {
+        "total": 20,
+        "completed": 20,
+        "reference_units": 181,
+        "reference_chars": 607,
+        "WER_ws": 0.4198895027624309,
+        "CER": 0.26359143327841844,
+        "false_captions_per_minute": null
+      },
+      "stored_score_errors": 0,
+      "finished": true,
+      "signature": {
+        "manifest_sha256": "1cfcd5f86d088ee5fdf1d6e920a04a1872fe1e72ea8e722ab4200e5eb30fd3da"
+      },
+      "backend": {
+        "started_utc": "2026-10-13T11:20:23.604178+00:00",
+        "board": "Raspberry Pi 4 Model B Rev 1.5",
+        "checkpoint": "openai/whisper-tiny multilingual GGML",
+        "runtime": "whisper.cpp v1.9.5 CPU",
+        "source_commit": "d1be6fde11ac6e0407606b4e42fe72d34add8037",
+        "model_source": "https://huggingface.co/ggerganov/whisper.cpp/resolve/5359861c739e955e79d9a303bcbc70fb988958b1/ggml-tiny.bin",
+        "model_sha256": "be07e048e1e599ad46341c8d2a135645097a538221678b7acdd1b1919c6e1b21",
+        "binary_sha256": "485c7c6155177662de6f913cac8b2a7fd180457a8907f53809f2244e4b1e7c5b",
+        "runner_sha256": "60ce6e5c6ae2835700bfaa1a57894d105e2cae9ea96b6bf2f36eaee084fc8286",
+        "scoring_sha256": "9e4ceeb03ebe765e5e2b72181cf0221cb32774fdbea7f4b354cbe1b4bed7da64",
+        "manifest_sha256": "1cfcd5f86d088ee5fdf1d6e920a04a1872fe1e72ea8e722ab4200e5eb30fd3da",
+        "smoke": false,
+        "timing_scope": "Per-WAV fresh CLI process wall time INCLUDES model load, WAV read and output write",
+        "memory_scope": "Maximum GNU time peak RSS across per-WAV CLI processes; includes model load",
+        "cache_note": "OS file cache may be warm; each WAV uses a new process",
+        "sensors_before": {
+          "temperature": "temp=39.4'C",
+          "throttled": "throttled=0x0",
+          "arm_clock": "frequency(48)=1800404352"
+        },
+        "commands": [
+          [
+            "/home/pi/PBL6_STT_B04_20261013/whisper_cpp_v1_9_5/build/bin/whisper-cli",
+            "-m",
+            "/home/pi/PBL6_STT_B04_20261013/data/models/whisper_cpp/ggml-tiny.bin",
+            "-f",
+            "/home/pi/PBL6_STT_B04_20261013/data/self_recorded/dev/self_01.wav",
+            "-of",
+            "/home/pi/PBL6_STT_B04_20261013/experiments/B04/results/whisper_tiny_r2/01",
+            "-l",
+            "vi",
+            "-t",
+            "2",
+            "-p",
+            "1",
+            "-bo",
+            "1",
+            "-bs",
+            "1",
+            "-tp",
+            "0",
+            "-nf",
+            "-mc",
+            "0",
+            "-ng",
+            "-otxt",
+            "-nt"
+          ],
+          [
+            "/home/pi/PBL6_STT_B04_20261013/whisper_cpp_v1_9_5/build/bin/whisper-cli",
+            "-m",
+            "/home/pi/PBL6_STT_B04_20261013/data/models/whisper_cpp/ggml-tiny.bin",
+            "-f",
+            "/home/pi/PBL6_STT_B04_20261013/data/self_recorded/dev/self_02.wav",
+            "-of",
+            "/home/pi/PBL6_STT_B04_20261013/experiments/B04/results/whisper_tiny_r2/02",
+            "-l",
+            "vi",
+            "-t",
+            "2",
+            "-p",
+            "1",
+            "-bo",
+            "1",
+            "-bs",
+            "1",
+            "-tp",
+            "0",
+            "-nf",
+            "-mc",
+            "0",
+            "-ng",
+            "-otxt",
+            "-nt"
+          ],
+          [
+            "/home/pi/PBL6_STT_B04_20261013/whisper_cpp_v1_9_5/build/bin/whisper-cli",
+            "-m",
+            "/home/pi/PBL6_STT_B04_20261013/data/models/whisper_cpp/ggml-tiny.bin",
+            "-f",
+            "/home/pi/PBL6_STT_B04_20261013/data/self_recorded/dev/self_03.wav",
+            "-of",
+            "/home/pi/PBL6_STT_B04_20261013/experiments/B04/results/whisper_tiny_r2/03",
+            "-l",
+            "vi",
+            "-t",
+            "2",
+            "-p",
+            "1",
+            "-bo",
+            "1",
+            "-bs",
+            "1",
+            "-tp",
+            "0",
+            "-nf",
+            "-mc",
+            "0",
+            "-ng",
+            "-otxt",
+            "-nt"
+          ],
+          [
+            "/home/pi/PBL6_STT_B04_20261013/whisper_cpp_v1_9_5/build/bin/whisper-cli",
+            "-m",
+            "/home/pi/PBL6_STT_B04_20261013/data/models/whisper_cpp/ggml-tiny.bin",
+            "-f",
+            "/home/pi/PBL6_STT_B04_20261013/data/self_recorded/dev/self_04.wav",
+            "-of",
+            "/home/pi/PBL6_STT_B04_20261013/experiments/B04/results/whisper_tiny_r2/04",
+            "-l",
+            "vi",
+            "-t",
+            "2",
+            "-p",
+            "1",
+            "-bo",
+            "1",
+            "-bs",
+            "1",
+            "-tp",
+            "0",
+            "-nf",
+            "-mc",
+            "0",
+            "-ng",
+            "-otxt",
+            "-nt"
+          ],
+          [
+            "/home/pi/PBL6_STT_B04_20261013/whisper_cpp_v1_9_5/build/bin/whisper-cli",
+            "-m",
+            "/home/pi/PBL6_STT_B04_20261013/data/models/whisper_cpp/ggml-tiny.bin",
+            "-f",
+            "/home/pi/PBL6_STT_B04_20261013/data/self_recorded/dev/self_05.wav",
+            "-of",
+            "/home/pi/PBL6_STT_B04_20261013/experiments/B04/results/whisper_tiny_r2/05",
+            "-l",
+            "vi",
+            "-t",
+            "2",
+            "-p",
+            "1",
+            "-bo",
+            "1",
+            "-bs",
+            "1",
+            "-tp",
+            "0",
+            "-nf",
+            "-mc",
+            "0",
+            "-ng",
+            "-otxt",
+            "-nt"
+          ],
+          [
+            "/home/pi/PBL6_STT_B04_20261013/whisper_cpp_v1_9_5/build/bin/whisper-cli",
+            "-m",
+            "/home/pi/PBL6_STT_B04_20261013/data/models/whisper_cpp/ggml-tiny.bin",
+            "-f",
+            "/home/pi/PBL6_STT_B04_20261013/data/self_recorded/dev/self_06.wav",
+            "-of",
+            "/home/pi/PBL6_STT_B04_20261013/experiments/B04/results/whisper_tiny_r2/06",
+            "-l",
+            "vi",
+            "-t",
+            "2",
+            "-p",
+            "1",
+            "-bo",
+            "1",
+            "-bs",
+            "1",
+            "-tp",
+            "0",
+            "-nf",
+            "-mc",
+            "0",
+            "-ng",
+            "-otxt",
+            "-nt"
+          ],
+          [
+            "/home/pi/PBL6_STT_B04_20261013/whisper_cpp_v1_9_5/build/bin/whisper-cli",
+            "-m",
+            "/home/pi/PBL6_STT_B04_20261013/data/models/whisper_cpp/ggml-tiny.bin",
+            "-f",
+            "/home/pi/PBL6_STT_B04_20261013/data/self_recorded/dev/self_07.wav",
+            "-of",
+            "/home/pi/PBL6_STT_B04_20261013/experiments/B04/results/whisper_tiny_r2/07",
+            "-l",
+            "vi",
+            "-t",
+            "2",
+            "-p",
+            "1",
+            "-bo",
+            "1",
+            "-bs",
+            "1",
+            "-tp",
+            "0",
+            "-nf",
+            "-mc",
+            "0",
+            "-ng",
+            "-otxt",
+            "-nt"
+          ],
+          [
+            "/home/pi/PBL6_STT_B04_20261013/whisper_cpp_v1_9_5/build/bin/whisper-cli",
+            "-m",
+            "/home/pi/PBL6_STT_B04_20261013/data/models/whisper_cpp/ggml-tiny.bin",
+            "-f",
+            "/home/pi/PBL6_STT_B04_20261013/data/self_recorded/dev/self_08.wav",
+            "-of",
+            "/home/pi/PBL6_STT_B04_20261013/experiments/B04/results/whisper_tiny_r2/08",
+            "-l",
+            "vi",
+            "-t",
+            "2",
+            "-p",
+            "1",
+            "-bo",
+            "1",
+            "-bs",
+            "1",
+            "-tp",
+            "0",
+            "-nf",
+            "-mc",
+            "0",
+            "-ng",
+            "-otxt",
+            "-nt"
+          ],
+          [
+            "/home/pi/PBL6_STT_B04_20261013/whisper_cpp_v1_9_5/build/bin/whisper-cli",
+            "-m",
+            "/home/pi/PBL6_STT_B04_20261013/data/models/whisper_cpp/ggml-tiny.bin",
+            "-f",
+            "/home/pi/PBL6_STT_B04_20261013/data/self_recorded/dev/self_09.wav",
+            "-of",
+            "/home/pi/PBL6_STT_B04_20261013/experiments/B04/results/whisper_tiny_r2/09",
+            "-l",
+            "vi",
+            "-t",
+            "2",
+            "-p",
+            "1",
+            "-bo",
+            "1",
+            "-bs",
+            "1",
+            "-tp",
+            "0",
+            "-nf",
+            "-mc",
+            "0",
+            "-ng",
+            "-otxt",
+            "-nt"
+          ],
+          [
+            "/home/pi/PBL6_STT_B04_20261013/whisper_cpp_v1_9_5/build/bin/whisper-cli",
+            "-m",
+            "/home/pi/PBL6_STT_B04_20261013/data/models/whisper_cpp/ggml-tiny.bin",
+            "-f",
+            "/home/pi/PBL6_STT_B04_20261013/data/self_recorded/dev/self_10.wav",
+            "-of",
+            "/home/pi/PBL6_STT_B04_20261013/experiments/B04/results/whisper_tiny_r2/10",
+            "-l",
+            "vi",
+            "-t",
+            "2",
+            "-p",
+            "1",
+            "-bo",
+            "1",
+            "-bs",
+            "1",
+            "-tp",
+            "0",
+            "-nf",
+            "-mc",
+            "0",
+            "-ng",
+            "-otxt",
+            "-nt"
+          ],
+          [
+            "/home/pi/PBL6_STT_B04_20261013/whisper_cpp_v1_9_5/build/bin/whisper-cli",
+            "-m",
+            "/home/pi/PBL6_STT_B04_20261013/data/models/whisper_cpp/ggml-tiny.bin",
+            "-f",
+            "/home/pi/PBL6_STT_B04_20261013/data/self_recorded/dev/self_11.wav",
+            "-of",
+            "/home/pi/PBL6_STT_B04_20261013/experiments/B04/results/whisper_tiny_r2/11",
+            "-l",
+            "vi",
+            "-t",
+            "2",
+            "-p",
+            "1",
+            "-bo",
+            "1",
+            "-bs",
+            "1",
+            "-tp",
+            "0",
+            "-nf",
+            "-mc",
+            "0",
+            "-ng",
+            "-otxt",
+            "-nt"
+          ],
+          [
+            "/home/pi/PBL6_STT_B04_20261013/whisper_cpp_v1_9_5/build/bin/whisper-cli",
+            "-m",
+            "/home/pi/PBL6_STT_B04_20261013/data/models/whisper_cpp/ggml-tiny.bin",
+            "-f",
+            "/home/pi/PBL6_STT_B04_20261013/data/self_recorded/dev/self_12.wav",
+            "-of",
+            "/home/pi/PBL6_STT_B04_20261013/experiments/B04/results/whisper_tiny_r2/12",
+            "-l",
+            "vi",
+            "-t",
+            "2",
+            "-p",
+            "1",
+            "-bo",
+            "1",
+            "-bs",
+            "1",
+            "-tp",
+            "0",
+            "-nf",
+            "-mc",
+            "0",
+            "-ng",
+            "-otxt",
+            "-nt"
+          ],
+          [
+            "/home/pi/PBL6_STT_B04_20261013/whisper_cpp_v1_9_5/build/bin/whisper-cli",
+            "-m",
+            "/home/pi/PBL6_STT_B04_20261013/data/models/whisper_cpp/ggml-tiny.bin",
+            "-f",
+            "/home/pi/PBL6_STT_B04_20261013/data/self_recorded/dev/self_13.wav",
+            "-of",
+            "/home/pi/PBL6_STT_B04_20261013/experiments/B04/results/whisper_tiny_r2/13",
+            "-l",
+            "vi",
+            "-t",
+            "2",
+            "-p",
+            "1",
+            "-bo",
+            "1",
+            "-bs",
+            "1",
+            "-tp",
+            "0",
+            "-nf",
+            "-mc",
+            "0",
+            "-ng",
+            "-otxt",
+            "-nt"
+          ],
+          [
+            "/home/pi/PBL6_STT_B04_20261013/whisper_cpp_v1_9_5/build/bin/whisper-cli",
+            "-m",
+            "/home/pi/PBL6_STT_B04_20261013/data/models/whisper_cpp/ggml-tiny.bin",
+            "-f",
+            "/home/pi/PBL6_STT_B04_20261013/data/self_recorded/dev/self_14.wav",
+            "-of",
+            "/home/pi/PBL6_STT_B04_20261013/experiments/B04/results/whisper_tiny_r2/14",
+            "-l",
+            "vi",
+            "-t",
+            "2",
+            "-p",
+            "1",
+            "-bo",
+            "1",
+            "-bs",
+            "1",
+            "-tp",
+            "0",
+            "-nf",
+            "-mc",
+            "0",
+            "-ng",
+            "-otxt",
+            "-nt"
+          ],
+          [
+            "/home/pi/PBL6_STT_B04_20261013/whisper_cpp_v1_9_5/build/bin/whisper-cli",
+            "-m",
+            "/home/pi/PBL6_STT_B04_20261013/data/models/whisper_cpp/ggml-tiny.bin",
+            "-f",
+            "/home/pi/PBL6_STT_B04_20261013/data/self_recorded/dev/self_15.wav",
+            "-of",
+            "/home/pi/PBL6_STT_B04_20261013/experiments/B04/results/whisper_tiny_r2/15",
+            "-l",
+            "vi",
+            "-t",
+            "2",
+            "-p",
+            "1",
+            "-bo",
+            "1",
+            "-bs",
+            "1",
+            "-tp",
+            "0",
+            "-nf",
+            "-mc",
+            "0",
+            "-ng",
+            "-otxt",
+            "-nt"
+          ],
+          [
+            "/home/pi/PBL6_STT_B04_20261013/whisper_cpp_v1_9_5/build/bin/whisper-cli",
+            "-m",
+            "/home/pi/PBL6_STT_B04_20261013/data/models/whisper_cpp/ggml-tiny.bin",
+            "-f",
+            "/home/pi/PBL6_STT_B04_20261013/data/self_recorded/dev/self_16.wav",
+            "-of",
+            "/home/pi/PBL6_STT_B04_20261013/experiments/B04/results/whisper_tiny_r2/16",
+            "-l",
+            "vi",
+            "-t",
+            "2",
+            "-p",
+            "1",
+            "-bo",
+            "1",
+            "-bs",
+            "1",
+            "-tp",
+            "0",
+            "-nf",
+            "-mc",
+            "0",
+            "-ng",
+            "-otxt",
+            "-nt"
+          ],
+          [
+            "/home/pi/PBL6_STT_B04_20261013/whisper_cpp_v1_9_5/build/bin/whisper-cli",
+            "-m",
+            "/home/pi/PBL6_STT_B04_20261013/data/models/whisper_cpp/ggml-tiny.bin",
+            "-f",
+            "/home/pi/PBL6_STT_B04_20261013/data/self_recorded/dev/self_17.wav",
+            "-of",
+            "/home/pi/PBL6_STT_B04_20261013/experiments/B04/results/whisper_tiny_r2/17",
+            "-l",
+            "vi",
+            "-t",
+            "2",
+            "-p",
+            "1",
+            "-bo",
+            "1",
+            "-bs",
+            "1",
+            "-tp",
+            "0",
+            "-nf",
+            "-mc",
+            "0",
+            "-ng",
+            "-otxt",
+            "-nt"
+          ],
+          [
+            "/home/pi/PBL6_STT_B04_20261013/whisper_cpp_v1_9_5/build/bin/whisper-cli",
+            "-m",
+            "/home/pi/PBL6_STT_B04_20261013/data/models/whisper_cpp/ggml-tiny.bin",
+            "-f",
+            "/home/pi/PBL6_STT_B04_20261013/data/self_recorded/dev/self_18.wav",
+            "-of",
+            "/home/pi/PBL6_STT_B04_20261013/experiments/B04/results/whisper_tiny_r2/18",
+            "-l",
+            "vi",
+            "-t",
+            "2",
+            "-p",
+            "1",
+            "-bo",
+            "1",
+            "-bs",
+            "1",
+            "-tp",
+            "0",
+            "-nf",
+            "-mc",
+            "0",
+            "-ng",
+            "-otxt",
+            "-nt"
+          ],
+          [
+            "/home/pi/PBL6_STT_B04_20261013/whisper_cpp_v1_9_5/build/bin/whisper-cli",
+            "-m",
+            "/home/pi/PBL6_STT_B04_20261013/data/models/whisper_cpp/ggml-tiny.bin",
+            "-f",
+            "/home/pi/PBL6_STT_B04_20261013/data/self_recorded/dev/self_19.wav",
+            "-of",
+            "/home/pi/PBL6_STT_B04_20261013/experiments/B04/results/whisper_tiny_r2/19",
+            "-l",
+            "vi",
+            "-t",
+            "2",
+            "-p",
+            "1",
+            "-bo",
+            "1",
+            "-bs",
+            "1",
+            "-tp",
+            "0",
+            "-nf",
+            "-mc",
+            "0",
+            "-ng",
+            "-otxt",
+            "-nt"
+          ],
+          [
+            "/home/pi/PBL6_STT_B04_20261013/whisper_cpp_v1_9_5/build/bin/whisper-cli",
+            "-m",
+            "/home/pi/PBL6_STT_B04_20261013/data/models/whisper_cpp/ggml-tiny.bin",
+            "-f",
+            "/home/pi/PBL6_STT_B04_20261013/data/self_recorded/dev/self_20.wav",
+            "-of",
+            "/home/pi/PBL6_STT_B04_20261013/experiments/B04/results/whisper_tiny_r2/20",
+            "-l",
+            "vi",
+            "-t",
+            "2",
+            "-p",
+            "1",
+            "-bo",
+            "1",
+            "-bs",
+            "1",
+            "-tp",
+            "0",
+            "-nf",
+            "-mc",
+            "0",
+            "-ng",
+            "-otxt",
+            "-nt"
+          ]
+        ],
+        "finished": true,
+        "speed": {
+          "recordings": 20,
+          "audio_seconds": 84.1599375,
+          "process_wall_seconds": 171.30935356800092,
+          "process_wall_seconds_median": 8.438586355500092,
+          "process_wall_seconds_min": 8.33729545999995,
+          "process_wall_seconds_max": 9.740668051999819,
+          "RTF_total": 2.035521397196866,
+          "RTF_median": 2.0568252061758994,
+          "RTF_min": 1.5663733551210974,
+          "RTF_max": 2.536093186298088
+        },
+        "peak_RSS_MiB": 147.46484375,
+        "sensors_after": {
+          "temperature": "temp=49.6'C",
+          "throttled": "throttled=0x0",
+          "arm_clock": "frequency(48)=1800404352"
+        },
+        "ended_utc": "2026-10-13T11:23:15.529120+00:00"
+      },
+      "environment": null,
+      "matching_manifests": [
+        "self_dev20.csv"
+      ],
+      "independent_verification": {
+        "path": "experiments\\B04\\results\\whisper_tiny_r2\\whisper_cpp.jsonl",
+        "verified": true,
+        "total": 20,
+        "completed": 20,
+        "reference_units": 181,
+        "reference_chars": 607,
+        "WER_ws": 0.4198895027624309,
+        "CER": 0.26359143327841844,
+        "false_captions_per_minute": null
+      }
+    },
+    {
+      "path": "experiments/B04/results/whisper_tiny_smoke/whisper_cpp.jsonl",
+      "rows": 1,
+      "sha256": "fe16aea003d4181893f3426cd51d84f8a3be07e0e90b779be056fd277095b3dc",
+      "summary_recomputed": {
+        "total": 1,
+        "completed": 1,
+        "reference_units": 9,
+        "reference_chars": 27,
+        "WER_ws": 0.5555555555555556,
+        "CER": 0.25925925925925924,
+        "false_captions_per_minute": null
+      },
+      "stored_score_errors": 0,
+      "finished": true,
+      "signature": {
+        "manifest_sha256": "1cfcd5f86d088ee5fdf1d6e920a04a1872fe1e72ea8e722ab4200e5eb30fd3da"
+      },
+      "backend": {
+        "started_utc": "2026-10-13T11:16:10.079990+00:00",
+        "board": "Raspberry Pi 4 Model B Rev 1.5",
+        "checkpoint": "openai/whisper-tiny multilingual GGML",
+        "runtime": "whisper.cpp v1.9.5 CPU",
+        "source_commit": "d1be6fde11ac6e0407606b4e42fe72d34add8037",
+        "model_source": "https://huggingface.co/ggerganov/whisper.cpp/resolve/5359861c739e955e79d9a303bcbc70fb988958b1/ggml-tiny.bin",
+        "model_sha256": "be07e048e1e599ad46341c8d2a135645097a538221678b7acdd1b1919c6e1b21",
+        "binary_sha256": "485c7c6155177662de6f913cac8b2a7fd180457a8907f53809f2244e4b1e7c5b",
+        "runner_sha256": "60ce6e5c6ae2835700bfaa1a57894d105e2cae9ea96b6bf2f36eaee084fc8286",
+        "scoring_sha256": "9e4ceeb03ebe765e5e2b72181cf0221cb32774fdbea7f4b354cbe1b4bed7da64",
+        "manifest_sha256": "1cfcd5f86d088ee5fdf1d6e920a04a1872fe1e72ea8e722ab4200e5eb30fd3da",
+        "smoke": true,
+        "timing_scope": "Per-WAV fresh CLI process wall time INCLUDES model load, WAV read and output write",
+        "memory_scope": "Maximum GNU time peak RSS across per-WAV CLI processes; includes model load",
+        "cache_note": "OS file cache may be warm; each WAV uses a new process",
+        "sensors_before": {
+          "temperature": "temp=37.9'C",
+          "throttled": "throttled=0x0",
+          "arm_clock": "frequency(48)=1800457088"
+        },
+        "commands": [
+          [
+            "/home/pi/PBL6_STT_B04_20261013/whisper_cpp_v1_9_5/build/bin/whisper-cli",
+            "-m",
+            "/home/pi/PBL6_STT_B04_20261013/data/models/whisper_cpp/ggml-tiny.bin",
+            "-f",
+            "/home/pi/PBL6_STT_B04_20261013/data/self_recorded/dev/self_01.wav",
+            "-of",
+            "/home/pi/PBL6_STT_B04_20261013/experiments/B04/results/whisper_tiny_smoke/01",
+            "-l",
+            "vi",
+            "-t",
+            "2",
+            "-p",
+            "1",
+            "-bo",
+            "1",
+            "-bs",
+            "1",
+            "-tp",
+            "0",
+            "-nf",
+            "-mc",
+            "0",
+            "-ng",
+            "-otxt",
+            "-nt"
+          ]
+        ],
+        "finished": true,
+        "speed": {
+          "recordings": 1,
+          "audio_seconds": 5.3546875,
+          "process_wall_seconds": 8.7368255639999,
+          "process_wall_seconds_median": 8.7368255639999,
+          "process_wall_seconds_min": 8.7368255639999,
+          "process_wall_seconds_max": 8.7368255639999,
+          "RTF_total": 1.6316219319988143,
+          "RTF_median": 1.6316219319988143,
+          "RTF_min": 1.6316219319988143,
+          "RTF_max": 1.6316219319988143
+        },
+        "peak_RSS_MiB": 147.45703125,
+        "sensors_after": {
+          "temperature": "temp=43.3'C",
+          "throttled": "throttled=0x0",
+          "arm_clock": "frequency(48)=1800457088"
+        },
+        "ended_utc": "2026-10-13T11:16:19.354695+00:00"
+      },
+      "environment": null,
+      "matching_manifests": [
+        "self_dev20.csv"
+      ],
+      "verification_scope": "partial/smoke/unfinished: no claim of full-manifest completion"
+    },
+    {
+      "path": "experiments/B04/results/zipformer_r1/zipformer.jsonl",
+      "rows": 20,
+      "sha256": "f1f2ee732bfc086cb4defd219ccdb0d29ca9f64645198541f362fdeb6fe8c21c",
+      "summary_recomputed": {
+        "total": 20,
+        "completed": 20,
+        "reference_units": 181,
+        "reference_chars": 607,
+        "WER_ws": 0.0055248618784530384,
+        "CER": 0.0016474464579901153,
+        "false_captions_per_minute": null
+      },
+      "stored_score_errors": 0,
+      "finished": true,
+      "signature": {
+        "model": "zipformer",
+        "manifest_sha256": "1cfcd5f86d088ee5fdf1d6e920a04a1872fe1e72ea8e722ab4200e5eb30fd3da",
+        "runner_sha256": "9821c648d9a3ef152c0a80b275923c24060e176c6b9e7a6a849e4eec748ae02b",
+        "scoring_sha256": "9e4ceeb03ebe765e5e2b72181cf0221cb32774fdbea7f4b354cbe1b4bed7da64",
+        "requested_device": "cpu",
+        "threads": 2
+      },
+      "backend": {
+        "checkpoint": "hynt/Zipformer-30M-RNNT-6000h",
+        "package": "sherpa-onnx-zipformer-vi-30M-int8-2026-02-09",
+        "runtime": "sherpa-onnx offline ONNX INT8",
+        "device": "cpu",
+        "threads": 2,
+        "decoding": "greedy_search",
+        "source": "https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-vi-30M-int8-2026-02-09.tar.bz2",
+        "weights_sha256": {
+          "encoder.int8.onnx": "8ef5286dd427eb108055c2ddc1982aa31e544706072d5ea228729292dacade68",
+          "decoder.onnx": "cf2aa385b82c9d5d40cd29c3188af52d0249b3b78f0d4b7eb84ad502d50c7e7f",
+          "joiner.int8.onnx": "7311d2e17b810ecea515d79c71cc4668af8759256a06fa01d27047772320c821",
+          "tokens.txt": "ca8171f8bbd516c050b627582f2125c8f5f1f6ed967ab41b0fa9aae2cf61b492"
+        }
+      },
+      "environment": {
+        "python": "3.13.5 (main, Aug 10 2026, 12:06:59) [GCC 14.2.0]",
+        "platform": "Linux-6.18.34+rpt-rpi-v8-aarch64-with-glibc2.41",
+        "processor": "",
+        "packages": {
+          "numpy": "2.4.3",
+          "sherpa-onnx": "1.13.8",
+          "soundfile": "0.14.0"
+        },
+        "COLAB_RELEASE_TAG": null,
+        "framework_env": {
+          "USE_TF": null,
+          "USE_FLAX": null
+        }
+      },
+      "matching_manifests": [
+        "self_dev20.csv"
+      ],
+      "independent_verification": {
+        "path": "experiments\\B04\\results\\zipformer_r1\\zipformer.jsonl",
+        "verified": true,
+        "total": 20,
+        "completed": 20,
+        "reference_units": 181,
+        "reference_chars": 607,
+        "WER_ws": 0.0055248618784530384,
+        "CER": 0.0016474464579901153,
+        "false_captions_per_minute": null
+      }
+    },
+    {
+      "path": "experiments/B04/results/zipformer_r2/zipformer.jsonl",
+      "rows": 20,
+      "sha256": "9ad7adc64ece2e41cb1e6a0cc74244ee1b1322b99bc65c9b8432349cebddd901",
+      "summary_recomputed": {
+        "total": 20,
+        "completed": 20,
+        "reference_units": 181,
+        "reference_chars": 607,
+        "WER_ws": 0.0055248618784530384,
+        "CER": 0.0016474464579901153,
+        "false_captions_per_minute": null
+      },
+      "stored_score_errors": 0,
+      "finished": true,
+      "signature": {
+        "model": "zipformer",
+        "manifest_sha256": "1cfcd5f86d088ee5fdf1d6e920a04a1872fe1e72ea8e722ab4200e5eb30fd3da",
+        "runner_sha256": "9821c648d9a3ef152c0a80b275923c24060e176c6b9e7a6a849e4eec748ae02b",
+        "scoring_sha256": "9e4ceeb03ebe765e5e2b72181cf0221cb32774fdbea7f4b354cbe1b4bed7da64",
+        "requested_device": "cpu",
+        "threads": 2
+      },
+      "backend": {
+        "checkpoint": "hynt/Zipformer-30M-RNNT-6000h",
+        "package": "sherpa-onnx-zipformer-vi-30M-int8-2026-02-09",
+        "runtime": "sherpa-onnx offline ONNX INT8",
+        "device": "cpu",
+        "threads": 2,
+        "decoding": "greedy_search",
+        "source": "https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-vi-30M-int8-2026-02-09.tar.bz2",
+        "weights_sha256": {
+          "encoder.int8.onnx": "8ef5286dd427eb108055c2ddc1982aa31e544706072d5ea228729292dacade68",
+          "decoder.onnx": "cf2aa385b82c9d5d40cd29c3188af52d0249b3b78f0d4b7eb84ad502d50c7e7f",
+          "joiner.int8.onnx": "7311d2e17b810ecea515d79c71cc4668af8759256a06fa01d27047772320c821",
+          "tokens.txt": "ca8171f8bbd516c050b627582f2125c8f5f1f6ed967ab41b0fa9aae2cf61b492"
+        }
+      },
+      "environment": {
+        "python": "3.13.5 (main, Aug 10 2026, 12:06:59) [GCC 14.2.0]",
+        "platform": "Linux-6.18.34+rpt-rpi-v8-aarch64-with-glibc2.41",
+        "processor": "",
+        "packages": {
+          "numpy": "2.4.3",
+          "sherpa-onnx": "1.13.8",
+          "soundfile": "0.14.0"
+        },
+        "COLAB_RELEASE_TAG": null,
+        "framework_env": {
+          "USE_TF": null,
+          "USE_FLAX": null
+        }
+      },
+      "matching_manifests": [
+        "self_dev20.csv"
+      ],
+      "independent_verification": {
+        "path": "experiments\\B04\\results\\zipformer_r2\\zipformer.jsonl",
+        "verified": true,
+        "total": 20,
+        "completed": 20,
+        "reference_units": 181,
+        "reference_chars": 607,
+        "WER_ws": 0.0055248618784530384,
+        "CER": 0.0016474464579901153,
+        "false_captions_per_minute": null
+      }
+    }
+  ],
+  "notebooks": [
+    {
+      "path": "experiments/B01/B01_STT.ipynb",
+      "sha256": "2f0290e8480c7f58740c6c9eaaca22c753c8ceb2ff8d1917d8be3e11ff55e7c4",
+      "code_cells": 6,
+      "outputs": 0,
+      "referenced_local_data": [
+        "'--manifest', ROOT / 'experiments/manifests/pilot.csv',",
+        "shutil.copytree(ROOT / 'experiments/manifests', export / 'manifests', dirs_exist_ok=True)"
+      ]
+    },
+    {
+      "path": "experiments/B02/B02_STT.ipynb",
+      "sha256": "977d363c793f0058b53577ce68d04a592a9c5bc774cc29ec22cd0d8b96dcc300",
+      "code_cells": 8,
+      "outputs": 0,
+      "referenced_local_data": [
+        "'--manifest', ROOT / 'experiments/manifests/fleurs_dev100.csv',",
+        "'--manifest', ROOT / 'experiments/manifests/pilot.csv',",
+        "shutil.copytree(ROOT / 'experiments/manifests', export / 'manifests', dirs_exist_ok=True)"
+      ]
+    },
+    {
+      "path": "experiments/B03/B03_Qwen_Colab_GPU.ipynb",
+      "sha256": "9d8579c455d0bb246bb31a83d3249ee1e50f58d47d5c9e6b26cd2e6f6bfa9b55",
+      "code_cells": 6,
+      "outputs": 0,
+      "referenced_local_data": [
+        "'--manifest', ROOT / 'experiments/manifests/fleurs_dev100.csv',",
+        "checks = [verify(path, manifest) for path in paths]",
+        "manifest = ROOT / 'experiments/manifests/fleurs_dev100.csv'",
+        "run(ROOT / 'experiments/summarize.py', '--manifest', manifest,"
+      ]
+    },
+    {
+      "path": "experiments/B03/B03_Self_dev20_Qwen_GPU.ipynb",
+      "sha256": "d5d474f8924fc92a047eba0b6147e27689ce4d3ff50b4ea8d4b2894ceb6d390c",
+      "code_cells": 6,
+      "outputs": 0,
+      "referenced_local_data": [
+        "'--manifest', ROOT / 'experiments/manifests/self_dev20.csv',",
+        "checks = [verify(path, manifest) for path in paths]",
+        "manifest = ROOT / 'experiments/manifests/self_dev20.csv'",
+        "print(verify(RUN_DIR / f'{model}.jsonl', manifest))",
+        "run(ROOT / 'experiments/summarize.py', '--manifest', manifest, '--runs', *paths, '--output-dir', RUN_DIR)",
+        "with manifest.open(encoding='utf-8', newline='') as file:"
+      ]
+    },
+    {
+      "path": "experiments/B03/B03_STT.ipynb",
+      "sha256": "4c46461e1840e011948a427849e7d587c9493d196370b2f598c88483ed5a8487",
+      "code_cells": 11,
+      "outputs": 0,
+      "referenced_local_data": [
+        "'--manifest', ROOT / 'experiments/manifests/fleurs_dev100.csv',",
+        "'--manifest', ROOT / 'experiments/manifests/pilot.csv',",
+        "'--manifest', self_manifest,",
+        "if self_manifest.exists():",
+        "run(ROOT / 'experiments/summarize.py', '--manifest', self_manifest,",
+        "self_manifest = ROOT / 'experiments/manifests/self_dev20.csv'",
+        "shutil.copytree(ROOT / 'experiments/manifests', export / 'manifests', dirs_exist_ok=True)"
+      ]
+    }
+  ],
+  "zip_inventories": [
+    {
+      "path": "data/derived/B04_measurement_tools_20261013.zip",
+      "sha256": "06a936dfcd490b6794894baa8dcf6210019f58323036db76cf36cb4fcf53b7ca",
+      "members": [
+        {
+          "name": "experiments/B04/run_zipformer_pi.py",
+          "bytes": 5789,
+          "crc32": "6e7d2d9a"
+        },
+        {
+          "name": "experiments/tests/test_pi_measurement.py",
+          "bytes": 1676,
+          "crc32": "68ceb2a7"
+        },
+        {
+          "name": "experiments/B04/package_receipt.json",
+          "bytes": 3870,
+          "crc32": "a8914133"
+        }
+      ],
+      "extracted": false,
+      "crc_error_member": null
+    },
+    {
+      "path": "data/derived/B04_Pi4_self_dev20.zip",
+      "sha256": "ead5a40a548c3d02260085ad264a9bff3a8947af50ca493caf8b869812b259a5",
+      "members": [
+        {
+          "name": "experiments/common.py",
+          "bytes": 4717,
+          "crc32": "9bbef233"
+        },
+        {
+          "name": "experiments/run_asr.py",
+          "bytes": 11092,
+          "crc32": "ffbf5b84"
+        },
+        {
+          "name": "experiments/summarize.py",
+          "bytes": 2072,
+          "crc32": "76000dcf"
+        },
+        {
+          "name": "experiments/verify_results.py",
+          "bytes": 2953,
+          "crc32": "fbc7aa81"
+        },
+        {
+          "name": "experiments/manifests/self_dev20.csv",
+          "bytes": 11197,
+          "crc32": "1717af90"
+        },
+        {
+          "name": "experiments/B04/README.md",
+          "bytes": 3573,
+          "crc32": "6b309e86"
+        },
+        {
+          "name": "data/models/sherpa-onnx-zipformer-vi-30M-int8-2026-02-09/encoder.int8.onnx",
+          "bytes": 27699063,
+          "crc32": "e67306f5"
+        },
+        {
+          "name": "data/models/sherpa-onnx-zipformer-vi-30M-int8-2026-02-09/decoder.onnx",
+          "bytes": 5165084,
+          "crc32": "3f9561a4"
+        },
+        {
+          "name": "data/models/sherpa-onnx-zipformer-vi-30M-int8-2026-02-09/joiner.int8.onnx",
+          "bytes": 1033417,
+          "crc32": "b6371377"
+        },
+        {
+          "name": "data/models/sherpa-onnx-zipformer-vi-30M-int8-2026-02-09/tokens.txt",
+          "bytes": 23238,
+          "crc32": "1f3a912b"
+        },
+        {
+          "name": "data/self_recorded/dev/self_01.wav",
+          "bytes": 171428,
+          "crc32": "0fb1f3cf"
+        },
+        {
+          "name": "data/self_recorded/dev/self_02.wav",
+          "bytes": 134564,
+          "crc32": "f2f5e8a0"
+        },
+        {
+          "name": "data/self_recorded/dev/self_03.wav",
+          "bytes": 172110,
+          "crc32": "9f75034b"
+        },
+        {
+          "name": "data/self_recorded/dev/self_04.wav",
+          "bytes": 135928,
+          "crc32": "ebaff8a1"
+        },
+        {
+          "name": "data/self_recorded/dev/self_05.wav",
+          "bytes": 174840,
+          "crc32": "cd45066e"
+        },
+        {
+          "name": "data/self_recorded/dev/self_06.wav",
+          "bytes": 115448,
+          "crc32": "610efd78"
+        },
+        {
+          "name": "data/self_recorded/dev/self_07.wav",
+          "bytes": 130468,
+          "crc32": "ef2728ba"
+        },
+        {
+          "name": "data/self_recorded/dev/self_08.wav",
+          "bytes": 112718,
+          "crc32": "32c06ab3"
+        },
+        {
+          "name": "data/self_recorded/dev/self_09.wav",
+          "bytes": 133880,
+          "crc32": "9fbc4719"
+        },
+        {
+          "name": "data/self_recorded/dev/self_10.wav",
+          "bytes": 129102,
+          "crc32": "2954285b"
+        },
+        {
+          "name": "data/self_recorded/dev/self_11.wav",
+          "bytes": 122958,
+          "crc32": "de1c8c37"
+        },
+        {
+          "name": "data/self_recorded/dev/self_12.wav",
+          "bytes": 138660,
+          "crc32": "ec6e4d44"
+        },
+        {
+          "name": "data/self_recorded/dev/self_13.wav",
+          "bytes": 123640,
+          "crc32": "3b55230c"
+        },
+        {
+          "name": "data/self_recorded/dev/self_14.wav",
+          "bytes": 106574,
+          "crc32": "78eecb9d"
+        },
+        {
+          "name": "data/self_recorded/dev/self_15.wav",
+          "bytes": 109304,
+          "crc32": "323557d7"
+        },
+        {
+          "name": "data/self_recorded/dev/self_16.wav",
+          "bytes": 130468,
+          "crc32": "ece081d7"
+        },
+        {
+          "name": "data/self_recorded/dev/self_17.wav",
+          "bytes": 140024,
+          "crc32": "cf47c121"
+        },
+        {
+          "name": "data/self_recorded/dev/self_18.wav",
+          "bytes": 137976,
+          "crc32": "dc1ff847"
+        },
+        {
+          "name": "data/self_recorded/dev/self_19.wav",
+          "bytes": 136612,
+          "crc32": "b45f25d5"
+        },
+        {
+          "name": "data/self_recorded/dev/self_20.wav",
+          "bytes": 137976,
+          "crc32": "a7a4e862"
+        }
+      ],
+      "extracted": false,
+      "crc_error_member": null
+    },
+    {
+      "path": "data/derived/B04_whisper_results_20261013.zip",
+      "sha256": "1680e26d80e485d4d10dc2b9bbbf060229c86ad1ba6dae4e9b112b0992aeccac",
+      "members": [
+        {
+          "name": "experiments/B04/results/whisper_CMakeCache.txt",
+          "bytes": 33061,
+          "crc32": "3c959a38"
+        },
+        {
+          "name": "experiments/B04/results/whisper_base_smoke/01.log",
+          "bytes": 2899,
+          "crc32": "7ea0ba14"
+        },
+        {
+          "name": "experiments/B04/results/whisper_base_smoke/01.time.txt",
+          "bytes": 1076,
+          "crc32": "9860a4e8"
+        },
+        {
+          "name": "experiments/B04/results/whisper_base_smoke/01.txt",
+          "bytes": 49,
+          "crc32": "61f16abf"
+        },
+        {
+          "name": "experiments/B04/results/whisper_base_smoke/measurement.json",
+          "bytes": 2525,
+          "crc32": "82ac4491"
+        },
+        {
+          "name": "experiments/B04/results/whisper_base_smoke/whisper_cpp.jsonl",
+          "bytes": 1270,
+          "crc32": "ed5f1e9c"
+        },
+        {
+          "name": "experiments/B04/results/whisper_base_smoke/whisper_cpp.run.json",
+          "bytes": 2814,
+          "crc32": "914fcabb"
+        },
+        {
+          "name": "experiments/B04/results/whisper_build.log",
+          "bytes": 3214,
+          "crc32": "c7f22307"
+        },
+        {
+          "name": "experiments/B04/results/whisper_cli_help.txt",
+          "bytes": 5546,
+          "crc32": "7981f602"
+        },
+        {
+          "name": "experiments/B04/results/whisper_configure.log",
+          "bytes": 3565,
+          "crc32": "70e0e270"
+        },
+        {
+          "name": "experiments/B04/results/whisper_measurement_tests.txt",
+          "bytes": 686,
+          "crc32": "c75f17ee"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r1/01.log",
+          "bytes": 2894,
+          "crc32": "6126946d"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r1/01.time.txt",
+          "bytes": 1071,
+          "crc32": "ba43a17a"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r1/01.txt",
+          "bytes": 47,
+          "crc32": "e64b99e3"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r1/02.log",
+          "bytes": 2900,
+          "crc32": "b9d1cdf2"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r1/02.time.txt",
+          "bytes": 1070,
+          "crc32": "3a1d0ada"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r1/02.txt",
+          "bytes": 53,
+          "crc32": "7b3e296d"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r1/03.log",
+          "bytes": 2899,
+          "crc32": "14af1b57"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r1/03.time.txt",
+          "bytes": 1071,
+          "crc32": "986e34aa"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r1/03.txt",
+          "bytes": 52,
+          "crc32": "d034e27a"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r1/04.log",
+          "bytes": 2889,
+          "crc32": "bc030e66"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r1/04.time.txt",
+          "bytes": 1070,
+          "crc32": "9516b024"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r1/04.txt",
+          "bytes": 42,
+          "crc32": "7416952b"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r1/05.log",
+          "bytes": 2897,
+          "crc32": "a52ae28e"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r1/05.time.txt",
+          "bytes": 1071,
+          "crc32": "b6b03a70"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r1/05.txt",
+          "bytes": 50,
+          "crc32": "5b5452f4"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r1/06.log",
+          "bytes": 2888,
+          "crc32": "cbefd295"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r1/06.time.txt",
+          "bytes": 1070,
+          "crc32": "ceff28cf"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r1/06.txt",
+          "bytes": 41,
+          "crc32": "9ee28169"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r1/07.log",
+          "bytes": 2896,
+          "crc32": "a948912f"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r1/07.time.txt",
+          "bytes": 1071,
+          "crc32": "0d235e00"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r1/07.txt",
+          "bytes": 49,
+          "crc32": "28d130a5"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r1/08.log",
+          "bytes": 2899,
+          "crc32": "5df6c96a"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r1/08.time.txt",
+          "bytes": 1071,
+          "crc32": "6d6ee4ed"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r1/08.txt",
+          "bytes": 52,
+          "crc32": "86a97a60"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r1/09.log",
+          "bytes": 2895,
+          "crc32": "83c3c703"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r1/09.time.txt",
+          "bytes": 1071,
+          "crc32": "dc450973"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r1/09.txt",
+          "bytes": 48,
+          "crc32": "f2826d27"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r1/10.log",
+          "bytes": 2906,
+          "crc32": "97c0bffb"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r1/10.time.txt",
+          "bytes": 1070,
+          "crc32": "073971e9"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r1/10.txt",
+          "bytes": 59,
+          "crc32": "c1ee4733"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r1/11.log",
+          "bytes": 2904,
+          "crc32": "a4c43f40"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r1/11.time.txt",
+          "bytes": 1071,
+          "crc32": "4a28e214"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r1/11.txt",
+          "bytes": 57,
+          "crc32": "e6845a86"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r1/12.log",
+          "bytes": 2900,
+          "crc32": "51ae5d18"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r1/12.time.txt",
+          "bytes": 1070,
+          "crc32": "4d0b714b"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r1/12.txt",
+          "bytes": 53,
+          "crc32": "1f22d6e3"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r1/13.log",
+          "bytes": 2895,
+          "crc32": "1ef1d2c0"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r1/13.time.txt",
+          "bytes": 1071,
+          "crc32": "178c3d3a"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r1/13.txt",
+          "bytes": 48,
+          "crc32": "3b3cf6d8"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r1/14.log",
+          "bytes": 2899,
+          "crc32": "1911b421"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r1/14.time.txt",
+          "bytes": 1070,
+          "crc32": "7d97a2f0"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r1/14.txt",
+          "bytes": 52,
+          "crc32": "ef410c0e"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r1/15.log",
+          "bytes": 2889,
+          "crc32": "eca70d34"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r1/15.time.txt",
+          "bytes": 1070,
+          "crc32": "e4539cec"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r1/15.txt",
+          "bytes": 42,
+          "crc32": "9adc93cc"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r1/16.log",
+          "bytes": 2903,
+          "crc32": "2c7bf2b2"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r1/16.time.txt",
+          "bytes": 1070,
+          "crc32": "310a2601"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r1/16.txt",
+          "bytes": 56,
+          "crc32": "4c7e6192"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r1/17.log",
+          "bytes": 2896,
+          "crc32": "dd91e935"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r1/17.time.txt",
+          "bytes": 1070,
+          "crc32": "b3e11115"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r1/17.txt",
+          "bytes": 49,
+          "crc32": "007d07f0"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r1/18.log",
+          "bytes": 2900,
+          "crc32": "62cfbc31"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r1/18.time.txt",
+          "bytes": 1071,
+          "crc32": "d27b4d93"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r1/18.txt",
+          "bytes": 53,
+          "crc32": "8d509b39"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r1/19.log",
+          "bytes": 2901,
+          "crc32": "bc27d4cb"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r1/19.time.txt",
+          "bytes": 1070,
+          "crc32": "755488be"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r1/19.txt",
+          "bytes": 54,
+          "crc32": "6181c01c"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r1/20.log",
+          "bytes": 2914,
+          "crc32": "554c6d21"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r1/20.time.txt",
+          "bytes": 1071,
+          "crc32": "f2de702d"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r1/20.txt",
+          "bytes": 67,
+          "crc32": "5031ca5d"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r1/measurement.json",
+          "bytes": 13656,
+          "crc32": "86e4e3ec"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r1/verification.json",
+          "bytes": 278,
+          "crc32": "818ad5af"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r1/whisper_cpp.jsonl",
+          "bytes": 27872,
+          "crc32": "0a77b8e1"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r1/whisper_cpp.run.json",
+          "bytes": 14971,
+          "crc32": "049ed3dc"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r2/01.log",
+          "bytes": 2894,
+          "crc32": "842b4d8a"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r2/01.time.txt",
+          "bytes": 1070,
+          "crc32": "9d2fe649"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r2/01.txt",
+          "bytes": 47,
+          "crc32": "e64b99e3"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r2/02.log",
+          "bytes": 2900,
+          "crc32": "2fa46627"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r2/02.time.txt",
+          "bytes": 1071,
+          "crc32": "922323e3"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r2/02.txt",
+          "bytes": 53,
+          "crc32": "7b3e296d"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r2/03.log",
+          "bytes": 2899,
+          "crc32": "abd6350f"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r2/03.time.txt",
+          "bytes": 1071,
+          "crc32": "d34d43d9"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r2/03.txt",
+          "bytes": 52,
+          "crc32": "d034e27a"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r2/04.log",
+          "bytes": 2889,
+          "crc32": "1ce8958c"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r2/04.time.txt",
+          "bytes": 1071,
+          "crc32": "b4a8afc4"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r2/04.txt",
+          "bytes": 42,
+          "crc32": "7416952b"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r2/05.log",
+          "bytes": 2897,
+          "crc32": "418d244a"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r2/05.time.txt",
+          "bytes": 1071,
+          "crc32": "156f91f9"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r2/05.txt",
+          "bytes": 50,
+          "crc32": "5b5452f4"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r2/06.log",
+          "bytes": 2888,
+          "crc32": "970317a1"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r2/06.time.txt",
+          "bytes": 1071,
+          "crc32": "3b5cbc3a"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r2/06.txt",
+          "bytes": 41,
+          "crc32": "9ee28169"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r2/07.log",
+          "bytes": 2896,
+          "crc32": "6b8f4630"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r2/07.time.txt",
+          "bytes": 1070,
+          "crc32": "c52849f2"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r2/07.txt",
+          "bytes": 49,
+          "crc32": "28d130a5"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r2/08.log",
+          "bytes": 2899,
+          "crc32": "82df0574"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r2/08.time.txt",
+          "bytes": 1071,
+          "crc32": "34a52327"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r2/08.txt",
+          "bytes": 52,
+          "crc32": "86a97a60"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r2/09.log",
+          "bytes": 2895,
+          "crc32": "d61e4b7d"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r2/09.time.txt",
+          "bytes": 1071,
+          "crc32": "3cdac4c4"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r2/09.txt",
+          "bytes": 48,
+          "crc32": "f2826d27"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r2/10.log",
+          "bytes": 2906,
+          "crc32": "fb897c7e"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r2/10.time.txt",
+          "bytes": 1071,
+          "crc32": "68ed343c"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r2/10.txt",
+          "bytes": 59,
+          "crc32": "c1ee4733"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r2/11.log",
+          "bytes": 2904,
+          "crc32": "526c8522"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r2/11.time.txt",
+          "bytes": 1070,
+          "crc32": "f1bea01a"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r2/11.txt",
+          "bytes": 57,
+          "crc32": "e6845a86"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r2/12.log",
+          "bytes": 2900,
+          "crc32": "c41c4e0e"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r2/12.time.txt",
+          "bytes": 1070,
+          "crc32": "94e91cd1"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r2/12.txt",
+          "bytes": 53,
+          "crc32": "1f22d6e3"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r2/13.log",
+          "bytes": 2895,
+          "crc32": "eb1cdc08"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r2/13.time.txt",
+          "bytes": 1071,
+          "crc32": "54a8accf"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r2/13.txt",
+          "bytes": 48,
+          "crc32": "3b3cf6d8"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r2/14.log",
+          "bytes": 2899,
+          "crc32": "d9c66322"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r2/14.time.txt",
+          "bytes": 1070,
+          "crc32": "9fe986b2"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r2/14.txt",
+          "bytes": 52,
+          "crc32": "ef410c0e"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r2/15.log",
+          "bytes": 2889,
+          "crc32": "6bd0ac42"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r2/15.time.txt",
+          "bytes": 1070,
+          "crc32": "fd03784d"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r2/15.txt",
+          "bytes": 42,
+          "crc32": "9adc93cc"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r2/16.log",
+          "bytes": 2903,
+          "crc32": "426a70b5"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r2/16.time.txt",
+          "bytes": 1070,
+          "crc32": "a889b22e"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r2/16.txt",
+          "bytes": 56,
+          "crc32": "4c7e6192"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r2/17.log",
+          "bytes": 2896,
+          "crc32": "1e949ec6"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r2/17.time.txt",
+          "bytes": 1070,
+          "crc32": "cba9b905"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r2/17.txt",
+          "bytes": 49,
+          "crc32": "007d07f0"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r2/18.log",
+          "bytes": 2900,
+          "crc32": "9b16c49d"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r2/18.time.txt",
+          "bytes": 1070,
+          "crc32": "d6fd2994"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r2/18.txt",
+          "bytes": 53,
+          "crc32": "8d509b39"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r2/19.log",
+          "bytes": 2901,
+          "crc32": "23df5f0b"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r2/19.time.txt",
+          "bytes": 1071,
+          "crc32": "e7271fe1"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r2/19.txt",
+          "bytes": 54,
+          "crc32": "6181c01c"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r2/20.log",
+          "bytes": 2914,
+          "crc32": "43fcc884"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r2/20.time.txt",
+          "bytes": 1070,
+          "crc32": "ed1b77fb"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r2/20.txt",
+          "bytes": 67,
+          "crc32": "5031ca5d"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r2/measurement.json",
+          "bytes": 13656,
+          "crc32": "f998fbef"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r2/verification.json",
+          "bytes": 278,
+          "crc32": "bb8c09cb"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r2/whisper_cpp.jsonl",
+          "bytes": 27878,
+          "crc32": "03ad097b"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_r2/whisper_cpp.run.json",
+          "bytes": 14971,
+          "crc32": "37d87554"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_smoke/01.log",
+          "bytes": 2897,
+          "crc32": "649f78e3"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_smoke/01.time.txt",
+          "bytes": 1074,
+          "crc32": "55257665"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_smoke/01.txt",
+          "bytes": 47,
+          "crc32": "e64b99e3"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_smoke/measurement.json",
+          "bytes": 2516,
+          "crc32": "5b724b2a"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_smoke/whisper_cpp.jsonl",
+          "bytes": 1294,
+          "crc32": "ec4829eb"
+        },
+        {
+          "name": "experiments/B04/results/whisper_tiny_smoke/whisper_cpp.run.json",
+          "bytes": 2805,
+          "crc32": "e364eddc"
+        }
+      ],
+      "extracted": false,
+      "crc_error_member": null
+    },
+    {
+      "path": "data/derived/B04_zipformer_results_20261013.zip",
+      "sha256": "6d43525b3df8a64e0fc94d6b76133a4b56b701a986c6e014979b34d2a68cb50f",
+      "members": [
+        {
+          "name": "experiments/B04/results/packages.txt",
+          "bytes": 174,
+          "crc32": "b13767dc"
+        },
+        {
+          "name": "experiments/B04/results/machine_info.json",
+          "bytes": 986,
+          "crc32": "f4112827"
+        },
+        {
+          "name": "experiments/B04/results/smoke/zipformer.jsonl",
+          "bytes": 1276,
+          "crc32": "4b8f76dc"
+        },
+        {
+          "name": "experiments/B04/results/smoke/zipformer.run.json",
+          "bytes": 1740,
+          "crc32": "a288a159"
+        },
+        {
+          "name": "experiments/B04/results/zipformer_r2/time.txt",
+          "bytes": 1039,
+          "crc32": "65598da6"
+        },
+        {
+          "name": "experiments/B04/results/zipformer_r2/runner.log",
+          "bytes": 411,
+          "crc32": "e58c3db4"
+        },
+        {
+          "name": "experiments/B04/results/zipformer_r2/zipformer.jsonl",
+          "bytes": 27625,
+          "crc32": "2a2af245"
+        },
+        {
+          "name": "experiments/B04/results/zipformer_r2/zipformer.run.json",
+          "bytes": 1743,
+          "crc32": "ac0080e6"
+        },
+        {
+          "name": "experiments/B04/results/zipformer_r2/verification.json",
+          "bytes": 278,
+          "crc32": "f43e341c"
+        },
+        {
+          "name": "experiments/B04/results/zipformer_r2/measurement.json",
+          "bytes": 1630,
+          "crc32": "65dd41f7"
+        },
+        {
+          "name": "experiments/B04/results/zipformer_r1/time.txt",
+          "bytes": 1039,
+          "crc32": "ef8ce0e8"
+        },
+        {
+          "name": "experiments/B04/results/zipformer_r1/runner.log",
+          "bytes": 411,
+          "crc32": "e58c3db4"
+        },
+        {
+          "name": "experiments/B04/results/zipformer_r1/zipformer.jsonl",
+          "bytes": 27626,
+          "crc32": "91551dd7"
+        },
+        {
+          "name": "experiments/B04/results/zipformer_r1/zipformer.run.json",
+          "bytes": 1743,
+          "crc32": "400c2967"
+        },
+        {
+          "name": "experiments/B04/results/zipformer_r1/verification.json",
+          "bytes": 278,
+          "crc32": "7f0e78fc"
+        },
+        {
+          "name": "experiments/B04/results/zipformer_r1/measurement.json",
+          "bytes": 1627,
+          "crc32": "dbef308d"
+        },
+        {
+          "name": "experiments/B04/smoke.csv",
+          "bytes": 697,
+          "crc32": "be8e16c0"
+        }
+      ],
+      "extracted": false,
+      "crc_error_member": null
+    },
+    {
+      "path": "data/derived/self_dev20_package.zip",
+      "sha256": "69517174de971966a1f8bd48daea06aa462330e51601265be730525d4615523e",
+      "members": [
+        {
+          "name": "experiments/common.py",
+          "bytes": 4717,
+          "crc32": "9bbef233"
+        },
+        {
+          "name": "experiments/run_asr.py",
+          "bytes": 11092,
+          "crc32": "ffbf5b84"
+        },
+        {
+          "name": "experiments/summarize.py",
+          "bytes": 2072,
+          "crc32": "76000dcf"
+        },
+        {
+          "name": "experiments/verify_results.py",
+          "bytes": 2953,
+          "crc32": "fbc7aa81"
+        },
+        {
+          "name": "experiments/manifests/self_dev20.csv",
+          "bytes": 11197,
+          "crc32": "1717af90"
+        },
+        {
+          "name": "experiments/B02/results/self_dev20/whisper.jsonl",
+          "bytes": 27922,
+          "crc32": "0aa09055"
+        },
+        {
+          "name": "experiments/B02/results/self_dev20/whisper.run.json",
+          "bytes": 1773,
+          "crc32": "0269068f"
+        },
+        {
+          "name": "experiments/B02/results/self_dev20/zipformer.jsonl",
+          "bytes": 27661,
+          "crc32": "e95f46d1"
+        },
+        {
+          "name": "experiments/B02/results/self_dev20/zipformer.run.json",
+          "bytes": 1993,
+          "crc32": "99d038f5"
+        },
+        {
+          "name": "data/self_recorded/dev/self_01.wav",
+          "bytes": 171428,
+          "crc32": "0fb1f3cf"
+        },
+        {
+          "name": "data/self_recorded/dev/self_02.wav",
+          "bytes": 134564,
+          "crc32": "f2f5e8a0"
+        },
+        {
+          "name": "data/self_recorded/dev/self_03.wav",
+          "bytes": 172110,
+          "crc32": "9f75034b"
+        },
+        {
+          "name": "data/self_recorded/dev/self_04.wav",
+          "bytes": 135928,
+          "crc32": "ebaff8a1"
+        },
+        {
+          "name": "data/self_recorded/dev/self_05.wav",
+          "bytes": 174840,
+          "crc32": "cd45066e"
+        },
+        {
+          "name": "data/self_recorded/dev/self_06.wav",
+          "bytes": 115448,
+          "crc32": "610efd78"
+        },
+        {
+          "name": "data/self_recorded/dev/self_07.wav",
+          "bytes": 130468,
+          "crc32": "ef2728ba"
+        },
+        {
+          "name": "data/self_recorded/dev/self_08.wav",
+          "bytes": 112718,
+          "crc32": "32c06ab3"
+        },
+        {
+          "name": "data/self_recorded/dev/self_09.wav",
+          "bytes": 133880,
+          "crc32": "9fbc4719"
+        },
+        {
+          "name": "data/self_recorded/dev/self_10.wav",
+          "bytes": 129102,
+          "crc32": "2954285b"
+        },
+        {
+          "name": "data/self_recorded/dev/self_11.wav",
+          "bytes": 122958,
+          "crc32": "de1c8c37"
+        },
+        {
+          "name": "data/self_recorded/dev/self_12.wav",
+          "bytes": 138660,
+          "crc32": "ec6e4d44"
+        },
+        {
+          "name": "data/self_recorded/dev/self_13.wav",
+          "bytes": 123640,
+          "crc32": "3b55230c"
+        },
+        {
+          "name": "data/self_recorded/dev/self_14.wav",
+          "bytes": 106574,
+          "crc32": "78eecb9d"
+        },
+        {
+          "name": "data/self_recorded/dev/self_15.wav",
+          "bytes": 109304,
+          "crc32": "323557d7"
+        },
+        {
+          "name": "data/self_recorded/dev/self_16.wav",
+          "bytes": 130468,
+          "crc32": "ece081d7"
+        },
+        {
+          "name": "data/self_recorded/dev/self_17.wav",
+          "bytes": 140024,
+          "crc32": "cf47c121"
+        },
+        {
+          "name": "data/self_recorded/dev/self_18.wav",
+          "bytes": 137976,
+          "crc32": "dc1ff847"
+        },
+        {
+          "name": "data/self_recorded/dev/self_19.wav",
+          "bytes": 136612,
+          "crc32": "b45f25d5"
+        },
+        {
+          "name": "data/self_recorded/dev/self_20.wav",
+          "bytes": 137976,
+          "crc32": "a7a4e862"
+        }
+      ],
+      "extracted": false,
+      "crc_error_member": null
+    },
+    {
+      "path": "data/derived/stt_b01_b03_package.zip",
+      "sha256": "e154ef97a09cc332b180cf04f884b2d41faa475b711115c44ab3fecf0316f7f2",
+      "members": [
+        {
+          "name": "experiments/B01/B01_STT.ipynb",
+          "bytes": 5708,
+          "crc32": "43b68f07"
+        },
+        {
+          "name": "experiments/B01/DEMO.md",
+          "bytes": 1520,
+          "crc32": "1325bd45"
+        },
+        {
+          "name": "experiments/B01/README.md",
+          "bytes": 814,
+          "crc32": "7c68f597"
+        },
+        {
+          "name": "experiments/B02/B02_STT.ipynb",
+          "bytes": 7410,
+          "crc32": "083f4c2b"
+        },
+        {
+          "name": "experiments/B02/DEMO.md",
+          "bytes": 2698,
+          "crc32": "284d103e"
+        },
+        {
+          "name": "experiments/B02/README.md",
+          "bytes": 766,
+          "crc32": "85e8e086"
+        },
+        {
+          "name": "experiments/B02/self_dev_template.csv",
+          "bytes": 2392,
+          "crc32": "97f5b3f1"
+        },
+        {
+          "name": "experiments/B02/THU_AM.md",
+          "bytes": 1472,
+          "crc32": "a1095425"
+        },
+        {
+          "name": "experiments/B03/B03_Qwen_Colab_GPU.ipynb",
+          "bytes": 9018,
+          "crc32": "4ef2a39d"
+        },
+        {
+          "name": "experiments/B03/B03_STT.ipynb",
+          "bytes": 10911,
+          "crc32": "e68c3401"
+        },
+        {
+          "name": "experiments/B03/README.md",
+          "bytes": 1208,
+          "crc32": "1dfb8358"
+        },
+        {
+          "name": "experiments/common.py",
+          "bytes": 4717,
+          "crc32": "9bbef233"
+        },
+        {
+          "name": "experiments/import_self.py",
+          "bytes": 1625,
+          "crc32": "99b405b9"
+        },
+        {
+          "name": "experiments/make_notebooks.py",
+          "bytes": 9438,
+          "crc32": "9136df8b"
+        },
+        {
+          "name": "experiments/make_qwen_notebook.py",
+          "bytes": 7239,
+          "crc32": "1202a649"
+        },
+        {
+          "name": "experiments/manifests/fleurs_dev100.csv",
+          "bytes": 44179,
+          "crc32": "eebdaf17"
+        },
+        {
+          "name": "experiments/manifests/pilot.csv",
+          "bytes": 4848,
+          "crc32": "522b5bcc"
+        },
+        {
+          "name": "experiments/manifests/selection.json",
+          "bytes": 595,
+          "crc32": "c2667d5d"
+        },
+        {
+          "name": "experiments/manifests/test_ids_reserved.csv",
+          "bytes": 13369,
+          "crc32": "f3d9812a"
+        },
+        {
+          "name": "experiments/prepare.py",
+          "bytes": 5649,
+          "crc32": "42a4d955"
+        },
+        {
+          "name": "experiments/README.md",
+          "bytes": 4112,
+          "crc32": "d7f9ee48"
+        },
+        {
+          "name": "experiments/requirements-colab.txt",
+          "bytes": 92,
+          "crc32": "ba9621a1"
+        },
+        {
+          "name": "experiments/run_asr.py",
+          "bytes": 11092,
+          "crc32": "ffbf5b84"
+        },
+        {
+          "name": "experiments/summarize.py",
+          "bytes": 2072,
+          "crc32": "76000dcf"
+        },
+        {
+          "name": "experiments/tests/test_common.py",
+          "bytes": 5014,
+          "crc32": "8cdcdf0d"
+        },
+        {
+          "name": "experiments/tests/test_gpu_policy.py",
+          "bytes": 1684,
+          "crc32": "ac26e18e"
+        },
+        {
+          "name": "experiments/verify_results.py",
+          "bytes": 2953,
+          "crc32": "fbc7aa81"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/10330493063020763016.wav",
+          "bytes": 272684,
+          "crc32": "343e5a11"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/1037921397326591554.wav",
+          "bytes": 345644,
+          "crc32": "ad4be5d7"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/10571565832044041622.wav",
+          "bytes": 220844,
+          "crc32": "9c4a0187"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/10668675586953055114.wav",
+          "bytes": 432044,
+          "crc32": "515d16f2"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/10702218987765403898.wav",
+          "bytes": 560684,
+          "crc32": "cf5398d9"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/10736975338715267742.wav",
+          "bytes": 299564,
+          "crc32": "923d272f"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/10897165480379223873.wav",
+          "bytes": 376364,
+          "crc32": "b905d9f6"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/10965755017487041216.wav",
+          "bytes": 320684,
+          "crc32": "d494a9dd"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/11025013104549101811.wav",
+          "bytes": 234284,
+          "crc32": "358b3cda"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/11383083381372198060.wav",
+          "bytes": 579884,
+          "crc32": "68d3bec8"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/1139741953038979336.wav",
+          "bytes": 958124,
+          "crc32": "f53ea1cb"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/11709007378118641324.wav",
+          "bytes": 238124,
+          "crc32": "9625704a"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/11929640766257304068.wav",
+          "bytes": 468524,
+          "crc32": "71319353"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/12036888988040006375.wav",
+          "bytes": 405164,
+          "crc32": "dcc18569"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/12176772846678576008.wav",
+          "bytes": 328364,
+          "crc32": "066b1bc6"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/12336870448837484124.wav",
+          "bytes": 347564,
+          "crc32": "a6701d00"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/12452598771625453983.wav",
+          "bytes": 253484,
+          "crc32": "edf174b2"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/12506759633525739535.wav",
+          "bytes": 591404,
+          "crc32": "4ef0fd06"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/12507040706630766579.wav",
+          "bytes": 240044,
+          "crc32": "e15ae5f7"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/12803633552627186852.wav",
+          "bytes": 192044,
+          "crc32": "38bf1051"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/12943089570068506915.wav",
+          "bytes": 625964,
+          "crc32": "f1e18874"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/13406835665634133407.wav",
+          "bytes": 282284,
+          "crc32": "bf325831"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/13570834282701147205.wav",
+          "bytes": 238124,
+          "crc32": "406af31b"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/13616450196460205761.wav",
+          "bytes": 351404,
+          "crc32": "55b387c4"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/13773573858847692303.wav",
+          "bytes": 395564,
+          "crc32": "4d8de68e"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/14125554076781303763.wav",
+          "bytes": 299564,
+          "crc32": "7273b810"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/14135486895615497173.wav",
+          "bytes": 672044,
+          "crc32": "da513e55"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/14301804876253465717.wav",
+          "bytes": 787244,
+          "crc32": "25011897"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/1452471791525688033.wav",
+          "bytes": 324524,
+          "crc32": "fe57a218"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/14783247390946343063.wav",
+          "bytes": 313004,
+          "crc32": "7e7d1ffc"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/14928886936425796029.wav",
+          "bytes": 384044,
+          "crc32": "6855418b"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/15315541104910886201.wav",
+          "bytes": 441644,
+          "crc32": "8db6b0c8"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/15401984597053465222.wav",
+          "bytes": 393644,
+          "crc32": "483186c8"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/15409807402987269035.wav",
+          "bytes": 372524,
+          "crc32": "e66897e9"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/15494109052190613366.wav",
+          "bytes": 683564,
+          "crc32": "243281c3"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/15530234383742555383.wav",
+          "bytes": 334124,
+          "crc32": "6decc100"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/15583589234736745664.wav",
+          "bytes": 435884,
+          "crc32": "1ca96d99"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/15936085030676963416.wav",
+          "bytes": 1023404,
+          "crc32": "65ff50a3"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/16254526675653960268.wav",
+          "bytes": 211244,
+          "crc32": "42e35fb6"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/16380958649268722082.wav",
+          "bytes": 409004,
+          "crc32": "6e0737e2"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/16530155469086716256.wav",
+          "bytes": 266924,
+          "crc32": "285b0c9b"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/16825699755172330111.wav",
+          "bytes": 249644,
+          "crc32": "320d1a3e"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/17682974477772279405.wav",
+          "bytes": 297644,
+          "crc32": "600c4af7"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/17774135997069232481.wav",
+          "bytes": 336044,
+          "crc32": "8ae4c643"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/18077091086643071584.wav",
+          "bytes": 266924,
+          "crc32": "25a3aa8b"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/18322727376834662108.wav",
+          "bytes": 368684,
+          "crc32": "c12d210f"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/18346732965239236151.wav",
+          "bytes": 487724,
+          "crc32": "6b6e7c76"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/2221868015096309700.wav",
+          "bytes": 405164,
+          "crc32": "e4e0adba"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/2694996626749147645.wav",
+          "bytes": 192044,
+          "crc32": "f629317e"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/288972552359107972.wav",
+          "bytes": 364844,
+          "crc32": "7747de79"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/297703781105006747.wav",
+          "bytes": 311084,
+          "crc32": "708edccc"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/2978504833575176940.wav",
+          "bytes": 336044,
+          "crc32": "319e61e3"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/3028036492606138857.wav",
+          "bytes": 407084,
+          "crc32": "baeac4d8"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/3506524439284170712.wav",
+          "bytes": 217004,
+          "crc32": "53d67b0e"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/3536180779995648323.wav",
+          "bytes": 364844,
+          "crc32": "f7fe5a31"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/355522728651529644.wav",
+          "bytes": 349484,
+          "crc32": "ec75f487"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/3750286485069742757.wav",
+          "bytes": 410924,
+          "crc32": "f97f2d79"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/3894355110745863221.wav",
+          "bytes": 207404,
+          "crc32": "114a3b83"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/39175139941883407.wav",
+          "bytes": 341804,
+          "crc32": "84631c6b"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/3933225803333432591.wav",
+          "bytes": 218924,
+          "crc32": "9af34aba"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/4120201124216770959.wav",
+          "bytes": 393644,
+          "crc32": "3a895d3a"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/422363421073634118.wav",
+          "bytes": 240044,
+          "crc32": "a2daf9f3"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/4266147705863531449.wav",
+          "bytes": 568364,
+          "crc32": "51758841"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/4310272335194734538.wav",
+          "bytes": 270764,
+          "crc32": "8a1a630d"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/4397767911643995825.wav",
+          "bytes": 384044,
+          "crc32": "3fc85e3f"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/4446382519192965870.wav",
+          "bytes": 906284,
+          "crc32": "73a8f5a1"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/460054149680718158.wav",
+          "bytes": 385964,
+          "crc32": "ab79f79c"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/4658304957265150557.wav",
+          "bytes": 441644,
+          "crc32": "0138de47"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/4767212356465567922.wav",
+          "bytes": 543404,
+          "crc32": "087c8b7d"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/4891217210315836503.wav",
+          "bytes": 161324,
+          "crc32": "4e15ac95"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/5084044544175515080.wav",
+          "bytes": 441644,
+          "crc32": "24c8d065"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/5269659892008038187.wav",
+          "bytes": 357164,
+          "crc32": "fbc35127"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/5375812955028414771.wav",
+          "bytes": 376364,
+          "crc32": "207b434f"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/5380420816515716433.wav",
+          "bytes": 257324,
+          "crc32": "c39eeb65"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/5622858423000138226.wav",
+          "bytes": 332204,
+          "crc32": "cf8c9dd2"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/58571268796553326.wav",
+          "bytes": 560684,
+          "crc32": "f7c295ad"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/5900678870809381958.wav",
+          "bytes": 322604,
+          "crc32": "484edf24"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/6174543317797965283.wav",
+          "bytes": 259244,
+          "crc32": "6c14f101"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/6238389016614768363.wav",
+          "bytes": 257324,
+          "crc32": "019f7517"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/6286256452444238953.wav",
+          "bytes": 238124,
+          "crc32": "b3c7c95f"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/6519398716111410867.wav",
+          "bytes": 326444,
+          "crc32": "b80733ef"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/6599292211497398479.wav",
+          "bytes": 251564,
+          "crc32": "11f46dee"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/6606140055140188524.wav",
+          "bytes": 416684,
+          "crc32": "69e202a8"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/6998987487456300900.wav",
+          "bytes": 593324,
+          "crc32": "6a946d80"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/7080457166221655676.wav",
+          "bytes": 391724,
+          "crc32": "ed723aa6"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/754647434841407406.wav",
+          "bytes": 476204,
+          "crc32": "9ad6ab04"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/7894745359431207689.wav",
+          "bytes": 380204,
+          "crc32": "eedaf720"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/8102171373644331498.wav",
+          "bytes": 455084,
+          "crc32": "37b860ba"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/8123673859785570169.wav",
+          "bytes": 401324,
+          "crc32": "d1064a5e"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/8256624191026535095.wav",
+          "bytes": 437804,
+          "crc32": "1c948579"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/8764178281800662979.wav",
+          "bytes": 428204,
+          "crc32": "f286feb6"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/8878843985241869232.wav",
+          "bytes": 468524,
+          "crc32": "e78d95c2"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/8921894726060882087.wav",
+          "bytes": 405164,
+          "crc32": "bbef879f"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/9049429441189965092.wav",
+          "bytes": 318764,
+          "crc32": "514f0a21"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/9246964791575316688.wav",
+          "bytes": 218924,
+          "crc32": "0d92da17"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/9438127672940570460.wav",
+          "bytes": 320684,
+          "crc32": "1f8efdee"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/9558180444501391590.wav",
+          "bytes": 261164,
+          "crc32": "3ba24b9d"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/9573923728449838180.wav",
+          "bytes": 276524,
+          "crc32": "945b8516"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/9918421668208578623.wav",
+          "bytes": 355244,
+          "crc32": "307be009"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/dev/9919202051882179979.wav",
+          "bytes": 420524,
+          "crc32": "527ee6ad"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/train/11527169325860329806.wav",
+          "bytes": 380204,
+          "crc32": "550c2958"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/train/12964228347003344217.wav",
+          "bytes": 241964,
+          "crc32": "88f2865b"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/train/13114512907180226416.wav",
+          "bytes": 362924,
+          "crc32": "c676b70d"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/train/14202609157702134027.wav",
+          "bytes": 518444,
+          "crc32": "8bb1c879"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/train/16626086605808564902.wav",
+          "bytes": 355244,
+          "crc32": "992e1f62"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/train/17268132122088704977.wav",
+          "bytes": 531884,
+          "crc32": "f7bf3634"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/train/18181717496122759486.wav",
+          "bytes": 336044,
+          "crc32": "6052874a"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/train/18182759805207678941.wav",
+          "bytes": 213164,
+          "crc32": "15eb0d33"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/train/5552395085649859819.wav",
+          "bytes": 303404,
+          "crc32": "92c21abc"
+        },
+        {
+          "name": "data/derived/stt_b01_b03/train/9346617711378333316.wav",
+          "bytes": 326444,
+          "crc32": "1c70e747"
+        }
+      ],
+      "extracted": false,
+      "crc_error_member": null
+    }
+  ],
+  "scope": "Read-only local inventory, saved-score recomputation and JiWER checks. No model inference, network calls or device deployment. Archive contents listed without extraction. No cloud sync revalidation.",
+  "current_code_hash_checks": [
+    {
+      "run": "experiments/B01/results/whisper_pilot.jsonl",
+      "field": "runner_sha256",
+      "file": "experiments/run_asr.py",
+      "matches": false
+    },
+    {
+      "run": "experiments/B01/results/whisper_pilot.jsonl",
+      "field": "scoring_sha256",
+      "file": "experiments/common.py",
+      "matches": true
+    },
+    {
+      "run": "experiments/B02/results/self_dev20/whisper.jsonl",
+      "field": "runner_sha256",
+      "file": "experiments/run_asr.py",
+      "matches": true
+    },
+    {
+      "run": "experiments/B02/results/self_dev20/whisper.jsonl",
+      "field": "scoring_sha256",
+      "file": "experiments/common.py",
+      "matches": true
+    },
+    {
+      "run": "experiments/B02/results/self_dev20/zipformer.jsonl",
+      "field": "runner_sha256",
+      "file": "experiments/run_asr.py",
+      "matches": true
+    },
+    {
+      "run": "experiments/B02/results/self_dev20/zipformer.jsonl",
+      "field": "scoring_sha256",
+      "file": "experiments/common.py",
+      "matches": true
+    },
+    {
+      "run": "experiments/B02/results/self_dev_pairs4/whisper.jsonl",
+      "field": "runner_sha256",
+      "file": "experiments/run_asr.py",
+      "matches": true
+    },
+    {
+      "run": "experiments/B02/results/self_dev_pairs4/whisper.jsonl",
+      "field": "scoring_sha256",
+      "file": "experiments/common.py",
+      "matches": true
+    },
+    {
+      "run": "experiments/B02/results/self_dev_pairs4/zipformer.jsonl",
+      "field": "runner_sha256",
+      "file": "experiments/run_asr.py",
+      "matches": true
+    },
+    {
+      "run": "experiments/B02/results/self_dev_pairs4/zipformer.jsonl",
+      "field": "scoring_sha256",
+      "file": "experiments/common.py",
+      "matches": true
+    },
+    {
+      "run": "experiments/B02/results/whisper_dev.jsonl",
+      "field": "runner_sha256",
+      "file": "experiments/run_asr.py",
+      "matches": false
+    },
+    {
+      "run": "experiments/B02/results/whisper_dev.jsonl",
+      "field": "scoring_sha256",
+      "file": "experiments/common.py",
+      "matches": true
+    },
+    {
+      "run": "experiments/B02/results/zipformer_dev.jsonl",
+      "field": "runner_sha256",
+      "file": "experiments/run_asr.py",
+      "matches": false
+    },
+    {
+      "run": "experiments/B02/results/zipformer_dev.jsonl",
+      "field": "scoring_sha256",
+      "file": "experiments/common.py",
+      "matches": true
+    },
+    {
+      "run": "experiments/B03/attempts/cancelled_cpu/qwen_dev_cpu.jsonl",
+      "field": "runner_sha256",
+      "file": "experiments/run_asr.py",
+      "matches": false
+    },
+    {
+      "run": "experiments/B03/attempts/cancelled_cpu/qwen_dev_cpu.jsonl",
+      "field": "scoring_sha256",
+      "file": "experiments/common.py",
+      "matches": true
+    },
+    {
+      "run": "experiments/B03/results/qwen_dev.jsonl",
+      "field": "runner_sha256",
+      "file": "experiments/run_asr.py",
+      "matches": true
+    },
+    {
+      "run": "experiments/B03/results/qwen_dev.jsonl",
+      "field": "scoring_sha256",
+      "file": "experiments/common.py",
+      "matches": true
+    },
+    {
+      "run": "experiments/B03/results/self_dev20/qwen.jsonl",
+      "field": "runner_sha256",
+      "file": "experiments/run_asr.py",
+      "matches": true
+    },
+    {
+      "run": "experiments/B03/results/self_dev20/qwen.jsonl",
+      "field": "scoring_sha256",
+      "file": "experiments/common.py",
+      "matches": true
+    },
+    {
+      "run": "experiments/B04/results/smoke/zipformer.jsonl",
+      "field": "runner_sha256",
+      "file": "experiments/run_asr.py",
+      "matches": true
+    },
+    {
+      "run": "experiments/B04/results/smoke/zipformer.jsonl",
+      "field": "scoring_sha256",
+      "file": "experiments/common.py",
+      "matches": true
+    },
+    {
+      "run": "experiments/B04/results/whisper_base_smoke/whisper_cpp.jsonl",
+      "field": "backend.runner_sha256",
+      "file": "experiments/B04/run_whisper_cpp_pi.py",
+      "matches": true
+    },
+    {
+      "run": "experiments/B04/results/whisper_tiny_r1/whisper_cpp.jsonl",
+      "field": "backend.runner_sha256",
+      "file": "experiments/B04/run_whisper_cpp_pi.py",
+      "matches": true
+    },
+    {
+      "run": "experiments/B04/results/whisper_tiny_r2/whisper_cpp.jsonl",
+      "field": "backend.runner_sha256",
+      "file": "experiments/B04/run_whisper_cpp_pi.py",
+      "matches": true
+    },
+    {
+      "run": "experiments/B04/results/whisper_tiny_smoke/whisper_cpp.jsonl",
+      "field": "backend.runner_sha256",
+      "file": "experiments/B04/run_whisper_cpp_pi.py",
+      "matches": true
+    },
+    {
+      "run": "experiments/B04/results/zipformer_r1/zipformer.jsonl",
+      "field": "runner_sha256",
+      "file": "experiments/run_asr.py",
+      "matches": true
+    },
+    {
+      "run": "experiments/B04/results/zipformer_r1/zipformer.jsonl",
+      "field": "scoring_sha256",
+      "file": "experiments/common.py",
+      "matches": true
+    },
+    {
+      "run": "experiments/B04/results/zipformer_r2/zipformer.jsonl",
+      "field": "runner_sha256",
+      "file": "experiments/run_asr.py",
+      "matches": true
+    },
+    {
+      "run": "experiments/B04/results/zipformer_r2/zipformer.jsonl",
+      "field": "scoring_sha256",
+      "file": "experiments/common.py",
+      "matches": true
+    }
+  ],
+  "index_scope": "files.json lists non-environment files; environment files are counted in groups, not indexed individually. .git excluded.",
+  "source_receipts": [
+    {
+      "path": "experiments/B03/results/self_dev20/source.json",
+      "sha256": "5682dc3a0e53861d6c1410ca224ac93aec65571614a95449205bf465f5bdbf1d"
+    },
+    {
+      "path": "experiments/B03/results/source.json",
+      "sha256": "ed51b368b53c48db016ae6f2a975b9d6011aabd3ab63beb27ef18a1719bb595a"
+    },
+    {
+      "path": "experiments/B04/package_receipt.json",
+      "sha256": "d1b9e1edd72136db82b200114e477d56127f550b06d94358214d398ab2265163"
+    },
+    {
+      "path": "experiments/B04/results/source.json",
+      "sha256": "4abec712e001d1628a77b82896b2a7594b0b601cffa587838cec5db7347c24da"
+    },
+    {
+      "path": "experiments/B04/results/whisper_source.json",
+      "sha256": "cbc52ed215cd4d310cf6f6267aff929f55db2ae2108a6710d6f773bf5945d855"
+    },
+    {
+      "path": "experiments/package_receipt.json",
+      "sha256": "d1b182d02f0fcd98c321e2e85c41bfb094cd4b5e87c09dd7a00326435dbb206b"
+    },
+    {
+      "path": "experiments/self_dev20_package_receipt.json",
+      "sha256": "cc44864bcca015025362750796ab06b3468edba87775cc09f1b5ff1131082f55"
+    }
+  ],
+  "historical_runner_sources": {
+    "experiments/B03/attempts/cancelled_cpu/qwen_dev_cpu.jsonl": {
+      "commit": "4ce005e06d6523d1261e791010f0f947aae986ff",
+      "path": "experiments/run_asr.py",
+      "byte_form": "git_blob",
+      "sha256": "dee17d6037f72d463b83d70758f3579bcf8137dbf16174d61a1e2f6926c07678"
+    },
+    "experiments/B01/results/whisper_pilot.jsonl": {
+      "commit": "13421d4d7d18a1f965f7a002120c0cc4549b828e",
+      "path": "experiments/run_asr.py",
+      "byte_form": "git_blob",
+      "sha256": "ca446abb3e6ecccca1792558300a7b78f07c711cdca20163505f4425d34054e0"
+    },
+    "experiments/B02/results/whisper_dev.jsonl": {
+      "commit": "13421d4d7d18a1f965f7a002120c0cc4549b828e",
+      "path": "experiments/run_asr.py",
+      "byte_form": "git_blob",
+      "sha256": "ca446abb3e6ecccca1792558300a7b78f07c711cdca20163505f4425d34054e0"
+    },
+    "experiments/B02/results/zipformer_dev.jsonl": {
+      "commit": "13421d4d7d18a1f965f7a002120c0cc4549b828e",
+      "path": "experiments/run_asr.py",
+      "byte_form": "git_blob",
+      "sha256": "ca446abb3e6ecccca1792558300a7b78f07c711cdca20163505f4425d34054e0"
+    }
+  },
+  "unresolved_historical_runner_sources": [],
+  "available_local_weight_checks": [
+    {
+      "run": "experiments/B01/results/whisper_pilot.jsonl",
+      "file": "data\\models\\whisper\\base.pt",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "run": "experiments/B02/results/self_dev20/whisper.jsonl",
+      "file": "data\\models\\whisper\\base.pt",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "run": "experiments/B02/results/self_dev20/zipformer.jsonl",
+      "file": "data\\models\\sherpa-onnx-zipformer-vi-30M-int8-2026-02-09\\encoder.int8.onnx",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "run": "experiments/B02/results/self_dev20/zipformer.jsonl",
+      "file": "data\\models\\sherpa-onnx-zipformer-vi-30M-int8-2026-02-09\\decoder.onnx",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "run": "experiments/B02/results/self_dev20/zipformer.jsonl",
+      "file": "data\\models\\sherpa-onnx-zipformer-vi-30M-int8-2026-02-09\\joiner.int8.onnx",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "run": "experiments/B02/results/self_dev20/zipformer.jsonl",
+      "file": "data\\models\\sherpa-onnx-zipformer-vi-30M-int8-2026-02-09\\tokens.txt",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "run": "experiments/B02/results/self_dev_pairs4/whisper.jsonl",
+      "file": "data\\models\\whisper\\base.pt",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "run": "experiments/B02/results/self_dev_pairs4/zipformer.jsonl",
+      "file": "data\\models\\sherpa-onnx-zipformer-vi-30M-int8-2026-02-09\\encoder.int8.onnx",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "run": "experiments/B02/results/self_dev_pairs4/zipformer.jsonl",
+      "file": "data\\models\\sherpa-onnx-zipformer-vi-30M-int8-2026-02-09\\decoder.onnx",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "run": "experiments/B02/results/self_dev_pairs4/zipformer.jsonl",
+      "file": "data\\models\\sherpa-onnx-zipformer-vi-30M-int8-2026-02-09\\joiner.int8.onnx",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "run": "experiments/B02/results/self_dev_pairs4/zipformer.jsonl",
+      "file": "data\\models\\sherpa-onnx-zipformer-vi-30M-int8-2026-02-09\\tokens.txt",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "run": "experiments/B02/results/whisper_dev.jsonl",
+      "file": "data\\models\\whisper\\base.pt",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "run": "experiments/B02/results/zipformer_dev.jsonl",
+      "file": "data\\models\\sherpa-onnx-zipformer-vi-30M-int8-2026-02-09\\encoder.int8.onnx",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "run": "experiments/B02/results/zipformer_dev.jsonl",
+      "file": "data\\models\\sherpa-onnx-zipformer-vi-30M-int8-2026-02-09\\decoder.onnx",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "run": "experiments/B02/results/zipformer_dev.jsonl",
+      "file": "data\\models\\sherpa-onnx-zipformer-vi-30M-int8-2026-02-09\\joiner.int8.onnx",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "run": "experiments/B02/results/zipformer_dev.jsonl",
+      "file": "data\\models\\sherpa-onnx-zipformer-vi-30M-int8-2026-02-09\\tokens.txt",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "run": "experiments/B04/results/smoke/zipformer.jsonl",
+      "file": "data\\models\\sherpa-onnx-zipformer-vi-30M-int8-2026-02-09\\encoder.int8.onnx",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "run": "experiments/B04/results/smoke/zipformer.jsonl",
+      "file": "data\\models\\sherpa-onnx-zipformer-vi-30M-int8-2026-02-09\\decoder.onnx",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "run": "experiments/B04/results/smoke/zipformer.jsonl",
+      "file": "data\\models\\sherpa-onnx-zipformer-vi-30M-int8-2026-02-09\\joiner.int8.onnx",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "run": "experiments/B04/results/smoke/zipformer.jsonl",
+      "file": "data\\models\\sherpa-onnx-zipformer-vi-30M-int8-2026-02-09\\tokens.txt",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "run": "experiments/B04/results/zipformer_r1/zipformer.jsonl",
+      "file": "data\\models\\sherpa-onnx-zipformer-vi-30M-int8-2026-02-09\\encoder.int8.onnx",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "run": "experiments/B04/results/zipformer_r1/zipformer.jsonl",
+      "file": "data\\models\\sherpa-onnx-zipformer-vi-30M-int8-2026-02-09\\decoder.onnx",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "run": "experiments/B04/results/zipformer_r1/zipformer.jsonl",
+      "file": "data\\models\\sherpa-onnx-zipformer-vi-30M-int8-2026-02-09\\joiner.int8.onnx",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "run": "experiments/B04/results/zipformer_r1/zipformer.jsonl",
+      "file": "data\\models\\sherpa-onnx-zipformer-vi-30M-int8-2026-02-09\\tokens.txt",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "run": "experiments/B04/results/zipformer_r2/zipformer.jsonl",
+      "file": "data\\models\\sherpa-onnx-zipformer-vi-30M-int8-2026-02-09\\encoder.int8.onnx",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "run": "experiments/B04/results/zipformer_r2/zipformer.jsonl",
+      "file": "data\\models\\sherpa-onnx-zipformer-vi-30M-int8-2026-02-09\\decoder.onnx",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "run": "experiments/B04/results/zipformer_r2/zipformer.jsonl",
+      "file": "data\\models\\sherpa-onnx-zipformer-vi-30M-int8-2026-02-09\\joiner.int8.onnx",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "run": "experiments/B04/results/zipformer_r2/zipformer.jsonl",
+      "file": "data\\models\\sherpa-onnx-zipformer-vi-30M-int8-2026-02-09\\tokens.txt",
+      "exists": true,
+      "matches": true
+    }
+  ]
+}

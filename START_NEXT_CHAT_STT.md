@@ -1,5 +1,7 @@
 # STT work: next session
 
+> Current entry point, 2026-11-02: use [STT_PLAN_1_WEEK.md](STT_PLAN_1_WEEK.md), [STT_BOM.md](STT_BOM.md), and [the verified inventory](experiments/inventory_20261102/README.md). The user authorized progress from existing context without recovering all LearnHarness multiple-choice answers. Capture during TTS playback is permitted; evaluate AEC later if actual speaker echo causes a problem. Both discussions below have now been read in full. Keep the old text below as context; do not repeat its initial clarification phase as a blocking requirement. Backup relocation is recorded in `experiments/inventory_20261102/archive_manifest.json`.
+
 Date: 2026-11-02.
 Workspace: `C:\Users\LAPTOP T&T\VIOLETTA\Documents\ChatGPT\PBL6`.
 

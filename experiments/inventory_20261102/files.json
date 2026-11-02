@@ -1,0 +1,4807 @@
+[
+  {
+    "path": ".gitattributes",
+    "bytes": 385,
+    "class": "required_evidence"
+  },
+  {
+    "path": ".gitignore",
+    "bytes": 40,
+    "class": "required_evidence"
+  },
+  {
+    "path": "AGENTS.md",
+    "bytes": 698,
+    "class": "required_evidence"
+  },
+  {
+    "path": "ChatGPT-Concepts-20261009-1926.md",
+    "bytes": 55318,
+    "class": "required_evidence"
+  },
+  {
+    "path": "ChatGPT-Theo dõi và tóm tắt kênh AI Search-20261009-1957.md",
+    "bytes": 11592,
+    "class": "required_evidence"
+  },
+  {
+    "path": "ChatGPT-Tìm dataset STT Việt Nam-20261009-1837.md",
+    "bytes": 12553,
+    "class": "required_evidence"
+  },
+  {
+    "path": "ChatGPT-Tìm hiểu Stage 1 STT-20261009-1940.md",
+    "bytes": 10455,
+    "class": "required_evidence"
+  },
+  {
+    "path": "ChatGPT-Tìm hiểu Stage 2 STT-20261009-1940.md",
+    "bytes": 10797,
+    "class": "required_evidence"
+  },
+  {
+    "path": "Nhập Môn Dữ Liệu Âm Thanh.md",
+    "bytes": 14935,
+    "class": "required_evidence"
+  },
+  {
+    "path": "PLAN_DEMO_STT_7_BUOI.md",
+    "bytes": 19860,
+    "class": "required_evidence"
+  },
+  {
+    "path": "README.md",
+    "bytes": 10921,
+    "class": "required_evidence"
+  },
+  {
+    "path": "REVIEW_CONCEPTS_20261009.md",
+    "bytes": 7326,
+    "class": "required_evidence"
+  },
+  {
+    "path": "SPEC_ASR_PI4_RESEARCH_20261009.md",
+    "bytes": 14470,
+    "class": "required_evidence"
+  },
+  {
+    "path": "SPEC_STT_SMART_GLASSES.md",
+    "bytes": 889,
+    "class": "required_evidence"
+  },
+  {
+    "path": "SpeechToTextSlides.txt",
+    "bytes": 15342,
+    "class": "required_evidence"
+  },
+  {
+    "path": "START_NEXT_CHAT_STT.md",
+    "bytes": 11531,
+    "class": "required_evidence"
+  },
+  {
+    "path": "VALIDATION_SPEC_ASR_PI4_20261009.md",
+    "bytes": 3141,
+    "class": "required_evidence"
+  },
+  {
+    "path": ".obsidian/app.json",
+    "bytes": 27,
+    "class": "required_evidence"
+  },
+  {
+    "path": ".obsidian/appearance.json",
+    "bytes": 77,
+    "class": "required_evidence"
+  },
+  {
+    "path": ".obsidian/community-plugins.json",
+    "bytes": 19,
+    "class": "required_evidence"
+  },
+  {
+    "path": ".obsidian/core-plugins.json",
+    "bytes": 663,
+    "class": "required_evidence"
+  },
+  {
+    "path": ".obsidian/graph.json",
+    "bytes": 511,
+    "class": "required_evidence"
+  },
+  {
+    "path": ".obsidian/workspace.json",
+    "bytes": 7693,
+    "class": "required_evidence"
+  },
+  {
+    "path": ".obsidian/plugins/marp-slides/data.json",
+    "bytes": 210,
+    "class": "required_evidence"
+  },
+  {
+    "path": ".obsidian/plugins/marp-slides/main.js",
+    "bytes": 20991722,
+    "class": "active_source"
+  },
+  {
+    "path": ".obsidian/plugins/marp-slides/manifest.json",
+    "bytes": 279,
+    "class": "required_evidence"
+  },
+  {
+    "path": ".obsidian/plugins/marp-slides/styles.css",
+    "bytes": 164,
+    "class": "active_source"
+  },
+  {
+    "path": ".obsidian/plugins/marp-slides/lib3/bespoke.js",
+    "bytes": 22421,
+    "class": "active_source"
+  },
+  {
+    "path": ".obsidian/plugins/marp-slides/lib3/bespoke.js.LICENSE.txt",
+    "bytes": 2672,
+    "class": "required_evidence"
+  },
+  {
+    "path": ".obsidian/plugins/marp-slides/lib3/index-57f568fe.js",
+    "bytes": 609699,
+    "class": "active_source"
+  },
+  {
+    "path": ".obsidian/plugins/marp-slides/lib3/index.js",
+    "bytes": 801,
+    "class": "active_source"
+  },
+  {
+    "path": ".obsidian/plugins/marp-slides/lib3/marp-cli-9fe562c5.js",
+    "bytes": 335955,
+    "class": "active_source"
+  },
+  {
+    "path": ".obsidian/plugins/marp-slides/lib3/marp-cli.js",
+    "bytes": 731,
+    "class": "active_source"
+  },
+  {
+    "path": ".obsidian/plugins/marp-slides/lib3/marp.config.js",
+    "bytes": 285,
+    "class": "active_source"
+  },
+  {
+    "path": ".obsidian/plugins/marp-slides/lib3/pdf-lib.min-fe8dcbc2.js",
+    "bytes": 525128,
+    "class": "active_source"
+  },
+  {
+    "path": ".obsidian/plugins/marp-slides/lib3/pptxgen.es-7d0ab100.js",
+    "bytes": 384562,
+    "class": "active_source"
+  },
+  {
+    "path": ".obsidian/plugins/marp-slides/lib3/watch.js",
+    "bytes": 490,
+    "class": "active_source"
+  },
+  {
+    "path": ".obsidian/plugins/marp-slides/lib3/_commonjs-dynamic-modules-21d62193.js",
+    "bytes": 245,
+    "class": "active_source"
+  },
+  {
+    "path": ".obsidian/plugins/marp-slides/lib3/markdown-it/@kazumatu981/markdown-it-kroki/CHANGELOG.md",
+    "bytes": 1311,
+    "class": "required_evidence"
+  },
+  {
+    "path": ".obsidian/plugins/marp-slides/lib3/markdown-it/@kazumatu981/markdown-it-kroki/index.js",
+    "bytes": 186,
+    "class": "active_source"
+  },
+  {
+    "path": ".obsidian/plugins/marp-slides/lib3/markdown-it/@kazumatu981/markdown-it-kroki/LICENSE",
+    "bytes": 1097,
+    "class": "required_evidence"
+  },
+  {
+    "path": ".obsidian/plugins/marp-slides/lib3/markdown-it/@kazumatu981/markdown-it-kroki/package.json",
+    "bytes": 998,
+    "class": "required_evidence"
+  },
+  {
+    "path": ".obsidian/plugins/marp-slides/lib3/markdown-it/@kazumatu981/markdown-it-kroki/README.md",
+    "bytes": 4475,
+    "class": "required_evidence"
+  },
+  {
+    "path": ".obsidian/plugins/marp-slides/lib3/markdown-it/@kazumatu981/markdown-it-kroki/.vscode/launch.json",
+    "bytes": 606,
+    "class": "required_evidence"
+  },
+  {
+    "path": ".obsidian/plugins/marp-slides/lib3/markdown-it/@kazumatu981/markdown-it-kroki/.vscode/settings.json",
+    "bytes": 50,
+    "class": "required_evidence"
+  },
+  {
+    "path": ".obsidian/plugins/marp-slides/lib3/markdown-it/@kazumatu981/markdown-it-kroki/demo/marp.config.js",
+    "bytes": 183,
+    "class": "active_source"
+  },
+  {
+    "path": ".obsidian/plugins/marp-slides/lib3/markdown-it/@kazumatu981/markdown-it-kroki/demo/test.md",
+    "bytes": 1554,
+    "class": "required_evidence"
+  },
+  {
+    "path": ".obsidian/plugins/marp-slides/lib3/markdown-it/@kazumatu981/markdown-it-kroki/img/plantuml-sample.png",
+    "bytes": 30545,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": ".obsidian/plugins/marp-slides/lib3/markdown-it/@kazumatu981/markdown-it-kroki/lib/contract.js",
+    "bytes": 1080,
+    "class": "active_source"
+  },
+  {
+    "path": ".obsidian/plugins/marp-slides/lib3/markdown-it/@kazumatu981/markdown-it-kroki/lib/diagram-encoder.js",
+    "bytes": 1022,
+    "class": "active_source"
+  },
+  {
+    "path": ".obsidian/plugins/marp-slides/lib3/markdown-it/@kazumatu981/markdown-it-kroki/lib/plugin-core.js",
+    "bytes": 3443,
+    "class": "active_source"
+  },
+  {
+    "path": ".obsidian/plugins/marp-slides/lib3/markdown-it/@kazumatu981/markdown-it-kroki/lib/safe-property.js",
+    "bytes": 487,
+    "class": "active_source"
+  },
+  {
+    "path": ".obsidian/plugins/marp-slides/lib3/markdown-it/@kazumatu981/markdown-it-kroki/lib/support.js",
+    "bytes": 1182,
+    "class": "active_source"
+  },
+  {
+    "path": ".obsidian/plugins/marp-slides/lib3/markdown-it/@kazumatu981/markdown-it-kroki/lib/obs/marp-it-kroki.js",
+    "bytes": 1252,
+    "class": "active_source"
+  },
+  {
+    "path": ".obsidian/plugins/marp-slides/lib3/markdown-it/@kazumatu981/markdown-it-kroki/memo/howToWriteRender.md",
+    "bytes": 2211,
+    "class": "required_evidence"
+  },
+  {
+    "path": ".obsidian/plugins/marp-slides/lib3/markdown-it/@kazumatu981/markdown-it-kroki/tests/securitytest/security.test.js",
+    "bytes": 3179,
+    "class": "active_source"
+  },
+  {
+    "path": ".obsidian/plugins/marp-slides/lib3/markdown-it/@kazumatu981/markdown-it-kroki/tests/totaltest/canrender.test.js",
+    "bytes": 6454,
+    "class": "active_source"
+  },
+  {
+    "path": ".obsidian/plugins/marp-slides/lib3/markdown-it/@kazumatu981/markdown-it-kroki/tests/unittest/conract.test.js",
+    "bytes": 1266,
+    "class": "active_source"
+  },
+  {
+    "path": ".obsidian/plugins/marp-slides/lib3/markdown-it/@kazumatu981/markdown-it-kroki/tests/unittest/diagram-encoder.test.js",
+    "bytes": 3646,
+    "class": "active_source"
+  },
+  {
+    "path": ".obsidian/plugins/marp-slides/lib3/markdown-it/@kazumatu981/markdown-it-kroki/tests/unittest/plugin-core.buuildEmbedHTML.test.js",
+    "bytes": 6548,
+    "class": "active_source"
+  },
+  {
+    "path": ".obsidian/plugins/marp-slides/lib3/markdown-it/@kazumatu981/markdown-it-kroki/tests/unittest/plugin-core.setOptions.test.js",
+    "bytes": 11854,
+    "class": "active_source"
+  },
+  {
+    "path": ".obsidian/plugins/marp-slides/lib3/markdown-it/@kazumatu981/markdown-it-kroki/tests/unittest/plugin-core.static-methods.test.js",
+    "bytes": 2330,
+    "class": "active_source"
+  },
+  {
+    "path": ".obsidian/plugins/marp-slides/lib3/markdown-it/@kazumatu981/markdown-it-kroki/tests/unittest/safe-property.test.js",
+    "bytes": 3520,
+    "class": "active_source"
+  },
+  {
+    "path": ".obsidian/plugins/marp-slides/lib3/markdown-it/markdown-it-container/dist/markdown-it-container.min.js",
+    "bytes": 1682,
+    "class": "active_source"
+  },
+  {
+    "path": ".obsidian/plugins/marp-slides/lib3/markdown-it/markdown-it-mark/dist/markdown-it-mark.min.js",
+    "bytes": 1621,
+    "class": "active_source"
+  },
+  {
+    "path": ".obsidian/plugins/marp-slides/lib3/server/server-index.js",
+    "bytes": 347,
+    "class": "active_source"
+  },
+  {
+    "path": ".obsidian/snippets/dut-stt-slides.css",
+    "bytes": 3457470,
+    "class": "active_source"
+  },
+  {
+    "path": "data/drive_sync_audit_20261015.json",
+    "bytes": 6977,
+    "class": "required_evidence"
+  },
+  {
+    "path": "data/derived/audit_whisper_pi_local.py",
+    "bytes": 3755,
+    "class": "active_source"
+  },
+  {
+    "path": "data/derived/B04_measurement_tools_20261013.zip",
+    "bytes": 5062,
+    "class": "required_evidence"
+  },
+  {
+    "path": "data/derived/B04_Pi4_self_dev20.zip",
+    "bytes": 28396706,
+    "class": "required_evidence"
+  },
+  {
+    "path": "data/derived/B04_whisper_results_20261013.zip",
+    "bytes": 123769,
+    "class": "required_evidence"
+  },
+  {
+    "path": "data/derived/B04_zipformer_results_20261013.zip",
+    "bytes": 20471,
+    "class": "required_evidence"
+  },
+  {
+    "path": "data/derived/export_whisper_pi.py",
+    "bytes": 713,
+    "class": "active_source"
+  },
+  {
+    "path": "data/derived/self_dev20_package.zip",
+    "bytes": 2429632,
+    "class": "required_evidence"
+  },
+  {
+    "path": "data/derived/stt_b01_b03_package.zip",
+    "bytes": 29291600,
+    "class": "required_evidence"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/10330493063020763016.wav",
+    "bytes": 272684,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/1037921397326591554.wav",
+    "bytes": 345644,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/10571565832044041622.wav",
+    "bytes": 220844,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/10668675586953055114.wav",
+    "bytes": 432044,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/10702218987765403898.wav",
+    "bytes": 560684,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/10736975338715267742.wav",
+    "bytes": 299564,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/10897165480379223873.wav",
+    "bytes": 376364,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/10965755017487041216.wav",
+    "bytes": 320684,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/11025013104549101811.wav",
+    "bytes": 234284,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/11383083381372198060.wav",
+    "bytes": 579884,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/1139741953038979336.wav",
+    "bytes": 958124,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/11709007378118641324.wav",
+    "bytes": 238124,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/11929640766257304068.wav",
+    "bytes": 468524,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/12036888988040006375.wav",
+    "bytes": 405164,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/12176772846678576008.wav",
+    "bytes": 328364,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/12336870448837484124.wav",
+    "bytes": 347564,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/12452598771625453983.wav",
+    "bytes": 253484,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/12506759633525739535.wav",
+    "bytes": 591404,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/12507040706630766579.wav",
+    "bytes": 240044,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/12803633552627186852.wav",
+    "bytes": 192044,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/12943089570068506915.wav",
+    "bytes": 625964,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/13406835665634133407.wav",
+    "bytes": 282284,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/13570834282701147205.wav",
+    "bytes": 238124,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/13616450196460205761.wav",
+    "bytes": 351404,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/13773573858847692303.wav",
+    "bytes": 395564,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/14125554076781303763.wav",
+    "bytes": 299564,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/14135486895615497173.wav",
+    "bytes": 672044,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/14301804876253465717.wav",
+    "bytes": 787244,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/1452471791525688033.wav",
+    "bytes": 324524,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/14783247390946343063.wav",
+    "bytes": 313004,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/14928886936425796029.wav",
+    "bytes": 384044,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/15315541104910886201.wav",
+    "bytes": 441644,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/15401984597053465222.wav",
+    "bytes": 393644,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/15409807402987269035.wav",
+    "bytes": 372524,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/15494109052190613366.wav",
+    "bytes": 683564,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/15530234383742555383.wav",
+    "bytes": 334124,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/15583589234736745664.wav",
+    "bytes": 435884,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/15936085030676963416.wav",
+    "bytes": 1023404,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/16254526675653960268.wav",
+    "bytes": 211244,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/16380958649268722082.wav",
+    "bytes": 409004,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/16530155469086716256.wav",
+    "bytes": 266924,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/16825699755172330111.wav",
+    "bytes": 249644,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/17682974477772279405.wav",
+    "bytes": 297644,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/17774135997069232481.wav",
+    "bytes": 336044,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/18077091086643071584.wav",
+    "bytes": 266924,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/18322727376834662108.wav",
+    "bytes": 368684,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/18346732965239236151.wav",
+    "bytes": 487724,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/2221868015096309700.wav",
+    "bytes": 405164,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/2694996626749147645.wav",
+    "bytes": 192044,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/288972552359107972.wav",
+    "bytes": 364844,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/297703781105006747.wav",
+    "bytes": 311084,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/2978504833575176940.wav",
+    "bytes": 336044,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/3028036492606138857.wav",
+    "bytes": 407084,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/3506524439284170712.wav",
+    "bytes": 217004,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/3536180779995648323.wav",
+    "bytes": 364844,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/355522728651529644.wav",
+    "bytes": 349484,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/3750286485069742757.wav",
+    "bytes": 410924,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/3894355110745863221.wav",
+    "bytes": 207404,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/39175139941883407.wav",
+    "bytes": 341804,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/3933225803333432591.wav",
+    "bytes": 218924,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/4120201124216770959.wav",
+    "bytes": 393644,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/422363421073634118.wav",
+    "bytes": 240044,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/4266147705863531449.wav",
+    "bytes": 568364,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/4310272335194734538.wav",
+    "bytes": 270764,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/4397767911643995825.wav",
+    "bytes": 384044,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/4446382519192965870.wav",
+    "bytes": 906284,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/460054149680718158.wav",
+    "bytes": 385964,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/4658304957265150557.wav",
+    "bytes": 441644,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/4767212356465567922.wav",
+    "bytes": 543404,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/4891217210315836503.wav",
+    "bytes": 161324,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/5084044544175515080.wav",
+    "bytes": 441644,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/5269659892008038187.wav",
+    "bytes": 357164,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/5375812955028414771.wav",
+    "bytes": 376364,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/5380420816515716433.wav",
+    "bytes": 257324,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/5622858423000138226.wav",
+    "bytes": 332204,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/58571268796553326.wav",
+    "bytes": 560684,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/5900678870809381958.wav",
+    "bytes": 322604,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/6174543317797965283.wav",
+    "bytes": 259244,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/6238389016614768363.wav",
+    "bytes": 257324,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/6286256452444238953.wav",
+    "bytes": 238124,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/6519398716111410867.wav",
+    "bytes": 326444,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/6599292211497398479.wav",
+    "bytes": 251564,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/6606140055140188524.wav",
+    "bytes": 416684,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/6998987487456300900.wav",
+    "bytes": 593324,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/7080457166221655676.wav",
+    "bytes": 391724,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/754647434841407406.wav",
+    "bytes": 476204,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/7894745359431207689.wav",
+    "bytes": 380204,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/8102171373644331498.wav",
+    "bytes": 455084,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/8123673859785570169.wav",
+    "bytes": 401324,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/8256624191026535095.wav",
+    "bytes": 437804,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/8764178281800662979.wav",
+    "bytes": 428204,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/8878843985241869232.wav",
+    "bytes": 468524,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/8921894726060882087.wav",
+    "bytes": 405164,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/9049429441189965092.wav",
+    "bytes": 318764,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/9246964791575316688.wav",
+    "bytes": 218924,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/9438127672940570460.wav",
+    "bytes": 320684,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/9558180444501391590.wav",
+    "bytes": 261164,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/9573923728449838180.wav",
+    "bytes": 276524,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/9918421668208578623.wav",
+    "bytes": 355244,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/dev/9919202051882179979.wav",
+    "bytes": 420524,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/train/11527169325860329806.wav",
+    "bytes": 380204,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/train/12964228347003344217.wav",
+    "bytes": 241964,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/train/13114512907180226416.wav",
+    "bytes": 362924,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/train/14202609157702134027.wav",
+    "bytes": 518444,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/train/16626086605808564902.wav",
+    "bytes": 355244,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/train/17268132122088704977.wav",
+    "bytes": 531884,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/train/18181717496122759486.wav",
+    "bytes": 336044,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/train/18182759805207678941.wav",
+    "bytes": 213164,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/train/5552395085649859819.wav",
+    "bytes": 303404,
+    "class": "input_data"
+  },
+  {
+    "path": "data/derived/stt_b01_b03/train/9346617711378333316.wav",
+    "bytes": 326444,
+    "class": "input_data"
+  },
+  {
+    "path": "data/document_backups/20261015_104654_DEMO_BUOI_01_04_before_slides.md",
+    "bytes": 22206,
+    "class": "archive_candidate"
+  },
+  {
+    "path": "data/document_backups/B03_DEMO_before_self_results_20261013_d5953aa051f8.md",
+    "bytes": 6158,
+    "class": "archive_candidate"
+  },
+  {
+    "path": "data/document_backups/DEMO_before_presentation_20261013_203426_798014.md",
+    "bytes": 10351,
+    "class": "archive_candidate"
+  },
+  {
+    "path": "data/document_backups/GIAI_DAP_before_qwen_results_20261013_43a1408828d3.md",
+    "bytes": 29006,
+    "class": "archive_candidate"
+  },
+  {
+    "path": "data/document_backups/GIAI_DAP_before_self_dev20_20261013_5f9e6a33d721.md",
+    "bytes": 29044,
+    "class": "archive_candidate"
+  },
+  {
+    "path": "data/document_backups/GIAI_DAP_STT_BUOI_01_03_before_followup_20261013_c76d78cc245b.md",
+    "bytes": 20611,
+    "class": "archive_candidate"
+  },
+  {
+    "path": "data/document_backups/Hoi_dap_before_AI_concern_20261013_202926_540116.md",
+    "bytes": 45036,
+    "class": "archive_candidate"
+  },
+  {
+    "path": "data/document_backups/Hoi_dap_before_C0_correction_20261013_203111_225886.md",
+    "bytes": 48149,
+    "class": "archive_candidate"
+  },
+  {
+    "path": "data/document_backups/Hoi_dap_before_demo_questions_20261013_202817_253864.md",
+    "bytes": 40040,
+    "class": "archive_candidate"
+  },
+  {
+    "path": "data/document_backups/PLAN_before_report_link_merge_20261013_210629_931398.md",
+    "bytes": 20095,
+    "class": "archive_candidate"
+  },
+  {
+    "path": "data/document_backups/PLAN_DEMO_STT_7_BUOI_before_plan_v3_20261013_205941_482339.md",
+    "bytes": 12594,
+    "class": "archive_candidate"
+  },
+  {
+    "path": "data/document_backups/PROGRESS_before_plan_v3_20261013_205941_482339.md",
+    "bytes": 11371,
+    "class": "archive_candidate"
+  },
+  {
+    "path": "data/document_backups/reports_DEMO_BUOI_01_04_before_merge_20261013_210629_931398.md",
+    "bytes": 12213,
+    "class": "archive_candidate"
+  },
+  {
+    "path": "data/document_backups/reports_DIEM_CHUA_CHAT_BUOI_01_04_before_merge_20261013_210629_931398.md",
+    "bytes": 4381,
+    "class": "archive_candidate"
+  },
+  {
+    "path": "data/document_backups/reports_PIPELINES_BUOI_01_04_before_merge_20261013_210629_931398.md",
+    "bytes": 6523,
+    "class": "archive_candidate"
+  },
+  {
+    "path": "data/document_backups/reports_README_before_merge_20261013_210629_931398.md",
+    "bytes": 3528,
+    "class": "archive_candidate"
+  },
+  {
+    "path": "data/document_backups/Untitled_20261013_183520_195988.md",
+    "bytes": 50,
+    "class": "archive_candidate"
+  },
+  {
+    "path": "data/document_backups/Untitled_before_rename_20261013_193828_875824.md",
+    "bytes": 40040,
+    "class": "archive_candidate"
+  },
+  {
+    "path": "data/document_backups/Untitled_before_rename_20261013_193828_875824.workspace.json",
+    "bytes": 9909,
+    "class": "archive_candidate"
+  },
+  {
+    "path": "data/document_backups/Untitled_before_RTF_answers_20261015.md",
+    "bytes": 924,
+    "class": "archive_candidate"
+  },
+  {
+    "path": "data/document_backups/Untitled_dataset_metrics_20261013_210517_831331.md",
+    "bytes": 165,
+    "class": "archive_candidate"
+  },
+  {
+    "path": "data/document_backups/Untitled_evaluation_followups_20261013_192642_070378.md",
+    "bytes": 24620,
+    "class": "archive_candidate"
+  },
+  {
+    "path": "data/document_backups/Untitled_questions_20261013_185910_682240.md",
+    "bytes": 8744,
+    "class": "archive_candidate"
+  },
+  {
+    "path": "data/document_backups/Untitled_runtime_threads_test_20261013_191104_435960.md",
+    "bytes": 21045,
+    "class": "archive_candidate"
+  },
+  {
+    "path": "data/document_backups/Untitled_word_segmentation_20261013_190630_053251.md",
+    "bytes": 18348,
+    "class": "archive_candidate"
+  },
+  {
+    "path": "data/document_backups/20261015_112845_slides_before_dut/SLIDES_BUOI_01_04.html",
+    "bytes": 166959,
+    "class": "archive_candidate"
+  },
+  {
+    "path": "data/document_backups/20261015_112845_slides_before_dut/SLIDES_BUOI_01_04.md",
+    "bytes": 19208,
+    "class": "archive_candidate"
+  },
+  {
+    "path": "data/document_backups/20261015_112845_slides_before_dut/SLIDES_OBSIDIAN_BUOI_01_04.md",
+    "bytes": 11318,
+    "class": "archive_candidate"
+  },
+  {
+    "path": "data/document_backups/20261015_115011_background_fix/appearance.json",
+    "bytes": 25,
+    "class": "archive_candidate"
+  },
+  {
+    "path": "data/document_backups/20261015_115011_background_fix/SLIDES_BUOI_01_04.md",
+    "bytes": 21855,
+    "class": "archive_candidate"
+  },
+  {
+    "path": "data/document_backups/20261015_115011_background_fix/SLIDES_OBSIDIAN_BUOI_01_04.md",
+    "bytes": 19482,
+    "class": "archive_candidate"
+  },
+  {
+    "path": "data/document_backups/20261015_121032_wav_slides/SLIDES_BUOI_01_04.md",
+    "bytes": 21874,
+    "class": "archive_candidate"
+  },
+  {
+    "path": "data/document_backups/20261015_121032_wav_slides/SLIDES_OBSIDIAN_BUOI_01_04.md",
+    "bytes": 19481,
+    "class": "archive_candidate"
+  },
+  {
+    "path": "data/document_backups/20261015_125538_rtf_scope/SLIDES_BUOI_01_04.md",
+    "bytes": 24838,
+    "class": "archive_candidate"
+  },
+  {
+    "path": "data/document_backups/20261015_134427_pi_presentation/SLIDES_BUOI_01_04.md",
+    "bytes": 28068,
+    "class": "archive_candidate"
+  },
+  {
+    "path": "data/document_backups/20261015_145506_drive_links/SLIDES_BUOI_01_04.md",
+    "bytes": 22994,
+    "class": "archive_candidate"
+  },
+  {
+    "path": "data/document_backups/20261015_145506_drive_links/SLIDES_OBSIDIAN_BUOI_01_04.md",
+    "bytes": 21978,
+    "class": "archive_candidate"
+  },
+  {
+    "path": "data/document_backups/20261029_134305_html_presentation/SLIDES_BUOI_01_04.html",
+    "bytes": 141799,
+    "class": "archive_candidate"
+  },
+  {
+    "path": "data/document_backups/20261029_134305_html_presentation/SLIDES_BUOI_01_04.md",
+    "bytes": 23107,
+    "class": "archive_candidate"
+  },
+  {
+    "path": "data/document_backups/20261029_140005_deepgram_slide/SLIDES_BUOI_01_04.html",
+    "bytes": 218612,
+    "class": "archive_candidate"
+  },
+  {
+    "path": "data/document_backups/20261029_140005_deepgram_slide/SLIDES_BUOI_01_04.md",
+    "bytes": 23107,
+    "class": "archive_candidate"
+  },
+  {
+    "path": "data/document_backups/20261029_141332_dictation_image/SLIDES_BUOI_01_04.html",
+    "bytes": 224742,
+    "class": "archive_candidate"
+  },
+  {
+    "path": "data/document_backups/20261029_141332_dictation_image/SLIDES_BUOI_01_04.md",
+    "bytes": 25469,
+    "class": "archive_candidate"
+  },
+  {
+    "path": "data/models/sherpa-onnx-zipformer-vi-30M-int8-2026-02-09.tar.bz2",
+    "bytes": 26442384,
+    "class": "model"
+  },
+  {
+    "path": "data/models/sherpa-onnx-zipformer-vi-30M-int8-2026-02-09/decoder.onnx",
+    "bytes": 5165084,
+    "class": "model"
+  },
+  {
+    "path": "data/models/sherpa-onnx-zipformer-vi-30M-int8-2026-02-09/encoder.int8.onnx",
+    "bytes": 27699063,
+    "class": "model"
+  },
+  {
+    "path": "data/models/sherpa-onnx-zipformer-vi-30M-int8-2026-02-09/joiner.int8.onnx",
+    "bytes": 1033417,
+    "class": "model"
+  },
+  {
+    "path": "data/models/sherpa-onnx-zipformer-vi-30M-int8-2026-02-09/tokens.txt",
+    "bytes": 23238,
+    "class": "model"
+  },
+  {
+    "path": "data/models/whisper/base.pt",
+    "bytes": 145262807,
+    "class": "model"
+  },
+  {
+    "path": "data/notebook_backups/B03_Qwen_before_full_text_20261010_091612.ipynb",
+    "bytes": 2146120,
+    "class": "archive_candidate"
+  },
+  {
+    "path": "data/notebook_backups/B03_Qwen_before_listen_fix_20261010_090228.ipynb",
+    "bytes": 22143,
+    "class": "archive_candidate"
+  },
+  {
+    "path": "data/notebook_backups/B03_Qwen_before_listen_fix_20261010_090416.ipynb",
+    "bytes": 21574,
+    "class": "archive_candidate"
+  },
+  {
+    "path": "data/notebook_backups/B03_Qwen_full_text_live.ipynb",
+    "bytes": 2152197,
+    "class": "archive_candidate"
+  },
+  {
+    "path": "data/notebook_backups/B03_Qwen_listen_fixed_live.ipynb",
+    "bytes": 21029,
+    "class": "archive_candidate"
+  },
+  {
+    "path": "data/pi_access/pbl6_b04_ed25519_20261013",
+    "bytes": 411,
+    "class": "required_evidence"
+  },
+  {
+    "path": "data/pi_access/pbl6_b04_ed25519_20261013.pub",
+    "bytes": 100,
+    "class": "required_evidence"
+  },
+  {
+    "path": "data/presentation_tools/academic_content.md",
+    "bytes": 5316,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/build_academic.py",
+    "bytes": 6874,
+    "class": "active_source"
+  },
+  {
+    "path": "data/presentation_tools/check_backgrounds.mjs",
+    "bytes": 2356,
+    "class": "active_source"
+  },
+  {
+    "path": "data/presentation_tools/check_diagram_hierarchy.mjs",
+    "bytes": 1303,
+    "class": "active_source"
+  },
+  {
+    "path": "data/presentation_tools/check_restored_html.mjs",
+    "bytes": 1857,
+    "class": "active_source"
+  },
+  {
+    "path": "data/presentation_tools/cloud_api_staged.md",
+    "bytes": 25334,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/compare_current.html",
+    "bytes": 218612,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/compare_exports.mjs",
+    "bytes": 1472,
+    "class": "active_source"
+  },
+  {
+    "path": "data/presentation_tools/deepgram_slide_added.txt",
+    "bytes": 1643,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/deepgram_slide_backup_path.txt",
+    "bytes": 52,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/deepgram_staged.md",
+    "bytes": 24982,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/dictation_staged.md",
+    "bytes": 25520,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/drive_cloud_csv.json",
+    "bytes": 2809,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/drive_staged.html",
+    "bytes": 216694,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/drive_staged_SLIDES_BUOI_01_04.md",
+    "bytes": 22979,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/drive_staged_SLIDES_OBSIDIAN_BUOI_01_04.md",
+    "bytes": 22404,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/html_restore_before.json",
+    "bytes": 152,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/inspect_obsidian.mjs",
+    "bytes": 3657,
+    "class": "active_source"
+  },
+  {
+    "path": "data/presentation_tools/inspect_skill.mjs",
+    "bytes": 2037,
+    "class": "active_source"
+  },
+  {
+    "path": "data/presentation_tools/inspect_slides.mjs",
+    "bytes": 1985,
+    "class": "active_source"
+  },
+  {
+    "path": "data/presentation_tools/marp_plugin_preview.html",
+    "bytes": 197415,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/obsidian_before.json",
+    "bytes": 525,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/package-lock.json",
+    "bytes": 152508,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/package.json",
+    "bytes": 106,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/pi_staged.html",
+    "bytes": 216580,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/pi_staged.md",
+    "bytes": 22865,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/rtf_staged.html",
+    "bytes": 226687,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/rtf_staged.md",
+    "bytes": 27863,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/skill_example.html",
+    "bytes": 114764,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/config/browser.json",
+    "bytes": 74,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/config/mermaid.json",
+    "bytes": 273,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/dut_template/image1.png",
+    "bytes": 1532200,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/dut_template/image10.png",
+    "bytes": 984270,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/dut_template/image11.png",
+    "bytes": 1059548,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/dut_template/image12.png",
+    "bytes": 336009,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/dut_template/image13.jpeg",
+    "bytes": 11979,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/dut_template/image14.png",
+    "bytes": 138,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/dut_template/image15.png",
+    "bytes": 639,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/dut_template/image17.png",
+    "bytes": 621,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/dut_template/image19.png",
+    "bytes": 661,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/dut_template/image2.png",
+    "bytes": 23844,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/dut_template/image21.png",
+    "bytes": 642,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/dut_template/image23.png",
+    "bytes": 643,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/dut_template/image25.png",
+    "bytes": 1484,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/dut_template/image27.png",
+    "bytes": 2335,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/dut_template/image29.png",
+    "bytes": 1592,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/dut_template/image3.jpeg",
+    "bytes": 21932,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/dut_template/image31.png",
+    "bytes": 1348,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/dut_template/image33.png",
+    "bytes": 783,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/dut_template/image35.png",
+    "bytes": 8312,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/dut_template/image37.png",
+    "bytes": 8971,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/dut_template/image39.png",
+    "bytes": 9162,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/dut_template/image4.png",
+    "bytes": 54762,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/dut_template/image41.png",
+    "bytes": 9028,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/dut_template/image43.png",
+    "bytes": 9051,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/dut_template/image45.png",
+    "bytes": 9161,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/dut_template/image47.png",
+    "bytes": 951,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/dut_template/image49.png",
+    "bytes": 1107,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/dut_template/image51.png",
+    "bytes": 683,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/dut_template/image53.png",
+    "bytes": 480,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/dut_template/image55.png",
+    "bytes": 1654,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/dut_template/image57.png",
+    "bytes": 29613,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/dut_template/image59.png",
+    "bytes": 1511,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/dut_template/image6.png",
+    "bytes": 2211,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/dut_template/image61.png",
+    "bytes": 1039,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/dut_template/image63.png",
+    "bytes": 1146,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/dut_template/image65.png",
+    "bytes": 876,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/dut_template/image67.png",
+    "bytes": 158,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/dut_template/image69.png",
+    "bytes": 1210,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/dut_template/image71.png",
+    "bytes": 1443,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/dut_template/image73.png",
+    "bytes": 22296,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/dut_template/image75.png",
+    "bytes": 15837,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/dut_template/image77.png",
+    "bytes": 246,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/dut_template/image79.png",
+    "bytes": 1952,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/dut_template/image8.png",
+    "bytes": 1021,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/dut_template/image81.png",
+    "bytes": 1115,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/dut_template/image83.png",
+    "bytes": 3199,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/dut_template/image85.png",
+    "bytes": 1865,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/dut_template/image87.png",
+    "bytes": 48294,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/dut_template/source.pptx",
+    "bytes": 8093280,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/export_audit/comparison.json",
+    "bytes": 1453,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/export_audit/html_compare.json",
+    "bytes": 5484,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/export_audit/pdf_13.png",
+    "bytes": 199316,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/export_audit/pdf_16.png",
+    "bytes": 163495,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/export_audit/pdf_4.png",
+    "bytes": 190410,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/export_audit/pdf_text.json",
+    "bytes": 6358,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/export_audit/pptx_1.png",
+    "bytes": 936263,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/export_audit/pptx_13.png",
+    "bytes": 724045,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/export_audit/pptx_16.png",
+    "bytes": 666459,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/export_audit/pptx_4.png",
+    "bytes": 636673,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/export_audit/pptx_notes.json",
+    "bytes": 14247,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/export_audit/restored_html.json",
+    "bytes": 1149,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/export_audit/restored_overview.png",
+    "bytes": 225022,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/obsidian_assets/app.css",
+    "bytes": 668223,
+    "class": "active_source"
+  },
+  {
+    "path": "data/presentation_tools/obsidian_assets/app.js",
+    "bytes": 3942126,
+    "class": "active_source"
+  },
+  {
+    "path": "data/presentation_tools/obsidian_assets/black.css",
+    "bytes": 6980,
+    "class": "active_source"
+  },
+  {
+    "path": "data/presentation_tools/obsidian_assets/reveal.css",
+    "bytes": 46725,
+    "class": "active_source"
+  },
+  {
+    "path": "data/presentation_tools/obsidian_assets/reveal.js",
+    "bytes": 89690,
+    "class": "active_source"
+  },
+  {
+    "path": "data/presentation_tools/obsidian_assets/white.css",
+    "bytes": 6967,
+    "class": "active_source"
+  },
+  {
+    "path": "data/presentation_tools/obsidian_qa/academic_contact_1.png",
+    "bytes": 249709,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/obsidian_qa/academic_contact_2.png",
+    "bytes": 204948,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/obsidian_qa/academic_contact_3.png",
+    "bytes": 251358,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/obsidian_qa/academic_contact_4.png",
+    "bytes": 230970,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/obsidian_qa/background_contact_1.png",
+    "bytes": 426453,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/obsidian_qa/background_contact_2.png",
+    "bytes": 279044,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/obsidian_qa/background_contact_3.png",
+    "bytes": 318088,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/obsidian_qa/background_contact_4.png",
+    "bytes": 311996,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/obsidian_qa/contact_1.png",
+    "bytes": 164615,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/obsidian_qa/contact_2.png",
+    "bytes": 211352,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/obsidian_qa/contact_3.png",
+    "bytes": 111024,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/obsidian_qa/layout.json",
+    "bytes": 6629,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/obsidian_qa/page_1280_01.png",
+    "bytes": 341980,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/obsidian_qa/page_1280_02.png",
+    "bytes": 242336,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/obsidian_qa/page_1280_03.png",
+    "bytes": 254273,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/obsidian_qa/page_1280_04.png",
+    "bytes": 273708,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/obsidian_qa/page_1280_05.png",
+    "bytes": 227218,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/obsidian_qa/page_1280_06.png",
+    "bytes": 244923,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/obsidian_qa/page_1280_07.png",
+    "bytes": 242232,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/obsidian_qa/page_1280_08.png",
+    "bytes": 229461,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/obsidian_qa/page_1280_09.png",
+    "bytes": 130914,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/obsidian_qa/page_1280_10.png",
+    "bytes": 135904,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/obsidian_qa/page_1280_11.png",
+    "bytes": 241874,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/obsidian_qa/page_1280_12.png",
+    "bytes": 254210,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/obsidian_qa/page_1280_13.png",
+    "bytes": 245848,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/obsidian_qa/page_1280_14.png",
+    "bytes": 240825,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/obsidian_qa/page_1280_15.png",
+    "bytes": 231427,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/obsidian_qa/page_1280_16.png",
+    "bytes": 244216,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/obsidian_qa/page_1280_17.png",
+    "bytes": 237618,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/obsidian_qa/page_1920_01.png",
+    "bytes": 581014,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/obsidian_qa/page_1920_02.png",
+    "bytes": 440417,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/obsidian_qa/page_1920_03.png",
+    "bytes": 460191,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/obsidian_qa/page_1920_04.png",
+    "bytes": 490189,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/obsidian_qa/page_1920_05.png",
+    "bytes": 429588,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/obsidian_qa/page_1920_06.png",
+    "bytes": 442785,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/obsidian_qa/page_1920_07.png",
+    "bytes": 439026,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/obsidian_qa/page_1920_08.png",
+    "bytes": 420810,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/obsidian_qa/page_1920_09.png",
+    "bytes": 228133,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/obsidian_qa/page_1920_10.png",
+    "bytes": 234875,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/obsidian_qa/page_1920_11.png",
+    "bytes": 439007,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/obsidian_qa/page_1920_12.png",
+    "bytes": 457290,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/obsidian_qa/page_1920_13.png",
+    "bytes": 445293,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/obsidian_qa/page_1920_14.png",
+    "bytes": 438339,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/obsidian_qa/page_1920_15.png",
+    "bytes": 427532,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/obsidian_qa/page_1920_16.png",
+    "bytes": 440312,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/obsidian_qa/page_1920_17.png",
+    "bytes": 430622,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/obsidian_qa/preview.html",
+    "bytes": 8879,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/qa/academic_contact_1.png",
+    "bytes": 434059,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/qa/academic_contact_2.png",
+    "bytes": 252622,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/qa/academic_contact_3.png",
+    "bytes": 307066,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/qa/academic_contact_4.png",
+    "bytes": 313448,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/qa/contact_1.png",
+    "bytes": 235862,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/qa/contact_2.png",
+    "bytes": 247125,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/qa/contact_3.png",
+    "bytes": 149421,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/qa/layout.json",
+    "bytes": 12252,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/qa/page_01.png",
+    "bytes": 350095,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/qa/page_02.png",
+    "bytes": 251095,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/qa/page_03.png",
+    "bytes": 183253,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/qa/page_04.png",
+    "bytes": 232224,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/qa/page_05.png",
+    "bytes": 227353,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/qa/page_06.png",
+    "bytes": 216341,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/qa/page_07.png",
+    "bytes": 213121,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/qa/page_08.png",
+    "bytes": 159839,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/qa/page_09.png",
+    "bytes": 126874,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/qa/page_10.png",
+    "bytes": 128291,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/qa/page_11.png",
+    "bytes": 271053,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/qa/page_12.png",
+    "bytes": 212476,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/qa/page_13.png",
+    "bytes": 263768,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/qa/page_14.png",
+    "bytes": 237866,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/qa/page_15.png",
+    "bytes": 354425,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/qa/page_16.png",
+    "bytes": 188318,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/qa/page_17.png",
+    "bytes": 233336,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/qa/page_18.png",
+    "bytes": 233102,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/skill_qa/layout.json",
+    "bytes": 1928,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/skill_qa/page_01.png",
+    "bytes": 25847,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/skill_qa/page_02.png",
+    "bytes": 35942,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/skill_qa/page_03.png",
+    "bytes": 38564,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/presentation_tools/skill_qa/page_04.png",
+    "bytes": 34928,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "data/raw/fleurs/vi_vn/dev.tsv",
+    "bytes": 247001,
+    "class": "input_data"
+  },
+  {
+    "path": "data/raw/fleurs/vi_vn/test.tsv",
+    "bytes": 613728,
+    "class": "input_data"
+  },
+  {
+    "path": "data/raw/fleurs/vi_vn/train.tsv",
+    "bytes": 2056005,
+    "class": "input_data"
+  },
+  {
+    "path": "data/raw/fleurs/vi_vn/audio/dev.tar.gz",
+    "bytes": 214500592,
+    "class": "input_data"
+  },
+  {
+    "path": "data/raw/fleurs/vi_vn/audio/test.tar.gz",
+    "bytes": 544139865,
+    "class": "input_data"
+  },
+  {
+    "path": "data/raw/fleurs/vi_vn/audio/train.tar.gz",
+    "bytes": 1607278457,
+    "class": "input_data"
+  },
+  {
+    "path": "data/self_recorded/conversion_verification.json",
+    "bytes": 1948,
+    "class": "input_data"
+  },
+  {
+    "path": "data/self_recorded/dev20_new_audio_conversion.json",
+    "bytes": 7280,
+    "class": "input_data"
+  },
+  {
+    "path": "data/self_recorded/dev/self_01.wav",
+    "bytes": 171428,
+    "class": "input_data"
+  },
+  {
+    "path": "data/self_recorded/dev/self_01_cafe.wav",
+    "bytes": 137976,
+    "class": "input_data"
+  },
+  {
+    "path": "data/self_recorded/dev/self_02.wav",
+    "bytes": 134564,
+    "class": "input_data"
+  },
+  {
+    "path": "data/self_recorded/dev/self_02_cafe.wav",
+    "bytes": 135928,
+    "class": "input_data"
+  },
+  {
+    "path": "data/self_recorded/dev/self_03.wav",
+    "bytes": 172110,
+    "class": "input_data"
+  },
+  {
+    "path": "data/self_recorded/dev/self_04.wav",
+    "bytes": 135928,
+    "class": "input_data"
+  },
+  {
+    "path": "data/self_recorded/dev/self_05.wav",
+    "bytes": 174840,
+    "class": "input_data"
+  },
+  {
+    "path": "data/self_recorded/dev/self_06.wav",
+    "bytes": 115448,
+    "class": "input_data"
+  },
+  {
+    "path": "data/self_recorded/dev/self_07.wav",
+    "bytes": 130468,
+    "class": "input_data"
+  },
+  {
+    "path": "data/self_recorded/dev/self_08.wav",
+    "bytes": 112718,
+    "class": "input_data"
+  },
+  {
+    "path": "data/self_recorded/dev/self_09.wav",
+    "bytes": 133880,
+    "class": "input_data"
+  },
+  {
+    "path": "data/self_recorded/dev/self_10.wav",
+    "bytes": 129102,
+    "class": "input_data"
+  },
+  {
+    "path": "data/self_recorded/dev/self_11.wav",
+    "bytes": 122958,
+    "class": "input_data"
+  },
+  {
+    "path": "data/self_recorded/dev/self_12.wav",
+    "bytes": 138660,
+    "class": "input_data"
+  },
+  {
+    "path": "data/self_recorded/dev/self_13.wav",
+    "bytes": 123640,
+    "class": "input_data"
+  },
+  {
+    "path": "data/self_recorded/dev/self_14.wav",
+    "bytes": 106574,
+    "class": "input_data"
+  },
+  {
+    "path": "data/self_recorded/dev/self_15.wav",
+    "bytes": 109304,
+    "class": "input_data"
+  },
+  {
+    "path": "data/self_recorded/dev/self_16.wav",
+    "bytes": 130468,
+    "class": "input_data"
+  },
+  {
+    "path": "data/self_recorded/dev/self_17.wav",
+    "bytes": 140024,
+    "class": "input_data"
+  },
+  {
+    "path": "data/self_recorded/dev/self_18.wav",
+    "bytes": 137976,
+    "class": "input_data"
+  },
+  {
+    "path": "data/self_recorded/dev/self_19.wav",
+    "bytes": 136612,
+    "class": "input_data"
+  },
+  {
+    "path": "data/self_recorded/dev/self_20.wav",
+    "bytes": 137976,
+    "class": "input_data"
+  },
+  {
+    "path": "data/self_recorded/raw/self_01.m4a",
+    "bytes": 88665,
+    "class": "input_data"
+  },
+  {
+    "path": "data/self_recorded/raw/self_01_cafe.m4a",
+    "bytes": 71626,
+    "class": "input_data"
+  },
+  {
+    "path": "data/self_recorded/raw/self_02.m4a",
+    "bytes": 69860,
+    "class": "input_data"
+  },
+  {
+    "path": "data/self_recorded/raw/self_02_cafe.m4a",
+    "bytes": 70593,
+    "class": "input_data"
+  },
+  {
+    "path": "data/self_recorded/raw/self_03.m4a",
+    "bytes": 89039,
+    "class": "input_data"
+  },
+  {
+    "path": "data/self_recorded/raw/self_04.m4a",
+    "bytes": 70556,
+    "class": "input_data"
+  },
+  {
+    "path": "data/self_recorded/raw/self_05.m4a",
+    "bytes": 90417,
+    "class": "input_data"
+  },
+  {
+    "path": "data/self_recorded/raw/self_06.m4a",
+    "bytes": 60140,
+    "class": "input_data"
+  },
+  {
+    "path": "data/self_recorded/raw/self_07.m4a",
+    "bytes": 67789,
+    "class": "input_data"
+  },
+  {
+    "path": "data/self_recorded/raw/self_08.m4a",
+    "bytes": 58749,
+    "class": "input_data"
+  },
+  {
+    "path": "data/self_recorded/raw/self_09.m4a",
+    "bytes": 69553,
+    "class": "input_data"
+  },
+  {
+    "path": "data/self_recorded/raw/self_10.m4a",
+    "bytes": 67115,
+    "class": "input_data"
+  },
+  {
+    "path": "data/self_recorded/raw/self_11.m4a",
+    "bytes": 63976,
+    "class": "input_data"
+  },
+  {
+    "path": "data/self_recorded/raw/self_12.m4a",
+    "bytes": 71966,
+    "class": "input_data"
+  },
+  {
+    "path": "data/self_recorded/raw/self_13.m4a",
+    "bytes": 64315,
+    "class": "input_data"
+  },
+  {
+    "path": "data/self_recorded/raw/self_14.m4a",
+    "bytes": 55613,
+    "class": "input_data"
+  },
+  {
+    "path": "data/self_recorded/raw/self_15.m4a",
+    "bytes": 57020,
+    "class": "input_data"
+  },
+  {
+    "path": "data/self_recorded/raw/self_16.m4a",
+    "bytes": 67814,
+    "class": "input_data"
+  },
+  {
+    "path": "data/self_recorded/raw/self_17.m4a",
+    "bytes": 72658,
+    "class": "input_data"
+  },
+  {
+    "path": "data/self_recorded/raw/self_18.m4a",
+    "bytes": 71610,
+    "class": "input_data"
+  },
+  {
+    "path": "data/self_recorded/raw/self_19.m4a",
+    "bytes": 70934,
+    "class": "input_data"
+  },
+  {
+    "path": "data/self_recorded/raw/self_20.m4a",
+    "bytes": 71606,
+    "class": "input_data"
+  },
+  {
+    "path": "experiments/common.py",
+    "bytes": 4717,
+    "class": "active_source"
+  },
+  {
+    "path": "experiments/import_self.py",
+    "bytes": 1625,
+    "class": "active_source"
+  },
+  {
+    "path": "experiments/make_notebooks.py",
+    "bytes": 9438,
+    "class": "active_source"
+  },
+  {
+    "path": "experiments/make_qwen_notebook.py",
+    "bytes": 7641,
+    "class": "active_source"
+  },
+  {
+    "path": "experiments/make_self_notebook.py",
+    "bytes": 7275,
+    "class": "active_source"
+  },
+  {
+    "path": "experiments/package_receipt.json",
+    "bytes": 218,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/prepare.py",
+    "bytes": 5649,
+    "class": "active_source"
+  },
+  {
+    "path": "experiments/PROGRESS.md",
+    "bytes": 11338,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/README.md",
+    "bytes": 4423,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/requirements-colab.txt",
+    "bytes": 92,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/run_asr.py",
+    "bytes": 11092,
+    "class": "active_source"
+  },
+  {
+    "path": "experiments/self_dev20_package_receipt.json",
+    "bytes": 3802,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/summarize.py",
+    "bytes": 2072,
+    "class": "active_source"
+  },
+  {
+    "path": "experiments/VALIDATION.md",
+    "bytes": 31799,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/verification.json",
+    "bytes": 1210,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/verify_results.py",
+    "bytes": 2953,
+    "class": "active_source"
+  },
+  {
+    "path": "experiments/B01/B01_STT.ipynb",
+    "bytes": 5708,
+    "class": "active_source"
+  },
+  {
+    "path": "experiments/B01/DEMO.md",
+    "bytes": 1754,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B01/README.md",
+    "bytes": 814,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B01/results/comparison.csv",
+    "bytes": 5284,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B01/results/summary.csv",
+    "bytes": 211,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B01/results/summary.json",
+    "bytes": 344,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B01/results/whisper_pilot.jsonl",
+    "bytes": 15501,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B01/results/whisper_pilot.run.json",
+    "bytes": 1659,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B02/B02_STT.ipynb",
+    "bytes": 7410,
+    "class": "active_source"
+  },
+  {
+    "path": "experiments/B02/DEMO.md",
+    "bytes": 4342,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B02/README.md",
+    "bytes": 1191,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B02/self_dev20_metadata.csv",
+    "bytes": 10826,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B02/self_dev_template.csv",
+    "bytes": 2392,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B02/self_recorded_inventory.csv",
+    "bytes": 11933,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B02/THU_AM.md",
+    "bytes": 5042,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B02/results/comparison.csv",
+    "bytes": 67015,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B02/results/summary.csv",
+    "bytes": 346,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B02/results/summary.json",
+    "bytes": 729,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B02/results/whisper_dev.jsonl",
+    "bytes": 145488,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B02/results/whisper_dev.run.json",
+    "bytes": 1662,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B02/results/zipformer_dev.jsonl",
+    "bytes": 143296,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B02/results/zipformer_dev.run.json",
+    "bytes": 1882,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B02/results/self_dev20/comparison.csv",
+    "bytes": 5106,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B02/results/self_dev20/conversion_verification.json",
+    "bytes": 7990,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B02/results/self_dev20/notes.txt",
+    "bytes": 1409,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B02/results/self_dev20/summary.csv",
+    "bytes": 343,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B02/results/self_dev20/summary.json",
+    "bytes": 726,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B02/results/self_dev20/summary_by_session.csv",
+    "bytes": 357,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B02/results/self_dev20/verification.json",
+    "bytes": 629,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B02/results/self_dev20/whisper.jsonl",
+    "bytes": 27922,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B02/results/self_dev20/whisper.run.json",
+    "bytes": 1773,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B02/results/self_dev20/zipformer.jsonl",
+    "bytes": 27661,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B02/results/self_dev20/zipformer.run.json",
+    "bytes": 1993,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B02/results/self_dev_pairs4/comparison.csv",
+    "bytes": 1174,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B02/results/self_dev_pairs4/conversion_verification.json",
+    "bytes": 1948,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B02/results/self_dev_pairs4/README.md",
+    "bytes": 2201,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B02/results/self_dev_pairs4/summary.csv",
+    "bytes": 300,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B02/results/self_dev_pairs4/summary.json",
+    "bytes": 683,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B02/results/self_dev_pairs4/summary_by_session.csv",
+    "bytes": 317,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B02/results/self_dev_pairs4/verification.json",
+    "bytes": 596,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B02/results/self_dev_pairs4/whisper.jsonl",
+    "bytes": 5463,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B02/results/self_dev_pairs4/whisper.run.json",
+    "bytes": 1772,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B02/results/self_dev_pairs4/zipformer.jsonl",
+    "bytes": 5371,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B02/results/self_dev_pairs4/zipformer.run.json",
+    "bytes": 1991,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B03/B03_Qwen_Colab_GPU.ipynb",
+    "bytes": 9474,
+    "class": "active_source"
+  },
+  {
+    "path": "experiments/B03/B03_Self_dev20_Qwen_GPU.ipynb",
+    "bytes": 9879,
+    "class": "active_source"
+  },
+  {
+    "path": "experiments/B03/B03_STT.ipynb",
+    "bytes": 10911,
+    "class": "active_source"
+  },
+  {
+    "path": "experiments/B03/DEMO.md",
+    "bytes": 8746,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B03/README.md",
+    "bytes": 3228,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B03/attempts/qwen_cpu_symlink_failure.run.json",
+    "bytes": 1160,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B03/attempts/cancelled_cpu/cancellation.json",
+    "bytes": 555,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B03/attempts/cancelled_cpu/qwen_dev_cpu.jsonl",
+    "bytes": 8391,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B03/attempts/cancelled_cpu/qwen_dev_cpu.run.json",
+    "bytes": 1520,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B03/results/comparison.csv",
+    "bytes": 86863,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B03/results/qwen_dev.jsonl",
+    "bytes": 142676,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B03/results/qwen_dev.run.json",
+    "bytes": 1555,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B03/results/source.json",
+    "bytes": 2202,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B03/results/summary.csv",
+    "bytes": 455,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B03/results/summary.json",
+    "bytes": 1088,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B03/results/self_dev20/comparison.csv",
+    "bytes": 6446,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B03/results/self_dev20/notes.txt",
+    "bytes": 1326,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B03/results/self_dev20/qwen.jsonl",
+    "bytes": 27527,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B03/results/self_dev20/qwen.run.json",
+    "bytes": 1553,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B03/results/self_dev20/source.json",
+    "bytes": 5891,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B03/results/self_dev20/summary.csv",
+    "bytes": 451,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B03/results/self_dev20/summary.json",
+    "bytes": 1084,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B03/results/self_dev20/verification.json",
+    "bytes": 937,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/DEMO.md",
+    "bytes": 2066,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/package_receipt.json",
+    "bytes": 3870,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/README.md",
+    "bytes": 8846,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/run_whisper_cpp_pi.py",
+    "bytes": 6238,
+    "class": "active_source"
+  },
+  {
+    "path": "experiments/B04/run_zipformer_pi.py",
+    "bytes": 5789,
+    "class": "active_source"
+  },
+  {
+    "path": "experiments/B04/smoke.csv",
+    "bytes": 697,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/whisper_protocol.md",
+    "bytes": 1730,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/machine_info.json",
+    "bytes": 986,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/notes.txt",
+    "bytes": 2501,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/packages.txt",
+    "bytes": 174,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/source.json",
+    "bytes": 555,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_build.log",
+    "bytes": 3214,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_cli_help.txt",
+    "bytes": 5546,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_CMakeCache.txt",
+    "bytes": 33061,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_configure.log",
+    "bytes": 3565,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_measurement_tests.txt",
+    "bytes": 686,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_source.json",
+    "bytes": 18701,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_summary.csv",
+    "bytes": 1138,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/zipformer_summary.csv",
+    "bytes": 1023,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/smoke/zipformer.jsonl",
+    "bytes": 1276,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/smoke/zipformer.run.json",
+    "bytes": 1740,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_base_smoke/01.log",
+    "bytes": 2899,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_base_smoke/01.time.txt",
+    "bytes": 1076,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_base_smoke/01.txt",
+    "bytes": 49,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_base_smoke/measurement.json",
+    "bytes": 2525,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_base_smoke/whisper_cpp.jsonl",
+    "bytes": 1270,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_base_smoke/whisper_cpp.run.json",
+    "bytes": 2814,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r1/01.log",
+    "bytes": 2894,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r1/01.time.txt",
+    "bytes": 1071,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r1/01.txt",
+    "bytes": 47,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r1/02.log",
+    "bytes": 2900,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r1/02.time.txt",
+    "bytes": 1070,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r1/02.txt",
+    "bytes": 53,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r1/03.log",
+    "bytes": 2899,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r1/03.time.txt",
+    "bytes": 1071,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r1/03.txt",
+    "bytes": 52,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r1/04.log",
+    "bytes": 2889,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r1/04.time.txt",
+    "bytes": 1070,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r1/04.txt",
+    "bytes": 42,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r1/05.log",
+    "bytes": 2897,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r1/05.time.txt",
+    "bytes": 1071,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r1/05.txt",
+    "bytes": 50,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r1/06.log",
+    "bytes": 2888,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r1/06.time.txt",
+    "bytes": 1070,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r1/06.txt",
+    "bytes": 41,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r1/07.log",
+    "bytes": 2896,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r1/07.time.txt",
+    "bytes": 1071,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r1/07.txt",
+    "bytes": 49,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r1/08.log",
+    "bytes": 2899,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r1/08.time.txt",
+    "bytes": 1071,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r1/08.txt",
+    "bytes": 52,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r1/09.log",
+    "bytes": 2895,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r1/09.time.txt",
+    "bytes": 1071,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r1/09.txt",
+    "bytes": 48,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r1/10.log",
+    "bytes": 2906,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r1/10.time.txt",
+    "bytes": 1070,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r1/10.txt",
+    "bytes": 59,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r1/11.log",
+    "bytes": 2904,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r1/11.time.txt",
+    "bytes": 1071,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r1/11.txt",
+    "bytes": 57,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r1/12.log",
+    "bytes": 2900,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r1/12.time.txt",
+    "bytes": 1070,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r1/12.txt",
+    "bytes": 53,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r1/13.log",
+    "bytes": 2895,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r1/13.time.txt",
+    "bytes": 1071,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r1/13.txt",
+    "bytes": 48,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r1/14.log",
+    "bytes": 2899,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r1/14.time.txt",
+    "bytes": 1070,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r1/14.txt",
+    "bytes": 52,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r1/15.log",
+    "bytes": 2889,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r1/15.time.txt",
+    "bytes": 1070,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r1/15.txt",
+    "bytes": 42,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r1/16.log",
+    "bytes": 2903,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r1/16.time.txt",
+    "bytes": 1070,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r1/16.txt",
+    "bytes": 56,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r1/17.log",
+    "bytes": 2896,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r1/17.time.txt",
+    "bytes": 1070,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r1/17.txt",
+    "bytes": 49,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r1/18.log",
+    "bytes": 2900,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r1/18.time.txt",
+    "bytes": 1071,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r1/18.txt",
+    "bytes": 53,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r1/19.log",
+    "bytes": 2901,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r1/19.time.txt",
+    "bytes": 1070,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r1/19.txt",
+    "bytes": 54,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r1/20.log",
+    "bytes": 2914,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r1/20.time.txt",
+    "bytes": 1071,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r1/20.txt",
+    "bytes": 67,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r1/measurement.json",
+    "bytes": 13656,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r1/verification.json",
+    "bytes": 278,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r1/whisper_cpp.jsonl",
+    "bytes": 27872,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r1/whisper_cpp.run.json",
+    "bytes": 14971,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r2/01.log",
+    "bytes": 2894,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r2/01.time.txt",
+    "bytes": 1070,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r2/01.txt",
+    "bytes": 47,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r2/02.log",
+    "bytes": 2900,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r2/02.time.txt",
+    "bytes": 1071,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r2/02.txt",
+    "bytes": 53,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r2/03.log",
+    "bytes": 2899,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r2/03.time.txt",
+    "bytes": 1071,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r2/03.txt",
+    "bytes": 52,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r2/04.log",
+    "bytes": 2889,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r2/04.time.txt",
+    "bytes": 1071,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r2/04.txt",
+    "bytes": 42,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r2/05.log",
+    "bytes": 2897,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r2/05.time.txt",
+    "bytes": 1071,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r2/05.txt",
+    "bytes": 50,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r2/06.log",
+    "bytes": 2888,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r2/06.time.txt",
+    "bytes": 1071,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r2/06.txt",
+    "bytes": 41,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r2/07.log",
+    "bytes": 2896,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r2/07.time.txt",
+    "bytes": 1070,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r2/07.txt",
+    "bytes": 49,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r2/08.log",
+    "bytes": 2899,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r2/08.time.txt",
+    "bytes": 1071,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r2/08.txt",
+    "bytes": 52,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r2/09.log",
+    "bytes": 2895,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r2/09.time.txt",
+    "bytes": 1071,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r2/09.txt",
+    "bytes": 48,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r2/10.log",
+    "bytes": 2906,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r2/10.time.txt",
+    "bytes": 1071,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r2/10.txt",
+    "bytes": 59,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r2/11.log",
+    "bytes": 2904,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r2/11.time.txt",
+    "bytes": 1070,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r2/11.txt",
+    "bytes": 57,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r2/12.log",
+    "bytes": 2900,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r2/12.time.txt",
+    "bytes": 1070,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r2/12.txt",
+    "bytes": 53,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r2/13.log",
+    "bytes": 2895,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r2/13.time.txt",
+    "bytes": 1071,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r2/13.txt",
+    "bytes": 48,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r2/14.log",
+    "bytes": 2899,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r2/14.time.txt",
+    "bytes": 1070,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r2/14.txt",
+    "bytes": 52,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r2/15.log",
+    "bytes": 2889,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r2/15.time.txt",
+    "bytes": 1070,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r2/15.txt",
+    "bytes": 42,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r2/16.log",
+    "bytes": 2903,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r2/16.time.txt",
+    "bytes": 1070,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r2/16.txt",
+    "bytes": 56,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r2/17.log",
+    "bytes": 2896,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r2/17.time.txt",
+    "bytes": 1070,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r2/17.txt",
+    "bytes": 49,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r2/18.log",
+    "bytes": 2900,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r2/18.time.txt",
+    "bytes": 1070,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r2/18.txt",
+    "bytes": 53,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r2/19.log",
+    "bytes": 2901,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r2/19.time.txt",
+    "bytes": 1071,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r2/19.txt",
+    "bytes": 54,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r2/20.log",
+    "bytes": 2914,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r2/20.time.txt",
+    "bytes": 1070,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r2/20.txt",
+    "bytes": 67,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r2/measurement.json",
+    "bytes": 13656,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r2/verification.json",
+    "bytes": 278,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r2/whisper_cpp.jsonl",
+    "bytes": 27878,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_r2/whisper_cpp.run.json",
+    "bytes": 14971,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_smoke/01.log",
+    "bytes": 2897,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_smoke/01.time.txt",
+    "bytes": 1074,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_smoke/01.txt",
+    "bytes": 47,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_smoke/measurement.json",
+    "bytes": 2516,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_smoke/whisper_cpp.jsonl",
+    "bytes": 1294,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/whisper_tiny_smoke/whisper_cpp.run.json",
+    "bytes": 2805,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/zipformer_r1/measurement.json",
+    "bytes": 1627,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/zipformer_r1/runner.log",
+    "bytes": 411,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/zipformer_r1/time.txt",
+    "bytes": 1039,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/zipformer_r1/verification.json",
+    "bytes": 278,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/zipformer_r1/zipformer.jsonl",
+    "bytes": 27626,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/zipformer_r1/zipformer.run.json",
+    "bytes": 1743,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/zipformer_r2/measurement.json",
+    "bytes": 1630,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/zipformer_r2/runner.log",
+    "bytes": 411,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/zipformer_r2/time.txt",
+    "bytes": 1039,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/zipformer_r2/verification.json",
+    "bytes": 278,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/zipformer_r2/zipformer.jsonl",
+    "bytes": 27625,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/results/zipformer_r2/zipformer.run.json",
+    "bytes": 1743,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/__pycache__/run_whisper_cpp_pi.cpython-313.pyc",
+    "bytes": 9789,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/B04/__pycache__/run_zipformer_pi.cpython-313.pyc",
+    "bytes": 9264,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/manifests/fleurs_dev100.csv",
+    "bytes": 44179,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/manifests/pilot.csv",
+    "bytes": 4848,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/manifests/selection.json",
+    "bytes": 595,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/manifests/self_dev20.csv",
+    "bytes": 11197,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/manifests/self_dev_pairs4.csv",
+    "bytes": 2296,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/manifests/test_ids_reserved.csv",
+    "bytes": 13369,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/tests/test_common.py",
+    "bytes": 5014,
+    "class": "active_source"
+  },
+  {
+    "path": "experiments/tests/test_gpu_policy.py",
+    "bytes": 1684,
+    "class": "active_source"
+  },
+  {
+    "path": "experiments/tests/test_notebook_listening.py",
+    "bytes": 2708,
+    "class": "active_source"
+  },
+  {
+    "path": "experiments/tests/test_pi_measurement.py",
+    "bytes": 2291,
+    "class": "active_source"
+  },
+  {
+    "path": "experiments/tests/test_self_notebook.py",
+    "bytes": 5705,
+    "class": "active_source"
+  },
+  {
+    "path": "experiments/tests/__pycache__/test_common.cpython-313.pyc",
+    "bytes": 9677,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/tests/__pycache__/test_gpu_policy.cpython-313.pyc",
+    "bytes": 4097,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/tests/__pycache__/test_notebook_listening.cpython-313.pyc",
+    "bytes": 6379,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/tests/__pycache__/test_pi_measurement.cpython-313.pyc",
+    "bytes": 4279,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/tests/__pycache__/test_self_notebook.cpython-313.pyc",
+    "bytes": 10983,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/__pycache__/common.cpython-313.pyc",
+    "bytes": 9731,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/__pycache__/import_self.cpython-313.pyc",
+    "bytes": 3125,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/__pycache__/make_notebooks.cpython-313.pyc",
+    "bytes": 11244,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/__pycache__/make_self_notebook.cpython-313.pyc",
+    "bytes": 8544,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/__pycache__/prepare.cpython-313.pyc",
+    "bytes": 9215,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/__pycache__/run_asr.cpython-313.pyc",
+    "bytes": 16853,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/__pycache__/summarize.cpython-313.pyc",
+    "bytes": 3866,
+    "class": "required_evidence"
+  },
+  {
+    "path": "experiments/__pycache__/verify_results.cpython-313.pyc",
+    "bytes": 5195,
+    "class": "required_evidence"
+  },
+  {
+    "path": "iot/PBL6_Tien_do_Embedded_EdgeAI_2026-10-29.pptx",
+    "bytes": 5082589,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "marp_slides_tutorial/PORTING.md",
+    "bytes": 1409,
+    "class": "required_evidence"
+  },
+  {
+    "path": "marp_slides_tutorial/SKILL.md",
+    "bytes": 2577,
+    "class": "required_evidence"
+  },
+  {
+    "path": "marp_slides_tutorial/assets/example.md",
+    "bytes": 1399,
+    "class": "required_evidence"
+  },
+  {
+    "path": "marp_slides_tutorial/references/troubleshooting.md",
+    "bytes": 2751,
+    "class": "required_evidence"
+  },
+  {
+    "path": "marp_slides_tutorial/references/tutorial.md",
+    "bytes": 4386,
+    "class": "required_evidence"
+  },
+  {
+    "path": "mynotes/GIAI_DAP_STT_BUOI_01_03.md",
+    "bytes": 29613,
+    "class": "required_evidence"
+  },
+  {
+    "path": "mynotes/TONG_QUAN_VA_HOI_DAP_STT_BUOI_01_04.md",
+    "bytes": 50555,
+    "class": "required_evidence"
+  },
+  {
+    "path": "mynotes/Untitled.md",
+    "bytes": 3427,
+    "class": "required_evidence"
+  },
+  {
+    "path": "reports/build_obsidian_theme.py",
+    "bytes": 2262,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/DEMO_BUOI_01_04.md",
+    "bytes": 22206,
+    "class": "required_evidence"
+  },
+  {
+    "path": "reports/DRIVE_RESULT_LINKS.json",
+    "bytes": 1437,
+    "class": "required_evidence"
+  },
+  {
+    "path": "reports/DRIVE_SYNC_AUDIT_20261015.json",
+    "bytes": 8232,
+    "class": "required_evidence"
+  },
+  {
+    "path": "reports/generate_demo_figures.py",
+    "bytes": 3804,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/Pasted image 20261015123604.png",
+    "bytes": 38683,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "reports/render_slides.mjs",
+    "bytes": 3355,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/SLIDES_BUOI_01_04.html",
+    "bytes": 241940,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "reports/SLIDES_BUOI_01_04.md",
+    "bytes": 25821,
+    "class": "required_evidence"
+  },
+  {
+    "path": "reports/SLIDES_OBSIDIAN_BUOI_01_04.md",
+    "bytes": 22092,
+    "class": "required_evidence"
+  },
+  {
+    "path": "reports/Untitled.md",
+    "bytes": 12384,
+    "class": "required_evidence"
+  },
+  {
+    "path": "reports/device_3d/.gitignore",
+    "bytes": 47,
+    "class": "required_evidence"
+  },
+  {
+    "path": "reports/device_3d/app.mjs",
+    "bytes": 14305,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_3d/build.mjs",
+    "bytes": 847,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_3d/exploded-view.png",
+    "bytes": 340642,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "reports/device_3d/index.html",
+    "bytes": 622931,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "reports/device_3d/model.mjs",
+    "bytes": 9348,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_3d/package-lock.json",
+    "bytes": 14872,
+    "class": "required_evidence"
+  },
+  {
+    "path": "reports/device_3d/package.json",
+    "bytes": 314,
+    "class": "required_evidence"
+  },
+  {
+    "path": "reports/device_3d/pbl6-device-assembled.glb",
+    "bytes": 1938612,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "reports/device_3d/pbl6-device-exploded.glb",
+    "bytes": 1872596,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "reports/device_3d/pbl6-device-review.zip",
+    "bytes": 1335563,
+    "class": "required_evidence"
+  },
+  {
+    "path": "reports/device_3d/preview.png",
+    "bytes": 345695,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "reports/device_3d/qa-browser.mjs",
+    "bytes": 6588,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_3d/README.md",
+    "bytes": 7787,
+    "class": "required_evidence"
+  },
+  {
+    "path": "reports/device_3d/serve.mjs",
+    "bytes": 957,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_3d/spec.mjs",
+    "bytes": 8409,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_3d/specification.json",
+    "bytes": 10424,
+    "class": "required_evidence"
+  },
+  {
+    "path": "reports/device_3d/template.html",
+    "bytes": 12221,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "reports/device_3d/THIRD_PARTY_LICENSES.txt",
+    "bytes": 1128,
+    "class": "required_evidence"
+  },
+  {
+    "path": "reports/device_3d/VALIDATION.md",
+    "bytes": 3512,
+    "class": "required_evidence"
+  },
+  {
+    "path": "reports/device_3d/verification.json",
+    "bytes": 1855,
+    "class": "required_evidence"
+  },
+  {
+    "path": "reports/device_3d/qa/browser-results.json",
+    "bytes": 1475,
+    "class": "required_evidence"
+  },
+  {
+    "path": "reports/device_3d/qa/exploded.png",
+    "bytes": 340642,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "reports/device_3d/qa/failure.png",
+    "bytes": 240354,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "reports/device_3d/qa/inside.png",
+    "bytes": 346124,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "reports/device_3d/qa/phone.png",
+    "bytes": 150948,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "reports/device_3d/qa/rear.png",
+    "bytes": 277600,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "reports/device_3d/tests/model.test.mjs",
+    "bytes": 2982,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/.gitignore",
+    "bytes": 48,
+    "class": "required_evidence"
+  },
+  {
+    "path": "reports/device_anatomy_v2/audit-full.log",
+    "bytes": 2092,
+    "class": "required_evidence"
+  },
+  {
+    "path": "reports/device_anatomy_v2/audit-quick.log",
+    "bytes": 4286,
+    "class": "required_evidence"
+  },
+  {
+    "path": "reports/device_anatomy_v2/audit-results.json",
+    "bytes": 3254,
+    "class": "required_evidence"
+  },
+  {
+    "path": "reports/device_anatomy_v2/audit.mjs",
+    "bytes": 653,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/build.log",
+    "bytes": 76,
+    "class": "required_evidence"
+  },
+  {
+    "path": "reports/device_anatomy_v2/build.mjs",
+    "bytes": 2591,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/check-model.mjs",
+    "bytes": 113,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/DESIGN.md",
+    "bytes": 2591,
+    "class": "required_evidence"
+  },
+  {
+    "path": "reports/device_anatomy_v2/exploded.png",
+    "bytes": 145217,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "reports/device_anatomy_v2/exploded.svg",
+    "bytes": 372351,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "reports/device_anatomy_v2/graph-evidence.json",
+    "bytes": 12373,
+    "class": "required_evidence"
+  },
+  {
+    "path": "reports/device_anatomy_v2/index-dark.html",
+    "bytes": 664503,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "reports/device_anatomy_v2/index.html",
+    "bytes": 664504,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "reports/device_anatomy_v2/live.js",
+    "bytes": 11370,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/model.mjs",
+    "bytes": 11351,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/package.json",
+    "bytes": 234,
+    "class": "required_evidence"
+  },
+  {
+    "path": "reports/device_anatomy_v2/page.html",
+    "bytes": 9662,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "reports/device_anatomy_v2/preview.png",
+    "bytes": 150948,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "reports/device_anatomy_v2/qa-browser.cjs",
+    "bytes": 5003,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/qa-open.cjs",
+    "bytes": 919,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/README.md",
+    "bytes": 3553,
+    "class": "required_evidence"
+  },
+  {
+    "path": "reports/device_anatomy_v2/run-kit.mjs",
+    "bytes": 325,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/serve.mjs",
+    "bytes": 914,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/specification.json",
+    "bytes": 5112,
+    "class": "required_evidence"
+  },
+  {
+    "path": "reports/device_anatomy_v2/style.css",
+    "bytes": 8842,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/tests.mjs",
+    "bytes": 2204,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/VALIDATION.md",
+    "bytes": 1482,
+    "class": "required_evidence"
+  },
+  {
+    "path": "reports/device_anatomy_v2/checks/angles.json",
+    "bytes": 372,
+    "class": "required_evidence"
+  },
+  {
+    "path": "reports/device_anatomy_v2/checks/apart-4x-dark.png",
+    "bytes": 240531,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "reports/device_anatomy_v2/checks/apart-4x-light.png",
+    "bytes": 276636,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "reports/device_anatomy_v2/checks/apart-angle-minus55.png",
+    "bytes": 60528,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "reports/device_anatomy_v2/checks/apart-angle120.png",
+    "bytes": 53564,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "reports/device_anatomy_v2/checks/apart-angle45.png",
+    "bytes": 50966,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "reports/device_anatomy_v2/checks/assembled-4x-dark.png",
+    "bytes": 240192,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "reports/device_anatomy_v2/checks/assembled-4x-light.png",
+    "bytes": 280434,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "reports/device_anatomy_v2/checks/closing-contact.png",
+    "bytes": 516561,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "reports/device_anatomy_v2/checks/dark.png",
+    "bytes": 137178,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "reports/device_anatomy_v2/checks/fidelity.log",
+    "bytes": 2107,
+    "class": "required_evidence"
+  },
+  {
+    "path": "reports/device_anatomy_v2/checks/flow.png",
+    "bytes": 130939,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "reports/device_anatomy_v2/checks/inside-4x-dark.png",
+    "bytes": 304613,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "reports/device_anatomy_v2/checks/inside-4x-light.png",
+    "bytes": 386126,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "reports/device_anatomy_v2/checks/interior.png",
+    "bytes": 144960,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "reports/device_anatomy_v2/checks/lines-apart-dark.png",
+    "bytes": 128363,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "reports/device_anatomy_v2/checks/lines-apart-light.png",
+    "bytes": 145618,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "reports/device_anatomy_v2/checks/lines-inside-dark.png",
+    "bytes": 193351,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "reports/device_anatomy_v2/checks/lines-inside-light.png",
+    "bytes": 234241,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "reports/device_anatomy_v2/checks/lines-light.png",
+    "bytes": 150702,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "reports/device_anatomy_v2/checks/motion-contact.png",
+    "bytes": 497223,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "reports/device_anatomy_v2/checks/motion.json",
+    "bytes": 391,
+    "class": "required_evidence"
+  },
+  {
+    "path": "reports/device_anatomy_v2/checks/motion.log",
+    "bytes": 553,
+    "class": "required_evidence"
+  },
+  {
+    "path": "reports/device_anatomy_v2/checks/phone-320.png",
+    "bytes": 86378,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "reports/device_anatomy_v2/checks/phone-390.png",
+    "bytes": 94980,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "reports/device_anatomy_v2/checks/pi-detail.png",
+    "bytes": 129319,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "reports/device_anatomy_v2/checks/poses-dark.json",
+    "bytes": 726,
+    "class": "required_evidence"
+  },
+  {
+    "path": "reports/device_anatomy_v2/checks/poses-light.json",
+    "bytes": 731,
+    "class": "required_evidence"
+  },
+  {
+    "path": "reports/device_anatomy_v2/checks/rear.png",
+    "bytes": 101354,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "reports/device_anatomy_v2/checks/turn-browser.log",
+    "bytes": 545,
+    "class": "required_evidence"
+  },
+  {
+    "path": "reports/device_anatomy_v2/checks/ui-results.json",
+    "bytes": 503,
+    "class": "required_evidence"
+  },
+  {
+    "path": "reports/device_anatomy_v2/checks/unit-tests.log",
+    "bytes": 874,
+    "class": "required_evidence"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/LICENSE",
+    "bytes": 1061,
+    "class": "required_evidence"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/kit/audit.mjs",
+    "bytes": 92618,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/kit/canvas-painter.mjs",
+    "bytes": 27535,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/kit/gl-shared.mjs",
+    "bytes": 8863,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/kit/gl.mjs",
+    "bytes": 8763,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/kit/iso-kit.mjs",
+    "bytes": 35175,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/kit/iso-kit.ts",
+    "bytes": 38631,
+    "class": "required_evidence"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/kit/iso.css",
+    "bytes": 7698,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/kit/lathe.mjs",
+    "bytes": 48028,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/kit/pdf-button.mjs",
+    "bytes": 1314,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/kit/tube.mjs",
+    "bytes": 14230,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/kit/turn-audit.mjs",
+    "bytes": 57356,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/kit/turn-build.mjs",
+    "bytes": 65975,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/kit/turn-fixed.mjs",
+    "bytes": 147055,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/kit/turn.mjs",
+    "bytes": 139815,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/kit/react/draw.tsx",
+    "bytes": 6602,
+    "class": "required_evidence"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/kit/react/live.tsx",
+    "bytes": 4359,
+    "class": "required_evidence"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/scripts/audit-affine-bounds.test.mjs",
+    "bytes": 4175,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/scripts/audit-cache.test.mjs",
+    "bytes": 1603,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/scripts/audit-clearance-envelope.test.mjs",
+    "bytes": 2407,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/scripts/audit-empty-clipping.test.mjs",
+    "bytes": 3936,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/scripts/audit-order-convergence.test.mjs",
+    "bytes": 2875,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/scripts/audit-path-origin.test.mjs",
+    "bytes": 1594,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/scripts/audit-profile.test.mjs",
+    "bytes": 2171,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/scripts/audit-projection.test.mjs",
+    "bytes": 1934,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/scripts/audit-slide-clearance.test.mjs",
+    "bytes": 2875,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/scripts/audit-svg-attributes.test.mjs",
+    "bytes": 3484,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/scripts/audit-taper.test.mjs",
+    "bytes": 1267,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/scripts/audit-tube-support.test.mjs",
+    "bytes": 2636,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/scripts/capture-current-geometry.test.mjs",
+    "bytes": 5109,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/scripts/capture-selector.test.mjs",
+    "bytes": 7665,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/scripts/capture.mjs",
+    "bytes": 15024,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/scripts/capture.test.mjs",
+    "bytes": 3224,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/scripts/chrome-port.mjs",
+    "bytes": 1083,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/scripts/chrome-startup.test.mjs",
+    "bytes": 1838,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/scripts/curve-density.test.mjs",
+    "bytes": 4196,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/scripts/drive-actions.test.mjs",
+    "bytes": 3061,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/scripts/drive-async-until.test.mjs",
+    "bytes": 2743,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/scripts/drive-page-load.test.mjs",
+    "bytes": 1318,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/scripts/drive-turn-controller.test.mjs",
+    "bytes": 2702,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/scripts/drive.mjs",
+    "bytes": 23905,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/scripts/drive.test.mjs",
+    "bytes": 3690,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/scripts/enter-key.test.mjs",
+    "bytes": 2560,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/scripts/fidelity-cut.test.mjs",
+    "bytes": 4852,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/scripts/fidelity-tube-coverage.test.mjs",
+    "bytes": 3223,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/scripts/fingerprint.mjs",
+    "bytes": 1241,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/scripts/inline-kit.mjs",
+    "bytes": 648,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/scripts/line-ends.mjs",
+    "bytes": 16206,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/scripts/lines-arcs.test.mjs",
+    "bytes": 2059,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/scripts/lines-bezier.test.mjs",
+    "bytes": 1769,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/scripts/lines-round.test.mjs",
+    "bytes": 2458,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/scripts/lines-rounded-rect.test.mjs",
+    "bytes": 2527,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/scripts/lines.mjs",
+    "bytes": 1700,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/scripts/lines.test.mjs",
+    "bytes": 1537,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/scripts/navigation.test.mjs",
+    "bytes": 2255,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/scripts/orbit-sampling.test.mjs",
+    "bytes": 2810,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/scripts/print-sheet.mjs",
+    "bytes": 29023,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/scripts/print-sheet.test.mjs",
+    "bytes": 6734,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/scripts/print.mjs",
+    "bytes": 14801,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/scripts/publish.mjs",
+    "bytes": 20276,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/scripts/publish.test.mjs",
+    "bytes": 7780,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/scripts/react-dots-opacity.test.mjs",
+    "bytes": 2817,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/scripts/react-readout-first-write.test.mjs",
+    "bytes": 3846,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/scripts/react-readout-target.test.mjs",
+    "bytes": 4657,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/scripts/react-solid-seamless.test.mjs",
+    "bytes": 2752,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/scripts/react-visibility-target.test.mjs",
+    "bytes": 3844,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/scripts/session.mjs",
+    "bytes": 4834,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/scripts/session.test.mjs",
+    "bytes": 2663,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/scripts/turn-audit-samples.test.mjs",
+    "bytes": 1370,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/scripts/turn-bench.mjs",
+    "bytes": 3863,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/scripts/turn-check.mjs",
+    "bytes": 38355,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/scripts/turn-convex-check.test.mjs",
+    "bytes": 1875,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/scripts/turn-fidelity.mjs",
+    "bytes": 20340,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/scripts/turn-group-reference.test.mjs",
+    "bytes": 2174,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/scripts/turn-rounded-polygon.test.mjs",
+    "bytes": 1533,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/device_anatomy_v2/vendor/scripts/turn-split-owner.test.mjs",
+    "bytes": 3411,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/diagrams/COMMUNICATION_DIAGRAMS_20261029.md",
+    "bytes": 3735,
+    "class": "required_evidence"
+  },
+  {
+    "path": "reports/diagrams/demo_tree.mmd",
+    "bytes": 855,
+    "class": "required_evidence"
+  },
+  {
+    "path": "reports/diagrams/export_communication_diagrams.py",
+    "bytes": 20076,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/diagrams/pipeline_next.mmd",
+    "bytes": 464,
+    "class": "required_evidence"
+  },
+  {
+    "path": "reports/diagrams/pipeline_overview.mmd",
+    "bytes": 1522,
+    "class": "required_evidence"
+  },
+  {
+    "path": "reports/diagrams/pi_branches.mmd",
+    "bytes": 1225,
+    "class": "required_evidence"
+  },
+  {
+    "path": "reports/diagrams/slides_next.mmd",
+    "bytes": 405,
+    "class": "required_evidence"
+  },
+  {
+    "path": "reports/diagrams/slides_overview.mmd",
+    "bytes": 697,
+    "class": "required_evidence"
+  },
+  {
+    "path": "reports/diagrams/test_communication_diagrams.py",
+    "bytes": 1953,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/diagrams/__pycache__/export_communication_diagrams.cpython-312.pyc",
+    "bytes": 30211,
+    "class": "required_evidence"
+  },
+  {
+    "path": "reports/figures/dictation_user_reference.png",
+    "bytes": 117185,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "reports/figures/fleurs_dev100.png",
+    "bytes": 78056,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "reports/figures/fleurs_dev100.svg",
+    "bytes": 10027,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "reports/figures/self_dev20.png",
+    "bytes": 78104,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "reports/figures/self_dev20.svg",
+    "bytes": 10528,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "reports/figures/slides_next.svg",
+    "bytes": 18225,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "reports/figures/slides_overview.svg",
+    "bytes": 27774,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "reports/figures/sources.json",
+    "bytes": 2069,
+    "class": "required_evidence"
+  },
+  {
+    "path": "reports/tests/check_diagram_hierarchy.mjs",
+    "bytes": 1872,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/themes/dut/content.png",
+    "bytes": 1059548,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "reports/themes/dut/cover.png",
+    "bytes": 1532200,
+    "class": "generated_output_or_reference"
+  },
+  {
+    "path": "reports/themes/dut/obsidian-slides.css",
+    "bytes": 3457470,
+    "class": "active_source"
+  },
+  {
+    "path": "reports/themes/dut/source.json",
+    "bytes": 842,
+    "class": "required_evidence"
+  },
+  {
+    "path": "reports/__pycache__/generate_demo_figures.cpython-313.pyc",
+    "bytes": 7113,
+    "class": "required_evidence"
+  }
+]

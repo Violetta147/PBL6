@@ -1,0 +1,13 @@
+{
+  "date": "2026-11-02",
+  "unit_suite": {
+    "command": "data\\stt_venv\\Scripts\\python.exe -m unittest discover -s experiments/tests -v",
+    "tests": 22,
+    "failures": 0,
+    "exit_code": 0
+  },
+  "inventory_assertions": "passed",
+  "markdown_fences_and_relative_links": "passed",
+  "inference_run": false,
+  "device_deployment": false
+}
