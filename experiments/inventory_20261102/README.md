@@ -32,13 +32,9 @@ All 48 archived backup files matched destination hashes and sizes: 5,843,130 byt
 - Zipformer/Pi has two full passes with one model setup per pass. Whisper-base/Pi has one-file smoke only. Tiny is a different checkpoint. The Whisper CLI starts per WAV; its timer scope differs from Zipformer ASR-call and full-runner scopes. No speedup ratio follows from these different scopes. Backend `load_seconds` is broader than isolated weight load. GPU synchronization already exists.
 - The old `whisper_protocol.md` permits stopping at base smoke. The later plan retains base as a baseline. N02 must use a stated run limit and new IDs, without rewriting old results as complete.
 - The Zipformer runtime is an offline recognizer. Segmentation can feed it, but does not make it native streaming. Saved file results do not measure live subtitle delay, Stop or connection-failure behavior.
-- No Google/Deepgram API implementation or measured API outputs were found in experiment source/results. Account and spending limits remain unknown.
+- No measured cloud API output was found in the historical inventory. Current provider decisions are in the main plan.
 - The newer discussion confirms webcam capture and headphone playback on Pi. Old statements that no microphone is available are stale. This is historical user-confirmed evidence, not a device test performed in this chat.
 - `iot` contains one PowerPoint file; no STT service or firmware source was found there. Keep it. Its presence does not establish that integration exists.
 - Drive receipts describe 2026-10-15 checks; they do not prove current cloud synchronization. This inventory made no cloud changes or cloud revalidation.
 
 ## Decisions and remaining inputs
-
-The user authorized progress from current context without reconstructing every LearnHarness choice. A separate chat owns that export tool. Capture during playback is permitted; evaluate AEC later if actual speaker echo causes a problem. Use the laptop display first and develop incrementally.
-
-The plan labels weekly scope, run limits, engineering targets and network recovery behavior as provisional where required. Confirm only the input needed for a dependent action. Do not state that a proposed choice was selected in LearnHarness. This inventory did not select a new local/cloud engine.

@@ -1,12 +1,12 @@
 # STT behavior and IoT scope
 
-Date: 2026-11-02. Active workspace: `C:\Users\LAPTOP T&T\VIOLETTA\Documents\ChatGPT\PBL6`. Deadline: Thursday, 2026-11-05. This is a specification; it does not assert that these functions have been implemented.
+Updated: 2026-11-04. Active workspace: `C:\Users\LAPTOP T&T\VIOLETTA\Documents\ChatGPT\PBL6`. Deadline: Thursday, 2026-11-05. This is a specification; it does not assert that these functions have been implemented.
 
 ## Input and text
 
 Capture on the Pi for the device path. Show the selected capture source in the web application on the laptop. A laptop browser must not silently substitute its own microphone. Support live capture, record-once capture, one file and a file list. A cloud service can process a file. A local engine can work without Internet after its model is installed.
 
-Support one foreground speaker at desktop distance. Prioritize Central Vietnamese. Record the actual distance in experiments. Do not claim overlapping-speaker separation. One microphone can contain several voices; separate online meeting participants can instead supply separate source streams. That is a different input contract.
+Support one foreground speaker at near-device distance, seated or standing. The group is from Da Nang; prioritize their Central Vietnamese speech. Record the actual distance in experiments. Do not claim overlapping-speaker separation. One microphone can contain several voices; separate online meeting participants can instead supply separate source streams. That is a different input contract.
 
 Each session has a unique ID. Each segment has an ID, audio time range and revision. Replace provisional text for that segment. Commit final text once. Reject late events from an earlier session. Do not append each provisional hypothesis to the final transcript.
 
@@ -16,7 +16,7 @@ Stop ends capture, sends the permitted pending audio, requests provider finaliza
 
 | Group | Controls | Application rule |
 |---|---|---|
-| Cloud engines | Enable provider, authentication, test connection, model, language, region where required | Save secrets on the backend. Never echo keys into later responses or logs. Deepgram uses an API credential. Google also needs project/region and supported server authentication; do not pretend that an API-key box alone completes Google setup. |
+| Cloud engine | Deepgram enable, API key, test connection, model, `language=vi` | Store the key on the backend and redact it from responses/logs. The user confirms access is ready; report the actual first request result. |
 | Local engines | Enable/disable, model directory, readiness, compute threads | Enabled and currently selected are separate states. Show missing model/runtime. Do not trigger a large model download from a toggle without stating the download. |
 | Capture | Pi audio device, input level, supported format, capture mode | Verify the actual device format and convert when necessary. Show which machine captures audio. |
 | Subtitles | Live provisional text, final text, font size, line length | The UI must distinguish provisional text from confirmed text. Capability depends on the engine. |
@@ -32,7 +32,6 @@ Apply engine, language and capture-format changes to the next session. Settings 
 | Design | Technical work | User experience | Use in this project |
 |---|---|---|---|
 | Record once, transcribe after Stop | Capture, file encoding, one request, wait, error handling | No words until capture ends and recognition returns | First diagnostic path and an explicit alternate mode |
-| LearnHarness v0.4.1 behavior checked in the separate study | Streaming audio to Deepgram, final-only result buffering, one UI append after Stop | A level meter during capture; text appears at the end | A reference for lifecycle handling, not an example of within-utterance live preview |
 | Streaming service with interim results | Persistent transport, concurrent send/receive, bounded buffering, revisions, finalization and reconnect | Words can change while the person speaks | Preferred live-text path, subject to actual language/service testing |
 | Offline model repeatedly decoding a moving audio window | Window policy, repeated compute, overlap merging, stability and duplicate control | Can approximate changing text, with more compute and reconciliation work | Separate local experiment; do not assume the Pi can sustain it |
 | Offline model after utterance segmentation | Capture plus segmentation and final segment decoding | Final chunks appear after each closed utterance | Useful local path, explicitly distinct from within-utterance provisional text |
@@ -56,20 +55,12 @@ For OTA, MQTT can carry update metadata/status and a supported transport can del
 
 Firmware is relevant when an MCU has a defined task such as a physical input control. STT does not require adding an MCU to show firmware activity. Pi application OTA and MCU firmware OTA are different targets.
 
-## Providers and reference study
+## Active provider and version order
 
-The user has a Deepgram account and has used dictation through LearnHarness. Direct API access and credit remain unverified. The user has no Google Cloud billing account configured. Use Google's documented Speech-to-Text V2 API and evaluate `chirp_3` with Vietnamese `vi-VN`, an available region and actual streaming output. There is no product identifier named `Speech-to-Text 2026` in the cited API contract.
+Use Deepgram with `language=vi`. The user confirms that API access is ready. Provide the key input in backend Settings. Keep local engines available as separate configurations. No executable decompilation is needed.
 
-The separate source study checked LearnHarness v0.4.1 at commit `e69e85269c064c6c9c49a8b06ae78c06e79c4a63`. The selected 27 source files matched the installed source files by SHA-256. Its audio is streamed to Deepgram, while interim results are not enabled and the UI buffers final segments until Stop. This explains the user's observation without treating the implementation as record-then-upload. The study did not measure API latency or run paid recognition. Source reading was sufficient; binary reverse engineering was not needed. Reusing design knowledge and copying licensed source are different decisions.
+Implement V1 record-then-transcribe, V2 streaming audio with final-only display, and V3 streaming audio with interim/final display, in that order. Retain the earlier modes and test each gate before progressing.
 
-Evidence and source-line links are in [the separate dictation study](<C:/Users/LAPTOP T&T/Documents/Codex/2026-11-02/stt-dictation-reference/outputs/KHAO_SAT_DICTATION_STT_PI_20261102.md>). Keep the study separate from implementation. The library's actual code should not be copied into this project without reviewing its license and dependencies.
+Official provider reference: https://developers.deepgram.com/docs/models-languages-overview
 
-## Source checks, 2026-11-02
-
-- Google `chirp_3`, V2 methods and Vietnamese: https://docs.cloud.google.com/speech-to-text/docs/models/chirp-3
-- Google trial: eligible new customers can receive USD 300 for 90 days; a valid payment method and verification are required: https://docs.cloud.google.com/free/docs/free-cloud-features
-- Google V2 standard recognition currently starts at USD 0.016 per audio minute. Do not transfer V1's listed free 60 minutes to V2: https://cloud.google.com/speech-to-text/pricing
-- Deepgram models/languages: https://developers.deepgram.com/docs/models-languages-overview
-- ThingsBoard software/firmware OTA and device-reported states: https://thingsboard.io/docs/user-guide/ota-updates/
-
-Provider support, price and eligibility are source checks, not measurements of this user's account or of recognition quality. No paid API calls were made for this specification.
+Official update reference: https://thingsboard.io/docs/user-guide/ota-updates/

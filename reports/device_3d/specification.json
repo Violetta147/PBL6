@@ -32,13 +32,13 @@
       "note": "Mô hình bố trí; màn 7 inch dự kiến; một màn và camera phía người ký hiệu; loa phía đối thoại; vỏ liền; các linh kiện còn lại chưa chốt."
     },
     "graph": {
-      "title": "LearnHarness graph, nodes.jsonl / chains.jsonl / sources.json",
-      "path": "C:/Users/LAPTOP T&T/AppData/Roaming/LearnHarness/data/graph",
+      "title": "Ghi chú thiết kế lịch sử",
+      "path": "",
       "note": "Graph là nguồn truy vết kiến thức; không chứng minh phần cứng đã mua hoặc tích hợp."
     },
     "chat": {
       "title": "Trao đổi gốc: IOT communication support system",
-      "path": "C:/Users/LAPTOP T&T/AppData/Roaming/LearnHarness/data/chats/chat_mvoydjut_49dd56bb.json",
+      "path": "",
       "note": "Đối chiếu thông tin camera, microSD, kho linh kiện, màn hình và các quyết định chưa chốt."
     },
     "pi": {

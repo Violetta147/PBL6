@@ -24,7 +24,6 @@ Vỏ liền; màn cảm ứng7inch dự kiến; màn/camera hướng người k�
 Vỏ mới khoảng220×145×216mm, màn đứng; khác đề xuất màn nghiêng12° của bản trước. Kích thước cơ khí là ước lượng. Khe gió là đồ họa trên mặt, chưa mô phỏng thông gió. Vít là chi tiết mặt, không có ren. Chưa định tuyến dây do thiếu model và khoảng hở. Không có file chế tạoSTL/STEP hoặc sơ đồ điện.
 
 ## Nguồn đọc lại
-- LearnHarness/data/graph/nodes.jsonl, chains.jsonl, sources.json trong AppData/Roaming.
 - Chat gốc chat_mvoydjut_49dd56bb: cảm ứng, Aioneus, microSD, ứng viên màn/loa; không coi kho linh kiện là BOM.
 - PBL6/reports/DEMO_BUOI_01_04.md và noteSTT liên kết graph: Zipformer trên Pi với WAV; không suy ra live hoàn thiện.
 - SLR/minh_read/TOM_TAT_SPOTER_AUGMENTATION_ERROR_ANALYSIS_CSLR.md(27/10): preprocessing, bốn lượt ablation, input64×128, chiếu128→108, encoder/decoder6+6,400 lớp từ đơn.

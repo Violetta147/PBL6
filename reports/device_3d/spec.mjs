@@ -7,8 +7,8 @@ export const specification = {
   choices: { enclosure: 'Vỏ liền, tháo các tấm để bảo trì', displaySide: 'Người ký hiệu', cameraSide: 'Người ký hiệu', speakerSide: 'Người đối thoại', purpose: 'Bố trí và trình diễn; chưa phải thiết kế chế tạo' },
   sources: {
     user: { title: 'Quyết định của người dùng, 28/10/2026', note: 'Mô hình bố trí; màn 7 inch dự kiến; một màn và camera phía người ký hiệu; loa phía đối thoại; vỏ liền; các linh kiện còn lại chưa chốt.' },
-    graph: { title: 'LearnHarness graph, nodes.jsonl / chains.jsonl / sources.json', path: 'C:/Users/LAPTOP T&T/AppData/Roaming/LearnHarness/data/graph', note: 'Graph là nguồn truy vết kiến thức; không chứng minh phần cứng đã mua hoặc tích hợp.' },
-    chat: { title: 'Trao đổi gốc: IOT communication support system', path: 'C:/Users/LAPTOP T&T/AppData/Roaming/LearnHarness/data/chats/chat_mvoydjut_49dd56bb.json', note: 'Đối chiếu thông tin camera, microSD, kho linh kiện, màn hình và các quyết định chưa chốt.' },
+    graph: { title: 'Ghi chú thiết kế lịch sử', path: '', note: 'Graph là nguồn truy vết kiến thức; không chứng minh phần cứng đã mua hoặc tích hợp.' },
+    chat: { title: 'Trao đổi gốc: IOT communication support system', path: '', note: 'Đối chiếu thông tin camera, microSD, kho linh kiện, màn hình và các quyết định chưa chốt.' },
     pi: { title: 'Raspberry Pi — kích thước bo Pi 4B', url: 'https://www.raspberrypi.com/documentation/computers/sbcs.html', note: 'Bo khoảng 85 × 56 mm; chi tiết đầu nối dựng đơn giản, chưa phải bản CAD chính thức.' },
     lcd: { title: 'Điện tử Nguyễn Hiền — NH2067', url: 'https://www.dientunguyenhien.vn/show/2067', note: 'Tên sản phẩm ghi 7 inch, 1024×600, 17×10 cm. Chưa có bản vẽ lỗ bắt vít, chiều dày hoặc vùng hiển thị hữu dụng.' },
     stt: { title: 'PBL6: báo cáo B01–B04, phần B04', path: 'C:/Users/LAPTOP T&T/VIOLETTA/Documents/ChatGPT/PBL6/reports/DEMO_BUOI_01_04.md', note: 'Pi 4B 8 GB chạy Zipformer trên WAV; không xác nhận luồng micro liên tục đã hoàn thiện.' },

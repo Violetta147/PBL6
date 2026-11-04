@@ -1,0 +1,12 @@
+{
+  "date": "2026-11-04",
+  "active_cloud_provider": "Deepgram",
+  "language": "vi",
+  "version_order": ["record_then_transcribe", "stream_final_only", "stream_interim_final"],
+  "text_scope_scan": "passed; Git history and installed dependencies excluded",
+  "document_links_and_fences": "passed",
+  "visual_model_tests": {"passed": 4, "failed": 0},
+  "packaged_asset_crc_and_text_check": "passed",
+  "external_original_snapshot_hashes_checked": 12,
+  "new_ASR_or_paid_API_run": false
+}

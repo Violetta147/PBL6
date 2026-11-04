@@ -53,9 +53,7 @@ Vỏ đề xuất khoảng **220 × 145 × 207 mm**, gồm camera, màn nghiêng
 
 ## Truy vết graph và note gốc
 
-Đã đọc graph hiện tại tại `C:/Users/LAPTOP T&T/AppData/Roaming/LearnHarness/data/graph/`, gồm `nodes.jsonl`, `chains.jsonl`, `sources.json`. Graph dùng để lần về nguồn, không coi một nút là bằng chứng phần cứng đã được mua hoặc chức năng đã hoàn thành.
 
-- Chat gốc `chat_mvoydjut_49dd56bb.json`, tiêu đề `IOT communication support system`, tại thư mục `LearnHarness/data/chats/`: webcam, microSD, kho linh kiện, màn hình và các giới hạn của linh kiện chưa chốt.
 - `n_134104e874e4` / `msg_mvp8e6bd_840d103d`: giao diện cảm ứng.
 - `n_9e8be735403e`: phân biệt audio với cấp nguồn.
 - `n_cdd9d47bc6f1`, `n_d2f9b95c6f8e`: nguồn ổn định, tải ngoại vi.

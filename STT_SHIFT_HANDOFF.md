@@ -1,6 +1,6 @@
 # Sequential STT work until Thursday
 
-Date: 2026-11-02. Deadline: Thursday, 2026-11-05. Keep this Git repository and active STT data in the current C-drive workspace. Read `AGENTS.md`, `STT_PLAN_1_WEEK.md` and `STT_SYSTEM_SPEC.md` first.
+Updated: 2026-11-04. Deadline: Thursday, 2026-11-05. Keep this Git repository and active STT data in the current C-drive workspace. Read `AGENTS.md`, `STT_PLAN_1_WEEK.md` and `STT_SYSTEM_SPEC.md` first.
 
 ## Current entry point
 
@@ -14,9 +14,9 @@ These are work roles, not five people already assigned or running. The user can 
 
 | Shift | Owner role and suggested slot | Deliverable and gate to the next shift |
 |---|---|---|
-| 1 | Engine/data owner; next available session, 2–3 November | Prepare local/file interfaces and provider configuration. Keep C0 Whisper-base and C1 Zipformer distinct. Add same-WAV file/list tests and error records. Set aside new development/evaluation recordings before engine selection. Direct Deepgram access is checked locally. Google setup is recorded as working or blocked. |
-| 2 | Live-audio owner; after shift 1, 3 November | Add Pi capture, realtime replay, bounded queues, segment events and Stop/finalization. Test errors and finalization using fixtures before API/Pi execution. A final-only local engine declares its capability. Leave exact Pi launch instructions. |
-| 3 | Web/Settings owner; after shift 2, 3–4 November | Build subtitles and the settings groups in the specification. Verify partial replacement, final commit, stale-session rejection, engine toggles, secret redaction and microphone location. Test file input and a file list through the same selected engine interface. |
+| 1 | Engine/data owner; next available session, 4 November | Prepare local/file interfaces and provider configuration. Keep C0 Whisper-base and C1 Zipformer distinct. Add same-WAV file/list tests and error records. Set aside new development/evaluation recordings before engine selection. Deepgram uses `language=vi`; the user confirms API access is ready. The user enters the key locally when Settings is available. |
+| 2 | Live-audio owner; after shift 1, 4 November | First finish V1 Pi recording and Stop. Then add V2 realtime sending, bounded queues and finalization. Add V3 interim events only after V2 passes. Test errors and finalization using fixtures before API/Pi execution. A final-only local engine declares its capability. Leave exact Pi launch instructions. |
+| 3 | Web/Settings owner; after shift 2, 4–5 November | Build Settings and V1 final text first. Then connect V2 final-only streaming and V3 interim text in that order. Verify partial replacement, final commit, stale-session rejection, engine toggles, secret redaction and microphone location. Test file input and a file list through the same selected engine interface. |
 | 4 | IoT/update owner; after shift 3, 4 November | Send the defined application telemetry to MQTT and show it on a dashboard. Check ThingsBoard setup against the available PC/server. Implement one small application update with verification, health check, rollback and reported version. Keep failed updates explicit. |
 | 5 | Integration/evaluation owner; after shift 4, 5 November | Run clean startup, actual Pi capture, cloud/local failures and same-data comparison. Freeze the chosen settings before evaluation. Check Central Vietnamese desktop speech. Test live text and Stop using real audio. Preserve failures/timeouts and distinguish unavailable functions from completed ones. |
 
@@ -41,10 +41,12 @@ Next command to run:
 
 ## Immediate user actions
 
-1. Open the completed LearnHarness exporter chat when convenient. It is not a dependency for starting shift 1. The separate dictation source-study chat is also independent.
+1. Read the main plan, then the system specification. Begin the first unfinished shift; no old questionnaire reconstruction is required.
 2. For the next person, give this workspace path and these three entry documents. They must inspect current Git status rather than reset the working tree.
-3. In the existing Deepgram console, check that a project/API credential and credit are available. Configure the credential locally when the prepared Settings/backend supports it. Do not post the key in chat.
+3. Enter the Deepgram key locally when the prepared Settings/backend is available. Use `language=vi`. No repeat account/credit confirmation is needed.
 4. For Google, check Free Trial eligibility and whether the required payment-method verification is acceptable. Creating a project alone is not the full API setup. If setup is unavailable, record the block and continue the other engines.
-5. Prepare the Pi Connect/SSH session for the actual device check. The next owner must supply the exact command and expected output from the implemented runner; do not use a guessed command for code that does not yet exist.
+4. Prepare the Pi Connect/SSH session for the actual device check. The next owner must supply the exact command and expected output from the implemented runner; do not use a guessed command for code that does not yet exist.
 
 No new purchase is required before software work starts. Use `STT_BOM.md` to compare options before choosing any purchase ceiling.
+
+The current date is 4 November. The five roles are sequential handoffs, not proof that earlier dated work was completed. Preserve the Thursday deadline; record any unfinished stage honestly.

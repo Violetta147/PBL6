@@ -1,10 +1,10 @@
 # STT work plan to 5 November 2026
 
-Date: 2026-11-02. Deadline: Thursday, 2026-11-05. Keep the active project at `C:\Users\LAPTOP T&T\VIOLETTA\Documents\ChatGPT\PBL6`. Do not relocate it to drive D. Use this file for new STT work. Keep `PLAN_DEMO_STT_7_BUOI.md` as the previous plan. Use `STT_SYSTEM_SPEC.md` for behavior and `STT_SHIFT_HANDOFF.md` for sequential work by five people.
+Updated: 2026-11-04. Deadline: Thursday, 2026-11-05. Keep the active project at `C:\Users\LAPTOP T&T\VIOLETTA\Documents\ChatGPT\PBL6`. Do not relocate it to drive D. Use this file for new STT work. Keep `PLAN_DEMO_STT_7_BUOI.md` as the previous plan. Use `STT_SYSTEM_SPEC.md` for behavior and `STT_SHIFT_HANDOFF.md` for sequential work by five people.
 
 ## 1. Scope and dependencies
 
-Build this path: microphone or recorded files -> speech-to-text engine -> subtitles in a web application. Open the application on the laptop. Use the Pi microphone for the device path. Test one file and a list of files. Test a local engine, Google Cloud Speech-to-Text, and Deepgram. Keep the engine choice open until the comparison is complete.
+Build this path: microphone or recorded files -> speech-to-text engine -> subtitles in a web application. Open the application on the laptop. Use the Pi microphone for the device path. Test one file and a list of files. Test local engines and Deepgram with `language=vi`. Keep the engine choice open until the comparison is complete.
 
 Allow microphone capture during text-to-speech (TTS) playback. First test the actual audio. Add acoustic echo cancellation (AEC) if speaker audio causes a problem. Do not use microphone muting as the default design. Headphones can test playback, but cannot prove that speaker echo is controlled.
 
@@ -14,7 +14,7 @@ Complete integration and verification by Thursday, 5 November 2026. Use five seq
 
 Include a small IoT path for STT session state, processing errors, software version and update status. MQTT, a cloud dashboard and over-the-air application updates are relevant. ThingsBoard is a platform candidate, not a previously confirmed platform choice. Do not build CPU/RAM dashboards or unrelated remote controls. See `STT_SYSTEM_SPEC.md` for the data contract.
 
-The user has a Deepgram account and has used it in LearnHarness. Direct API credentials, project permissions and remaining credit have not been tested. Google Cloud billing is not set up. API spending limits and current Pi access are still required before their dependent actions. Configure credentials through backend Settings or local server authentication, not chat. Keep an unavailable engine in the comparison table with its actual status.
+The user confirms that Deepgram API access is ready. The implementation must accept the API key in backend Settings and use `language=vi`. Do not repeat account/credit checks as a planning dependency. The first actual request still supplies its real success/error result. Configure the key locally, not in chat.
 
 ## 2. Fixed experiment rules
 
@@ -36,7 +36,7 @@ Use the existing pilot and development sets to check code and settings. The exis
 
 Before selecting an engine, reserve a practical new set: 10 development utterances, 20 evaluation utterances, and two minutes of non-speech audio. Ask the user to record these with the actual webcam microphone. Store original audio, reference, speaker/session, distance, environment and consent. The user must listen to and check the references. Keep development and evaluation sessions separate. Use a second speaker only if available; record the limitation if there is one speaker. Keep the 200 reserved public test IDs as a separate optional public comparison.
 
-Use one foreground speaker, seated near the device as for desktop voice prompting. Prioritize Central Vietnamese speech. Measure the actual mouth-to-microphone distance for each session; do not invent a distance from the user's description. Start in a quiet indoor room. Do not promise separation of overlapping speakers. To test noise, use matched sentences and the same speaker/distance with recorded conditions. Keep the collection small enough for the deadline.
+Use one foreground speaker near the device, seated or standing. The user and the group are from Da Nang; prioritize their Central Vietnamese speech. Measure the actual mouth-to-microphone distance for each session; do not invent a distance from the user's description. Start in a quiet indoor room. Do not promise separation of overlapping speakers. To test noise, use matched sentences and the same speaker/distance with recorded conditions. Keep the collection small enough for the deadline.
 
 Before opening evaluation predictions, freeze the candidate configuration and provisional engineering targets. Proposed targets are: at least 95% of speech inputs complete, corpus local RTF below 1 for continuous use, and final subtitle delay p95 at most 3 seconds for short utterances. These are proposed prototype targets, not measured results or a confirmed user requirement. Agree or revise them before the selection run. Report the sample count; p95 from a small set is descriptive.
 
@@ -48,7 +48,7 @@ Choose the lowest development WER_ws among candidates that meet the agreed compl
 |---|---|---|---|
 | 1 / N01 | Agent: inventory source, results, manifests, archives and dependencies. Recompute saved scores. User: supply actual deadline and account status when asked. | B01–B04, source discussions, local data | Inventory and discrepancy list. Every result has an input/model/runtime trace or an explicit missing-source note. No ASR rerun. |
 | 2 / N02 | Agent: implement a common local measurement path and test its timer boundaries, timeout records and model reuse. User: provide a Pi session for the device check. | N01, Pi, C0 Whisper-base and C1 Zipformer | New configuration and runner tests. Then one smoke per engine and the same dev20 comparison. Keep tiny separate. Stop each engine after the agreed run limit; retain partial outputs. |
-| 3 / N03 | Agent: implement Google and Deepgram adapters. User: configure credentials locally and approve an audio/spending cap. | Accounts, official language/model support check, N01 data | Same-file development outputs or explicit account/service failure. Test one file and a list. Record API options and client timing. Do not invent API results for an unavailable account. |
+| 3 / N03 | Agent: implement the Deepgram adapter with `language=vi`. User: enter the API key locally when Settings is ready. | Accounts, official language/model support check, N01 data | Same-file development outputs or explicit account/service failure. Test one file and a list. Record API options and client timing. Do not invent API results for an unavailable account. |
 | 4 / N04 | Agent: add Pi capture, bounded queues, replay and subtitle events. User: test the selected capture device on Pi. | At least one working local or cloud adapter | Microphone -> subtitles and realtime WAV replay. Capture does not wait for network I/O. No silent queue overflow, missing final text or duplicated final segments in scripted tests. |
 | 5 / N05 | Agent: connect the web interface. User: run capture on Pi and open the web application on the laptop. | N04, browser, local network | Start/Stop, engine selection, file/batch input, status and subtitles work. Test partial replacement, Stop, long silence, timeout, network loss and restart. Run local without Internet. |
 | 6 / N06 | Agent and user: freeze settings, then evaluate reserved audio and live behavior. Test playback with capture enabled. | Checked references, frozen settings, physical speaker if testing echo | Raw predictions, per-segment timestamps, scores, failures, resource readings and selection outcome. Do not claim an echo test passed with headphones. If echo causes a problem, register an AEC condition and retain raw/processed audio for comparison. |
@@ -70,7 +70,7 @@ Stop closes capture, sends any permitted pending audio, requests engine finaliza
 
 The first network-loss implementation must show the failure, preserve confirmed text and offer local restart. Do not silently transfer an active session to another engine or imply uninterrupted transcription. Automatic transfer remains an open product choice. Keep failed/cloud and new/local session IDs separate. Never put cloud credentials in browser code.
 
-Live provisional text and committed final text are required user-visible behaviors. A record-once mode is also useful for file capture and as a diagnostic path. It does not replace the live-text requirement. The engine capability must be explicit; an engine that only returns final segments cannot claim to provide word updates while the segment is still being recorded.
+Implement versions in the approved order: V1 records then transcribes after Stop; V2 streams audio but displays text after Stop; V3 displays revisable interim text while recording and commits final text. Keep each earlier mode usable. Live interim text is the V3 requirement, not a condition for calling V1 complete. The engine capability must be explicit; an engine that only returns final segments cannot claim to provide word updates while the segment is still being recorded.
 
 ## 6. Small monitoring stage
 
@@ -81,7 +81,7 @@ Provide local Settings for cloud authentication, enabled local engines, selected
 ## 7. User input at dependent steps
 
 1. Before N02: give the SSH/Connect session to use, confirm the run limit, and run the supplied device-check commands. Return complete output and any error. Do not repeat the previous audio bring-up unless the device has changed or a new test fails.
-2. Before N03: configure the existing Deepgram API access locally and check its available credit. For Google, check Free Trial eligibility and billing setup. Use Speech-to-Text V2 with a documented current model; `chirp_3` is the present candidate. Set a test-audio and spending cap before paid requests.
+2. Before N03: provide a local API-key input in Settings and use Deepgram with `language=vi`. The user confirms API access is ready.
 3. Before N06: record and check the small Central Vietnamese data set at the intended desktop distance. Store the measured distance and noise condition. Do not use model output as a checked reference.
 4. Before a purchase: compare alternatives in the BOM by benefit, limitation, extra cost and delivery. The user has not set a purchase ceiling and does not require the cheapest option. Do not ask for a ceiling before providing that comparison.
 
@@ -89,8 +89,17 @@ Provide local Settings for cloud authentication, enabled local engines, selected
 
 - Local evidence: `experiments/inventory_20261102/evidence.json` and its README.
 - Hardware and purchase gates: `STT_BOM.md`.
-- Google interim/final result contract: https://docs.cloud.google.com/speech-to-text/docs/reference/rest/v2/StreamingRecognitionResult
 - Deepgram finalization and interim results: https://developers.deepgram.com/reference/speech-to-text/listen-streaming
 - Raspberry Pi power guidance: https://www.raspberrypi.com/documentation/computers/getting-started.html
 
-Verify exact Vietnamese language support, service model, region, terms and price at N03. No API account, current credit balance or monthly allowance has been verified in this plan.
+Verify exact Vietnamese language support, service model, region, terms and price at N03. The user confirms Deepgram access is ready; an actual request has not yet been tested in this project.
+
+## Approved version order
+
+| Version | Behavior | Completion gate |
+|---|---|---|
+| V1 | Record, Stop, transcribe; file/list input; Settings | A real recording yields one final transcript or a clear error. |
+| V2 | Stream audio while recording; display final transcript after Stop | Capture/send/receive do not block each other; Stop preserves the audio tail and final text. |
+| V3 | Show revisable interim text and committed final segments | Replacement, event ordering, duplicate prevention and late results pass tests. |
+
+Complete V1 before V2, and V2 before V3. Experimental WER_ws, CER, timing, RTF and RAM remain research measurements. They do not add a product resource-management system. Do not use library adoption as evidence that a provider has better recognition quality. Compare the actual configurations on the same data.
