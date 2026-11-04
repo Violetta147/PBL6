@@ -14,6 +14,3 @@ Mức Hero, một chủ thể 3D. Bản mới độc lập với reports/device_
 
 ## Quy ước
 Đơn vị mm; x ngang, y hướng người ký, z lên. Đế220×145mm; chiều cao mới216mm là ước lượng. Màn đứng trong bản này (thay đề xuất nghiêng12° của v1), để minh họa mặt và cửa tháo rõ ràng; chưa có thiết kế công thái học chốt. Khe gió/vít/PCB không phải CAD sản phẩm. Không dựng dây mềm nối giữa hai cụm đang tách; mô tả USB/HDMI/audio/DC trong bảng kết nối. Không đưa ESP32/quạt/pin/cảm biến thành cấu hình mặc định.
-
-## Nguồn kiểm tra lại
-Graph nodes/chains/sources → src_d9fcd3d718fa → note tổng kết SPOTER 27/10 ở SLR; src_038a26911ea8/src_656d18e1bd0c → báo cáo/note STT ở PBL6. Chat gốc xác nhận AioneusUSB1080p và microSD32GB; bảng loa/màn là lựa chọn bạn của người dùng đề xuất, chưa phải BOM đã mua.

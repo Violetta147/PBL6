@@ -17,3 +17,8 @@
 
 ## Giới hạn
 Không kiểm chứng lỗ/vít, lắp ráp, khoảng hở dây, nguồn, nhiệt, âm học, AEC, FPS hoặc toàn pipelineAI trên Pi. Nội dung màn minh họa. Hình chiếu3D và tách cụm phục vụ giải thích bố trí.
+# Cập nhật 04/11/2026
+
+Đã bỏ dữ liệu trích xuất lịch sử học tập và phần truy vết nguồn khỏi bản phác thảo. Tab Thông số & giới hạn chỉ giữ mô tả bố trí và giới hạn kiểm chứng. README xác định đây là tham khảo cho thiết kế sản phẩm cuối, không phải điều kiện triển khai STT.
+
+4/4 unit test và 16 nhóm kiểm tra trình duyệt đạt; không có lỗi JavaScript hoặc yêu cầu mạng ngoài. Đã xem ảnh mới. Các phép kiểm tra hình học, xoay, tách, cô lập và xuất SVG tiếp tục đạt. Chi tiết trong `cleanup_validation_20261104.json`. Nội dung còn lại giữ lịch sử kiểm tra trước.

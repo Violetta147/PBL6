@@ -4,15 +4,15 @@ import * as T from 'three';
 import { createDevice } from '../model.mjs';
 import { partSpecs, specification, partPosition } from '../spec.mjs';
 
-test('confirmed user choices and evidence remain distinct from estimated geometry', () => {
+test('draft choices remain distinct from estimated geometry', () => {
+  assert.ok(!Object.hasOwn(specification, 'sources'));
   assert.equal(specification.screen.diagonalInches, 7);
   assert.equal(specification.choices.displaySide, 'Người ký hiệu');
   assert.equal(specification.choices.speakerSide, 'Người đối thoại');
   assert.equal(new Set(partSpecs.map(p => p.id)).size, partSpecs.length);
   for (const p of partSpecs) {
     assert.ok(p.status && p.dimensions && p.role);
-    assert.ok(p.sources.length > 0);
-    for (const s of p.sources) assert.ok(specification.sources[s], `${p.id}: unknown source ${s}`);
+    assert.ok(!Object.hasOwn(p, 'sources'));
   }
   assert.match(partSpecs.find(p => p.id === 'camera').dimensions, /ước lượng/);
   assert.match(partSpecs.find(p => p.id === 'speaker').status, /Chưa chốt/);

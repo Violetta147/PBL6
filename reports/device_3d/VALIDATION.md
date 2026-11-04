@@ -1,5 +1,11 @@
 # Kiểm tra mô hình bố trí thiết bị
 
+## Cập nhật 04/11/2026
+
+Đã bỏ phần trích nguồn học tập, mã node/chat và metadata nguồn khỏi cấu hình, giao diện và GLB. Bản ZIP được đóng gói lại từ các file hiện tại. Giữ vai trò bản phác thảo bố trí; chưa phải mốc triển khai STT.
+
+4/4 unit test đạt. Kiểm tra trình duyệt đạt: lắp ráp, tách cụm, chọn/cô lập bộ phận, tùy chọn, xuất GLB và màn hình nhỏ; không có lỗi JavaScript hoặc yêu cầu mạng ngoài. Đã xem ảnh mới. Mesh và accessor của hai GLB khớp bản trước; metadata nguồn đã được loại bỏ. Chi tiết trong `cleanup_validation_20261104.json`. Các số liệu cũ bên dưới thuộc lần kiểm tra ghi ngày riêng.
+
 Ngày kiểm tra: **28/10/2026**. Phạm vi: file HTML, hình học mô hình, tương tác trình duyệt và xuất GLB. Không chạy lại thí nghiệm ML hoặc kiểm tra phần cứng.
 
 ## Kiểm tra tự động

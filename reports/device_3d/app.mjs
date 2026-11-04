@@ -46,13 +46,10 @@ const floor = new T.Mesh(new T.CircleGeometry(380, 96), new T.ShadowMaterial({ o
 const device = createDevice({ screenTexture: screenTexture() }); scene.add(device.root);
 const selection = new T.Box3Helper(new T.Box3(), 0x9cd5c1); selection.visible = false; scene.add(selection);
 const selectedSpec = () => partSpecs.find(p => p.id === state.selected);
-const sourceTitle = id => specification.sources[id]?.title || id;
 for (const part of partSpecs) { const option = document.createElement('option'); option.value = part.id; option.textContent = part.name; $('partSelect').append(option); }
 function showDetail(id) {
   state.selected = id; const p = selectedSpec(); $('partSelect').value = id;
   $('partName').textContent = p.name; $('partStatus').textContent = p.status; $('partDimensions').textContent = p.dimensions; $('partRole').textContent = p.role;
-  $('partSources').replaceChildren();
-  for (const source of p.sources) { const sp = specification.sources[source]; const line = document.createElement('span'); if (sp.url) { const a = document.createElement('a'); a.textContent = sourceTitle(source); a.href = sp.url; a.target = '_blank'; a.rel = 'noopener'; line.append(a); } else line.textContent = sourceTitle(source); $('partSources').append(line); }
   $('hidePart').textContent = state.hidden.has(id) ? 'Hiện bộ phận' : 'Ẩn bộ phận'; $('partTag').textContent = p.name;
   updateVisibility();
 }
@@ -126,7 +123,7 @@ function tick(now) {
 function download(blob, name) { const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 3000); }
 async function exportModel(mode = 'current', save = true) {
   const clone = device.root.clone(true);
-  clone.scale.setScalar(.001); clone.name = 'PBL6_tabletop_device_concept'; clone.userData = { ...clone.userData, gltfUnit: 'meter', originalGeometryUnit: 'millimeter', sources: specification.sources, exportPose: mode, notManufacturingCAD: true };
+  clone.scale.setScalar(.001); clone.name = 'PBL6_tabletop_device_concept'; clone.userData = { ...clone.userData, gltfUnit: 'meter', originalGeometryUnit: 'millimeter', exportPose: mode, notManufacturingCAD: true };
   for (const p of partSpecs) {
     const obj = clone.children.find(c => c.name === p.id);
     if (mode !== 'current') { obj.position.fromArray(partPosition(p, mode === 'exploded' ? 1 : 0, [0, 0, 0])); obj.visible = !p.optional && !(p.id === 'wiring' && mode === 'exploded'); }
