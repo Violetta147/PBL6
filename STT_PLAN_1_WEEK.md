@@ -4,7 +4,7 @@ Updated: 2026-11-04. Deadline: Thursday, 2026-11-05. Keep the active project at 
 
 ## 1. Scope and dependencies
 
-Build this path: microphone or recorded files -> speech-to-text engine -> subtitles in a web application. Open the application on the laptop. Use the Pi microphone for the device path. Test one file and a list of files. Test local engines and Deepgram with `language=vi`. Keep the engine choice open until the comparison is complete.
+Build this path: <strong style="color:#087789;">microphone or recorded files -> speech-to-text engine -> subtitles in a web application</strong>. Open the application on the laptop. <strong style="color:#087789;">Use the Pi microphone for the device path.</strong> <strong style="color:#087789;">Test one file and a list of files.</strong> Test local engines and Deepgram with `language=vi`. Keep the engine choice open until the comparison is complete.
 
 Allow microphone capture during text-to-speech (TTS) playback. First test the actual audio. Add acoustic echo cancellation (AEC) if speaker audio causes a problem. Do not use microphone muting as the default design. Headphones can test playback, but cannot prove that speaker echo is controlled.
 
@@ -14,11 +14,11 @@ Complete integration and verification by Thursday, 5 November 2026. Use five seq
 
 Include a small IoT path for STT session state, processing errors, software version and update status. MQTT, a cloud dashboard and over-the-air application updates are relevant. ThingsBoard is a platform candidate, not a previously confirmed platform choice. Do not build CPU/RAM dashboards or unrelated remote controls. See `STT_SYSTEM_SPEC.md` for the data contract.
 
-The user confirms that Deepgram API access is ready. The implementation must accept the API key in backend Settings and use `language=vi`. Do not repeat account/credit checks as a planning dependency. The first actual request still supplies its real success/error result. Configure the key locally, not in chat.
+The user confirms that Deepgram API access is ready. <strong style="color:#087789;">The implementation must accept the API key in backend Settings</strong> and use `language=vi`. Do not repeat account/credit checks as a planning dependency. The first actual request still supplies its real success/error result. <strong style="color:#946200;">Configure the key locally, not in chat.</strong>
 
 ## 2. Fixed experiment rules
 
-1. Keep B01–B04 and all saved predictions. Use new IDs N01–N07 and new output directories for new work. Do not overwrite a prior run.
+1. <strong style="color:#946200;">Keep B01–B04 and all saved predictions.</strong> Use new IDs N01–N07 and new output directories for new work. Do not overwrite a prior run.
 2. Use WER_ws as the primary text metric. It counts whitespace units, often Vietnamese syllables. Use CER as a secondary metric. Neither metric proves that meaning is correct.
 3. Keep the current scorer for the first new comparison: Unicode NFC, lower case, punctuation replaced by spaces, repeated spaces removed. Keep accents and digits. For CER, remove spaces. Thus `25` and `hai mươi lăm` remain different. Store raw and normalized text. Do not use an engine-specific text correction before scoring.
 4. For valid audio with an error or timeout, retain the record and status. Score a missing transcript as empty. Give completion counts with the score. For non-speech audio, count nonempty final captions per audio minute. Do not divide WER by an empty reference.
@@ -38,7 +38,7 @@ Before selecting an engine, reserve a practical new set: 10 development utteranc
 
 Use one foreground speaker near the device, seated or standing. The user and the group are from Da Nang; prioritize their Central Vietnamese speech. Measure the actual mouth-to-microphone distance for each session; do not invent a distance from the user's description. Start in a quiet indoor room. Do not promise separation of overlapping speakers. To test noise, use matched sentences and the same speaker/distance with recorded conditions. Keep the collection small enough for the deadline.
 
-Before opening evaluation predictions, freeze the candidate configuration and provisional engineering targets. Proposed targets are: at least 95% of speech inputs complete, corpus local RTF below 1 for continuous use, and final subtitle delay p95 at most 3 seconds for short utterances. These are proposed prototype targets, not measured results or a confirmed user requirement. Agree or revise them before the selection run. Report the sample count; p95 from a small set is descriptive.
+Before opening evaluation predictions, freeze the candidate configuration and provisional engineering targets. Proposed targets are: at least 95% of speech inputs complete, corpus local RTF below 1 for continuous use, and final subtitle delay p95 at most 3 seconds for short utterances. <strong style="color:#946200;">These are proposed prototype targets, not measured results or a confirmed user requirement.</strong> Agree or revise them before the selection run. Report the sample count; p95 from a small set is descriptive.
 
 Choose the lowest development WER_ws among candidates that meet the agreed completion, latency and resource limits. Use CER and manual checks of numbers, names and negation to explain differences. Predefine the manual reference checks. If no engine passes the limits, report that outcome and offer an explicit per-utterance mode. Do not remove Whisper-base because it is slow. Freeze the choice before evaluation; do not select again from evaluation errors.
 
@@ -54,7 +54,7 @@ Choose the lowest development WER_ws among candidates that meet the agreed compl
 | 6 / N06 | Agent and user: freeze settings, then evaluate reserved audio and live behavior. Test playback with capture enabled. | Checked references, frozen settings, physical speaker if testing echo | Raw predictions, per-segment timestamps, scores, failures, resource readings and selection outcome. Do not claim an echo test passed with headphones. If echo causes a problem, register an AEC condition and retain raw/processed audio for comparison. |
 | 7 / N07 | Agent: finish reproducible startup, STT telemetry and application update checks. | N02–N06 or explicit failure status; MQTT endpoint and update package | Clean-start check, session/version/error status on the dashboard, one verified application update and failure recovery. Keep an unavailable service explicit. |
 
-Dependencies are gates, not promises that a blocked stage finishes on a calendar day. Agent-only code and fixture tests can proceed while an account or Pi session is unavailable. Do not deploy to the Pi or start model runs from this document without checking their required inputs.
+Dependencies are gates, not promises that a blocked stage finishes on a calendar day. Agent-only code and fixture tests can proceed while an account or Pi session is unavailable. <strong style="color:#946200;">Do not deploy to the Pi or start model runs from this document without checking their required inputs.</strong>
 
 For N02, propose a 300-second per-file limit and a 45-minute per-engine session limit. Ask the user to accept or change these limits before the Pi run. Use a separate benchmark process so a timeout can end a blocked worker and preserve its log. A timeout is an outcome, not a reason to rename tiny as base. Do not use the old Whisper CLI-per-file timer as a warm-model measurement.
 
@@ -66,11 +66,11 @@ The capture callback writes a small block and returns. A separate worker sends o
 
 Each session has a unique ID. Each subtitle segment has a stable ID and audio start/end times. An interim event replaces the current provisional text for that segment. A final event commits that segment once. Late events from an old session cannot change the new session. A local engine that returns only complete segments must declare that capability; do not invent provisional words.
 
-Stop closes capture, sends any permitted pending audio, requests engine finalization, and waits for final results until a defined timeout. Show `finalizing` during this wait. Then close the session. If finalization fails, preserve the last confirmed text, mark the segment incomplete and show the error. Stop is separate from clearing subtitles and from stopping TTS playback.
+<strong style="color:#087789;">Stop closes capture</strong>, sends any permitted pending audio, requests engine finalization, and waits for final results until a defined timeout. Show `finalizing` during this wait. Then close the session. If finalization fails, preserve the last confirmed text, mark the segment incomplete and show the error. Stop is separate from clearing subtitles and from stopping TTS playback.
 
-The first network-loss implementation must show the failure, preserve confirmed text and offer local restart. Do not silently transfer an active session to another engine or imply uninterrupted transcription. Automatic transfer remains an open product choice. Keep failed/cloud and new/local session IDs separate. Never put cloud credentials in browser code.
+The first network-loss implementation must show the failure, preserve confirmed text and offer local restart. Do not silently transfer an active session to another engine or imply uninterrupted transcription. Automatic transfer remains an open product choice. Keep failed/cloud and new/local session IDs separate. <strong style="color:#946200;">Never put cloud credentials in browser code.</strong>
 
-Implement versions in the approved order: V1 records then transcribes after Stop; V2 streams audio but displays text after Stop; V3 displays revisable interim text while recording and commits final text. Keep each earlier mode usable. Live interim text is the V3 requirement, not a condition for calling V1 complete. The engine capability must be explicit; an engine that only returns final segments cannot claim to provide word updates while the segment is still being recorded.
+Implement versions in the approved order: <strong style="color:#713DB0;">V1 records then transcribes after Stop</strong>; <strong style="color:#713DB0;">V2 streams audio but displays text after Stop</strong>; <strong style="color:#713DB0;">V3 displays revisable interim text while recording and commits final text</strong>. Keep each earlier mode usable. Live interim text is the V3 requirement, not a condition for calling V1 complete. The engine capability must be explicit; an engine that only returns final segments cannot claim to provide word updates while the segment is still being recorded.
 
 ## 6. Small monitoring stage
 
@@ -98,8 +98,8 @@ Verify exact Vietnamese language support, service model, region, terms and price
 
 | Version | Behavior | Completion gate |
 |---|---|---|
-| V1 | Record, Stop, transcribe; file/list input; Settings | A real recording yields one final transcript or a clear error. |
+| V1 | <strong style="color:#087789;">Record, Stop, transcribe; file/list input; Settings</strong> | <strong style="color:#087789;">A real recording yields one final transcript or a clear error.</strong> |
 | V2 | Stream audio while recording; display final transcript after Stop | Capture/send/receive do not block each other; Stop preserves the audio tail and final text. |
 | V3 | Show revisable interim text and committed final segments | Replacement, event ordering, duplicate prevention and late results pass tests. |
 
-Complete V1 before V2, and V2 before V3. Experimental WER_ws, CER, timing, RTF and RAM remain research measurements. They do not add a product resource-management system. Do not use library adoption as evidence that a provider has better recognition quality. Compare the actual configurations on the same data.
+<strong style="color:#713DB0;">Complete V1 before V2, and V2 before V3.</strong> Experimental WER_ws, CER, timing, RTF and RAM remain research measurements. They do not add a product resource-management system. Do not use library adoption as evidence that a provider has better recognition quality. Compare the actual configurations on the same data.
