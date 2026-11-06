@@ -17,7 +17,7 @@ Build STT only: microphone or files -> local/cloud recognizer -> subtitles in a 
 
 Final product decision (2026-11-06): **touchscreen and kiosk mode**. The Pi must start the STT interface in full screen after boot, with normal operation by touch. Use the laptop for development and initial V1 testing. The screen model is not selected; physical touchscreen/kiosk acceptance comes at device integration. Keep V1 before V2/V3.
 
-**Display sequence: stabilize HDMI + USB touch before evaluating DSI as an optional upgrade.** Keep the working HDMI configuration; verify Pi 4/OS/cable/power compatibility and repeat screen, touch, on-screen entry and kiosk boot checks before accepting DSI. Neither display path has been tested in this chat. See `STT_BOM.md` for purchase research and limits.
+**Display sequence: stabilize HDMI + USB touch before evaluating DSI as an optional upgrade.** Keep the working HDMI configuration; verify Pi 4/OS/cable/power compatibility and repeat screen, touch, on-screen entry and kiosk boot checks before accepting DSI. Neither display path has been tested in this chat. See the dedicated HDMI + USB section in `STT_BOM.md` for the first screen, micro-HDMI cable, USB touch data cable and model-specific power; DSI purchase research follows that section. Screen model and price are not selected.
 
 ==**Approved stack (2026-11-07): React + TypeScript + Tailwind CSS, Next.js/Node.js, and Electron.**== Use a shared UI for laptop development/browser checks and the final Pi desktop application. On the device, Electron opens the local Next.js UI; Node.js manages Pi capture, Settings and Deepgram. Keep keys on the backend. See `STT_SYSTEM_SPEC.md` for the architecture and desktop verification gates.
 

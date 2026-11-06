@@ -10,6 +10,8 @@ Build this path: ==microphone or recorded files -> speech-to-text engine -> subt
 
 ==**Display integration order (2026-11-06): stabilize HDMI video + USB touch first; consider DSI later as an optional upgrade.**== Screen interface changes do not change the approved V1/V2/V3 order. Before a DSI switch, keep the working HDMI configuration and verify the exact Pi 4/OS/display/cable combination, then repeat display, touch, on-screen input and kiosk startup checks. Neither display path is reported as tested yet.
 
+**HDMI + USB hardware set:** one compatible touchscreen, a Pi 4 micro-HDMI-to-display cable, a USB data cable for touch, and the screen power arrangement specified by its model. The connector path is selected for first device integration; screen model, price and exact cable ends remain unselected. See the dedicated HDMI + USB section in `STT_BOM.md`.
+
 Allow microphone capture during text-to-speech (TTS) playback. First test the actual audio. Add acoustic echo cancellation (AEC) if speaker audio causes a problem. Do not use microphone muting as the default design. Headphones can test playback, but cannot prove that speaker echo is controlled.
 
 Use the existing Pi, webcam microphone, headphones and laptop first. Build only the STT application in this project. Do not require code or interfaces from another recognition application. Test capture during playback only when an actual playback source is available.
