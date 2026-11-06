@@ -1,6 +1,6 @@
 # STT: continue here
 
-Updated: 2026-11-04. Deadline: Thursday, 2026-11-05.
+Updated: 2026-11-07. Original target: Thursday, 2026-11-05 (past); no replacement deadline has been agreed.
 
 Keep the active project at `C:\Users\LAPTOP T&T\VIOLETTA\Documents\ChatGPT\PBL6`. The user explicitly cancelled relocation to drive D. The attempted relocation stopped during source hashing, before copying or source removal. `D:\PBL6_STT` was not created. The temporary migration script is disabled. The earlier archive of 48 backup files is a separate completed operation.
 
@@ -18,6 +18,10 @@ Build STT only: microphone or files -> local/cloud recognizer -> subtitles in a 
 Final product decision (2026-11-06): **touchscreen and kiosk mode**. The Pi must start the STT interface in full screen after boot, with normal operation by touch. Use the laptop for development and initial V1 testing. The screen model is not selected; physical touchscreen/kiosk acceptance comes at device integration. Keep V1 before V2/V3.
 
 **Display sequence: stabilize HDMI + USB touch before evaluating DSI as an optional upgrade.** Keep the working HDMI configuration; verify Pi 4/OS/cable/power compatibility and repeat screen, touch, on-screen entry and kiosk boot checks before accepting DSI. Neither display path has been tested in this chat. See `STT_BOM.md` for purchase research and limits.
+
+==**Approved stack (2026-11-07): React + TypeScript + Tailwind CSS, Next.js/Node.js, and Electron.**== Use a shared UI for laptop development/browser checks and the final Pi desktop application. On the device, Electron opens the local Next.js UI; Node.js manages Pi capture, Settings and Deepgram. Keep keys on the backend. See `STT_SYSTEM_SPEC.md` for the architecture and desktop verification gates.
+
+**Next implementation target: V1 with Deepgram. N02 remains unfinished research, not a prerequisite for V1.** Complete N02 before using local timing/RTF to compare speed or choose a local engine based on speed. Preserve B01–B04 and the documented timing-scope limitations.
 
 Settings includes cloud configuration, enabled local engines, active engine, capture source, subtitle options, segmentation, recovery, retention and installed software version. The STT IoT path covers application/session/error/version telemetry, dashboard and an actual application OTA update. ThingsBoard is a candidate, not a previously confirmed platform. Device resource dashboards and arbitrary remote controls are outside the current product scope.
 

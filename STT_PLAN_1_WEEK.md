@@ -1,6 +1,6 @@
 # STT work plan to 5 November 2026
 
-Updated: 2026-11-04. Deadline: Thursday, 2026-11-05. Keep the active project at `C:\Users\LAPTOP T&T\VIOLETTA\Documents\ChatGPT\PBL6`. Do not relocate it to drive D. Use this file for new STT work. Keep `PLAN_DEMO_STT_7_BUOI.md` as the previous plan. Use `STT_SYSTEM_SPEC.md` for behavior and `STT_SHIFT_HANDOFF.md` for sequential work by five people.
+Updated: 2026-11-07. Original target: Thursday, 2026-11-05 (past); no replacement deadline has been agreed. Keep the active project at `C:\Users\LAPTOP T&T\VIOLETTA\Documents\ChatGPT\PBL6`. Do not relocate it to drive D. Use this file for new STT work. Keep `PLAN_DEMO_STT_7_BUOI.md` as the previous plan. Use `STT_SYSTEM_SPEC.md` for behavior and `STT_SHIFT_HANDOFF.md` for sequential work by five people.
 
 ## 1. Scope and dependencies
 
@@ -14,11 +14,19 @@ Allow microphone capture during text-to-speech (TTS) playback. First test the ac
 
 Use the existing Pi, webcam microphone, headphones and laptop first. Build only the STT application in this project. Do not require code or interfaces from another recognition application. Test capture during playback only when an actual playback source is available.
 
-Complete integration and verification by Thursday, 5 November 2026. Use five sequential shifts as specified in `STT_SHIFT_HANDOFF.md`. Each person must leave a runnable command, test result and next action. Do not treat five people as five independent implementations.
+The original integration target was Thursday, 5 November 2026; it is now past and is not evidence of completion. Use five sequential shifts as specified in `STT_SHIFT_HANDOFF.md`. Each person must leave a runnable command, test result and next action. Do not treat five people as five independent implementations.
 
 Include a small IoT path for STT session state, processing errors, software version and update status. MQTT, a cloud dashboard and over-the-air application updates are relevant. ThingsBoard is a platform candidate, not a previously confirmed platform choice. Do not build CPU/RAM dashboards or unrelated remote controls. See `STT_SYSTEM_SPEC.md` for the data contract.
 
 The user confirms that Deepgram API access is ready. ==**The implementation must accept the API key in backend Settings**== and use `language=vi`. Do not repeat account/credit checks as a planning dependency. The first actual request still supplies its real success/error result. ==Configure the key locally, not in chat.==
+
+### Selected software stack and next implementation target — 2026-11-07
+
+==**Approved stack (2026-11-07): React + TypeScript + Tailwind CSS, Next.js/Node.js, and Electron.**== Use one shared UI in the laptop browser/development environment and the Electron desktop application. The final Pi runs the Node.js backend and Electron kiosk; capture uses the selected Pi microphone. Backend Settings holds the Deepgram key. Do not add FastAPI as the default V1 backend. The application structure is defined in `STT_SYSTEM_SPEC.md`; exact versions/build tooling remain implementation decisions.
+
+**Proceed with V1 Deepgram before V2/V3. N02 is still unfinished research and does not block V1.** The historical Whisper and Zipformer timing scopes differ; finish N02 before a speed comparison or speed-based local-engine selection. Keep the existing measurement protocol and B01–B04 results.
+
+V1 implementation order: backend Settings and one-file Deepgram request -> batch results/error handling -> selected Pi microphone Record/Stop -> shared UI and Electron launch -> fixture tests and real API/Pi checks. Desktop packaging must distinguish Windows development and Linux ARM64 device builds; final touchscreen/kiosk checks remain device integration work. A clean startup command and trial instructions must accompany the implemented version.
 
 ## 2. Fixed experiment rules
 

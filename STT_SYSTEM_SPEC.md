@@ -1,12 +1,12 @@
 # STT behavior and IoT scope
 
-Updated: 2026-11-04. Active workspace: `C:\Users\LAPTOP T&T\VIOLETTA\Documents\ChatGPT\PBL6`. Deadline: Thursday, 2026-11-05. This is a specification; ==it does not assert that these functions have been implemented.==
+Updated: 2026-11-07. Active workspace: `C:\Users\LAPTOP T&T\VIOLETTA\Documents\ChatGPT\PBL6`. Original target: Thursday, 2026-11-05 (past); no replacement deadline has been agreed. This is a specification; ==it does not assert that these functions have been implemented.==
 
 ## Final device: touchscreen and kiosk (confirmed 2026-11-06)
 
 ==**The final tabletop product uses a touchscreen and kiosk mode.**== Normal user operation must work by touch, including Record/Stop and Settings. Provide on-screen text entry when a field requires typing; essential actions must not depend on mouse hover.
 
-The target deployment runs the STT backend and a browser on the Pi. After boot, the backend starts and the browser opens the STT interface in full screen on the attached touchscreen. The Pi microphone remains the capture source selected by the user. The laptop remains the development and initial V1 test interface.
+The target deployment runs the Next.js/Node.js STT backend and Electron on the Pi. After boot, the backend starts and Electron opens the local STT interface in kiosk mode on the attached touchscreen. The Pi microphone remains the capture source selected by the user. The laptop remains the development and initial V1 test interface.
 
 The device integration gate is a real boot into the STT interface followed by touch-only Record/Stop, Settings, final transcript/error display and required text entry on the chosen screen. Kiosk mode and touchscreen operation are requirements, not implemented or verified features. Screen model, size, connection and power are not selected yet. Complete the V1/V2/V3 gates in order.
 
@@ -15,6 +15,26 @@ The device integration gate is a real boot into the STT interface followed by to
 ==**First establish a stable HDMI display + USB touch configuration, then consider DSI.**== The HDMI gate covers a cold boot into kiosk, readable subtitles, correctly aligned touch including after rotation, touch-only Record/Stop and Settings, required on-screen text entry, and a real STT session with the webcam microphone. Record the screen, cables, power and OS configuration used. These are acceptance checks, not completed tests.
 
 DSI is a later hardware-integration option. Keep the web UI, STT session contract, backend and Deepgram configuration independent of the display connector. Changing to a different screen may require UI layout adjustments, OS display/touch configuration, power and enclosure work. Save the working HDMI configuration before switching; repeat the same acceptance checks on DSI and retain a documented route back to HDMI. Do not assume that every DSI panel works with Pi 4 or the installed OS.
+
+## Approved application architecture — 2026-11-07
+
+==**React + TypeScript + Tailwind CSS build the UI; Next.js/Node.js runs the application backend; Electron provides the desktop application and kiosk window.**== This is the selected stack. Do not default to the earlier FastAPI/plain-JavaScript proposal. Exact dependency versions and packaging tools must be pinned and checked during implementation.
+
+| Layer | Responsibility |
+|---|---|
+| React + TypeScript | Recording controls, session state, per-file/batch status, transcript/error display and Settings. |
+| Tailwind CSS | Touch-friendly layout, readable subtitles and controls that work without hover. |
+| Next.js/Node.js backend | Authoritative sessions, validated Settings, selected capture device, audio/file handling and provider requests. Keep capture work separate from network waits. |
+| Electron | Load the local application UI in a desktop window; support the final device kiosk experience and desktop lifecycle. |
+| Pi OS and audio/display support | Expose the actual microphone and touchscreen; start the backend and desktop application after boot. |
+
+On the final device, the Next.js/Node.js backend and Electron run on the Pi. The OS starts the backend; Electron loads its local UI when ready. The backend controls the selected Pi microphone through a Pi capture adapter. For V1: Record -> capture -> Stop -> finish the audio file -> backend sends a prerecorded request to Deepgram with `language=vi` -> final transcript or explicit error. A file or batch uses the same provider interface, with independent status/results per file. Electron does not add streaming to V1.
+
+During development, run the application on the laptop. For device tests, the laptop browser may open the shared UI served by the Pi backend; the selected capture source remains on the Pi. A laptop desktop build must identify which backend it controls and must not silently switch to its own microphone. This is one application with a shared UI and contracts, not separate desktop and web implementations.
+
+Enter the Deepgram key through Settings and keep it on the backend machine. Return only redacted configuration/key-presence status; do not persist or expose the key in browser storage, Electron renderer code or logs. Future local engines may use separate Python/native adapters when required; the historical Python experiment scripts remain unchanged and do not require a FastAPI service for V1.
+
+Desktop verification must distinguish Windows laptop builds from Linux ARM64 Pi builds. Verify production startup, backend readiness/failure, close/restart cleanup, touch input and on-screen keyboard, and boot into Electron kiosk on the actual Pi at device integration. Package updates must cover the Electron application and its backend together. Hardware/runtime support, startup time, resource use and touch responsiveness are not established by selecting this stack.
 
 ## Input and text
 

@@ -1,6 +1,6 @@
 # Sequential STT work until Thursday
 
-Updated: 2026-11-04. Deadline: Thursday, 2026-11-05. Keep this Git repository and active STT data in the current C-drive workspace. Read `AGENTS.md`, `STT_PLAN_1_WEEK.md` and `STT_SYSTEM_SPEC.md` first.
+Updated: 2026-11-07. Original target: Thursday, 2026-11-05 (past); no replacement deadline has been agreed. Keep this Git repository and active STT data in the current C-drive workspace. Read `AGENTS.md`, `STT_PLAN_1_WEEK.md` and `STT_SYSTEM_SPEC.md` first.
 
 ## Current entry point
 
@@ -12,15 +12,17 @@ Final-device decision confirmed 2026-11-06: ==**touchscreen interaction and kios
 
 Display sequence: **validate HDMI + USB touch first; DSI is a later optional upgrade**. Keep the successful HDMI configuration and actual test record. Check the candidate DSI screen against Pi 4 and the installed OS, then retest touch, orientation, on-screen entry, boot/kiosk and a real STT session. DSI procurement and switching must not block initial V1 work.
 
+==**Approved stack (2026-11-07): React + TypeScript + Tailwind CSS, Next.js/Node.js, and Electron.**== Implement V1 through the shared Node.js backend/UI and Electron desktop, using `STT_SYSTEM_SPEC.md` as the architecture contract. N02 is unfinished research; it does not block V1 Deepgram, but must precede speed comparisons or speed-based selection of local engines.
+
 ## Five people, one sequence
 
 These are work roles, not five people already assigned or running. The user can hand the next role to another person. ==Use one application and one set of contracts.== Do not create independent replacement projects.
 
 | Shift | Owner role and suggested slot | Deliverable and gate to the next shift |
 |---|---|---|
-| 1 | Engine/data owner; next available session, 4 November | Prepare local/file interfaces and provider configuration. Keep C0 Whisper-base and C1 Zipformer distinct. Add same-WAV file/list tests and error records. Set aside new development/evaluation recordings before engine selection. Deepgram uses `language=vi`; the user confirms API access is ready. The user enters the key locally when Settings is available. |
+| 1 | Engine/data owner; next available session, 4 November | Prepare Node.js file/provider interfaces and backend Settings for V1 Deepgram; retain explicit readiness/capabilities for future local adapters. Keep C0 Whisper-base and C1 Zipformer distinct. Add same-WAV file/list tests and error records. Set aside new development/evaluation recordings before engine selection. Deepgram uses `language=vi`; the user confirms API access is ready. The user enters the key locally when Settings is available. |
 | 2 | Live-audio owner; after shift 1, 4 November | ==**First finish V1 Pi recording and Stop.**== Then add V2 realtime sending, bounded queues and finalization. ==Add V3 interim events only after V2 passes.== Test errors and finalization using fixtures before API/Pi execution. A final-only local engine declares its capability. Leave exact Pi launch instructions. |
-| 3 | Web/Settings owner; after shift 2, 4–5 November | ==**Build Settings and V1 final text first.**== Then connect V2 final-only streaming and V3 interim text in that order. Verify partial replacement, final commit, stale-session rejection, engine toggles, secret redaction and microphone location. Test file input and a file list through the same selected engine interface. |
+| 3 | Web/Settings owner; after shift 2, 4–5 November | ==**Build Settings and V1 final text first.**== Use React/TypeScript, Tailwind CSS and Next.js; connect Electron to the shared UI/backend and distinguish Windows from Linux ARM64 build checks. Then connect V2 final-only streaming and V3 interim text in that order. Verify partial replacement, final commit, stale-session rejection, engine toggles, secret redaction and microphone location. Test file input and a file list through the same selected engine interface. |
 | 4 | IoT/update owner; after shift 3, 4 November | Send the defined application telemetry to MQTT and show it on a dashboard. Check ThingsBoard setup against the available PC/server. Implement one small application update with verification, health check, rollback and reported version. Keep failed updates explicit. |
 | 5 | Integration/evaluation owner; after shift 4, 5 November | Run clean startup, actual Pi capture, cloud/local failures and same-data comparison. Freeze the chosen settings before evaluation. Check Central Vietnamese desktop speech. Test live text and Stop using real audio. Preserve failures/timeouts and distinguish unavailable functions from completed ones. |
 
@@ -53,4 +55,4 @@ Next command to run:
 
 ==No new purchase is required before software work starts.== Use `STT_BOM.md` to compare options before choosing any purchase ceiling.
 
-The current date is 4 November. The five roles are sequential handoffs, not proof that earlier dated work was completed. Preserve the Thursday deadline; record any unfinished stage honestly.
+The update date is 7 November. Dates in the role table are historical suggested slots, not a new schedule or proof of completion. Record unfinished stages honestly; no replacement deadline has been agreed.

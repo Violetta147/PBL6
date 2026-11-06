@@ -28,6 +28,10 @@ Ngày 02/11/2026. Đây là một BOM dùng chung cho các mốc phát triển. 
 
 ==**Sản phẩm cuối dùng màn hình cảm ứng và chế độ kiosk.**== Khi bật thiết bị, Pi tự mở giao diện STT toàn màn hình; người dùng thao tác bằng chạm. Tiếp tục dùng laptop để phát triển và kiểm thử V1 trước. Chưa chọn kích thước, model, cổng kết nối, cáp hoặc nguồn; kiểm thử cảm ứng và khởi động kiosk trên phần cứng thực tế ở bước tích hợp thiết bị.
 
+## Phần mềm cho màn hình cảm ứng — chốt 07/11/2026
+
+==**Ứng dụng dùng React + TypeScript + Tailwind CSS, Next.js/Node.js và Electron.**== Trên thiết bị cuối, Pi chạy backend và Electron mở giao diện STT ở kiosk mode. Tiếp tục dùng laptop cho phát triển/kiểm thử ban đầu; ổn định HDMI + USB touch trước DSI. Lựa chọn stack không thay đổi cáp/nguồn cần mua theo đúng model màn. Kiểm thử cảm ứng, bàn phím ảo và khởi động kiosk với bản Linux ARM64 thực tế; chưa có kết quả chạy thiết bị.
+
 ## DSI là phương án nâng cấp sau HDMI + USB — khảo sát 06/11/2026
 
 ==**Ổn định HDMI + USB cảm ứng trước; chỉ cân nhắc DSI sau đó.**== Đây là thứ tự tích hợp đã được người dùng xác nhận, chưa phải báo cáo HDMI đã chạy ổn định hay quyết định mua màn DSI. Tiếp tục kiểm thử V1 trên laptop trước bước tích hợp màn thiết bị.
