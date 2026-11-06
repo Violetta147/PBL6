@@ -10,7 +10,7 @@ Use [the current work plan](../../STT_PLAN_1_WEEK.md) and [the single BOM](../..
 
 ## Verification
 
-==The existing suite passed 22 tests, zero failures==, with `data\stt_venv\Scripts\python.exe -m unittest discover -s experiments/tests -v`. It checks scoring, audio preparation, Qwen GPU policy, notebook behavior and measurement helpers. ==It is not a live STT check.==
+==**The existing suite passed 22 tests, zero failures**==, with `data\stt_venv\Scripts\python.exe -m unittest discover -s experiments/tests -v`. It checks scoring, audio preparation, Qwen GPU policy, notebook behavior and measurement helpers. ==**It is not a live STT check.**==
 
 All four audio manifests matched local WAV hashes: pilot10, FLEURS dev100, self dev20 and paired self dev4. The public test manifest contains 200 reserved IDs, not restored test audio or reference text.
 
@@ -31,8 +31,8 @@ All 48 archived backup files matched destination hashes and sizes: 5,843,130 byt
 - Laptop CPU and Colab A100 quality outputs use the same audio, but their timings are not a controlled hardware comparison.
 - Zipformer/Pi has two full passes with one model setup per pass. ==Whisper-base/Pi has one-file smoke only.== Tiny is a different checkpoint. The Whisper CLI starts per WAV; its timer scope differs from Zipformer ASR-call and full-runner scopes. ==No speedup ratio follows from these different scopes.== Backend `load_seconds` is broader than isolated weight load. GPU synchronization already exists.
 - The old `whisper_protocol.md` permits stopping at base smoke. The later plan retains base as a baseline. N02 must use a stated run limit and new IDs, without rewriting old results as complete.
-- The Zipformer runtime is an offline recognizer. Segmentation can feed it, but does not make it native streaming. ==Saved file results do not measure live subtitle delay, Stop or connection-failure behavior.==
-- ==No measured cloud API output was found in the historical inventory.== Current provider decisions are in the main plan.
+- The Zipformer runtime is an offline recognizer. Segmentation can feed it, but does not make it native streaming. ==**Saved file results do not measure live subtitle delay, Stop or connection-failure behavior.**==
+- ==**No measured cloud API output was found in the historical inventory.**== Current provider decisions are in the main plan.
 - The newer discussion confirms webcam capture and headphone playback on Pi. Old statements that no microphone is available are stale. This is historical user-confirmed evidence, not a device test performed in this chat.
 - `iot` contains one PowerPoint file; no STT service or firmware source was found there. Keep it. Its presence does not establish that integration exists.
 - Drive receipts describe 2026-10-15 checks; they do not prove current cloud synchronization. This inventory made no cloud changes or cloud revalidation.

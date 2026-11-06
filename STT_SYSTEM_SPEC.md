@@ -4,19 +4,19 @@ Updated: 2026-11-04. Active workspace: `C:\Users\LAPTOP T&T\VIOLETTA\Documents\C
 
 ## Input and text
 
-==Capture on the Pi for the device path.== Show the selected capture source in the web application on the laptop. ==A laptop browser must not silently substitute its own microphone.== ==Support live capture, record-once capture, one file and a file list.== A cloud service can process a file. A local engine can work without Internet after its model is installed.
+==**Capture on the Pi for the device path.**== Show the selected capture source in the web application on the laptop. ==A laptop browser must not silently substitute its own microphone.== ==Support live capture, record-once capture, one file and a file list.== A cloud service can process a file. A local engine can work without Internet after its model is installed.
 
 Support one foreground speaker at near-device distance, seated or standing. The group is from Da Nang; prioritize their Central Vietnamese speech. Record the actual distance in experiments. Do not claim overlapping-speaker separation. One microphone can contain several voices; separate online meeting participants can instead supply separate source streams. That is a different input contract.
 
 Each session has a unique ID. Each segment has an ID, audio time range and revision. ==Replace provisional text for that segment. Commit final text once.== Reject late events from an earlier session. Do not append each provisional hypothesis to the final transcript.
 
-==Stop ends capture==, sends the permitted pending audio, requests provider finalization and waits for a bounded time. Show `finalizing`. ==On timeout, retain confirmed text and mark the pending part incomplete.== Keep Stop, clear-text and file-save as separate actions. The capture callback must not wait for a provider or MQTT response.
+==**Stop ends capture**==, sends the permitted pending audio, requests provider finalization and waits for a bounded time. Show `finalizing`. ==**On timeout, retain confirmed text and mark the pending part incomplete.**== Keep Stop, clear-text and file-save as separate actions. The capture callback must not wait for a provider or MQTT response.
 
 ## Settings
 
 | Group | Controls | Application rule |
 |---|---|---|
-| Cloud engine | Deepgram enable, API key, test connection, model, `language=vi` | ==Store the key on the backend and redact it from responses/logs.== The user confirms access is ready; report the actual first request result. |
+| Cloud engine | Deepgram enable, API key, test connection, model, `language=vi` | ==**Store the key on the backend and redact it from responses/logs.**== The user confirms access is ready; report the actual first request result. |
 | Local engines | Enable/disable, model directory, readiness, compute threads | Enabled and currently selected are separate states. Show missing model/runtime. Do not trigger a large model download from a toggle without stating the download. |
 | Capture | Pi audio device, input level, supported format, capture mode | Verify the actual device format and convert when necessary. Show which machine captures audio. |
 | Subtitles | Live provisional text, final text, font size, line length | The UI must distinguish provisional text from confirmed text. Capability depends on the engine. |
@@ -57,9 +57,9 @@ Firmware is relevant when an MCU has a defined task such as a physical input con
 
 ## Active provider and version order
 
-==Use Deepgram== with `language=vi`. The user confirms that API access is ready. Provide the key input in backend Settings. Keep local engines available as separate configurations. No executable decompilation is needed.
+==**Use Deepgram**== with **`language=vi`**. The user confirms that API access is ready. Provide the key input in backend Settings. Keep local engines available as separate configurations. No executable decompilation is needed.
 
-==Implement V1 record-then-transcribe, V2 streaming audio with final-only display, and V3 streaming audio with interim/final display, in that order.== Retain the earlier modes and test each gate before progressing.
+==Implement V1 record-then-transcribe, V2 streaming audio with final-only display, and V3 streaming audio with interim/final display, in that order.== **Retain the earlier modes and test each gate before progressing.**
 
 Official provider reference: https://developers.deepgram.com/docs/models-languages-overview
 

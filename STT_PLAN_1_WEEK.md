@@ -4,7 +4,7 @@ Updated: 2026-11-04. Deadline: Thursday, 2026-11-05. Keep the active project at 
 
 ## 1. Scope and dependencies
 
-Build this path: ==microphone or recorded files -> speech-to-text engine -> subtitles in a web application==. Open the application on the laptop. ==Use the Pi microphone for the device path.== ==Test one file and a list of files.== Test local engines and Deepgram with `language=vi`. Keep the engine choice open until the comparison is complete.
+Build this path: ==microphone or recorded files -> speech-to-text engine -> subtitles in a web application==. Open the application on the laptop. ==Use the Pi microphone for the device path.== ==**Test one file and a list of files.**== Test local engines and **Deepgram with `language=vi`**. Keep the engine choice open until the comparison is complete.
 
 Allow microphone capture during text-to-speech (TTS) playback. First test the actual audio. Add acoustic echo cancellation (AEC) if speaker audio causes a problem. Do not use microphone muting as the default design. Headphones can test playback, but cannot prove that speaker echo is controlled.
 
@@ -14,11 +14,11 @@ Complete integration and verification by Thursday, 5 November 2026. Use five seq
 
 Include a small IoT path for STT session state, processing errors, software version and update status. MQTT, a cloud dashboard and over-the-air application updates are relevant. ThingsBoard is a platform candidate, not a previously confirmed platform choice. Do not build CPU/RAM dashboards or unrelated remote controls. See `STT_SYSTEM_SPEC.md` for the data contract.
 
-The user confirms that Deepgram API access is ready. ==The implementation must accept the API key in backend Settings== and use `language=vi`. Do not repeat account/credit checks as a planning dependency. The first actual request still supplies its real success/error result. ==Configure the key locally, not in chat.==
+The user confirms that Deepgram API access is ready. ==**The implementation must accept the API key in backend Settings**== and use `language=vi`. Do not repeat account/credit checks as a planning dependency. The first actual request still supplies its real success/error result. ==Configure the key locally, not in chat.==
 
 ## 2. Fixed experiment rules
 
-1. ==Keep B01–B04 and all saved predictions.== Use new IDs N01–N07 and new output directories for new work. Do not overwrite a prior run.
+1. ==**Keep B01–B04 and all saved predictions.**== Use new IDs N01–N07 and new output directories for new work. Do not overwrite a prior run.
 2. Use WER_ws as the primary text metric. It counts whitespace units, often Vietnamese syllables. Use CER as a secondary metric. Neither metric proves that meaning is correct.
 3. Keep the current scorer for the first new comparison: Unicode NFC, lower case, punctuation replaced by spaces, repeated spaces removed. Keep accents and digits. For CER, remove spaces. Thus `25` and `hai mươi lăm` remain different. Store raw and normalized text. Do not use an engine-specific text correction before scoring.
 4. For valid audio with an error or timeout, retain the record and status. Score a missing transcript as empty. Give completion counts with the score. For non-speech audio, count nonempty final captions per audio minute. Do not divide WER by an empty reference.
@@ -34,9 +34,9 @@ The user confirms that Deepgram API access is ready. ==The implementation must a
 
 Use the existing pilot and development sets to check code and settings. The existing public set is a selected FLEURS dev100 subset. The self dev20 set has one speaker, two bedroom recordings and eighteen cafe recordings. Do not use these different sentences to isolate noise effects. The Zipformer model card lists FLEURS as training data. Exact split/ID overlap has not been established.
 
-Before selecting an engine, reserve a practical new set: 10 development utterances, 20 evaluation utterances, and two minutes of non-speech audio. Ask the user to record these with the actual webcam microphone. Store original audio, reference, speaker/session, distance, environment and consent. The user must listen to and check the references. Keep development and evaluation sessions separate. Use a second speaker only if available; record the limitation if there is one speaker. Keep the 200 reserved public test IDs as a separate optional public comparison.
+Before selecting an engine, reserve a practical new set: 10 development utterances, 20 evaluation utterances, and two minutes of non-speech audio. Ask the user to record these with the actual webcam microphone. Store original audio, reference, speaker/session, distance, environment and consent. **The user must listen to and check the references.** Keep development and evaluation sessions separate. Use a second speaker only if available; record the limitation if there is one speaker. Keep the 200 reserved public test IDs as a separate optional public comparison.
 
-Use one foreground speaker near the device, seated or standing. The user and the group are from Da Nang; prioritize their Central Vietnamese speech. Measure the actual mouth-to-microphone distance for each session; do not invent a distance from the user's description. Start in a quiet indoor room. Do not promise separation of overlapping speakers. To test noise, use matched sentences and the same speaker/distance with recorded conditions. Keep the collection small enough for the deadline.
+Use one foreground speaker near the device, seated or standing. The user and the group are from Da Nang; **prioritize their Central Vietnamese speech**. Measure the actual mouth-to-microphone distance for each session; do not invent a distance from the user's description. Start in a quiet indoor room. Do not promise separation of overlapping speakers. To test noise, use matched sentences and the same speaker/distance with recorded conditions. Keep the collection small enough for the deadline.
 
 Before opening evaluation predictions, freeze the candidate configuration and provisional engineering targets. Proposed targets are: at least 95% of speech inputs complete, corpus local RTF below 1 for continuous use, and final subtitle delay p95 at most 3 seconds for short utterances. ==These are proposed prototype targets, not measured results or a confirmed user requirement.== Agree or revise them before the selection run. Report the sample count; p95 from a small set is descriptive.
 
@@ -98,8 +98,8 @@ Verify exact Vietnamese language support, service model, region, terms and price
 
 | Version | Behavior | Completion gate |
 |---|---|---|
-| V1 | ==Record, Stop, transcribe; file/list input; Settings== | ==A real recording yields one final transcript or a clear error.== |
+| V1 | ==**Record, Stop, transcribe; file/list input; Settings**== | ==**A real recording yields one final transcript or a clear error.**== |
 | V2 | Stream audio while recording; display final transcript after Stop | Capture/send/receive do not block each other; Stop preserves the audio tail and final text. |
 | V3 | Show revisable interim text and committed final segments | Replacement, event ordering, duplicate prevention and late results pass tests. |
 
-==Complete V1 before V2, and V2 before V3.== Experimental WER_ws, CER, timing, RTF and RAM remain research measurements. They do not add a product resource-management system. Do not use library adoption as evidence that a provider has better recognition quality. Compare the actual configurations on the same data.
+==**Complete V1 before V2, and V2 before V3.**== Experimental WER_ws, CER, timing, RTF and RAM remain research measurements. They do not add a product resource-management system. Do not use library adoption as evidence that a provider has better recognition quality. Compare the actual configurations on the same data.
