@@ -8,6 +8,8 @@ Inventory and planning exist. The historical experiment suite passed 22 tests. B
 
 An attempted project relocation was stopped during source hashing, before copying or source removal. `D:\PBL6_STT` was not created. The temporary migration script is disabled. Keep the active project here. The earlier 48-file backup archive is separate from that cancelled relocation.
 
+Final-device decision confirmed 2026-11-06: ==**touchscreen interaction and kiosk mode are required**==. Keep the laptop for development and initial V1 checks; later verify boot into the full-screen STT interface and normal operation by touch on the actual device. Screen hardware is not selected yet.
+
 ## Five people, one sequence
 
 These are work roles, not five people already assigned or running. The user can hand the next role to another person. ==Use one application and one set of contracts.== Do not create independent replacement projects.

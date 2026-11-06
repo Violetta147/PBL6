@@ -2,6 +2,14 @@
 
 Updated: 2026-11-04. Active workspace: `C:\Users\LAPTOP T&T\VIOLETTA\Documents\ChatGPT\PBL6`. Deadline: Thursday, 2026-11-05. This is a specification; ==it does not assert that these functions have been implemented.==
 
+## Final device: touchscreen and kiosk (confirmed 2026-11-06)
+
+==**The final tabletop product uses a touchscreen and kiosk mode.**== Normal user operation must work by touch, including Record/Stop and Settings. Provide on-screen text entry when a field requires typing; essential actions must not depend on mouse hover.
+
+The target deployment runs the STT backend and a browser on the Pi. After boot, the backend starts and the browser opens the STT interface in full screen on the attached touchscreen. The Pi microphone remains the capture source selected by the user. The laptop remains the development and initial V1 test interface.
+
+The device integration gate is a real boot into the STT interface followed by touch-only Record/Stop, Settings, final transcript/error display and required text entry on the chosen screen. Kiosk mode and touchscreen operation are requirements, not implemented or verified features. Screen model, size, connection and power are not selected yet. Complete the V1/V2/V3 gates in order.
+
 ## Input and text
 
 ==**Capture on the Pi for the device path.**== Show the selected capture source in the web application on the laptop. ==A laptop browser must not silently substitute its own microphone.== ==Support live capture, record-once capture, one file and a file list.== A cloud service can process a file. A local engine can work without Internet after its model is installed.

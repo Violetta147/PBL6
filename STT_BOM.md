@@ -17,12 +17,16 @@ Ngày 02/11/2026. Đây là một BOM dùng chung cho các mốc phát triển. 
 | Loa chủ động AUX hoặc USB audio | Chưa xác nhận có sẵn | Cần cho thử hội thoại qua loa. Tận dụng/mượn trước; nếu mua, xác minh đầu vào âm thanh, nguồn, phụ kiện và ngày nhận. LF-804 chỉ là ứng viên cũ, không có bằng chứng AEC trong hồ sơ. |
 | Micro USB thay thế | Chờ kiểm chứng nhu cầu | ==**Chỉ mua nếu webcam không đáp ứng bài thu thực tế.**== Chưa chốt model/giá hoặc yêu cầu micro đắt tiền. |
 | Bộ mic–loa có AEC hoặc AEC phần mềm | Đánh giá sau | ==Thử khi âm thanh loa lọt vào micro gây vấn đề.== Phải kiểm tra cả lúc người nói và loa cùng hoạt động. Chưa chọn giải pháp hoặc mua riêng. |
-| Touchscreen chính | Giai đoạn thiết bị độc lập | Chưa chốt kích thước/model. Dùng laptop trước theo quyết định cuối. |
+| Touchscreen chính | Giai đoạn thiết bị độc lập | Đã chốt cảm ứng + kiosk cho sản phẩm cuối; chưa chọn kích thước/model. Dùng laptop để phát triển và kiểm thử V1 trước. |
 | micro-HDMI -> HDMI | 1 đường hình ảnh nếu dùng màn HDMI | Kiểm tra cáp/adapter sẵn có và bộ phụ kiện trước mua. Không dùng để đưa desktop Pi lên laptop qua VNC/web. |
 | Cáp USB touch + nguồn màn | Theo đúng model màn | Là các đường riêng với HDMI. Không giả định Pi cấp đủ nguồn cho màn. |
 | Powered USB hub | Chờ kiểm tra tải/cổng | Chỉ thêm nếu thiếu cổng hoặc nguồn ngoại vi không đáp ứng. |
 
 **Đợt đầu: ==chưa xác định món bắt buộc phải mua mới để bắt đầu STT.==** Có thể làm kiểm thử phần mềm và thu bằng webcam đã có. Thử vọng âm thực tế còn phụ thuộc loa; ==không ghi là đã đạt chỉ từ bản thu webcam hoặc tai nghe.==
+
+## Quyết định màn hình sản phẩm cuối — 06/11/2026
+
+==**Sản phẩm cuối dùng màn hình cảm ứng và chế độ kiosk.**== Khi bật thiết bị, Pi tự mở giao diện STT toàn màn hình; người dùng thao tác bằng chạm. Tiếp tục dùng laptop để phát triển và kiểm thử V1 trước. Chưa chọn kích thước, model, cổng kết nối, cáp hoặc nguồn; kiểm thử cảm ứng và khởi động kiosk trên phần cứng thực tế ở bước tích hợp thiết bị.
 
 ## So sánh trước khi quyết định ngân sách
 
