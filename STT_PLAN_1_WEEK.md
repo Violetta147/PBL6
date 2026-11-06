@@ -8,6 +8,8 @@ Build this path: ==microphone or recorded files -> speech-to-text engine -> subt
 
 ==**Final product decision (2026-11-06): use a touchscreen and kiosk mode.**== The device must boot into the STT web interface in full screen, with normal operation by touch. Keep laptop-based development and V1 testing first; the final device display is a later integration gate, not a reason to skip V1/V2/V3 testing. Screen model, size, connection and power remain to be selected.
 
+==**Display integration order (2026-11-06): stabilize HDMI video + USB touch first; consider DSI later as an optional upgrade.**== Screen interface changes do not change the approved V1/V2/V3 order. Before a DSI switch, keep the working HDMI configuration and verify the exact Pi 4/OS/display/cable combination, then repeat display, touch, on-screen input and kiosk startup checks. Neither display path is reported as tested yet.
+
 Allow microphone capture during text-to-speech (TTS) playback. First test the actual audio. Add acoustic echo cancellation (AEC) if speaker audio causes a problem. Do not use microphone muting as the default design. Headphones can test playback, but cannot prove that speaker echo is controlled.
 
 Use the existing Pi, webcam microphone, headphones and laptop first. Build only the STT application in this project. Do not require code or interfaces from another recognition application. Test capture during playback only when an actual playback source is available.

@@ -17,6 +17,8 @@ Build STT only: microphone or files -> local/cloud recognizer -> subtitles in a 
 
 Final product decision (2026-11-06): **touchscreen and kiosk mode**. The Pi must start the STT interface in full screen after boot, with normal operation by touch. Use the laptop for development and initial V1 testing. The screen model is not selected; physical touchscreen/kiosk acceptance comes at device integration. Keep V1 before V2/V3.
 
+**Display sequence: stabilize HDMI + USB touch before evaluating DSI as an optional upgrade.** Keep the working HDMI configuration; verify Pi 4/OS/cable/power compatibility and repeat screen, touch, on-screen entry and kiosk boot checks before accepting DSI. Neither display path has been tested in this chat. See `STT_BOM.md` for purchase research and limits.
+
 Settings includes cloud configuration, enabled local engines, active engine, capture source, subtitle options, segmentation, recovery, retention and installed software version. The STT IoT path covers application/session/error/version telemetry, dashboard and an actual application OTA update. ThingsBoard is a candidate, not a previously confirmed platform. Device resource dashboards and arbitrary remote controls are outside the current product scope.
 
 The two earlier discussions have been read in full. A separate exporter chat completed a tool in Downloads, and another chat owns the dictation source study. Neither task blocks the STT implementation. New user decisions in the current documents take precedence over older exported conversations.

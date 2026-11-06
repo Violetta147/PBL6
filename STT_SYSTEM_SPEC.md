@@ -10,6 +10,12 @@ The target deployment runs the STT backend and a browser on the Pi. After boot, 
 
 The device integration gate is a real boot into the STT interface followed by touch-only Record/Stop, Settings, final transcript/error display and required text entry on the chosen screen. Kiosk mode and touchscreen operation are requirements, not implemented or verified features. Screen model, size, connection and power are not selected yet. Complete the V1/V2/V3 gates in order.
 
+### HDMI baseline and optional DSI upgrade
+
+==**First establish a stable HDMI display + USB touch configuration, then consider DSI.**== The HDMI gate covers a cold boot into kiosk, readable subtitles, correctly aligned touch including after rotation, touch-only Record/Stop and Settings, required on-screen text entry, and a real STT session with the webcam microphone. Record the screen, cables, power and OS configuration used. These are acceptance checks, not completed tests.
+
+DSI is a later hardware-integration option. Keep the web UI, STT session contract, backend and Deepgram configuration independent of the display connector. Changing to a different screen may require UI layout adjustments, OS display/touch configuration, power and enclosure work. Save the working HDMI configuration before switching; repeat the same acceptance checks on DSI and retain a documented route back to HDMI. Do not assume that every DSI panel works with Pi 4 or the installed OS.
+
 ## Input and text
 
 ==**Capture on the Pi for the device path.**== Show the selected capture source in the web application on the laptop. ==A laptop browser must not silently substitute its own microphone.== ==Support live capture, record-once capture, one file and a file list.== A cloud service can process a file. A local engine can work without Internet after its model is installed.

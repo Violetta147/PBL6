@@ -28,6 +28,28 @@ Ngày 02/11/2026. Đây là một BOM dùng chung cho các mốc phát triển. 
 
 ==**Sản phẩm cuối dùng màn hình cảm ứng và chế độ kiosk.**== Khi bật thiết bị, Pi tự mở giao diện STT toàn màn hình; người dùng thao tác bằng chạm. Tiếp tục dùng laptop để phát triển và kiểm thử V1 trước. Chưa chọn kích thước, model, cổng kết nối, cáp hoặc nguồn; kiểm thử cảm ứng và khởi động kiosk trên phần cứng thực tế ở bước tích hợp thiết bị.
 
+## DSI là phương án nâng cấp sau HDMI + USB — khảo sát 06/11/2026
+
+==**Ổn định HDMI + USB cảm ứng trước; chỉ cân nhắc DSI sau đó.**== Đây là thứ tự tích hợp đã được người dùng xác nhận, chưa phải báo cáo HDMI đã chạy ổn định hay quyết định mua màn DSI. Tiếp tục kiểm thử V1 trên laptop trước bước tích hợp màn thiết bị.
+
+**Khả năng mua:** có cơ sở đặt online giao về Đà Nẵng. Chưa xác nhận điểm bán trực tiếp có sẵn tại Nguyễn Hiền/SPIDER/BKM. Giá và trạng thái dưới đây là nội dung trang bán lúc khảo sát, chưa xác nhận giữ hàng hoặc ngày giao.
+
+| Ứng viên DSI cho Pi 4 | Giá hiển thị | Trạng thái trên trang và điểm cần kiểm tra |
+|---|---|---|
+| [Cytron: Raspberry Pi Touch Display 2, 7 inch](https://www.cytrontech.vn/p-raspberry-pi-7-inch-touch-screen-display-2) | 2.052.000đ, gồm VAT | Trang ghi 5 sản phẩm; nêu hỗ trợ Pi 4, kèm cáp DSI 15–15 chân và dây nguồn. Kiểm tra đúng biến thể 7 inch, phụ kiện và phí giao tại thời điểm đặt. |
+| [Raspberrypi.vn: Waveshare DSI 7 inch 1024×600, MPN 20430, kèm case](https://raspberrypi.vn/san-pham/man-hinh-cam-ung-dien-dung-7inch-ips-ket-noi-dsi-do-phan-giai-1024x600) | 1.900.000đ, chưa VAT và phí vận chuyển | Trang ghi còn hàng, hỗ trợ Pi 4; case dành cho Pi 4. Cần xác nhận đủ dây và cấu hình đúng model/OS; đây không phải Touch Display 2. |
+
+[Cytron công bố giao toàn quốc](https://www.cytrontech.vn/delivery-information), nhưng trang chính sách ghi cập nhật năm 2023; thông tin kho giữa các trang chưa nhất quán. Không coi địa chỉ kho là xác nhận có thể đến mua trực tiếp, và không lấy thời gian giao chung làm cam kết cho đơn hàng Đà Nẵng.
+
+**Công sức chuyển đổi — đánh giá kỹ thuật, chưa đo trên thiết bị:**
+
+- Giữ lại ứng dụng web, backend, Deepgram, Settings và luồng Record/Stop/file/batch khi các phần này không phụ thuộc cổng màn. Đổi kích thước hoặc độ phân giải có thể cần chỉnh bố cục.
+- Kiểm tra lại dây hình/cảm ứng theo đúng model, nguồn, vị trí lắp và vỏ. Không mặc định mọi màn DSI truyền cảm ứng chỉ trong cáp DSI hoặc nguồn hiện có đủ tải.
+- Xác minh bản OS/kernel/firmware thực tế. Thông tin Trixie aarch64 hiện có chưa chứng minh đó là Raspberry Pi OS hoặc có đủ hỗ trợ màn. [Touch Display 2 chính hãng](https://www.raspberrypi.com/documentation/accessories/touch-display-2.html) có hỗ trợ tự nhận trên Pi tương thích; màn Waveshare phải theo [hướng dẫn đúng model](https://www.waveshare.com/wiki/7inch_DSI_LCD_%28C%29).
+- Ước lượng tương đối: thấp–vừa với Touch Display 2 7 inch trên Raspberry Pi OS được hỗ trợ; có thể cao hơn và chưa xác định với tổ hợp màn/OS khác. Chưa đủ cơ sở hứa số giờ.
+
+**Điều kiện nhận DSI:** lưu bản cấu hình HDMI đã đạt trước khi chuyển; sau đó thử khởi động nguội vào kiosk, hình/chữ dễ đọc, cảm ứng khớp sau xoay màn, Record/Stop và Settings bằng chạm, nhập bằng bàn phím ảo, một phiên STT thật và nguồn khi chạy thực tế. Chỉ nhận cấu hình DSI khi các bước này đạt; giữ cách quay lại HDMI. Hiện chưa có phép thử màn hình nào trong khảo sát này.
+
 ## So sánh trước khi quyết định ngân sách
 
 | Phương án | Lợi ích | Hạn chế / việc phải thử | Chi phí bổ sung hiện biết | Khuyến nghị cho mốc 05/11 |
@@ -40,6 +62,6 @@ Ngày 02/11/2026. Đây là một BOM dùng chung cho các mốc phát triển. 
 
 Người dùng muốn xem so sánh trước, chưa chốt số tiền và không bắt buộc chọn cấu hình rẻ nhất. ==**Đánh giá giá trị và thời gian nhận trước khi yêu cầu quyết định mua.**== Không tự hiểu việc chưa có trần ngân sách là quyền chi tiêu không giới hạn.
 
-Ưu tiên khảo sát mua trực tiếp tại Đà Nẵng (Nguyễn Hiền, SPIDER, BKM) hoặc Shopee khi phát sinh món cần mua. Chưa xác minh giá, tồn kho, bộ phụ kiện hay thời gian giao trong lượt này. Không đưa thời gian giao hàng chưa xác nhận vào lịch bắt buộc.
+Ưu tiên khảo sát mua trực tiếp tại Đà Nẵng (Nguyễn Hiền, SPIDER, BKM) hoặc Shopee khi phát sinh món cần mua. Giá và trạng thái DSI đã khảo sát được ghi riêng ở trên; các món khác và ngày giao cụ thể chưa được xác minh trong lượt cập nhật 06/11/2026. Không đưa thời gian giao hàng chưa xác nhận vào lịch bắt buộc.
 
 Nguồn tồn kho và xác nhận thu/phát: `C:\Users\LAPTOP T&T\Downloads\iot-communication-support-system.md`, đặc biệt phần bàn giao cuối. Hướng dẫn nguồn Pi: https://www.raspberrypi.com/documentation/computers/getting-started.html . Tài liệu hãng ghi nguồn Pi 4 là 5 V–3 A; vẫn phải kiểm tra nguồn thực tế khi có tải.
