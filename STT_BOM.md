@@ -19,7 +19,7 @@
 
 ### 🔍 Chi tiết phân bổ dự toán Giai đoạn 2 (Kiosk độc lập)
 
-* **1. Màn hình cảm ứng (chưa chốt kích thước/model):** <span style="color:#B22563;font-weight:700;">Chưa khảo sát giá màn HDMI + USB</span>. Các giá DSI dưới đây chỉ thuộc ứng viên DSI, không dùng làm giá hoặc dự toán màn HDMI.
+* **1. Màn hình cảm ứng (chưa chốt kích thước/model):** <span style="color:#B22563;font-weight:700;">Đã có hai giá niêm yết HDMI; cần xác minh USB touch và tổng bộ</span>. Các giá DSI dưới đây chỉ thuộc ứng viên DSI, không dùng làm giá hoặc dự toán màn HDMI.
   * *Phương án tích hợp đầu tiên:* Màn hình cảm ứng giao tiếp **HDMI (hình ảnh) + USB (cảm ứng)** tương thích Linux ARM64 / Pi 4.
   * *Tham khảo ứng viên DSI (nâng cấp sau; giá khảo sát 06/11/2026, chưa kiểm tra lại lúc mua):*
     * **Cytron: Raspberry Pi Touch Display 2 (7")** — <strong style="background-color:#E7F0FF;color:#1B4494;padding:1px 5px;border-radius:3px;">2.052.000 VNĐ</strong> *(Đã gồm VAT, kèm cáp DSI 15-15 pin & dây nguồn).*
@@ -106,6 +106,42 @@ flowchart TD
 
 ---
 
+## 🛒 Ứng viên HDMI do người dùng bổ sung — kiểm tra trang ngày 07/11/2026
+
+**Đây là giá niêm yết trên trang được công cụ đọc, không phải báo giá trọn bộ hoặc xác nhận hàng dành sẵn.** Chưa chốt mua; chưa có thử nghiệm Pi 4/Trixie/Electron trên các màn này. Cả hai là ứng viên HDMI, đường touch cần xác minh riêng trước khi coi là đúng cấu hình HDMI + USB đã chọn.
+
+| Nguồn / ứng viên | Giá và thông tin trang | Điểm thuận lợi | Còn thiếu để quyết định |
+| :--- | :--- | :--- | :--- |
+| **[Điện tử Nguyễn Hiền — NH2067](https://www.dientunguyenhien.vn/show/2067)** | **1.090.000 VNĐ**; 7 inch, 1024×600; trang hiển thị tồn 8 | Nhà bán ở Đà Nẵng, thuận tiện hỏi khả năng xem/thử trực tiếp | Chưa rõ loại touch/đường kết nối, model/hãng/board revision, nguồn, cáp kèm, VAT và bảo hành. Giá trang khác mức khoảng 1 triệu người dùng nêu; xác nhận lại tại cửa hàng. |
+| **[Điện tử Tuyết Nga — màn điện dung 7 inch HDMI Raspberry Pi](https://dientutuyetnga.com/products/man-hinh-cam-ung-dien-dung-7-inch-hdmi-raspberry-pi)** | **820.000 VNĐ**; 1024×600; mô tả hỗ trợ Pi 3/4 | Giá niêm yết thấp hơn NH2067 **270.000 VNĐ** | Nhà bán ở TP.HCM; cần phí/ngày giao Đà Nẵng, tồn kho, VAT, bảo hành, mã board, USB touch/nguồn/cáp. Trang tự lưu ý tồn kho có thể chưa cập nhật; mô tả khác nhau về số điểm chạm theo OS, cần thử đúng OS. |
+| **[Shop Shopee tuandinh241 — link người dùng gửi](https://shopee.vn/tuandinh241?categoryId=100644&entryPoint=ShopByPDP&itemId=42836315614)** | **Người dùng báo:** đồ cũ, hết HDMI, chỉ còn DSI; chưa có giá/model xác minh | Có thể khảo sát thêm cho phương án DSI về sau | Công cụ không mở được trang; chưa tự xác minh biến thể, giá, tình trạng panel/touch, dây kèm, tương thích, bảo hành và giao hàng. Không xếp vào hàng HDMI còn sẵn. |
+
+**So sánh còn có điều kiện:** nếu Nguyễn Hiền cho thử đúng Pi/OS và touch trước mua, lợi thế kiểm tra trực tiếp đáng cân nhắc cùng chênh lệch giá. Nếu Tuyết Nga xác nhận đủ yêu cầu và tổng chi phí sau ship/phụ kiện thấp hơn thì cũng là ứng viên hợp lý. Chưa có cơ sở kết luận hai màn giống nhau hoặc màn giá cao hơn có chất lượng tốt hơn.
+
+**Nội dung để người dùng hỏi nhà bán khi muốn chốt:**
+
+1. Mã model, hãng và revision board; ảnh rõ mặt sau/các cổng và tài liệu đúng model.
+2. Cảm ứng điện dung hay điện trở? Dữ liệu chạm đi bằng **USB, GPIO/SPI hay I2C**? Nếu USB, cổng nào là data touch, cổng nào chỉ cấp nguồn?
+3. Đã chạy Pi 4 và OS/kernel nào? Có cần driver/overlay không? Cho thử chạm, kéo, xoay màn và bàn phím ảo trên OS đang dùng được không?
+4. Nguồn bao nhiêu V/A, cấp riêng hay dùng chung đường touch? Bộ kèm dây gì, đầu HDMI phía màn là loại nào? Cần cáp micro-HDMI phía Pi 4.
+5. Giá đủ VAT, cáp/nguồn, vỏ/giá đỡ nếu cần, phí và ngày nhận; chính sách bảo hành/đổi khi touch không chạy đúng cấu hình đã thống nhất.
+
+Nhóm cần thử wireframe hội thoại, chữ và bàn phím ảo ở **1024×600** trước khi chốt màn 7 inch; mức giá mới không tự chốt kích thước. Chưa liên hệ nhà bán hoặc đặt hàng từ cập nhật tài liệu này.
+
+## 🔎 Vì sao SPI chưa được ưu tiên làm màn chính?
+
+**SPI (Serial Peripheral Interface)** là bus nối tiếp dùng cho ngoại vi, trong đó có màn hình, qua các chân GPIO trên Pi; xem [tài liệu Raspberry Pi](https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#gpio-pin-inputs-outputs-and-communication-protocols). Nó là một phương án có thật; phần so sánh trước chưa giải thích lý do không đưa vào nhánh ưu tiên.
+
+[Hướng dẫn chọn màn của Waveshare](https://www.waveshare.com/rpi_lcd_selection_guide) mô tả nhóm SPI của họ có lợi thế giá, nhưng hạn chế độ phân giải/tần số cập nhật và cần chú ý tương thích hệ thống. Đây là nhận xét về các dòng màn được liệt kê, không phải định luật cho mọi màn SPI.
+
+**Đánh giá cho sản phẩm này:** màn chính cần hội thoại cuộn, chữ dễ đọc, bàn phím ảo và có thể có preview camera; vì vậy ưu tiên đường hiển thị phù hợp giao diện desktop trước. Một màn SPI nhỏ, độ phân giải thấp có thể làm chật bố cục và hạn chế cập nhật hình. Driver/overlay và khả năng xuất giao diện Electron trên đúng OS cũng cần kiểm chứng theo model. Chưa benchmark màn SPI trên Pi của nhóm; không gán một mức FPS chung hoặc khẳng định SPI không chạy được Electron.
+
+**Giao tiếp hình ảnh và giao tiếp cảm ứng là hai thông tin khác nhau.** Ví dụ [Waveshare 3.5 inch RPi LCD (F)](https://www.waveshare.com/wiki/3.5inch_RPi_LCD_%28F%29) dùng SPI cho hình và I2C cho cảm ứng điện dung. Do đó màn SPI không đồng nghĩa luôn cảm ứng điện trở; màn ghi HDMI cũng chưa chứng minh touch qua USB.
+
+**Hướng hiện tại:** giữ HDMI + USB touch là mục tiêu tích hợp đầu tiên; DSI là khả năng sau khi HDMI ổn định. SPI có thể xét cho màn trạng thái phụ/giao diện đơn giản, hoặc khi có model cụ thể chứng minh đáp ứng màn chính; chưa thêm một món phải mua hay thay thứ tự tích hợp.
+
+---
+
 ## 📦 Danh Mục Thiết Bị Chi Tiết (BOM Toàn Diện)
 
 | Hạng mục phần cứng | Số lượng / Trạng thái | Chi phí phần cứng bổ sung | Vai trò và điều kiện sử dụng / mua sắm |
@@ -123,7 +159,7 @@ flowchart TD
 | **Loa chủ động AUX hoặc USB Audio** | <span style="background-color:#FFF3C4;color:#6E4900;padding:2px 6px;border-radius:3px;font-weight:700;">CHƯA XÁC NHẬN SẴN</span> | <span style="color:#946200;font-weight:700;">Nháp ~150k–250k; chưa xác minh</span> | Cần cho thử nghiệm hội thoại 2 chiều qua loa ngoài. <span style="color:#087A47;font-weight:700;">Ưu tiên mượn/tận dụng</span>; nếu mua phải xác minh cổng kết nối, công suất và nguồn nuôi. |
 | **Micro USB thay thế** | <span style="background-color:#FFF3C4;color:#6E4900;padding:2px 6px;border-radius:3px;font-weight:700;">CHỜ KIỂM CHỨNG</span> | <span style="color:#946200;font-weight:700;">Chưa phát sinh</span> | <span style="color:#C52236;font-weight:700;">Chỉ mua nếu mic webcam không đáp ứng</span> bài test nhận dạng giọng nói thực tế (thu gần như sử dụng tại bàn, ghi khoảng cách đo thực tế; ưu tiên giọng Đà Nẵng). |
 | **Mạch Mic–Loa tích hợp AEC (chống vọng)** | <span style="background-color:#FFF3C4;color:#6E4900;padding:2px 6px;border-radius:3px;font-weight:700;">ĐÁNH GIÁ SAU</span> | <span style="color:#946200;font-weight:700;">Chưa phát sinh</span> | Đánh giá sau khi thử nghiệm loa ngoài bị lọt tiếng vào mic gây vòng lặp vọng âm. So sánh phương án phần mềm/phần cứng khi có nhu cầu thực tế; chưa chốt giải pháp AEC. |
-| **Màn cảm ứng HDMI + USB — phương án đầu** | <span style="background-color:#E7F0FF;color:#1B4494;padding:2px 6px;border-radius:3px;font-weight:700;">GIAI ĐOẠN KIOSK</span> | <span style="color:#B22563;font-weight:700;">Chưa có giá HDMI</span> | **Ưu tiên HDMI + USB touch cho tích hợp đầu tiên.** Cảm ứng + Electron Kiosk là yêu cầu sản phẩm cuối. Chưa chọn model cụ thể; kiểm thử phần mềm trên laptop trước. |
+| **Màn cảm ứng HDMI + USB — phương án đầu** | <span style="background-color:#E7F0FF;color:#1B4494;padding:2px 6px;border-radius:3px;font-weight:700;">GIAI ĐOẠN KIOSK</span> | <span style="color:#B22563;font-weight:700;">820.000 / 1.090.000 VNĐ niêm yết; chưa chốt bộ</span> | **Ưu tiên HDMI + USB touch cho tích hợp đầu tiên.** Cảm ứng + Electron Kiosk là yêu cầu sản phẩm cuối. Chưa chọn model cụ thể; kiểm thử phần mềm trên laptop trước. |
 | **Cáp micro-HDMI sang HDMI cho phương án đầu** | <span style="background-color:#FFF3C4;color:#6E4900;padding:2px 6px;border-radius:3px;font-weight:700;">1 ĐƯỜNG HÌNH ẢNH</span> | <span style="color:#946200;font-weight:700;">Nháp ~50k–100k; chưa xác minh</span> | Truyền hình ảnh cho phương án đầu. Kiểm tra cáp/adapter sẵn có và bộ phụ kiện kèm màn hình trước khi mua. Không dùng để đưa desktop Pi lên laptop qua VNC/web. |
 | **Cáp USB touch + Dây nguồn màn hình** | <span style="background-color:#FFF3C4;color:#6E4900;padding:2px 6px;border-radius:3px;font-weight:700;">ĐI ĐƯỜNG RIÊNG</span> | <span style="color:#946200;font-weight:700;">Nháp ~50k–100k; chưa xác minh</span> | Là các đường riêng biệt với cáp HDMI. Phải đúng model màn. Không giả định Pi cấp đủ nguồn tải cho màn. |
 | **Bộ chia cổng USB có nguồn (Powered USB Hub)** | <span style="background-color:#FFF3C4;color:#6E4900;padding:2px 6px;border-radius:3px;font-weight:700;">CHỜ ĐO TẢI THỰC TẾ</span> | <span style="color:#946200;font-weight:700;">Nháp ~150k; chưa xác minh</span> | Chỉ thêm nếu thiếu cổng hoặc nguồn ngoại vi từ Pi không đáp ứng (tránh sụt áp khi cắm đồng thời webcam + mic + touch + loa). |
@@ -194,7 +230,7 @@ flowchart TD
 | Nhà bán, tổng giá và cách nhận hàng tại Đà Nẵng | Khảo sát model cụ thể: VAT, ship, phụ kiện, bảo hành, tồn kho và ngày nhận có xác nhận. Chưa có quyền đặt hàng từ BOM này. |
 | DSI, micro thay thế, AEC và powered hub | Giữ là phương án có điều kiện; DSI chỉ xét sau HDMI ổn định. Không tự thêm vào đơn mua bắt buộc. |
 
-**Các mức nháp trong bản highlight gốc chưa phải báo giá hoặc ngân sách đã duyệt.** Tổng kiosk 2–2,5 triệu đã được bỏ khỏi bảng dự toán vì chưa có model/giá HDMI để tính. Phần cứng có sẵn ghi 0 đồng là chi phí mua thêm dự kiến, không phải giá trị mua ban đầu và không bao gồm phí API hoặc Internet.
+**Các mức nháp trong bản highlight gốc chưa phải báo giá hoặc ngân sách đã duyệt.** Tổng kiosk 2–2,5 triệu đã được bỏ khỏi bảng dự toán vì chưa chốt model, phụ kiện, VAT/ship để tính tổng; hai giá niêm yết HDMI mới được bổ sung trong mục ứng viên HDMI chưa phải giá trọn bộ. Phần cứng có sẵn ghi 0 đồng là chi phí mua thêm dự kiến, không phải giá trị mua ban đầu và không bao gồm phí API hoặc Internet.
 
 ## 📌 Ghi Chú Mua Sắm & Logistics
 
