@@ -6,7 +6,7 @@ Cập nhật 07/11/2026. Dự án giữ tại `C:\Users\LAPTOP T&T\VIOLETTA\Docu
 
 1. `AGENTS.md`: quy tắc kiểm thử, tài liệu và commit.
 2. `STT_BOM.md`: BOM chính, đã thay bằng bố cục highlight người dùng đưa và hiệu chỉnh các nội dung chưa có căn cứ. Không dùng một bản `_HIGHLIGHTED` khác làm nguồn quyết định song song.
-3. [STT_PRODUCT_UI_UX.md](STT_PRODUCT_UI_UX.md): yêu cầu mới về giao tiếp đa phương thức giữa hai người; ghi nhận ảnh tham khảo, bảng màu chưa chọn và các quyết định UI/UX cần bàn.
+3. [STT_PRODUCT_UI_UX.md](STT_PRODUCT_UI_UX.md): yêu cầu giao tiếp đa phương thức giữa hai người; ba tham chiếu Codex/LearnHarness/Deepseek Harness, cơ chế conversation/session và nhận định sơ bộ “harness bao quanh model”; ảnh tham khảo và các quyết định UI/UX chưa chốt.
 4. `reports/stt_v1_p1_20261107/BAO_CAO.md`: báo cáo triển khai, hai lượt dùng thử và lỗi desktop đã sửa.
 5. `STT_SHIFT_HANDOFF.md`: trạng thái công việc và nhiệm vụ tiếp theo.
 6. Khi cần chi tiết phần mềm/nghiên cứu: `STT_SYSTEM_SPEC.md`, `STT_PLAN_1_WEEK.md`, `stt-app/README.md`, `experiments/inventory_20261102/README.md`.

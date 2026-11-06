@@ -20,7 +20,7 @@ Cập nhật: 07/11/2026. Trạng thái: **ghi nhận yêu cầu và chuẩn b�
 | Chữ → giọng nói (text-to-speech, TTS) | Phát nội dung chữ thành tiếng khi người dùng cần | Định hướng sản phẩm; chưa có TTS trong P1 |
 | Settings / Cài đặt | Cấu hình thiết bị, dịch vụ và cách hiển thị/phát nội dung | P1 mới có cấu hình Deepgram tại máy; các mục cho sản phẩm đa phương thức còn phải thiết kế |
 
-- **Tham khảo tinh thần UI/UX:** Codex, LearnHarness, các Agent Harness và ứng dụng chat/messenger — cách tổ chức nội dung hội thoại, vùng nhập, điều hướng và Settings. Đây là tham chiếu người dùng nêu, chưa phải kết quả khảo sát trực tiếp các giao diện đó trong lượt này.
+- **Ba tham chiếu chính cho wireframe/khung giao diện:** Codex, LearnHarness và Deepseek Harness (hướng plugin-based do người dùng nêu). Người dùng thích cơ chế chat/conversation/session của LearnHarness và Codex, đồng thời nhận xét Codex phức tạp hơn. Messenger là tham chiếu bổ sung. Mục đích từng nền tảng khác sản phẩm này; lấy cách tổ chức tương tác làm chất liệu thiết kế, chưa chọn sao chép toàn bộ tính năng hoặc kiến trúc.
 - **Sản phẩm đích:** thiết bị để bàn có màn cảm ứng, Electron và kiosk mode. Stack đã chốt vẫn là React + TypeScript + Tailwind CSS, Next.js/Node.js + Electron.
 - **Màu sắc:** người dùng không thích bảng màu trong ảnh tham khảo. Chưa chốt bảng màu thay thế, theme sáng/tối, font hay bộ icon.
 - **Thứ tự triển khai:** tiếp tục nghiệm thu V1 STT trước V2/V3. Tài liệu này mở hướng thảo luận sản phẩm đa phương thức, chưa giao thêm phần việc sign-to-text/TTS hoặc thay giao diện ngay.
@@ -39,6 +39,16 @@ Việc kiểm tra trước khi gửi, cách sửa chữ và cách phát TTS ở 
 
 Với V1 STT, vẫn giữ Record → Stop dừng capture → nhận dạng → chữ cuối hoặc lỗi. Chữ tạm thay đổi khi đang nói thuộc các mốc sau theo kế hoạch; không dùng bản phác UI để khẳng định V1 đã có streaming.
 
+### Cách hình dung “harness bao quanh model”
+
+**Nhận định sơ bộ của người dùng, cần tiếp tục làm rõ:** sản phẩm có thể được hình dung là một lớp phần mềm tổ chức việc sử dụng các model/engine STT, TTS và sign-to-text. Trong tài liệu này, *harness* chỉ cách hình dung lớp điều phối đó, chưa phải một kiến trúc plugin đã chốt.
+
+Ở mức đề xuất, lớp phần mềm này quản lý người tham gia, phiên hội thoại, thiết bị đầu vào, trạng thái thu/xử lý/phát và cách đưa kết quả cho người kia. Adapter (bộ kết nối) chuyển yêu cầu tới engine chạy tại máy hoặc dịch vụ API, rồi trả kết quả/lỗi về đúng lượt. Model thực hiện nhận dạng hoặc tổng hợp; ứng dụng tổ chức trải nghiệm giao tiếp và vòng đời xử lý.
+
+Luồng để thảo luận: **người A/B → phương thức nhập → lượt trong phiên → engine phù hợp → chữ/âm thanh cho người kia**. Một phiên chứa nhiều lượt; một lượt có thể trải qua nhiều bước, ví dụ STT → chữ đã xác nhận → TTS. Không mặc định mọi lượt cần đi qua cả ba engine.
+
+**Tách hai quyết định:** khả năng đổi engine qua adapter và một hệ thống plugin cài thêm là hai mức thiết kế khác nhau. Việc tham khảo Deepseek Harness chưa chốt plugin runtime, marketplace, LLM điều phối hoặc cơ chế gọi tool cho dự án. Mục tiêu đánh giá vẫn là giao tiếp đa phương thức giữa hai người.
+
 ## 3. Bố cục sơ bộ, chưa phải mockup đã duyệt
 
 | Vùng giao diện | Nội dung đề xuất | Việc cần bàn |
@@ -49,11 +59,39 @@ Với V1 STT, vẫn giữ Record → Stop dừng capture → nhận dạng → c
 | Vùng camera/ký hiệu | Preview có thể mở rộng khi cần thu ký hiệu | Camera có bắt buộc hiện liên tục không; phần nào phục vụ người dùng/phần nào chỉ để kiểm tra |
 | Trạng thái và Settings | Nguồn mic/camera đã chọn, đang thu/xử lý/phát, lỗi và cách thử lại | Mục thường dùng đưa ra màn chính; mục kỹ thuật đặt trong Settings |
 
+### Cơ chế phiên hội thoại được người dùng ưu tiên tham khảo
+
+Đây là hướng tương tác người dùng thích; các thao tác cụ thể dưới đây là đề xuất wireframe:
+
+- **Tạo cuộc hội thoại mới:** tách cuộc trao đổi mới khỏi phiên đang xem; cách kết thúc/xóa cần bàn thêm.
+- **Danh sách phiên và phiên đang chọn:** chuyển giữa các cuộc hội thoại, thấy tên hoặc thời điểm để tìm lại; tìm kiếm là khả năng cần cân nhắc trên màn nhỏ.
+- **Nội dung theo lượt:** nhãn người A/B và phương thức, trạng thái xử lý, bản chữ cuối cùng. Phải phân biệt văn bản đang soạn, kết quả nhận dạng và nội dung đã gửi.
+- **Vùng nhập ổn định:** chuyển giữa chữ, giọng nói và ký hiệu trong cùng cuộc hội thoại; đặt điều khiển cần thiết gần nội dung đang tạo.
+- **Settings dễ tìm, điều hướng gọn:** thử phương án sidebar thu gọn trên màn thiết bị. Không mặc định bê nguyên các chế độ lập trình, giảng dạy hoặc quản lý agent vào sản phẩm.
+
+**Lưu phiên qua lần khởi động sau chưa được chốt.** Có thể có phiên trong bộ nhớ mà chưa lưu lâu dài. Tên phiên, tìm kiếm, đổi tên, xóa, xuất và chính sách giữ nội dung cần quyết định riêng trước triển khai.
+
 Đề xuất giữ nhận dạng một file/batch ở công cụ nhập dữ liệu hoặc kiểm thử, để màn hội thoại tập trung vào cuộc trao đổi. Chưa chốt vị trí cuối cùng; chức năng file/batch của V1 vẫn phải được giữ và kiểm thử.
 
 Các mục Settings cần bàn thêm: nguồn mic/device path trên Pi, camera, Deepgram `language=vi` và key trên backend, cỡ chữ, âm lượng/giọng TTS, hành vi lưu/xóa hội thoại. Chưa chọn engine TTS hay mô hình ký hiệu. Browser laptop không tự dùng micro của nó khi đang điều khiển thiết bị Pi.
 
 ## 4. Ghi nhận ảnh tham khảo người dùng gửi
+
+### Codex và LearnHarness — ảnh bổ sung ngày 07/11/2026
+
+![Ảnh Codex do người dùng cung cấp](reports/ui_ux_20261107/assets/codex_conversation_user_reference.png)
+
+**Quan sát từ ảnh Codex:** thanh điều hướng icon bên trái, tiêu đề cuộc trao đổi phía trên, nội dung hội thoại ở vùng trung tâm và vùng nhập ở phía dưới với các điều khiển kèm theo. Ảnh cho thấy bố cục của một cuộc trao đổi; không đủ để xác nhận toàn bộ cơ chế lưu/chuyển phiên.
+
+![Ảnh LearnHarness do người dùng cung cấp](reports/ui_ux_20261107/assets/learnharness_sessions_user_reference.png)
+
+**Quan sát từ ảnh LearnHarness:** sidebar có danh sách SESSIONS, ô tìm kiếm, mục được chọn; vùng nội dung có tiêu đề và vùng nhập/điều khiển phía dưới; Settings ở cuối sidebar. Các chế độ teaching/practice thuộc mục đích của nền tảng tham khảo, chưa phải yêu cầu sản phẩm này.
+
+**Deepseek Harness:** tham chiếu thứ ba do người dùng nêu, đặc biệt ý tưởng plugin-based. Chưa có ảnh, repo/URL hoặc phiên bản được xác định trong tài liệu này; chưa khảo sát cơ chế plugin thực tế. Khi nghiên cứu wireframe sâu hơn cần xác định đúng nền tảng, rồi ghi rõ đặc điểm quan sát được và phần đề xuất áp dụng.
+
+Các ảnh là nguồn tham chiếu bố cục, không chốt bảng màu tối hoặc độ phức tạp tương ứng cho thiết bị. Phần thích từ Codex/LearnHarness được người dùng xác nhận là cơ chế hội thoại/phiên; cách lưu dữ liệu thật vẫn chưa được kiểm chứng ở lượt này.
+
+### Hand Morse — ảnh tham khảo trước đó
 
 ![Ảnh tham khảo Hand Morse do người dùng cung cấp](reports/ui_ux_20261107/assets/hand_morse_user_reference.png)
 
