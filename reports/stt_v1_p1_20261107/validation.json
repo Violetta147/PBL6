@@ -45,6 +45,11 @@
     {
       "check": "dependency-lock consistency",
       "result": "pass"
+    },
+    {
+      "check": "Production desktop launcher smoke",
+      "exit_code": 0,
+      "scope": "Started scripts/desktop.mjs with a temporary empty configuration directory; local health became ready and launcher remained alive after Electron startup. No key or audio used. Test-owned process tree terminated afterwards; this is not a Pi kiosk boot or window-close recovery test."
     }
   ],
   "iterations": [

@@ -66,8 +66,11 @@ Backend tests dùng audio tổng hợp tối thiểu, file tạm và phản hồ
 | `npm run build` | **Đạt** | Build production và sinh route |
 | `npm run typecheck` | **Đạt** | Kiểm tra kiểu TypeScript |
 | `npm run test:ui` | **7/7 đạt** | Chrome, HTTP cục bộ và Electron Windows |
+| Khởi động launcher production | **Đạt** | Backend sẵn sàng, tiến trình tiếp tục chạy sau khi mở Electron |
 
 <strong style="color:#087A47;">Các kiểm tra trên đã đạt sau khi sửa lỗi phát hiện trong quá trình tích hợp.</strong> Lượt đầu gặp lỗi launcher `.cmd` trên đường dẫn có `&`, hai lỗi kiểu trong test và lỗi so Origin do Next dùng địa chỉ nội bộ khác Host của client. Script nay gọi trực tiếp công cụ qua Node; kiểm tra Origin dùng Host loopback đã xác thực. Lượt UI đầu có 3 đạt/4 lỗi, gồm locator thông báo và thời gian tải binary Electron; lượt cuối đạt 7/7. Đây là lịch sử sửa lỗi phần mềm, không phải thí nghiệm cải thiện ASR.
+
+Một lượt thử bổ sung đã khởi động launcher production với thư mục cấu hình tạm không có key: backend trả trạng thái sẵn sàng và launcher tiếp tục chạy sau khi mở Electron. Sau thử nghiệm, cây tiến trình do lượt thử tạo được kết thúc. Lượt này chưa kiểm chứng đóng cửa sổ/phục hồi lỗi hoặc khởi động kiosk trên Pi.
 
 Hình 2 là giao diện chụp từ Electron thật trên Windows; chưa có key thật hoặc file người dùng được gửi đi.
 
