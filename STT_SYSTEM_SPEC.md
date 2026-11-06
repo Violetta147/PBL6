@@ -2,6 +2,10 @@
 
 Updated: 2026-11-07. Active workspace: `C:\Users\LAPTOP T&T\VIOLETTA\Documents\ChatGPT\PBL6`. Original target: Thursday, 2026-11-05 (past); no replacement deadline has been agreed. This is a specification; ==it does not assert that these functions have been implemented.==
 
+## Product UI/UX direction — discussion added 2026-11-07
+
+See [STT_PRODUCT_UI_UX.md](STT_PRODUCT_UI_UX.md) for the user's requirement: two-person multimodal communication through sign-to-text, speech-to-text, typed text and text-to-speech, with Settings. The P1 file-transcription UI is an implementation checkpoint, not an approved final product design. This broader direction needs design/scope decisions; it does not assert working sign/TTS features or change the existing STT V1/V2/V3 gates.
+
 ## Implementation checkpoint — V1-P1, 2026-11-07
 
 **V1-P1 code is in `stt-app`: local Settings, one-file Deepgram adapter, shared UI and Electron window.** Production build and TypeScript checks passed; 20 backend tests and 8 Chrome/HTTP/Electron tests passed on Windows with offline provider fixtures. The user supplied two completed real single-file browser trials (studio_M1.wav and phone_F1.wav, nova-3/vi, exported .txt; a word error is suspected in phone_F1); evidence is recorded in reports/stt_v1_p1_20261107/user_trial_studio_M1.json and user_trial_phone_F1.json. This is user-provided evidence, not an agent API rerun. Pi capture, batch, LAN control and Linux ARM64/touch/kiosk acceptance remain incomplete. Full V1 remains unfinished.

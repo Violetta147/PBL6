@@ -8,6 +8,10 @@ Updated: 2026-11-07. Original target: Thursday, 2026-11-05 (past); no replacemen
 
 Use `START_NEXT_CHAT_STT.md` for the concise P1 handoff and reading order. P1 code is complete at the single-file checkpoint with two user browser trials and the Windows desktop visibility fix; full V1 remains unfinished. Next hardware decisions: HDMI touchscreen size/model, exact cables/power, case/stand, conditional speaker needs, vendor/total price/availability and collection or delivery in Da Nang. Keep DSI optional after HDMI + USB is stable.
 
+## UI/UX discussion to carry forward — 2026-11-07
+
+Read [STT_PRODUCT_UI_UX.md](STT_PRODUCT_UI_UX.md): the final product must support two-person multimodal communication. Discuss the conversation layout, sign/voice/text paths, TTS, Settings and a new palette. The supplied image is a layout reference; its palette is rejected. Coordinate screen viewing/touch needs with BOM choices. No UI redesign or sign/TTS implementation is assigned by this documentation update; retain the STT version gates.
+
 ## Current entry point
 
 Inventory and planning exist. The historical experiment suite passed 22 tests. B01–B04 results remain unchanged. ==V1-P1 now implements local Settings and a one-file UI/backend/Electron path with offline tests; two user-provided browser API trials have completed, while Pi acceptance, batch, live transport and OTA remain incomplete.== ==**P1 checkpoint is implemented; the next session focuses on BOM decisions and shopping planning.**== Full V1 remains unfinished.

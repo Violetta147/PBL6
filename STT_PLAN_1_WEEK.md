@@ -8,6 +8,10 @@ Updated: 2026-11-07. Original target: Thursday, 2026-11-05 (past); no replacemen
 
 Use `START_NEXT_CHAT_STT.md` for the concise P1 handoff and reading order. P1 code is complete at the single-file checkpoint with two user browser trials and the Windows desktop visibility fix; full V1 remains unfinished. Next hardware decisions: HDMI touchscreen size/model, exact cables/power, case/stand, conditional speaker needs, vendor/total price/availability and collection or delivery in Da Nang. Keep DSI optional after HDMI + USB is stable.
 
+## Product UI/UX discussion — 2026-11-07
+
+The user requests a final product centered on two-person multimodal communication (sign-to-text, speech-to-text, typed text and text-to-speech) with Settings. Read [STT_PRODUCT_UI_UX.md](STT_PRODUCT_UI_UX.md) alongside the BOM before choosing display size/orientation. This records the broader product direction and open decisions; the implementation scope below remains the current STT milestone plan. Sign recognition, TTS and the final conversation UI need separate scoping before implementation.
+
 ## 1. Scope and dependencies
 
 Build this path: ==microphone or recorded files -> speech-to-text engine -> subtitles in a web application==. Open the application on the laptop. ==Use the Pi microphone for the device path.== ==**Test one file and a list of files.**== Test local engines and **Deepgram with `language=vi`**. Keep the engine choice open until the comparison is complete.

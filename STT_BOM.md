@@ -8,6 +8,8 @@
 > [!IMPORTANT]
 > **BOM chính của dự án:** dùng bản này để ra quyết định ở phiên mua sắm tiếp theo. Bố cục lấy từ bản highlight người dùng cung cấp; dự toán chưa có nguồn được ghi rõ là nháp. **Chưa đặt hàng; chưa chọn màn HDMI, kích thước, cáp hay nguồn.** P1 mới có Settings, một file và Electron trên Windows; capture Pi, batch và kiosk phần cứng chưa hoàn thành. Xem [bàn giao](START_NEXT_CHAT_STT.md) và [báo cáo P1](reports/stt_v1_p1_20261107/BAO_CAO.md).
 
+> **Liên quan đến chọn màn/vỏ:** đọc [STT_PRODUCT_UI_UX.md](STT_PRODUCT_UI_UX.md) để bàn cách hai người cùng xem và thao tác trong cuộc giao tiếp đa phương thức. Kích thước/hướng màn, bố cục hội thoại và vị trí camera chưa chốt; ghi nhận định hướng ký hiệu/TTS chưa có nghĩa cần mua thêm camera/loa ngay.
+
 ## 🎯 Tổng Hợp Tình Trạng Ngân Sách Theo 2 Giai Đoạn
 
 | Giai đoạn triển khai | Dự toán chi phí | Trạng thái thiết bị | Mục tiêu kỹ thuật & Chiến lược phần cứng |

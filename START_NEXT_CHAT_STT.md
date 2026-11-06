@@ -1,14 +1,15 @@
 # STT — bàn giao sau P1 và chốt BOM
 
-Cập nhật 07/11/2026. Dự án giữ tại `C:\Users\LAPTOP T&T\VIOLETTA\Documents\ChatGPT\PBL6`. **Ưu tiên phiên tiếp theo: chốt các lựa chọn BOM và lập kế hoạch mua sắm tại Đà Nẵng. Chưa tự triển khai P2/batch hoặc đặt hàng.**
+Cập nhật 07/11/2026. Dự án giữ tại `C:\Users\LAPTOP T&T\VIOLETTA\Documents\ChatGPT\PBL6`. **Ưu tiên phiên tiếp theo: thảo luận UI/UX sản phẩm đa phương thức cùng các lựa chọn BOM và lập kế hoạch mua sắm tại Đà Nẵng. Chưa tự triển khai P2/batch hoặc đặt hàng.**
 
 ## 1. Đọc theo thứ tự
 
 1. `AGENTS.md`: quy tắc kiểm thử, tài liệu và commit.
 2. `STT_BOM.md`: BOM chính, đã thay bằng bố cục highlight người dùng đưa và hiệu chỉnh các nội dung chưa có căn cứ. Không dùng một bản `_HIGHLIGHTED` khác làm nguồn quyết định song song.
-3. `reports/stt_v1_p1_20261107/BAO_CAO.md`: báo cáo triển khai, hai lượt dùng thử và lỗi desktop đã sửa.
-4. `STT_SHIFT_HANDOFF.md`: trạng thái công việc và nhiệm vụ tiếp theo.
-5. Khi cần chi tiết phần mềm/nghiên cứu: `STT_SYSTEM_SPEC.md`, `STT_PLAN_1_WEEK.md`, `stt-app/README.md`, `experiments/inventory_20261102/README.md`.
+3. [STT_PRODUCT_UI_UX.md](STT_PRODUCT_UI_UX.md): yêu cầu mới về giao tiếp đa phương thức giữa hai người; ghi nhận ảnh tham khảo, bảng màu chưa chọn và các quyết định UI/UX cần bàn.
+4. `reports/stt_v1_p1_20261107/BAO_CAO.md`: báo cáo triển khai, hai lượt dùng thử và lỗi desktop đã sửa.
+5. `STT_SHIFT_HANDOFF.md`: trạng thái công việc và nhiệm vụ tiếp theo.
+6. Khi cần chi tiết phần mềm/nghiên cứu: `STT_SYSTEM_SPEC.md`, `STT_PLAN_1_WEEK.md`, `stt-app/README.md`, `experiments/inventory_20261102/README.md`.
 
 Không cần đọc lại toàn bộ chat/log phiên cũ. Người dùng đã yêu cầu tránh việc đó để tiết kiệm context; dùng các tài liệu và bằng chứng hiện có, chỉ tra lịch sử nếu người dùng yêu cầu hoặc có điểm thật sự chưa thể giải quyết từ nguồn hiện tại.
 
@@ -33,7 +34,9 @@ npm run desktop
 
 Dependencies và build đã có trên máy. Ứng dụng có thể vẫn đang chạy; không mở thêm backend cùng cổng 3100. Nếu bản web riêng đang chạy, dừng đúng terminal của nó trước. Không tắt hàng loạt Node/Electron. Không đọc/chia sẻ key trong Settings để làm bàn giao.
 
-## 3. Công việc phiên tiếp theo: chốt BOM và kế hoạch đi mua
+## 3. Công việc phiên tiếp theo: UI/UX, chốt BOM và kế hoạch đi mua
+
+**Yêu cầu sản phẩm mới cần bàn:** giao tiếp giữa hai người bằng ký hiệu, giọng nói và chữ, có TTS và Settings. Giao diện P1 chưa được duyệt làm sản phẩm cuối. Đọc [STT_PRODUCT_UI_UX.md](STT_PRODUCT_UI_UX.md) trước khi chốt màn/giá đỡ: cách hai người nhìn và dùng màn ảnh hưởng BOM. Tham khảo tinh thần Codex/LearnHarness/messenger và bố cục ảnh người dùng gửi; không lấy bảng màu ảnh làm mặc định. Chưa triển khai lại UI hoặc thêm sign-to-text/TTS; giữ các mốc V1/V2/V3 STT. Người dùng muốn tiếp tục thảo luận ở phiên mới.
 
 **Dùng `STT_BOM.md` làm BOM duy nhất để chốt.** Bản trước thay và bản highlight nguyên gốc được giữ bên ngoài repository tại `C:\Users\LAPTOP T&T\Downloads\PBL6_BOM_BACKUP_20261107_9t707jsm`.
 
