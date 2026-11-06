@@ -2,9 +2,15 @@
 
 Updated: 2026-11-07. Original target: Thursday, 2026-11-05 (past); no replacement deadline has been agreed. Keep this Git repository and active STT data in the current C-drive workspace. Read `AGENTS.md`, `STT_PLAN_1_WEEK.md` and `STT_SYSTEM_SPEC.md` first.
 
+## Next session: BOM decisions and shopping plan — 2026-11-07
+
+**The user now prioritizes finalizing unresolved BOM choices and planning purchases in a new session. Do not automatically start P2/batch, rerun benchmarks or purchase items.** `STT_BOM.md` is the canonical BOM, now using the supplied highlighted layout with factual corrections. Its draft budgets are unverified; DSI prices are not HDMI quotes, and neither a 7-inch screen nor a 1–2 m test distance nor a total spending ceiling has been approved.
+
+Use `START_NEXT_CHAT_STT.md` for the concise P1 handoff and reading order. P1 code is complete at the single-file checkpoint with two user browser trials and the Windows desktop visibility fix; full V1 remains unfinished. Next hardware decisions: HDMI touchscreen size/model, exact cables/power, case/stand, conditional speaker needs, vendor/total price/availability and collection or delivery in Da Nang. Keep DSI optional after HDMI + USB is stable.
+
 ## Current entry point
 
-Inventory and planning exist. The historical experiment suite passed 22 tests. B01–B04 results remain unchanged. ==V1-P1 now implements local Settings and a one-file UI/backend/Electron path with offline tests; real API/Pi acceptance, batch, live transport and OTA remain incomplete.== ==**Start shift 1 below**==; do not report them as finished.
+Inventory and planning exist. The historical experiment suite passed 22 tests. B01–B04 results remain unchanged. ==V1-P1 now implements local Settings and a one-file UI/backend/Electron path with offline tests; two user-provided browser API trials have completed, while Pi acceptance, batch, live transport and OTA remain incomplete.== ==**P1 checkpoint is implemented; the next session focuses on BOM decisions and shopping planning.**== Full V1 remains unfinished.
 
 An attempted project relocation was stopped during source hashing, before copying or source removal. `D:\PBL6_STT` was not created. The temporary migration script is disabled. Keep the active project here. The earlier 48-file backup archive is separate from that cancelled relocation.
 
@@ -18,9 +24,9 @@ Display sequence: **validate HDMI + USB touch first; DSI is a later optional upg
 
 **V1-P1 code is in `stt-app`: local Settings, one-file Deepgram adapter, shared UI and Electron window.** Production build and TypeScript checks passed; 20 backend tests and 8 Chrome/HTTP/Electron tests passed on Windows with offline provider fixtures. The user supplied two completed real single-file browser trials (studio_M1.wav and phone_F1.wav, nova-3/vi, exported .txt; a word error is suspected in phone_F1); evidence is recorded in reports/stt_v1_p1_20261107/user_trial_studio_M1.json and user_trial_phone_F1.json. This is user-provided evidence, not an agent API rerun. Pi capture, batch, LAN control and Linux ARM64/touch/kiosk acceptance remain incomplete. Full V1 remains unfinished.
 
-Read `reports/stt_v1_p1_20261107/BAO_CAO.md` and `stt-app/README.md` for evidence and startup/trial commands. The user has returned the initial single-file result. Review the updated report; the next proposed implementation is batch, followed by Pi capture, subject to the user's next decision. N02 remains unfinished; preserve B01–B04 and the timing-scope caveat.
+Read `reports/stt_v1_p1_20261107/BAO_CAO.md` and `stt-app/README.md` for evidence and startup/trial commands. The user has returned the initial single-file result. The immediate next-session priority is BOM decisions and shopping planning; batch then Pi capture remain the proposed software sequence when the user resumes implementation. N02 remains unfinished; preserve B01–B04 and the timing-scope caveat.
 
-Current handoff: shift 1, partial V1-P1; branch `master`. Find the implementation commit with `git log -1 -- stt-app`. Preserve all pre-existing document edits and experiment results. From `stt-app`, the prepared Windows command is `npm run desktop` (dependencies and build already present on this machine). Tests: 20 backend and 8 UI/HTTP/Electron passed; production build and TypeScript passed. Real checks: one user-provided single-file browser/API success; no Pi checks. Evidence: `reports/stt_v1_p1_20261107/validation.json`. Next action: user reviews the trial/report and decides whether to proceed to batch; no Pi command is required yet.
+Current handoff: shift 1, V1-P1 checkpoint complete; full V1 pending; branch `master`. Find the implementation commit with `git log -1 -- stt-app`. Preserve all pre-existing document edits and experiment results. From `stt-app`, the prepared Windows command is `npm run desktop` (dependencies and build already present on this machine). Tests: 20 backend and 8 UI/HTTP/Electron passed; production build and TypeScript passed. Real checks: two user-provided browser file/API trials; a suspected word error in phone_F1; no Pi checks. Evidence: `reports/stt_v1_p1_20261107/validation.json`. Next action: user finalizes the highlighted canonical BOM and plans shopping; no Pi command or automatic batch implementation is required yet.
 
 ## Five people, one sequence
 
@@ -58,7 +64,6 @@ Next command to run:
 1. Read the main plan, then the system specification. Begin the first unfinished shift; no old questionnaire reconstruction is required.
 2. For the next person, give this workspace path and these three entry documents. They must inspect current Git status rather than reset the working tree.
 3. ==**Enter the Deepgram key locally**== when the prepared Settings/backend is available. Use `language=vi`. No repeat account/credit confirmation is needed.
-4. For Google, check Free Trial eligibility and whether the required payment-method verification is acceptable. Creating a project alone is not the full API setup. If setup is unavailable, record the block and continue the other engines.
 4. Prepare the Pi Connect/SSH session for the actual device check. ==**The next owner must supply the exact command and expected output from the implemented runner**==; do not use a guessed command for code that does not yet exist.
 
 ==No new purchase is required before software work starts.== Use `STT_BOM.md` to compare options before choosing any purchase ceiling.

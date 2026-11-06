@@ -1,38 +1,57 @@
-# STT: continue here
+# STT — bàn giao sau P1 và chốt BOM
 
-Updated: 2026-11-07. Original target: Thursday, 2026-11-05 (past); no replacement deadline has been agreed.
+Cập nhật 07/11/2026. Dự án giữ tại `C:\Users\LAPTOP T&T\VIOLETTA\Documents\ChatGPT\PBL6`. **Ưu tiên phiên tiếp theo: chốt các lựa chọn BOM và lập kế hoạch mua sắm tại Đà Nẵng. Chưa tự triển khai P2/batch hoặc đặt hàng.**
 
-Keep the active project at `C:\Users\LAPTOP T&T\VIOLETTA\Documents\ChatGPT\PBL6`. The user explicitly cancelled relocation to drive D. The attempted relocation stopped during source hashing, before copying or source removal. `D:\PBL6_STT` was not created. The temporary migration script is disabled. The earlier archive of 48 backup files is a separate completed operation.
+## 1. Đọc theo thứ tự
 
-Read these current documents:
+1. `AGENTS.md`: quy tắc kiểm thử, tài liệu và commit.
+2. `STT_BOM.md`: BOM chính, đã thay bằng bố cục highlight người dùng đưa và hiệu chỉnh các nội dung chưa có căn cứ. Không dùng một bản `_HIGHLIGHTED` khác làm nguồn quyết định song song.
+3. `reports/stt_v1_p1_20261107/BAO_CAO.md`: báo cáo triển khai, hai lượt dùng thử và lỗi desktop đã sửa.
+4. `STT_SHIFT_HANDOFF.md`: trạng thái công việc và nhiệm vụ tiếp theo.
+5. Khi cần chi tiết phần mềm/nghiên cứu: `STT_SYSTEM_SPEC.md`, `STT_PLAN_1_WEEK.md`, `stt-app/README.md`, `experiments/inventory_20261102/README.md`.
 
-1. [Main plan](STT_PLAN_1_WEEK.md).
-2. [System behavior, Settings and IoT](STT_SYSTEM_SPEC.md).
-3. [Sequential handoff for five people](STT_SHIFT_HANDOFF.md).
-4. [Single BOM and options comparison](STT_BOM.md).
-5. [Verified historical evidence](experiments/inventory_20261102/README.md).
+Không cần đọc lại toàn bộ chat/log phiên cũ. Người dùng đã yêu cầu tránh việc đó để tiết kiệm context; dùng các tài liệu và bằng chứng hiện có, chỉ tra lịch sử nếu người dùng yêu cầu hoặc có điểm thật sự chưa thể giải quyết từ nguồn hiện tại.
 
-Build STT only: microphone or files -> local/cloud recognizer -> subtitles in a web application. Require provisional text that can change, final text, and correct Stop/finalization. Support file/list input too. Use one foreground speaker at desktop distance and prioritize Central Vietnamese. Use the Pi webcam microphone already tested and the laptop display first. Capture during playback is allowed; evaluate AEC later if the actual playback test shows a problem.
+## 2. P1 đã làm đến đâu?
 
+**P1 đã triển khai và đã có bằng chứng sử dụng thực tế ở phạm vi một file. Toàn bộ V1 chưa hoàn thành.**
 
-Final product decision (2026-11-06): **touchscreen and kiosk mode**. The Pi must start the STT interface in full screen after boot, with normal operation by touch. Use the laptop for development and initial V1 testing. The screen model is not selected; physical touchscreen/kiosk acceptance comes at device integration. Keep V1 before V2/V3.
+- Mã tại `stt-app`, phiên bản 0.1.0. Stack đã chốt: React + TypeScript + Tailwind CSS, Next.js/Node.js và Electron.
+- Settings nhập/xóa key tại máy, giữ key trên backend; nhận một WAV/MP3/FLAC tối đa 20 MiB; gọi Deepgram `language=vi`; hiện chữ cuối/lỗi; xuất .txt và sao chép.
+- Production build, TypeScript, 20 backend tests và 8 Chrome/HTTP/Electron tests đã đạt trên Windows. Đây là kết quả đã chạy ở P1, không phải yêu cầu chạy lại mặc định cho phiên chốt BOM.
+- Người dùng đã gửi hai lượt Nova-3/vi trên Chrome: `studio_M1.wav` và `phone_F1.wav`, có ảnh và .txt. Chi tiết trong `user_trial_studio_M1.json`, `user_trial_phone_F1.json` cùng thư mục báo cáo. phone_F1 có cụm “nước sệt”, người dùng nghĩ là “nước sạch”; reference chưa xác nhận, chưa quy nguyên nhân cho vùng miền và chưa chấm WER/CER.
+- Lỗi không thấy cửa sổ desktop sau `npm run desktop` đã sửa: tiến trình Electron dùng `windowsHide: false`, backend vẫn chạy ẩn. Kiểm thử hồi quy xác nhận launcher production tạo cửa sổ có tiêu đề. Commit mã P1 ban đầu `e99ccaa9`, sửa desktop và lưu hai lượt thử `9041d6e2`.
+- Chưa có batch, thu micro Pi/Record/Stop, điều khiển qua LAN, bản cài Windows, kiểm chứng Linux ARM64, cảm ứng/kiosk khởi động trên Pi, V2/V3 hoặc IoT/OTA hoàn chỉnh.
+- Luồng V1 còn phải hoàn thiện: chọn nguồn/device path trên Pi → Record → Stop dừng capture → Deepgram → transcript cuối hoặc lỗi rõ ràng; hỗ trợ một file và batch. Không tự dùng micro của browser laptop. V2 mới đưa audio lên trong khi thu (hiện kết quả cuối); V3 mới hiện chữ tạm cập nhật rồi chốt chữ cuối.
 
-**Display sequence: stabilize HDMI + USB touch before evaluating DSI as an optional upgrade.** Keep the working HDMI configuration; verify Pi 4/OS/cable/power compatibility and repeat screen, touch, on-screen entry and kiosk boot checks before accepting DSI. Neither display path has been tested in this chat. See the dedicated HDMI + USB section in `STT_BOM.md` for the first screen, micro-HDMI cable, USB touch data cable and model-specific power; DSI purchase research follows that section. Screen model and price are not selected.
+Khi cần mở lại trên laptop, PowerShell:
 
-==**Approved stack (2026-11-07): React + TypeScript + Tailwind CSS, Next.js/Node.js, and Electron.**== Use a shared UI for laptop development/browser checks and the final Pi desktop application. On the device, Electron opens the local Next.js UI; Node.js manages Pi capture, Settings and Deepgram. Keep keys on the backend. See `STT_SYSTEM_SPEC.md` for the architecture and desktop verification gates.
+```powershell
+Set-Location -LiteralPath 'C:\Users\LAPTOP T&T\VIOLETTA\Documents\ChatGPT\PBL6\stt-app'
+npm run desktop
+```
 
-**Next implementation target: V1 with Deepgram. N02 remains unfinished research, not a prerequisite for V1.** Complete N02 before using local timing/RTF to compare speed or choose a local engine based on speed. Preserve B01–B04 and the documented timing-scope limitations.
+Dependencies và build đã có trên máy. Ứng dụng có thể vẫn đang chạy; không mở thêm backend cùng cổng 3100. Nếu bản web riêng đang chạy, dừng đúng terminal của nó trước. Không tắt hàng loạt Node/Electron. Không đọc/chia sẻ key trong Settings để làm bàn giao.
 
-Settings includes cloud configuration, enabled local engines, active engine, capture source, subtitle options, segmentation, recovery, retention and installed software version. The STT IoT path covers application/session/error/version telemetry, dashboard and an actual application OTA update. ThingsBoard is a candidate, not a previously confirmed platform. Device resource dashboards and arbitrary remote controls are outside the current product scope.
+## 3. Công việc phiên tiếp theo: chốt BOM và kế hoạch đi mua
 
-The two earlier discussions have been read in full. A separate exporter chat completed a tool in Downloads, and another chat owns the dictation source study. Neither task blocks the STT implementation. New user decisions in the current documents take precedence over older exported conversations.
+**Dùng `STT_BOM.md` làm BOM duy nhất để chốt.** Bản trước thay và bản highlight nguyên gốc được giữ bên ngoài repository tại `C:\Users\LAPTOP T&T\Downloads\PBL6_BOM_BACKUP_20261107_9t707jsm`.
 
-Keep B01–B04 results and user edits. Existing 22 tests and the evidence audit passed. V1-P1 has an implementation and offline tests; the full application and Pi gates remain incomplete; one successful real API browser trial has been provided by the user. Start the next unfinished shift in the handoff. Inspect Git status, update related documentation/tests, run appropriate checks, and commit each completed change according to AGENTS.md.
+Đã chốt: sản phẩm cuối có cảm ứng + Electron kiosk; tích hợp HDMI + USB touch trước, DSI chỉ là phương án nâng cấp sau khi HDMI ổn định. Chưa chốt: kích thước/model màn HDMI, đầu/chiều dài cáp, nguồn, vỏ/giá đỡ, nhà bán, tổng giá và ngày nhận. Loa, micro thay thế, AEC và powered hub phụ thuộc nhu cầu thực tế, không tự thành danh sách mua bắt buộc.
 
-## Implementation checkpoint — V1-P1, 2026-11-07
+Bản highlight gốc có thêm các mức tiền nháp. BOM chính đã phân biệt chúng với báo giá; không dùng giá ứng viên DSI để dự toán màn HDMI. Giá/tồn kho DSI là thông tin khảo sát ngày 06/11, cần kiểm tra lại khi mua. Không mặc định màn 7 inch, khoảng cách 1–2 m, tổng ngân sách 2–2,5 triệu, toàn bộ thiết bị đã có đủ hoặc nguồn màn luôn phải đi riêng.
 
-**V1-P1 code is in `stt-app`: local Settings, one-file Deepgram adapter, shared UI and Electron window.** Production build and TypeScript checks passed; 20 backend tests and 8 Chrome/HTTP/Electron tests passed on Windows with offline provider fixtures. The user supplied two completed real single-file browser trials (studio_M1.wav and phone_F1.wav, nova-3/vi, exported .txt; a word error is suspected in phone_F1); evidence is recorded in reports/stt_v1_p1_20261107/user_trial_studio_M1.json and user_trial_phone_F1.json. This is user-provided evidence, not an agent API rerun. Pi capture, batch, LAN control and Linux ARM64/touch/kiosk acceptance remain incomplete. Full V1 remains unfinished.
+Trình bày các ứng viên cụ thể trong một bảng so sánh: tương thích Pi 4/OS, kích thước/độ phân giải, đường touch, nguồn, phụ kiện, giá có VAT/ship, bảo hành, tồn kho và cách/ngày nhận có nguồn. Ưu tiên Đà Nẵng (Nguyễn Hiền/SPIDER/BKM) hoặc nhà bán giao được về Đà Nẵng. Người dùng chưa chốt ngân sách, không yêu cầu rẻ nhất; cho xem so sánh trước khi yêu cầu quyết định. Lập danh sách tận dụng/mượn/mua có điều kiện và lịch đi mua sau khi người dùng chọn. Không đặt hàng hoặc liên hệ người khác nếu chưa được yêu cầu.
 
-Read `reports/stt_v1_p1_20261107/BAO_CAO.md` and `stt-app/README.md` for evidence and startup/trial commands. The user has returned the initial single-file result. Review the updated report; the next proposed implementation is batch, followed by Pi capture, subject to the user's next decision. N02 remains unfinished; preserve B01–B04 and the timing-scope caveat.
+## 4. Giữ công việc nghiên cứu và triển khai còn lại
 
-Use Deepgram with `language=vi`; the user confirms API access is ready. Provide local key entry in Settings. Implement V1 record-then-transcribe, V2 streaming with final-only display, then V3 interim/final live text. Near-device seated and standing speech are valid; record actual distance and use the group's Da Nang speech. No old multiple-choice answers are required to begin.
+- **N02 chưa hoàn thành**, không chặn V1 Deepgram. RTF Whisper CLI cũ gồm khởi động/nạp model từng WAV, khác phạm vi RTF gọi nhận dạng của Zipformer. Không lấy tỷ số đó để kết luận tăng tốc. Hoàn thành phép đo thống nhất trước so sánh tốc độ hoặc chọn local engine dựa trên tốc độ.
+- Giữ B01–B04, prediction, dữ liệu và scorer. Không chạy model/benchmark từ bàn giao này.
+- Nếu người dùng tiếp tục phần mềm: bước tiếp theo dự kiến là batch, rồi capture Pi/Record/Stop để hoàn thiện V1. Hoàn thành V1 trước V2 rồi V3. Deepgram là provider đang dùng; không khôi phục Google STT vào phạm vi chủ động.
+- Khi cần Pi: kiểm tra phiên truy cập hiện tại, đưa từng bước với lệnh, nơi chạy, kết quả mong đợi và đầu ra cần gửi lại; không giả định Pi đã nhận bản mã mới.
+
+## 5. Git và bảo toàn thay đổi
+
+Nhánh hiện tại `master`; kiểm tra `git status --short` và `git log -3 --oneline` trước khi sửa. Có nhiều chỉnh sửa tài liệu và file chưa theo dõi của người dùng; giữ nguyên, kể cả trạng thái xóa `marp_slides_tutorial.zip`. Không reset/clean hoặc gộp chúng vào commit nhiệm vụ mới. Bản BOM cũ đã được sao lưu trước lần ghi đè được người dùng yêu cầu.
+
+Mỗi thay đổi hoàn chỉnh phải có tài liệu/kiểm thử liên quan, chạy kiểm tra phù hợp và commit theo AGENTS.md. Chốt BOM chỉ cần kiểm tra tài liệu; không chạy lại ASR/test ứng dụng nếu không đổi mã. Mốc 05/11 là kế hoạch cũ đã qua; chưa có hạn mới được người dùng xác nhận.

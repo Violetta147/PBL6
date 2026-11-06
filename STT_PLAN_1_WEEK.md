@@ -2,6 +2,12 @@
 
 Updated: 2026-11-07. Original target: Thursday, 2026-11-05 (past); no replacement deadline has been agreed. Keep the active project at `C:\Users\LAPTOP T&T\VIOLETTA\Documents\ChatGPT\PBL6`. Do not relocate it to drive D. Use this file for new STT work. Keep `PLAN_DEMO_STT_7_BUOI.md` as the previous plan. Use `STT_SYSTEM_SPEC.md` for behavior and `STT_SHIFT_HANDOFF.md` for sequential work by five people.
 
+## Next session: BOM decisions and shopping plan — 2026-11-07
+
+**The user now prioritizes finalizing unresolved BOM choices and planning purchases in a new session. Do not automatically start P2/batch, rerun benchmarks or purchase items.** `STT_BOM.md` is the canonical BOM, now using the supplied highlighted layout with factual corrections. Its draft budgets are unverified; DSI prices are not HDMI quotes, and neither a 7-inch screen nor a 1–2 m test distance nor a total spending ceiling has been approved.
+
+Use `START_NEXT_CHAT_STT.md` for the concise P1 handoff and reading order. P1 code is complete at the single-file checkpoint with two user browser trials and the Windows desktop visibility fix; full V1 remains unfinished. Next hardware decisions: HDMI touchscreen size/model, exact cables/power, case/stand, conditional speaker needs, vendor/total price/availability and collection or delivery in Da Nang. Keep DSI optional after HDMI + USB is stable.
+
 ## 1. Scope and dependencies
 
 Build this path: ==microphone or recorded files -> speech-to-text engine -> subtitles in a web application==. Open the application on the laptop. ==Use the Pi microphone for the device path.== ==**Test one file and a list of files.**== Test local engines and **Deepgram with `language=vi`**. Keep the engine choice open until the comparison is complete.
@@ -34,7 +40,7 @@ V1 implementation order: backend Settings and one-file Deepgram request -> batch
 
 **V1-P1 code is in `stt-app`: local Settings, one-file Deepgram adapter, shared UI and Electron window.** Production build and TypeScript checks passed; 20 backend tests and 8 Chrome/HTTP/Electron tests passed on Windows with offline provider fixtures. The user supplied two completed real single-file browser trials (studio_M1.wav and phone_F1.wav, nova-3/vi, exported .txt; a word error is suspected in phone_F1); evidence is recorded in reports/stt_v1_p1_20261107/user_trial_studio_M1.json and user_trial_phone_F1.json. This is user-provided evidence, not an agent API rerun. Pi capture, batch, LAN control and Linux ARM64/touch/kiosk acceptance remain incomplete. Full V1 remains unfinished.
 
-Read `reports/stt_v1_p1_20261107/BAO_CAO.md` and `stt-app/README.md` for evidence and startup/trial commands. The user has returned the initial single-file result. Review the updated report; the next proposed implementation is batch, followed by Pi capture, subject to the user's next decision. N02 remains unfinished; preserve B01–B04 and the timing-scope caveat.
+Read `reports/stt_v1_p1_20261107/BAO_CAO.md` and `stt-app/README.md` for evidence and startup/trial commands. The user has returned the initial single-file result. The immediate next-session priority is BOM decisions and shopping planning; batch then Pi capture remain the proposed software sequence when the user resumes implementation. N02 remains unfinished; preserve B01–B04 and the timing-scope caveat.
 
 ## 2. Fixed experiment rules
 
