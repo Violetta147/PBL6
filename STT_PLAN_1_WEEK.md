@@ -28,6 +28,12 @@ The user confirms that Deepgram API access is ready. ==**The implementation must
 
 V1 implementation order: backend Settings and one-file Deepgram request -> batch results/error handling -> selected Pi microphone Record/Stop -> shared UI and Electron launch -> fixture tests and real API/Pi checks. Desktop packaging must distinguish Windows development and Linux ARM64 device builds; final touchscreen/kiosk checks remain device integration work. A clean startup command and trial instructions must accompany the implemented version.
 
+## Implementation checkpoint — V1-P1, 2026-11-07
+
+**V1-P1 code is in `stt-app`: local Settings, one-file Deepgram adapter, shared UI and Electron window.** Production build and TypeScript checks passed; 20 backend tests and 7 Chrome/HTTP/Electron tests passed on Windows with offline provider fixtures. No real Deepgram request, Pi capture, batch, LAN control or Linux ARM64/touch/kiosk acceptance has been completed. Full V1 remains unfinished.
+
+Read `reports/stt_v1_p1_20261107/BAO_CAO.md` and `stt-app/README.md` for evidence and startup/trial commands. The next user action is to enter the key locally and try one short file, returning the outcome/error without credentials. Pause at this report checkpoint for the user's next decision before expanding to batch/Pi. N02 remains unfinished; preserve B01–B04 and the timing-scope caveat.
+
 ## 2. Fixed experiment rules
 
 1. ==**Keep B01–B04 and all saved predictions.**== Use new IDs N01–N07 and new output directories for new work. Do not overwrite a prior run.

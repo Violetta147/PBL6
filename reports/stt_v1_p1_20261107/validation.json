@@ -1,0 +1,82 @@
+{
+  "checked_on": "2026-11-07",
+  "timezone": "Asia/Saigon",
+  "milestone": "V1-P1",
+  "baseline_commit": "614dec62",
+  "environment": {
+    "platform": "Windows",
+    "node": "v22.22.2",
+    "npm": "10.9.7"
+  },
+  "versions": {
+    "next": "16.4.5",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "tailwindcss": "4.3.5",
+    "electron": "45.2.3",
+    "typescript": "5.9.3",
+    "@playwright/test": "1.65.0"
+  },
+  "checks": [
+    {
+      "command": "npm test",
+      "exit_code": 0,
+      "passed": 20,
+      "failed": 0,
+      "scope": "Backend/settings/request contract; temporary files and injected offline provider transport"
+    },
+    {
+      "command": "npm run build",
+      "exit_code": 0,
+      "scope": "Production Next.js compile, TypeScript, prerender and API route generation"
+    },
+    {
+      "command": "npm run typecheck",
+      "exit_code": 0,
+      "scope": "TypeScript static check"
+    },
+    {
+      "command": "npm run test:ui",
+      "exit_code": 0,
+      "passed": 7,
+      "failed": 0,
+      "scope": "Chrome UI fixtures, real local HTTP settings/origin failures, Electron renderer on Windows"
+    },
+    {
+      "check": "dependency-lock consistency",
+      "result": "pass"
+    }
+  ],
+  "iterations": [
+    "Initial npm .cmd launchers failed on Windows account path containing ampersand; scripts changed to direct Node entrypoints.",
+    "First build exposed two UI-test type errors; corrected before successful production build.",
+    "First UI run: 3 passed, 4 failed. Corrected alert locator and Next internal-URL versus Host origin handling; installed Electron binary before timed UI test. Final UI run: 7 passed."
+  ],
+  "not_verified": [
+    "Actual Deepgram request or account access",
+    "Vietnamese recognition quality or latency benchmark",
+    "Batch input",
+    "Pi microphone Record/Stop",
+    "LAN control",
+    "Linux ARM64 application packaging",
+    "Physical touch/keyboard/kiosk boot",
+    "N02 fair local RTF rerun"
+  ],
+  "notes": [
+    "Summary transcribed from observed command outputs; not a raw command log.",
+    "No real API key or user audio was used in automated checks.",
+    "Settings screenshot uses a fixture response; it is not proof of a working Deepgram account."
+  ],
+  "evidence_assets_sha256": {
+    "electron.png": "9f3e6173384e9d04aab3ec56cd8d68a62ba3b45292719b59377c4e7ba15133d4",
+    "mobile.png": "2a85523901bba20fe1f7d7330b15c00fd048d441a1ecac4a459e51ac06648c02",
+    "settings.png": "e835c74c0f043d1be7c87580b433c7240d7236490a633ba4a979b003cbc281ac"
+  },
+  "documentation_checks": [
+    "Handoff updates preserve pre-existing edits",
+    "Staging limited to intended files",
+    "Local Markdown links and screenshots resolve",
+    "Report has three main sections and foreground-only prose accents",
+    "Staged whitespace check passed"
+  ]
+}

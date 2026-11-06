@@ -4,7 +4,7 @@ Updated: 2026-11-07. Original target: Thursday, 2026-11-05 (past); no replacemen
 
 ## Current entry point
 
-Inventory and planning exist. The historical experiment suite passed 22 tests. B01–B04 results remain unchanged. ==The new application, Settings, live transport and OTA path are not implemented by these documents.== ==**Start shift 1 below**==; do not report them as finished.
+Inventory and planning exist. The historical experiment suite passed 22 tests. B01–B04 results remain unchanged. ==V1-P1 now implements local Settings and a one-file UI/backend/Electron path with offline tests; real API/Pi acceptance, batch, live transport and OTA remain incomplete.== ==**Start shift 1 below**==; do not report them as finished.
 
 An attempted project relocation was stopped during source hashing, before copying or source removal. `D:\PBL6_STT` was not created. The temporary migration script is disabled. Keep the active project here. The earlier 48-file backup archive is separate from that cancelled relocation.
 
@@ -13,6 +13,14 @@ Final-device decision confirmed 2026-11-06: ==**touchscreen interaction and kios
 Display sequence: **validate HDMI + USB touch first; DSI is a later optional upgrade**. Keep the successful HDMI configuration and actual test record. Check the candidate DSI screen against Pi 4 and the installed OS, then retest touch, orientation, on-screen entry, boot/kiosk and a real STT session. DSI procurement and switching must not block initial V1 work.
 
 ==**Approved stack (2026-11-07): React + TypeScript + Tailwind CSS, Next.js/Node.js, and Electron.**== Implement V1 through the shared Node.js backend/UI and Electron desktop, using `STT_SYSTEM_SPEC.md` as the architecture contract. N02 is unfinished research; it does not block V1 Deepgram, but must precede speed comparisons or speed-based selection of local engines.
+
+## Implementation checkpoint — V1-P1, 2026-11-07
+
+**V1-P1 code is in `stt-app`: local Settings, one-file Deepgram adapter, shared UI and Electron window.** Production build and TypeScript checks passed; 20 backend tests and 7 Chrome/HTTP/Electron tests passed on Windows with offline provider fixtures. No real Deepgram request, Pi capture, batch, LAN control or Linux ARM64/touch/kiosk acceptance has been completed. Full V1 remains unfinished.
+
+Read `reports/stt_v1_p1_20261107/BAO_CAO.md` and `stt-app/README.md` for evidence and startup/trial commands. The next user action is to enter the key locally and try one short file, returning the outcome/error without credentials. Pause at this report checkpoint for the user's next decision before expanding to batch/Pi. N02 remains unfinished; preserve B01–B04 and the timing-scope caveat.
+
+Current handoff: shift 1, partial V1-P1; branch `master`. Find the implementation commit with `git log -1 -- stt-app`. Preserve all pre-existing document edits and experiment results. From `stt-app`, the prepared Windows command is `npm run desktop` (dependencies and build already present on this machine). Tests: 20 backend and 7 UI/HTTP/Electron passed; production build and TypeScript passed. Real Pi/API checks: none. Evidence: `reports/stt_v1_p1_20261107/validation.json`. Next action: user reads the report, enters the key locally and tries a short file; no Pi command is required yet.
 
 ## Five people, one sequence
 

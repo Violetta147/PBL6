@@ -2,6 +2,12 @@
 
 Updated: 2026-11-07. Active workspace: `C:\Users\LAPTOP T&T\VIOLETTA\Documents\ChatGPT\PBL6`. Original target: Thursday, 2026-11-05 (past); no replacement deadline has been agreed. This is a specification; ==it does not assert that these functions have been implemented.==
 
+## Implementation checkpoint — V1-P1, 2026-11-07
+
+**V1-P1 code is in `stt-app`: local Settings, one-file Deepgram adapter, shared UI and Electron window.** Production build and TypeScript checks passed; 20 backend tests and 7 Chrome/HTTP/Electron tests passed on Windows with offline provider fixtures. No real Deepgram request, Pi capture, batch, LAN control or Linux ARM64/touch/kiosk acceptance has been completed. Full V1 remains unfinished.
+
+Read `reports/stt_v1_p1_20261107/BAO_CAO.md` and `stt-app/README.md` for evidence and startup/trial commands. The next user action is to enter the key locally and try one short file, returning the outcome/error without credentials. Pause at this report checkpoint for the user's next decision before expanding to batch/Pi. N02 remains unfinished; preserve B01–B04 and the timing-scope caveat.
+
 ## Final device: touchscreen and kiosk (confirmed 2026-11-06)
 
 ==**The final tabletop product uses a touchscreen and kiosk mode.**== Normal user operation must work by touch, including Record/Stop and Settings. Provide on-screen text entry when a field requires typing; essential actions must not depend on mouse hover.
