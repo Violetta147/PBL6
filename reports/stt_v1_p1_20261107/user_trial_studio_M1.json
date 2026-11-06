@@ -1,0 +1,43 @@
+{
+  "checked_on": "2026-11-07",
+  "evidence_kind": "user_provided_successful_single_file_trial",
+  "client": "Chrome browser at http://127.0.0.1:3100, not an Electron trial",
+  "provider": "deepgram",
+  "model_shown": "nova-3",
+  "language_shown": "vi",
+  "status_shown": "completed",
+  "request_seconds_shown": 1.92,
+  "timing_note": "Rounded UI client-to-provider request time from screenshot; not a local inference RTF or latency benchmark. No request was rerun by the agent.",
+  "transcript": "Anh vẫn có thể làm trọng tài",
+  "audio": {
+    "path": "C:\\Users\\LAPTOP T&T\\VIOLETTA\\Documents\\ChatGPT\\XLTN\\TinHieuHuanLuyen\\studio_M1.wav",
+    "size_bytes": 240844,
+    "sha256": "7ad0e8baff2c69e65f680842a7cda33744358111f7662d9b6d17702b2077be78",
+    "sample_rate_hz": 44100,
+    "channels": 1,
+    "sample_width_bytes": 2,
+    "frames": 120400,
+    "duration_seconds": 2.7301587301587302
+  },
+  "export": {
+    "original_path": "C:\\Users\\LAPTOP T&T\\Downloads\\studio_M1-transcript.txt",
+    "artifact": "assets/studio_M1-transcript.txt",
+    "sha256": "dba1ebbeee8a0f3090ea022d2ef9996b6b46342b4521728793468bd62355393c"
+  },
+  "screenshot": {
+    "artifact": "assets/user-trial-studio_M1.png",
+    "sha256": "b37611ffa78f26aae6062a307d7fbee5236c7c1f22fd5188f1353d86270090e5"
+  },
+  "not_available": [
+    "Raw Deepgram response",
+    "Provider request ID and exact API model version",
+    "User-verified reference transcript",
+    "Accuracy evaluation",
+    "Repeated timing measurements"
+  ],
+  "agent_actions": [
+    "Read supplied transcript and WAV header/hash",
+    "Archived supplied export and screenshot without modifying source files",
+    "Did not read credentials, call API, rerun ASR or alter audio"
+  ]
+}

@@ -1,6 +1,6 @@
 # STT V1 — P1: Settings và nhận dạng một file
 
-Ngày 07/11/2026. **P1** là phần việc đầu tiên của V1, được tách ra để kiểm tra cấu hình và đường nhận dạng file trước khi thêm batch và thu âm Pi. <strong style="color:#087A47;">Ứng dụng đã build và mở được bằng Electron trên Windows; 20 kiểm thử backend và 7 kiểm thử giao diện/tích hợp đều đạt.</strong> <strong style="color:#946200;">Chưa gọi Deepgram bằng key thật, chưa thu micro Pi và chưa hoàn thành toàn bộ V1.</strong>
+Ngày 07/11/2026. **P1** là phần việc đầu tiên của V1, được tách ra để kiểm tra cấu hình và đường nhận dạng file trước khi thêm batch và thu âm Pi. <strong style="color:#087A47;">Ứng dụng đã build và mở được bằng Electron trên Windows; 20 kiểm thử backend và 8 kiểm thử giao diện/tích hợp đều đạt.</strong> <strong style="color:#946200;">Đã có hai lượt nhận dạng file qua API thật do người dùng cung cấp; phone_F1 có lỗi từ nghi ngờ; chưa thu micro Pi và chưa hoàn thành toàn bộ V1.</strong>
 
 ## 1. Tổng quan luồng xử lý
 
@@ -12,7 +12,7 @@ Hình 1 mô tả luồng đã viết trong mã. Các kiểm thử thành công/t
 flowchart LR
     U["Electron hoặc trình duyệt"] --> S["Settings và một file audio"]
     S --> B["Next.js / Node.js backend"]
-    B --> D["Deepgram: chưa thử API thật"]
+    B --> D["Deepgram: đã có hai lượt thử từ người dùng"]
     D --> R["Chữ cuối hoặc lỗi"]
     classDef input fill:#DFF8FC,stroke:#087789,color:#075A67,font-weight:bold;
     classDef method fill:#F0E9FF,stroke:#713DB0,color:#4D3375,font-weight:bold;
@@ -22,9 +22,9 @@ flowchart LR
     class D pending;
 ```
 
-**Hình 1.** Luồng V1-P1 theo thiết kế và mã hiện tại. Mũi tên tới Deepgram là đường gọi API đã triển khai; chưa có kết quả thực nghiệm qua dịch vụ thật trong lượt này.
+**Hình 1.** Luồng V1-P1 theo thiết kế và mã hiện tại. Đường gọi API đã triển khai và đã có hai lượt hoàn tất do người dùng cung cấp ở mục 3.2; các kiểm thử tự động vẫn dùng mô phỏng.
 
-<strong style="color:#087789;">Điểm có thể dùng thử ngay là nhập/lưu cấu hình, chọn file và giao diện desktop.</strong> Muốn kiểm chứng toàn luồng cloud, người dùng cần nhập key tại máy và gửi một bản thu thật. Thu âm Pi và batch chưa xuất hiện như chức năng có thể sử dụng; màn hình ghi rõ phạm vi một file.
+<strong style="color:#087789;">Điểm có thể dùng thử ngay là nhập/lưu cấu hình, chọn file và giao diện desktop.</strong> Người dùng đã cung cấp bằng chứng hai lượt cloud hoàn tất; phạm vi và giới hạn được ghi ở mục 3.2. Thu âm Pi và batch chưa xuất hiện như chức năng có thể sử dụng; màn hình ghi rõ phạm vi một file.
 
 ## 2. Phương pháp triển khai
 
@@ -65,7 +65,7 @@ Backend tests dùng audio tổng hợp tối thiểu, file tạm và phản hồ
 | `npm test` | **20/20 đạt** | Settings, upload, cấu hình yêu cầu, lỗi, timeout, khóa đồng thời |
 | `npm run build` | **Đạt** | Build production và sinh route |
 | `npm run typecheck` | **Đạt** | Kiểm tra kiểu TypeScript |
-| `npm run test:ui` | **7/7 đạt** | Chrome, HTTP cục bộ và Electron Windows |
+| `npm run test:ui` | **8/8 đạt** | Chrome, HTTP cục bộ, Electron và launcher hiện cửa sổ Windows |
 | Khởi động launcher production | **Đạt** | Backend sẵn sàng, tiến trình tiếp tục chạy sau khi mở Electron |
 
 <strong style="color:#087A47;">Các kiểm tra trên đã đạt sau khi sửa lỗi phát hiện trong quá trình tích hợp.</strong> Lượt đầu gặp lỗi launcher `.cmd` trên đường dẫn có `&`, hai lỗi kiểu trong test và lỗi so Origin do Next dùng địa chỉ nội bộ khác Host của client. Script nay gọi trực tiếp công cụ qua Node; kiểm tra Origin dùng Host loopback đã xác thực. Lượt UI đầu có 3 đạt/4 lỗi, gồm locator thông báo và thời gian tải binary Electron; lượt cuối đạt 7/7. Đây là lịch sử sửa lỗi phần mềm, không phải thí nghiệm cải thiện ASR.
@@ -78,7 +78,23 @@ Hình 2 là giao diện chụp từ Electron thật trên Windows; chưa có key
 
 **Hình 2.** Màn hình một file trong Electron. Nút nhận dạng chưa cho dùng khi chưa có key. Ảnh kiểm tra bố cục hẹp ở [mobile.png](assets/mobile.png) không có cuộn ngang toàn trang. [Ảnh Settings](assets/settings.png) dùng phản hồi mô phỏng đã lưu key; không phải bằng chứng API đã sẵn sàng.
 
-### 3.2. Khởi động và thử API thật
+### 3.2. Dùng thử thực tế do người dùng cung cấp — studio_M1
+
+<strong style="color:#087A47;">Người dùng đã cung cấp một lần nhận dạng một file thành công bằng Nova-3, ngôn ngữ vi, trên trình duyệt Chrome tại 127.0.0.1:3100.</strong> [Ảnh kết quả](assets/user-trial-studio_M1.png) hiển thị trạng thái hoàn tất và thời gian yêu cầu **1,92 giây**. [File .txt đã xuất](assets/studio_M1-transcript.txt) chứa đúng chữ hiển thị:
+
+> Anh vẫn có thể làm trọng tài
+
+Đọc header WAV cho thấy file có thời lượng **2,730159 giây**, mono, 44.100 Hz, PCM 16 bit, 240.844 byte. File nguồn nằm trong thư mục dữ liệu XLTN được người dùng chỉ định; không sao chép vào tập đánh giá PBL6 và không sửa audio. Đường dẫn, SHA-256 và thông tin bằng chứng được lưu ở [user_trial_studio_M1.json](user_trial_studio_M1.json).
+
+Lượt này xác nhận theo bằng chứng người dùng gửi rằng đường nhận một file → kết quả → xuất .txt đã chạy qua sử dụng thực tế. Agent không gọi lại API, không đọc key và không tự chạy nhận dạng. **Chưa có reference được người dùng nghe và xác nhận nên chưa chấm đúng/sai, WER hoặc CER.** Thời gian 1,92 giây là số đã làm tròn trên giao diện, gồm đường yêu cầu client/mạng/dịch vụ; không dùng để suy tốc độ local hoặc coi là benchmark. Chưa có raw response/request ID để đối chiếu thêm. Đây cũng không phải kiểm chứng thu âm Pi, batch hoặc Electron trên Pi.
+
+**Lượt phone_F1:** [ảnh người dùng gửi](assets/user-trial-phone_F1.png) hiển thị hoàn tất với Nova-3/vi và thời gian yêu cầu **2,02 giây**. [File .txt đã xuất](assets/phone_F1-transcript.txt) chứa:
+
+> Nhiều nông dân khốn khổ vì bị cắt nước sệt
+
+Người dùng cho rằng cụm đúng có thể là **“nước sạch”**. Đây là reference tạm thời cho một cụm, chưa phải toàn bộ câu đã được nghe xác nhận. <strong style="color:#946200;">Ghi nhận lỗi từ nghi ngờ; chưa xác định nguyên nhân do giọng vùng miền và chưa đủ căn cứ kết luận công nghệ không xử lý được.</strong> Giữ nguyên đầu ra “nước sệt”, không tự sửa thành “nước sạch” hoặc tính WER/CER. Việc request hoàn tất khác với nhận dạng đúng nội dung. [Bằng chứng phone_F1](user_trial_phone_F1.json) ghi riêng các giới hạn; lượt này chưa đọc WAV gốc hoặc gọi lại API.
+
+### 3.3. Khởi động và thử API thật
 
 Dependencies và production build đã có trên máy hiện tại. Mở PowerShell tại máy Windows này và chạy:
 
@@ -94,8 +110,16 @@ Nếu cài lại từ Git, chạy thêm `npm ci` rồi `npm run build` trước.
 3. Ghi nhận có transcript hay thông báo lỗi, model và định dạng file. Nếu có chữ, nghe đối chiếu rồi thử **Lưu .txt**. Gửi lại các thông tin này, không gửi key hoặc file Settings.
 4. Nếu không khởi động được, gửi nguyên lỗi terminal. Nếu lỗi khi nhận dạng, gửi nguyên thông báo trên giao diện. Không cần thao tác Pi ở mốc này.
 
-### 3.3. Căn cứ cho quyết định tiếp theo
+### 3.4. Căn cứ cho quyết định tiếp theo
 
-<strong style="color:#B22563;">Đề nghị xem xét chuyển sang batch sau khi đọc báo cáo và thử một file với API thật.</strong> Hiện code và kiểm thử đủ để báo cáo P1; quyền API, chất lượng tiếng Việt và lỗi thực tế của tài khoản vẫn cần lần thử đó. Bước sau batch mới nối micro Pi, Record/Stop, LAN có kiểm soát và kiểm chứng thiết bị. Khi cần Pi, người thực hiện phải đưa lệnh, nơi chạy và đầu ra cần gửi lại.
+<strong style="color:#B22563;">Đề nghị xem xét chuyển sang batch sau khi đọc báo cáo và thử một file với API thật.</strong> Đã có code, kiểm thử và một lượt thành công thực tế do người dùng cung cấp. Hai lượt này kiểm chứng ban đầu đường nhận dạng một file và xuất chữ; không thay cho đánh giá chất lượng tiếng Việt. phone_F1 có lỗi từ nghi ngờ, chưa xác định nguyên nhân. Bước sau batch mới nối micro Pi, Record/Stop, LAN có kiểm soát và kiểm chứng thiết bị. Khi cần Pi, người thực hiện phải đưa lệnh, nơi chạy và đầu ra cần gửi lại.
+
+### 3.5. Sửa lỗi launcher desktop bị ẩn trên Windows
+
+Người dùng cho biết đã chạy đúng `npm run desktop` trong `stt-app` nhưng không thấy cửa sổ desktop. Khi kiểm tra, backend khởi động và Electron có tiến trình nhưng không có tiêu đề cửa sổ chính. Launcher đã truyền `windowsHide: true` cả cho Electron. Sau khi đổi riêng tiến trình Electron sang **`windowsHide: false`**, Windows ghi nhận cửa sổ **“STT · Tiếng Việt”** và một handle khác 0. Tiến trình backend vẫn được chạy ẩn như dịch vụ nền.
+
+<strong style="color:#087A47;">Đã bổ sung kiểm thử hồi quy qua chính launcher production; lượt cuối đạt 8/8 kiểm thử UI/HTTP/Electron và kiểm tra TypeScript đạt.</strong> Kiểm thử mới dùng cổng, cấu hình và profile riêng, xác nhận cửa sổ chính thuộc đúng launcher của bài test. Nó không dùng key thật, không gọi ASR và không dừng ứng dụng người dùng đang mở. Các lượt trước mở Electron trực tiếp và smoke chỉ kiểm tra backend/tiến trình nên chưa phát hiện lỗi ẩn cửa sổ; không coi kiểm tra tiến trình sống là bằng chứng cửa sổ đã xuất hiện.
+
+Bản P1 hiện chưa có bộ cài hay shortcut desktop. Dùng `npm run desktop` trong `stt-app`. Nếu trước đó chạy bản web riêng bằng `npm start` hoặc `npm run dev`, hãy dừng đúng terminal đó trước khi mở desktop vì launcher mặc định dùng cổng 3100. Không tắt hàng loạt tiến trình Node/Electron. `PBL6_STT_PORT` cho phép chỉ định cổng khác (1024–65535); `PBL6_STT_DESKTOP_DATA_DIR` tách profile desktop khi kiểm thử. Bản desktop đã sửa được mở lại tại máy để người dùng kiểm tra.
 
 **N02 vẫn chưa hoàn thành.** P1 không sửa runner/chấm điểm và không chạy lại B01–B04. Thời gian yêu cầu cloud trong giao diện gồm đường client/mạng/dịch vụ, không phải RTF local. Giữ nhiệm vụ thống nhất phạm vi tính giờ, chính sách nạp model, warm-up và các lượt lặp trước khi so tốc độ hoặc chọn local engine dựa trên tốc độ. Không có kết luận benchmark mới từ phần việc này.

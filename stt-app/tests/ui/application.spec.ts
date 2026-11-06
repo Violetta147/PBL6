@@ -1,5 +1,9 @@
 import { test, expect, _electron } from '@playwright/test';
 import { resolve } from 'node:path';
+import { spawn, execFileSync } from 'node:child_process';
+import { mkdtemp, rm } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 
 const fakeKey = 'TEST_NOT_A_REAL_KEY_0123456789';
 const baseSettings = { provider: 'deepgram', language: 'vi', model: 'nova-3', timeoutSeconds: 60, hasApiKey: false };
@@ -73,6 +77,7 @@ test('real HTTP saves a fixture key, redacts reads and explicitly deletes it wit
 test('Electron opens the same local UI with isolated renderer', async ({}, info) => {
   const env: Record<string, string> = Object.fromEntries(Object.entries(process.env).filter((item): item is [string, string] => item[1] !== undefined));
   env.PBL6_STT_APP_URL = 'http://127.0.0.1:3111';
+  env.PBL6_STT_DESKTOP_DATA_DIR = info.outputPath('electron-profile');
   delete env.ELECTRON_RUN_AS_NODE;
   const desktop = await _electron.launch({ args: [resolve('electron/main.cjs')], env });
   try {
@@ -82,4 +87,28 @@ test('Electron opens the same local UI with isolated renderer', async ({}, info)
     expect(globals.require).toBe(false); expect(globals.process).toBe(false);
     await window.screenshot({ path: info.outputPath('electron-screen.png'), fullPage: true });
   } finally { await desktop.close(); }
+});
+
+test('Windows production launcher creates a visible Electron window', async () => {
+  test.skip(process.platform !== 'win32', 'Windows window-visibility regression');
+  test.setTimeout(60000);
+  const directory = await mkdtemp(join(tmpdir(), 'pbl6-visible-desktop-'));
+  const child = spawn(process.execPath, ['scripts/desktop.mjs'], {
+    cwd: process.cwd(), windowsHide: true, stdio: 'ignore',
+    env: { ...process.env, PBL6_STT_PORT: '3112', PBL6_STT_CONFIG_DIR: join(directory, 'config'),
+      PBL6_STT_DESKTOP_DATA_DIR: join(directory, 'profile'), NEXT_TELEMETRY_DISABLED: '1' },
+  });
+  try {
+    await expect.poll(async () => {
+      if (child.exitCode !== null) return `launcher exited ${child.exitCode}`;
+      // Only inspect the exact test launcher's direct Electron child, never other apps.
+      const script = `$items = Get-CimInstance Win32_Process -Filter \"ParentProcessId = ${child.pid}\" | Where-Object { $_.Name -eq 'electron.exe' }; foreach ($item in $items) { $p = Get-Process -Id $item.ProcessId -ErrorAction SilentlyContinue; if ($p.MainWindowHandle -ne 0) { $p.MainWindowTitle } }`;
+      return execFileSync('powershell.exe', ['-NoProfile', '-NonInteractive', '-Command', script], { encoding: 'utf8', windowsHide: true }).trim();
+    }, { timeout: 45000, intervals: [500, 1000] }).toBe('STT · Tiếng Việt');
+  } finally {
+    if (child.pid && child.exitCode === null) {
+      try { execFileSync('taskkill', ['/PID', String(child.pid), '/T', '/F'], { stdio: 'ignore', windowsHide: true }); } catch {}
+    }
+    await rm(directory, { recursive: true, force: true, maxRetries: 5, retryDelay: 200 });
+  }
 });

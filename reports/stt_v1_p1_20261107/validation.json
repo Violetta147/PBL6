@@ -38,9 +38,9 @@
     {
       "command": "npm run test:ui",
       "exit_code": 0,
-      "passed": 7,
+      "passed": 8,
       "failed": 0,
-      "scope": "Chrome UI fixtures, real local HTTP settings/origin failures, Electron renderer on Windows"
+      "scope": "Chrome, local HTTP, Electron, and real Windows production-launcher window visibility; isolated test ports/profiles, no real API calls"
     },
     {
       "check": "dependency-lock consistency",
@@ -50,22 +50,28 @@
       "check": "Production desktop launcher smoke",
       "exit_code": 0,
       "scope": "Started scripts/desktop.mjs with a temporary empty configuration directory; local health became ready and launcher remained alive after Electron startup. No key or audio used. Test-owned process tree terminated afterwards; this is not a Pi kiosk boot or window-close recovery test."
+    },
+    {
+      "check": "TypeScript after launcher regression test",
+      "command": "npm run typecheck",
+      "exit_code": 0
     }
   ],
   "iterations": [
     "Initial npm .cmd launchers failed on Windows account path containing ampersand; scripts changed to direct Node entrypoints.",
     "First build exposed two UI-test type errors; corrected before successful production build.",
-    "First UI run: 3 passed, 4 failed. Corrected alert locator and Next internal-URL versus Host origin handling; installed Electron binary before timed UI test. Final UI run: 7 passed."
+    "First UI run: 3 passed, 4 failed. Corrected alert locator and Next internal-URL versus Host origin handling; installed Electron binary before timed UI test. Final UI run: 7 passed.",
+    "User could not see desktop after correct npm run desktop. Backend/child processes were alive but no main-window title was observed. Changed only the GUI child to windowsHide:false; main window appeared. Added a real Windows launcher/window regression. Final UI suite: 8 passed. Prior direct-Electron and process-only smoke did not test this path."
   ],
   "not_verified": [
-    "Actual Deepgram request or account access",
     "Vietnamese recognition quality or latency benchmark",
     "Batch input",
     "Pi microphone Record/Stop",
     "LAN control",
     "Linux ARM64 application packaging",
     "Physical touch/keyboard/kiosk boot",
-    "N02 fair local RTF rerun"
+    "N02 fair local RTF rerun",
+    "Broader real-provider error/account/model cases beyond the single user-supplied success"
   ],
   "notes": [
     "Summary transcribed from observed command outputs; not a raw command log.",
@@ -75,7 +81,11 @@
   "evidence_assets_sha256": {
     "electron.png": "9f3e6173384e9d04aab3ec56cd8d68a62ba3b45292719b59377c4e7ba15133d4",
     "mobile.png": "2a85523901bba20fe1f7d7330b15c00fd048d441a1ecac4a459e51ac06648c02",
-    "settings.png": "e835c74c0f043d1be7c87580b433c7240d7236490a633ba4a979b003cbc281ac"
+    "settings.png": "e835c74c0f043d1be7c87580b433c7240d7236490a633ba4a979b003cbc281ac",
+    "studio_M1-transcript.txt": "dba1ebbeee8a0f3090ea022d2ef9996b6b46342b4521728793468bd62355393c",
+    "user-trial-studio_M1.png": "b37611ffa78f26aae6062a307d7fbee5236c7c1f22fd5188f1353d86270090e5",
+    "phone_F1-transcript.txt": "74b3fab0d787839d9ddbd246edd9c4495b2a677577d1dd35c6a7e6fa59391fe1",
+    "user-trial-phone_F1.png": "4c5ac12191d821d2bca4b4b79ea0fc973265077fea021d383fe71ac4c852dcc4"
   },
   "documentation_checks": [
     "Handoff updates preserve pre-existing edits",
@@ -83,5 +93,17 @@
     "Local Markdown links and screenshots resolve",
     "Report has three main sections and foreground-only prose accents",
     "Staged whitespace check passed"
+  ],
+  "user_supplied_trials": [
+    {
+      "evidence": "user_trial_studio_M1.json",
+      "result": "One real single-file browser success reported with exported text",
+      "not_an_automated_provider_test": true
+    },
+    {
+      "evidence": "user_trial_phone_F1.json",
+      "result": "One completed request and text export; suspected sạch/sệt recognition error, unverified reference",
+      "not_an_automated_provider_test": true
+    }
   ]
 }

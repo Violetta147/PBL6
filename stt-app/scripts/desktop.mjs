@@ -8,7 +8,12 @@ const require = createRequire(import.meta.url);
 const root = fileURLToPath(new URL('../', import.meta.url));
 const dev = process.argv.includes('--dev');
 const kiosk = process.argv.includes('--kiosk');
-const port = 3100;
+const configuredPort = process.env.PBL6_STT_PORT || '3100';
+if (!/^\d+$/.test(configuredPort) || Number(configuredPort) < 1024 || Number(configuredPort) > 65535) {
+  console.error('PBL6_STT_PORT must be an integer from 1024 to 65535.');
+  process.exit(1);
+}
+const port = Number(configuredPort);
 const origin = `http://127.0.0.1:${port}`;
 // Refuse to attach a desktop to an unrelated or already-running server.
 const probe = net.createServer();
@@ -49,7 +54,8 @@ try {
   if (!ready) throw new Error('Backend startup failed or timed out.');
   desktop = spawn(require('electron'), [fileURLToPath(new URL('../electron/main.cjs', import.meta.url))], {
     cwd: root, env: { ...env, PBL6_STT_APP_URL: origin, PBL6_STT_KIOSK: kiosk ? '1' : '0', PBL6_STT_DEV: dev ? '1' : '0' },
-    stdio: 'inherit', windowsHide: true, detached: process.platform !== 'win32',
+    // Electron is the visible application, not a hidden background helper.
+    stdio: 'inherit', windowsHide: false, detached: process.platform !== 'win32',
   });
   desktop.on('error', () => { console.error('Cannot launch Electron.'); cleanup(); process.exitCode = 1; });
   desktop.on('exit', code => { cleanup(); process.exitCode = code || 0; });

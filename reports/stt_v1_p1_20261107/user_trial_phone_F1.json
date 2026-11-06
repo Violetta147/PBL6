@@ -1,0 +1,30 @@
+{
+  "checked_on": "2026-11-07",
+  "evidence_kind": "user_provided_completed_single_file_trial_with_suspected_word_error",
+  "client": "Chrome browser at 127.0.0.1:3100",
+  "provider": "deepgram",
+  "model_shown": "nova-3",
+  "language_shown": "vi",
+  "file_name_shown": "phone_F1.wav",
+  "request_seconds_shown": 2.02,
+  "transcript": "Nhiều nông dân khốn khổ vì bị cắt nước sệt",
+  "user_suggested_reference_phrase": "nước sạch",
+  "reference_status": "tentative: user said tôi nghĩ; full reference not verified",
+  "cause_status": "Regional accent was suggested by user; not established from this observation",
+  "export": {
+    "source_path": "C:\\Users\\LAPTOP T&T\\Downloads\\phone_F1-transcript.txt",
+    "artifact": "assets/phone_F1-transcript.txt",
+    "sha256": "74b3fab0d787839d9ddbd246edd9c4495b2a677577d1dd35c6a7e6fa59391fe1"
+  },
+  "screenshot": {
+    "artifact": "assets/user-trial-phone_F1.png",
+    "sha256": "4c5ac12191d821d2bca4b4b79ea0fc973265077fea021d383fe71ac4c852dcc4"
+  },
+  "limits": [
+    "Original WAV path/data not supplied in this second message; audio not inspected",
+    "No raw response/request ID",
+    "No verified full reference or accuracy score",
+    "UI time is rounded request time, not local RTF",
+    "No agent API call or ASR rerun"
+  ]
+}

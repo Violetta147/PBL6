@@ -1,5 +1,10 @@
 const { app, BrowserWindow, session } = require('electron');
 app.setName('PBL6 STT');
+// Isolated profiles allow tests to coexist with the user's running desktop.
+if (process.env.PBL6_STT_DESKTOP_DATA_DIR) {
+  require('node:fs').mkdirSync(process.env.PBL6_STT_DESKTOP_DATA_DIR, { recursive: true });
+  app.setPath('userData', process.env.PBL6_STT_DESKTOP_DATA_DIR);
+}
 
 const origin = process.env.PBL6_STT_APP_URL;
 if (!origin || !/^http:\/\/127\.0\.0\.1:\d+$/.test(origin)) {

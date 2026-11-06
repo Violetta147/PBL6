@@ -15,6 +15,8 @@ npm run build
 npm run desktop
 ```
 
+Launcher đã sửa lỗi ẩn cửa sổ Electron trên Windows: Electron phải được mở với `windowsHide: false`, còn backend vẫn chạy ẩn. Bản P1 chưa có bộ cài hoặc shortcut desktop.
+
 `desktop` khởi động backend tại `http://127.0.0.1:3100`, chờ backend sẵn sàng rồi mở Electron. Đóng cửa sổ desktop sẽ dừng backend do launcher tạo. Nếu cổng đang có tiến trình khác, launcher từ chối mở để tránh điều khiển nhầm backend. Nếu đã cài dependencies và build xong, chỉ cần `npm run desktop`.
 
 Để dùng trình duyệt thay Electron, chạy `npm start` rồi mở [ứng dụng cục bộ](http://127.0.0.1:3100). Dừng bằng Ctrl+C tại terminal. Không chạy `npm start` và `npm run desktop` đồng thời trên cùng cổng. Phát triển bằng `npm run dev` hoặc `npm run desktop:dev`. `desktop:kiosk` mở cửa sổ kiosk sau khi đã build; đây chưa phải cấu hình tự khởi động hệ điều hành hay chứng nhận kiosk trên Pi.
@@ -33,6 +35,7 @@ npm run desktop
 - Mặc định Windows: `%LOCALAPPDATA%\PBL6-STT\settings.json`; Linux: `${XDG_CONFIG_HOME:-~/.config}/pbl6-stt/settings.json`. `PBL6_STT_CONFIG_DIR` cho phép chọn thư mục riêng, dùng trong kiểm thử.
 - Key được lưu **chưa mã hóa** ngoài repository. Trên POSIX, ứng dụng yêu cầu quyền thư mục `0700` và file `0600`; trên Windows phụ thuộc quyền tài khoản/thư mục. Không commit hoặc chia sẻ file này. Chưa triển khai kho bí mật mã hóa.
 - Audio tải lên được xử lý trong bộ nhớ, không ghi vào thư mục thí nghiệm. Transcript ở bộ nhớ giao diện cho đến khi tải .txt; tải lại/đóng ứng dụng sẽ mất kết quả chưa xuất. Chưa có lịch sử phiên bền vững.
+- `PBL6_STT_PORT` cho phép chọn cổng desktop khác trong khoảng 1024–65535; mặc định 3100. `PBL6_STT_DESKTOP_DATA_DIR` chọn profile Electron riêng khi kiểm thử, độc lập với thư mục Settings.
 - Backend chỉ bind loopback và các API chặn Origin khác. Mốc này **chưa mở LAN**, chưa có xác thực để laptop điều khiển Pi qua mạng. Không đổi hostname bind để tự công bố dịch vụ.
 - Không gọi `getUserMedia`; camera/micro trình duyệt bị tắt. Không có tự chuyển nguồn thu sang laptop. Bộ kiểm tra file chỉ xác minh phần mở đầu của WAV/MP3/FLAC; Deepgram vẫn có thể từ chối file hỏng bên trong.
 - Mỗi backend nhận tối đa một yêu cầu nhận dạng tại một thời điểm. Key/model/timeout được chụp tại đầu yêu cầu, thay đổi Settings chỉ áp dụng cho yêu cầu tiếp theo.
