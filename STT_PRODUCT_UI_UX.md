@@ -53,7 +53,7 @@ Luồng để thảo luận: **người A/B → phương thức nhập → lư�
 
 | Vùng giao diện | Nội dung đề xuất | Việc cần bàn |
 | :--- | :--- | :--- |
-| Điều hướng gọn | Cuộc hội thoại, công cụ nhập file, Settings | Sidebar cố định, thu gọn hay menu; lịch sử hội thoại có lưu hay không |
+| Điều hướng gọn | Cuộc hội thoại, Lịch sử, công cụ nhập file, Settings | Sidebar cố định, thu gọn hay menu |
 | Vùng hội thoại chính | Lượt của hai người, chữ dễ đọc, nhãn phương thức/trạng thái | Bubble chat hay hai vùng người A/B; hiển thị cho hai người cùng phía hay đối diện |
 | Vùng tạo lượt | Chọn người, nhập chữ, chọn giọng nói/ký hiệu; điều khiển Record/Stop | Một vùng dùng chung hay điều khiển riêng cho từng người |
 | Vùng camera/ký hiệu | Preview có thể mở rộng khi cần thu ký hiệu | Camera có bắt buộc hiện liên tục không; phần nào phục vụ người dùng/phần nào chỉ để kiểm tra |
@@ -69,7 +69,7 @@ Luồng để thảo luận: **người A/B → phương thức nhập → lư�
 - **Vùng nhập ổn định:** chuyển giữa chữ, giọng nói và ký hiệu trong cùng cuộc hội thoại; đặt điều khiển cần thiết gần nội dung đang tạo.
 - **Settings dễ tìm, điều hướng gọn:** thử phương án sidebar thu gọn trên màn thiết bị. Không mặc định bê nguyên các chế độ lập trình, giảng dạy hoặc quản lý agent vào sản phẩm.
 
-**Lưu phiên qua lần khởi động sau chưa được chốt.** Có thể có phiên trong bộ nhớ mà chưa lưu lâu dài. Tên phiên, tìm kiếm, đổi tên, xóa, xuất và chính sách giữ nội dung cần quyết định riêng trước triển khai.
+**Mỗi lần mở ứng dụng, màn chính hiện một hội thoại mới.** Các tin nhắn đã gửi được lưu để người dùng mở lại từ **Lịch sử** sau khi đóng và mở ứng dụng. Tên phiên, tìm kiếm, đổi tên, xóa, xuất và chính sách giữ nội dung cần quyết định riêng trước triển khai.
 
 Đề xuất giữ nhận dạng một file/batch ở công cụ nhập dữ liệu hoặc kiểm thử, để màn hội thoại tập trung vào cuộc trao đổi. Chưa chốt vị trí cuối cùng; chức năng file/batch của V1 vẫn phải được giữ và kiểm thử.
 
@@ -109,7 +109,7 @@ Các ảnh là nguồn tham chiếu bố cục, không chốt bảng màu tối 
 2. **Tổ chức cuộc trao đổi thế nào?** Hội thoại cuộn như messenger, hai vùng A/B, hay kết hợp camera với hội thoại? Cách chọn người đang tạo lượt?
 3. **Hướng màu nào muốn thử?** Nền sáng trung tính hoặc nền tối dịu là các khả năng để so sánh, chưa phải lựa chọn đã duyệt. Không lấy bảng màu ảnh làm mặc định.
 4. **Phạm vi ký hiệu nào?** Ngôn ngữ ký hiệu/tập từ vựng, dữ liệu, model, đầu vào camera và cách xác nhận chữ chưa chốt; không tự hứa dịch ký hiệu tự do.
-5. **Hành vi gửi/phát/lưu?** Gửi ngay hay xác nhận; cho sửa chữ thế nào; TTS theo nút bấm hay tự phát; lịch sử giữ trong phiên hay lưu sau khi đóng?
+5. **Thử luồng gửi, phát và mở lại hội thoại.** Sửa chữ trong vùng soạn trước khi bấm **Gửi**. Thử nút **Đọc to** như một thao tác riêng. Đóng rồi mở ứng dụng để kiểm tra màn chính hiện hội thoại mới và tin đã gửi vẫn mở lại được từ **Lịch sử**.
 
 Sau khi có lựa chọn sơ bộ, đề xuất tạo 2–3 wireframe (bản phác vị trí các vùng, chưa đầu tư màu) theo cùng một kịch bản hai người. Đánh giá khả năng đọc/chạm/nhập chữ trên kích thước màn dự kiến, rồi mới chốt giao diện chi tiết. Đây là bước đề xuất, chưa triển khai trong lượt ghi nhận này.
 
