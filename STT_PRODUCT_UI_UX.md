@@ -73,6 +73,8 @@ Luồng để thảo luận: **người A/B → phương thức nhập → lư�
 
 **Phương án đề xuất cho tên hội thoại.** Lấy tin đã gửi đầu tiên làm tên ban đầu, rút gọn ở ranh giới từ khi câu dài và cho phép đổi tên hiển thị. Mỗi hội thoại có ID riêng để truy xuất các tin đã lưu. [Nghiên cứu cách đặt tên của Codex, DSH và LearnHarness](reports/NGHIEN_CUU_DAT_TEN_HOI_THOAI.md)
 
+**Thứ tự trong Lịch sử.** Áp dụng quy tắc **Last updated** của DeepSeek Harness theo thời điểm gửi thành công tin nhắn gần nhất. Gửi thêm tin đưa hội thoại lên đầu. Mở để xem, đổi tên hoặc bấm **Đọc to** giữ nguyên vị trí. [Nghiên cứu cách sắp xếp Lịch sử](reports/NGHIEN_CUU_SAP_XEP_LICH_SU.md)
+
 Đề xuất giữ nhận dạng một file/batch ở công cụ nhập dữ liệu hoặc kiểm thử, để màn hội thoại tập trung vào cuộc trao đổi. Chưa chốt vị trí cuối cùng; chức năng file/batch của V1 vẫn phải được giữ và kiểm thử.
 
 **Settings → Xóa lịch sử** mở danh sách hội thoại đã lưu để người dùng chọn mục cần xóa. Bấm **Delete** để xóa ngay các hội thoại đã chọn.
