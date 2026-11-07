@@ -29,9 +29,22 @@ Nếu màn lên hình và nhận chạm ổn định khi giữa Pi và màn ch�
 
 ### Hai cổng Touch và nguồn ngoài
 
-Nhóm có sẵn **một adapter 5 V – 3 A dành cho Pi 4**. Dùng adapter đó cấp điện cho Pi và giữ cách nối USB đã hoạt động trong bài thử ban đầu. [BOM PBL6](STT_BOM.md)
+**Cách đang dùng.** Adapter **5 V – 3 A** sẵn có cấp điện cho Pi 4. Nối **một dây USB dữ liệu** từ Pi đến cổng Touch đã thử. Dây này vừa cấp điện cho màn vừa đưa tín hiệu chạm về Pi. Để trống cổng Touch còn lại. [BOM PBL6](STT_BOM.md)
 
-Trên mẫu Waveshare trong ảnh bán hàng, dãy **`5V`, `DN`, `DP`, `GND`** là hàng chân hàn đưa nguồn và dữ liệu USB ra ngoài. Trên **bo hai cổng của nhóm**, cả hai đầu cắm đều mang nhãn **Touch**. Ảnh giúp xác nhận vị trí cổng, còn việc cổng nào mang dữ liệu, cổng nào nhận nguồn và hai đường 5 V có tách nhau hay không cần sơ đồ đúng bo hoặc xác nhận từ nhà bán. <strong style="color:#946200;">Dùng một cổng Touch đã thử và để trống cổng còn lại</strong> trong khi chờ xác minh cách cấp nguồn ngoài. [Mô tả phần cứng Waveshare](https://www.waveshare.com/7inch-HDMI-LCD-C.htm) · [Raspberry Pi về cấp ngược nguồn qua USB](https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#back-powering)
+Tài liệu **LCDWiki MPI7002** cho thấy bố trí cổng tương tự và mô tả hai cổng của mẫu đó có cùng chức năng nguồn và dữ liệu. Nhóm chưa xác nhận bo thực tế có đúng mã này hoặc hai đường 5 V được đấu thế nào. [Tài liệu MPI7002, trang 7](https://www.lcdwiki.com/res/MPI7002/7inch_MPI7002_datasheet.pdf#page=7)
+
+**Nếu sau này cần giảm tải USB cho Pi.** Dùng **hub USB có nguồn riêng**, tức bộ chia có adapter cấp điện cho thiết bị cắm vào hub. Chọn hub truyền được dữ liệu và không cấp ngược nguồn qua dây nối về Pi. Dùng đúng adapter theo thông số của hub. [Raspberry Pi về nguồn USB](https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#typical-power-requirements) · [Raspberry Pi về cấp ngược nguồn](https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#back-powering)
+
+```text
+Adapter 5 V – 3 A của nhóm → cổng nguồn USB-C của Pi 4
+Adapter của hub            → cổng nguồn riêng của hub
+Pi 4 ↔ USB ↔ hub ↔ một dây USB ↔ cổng Touch đã thử trên màn
+Pi 4 → cáp HDMI → cổng HDMI trên màn
+```
+
+**Adapter của hub cắm vào hub.** Dây nối từ hub đến màn mang cả nguồn 5 V từ hub và dữ liệu cảm ứng. Hai phần dùng các đường dây khác nhau trong cùng cáp USB. Khi đổi cách nối, tắt Pi qua hệ điều hành và ngắt nguồn Pi, hub. Chuyển đầu USB của dây màn đang cắm vào Pi sang một cổng USB thiết bị trên hub, rồi nối dây USB của hub về Pi. Sau khi nối xong, cấp nguồn và thử lên hình, chạm.
+
+<strong style="color:#946200;">Chỉ cắm một cổng Touch trên màn.</strong> Tránh cắm USB từ Pi vào một cổng rồi cắm củ sạc vào cổng Touch thứ hai. Nếu hai cổng chung đường 5 V, hai nguồn sẽ nối song song. Vấn đề cần tránh là dòng điện có thể chạy ngược về Pi, dù điện áp hai nguồn không cộng thành 10 V. Củ sạc cắm riêng vào màn cũng chỉ cấp điện. Pi cần đường dữ liệu USB để nhận cảm ứng. [Giải thích về cấp ngược nguồn](https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#back-powering)
 
 ## 3. Kiểm tra độ phân giải, cảm ứng và bàn phím
 
