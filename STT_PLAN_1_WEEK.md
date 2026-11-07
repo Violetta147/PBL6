@@ -1,30 +1,30 @@
 # STT work plan to 5 November 2026
 
-Updated: 2026-11-07. Original target: Thursday, 2026-11-05 (past); no replacement deadline has been agreed. Keep the active project at `C:\Users\LAPTOP T&T\VIOLETTA\Documents\ChatGPT\PBL6`. Do not relocate it to drive D. Use this file for new STT work. Keep `PLAN_DEMO_STT_7_BUOI.md` as the previous plan. Use `STT_SYSTEM_SPEC.md` for behavior and `STT_SHIFT_HANDOFF.md` for sequential work by five people.
+Updated 2026-11-08. The original target was Thursday, 2026-11-05. A replacement deadline is still open. Keep the active project at `C:\Users\LAPTOP T&T\VIOLETTA\Documents\ChatGPT\PBL6`. This file is the STT implementation plan. Keep `PLAN_DEMO_STT_7_BUOI.md` as the previous plan, `STT_SYSTEM_SPEC.md` for technical behavior, and `STT_SHIFT_HANDOFF.md` for shift sequencing.
 
-## Next session: BOM decisions and shopping plan — 2026-11-07
+## Next session — review one STT interaction
 
-**The user now prioritizes finalizing unresolved BOM choices and planning purchases in a new session. Do not automatically start P2/batch, rerun benchmarks or purchase items.** `STT_BOM.md` is the canonical BOM, now using the supplied highlighted layout with factual corrections. Its draft budgets are unverified; DSI prices are not HDMI quotes, and neither a 7-inch screen nor a 1–2 m test distance nor a total spending ceiling has been approved.
+Start with [the current session handoff](START_NEXT_CHAT_STT.md). **Review one interaction on the existing 1024 × 600 wireframe.** Use the microphone to record and stop, review the recognized text in the shared composer, and send it to the conversation. The first successful send adds the conversation to History. Implementation, device tests, benchmarks, and purchases follow separate user requests.
 
-Use `START_NEXT_CHAT_STT.md` for the concise P1 handoff and reading order. P1 code is complete at the single-file checkpoint with two user browser trials and the Windows desktop visibility fix; full V1 remains unfinished. Next hardware decisions: HDMI touchscreen size/model, exact cables/power, case/stand, conditional speaker needs, vendor/total price/availability and collection or delivery in Da Nang. Keep DSI optional after HDMI + USB is stable.
+Use [the BOM](STT_BOM.md) for the confirmed purchase and pending hardware checks. The 7-inch NH2067 and its HDMI cable have been purchased and initially tested on Pi 4. The total project spending ceiling, test distance, exact board revision, and stand remain open. DSI is an optional later upgrade after HDMI and USB touch are stable.
 
-## Product UI/UX discussion — 2026-11-07
+## Product UI/UX decisions
 
-The user requests a final product centered on two-person multimodal communication (sign-to-text, speech-to-text, typed text and text-to-speech) with Settings. Read [STT_PRODUCT_UI_UX.md](STT_PRODUCT_UI_UX.md) alongside the BOM before choosing display size/orientation. This records the broader product direction and open decisions; the implementation scope below remains the current STT milestone plan. Sign recognition, TTS and the final conversation UI need separate scoping before implementation.
+Two people share a screen and composer. PBL6 handles speech-to-text, text-to-speech, and Settings. Text can come from another project, including sign recognition. The user has deferred the details of TTS, with **Đọc to** and **Gửi** kept as separate actions. Read [the UI/UX specification](STT_PRODUCT_UI_UX.md) for confirmed rules and open choices. The implementation milestones below cover STT.
 
 ## 1. Scope and dependencies
 
-Build this path: ==microphone or recorded files -> speech-to-text engine -> subtitles in a web application==. Open the application on the laptop. ==Use the Pi microphone for the device path.== ==**Test one file and a list of files.**== Test local engines and **Deepgram with `language=vi`**. Keep the engine choice open until the comparison is complete.
+Recognize speech from a microphone or recorded files and show the result in the shared web application. Open the application on the laptop for development and initial checks. ==Use the Pi microphone for the device path.== ==**Test one file and a list of files.**== Use **Deepgram with `language=vi`** for V1. The local engine comparison remains separate research.
 
-==**Final product decision (2026-11-06): use a touchscreen and kiosk mode.**== The device must boot into the STT web interface in full screen, with normal operation by touch. Keep laptop-based development and V1 testing first; the final device display is a later integration gate, not a reason to skip V1/V2/V3 testing. Screen model, size, connection and power remain to be selected.
+==**Final product decision (2026-11-06): use a touchscreen and kiosk mode.**== The device must boot into the STT interface in full screen, with normal operation by touch. Keep laptop-based development and initial V1 testing first. The final device display is a later integration gate. NH2067 is the selected display for first integration.
 
-==**Display integration order (2026-11-06): stabilize HDMI video + USB touch first; consider DSI later as an optional upgrade.**== Screen interface changes do not change the approved V1/V2/V3 order. Before a DSI switch, keep the working HDMI configuration and verify the exact Pi 4/OS/display/cable combination, then repeat display, touch, on-screen input and kiosk startup checks. Neither display path is reported as tested yet.
+==**Display integration order (2026-11-06): stabilize HDMI video and USB touch first, then consider DSI as an optional upgrade.**== Preserve the approved V1/V2/V3 order. Before any DSI switch, keep the working HDMI configuration, verify the exact Pi 4, OS, display, and cable combination, and repeat display, touch, on-screen input, and kiosk startup checks.
 
-**HDMI + USB hardware set:** one compatible touchscreen, a Pi 4 micro-HDMI-to-display cable, a USB data cable for touch, and the screen power arrangement specified by its model. The connector path is selected for first device integration; screen model, price and exact cable ends remain unselected. See the dedicated HDMI + USB section in `STT_BOM.md`.
+**The tested HDMI and USB setup** uses NH2067, a micro-HDMI-to-HDMI cable, and one USB data cable for screen power and touch. The existing 5 V, 3 A adapter powers the Pi. Display output and touch response were confirmed by the user. Active resolution, swiping, touch accuracy, and kiosk behavior remain device acceptance checks. [BOM](STT_BOM.md) · [NH2067 guide](HUONG_DAN_NH2067_PI4.md)
 
-Allow microphone capture during text-to-speech (TTS) playback. First test the actual audio. Add acoustic echo cancellation (AEC) if speaker audio causes a problem. Do not use microphone muting as the default design. Headphones can test playback, but cannot prove that speaker echo is controlled.
+Carry forward the longer-term target of allowing microphone capture during TTS playback. Revisit it after TTS design resumes. Test echo with an actual speaker before choosing acoustic echo cancellation (AEC). Headphone playback has been verified as an audio-output check.
 
-Use the existing Pi, webcam microphone, headphones and laptop first. Build only the STT application in this project. Do not require code or interfaces from another recognition application. Test capture during playback only when an actual playback source is available.
+Use the existing Pi, webcam microphone, headphones, and laptop for the STT milestones. Keep the STT flow independent of the sign-recognition project. Capture during playback can be tested when a playback source is available.
 
 The original integration target was Thursday, 5 November 2026; it is now past and is not evidence of completion. Use five sequential shifts as specified in `STT_SHIFT_HANDOFF.md`. Each person must leave a runnable command, test result and next action. Do not treat five people as five independent implementations.
 
@@ -38,13 +38,13 @@ The user confirms that Deepgram API access is ready. ==**The implementation must
 
 **Proceed with V1 Deepgram before V2/V3. N02 is still unfinished research and does not block V1.** The historical Whisper and Zipformer timing scopes differ; finish N02 before a speed comparison or speed-based local-engine selection. Keep the existing measurement protocol and B01–B04 results.
 
-V1 implementation order: backend Settings and one-file Deepgram request -> batch results/error handling -> selected Pi microphone Record/Stop -> shared UI and Electron launch -> fixture tests and real API/Pi checks. Desktop packaging must distinguish Windows development and Linux ARM64 device builds; final touchscreen/kiosk checks remain device integration work. A clean startup command and trial instructions must accompany the implemented version.
+The recorded V1 sequence starts with the P1 checkpoint for backend Settings and one-file Deepgram recognition, followed by batch results and error handling, then recording and stopping with the selected Pi microphone. Use the shared UI and Electron. Keep fixture tests and real API/Pi checks distinct. Windows development and Linux ARM64 device packaging have separate acceptance checks. Include a clean startup command and trial instructions with the implemented version.
 
 ## Implementation checkpoint — V1-P1, 2026-11-07
 
 **V1-P1 code is in `stt-app`: local Settings, one-file Deepgram adapter, shared UI and Electron window.** Production build and TypeScript checks passed; 20 backend tests and 8 Chrome/HTTP/Electron tests passed on Windows with offline provider fixtures. The user supplied two completed real single-file browser trials (studio_M1.wav and phone_F1.wav, nova-3/vi, exported .txt; a word error is suspected in phone_F1); evidence is recorded in reports/stt_v1_p1_20261107/user_trial_studio_M1.json and user_trial_phone_F1.json. This is user-provided evidence, not an agent API rerun. Pi capture, batch, LAN control and Linux ARM64/touch/kiosk acceptance remain incomplete. Full V1 remains unfinished.
 
-Read `reports/stt_v1_p1_20261107/BAO_CAO.md` and `stt-app/README.md` for evidence and startup/trial commands. The user has returned the initial single-file result. The immediate next-session priority is BOM decisions and shopping planning; batch then Pi capture remain the proposed software sequence when the user resumes implementation. N02 remains unfinished; preserve B01–B04 and the timing-scope caveat.
+Read `reports/stt_v1_p1_20261107/BAO_CAO.md` and `stt-app/README.md` for evidence and startup commands. Review the STT interaction on the wireframe in the next chat. The recorded software sequence remains batch followed by Pi capture when the user resumes implementation. N02 remains unfinished. Preserve B01–B04 and the timing-scope caveat.
 
 ## 2. Fixed experiment rules
 
@@ -122,7 +122,7 @@ Provide local Settings for cloud authentication, enabled local engines, selected
 - Deepgram finalization and interim results: https://developers.deepgram.com/reference/speech-to-text/listen-streaming
 - Raspberry Pi power guidance: https://www.raspberrypi.com/documentation/computers/getting-started.html
 
-Verify exact Vietnamese language support, service model, region, terms and price at N03. The user confirms Deepgram access is ready; an actual request has not yet been tested in this project.
+Verify Vietnamese language support, service model, region, terms, and price for N03. The P1 report records two user-provided browser trials with Deepgram Nova-3 and `language=vi`. The remaining live Pi checks are a separate gate.
 
 ## Approved version order
 

@@ -1,85 +1,67 @@
 # UI/UX sản phẩm — giao tiếp đa phương thức giữa hai người
 
-Cập nhật: 07/11/2026. Trạng thái: **ghi nhận yêu cầu và chuẩn bị thảo luận**, chưa phải thiết kế giao diện đã duyệt hoặc tính năng đã triển khai.
+Cập nhật 08/11/2026. Tài liệu ghi các quyết định thiết kế, những điểm đang thảo luận và kịch bản cần duyệt trên bản phác. Kết quả triển khai P1 được ghi riêng trong [báo cáo P1](reports/stt_v1_p1_20261107/BAO_CAO.md).
 
 > **Yêu cầu cốt lõi của người dùng: “giao tiếp giữa 2 người, giao tiếp multi modal”.**
 >
-> Hai người có thể trao đổi qua ngôn ngữ ký hiệu, giọng nói hoặc chữ. Sản phẩm cần tổ chức cuộc hội thoại, chuyển đổi nội dung sang dạng người kia có thể tiếp nhận, và có menu Settings. Giao diện P1 hiện tại chưa được xem là giao diện sản phẩm cuối.
+> Hai người dùng chung màn hình để trao đổi. PBL6 phụ trách chuyển giọng nói thành chữ, đọc chữ thành tiếng và Settings. Chữ để đọc có thể đến từ luồng khác, chẳng hạn kết quả của dự án nhận dạng ký hiệu.
 
-Đọc nhanh: phần 1 là yêu cầu đã xác nhận; phần 2–4 là ý tưởng để bàn; phần 5 là những quyết định còn mở. [Bàn giao phiên tiếp theo](START_NEXT_CHAT_STT.md) · [Đặc tả STT hiện tại](STT_SYSTEM_SPEC.md) · [BOM](STT_BOM.md).
+Đọc mục 1–3 để nắm phạm vi, luồng thu và quy tắc Lịch sử. Mục 4 ghi các tham chiếu. Mục 5–6 hướng dẫn duyệt một lượt STT trên bản phác. [Bàn giao phiên tiếp theo](START_NEXT_CHAT_STT.md) · [Đặc tả STT hiện tại](STT_SYSTEM_SPEC.md) · [BOM](STT_BOM.md)
 
 ## 1. Những gì đã xác nhận
 
-**Đa phương thức (multimodal)** ở đây là nhiều cách đưa vào và tiếp nhận nội dung trong **cuộc giao tiếp giữa hai người**. Các phương thức người dùng nêu:
+**Hai người dùng một vùng soạn chung.** Ai cũng có thể nhập vào vùng này. Hai người có thể ngồi cạnh hoặc chếch nhau, cùng nhìn màn hoặc xoay cả thiết bị để đổi hướng nhìn. Giá đỡ là phụ kiện, còn kiểu giá đỡ và cách lắp sẽ bàn riêng.
 
 | Phương thức | Vai trò trong cuộc giao tiếp | Trạng thái |
 | :--- | :--- | :--- |
-| Ngôn ngữ ký hiệu → chữ (sign-to-text) | Một người ký hiệu, nội dung được chuyển thành chữ để người kia đọc | Định hướng sản phẩm; chưa triển khai trong ứng dụng P1 |
-| Giọng nói → chữ (speech-to-text, STT) | Một người nói, người kia đọc nội dung đã nhận dạng | P1 mới có một file audio → chữ cuối; chưa có thu micro Pi/Record/Stop |
-| Nhập chữ | Soạn nội dung trực tiếp để người kia đọc | Yêu cầu giao tiếp bằng text; chưa có vùng soạn hội thoại trong P1 |
-| Chữ → giọng nói (text-to-speech, TTS) | Phát nội dung chữ thành tiếng khi người dùng cần | Định hướng sản phẩm; chưa có TTS trong P1 |
-| Settings / Cài đặt | Cấu hình thiết bị, dịch vụ và cách hiển thị/phát nội dung | P1 mới có cấu hình Deepgram tại máy; các mục cho sản phẩm đa phương thức còn phải thiết kế |
+| **Nhận dạng giọng nói (STT)** | Một người nói, xem và sửa chữ nhận được rồi gửi cho người kia đọc. | P1 nhận dạng một file và trả chữ cuối. Thu và dừng bằng mic trên Pi thuộc phần V1 còn lại. |
+| **Nhập chữ** | Có thể gõ trực tiếp vào cùng vùng soạn rồi gửi. | Vùng soạn hội thoại thuộc thiết kế đang duyệt. Việc gõ chữ để phát thành tiếng sẽ bàn cùng TTS. |
+| **Đọc chữ thành tiếng (TTS)** | **Đọc to** là thao tác riêng với **Gửi**. | Tạm hoãn chốt vị trí nút loa, phần chữ được đọc và bộ tạo giọng. Giải pháp PBL6 phải hoạt động độc lập với gói đăng ký ChatGPT. |
+| **Văn bản từ luồng khác** | PBL6 có thể nhận chữ có sẵn, ví dụ đầu ra của dự án nhận dạng ký hiệu. | Mô hình nhận dạng ký hiệu và camera phục vụ mô hình thuộc phần tích hợp riêng. Cách đưa chữ vào PBL6 còn để bàn. |
+| **Settings** | Có mục **Xóa lịch sử** theo quy tắc ở mục 3. | P1 đã có cài đặt key Deepgram tại máy. Các mục còn lại sẽ chốt theo từng luồng. |
 
-- **Ba tham chiếu chính cho wireframe/khung giao diện:** Codex, LearnHarness và Deepseek Harness (hướng plugin-based do người dùng nêu). Người dùng thích cơ chế chat/conversation/session của LearnHarness và Codex, đồng thời nhận xét Codex phức tạp hơn. Messenger là tham chiếu bổ sung. Mục đích từng nền tảng khác sản phẩm này; lấy cách tổ chức tương tác làm chất liệu thiết kế, chưa chọn sao chép toàn bộ tính năng hoặc kiến trúc.
-- **Sản phẩm đích:** thiết bị để bàn có màn cảm ứng, Electron và kiosk mode. Stack đã chốt vẫn là React + TypeScript + Tailwind CSS, Next.js/Node.js + Electron.
-- **Màu sắc:** người dùng không thích bảng màu trong ảnh tham khảo. Chưa chốt bảng màu thay thế, theme sáng/tối, font hay bộ icon.
-- **Thứ tự triển khai:** tiếp tục nghiệm thu V1 STT trước V2/V3. Tài liệu này mở hướng thảo luận sản phẩm đa phương thức, chưa giao thêm phần việc sign-to-text/TTS hoặc thay giao diện ngay.
+- **Sản phẩm đích.** Thiết bị để bàn có màn cảm ứng và Electron ở chế độ kiosk. Stack đã chốt là React + TypeScript + Tailwind CSS, Next.js/Node.js và Electron.
+- **Màu sắc.** Ảnh tham khảo dùng để xem bố cục. Bảng màu thay thế, theme sáng hoặc tối, font và bộ icon còn để duyệt.
+- **Mốc phần mềm.** Hoàn thành V1 STT trước V2 và V3. Duyệt giao diện là một bước riêng trước khi người dùng yêu cầu triển khai.
 
-## 2. Ý tưởng tổ chức hội thoại để cùng bàn
+## 2. Thu, sửa và gửi trong vùng soạn chung
 
-**Đề xuất, chưa chốt:** một không gian hội thoại chung, có nhãn rõ người A/người B, phương thức đầu vào và trạng thái của từng lượt. A/B chỉ là nhãn tạm, không mặc định khả năng nghe/nói hoặc phương thức cố định của mỗi người.
+Chạm biểu tượng **mic** một lần để thu, rồi chạm lần nữa để dừng. Trong lúc ứng dụng nhận dạng, giao diện hiện vòng chờ. Khi có chữ cuối, đưa chữ vào vùng soạn để người dùng đọc lại. Nếu câu đã đúng, có thể bấm **Gửi** ngay.
 
-Ví dụ minh họa tương tác, không phải kết quả nhận dạng thật:
+Chạm vùng soạn để mở **bàn phím ảo** khi cần nhập hoặc sửa. Dùng **Backspace** trên bàn phím để xóa chữ. Việc nhận dạng xong tự điền chữ vào vùng soạn và giữ bàn phím ở trạng thái đóng nếu người dùng chưa chạm vào vùng đó. Người dùng cũng có thể gõ trực tiếp. Chỉ thao tác **Gửi** mới đưa chữ vào hội thoại.
 
-1. A dùng ký hiệu → hệ thống tạo bản chữ nháp → A có thể kiểm tra/sửa trước khi gửi cho B.
-2. B trả lời bằng giọng nói → STT tạo chữ → A đọc; hoặc B gõ chữ trực tiếp.
-3. Khi cần, người dùng chọn phát một nội dung chữ bằng TTS; hiển thị rõ đang phát lượt nào và có nút dừng phát.
+Trong V1, ứng dụng nhận dạng sau khi dừng thu và trả về chữ cuối hoặc lỗi rõ ràng. V2 gửi âm thanh trong lúc thu và vẫn hiển thị chữ cuối. V3 bổ sung chữ tạm cập nhật trong lúc nói. Khi laptop điều khiển Pi, nguồn thu là thiết bị đã chọn trên Pi.
 
-Việc kiểm tra trước khi gửi, cách sửa chữ và cách phát TTS ở ví dụ này là đề xuất cần duyệt. **Không tự động phát mọi kết quả nhận dạng hoặc tự suy người đang nói.** Cần bàn cơ chế chọn người/lượt và xử lý khi hai người cùng tương tác.
-
-Với V1 STT, vẫn giữ Record → Stop dừng capture → nhận dạng → chữ cuối hoặc lỗi. Chữ tạm thay đổi khi đang nói thuộc các mốc sau theo kế hoạch; không dùng bản phác UI để khẳng định V1 đã có streaming.
+**Còn để bàn.** Cách xử lý khi vùng soạn đã có chữ hoặc khi hai người thao tác đồng thời, cách giữ bản nháp, có lưu audio thô hay tệp tạm hay không, và định dạng lưu. JSON và tệp phân mảnh là các ý tưởng để xem xét khi cần.
 
 ### Cách hình dung “harness bao quanh model”
 
-**Nhận định sơ bộ của người dùng, cần tiếp tục làm rõ:** sản phẩm có thể được hình dung là một lớp phần mềm tổ chức việc sử dụng các model/engine STT, TTS và sign-to-text. Trong tài liệu này, *harness* chỉ cách hình dung lớp điều phối đó, chưa phải một kiến trúc plugin đã chốt.
+*Harness* là cách hình dung lớp ứng dụng tổ chức phiên, thiết bị đầu vào và trạng thái thu, xử lý hoặc phát. Một bộ kết nối có thể chuyển yêu cầu tới dịch vụ hoặc bộ xử lý chạy tại máy rồi trả kết quả về đúng lượt. Đây là một cách phân chia đang bàn.
 
-Ở mức đề xuất, lớp phần mềm này quản lý người tham gia, phiên hội thoại, thiết bị đầu vào, trạng thái thu/xử lý/phát và cách đưa kết quả cho người kia. Adapter (bộ kết nối) chuyển yêu cầu tới engine chạy tại máy hoặc dịch vụ API, rồi trả kết quả/lỗi về đúng lượt. Model thực hiện nhận dạng hoặc tổng hợp; ứng dụng tổ chức trải nghiệm giao tiếp và vòng đời xử lý.
+Đổi bộ xử lý qua bộ kết nối và cho cài plugin lúc chạy là hai quyết định riêng. Cordis, cơ chế plugin và cách các luồng trao đổi dữ liệu vẫn là chủ đề thảo luận. [Bản so sánh Cordis](comparision_everything_is_a_plugin.md) · [Ghi chú Everything is a Plugin](everything_is_a_plugin_cordis.md)
 
-Luồng để thảo luận: **người A/B → phương thức nhập → lượt trong phiên → engine phù hợp → chữ/âm thanh cho người kia**. Một phiên chứa nhiều lượt; một lượt có thể trải qua nhiều bước, ví dụ STT → chữ đã xác nhận → TTS. Không mặc định mọi lượt cần đi qua cả ba engine.
+## 3. Bố cục, Lịch sử và Settings
 
-**Tách hai quyết định:** khả năng đổi engine qua adapter và một hệ thống plugin cài thêm là hai mức thiết kế khác nhau. Việc tham khảo Deepseek Harness chưa chốt plugin runtime, marketplace, LLM điều phối hoặc cơ chế gọi tool cho dự án. Mục tiêu đánh giá vẫn là giao tiếp đa phương thức giữa hai người.
-
-## 3. Bố cục sơ bộ, chưa phải mockup đã duyệt
-
-| Vùng giao diện | Nội dung đề xuất | Việc cần bàn |
+| Vùng giao diện | Nội dung đã xác định | Việc cần duyệt trên bản phác |
 | :--- | :--- | :--- |
-| Điều hướng gọn | Cuộc hội thoại, Lịch sử, công cụ nhập file, Settings | Sidebar cố định, thu gọn hay menu |
-| Vùng hội thoại chính | Lượt của hai người, chữ dễ đọc, nhãn phương thức/trạng thái | Bubble chat hay hai vùng người A/B; hiển thị cho hai người cùng phía hay đối diện |
-| Vùng tạo lượt | Chọn người, nhập chữ, chọn giọng nói/ký hiệu; điều khiển Record/Stop | Một vùng dùng chung hay điều khiển riêng cho từng người |
-| Vùng camera/ký hiệu | Preview có thể mở rộng khi cần thu ký hiệu | Camera có bắt buộc hiện liên tục không; phần nào phục vụ người dùng/phần nào chỉ để kiểm tra |
-| Trạng thái và Settings | Nguồn mic/camera đã chọn, đang thu/xử lý/phát, lỗi và cách thử lại | Mục thường dùng đưa ra màn chính; mục kỹ thuật đặt trong Settings |
+| Điều hướng | Hội thoại, Lịch sử và Settings. | Cách mở và thu gọn Lịch sử trên màn nhỏ. Vị trí công cụ nhập file hoặc batch. |
+| Vùng hội thoại | Hiển thị các tin đã gửi để hai người cùng đọc. | Cỡ chữ, bố cục từng tin và việc có cần nhãn nguồn nhập. |
+| Vùng soạn | Một vùng soạn chung có mic và **Gửi**. Chạm vào vùng soạn để mở bàn phím. | Vị trí các điều khiển khi bàn phím mở và mức dễ nhận ra trạng thái thu, chờ và lỗi. |
+| Settings | Cài đặt Deepgram đã có ở P1. **Xóa lịch sử** đã chốt ở mức thiết kế. | Cách trình bày nguồn mic trên Pi và các mục hiển thị. Mục âm thanh sẽ bàn cùng TTS. |
 
-### Cơ chế phiên hội thoại được người dùng ưu tiên tham khảo
+### Quy tắc Lịch sử đã chốt
 
-Đây là hướng tương tác người dùng thích; các thao tác cụ thể dưới đây là đề xuất wireframe:
+**Mỗi lần mở ứng dụng, màn chính hiện một hội thoại mới.** Người dùng cũng có thể bấm **+ Hội thoại mới** trong lúc ứng dụng đang mở. Bản phác đặt nút này trong bảng Lịch sử. Hội thoại chỉ xuất hiện trong **Lịch sử** sau khi gửi thành công tin đầu tiên. Các tin đã gửi mở lại được sau khi đóng và mở ứng dụng.
 
-- **Nút + Hội thoại mới** trong bảng **Lịch sử** mở một hội thoại trống. Người dùng có thể bắt đầu cuộc khác ngay khi ứng dụng đang mở, kể cả khi đang xem một cuộc đã lưu.
-- **Danh sách phiên và phiên đang chọn:** chuyển giữa các cuộc hội thoại, thấy tên hoặc thời điểm để tìm lại; tìm kiếm là khả năng cần cân nhắc trên màn nhỏ.
-- **Nội dung theo lượt:** nhãn người A/B và phương thức, trạng thái xử lý, bản chữ cuối cùng. Phải phân biệt văn bản đang soạn, kết quả nhận dạng và nội dung đã gửi.
-- **Vùng nhập ổn định:** chuyển giữa chữ, giọng nói và ký hiệu trong cùng cuộc hội thoại; đặt điều khiển cần thiết gần nội dung đang tạo.
-- **Settings dễ tìm, điều hướng gọn:** thử phương án sidebar thu gọn trên màn thiết bị. Không mặc định bê nguyên các chế độ lập trình, giảng dạy hoặc quản lý agent vào sản phẩm.
+**Thứ tự trong Lịch sử.** Dùng quy tắc **Last updated** của DeepSeek Harness theo thời điểm gửi thành công tin nhắn gần nhất. Gửi thêm tin đưa hội thoại lên đầu. Mở để xem, đổi tên hoặc bấm **Đọc to** giữ nguyên vị trí. [Nghiên cứu cách sắp xếp Lịch sử](reports/NGHIEN_CUU_SAP_XEP_LICH_SU.md)
 
-**Mỗi lần mở ứng dụng, màn chính hiện một hội thoại mới.** Hội thoại chỉ xuất hiện trong **Lịch sử** sau khi người dùng gửi tin nhắn đầu tiên. Các tin nhắn đã gửi được lưu để người dùng mở lại sau khi đóng và mở ứng dụng. Tên phiên, tìm kiếm, đổi tên, xuất và chính sách giữ nội dung cần quyết định riêng trước triển khai.
+**Xóa lịch sử trong Settings.** Người dùng chọn hội thoại cần xóa trong danh sách đã lưu. Bấm **Delete** để xóa ngay các hội thoại đã chọn.
 
-**Phương án đề xuất cho tên hội thoại.** Lấy tin đã gửi đầu tiên làm tên ban đầu, rút gọn ở ranh giới từ khi câu dài và cho phép đổi tên hiển thị. Mỗi hội thoại có ID riêng để truy xuất các tin đã lưu. [Nghiên cứu cách đặt tên của Codex, DSH và LearnHarness](reports/NGHIEN_CUU_DAT_TEN_HOI_THOAI.md)
+### Phương án đang thảo luận
 
-**Thứ tự trong Lịch sử.** Áp dụng quy tắc **Last updated** của DeepSeek Harness theo thời điểm gửi thành công tin nhắn gần nhất. Gửi thêm tin đưa hội thoại lên đầu. Mở để xem, đổi tên hoặc bấm **Đọc to** giữ nguyên vị trí. [Nghiên cứu cách sắp xếp Lịch sử](reports/NGHIEN_CUU_SAP_XEP_LICH_SU.md)
+**Tên hội thoại.** Phương án tham khảo LearnHarness dùng tin đã gửi đầu tiên làm tên ban đầu và rút gọn ở ranh giới từ nếu câu dài. ID hội thoại tách với tên hiển thị. Hai cách mở phần đổi tên đang bàn là chạm tiêu đề trên cùng hoặc dùng menu chuột phải của một mục trong Lịch sử. [Nghiên cứu cách đặt và đổi tên](reports/NGHIEN_CUU_DAT_TEN_HOI_THOAI.md)
 
-Đề xuất giữ nhận dạng một file/batch ở công cụ nhập dữ liệu hoặc kiểm thử, để màn hội thoại tập trung vào cuộc trao đổi. Chưa chốt vị trí cuối cùng; chức năng file/batch của V1 vẫn phải được giữ và kiểm thử.
-
-**Settings → Xóa lịch sử** mở danh sách hội thoại đã lưu để người dùng chọn mục cần xóa. Bấm **Delete** để xóa ngay các hội thoại đã chọn.
-
-Các mục Settings cần bàn thêm: nguồn mic/device path trên Pi, camera, Deepgram `language=vi` và key trên backend, cỡ chữ, âm lượng/giọng TTS. Chưa chọn engine TTS hay mô hình ký hiệu. Browser laptop không tự dùng micro của nó khi đang điều khiển thiết bị Pi.
+**Các điểm còn mở.** Khả năng nhắn tiếp trong hội thoại đã mở lại, tìm kiếm hoặc xuất Lịch sử và chính sách giữ nội dung. Nhận dạng một file và batch vẫn thuộc phạm vi V1. Đặt chúng trong một công cụ nhập hoặc kiểm thử riêng là phương án đang bàn.
 
 ## 4. Ghi nhận ảnh tham khảo người dùng gửi
 
@@ -93,9 +75,9 @@ Các mục Settings cần bàn thêm: nguồn mic/device path trên Pi, camera, 
 
 **Quan sát từ ảnh LearnHarness:** sidebar có danh sách SESSIONS, ô tìm kiếm, mục được chọn; vùng nội dung có tiêu đề và vùng nhập/điều khiển phía dưới; Settings ở cuối sidebar. Các chế độ teaching/practice thuộc mục đích của nền tảng tham khảo, chưa phải yêu cầu sản phẩm này.
 
-**Deepseek Harness:** tham chiếu thứ ba do người dùng nêu, đặc biệt ý tưởng plugin-based. Chưa có ảnh, repo/URL hoặc phiên bản được xác định trong tài liệu này; chưa khảo sát cơ chế plugin thực tế. Khi nghiên cứu wireframe sâu hơn cần xác định đúng nền tảng, rồi ghi rõ đặc điểm quan sát được và phần đề xuất áp dụng.
+**DeepSeek Harness.** Đã khảo sát bản `0.2.1-rc.5` trên máy cùng Codex Desktop và LearnHarness `0.5.0`. Kết quả được lưu riêng theo chủ đề [đặt và đổi tên](reports/NGHIEN_CUU_DAT_TEN_HOI_THOAI.md), [sắp xếp Lịch sử](reports/NGHIEN_CUU_SAP_XEP_LICH_SU.md) và [nút Đọc to](reports/NGHIEN_CUU_DOC_TO_CAC_HARNESS.md).
 
-Các ảnh là nguồn tham chiếu bố cục, không chốt bảng màu tối hoặc độ phức tạp tương ứng cho thiết bị. Phần thích từ Codex/LearnHarness được người dùng xác nhận là cơ chế hội thoại/phiên; cách lưu dữ liệu thật vẫn chưa được kiểm chứng ở lượt này.
+Các ảnh dùng để đối chiếu bố cục và cách tổ chức hội thoại. Kiểu hiển thị, màu sắc và cách lưu dữ liệu của PBL6 được quyết định theo nhu cầu của nhóm.
 
 ### Hand Morse — ảnh tham khảo trước đó
 
@@ -103,28 +85,19 @@ Các ảnh là nguồn tham chiếu bố cục, không chốt bảng màu tối 
 
 **Quan sát từ ảnh tĩnh:** vùng camera lớn ở giữa, các panel trạng thái/đo bàn tay, bảng Morse bên phải, vùng message phía dưới và các gợi ý phím tắt. Chưa kiểm chứng cách ứng dụng trong ảnh thực sự hoạt động; lớp nút Play/tìm kiếm có thể thuộc trình xem video và không dùng làm yêu cầu sản phẩm.
 
-**Ý có thể thử khi phác thảo:** phối hợp preview camera với nội dung chữ, báo trạng thái thu rõ ràng, mở/ẩn panel phụ. Người dùng thấy giao diện này hay nhưng chưa chỉ định chính xác phần nào cần giữ, nên đây là các đề xuất để trao đổi.
+Ảnh Hand Morse được giữ làm tham chiếu bố cục từ phạm vi thảo luận ban đầu. Camera và mô hình nhận dạng ký hiệu thuộc phần tích hợp riêng. Lượt duyệt STT dùng mic và vùng soạn chung.
 
-**Không đưa bảng màu ảnh vào thiết kế mặc định.** Camera, panel và bố cục có thể được nghiên cứu với bảng màu khác. Bảng Morse, số FPS, góc ngón tay và phím tắt trong ảnh chưa phải yêu cầu của sản phẩm. Nhận dạng ký hiệu của dự án không được coi là mã Morse hoặc đã giải được chỉ từ nhận dạng khung xương bàn tay.
+## 5. Kịch bản duyệt trong phiên tiếp theo
 
-## 5. Quyết định cho phiên thảo luận tiếp theo
+Mở bản phác Pencil và xem các khung **Trao đổi**, **Bàn phím mở** và **Mở lịch sử**. Duyệt một người chạm mic, dừng thu và đợi câu xuất hiện trong vùng soạn. Người đó đọc lại, chạm vào vùng soạn để sửa nếu cần, rồi bấm **Gửi**. Sau đó đối chiếu cách tin hiển thị và hội thoại xuất hiện trong Lịch sử. [Bản phác Pencil 1024 × 600](reports/ui_ux_20261107/assets/wireframe-hoi-thoai-1024x600.pen)
 
-Ưu tiên bàn ba việc đầu để có thể vẽ các phương án bố cục:
+Nếu có điểm chưa rõ, bàn từng điểm trực tiếp trên kịch bản này. Các nút **Đọc** và **Chọn file** trong bản phác là cách bố trí để tham khảo. Khi quay lại TTS, xem các phương án vị trí, phần chữ cần đọc và cách tạo giọng. [Khảo sát nút Đọc to](reports/NGHIEN_CUU_DOC_TO_CAC_HARNESS.md)
 
-1. **Hai người dùng màn hình thế nào?** Cùng nhìn một mặt màn, ngồi đối diện, hay luân phiên thao tác? Điểm này ảnh hưởng góc nhìn, cỡ màn và giá đỡ trong BOM.
-2. **Tổ chức cuộc trao đổi thế nào?** Hội thoại cuộn như messenger, hai vùng A/B, hay kết hợp camera với hội thoại? Cách chọn người đang tạo lượt?
-3. **Hướng màu nào muốn thử?** Nền sáng trung tính hoặc nền tối dịu là các khả năng để so sánh, chưa phải lựa chọn đã duyệt. Không lấy bảng màu ảnh làm mặc định.
-4. **Phạm vi ký hiệu nào?** Ngôn ngữ ký hiệu/tập từ vựng, dữ liệu, model, đầu vào camera và cách xác nhận chữ chưa chốt; không tự hứa dịch ký hiệu tự do.
-5. **Thử luồng gửi, phát và mở lại hội thoại.** Bấm **+ Hội thoại mới**, sửa chữ trong vùng soạn và kiểm tra hội thoại xuất hiện trong **Lịch sử** khi bấm **Gửi** tin đầu tiên. Thử nút **Đọc to** như một thao tác riêng. Đóng rồi mở ứng dụng để kiểm tra màn chính hiện hội thoại mới và tin đã gửi vẫn mở lại được từ **Lịch sử**.
+## 6. Tiêu chí duyệt bản phác
 
-Sau khi có lựa chọn sơ bộ, đề xuất tạo 2–3 wireframe (bản phác vị trí các vùng, chưa đầu tư màu) theo cùng một kịch bản hai người. Đánh giá khả năng đọc/chạm/nhập chữ trên kích thước màn dự kiến, rồi mới chốt giao diện chi tiết. Đây là bước đề xuất, chưa triển khai trong lượt ghi nhận này.
+- Biểu tượng mic và trạng thái cho biết lúc nào đang thu, đang nhận dạng hoặc có lỗi.
+- Phân biệt được chữ đang soạn và tin đã gửi. Chạm vùng soạn mở bàn phím và vẫn nhìn thấy câu đang sửa cùng nút **Gửi**.
+- Người dùng có thể thao tác chính bằng một lần chạm trên vùng điều khiển và cùng đọc nội dung trên màn 7 inch.
+- Tin đầu tiên được gửi thành công thì hội thoại xuất hiện trong **Lịch sử**. Sau khi đóng và mở ứng dụng, màn chính hiện cuộc mới và người dùng có thể mở lại cuộc đã lưu.
 
-## 6. Những điểm dùng để duyệt bản phác sau này
-
-- Nhìn vào biết lượt của ai, nhập bằng phương thức gì, đang thu/xử lý/chờ xác nhận/đã gửi hay lỗi; không chỉ dùng màu để phân biệt.
-- Cả hai người có cách trả lời và nhận nội dung phù hợp; có thể đổi phương thức khi cần.
-- Chữ và vùng chạm phù hợp màn thật; thao tác chính, Settings và bàn phím ảo dùng được bằng cảm ứng, không phụ thuộc hover hoặc phím tắt.
-- Khi lỗi pipeline, nói rõ lượt nào lỗi, cho thử lại và giữ nội dung đã có; không hiện kết quả chưa nhận được như thành công.
-- Điều khiển Record/Stop và dừng TTS rõ ràng; thử thu khi phát loa trước khi quyết định xử lý vọng âm.
-
-Đây là tiêu chí thảo luận thiết kế, **chưa phải kiểm thử đã đạt**. Hiện chỉ cập nhật tài liệu và lưu ảnh tham chiếu; không thay mã ứng dụng, mua thiết bị hoặc mở thêm một nhánh triển khai đa phương thức.
+Đây là tiêu chí duyệt thiết kế. Lượt thử trên phần cứng sẽ đối chiếu thêm độ phân giải, vị trí chạm, vuốt và bàn phím tiếng Việt theo [hướng dẫn NH2067](HUONG_DAN_NH2067_PI4.md).

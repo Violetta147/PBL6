@@ -1,16 +1,16 @@
 # STT behavior and IoT scope
 
-Updated: 2026-11-07. Active workspace: `C:\Users\LAPTOP T&T\VIOLETTA\Documents\ChatGPT\PBL6`. Original target: Thursday, 2026-11-05 (past); no replacement deadline has been agreed. This is a specification; ==it does not assert that these functions have been implemented.==
+Updated 2026-11-08. The active workspace is `C:\Users\LAPTOP T&T\VIOLETTA\Documents\ChatGPT\PBL6`. The original target was Thursday, 2026-11-05. A replacement deadline is still open. Use the P1 checkpoint below for implementation status.
 
-## Product UI/UX direction — discussion added 2026-11-07
+## Product UI/UX direction
 
-See [STT_PRODUCT_UI_UX.md](STT_PRODUCT_UI_UX.md) for the user's requirement: two-person multimodal communication through sign-to-text, speech-to-text, typed text and text-to-speech, with Settings. The P1 file-transcription UI is an implementation checkpoint, not an approved final product design. This broader direction needs design/scope decisions; it does not assert working sign/TTS features or change the existing STT V1/V2/V3 gates.
+Two people share one screen and composer. PBL6 handles speech recognition, reading text aloud, and Settings. Another project can supply text, including recognized-sign text. The user has deferred how TTS will work. See [STT_PRODUCT_UI_UX.md](STT_PRODUCT_UI_UX.md) for confirmed design decisions and open choices. This specification covers the technical STT milestones.
 
 ## Implementation checkpoint — V1-P1, 2026-11-07
 
 **V1-P1 code is in `stt-app`: local Settings, one-file Deepgram adapter, shared UI and Electron window.** Production build and TypeScript checks passed; 20 backend tests and 8 Chrome/HTTP/Electron tests passed on Windows with offline provider fixtures. The user supplied two completed real single-file browser trials (studio_M1.wav and phone_F1.wav, nova-3/vi, exported .txt; a word error is suspected in phone_F1); evidence is recorded in reports/stt_v1_p1_20261107/user_trial_studio_M1.json and user_trial_phone_F1.json. This is user-provided evidence, not an agent API rerun. Pi capture, batch, LAN control and Linux ARM64/touch/kiosk acceptance remain incomplete. Full V1 remains unfinished.
 
-Read `reports/stt_v1_p1_20261107/BAO_CAO.md` and `stt-app/README.md` for evidence and startup/trial commands. The user has returned the initial single-file result. The immediate next-session priority is BOM decisions and shopping planning; batch then Pi capture remain the proposed software sequence when the user resumes implementation. N02 remains unfinished; preserve B01–B04 and the timing-scope caveat.
+Read `reports/stt_v1_p1_20261107/BAO_CAO.md` and `stt-app/README.md` for evidence and startup commands. Use [the current session handoff](START_NEXT_CHAT_STT.md) to begin the next design review. Batch followed by Pi capture remains the recorded implementation sequence when the user resumes coding. N02 remains unfinished. Preserve B01–B04 and the timing-scope caveat.
 
 ## Final device: touchscreen and kiosk (confirmed 2026-11-06)
 
@@ -18,13 +18,13 @@ Read `reports/stt_v1_p1_20261107/BAO_CAO.md` and `stt-app/README.md` for evidenc
 
 The target deployment runs the Next.js/Node.js STT backend and Electron on the Pi. After boot, the backend starts and Electron opens the local STT interface in kiosk mode on the attached touchscreen. The Pi microphone remains the capture source selected by the user. The laptop remains the development and initial V1 test interface.
 
-The device integration gate is a real boot into the STT interface followed by touch-only Record/Stop, Settings, final transcript/error display and required text entry on the chosen screen. Kiosk mode and touchscreen operation are requirements, not implemented or verified features. Screen model, size, connection and power are not selected yet. Complete the V1/V2/V3 gates in order.
+The device integration gate is a real boot into the STT interface, followed by touch-only microphone start and stop, Settings, final transcript or error display, and text entry on the chosen screen. The user selected NH2067 and verified basic display output and touch on Pi 4. The complete touch-only app and kiosk gate remain pending. Complete the V1/V2/V3 gates in order.
 
 ### HDMI baseline and optional DSI upgrade
 
-==**First establish a stable HDMI display + USB touch configuration, then consider DSI.**== The HDMI gate covers a cold boot into kiosk, readable subtitles, correctly aligned touch including after rotation, touch-only Record/Stop and Settings, required on-screen text entry, and a real STT session with the webcam microphone. Record the screen, cables, power and OS configuration used. These are acceptance checks, not completed tests.
+==**First establish a stable HDMI display and USB touch configuration, then consider DSI.**== The HDMI gate covers a cold boot into kiosk, readable text, correctly aligned touch, on-screen text entry, touch controls, and a real STT session with the webcam microphone. Record the screen, cables, power, and OS configuration used. Turning the whole device to share the screen is part of its use on a table.
 
-The first display hardware set is a compatible HDMI touchscreen, a micro-HDMI video cable from Pi 4, a USB data cable returning touch input to Pi, and model-specific display power. Some screens share touch/power on USB; verify the actual wiring instead of assuming a separate power cable is always needed. The HDMI + USB BOM is in `STT_BOM.md`; no screen model or price is selected yet.
+The first display setup is NH2067 with a micro-HDMI-to-HDMI video cable and one USB data cable for screen power and touch. The existing 5 V, 3 A adapter powers the Pi. See [the BOM](STT_BOM.md) for the recorded purchase and [the NH2067 guide](HUONG_DAN_NH2067_PI4.md) for wiring and remaining checks.
 
 DSI is a later hardware-integration option. Keep the web UI, STT session contract, backend and Deepgram configuration independent of the display connector. Changing to a different screen may require UI layout adjustments, OS display/touch configuration, power and enclosure work. Save the working HDMI configuration before switching; repeat the same acceptance checks on DSI and retain a documented route back to HDMI. Do not assume that every DSI panel works with Pi 4 or the installed OS.
 

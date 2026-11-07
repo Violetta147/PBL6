@@ -1,26 +1,26 @@
-# Sequential STT work until Thursday
+# STT implementation and shift handoff
 
-Updated: 2026-11-07. Original target: Thursday, 2026-11-05 (past); no replacement deadline has been agreed. Keep this Git repository and active STT data in the current C-drive workspace. Read `AGENTS.md`, `STT_PLAN_1_WEEK.md` and `STT_SYSTEM_SPEC.md` first.
+Updated 2026-11-08. The original target was Thursday, 2026-11-05. A replacement deadline is still open. Keep this Git repository and active STT data in the current C-drive workspace. Read `AGENTS.md` and check Git status, then follow [the current session handoff](START_NEXT_CHAT_STT.md). Use `STT_PLAN_1_WEEK.md` and `STT_SYSTEM_SPEC.md` when returning to implementation.
 
-## Next session: BOM decisions and shopping plan — 2026-11-07
+## Next session — review the shared STT composer
 
-**The Nguyễn Hiền sales slip dated 2026-11-07 at 17:25 records one NH2067 7-inch 1024 × 600 touchscreen at 1,090,000 VND and one micro-HDMI to HDMI cable at 75,000 VND.** The merchandise total was 1,165,000 VND. Use `STT_BOM.md` for the USB touch, power, and accessory checks. Follow the user's direction before starting P2 or running benchmarks.
+Review one STT interaction on the existing 1024 × 600 Pencil wireframe. Two people share the same composer. The microphone starts and stops recording, recognition fills the composer, and the user reviews or edits the text before pressing **Gửi**. The first successful send adds the conversation to History. Read sections 1–3 and 5–6 of [the product UI/UX specification](STT_PRODUCT_UI_UX.md) for the confirmed rules and review criteria.
 
-Use `START_NEXT_CHAT_STT.md` for the concise P1 handoff and reading order. P1 code is complete at the single-file checkpoint with two user browser trials and the Windows desktop visibility fix. Full V1 remains unfinished. On 2026-11-07, the user reported a working NH2067 connection and responsive touch on Pi 4. Touch felt different from a phone. The active display resolution, tap accuracy, and kiosk behavior still need checking.
+PBL6 handles speech recognition, reading text aloud, and Settings. Another project can supply recognized-sign text. Sign recognition and its camera path are separate integration work. **Gửi** and **Đọc to** are separate actions, and the user has deferred the details of TTS. The next chat reviews the design. Software implementation, device tests, benchmarks, and purchases follow a separate user request.
 
-## UI/UX discussion to carry forward — 2026-11-07
+## Hardware evidence to carry forward
 
-Read [STT_PRODUCT_UI_UX.md](STT_PRODUCT_UI_UX.md): the final product must support two-person multimodal communication. Discuss the conversation layout, sign/voice/text paths, TTS, Settings and a new palette. The supplied image is a layout reference; its palette is rejected. Coordinate screen viewing/touch needs with BOM choices. No UI redesign or sign/TTS implementation is assigned by this documentation update; retain the STT version gates.
+The Nguyễn Hiền sales slip dated 2026-11-07 at 17:25 records one NH2067 7-inch 1024 × 600 touchscreen at 1,090,000 VND and one micro-HDMI to HDMI cable at 75,000 VND, for a total of 1,165,000 VND. The user confirmed display output, touch response, and 3.5 mm headphone playback on Pi 4. The tested display setup uses HDMI for video and one USB data cable for both touch and screen power, with the existing 5 V, 3 A adapter powering the Pi. The exact board revision, display resolution in use, tap accuracy, and kiosk behavior still need checking. The Chromium swipe and RealVNC audio trials are deferred. [BOM](STT_BOM.md) · [NH2067 guide](HUONG_DAN_NH2067_PI4.md)
 
 ## Current entry point
 
-Inventory and planning exist. The historical experiment suite passed 22 tests. B01–B04 results remain unchanged. ==V1-P1 now implements local Settings and a one-file UI/backend/Electron path with offline tests; two user-provided browser API trials have completed, while Pi acceptance, batch, live transport and OTA remain incomplete.== ==**P1 checkpoint is implemented; the next session focuses on BOM decisions and shopping planning.**== Full V1 remains unfinished.
+Inventory and planning exist. The historical experiment suite passed 22 tests. Preserve B01–B04 and their results. ==V1-P1 implements local Settings and a one-file UI/backend/Electron path with offline tests.== Two user-provided browser API trials are recorded. Pi capture, batch, live transport, and OTA remain incomplete. Full V1 remains unfinished.
 
 An attempted project relocation was stopped during source hashing, before copying or source removal. `D:\PBL6_STT` was not created. The temporary migration script is disabled. Keep the active project here. The earlier 48-file backup archive is separate from that cancelled relocation.
 
 Final-device decision confirmed 2026-11-06: ==**touchscreen interaction and kiosk mode are required**==. Keep the laptop for development and initial V1 checks; later verify boot into the full-screen STT interface and normal operation by touch on the selected NH2067.
 
-Display sequence: **validate HDMI + USB touch first; DSI is a later optional upgrade**. Keep the successful HDMI configuration and actual test record. Check the candidate DSI screen against Pi 4 and the installed OS, then retest touch, orientation, on-screen entry, boot/kiosk and a real STT session. DSI procurement and switching must not block initial V1 work. The first screen integration requires an HDMI touchscreen, Pi 4 micro-HDMI video cable, USB touch data cable and model-specific power; use the HDMI + USB hardware section in `STT_BOM.md`.
+Validate **HDMI and USB touch first**. Keep the tested NH2067 setup for the first integration. DSI remains an optional later upgrade. If the user revisits DSI, check the exact Pi 4, OS, display, and cable combination and repeat display, touch, on-screen input, and kiosk tests.
 
 ==**Approved stack (2026-11-07): React + TypeScript + Tailwind CSS, Next.js/Node.js, and Electron.**== Implement V1 through the shared Node.js backend/UI and Electron desktop, using `STT_SYSTEM_SPEC.md` as the architecture contract. N02 is unfinished research; it does not block V1 Deepgram, but must precede speed comparisons or speed-based selection of local engines.
 
@@ -28,9 +28,9 @@ Display sequence: **validate HDMI + USB touch first; DSI is a later optional upg
 
 **V1-P1 code is in `stt-app`: local Settings, one-file Deepgram adapter, shared UI and Electron window.** Production build and TypeScript checks passed; 20 backend tests and 8 Chrome/HTTP/Electron tests passed on Windows with offline provider fixtures. The user supplied two completed real single-file browser trials (studio_M1.wav and phone_F1.wav, nova-3/vi, exported .txt; a word error is suspected in phone_F1); evidence is recorded in reports/stt_v1_p1_20261107/user_trial_studio_M1.json and user_trial_phone_F1.json. This is user-provided evidence, not an agent API rerun. Pi capture, batch, LAN control and Linux ARM64/touch/kiosk acceptance remain incomplete. Full V1 remains unfinished.
 
-Read `reports/stt_v1_p1_20261107/BAO_CAO.md` and `stt-app/README.md` for evidence and startup/trial commands. The user has returned the initial single-file result. The immediate next-session priority is BOM decisions and shopping planning; batch then Pi capture remain the proposed software sequence when the user resumes implementation. N02 remains unfinished; preserve B01–B04 and the timing-scope caveat.
+Read `reports/stt_v1_p1_20261107/BAO_CAO.md` and `stt-app/README.md` for evidence and startup commands. Batch followed by Pi capture remains the recorded implementation sequence when the user resumes coding. The next chat starts with design review. N02 remains unfinished. Preserve B01–B04 and the timing-scope caveat.
 
-Current handoff: shift 1, V1-P1 checkpoint complete; full V1 pending; branch `master`. Find the implementation commit with `git log -1 -- stt-app`. Preserve all pre-existing document edits and experiment results. From `stt-app`, the prepared Windows command is `npm run desktop` (dependencies and build already present on this machine). Tests: 20 backend and 8 UI/HTTP/Electron passed; production build and TypeScript passed. P1 real checks: two user-provided browser file/API trials and a suspected word error in phone_F1. Evidence: `reports/stt_v1_p1_20261107/validation.json`. The initial Pi display and touch check is recorded separately in `STT_BOM.md`. Next hardware step: characterize touch behavior on the selected display.
+The P1 checkpoint is complete on `master`. Find the latest implementation commit with `git log -1 -- stt-app`. Preserve pre-existing edits and experiment results. From `stt-app`, the prepared Windows command is `npm run desktop`. See `reports/stt_v1_p1_20261107/validation.json` for recorded checks and the NH2067 guide for device observations.
 
 ## Five people, one sequence
 
@@ -63,13 +63,13 @@ Blocked input and exact action to unblock it:
 Next command to run:
 ```
 
-## Immediate user actions
+## Actions when implementation or device testing resumes
 
-1. Read the main plan, then the system specification. Begin the first unfinished shift; no old questionnaire reconstruction is required.
-2. For the next person, give this workspace path and these three entry documents. They must inspect current Git status rather than reset the working tree.
+1. Read the current session handoff for the active task. When the user resumes coding, read the main plan and system specification before starting the first unfinished implementation step.
+2. Hand over the existing workspace and the current entry documents. Inspect Git status and preserve pre-existing changes.
 3. ==**Enter the Deepgram key locally**== when the prepared Settings/backend is available. Use `language=vi`. No repeat account/credit confirmation is needed.
 4. Prepare the Pi Connect/SSH session for the actual device check. ==**The next owner must supply the exact command and expected output from the implemented runner**==; do not use a guessed command for code that does not yet exist.
 
 ==No new purchase is required before software work starts.== Use `STT_BOM.md` to compare options before choosing any purchase ceiling.
 
-The update date is 7 November. Dates in the role table are historical suggested slots, not a new schedule or proof of completion. Record unfinished stages honestly; no replacement deadline has been agreed.
+Dates in the role table are historical suggested slots. Use the checkpoint above for completion status. A replacement deadline is still open.
