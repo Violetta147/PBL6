@@ -4,9 +4,9 @@ Updated: 2026-11-07. Original target: Thursday, 2026-11-05 (past); no replacemen
 
 ## Next session: BOM decisions and shopping plan — 2026-11-07
 
-**The user now prioritizes finalizing unresolved BOM choices and planning purchases in a new session. Do not automatically start P2/batch, rerun benchmarks or purchase items.** `STT_BOM.md` is the canonical BOM, now using the supplied highlighted layout with factual corrections. Its draft budgets are unverified; DSI prices are not HDMI quotes, and neither a 7-inch screen nor a 1–2 m test distance nor a total spending ceiling has been approved.
+**The user selected the Nguyễn Hiền NH2067, a 7-inch 1024 × 600 HDMI touchscreen listed at 1,090,000 VND, for the first integration.** Use `STT_BOM.md` for the purchase status and outstanding checks. Order confirmation, the exact USB touch and power connections, and the bundled accessories are pending. Follow the user's direction before starting P2, running benchmarks, or contacting a seller.
 
-Use `START_NEXT_CHAT_STT.md` for the concise P1 handoff and reading order. P1 code is complete at the single-file checkpoint with two user browser trials and the Windows desktop visibility fix; full V1 remains unfinished. Next hardware decisions: HDMI touchscreen size/model, exact cables/power, case/stand, conditional speaker needs, vendor/total price/availability and collection or delivery in Da Nang. Keep DSI optional after HDMI + USB is stable.
+Use `START_NEXT_CHAT_STT.md` for the concise P1 handoff and reading order. P1 code is complete at the single-file checkpoint with two user browser trials and the Windows desktop visibility fix; full V1 remains unfinished. Confirm the selected screen's cable and power requirements, accessories, total price, and collection or delivery in Da Nang. Keep DSI optional after HDMI + USB is stable.
 
 ## UI/UX discussion to carry forward — 2026-11-07
 
@@ -18,7 +18,7 @@ Inventory and planning exist. The historical experiment suite passed 22 tests. B
 
 An attempted project relocation was stopped during source hashing, before copying or source removal. `D:\PBL6_STT` was not created. The temporary migration script is disabled. Keep the active project here. The earlier 48-file backup archive is separate from that cancelled relocation.
 
-Final-device decision confirmed 2026-11-06: ==**touchscreen interaction and kiosk mode are required**==. Keep the laptop for development and initial V1 checks; later verify boot into the full-screen STT interface and normal operation by touch on the actual device. Screen hardware is not selected yet.
+Final-device decision confirmed 2026-11-06: ==**touchscreen interaction and kiosk mode are required**==. Keep the laptop for development and initial V1 checks; later verify boot into the full-screen STT interface and normal operation by touch on the selected NH2067.
 
 Display sequence: **validate HDMI + USB touch first; DSI is a later optional upgrade**. Keep the successful HDMI configuration and actual test record. Check the candidate DSI screen against Pi 4 and the installed OS, then retest touch, orientation, on-screen entry, boot/kiosk and a real STT session. DSI procurement and switching must not block initial V1 work. The first screen integration requires an HDMI touchscreen, Pi 4 micro-HDMI video cable, USB touch data cable and model-specific power; use the HDMI + USB hardware section in `STT_BOM.md`.
 

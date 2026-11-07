@@ -40,13 +40,11 @@ Dependencies và build đã có trên máy. Ứng dụng có thể vẫn đang c
 
 **Dùng `STT_BOM.md` làm BOM duy nhất để chốt.** Bản trước thay và bản highlight nguyên gốc được giữ bên ngoài repository tại `C:\Users\LAPTOP T&T\Downloads\PBL6_BOM_BACKUP_20261107_9t707jsm`.
 
-Đã chốt: sản phẩm cuối có cảm ứng + Electron kiosk; tích hợp HDMI + USB touch trước, DSI chỉ là phương án nâng cấp sau khi HDMI ổn định. Chưa chốt: kích thước/model màn HDMI, đầu/chiều dài cáp, nguồn, vỏ/giá đỡ, nhà bán, tổng giá và ngày nhận. Loa, micro thay thế, AEC và powered hub phụ thuộc nhu cầu thực tế, không tự thành danh sách mua bắt buộc.
+Đã chốt: sản phẩm cuối có cảm ứng + Electron kiosk; tích hợp HDMI + USB touch trước, DSI xét sau khi HDMI ổn định. **Người dùng chọn mua màn Nguyễn Hiền NH2067, 7 inch, 1024 × 600, giá trang 1.090.000 VNĐ.** Chờ xác nhận đơn, USB touch, đầu/chiều dài cáp, nguồn, vỏ/giá đỡ, tổng giá và ngày nhận. Loa, micro thay thế, AEC và powered hub phụ thuộc nhu cầu thực tế.
 
-Bản highlight gốc có thêm các mức tiền nháp. BOM chính đã phân biệt chúng với báo giá; không dùng giá ứng viên DSI để dự toán màn HDMI. Giá/tồn kho DSI là thông tin khảo sát ngày 06/11, cần kiểm tra lại khi mua. Không mặc định màn 7 inch, khoảng cách 1–2 m, tổng ngân sách 2–2,5 triệu, toàn bộ thiết bị đã có đủ hoặc nguồn màn luôn phải đi riêng.
+Bản highlight gốc có thêm các mức tiền nháp. BOM chính phân biệt chúng với giá niêm yết. Khảo sát DSI ngày 06/11 được giữ để tham khảo. Cần xác nhận tổng ngân sách, khoảng cách thử và cách cấp nguồn theo bộ NH2067 thực tế.
 
-**Khảo sát màn bổ sung ngày 07/11:** BOM đã có Nguyễn Hiền NH2067 (trang hiển thị 1.090.000 VNĐ) và Tuyết Nga (820.000 VNĐ), đều 7 inch HDMI 1024×600. Chưa xác minh đúng đường USB touch/nguồn/phụ kiện và tổng VAT/ship/bảo hành; chưa chốt mua. Shop Shopee là nguồn đồ cũ người dùng báo chỉ còn DSI, công cụ chưa đọc được trang. BOM cũng đã giải thích SPI và lý do chưa ưu tiên làm màn chính. Không coi tên HDMI là bằng chứng touch qua USB.
-
-Trình bày các ứng viên cụ thể trong một bảng so sánh: tương thích Pi 4/OS, kích thước/độ phân giải, đường touch, nguồn, phụ kiện, giá có VAT/ship, bảo hành, tồn kho và cách/ngày nhận có nguồn. Ưu tiên Đà Nẵng (Nguyễn Hiền/SPIDER/BKM) hoặc nhà bán giao được về Đà Nẵng. Người dùng chưa chốt ngân sách, không yêu cầu rẻ nhất; cho xem so sánh trước khi yêu cầu quyết định. Lập danh sách tận dụng/mượn/mua có điều kiện và lịch đi mua sau khi người dùng chọn. Không đặt hàng hoặc liên hệ người khác nếu chưa được yêu cầu.
+**Bước phần cứng tiếp theo:** xác nhận đúng bộ NH2067 và phụ kiện, VAT/phí giao, bảo hành, sau đó thử 1024 × 600 và USB touch trên Pi 4. Dùng [bản phác bàn phím mở](reports/ui_ux_20261107/assets/wireframe-ban-phim-ao.png) để đối chiếu vùng đọc, vùng sửa chữ và nút Gửi khi thử kiosk. Giữ các ứng viên khác trong BOM làm tham khảo. Việc đặt hàng hoặc liên hệ nhà bán cần người dùng giao riêng.
 
 ## 4. Giữ công việc nghiên cứu và triển khai còn lại
 
