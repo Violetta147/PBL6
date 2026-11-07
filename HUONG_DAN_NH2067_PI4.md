@@ -68,7 +68,7 @@ Với kiosk trên Pi, thử **Pi + màn** trước, sau đó thêm **webcam Aion
 
 Pi 4 Model B có giới hạn <strong style="background-color:#FFF3C4;color:#6E4900;padding:1px 4px;border-radius:3px;">1,2 A tổng cho thiết bị USB</strong>. Mức **2,5 W ở 5 V** là thông số của mẫu Waveshare tham chiếu. Dòng của bo hai cổng chưa được đo. Khi ứng dụng trên Pi sẵn sàng, thử một lượt **thu → nhận dạng → gửi → phát** với bộ ngoại vi dự định dùng. Quan sát màn có chớp, cảm ứng có ngắt quãng và âm thanh có mất kết nối hay không. [Giới hạn nguồn USB của Pi](https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#typical-power-requirements) · [Thông số mẫu Waveshare](https://www.waveshare.com/wiki/7inch_HDMI_LCD_%28C%29#Specification)
 
-**Thử nghe qua loa laptop bằng RealVNC.** Trong phiên điều khiển Pi, bật tiếng ở biểu tượng **Audio** trên thanh công cụ RealVNC Viewer nếu có. Mở `voice-test.wav` bằng trình phát trên desktop Pi rồi nghe ở loa laptop. RealVNC cần máy chủ cho phép âm thanh và phiên dùng **High-Speed Streaming (RFB 6)**. Nếu biểu tượng **Audio** không xuất hiện hoặc bị vô hiệu hóa, kiểm tra phần mềm máy chủ đang chạy trên Pi và quyền âm thanh của phiên. Kết quả trên phiên RealVNC của nhóm đang chờ thử. [Tài liệu âm thanh của RealVNC](https://help.realvnc.com/hc/en-us/articles/360002504358-Audio-in-RealVNC-Connect)
+**Chờ thử âm thanh qua RealVNC.** Các bước kiểm tra và chỗ ghi kết quả nằm trong [kế hoạch thử âm thanh từ Pi qua loa laptop](reports/KE_HOACH_THU_AM_THANH_REALVNC.md).
 
 Mở **Terminal trên Pi** và chạy lệnh sau trước và sau lượt thử:
 
