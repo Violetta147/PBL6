@@ -101,6 +101,8 @@ Gửi lại phiên bản hệ điều hành, đầu ra `lsusb`, cổng Touch đa
 
 <strong style="background-color:#DDF7E9;color:#0B6B45;padding:1px 4px;border-radius:3px;">Đã thử</strong> Theo báo cáo của người dùng ngày **07/11/2026**, màn <strong style="background-color:#DDF7E9;color:#0B6B45;padding:1px 4px;border-radius:3px;">lên hình và nhận chạm</strong> khi kết nối với Pi 4. Người dùng ghi nhận chỉ cuộn được khi đặt ngón lên thanh cuộn rồi kéo, và phải chạm hai lần để mở ứng dụng hoặc thư mục đã thử. [Ghi nhận kết nối trong BOM](STT_BOM.md)
 
+<strong style="background-color:#DDF7E9;color:#0B6B45;padding:1px 4px;border-radius:3px;">Đã thử phát âm thanh</strong> Ngày **07/11/2026**, người dùng xác nhận nghe được âm thanh qua tai nghe cắm vào jack 3,5 mm trên Pi 4. Đây là kết quả kiểm tra đầu ra âm thanh của Pi. Phép thử nút **Đọc to** trong ứng dụng được thực hiện khi tính năng sẵn sàng.
+
 <strong style="background-color:#FFF3C4;color:#6E4900;padding:1px 4px;border-radius:3px;">Chờ thử lại</strong> Bài thử vuốt giữa trang trong Chromium ở mục 2.3 tạm hoãn. Khi có thể thử lại trên Pi, ghi chế độ cảm ứng ban đầu và kết quả vuốt. Nếu đang ở **Mouse Emulation**, thử chuyển sang **Multitouch** rồi vuốt lại trên cùng trang để so sánh.
 
 <strong style="background-color:#FFF3C4;color:#6E4900;padding:1px 4px;border-radius:3px;">Cần xác minh</strong> Ghi lại độ phân giải đầu ra thực tế, cổng Touch đang dùng và độ chính xác của vị trí chạm. Khi thử trong kiosk, ghi thêm kết quả bàn phím ảo tiếng Việt và thao tác **Gửi**. Sơ đồ hub ở Hình 1 là phương án lắp nếu cần, chưa có kết quả thử trên bộ thiết bị của nhóm.
