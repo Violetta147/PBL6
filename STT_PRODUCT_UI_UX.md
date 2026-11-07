@@ -75,7 +75,9 @@ Luồng để thảo luận: **người A/B → phương thức nhập → lư�
 
 Đề xuất giữ nhận dạng một file/batch ở công cụ nhập dữ liệu hoặc kiểm thử, để màn hội thoại tập trung vào cuộc trao đổi. Chưa chốt vị trí cuối cùng; chức năng file/batch của V1 vẫn phải được giữ và kiểm thử.
 
-Các mục Settings cần bàn thêm: nguồn mic/device path trên Pi, camera, Deepgram `language=vi` và key trên backend, cỡ chữ, âm lượng/giọng TTS, hành vi lưu/xóa hội thoại. Chưa chọn engine TTS hay mô hình ký hiệu. Browser laptop không tự dùng micro của nó khi đang điều khiển thiết bị Pi.
+**Settings có mục Xóa lịch sử.** Phạm vi xóa cần chốt, gồm xóa toàn bộ lịch sử hoặc chọn từng hội thoại.
+
+Các mục Settings cần bàn thêm: nguồn mic/device path trên Pi, camera, Deepgram `language=vi` và key trên backend, cỡ chữ, âm lượng/giọng TTS. Chưa chọn engine TTS hay mô hình ký hiệu. Browser laptop không tự dùng micro của nó khi đang điều khiển thiết bị Pi.
 
 ## 4. Ghi nhận ảnh tham khảo người dùng gửi
 
