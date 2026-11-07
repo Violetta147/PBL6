@@ -63,13 +63,13 @@ Luồng để thảo luận: **người A/B → phương thức nhập → lư�
 
 Đây là hướng tương tác người dùng thích; các thao tác cụ thể dưới đây là đề xuất wireframe:
 
-- **Tạo cuộc hội thoại mới:** tách cuộc trao đổi mới khỏi phiên đang xem; cách kết thúc/xóa cần bàn thêm.
+- **Nút + Hội thoại mới** trong bảng **Lịch sử** mở một hội thoại trống. Người dùng có thể bắt đầu cuộc khác ngay khi ứng dụng đang mở, kể cả khi đang xem một cuộc đã lưu.
 - **Danh sách phiên và phiên đang chọn:** chuyển giữa các cuộc hội thoại, thấy tên hoặc thời điểm để tìm lại; tìm kiếm là khả năng cần cân nhắc trên màn nhỏ.
 - **Nội dung theo lượt:** nhãn người A/B và phương thức, trạng thái xử lý, bản chữ cuối cùng. Phải phân biệt văn bản đang soạn, kết quả nhận dạng và nội dung đã gửi.
 - **Vùng nhập ổn định:** chuyển giữa chữ, giọng nói và ký hiệu trong cùng cuộc hội thoại; đặt điều khiển cần thiết gần nội dung đang tạo.
 - **Settings dễ tìm, điều hướng gọn:** thử phương án sidebar thu gọn trên màn thiết bị. Không mặc định bê nguyên các chế độ lập trình, giảng dạy hoặc quản lý agent vào sản phẩm.
 
-**Mỗi lần mở ứng dụng, màn chính hiện một hội thoại mới.** Các tin nhắn đã gửi được lưu để người dùng mở lại từ **Lịch sử** sau khi đóng và mở ứng dụng. Tên phiên, tìm kiếm, đổi tên, xóa, xuất và chính sách giữ nội dung cần quyết định riêng trước triển khai.
+**Mỗi lần mở ứng dụng, màn chính hiện một hội thoại mới.** Hội thoại chỉ xuất hiện trong **Lịch sử** sau khi người dùng gửi tin nhắn đầu tiên. Các tin nhắn đã gửi được lưu để người dùng mở lại sau khi đóng và mở ứng dụng. Tên phiên, tìm kiếm, đổi tên, xóa, xuất và chính sách giữ nội dung cần quyết định riêng trước triển khai.
 
 Đề xuất giữ nhận dạng một file/batch ở công cụ nhập dữ liệu hoặc kiểm thử, để màn hội thoại tập trung vào cuộc trao đổi. Chưa chốt vị trí cuối cùng; chức năng file/batch của V1 vẫn phải được giữ và kiểm thử.
 
@@ -109,7 +109,7 @@ Các ảnh là nguồn tham chiếu bố cục, không chốt bảng màu tối 
 2. **Tổ chức cuộc trao đổi thế nào?** Hội thoại cuộn như messenger, hai vùng A/B, hay kết hợp camera với hội thoại? Cách chọn người đang tạo lượt?
 3. **Hướng màu nào muốn thử?** Nền sáng trung tính hoặc nền tối dịu là các khả năng để so sánh, chưa phải lựa chọn đã duyệt. Không lấy bảng màu ảnh làm mặc định.
 4. **Phạm vi ký hiệu nào?** Ngôn ngữ ký hiệu/tập từ vựng, dữ liệu, model, đầu vào camera và cách xác nhận chữ chưa chốt; không tự hứa dịch ký hiệu tự do.
-5. **Thử luồng gửi, phát và mở lại hội thoại.** Sửa chữ trong vùng soạn trước khi bấm **Gửi**. Thử nút **Đọc to** như một thao tác riêng. Đóng rồi mở ứng dụng để kiểm tra màn chính hiện hội thoại mới và tin đã gửi vẫn mở lại được từ **Lịch sử**.
+5. **Thử luồng gửi, phát và mở lại hội thoại.** Bấm **+ Hội thoại mới**, sửa chữ trong vùng soạn và kiểm tra hội thoại xuất hiện trong **Lịch sử** khi bấm **Gửi** tin đầu tiên. Thử nút **Đọc to** như một thao tác riêng. Đóng rồi mở ứng dụng để kiểm tra màn chính hiện hội thoại mới và tin đã gửi vẫn mở lại được từ **Lịch sử**.
 
 Sau khi có lựa chọn sơ bộ, đề xuất tạo 2–3 wireframe (bản phác vị trí các vùng, chưa đầu tư màu) theo cùng một kịch bản hai người. Đánh giá khả năng đọc/chạm/nhập chữ trên kích thước màn dự kiến, rồi mới chốt giao diện chi tiết. Đây là bước đề xuất, chưa triển khai trong lượt ghi nhận này.
 
