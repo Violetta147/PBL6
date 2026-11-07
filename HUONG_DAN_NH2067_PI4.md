@@ -1,100 +1,99 @@
 # Hướng dẫn sử dụng màn hình NH2067 với Raspberry Pi 4
 
-**Dành cho nhóm PBL6 · 07/11/2026**
+**PBL6 · 07/11/2026**
 
-<strong style="color:#087789;">HDMI đưa hình lên màn</strong>. Dùng lại dây USB và cổng **Touch** mà người dùng đã thử nhận chạm với Pi 4. <strong style="color:#946200;">Bo thực tế có hai cổng vật lý cùng ghi Touch</strong>. Vai trò cấp nguồn và dữ liệu của từng cổng cần xác minh trước khi đổi cách nối. Pi 4 dùng adapter USB‑C của Pi.
+Tài liệu này hướng dẫn nối màn với Pi 4, thử hình ảnh và cảm ứng, rồi kiểm tra lại khi thêm mic hoặc loa. Với bộ đang hoạt động, dùng **cáp HDMI cho hình ảnh**, **một dây USB cho cổng Touch đã thử** và **adapter 5 V – 3 A sẵn có cho Pi**. [BOM PBL6](STT_BOM.md)
 
-## 1. Nhận đúng màn và chuẩn bị dây
+## 1. Nhận diện đúng bo và chuẩn bị dây
 
-Trang Nguyễn Hiền dùng mã bán hàng **NH2067** và mô tả màn cảm ứng HDMI **7 inch, 1024 × 600**. Ảnh của **bo thực tế** do người dùng gửi cho thấy dòng **7inch HDMI Display**, **1024 × 600 Pixel** và **USB Touch**. Hai cổng nhỏ đều ghi **Touch**, một cổng gần công tắc ON/OFF và một cổng gần HDMI. [Trang NH2067](https://www.dientunguyenhien.vn/show/2067)
+Trang Nguyễn Hiền dùng mã bán hàng **NH2067** cho màn cảm ứng HDMI 7 inch, **1024 × 600**. Ảnh của bo nhóm đang dùng cho thấy dòng **7inch HDMI Display**, **1024 × 600 Pixel**, **USB Touch** và hai cổng cùng ghi **Touch**. Một cổng gần công tắc ON/OFF, cổng kia gần HDMI. [Trang NH2067](https://www.dientunguyenhien.vn/show/2067)
 
-Ảnh mặt sau **trên trang bán** minh họa bo **Waveshare 7inch HDMI LCD (C), Rev4.1**, có một cổng micro‑USB và một hàng chân hàn. Bố trí khác với bo thực tế trong ảnh người dùng gửi. Dùng tài liệu Waveshare để tham khảo mẫu Rev4.1 trong ảnh bán hàng. [Ảnh mặt sau trên trang bán](https://www.dientunguyenhien.vn/public/images/lcd_7inch_1.jpg) · [Hướng dẫn cổng của Waveshare](https://www.waveshare.com/wiki/7inch_HDMI_LCD_%28C%29#Interface_Introduction)
+Ảnh trên trang bán minh họa **Waveshare 7inch HDMI LCD (C) Rev4.1**, có một cổng micro‑USB và một hàng chân hàn. Mẫu **LCDWiki MPI7002** có bố trí hai cổng Touch tương tự bo của nhóm. Tài liệu MPI7002 mô tả mỗi cổng của mẫu đó đều dùng được cho nguồn và dữ liệu chạm, mỗi lần chỉ cần một cổng. <strong style="background-color:#FFF3C4;color:#6E4900;padding:1px 4px;border-radius:3px;">Cần xác minh</strong> mã bo thực tế và cách hai cổng chia sẻ đường 5 V. [Ảnh trên trang bán](https://www.dientunguyenhien.vn/public/images/lcd_7inch_1.jpg) · [Tài liệu Waveshare](https://www.waveshare.com/wiki/7inch_HDMI_LCD_%28C%29#Interface_Introduction) · [Tài liệu MPI7002, trang 7](https://www.lcdwiki.com/res/MPI7002/7inch_MPI7002_datasheet.pdf#page=7)
 
-| Dây cần dùng | Cắm ở Pi 4 | Cắm ở màn | Công dụng |
+**Bảng 1.** Dây cần dùng khi nối trực tiếp Pi 4 với màn.
+
+| Dây | Đầu ở Pi 4 | Đầu còn lại | Công dụng |
 | --- | --- | --- | --- |
-| **Micro‑HDMI → HDMI** đã mua cùng màn | Cổng micro‑HDMI, ưu tiên cổng **HDMI0** khi thử một màn | HDMI cỡ chuẩn | Hình ảnh |
-| **USB‑A → micro‑USB có truyền dữ liệu** | Cổng USB‑A | Cổng **Touch** đã thử hoạt động | Dữ liệu cảm ứng. Có thể đồng thời cấp nguồn cho màn tùy theo cách đấu trên bo. |
-| **Adapter USB‑C của Pi 4** | Cổng nguồn USB‑C | — | Cấp nguồn cho Pi và thiết bị USB đang nối |
+| **Micro‑HDMI → HDMI** | Micro‑HDMI, ưu tiên **HDMI0** khi thử một màn | Cổng HDMI trên màn | Đưa hình từ Pi lên màn |
+| **USB‑A → micro‑USB có dữ liệu** | USB‑A | Một cổng **Touch** đã thử | Nguồn qua USB và dữ liệu cảm ứng |
+| **Adapter 5 V – 3 A** | Cổng nguồn **USB‑C** | Ổ điện | Cấp điện cho Pi |
 
-[Cổng và nguồn Raspberry Pi 4](https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#power-supply) · [Kết nối màn 7inch HDMI LCD (C)](https://www.waveshare.com/wiki/7inch_HDMI_LCD_%28C%29#Hardware_Connection)
+Dây sạc chỉ có đường nguồn có thể làm màn sáng, nhưng cần dây USB **có truyền dữ liệu** để Pi nhận thao tác chạm. [Cổng và nguồn Raspberry Pi 4](https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#power-supply)
 
-## 2. Kết nối và bật màn
+## 2. Kết nối và kiểm tra
 
-1. Nếu Pi đang chạy, tắt máy qua menu hệ điều hành, chờ tắt hẳn rồi ngắt adapter của Pi.
-2. Nối **USB‑A từ Pi** đến đúng cổng **Touch** đã thử nhận chạm. Dùng dây có truyền dữ liệu.
-3. Nối **micro‑HDMI từ Pi** đến cổng **HDMI** trên màn. Đặt công tắc của màn ở **ON**.
-4. Cắm lại adapter USB‑C của Pi và chờ hệ điều hành khởi động. Kiểm tra lần lượt **lên hình**, sau đó **chạm một lần vào một nút** trên desktop.
+### 2.1. Cắm trực tiếp với adapter sẵn có
 
-Nếu màn lên hình và nhận chạm ổn định khi giữa Pi và màn chỉ có dây HDMI và một dây USB, có thể tiếp tục dùng cách nối đó. Mức **2,5 W ở 5 V** là thông số cho mẫu **Waveshare** tham chiếu. Dòng tiêu thụ của bo hai cổng chưa được đo. Raspberry Pi công bố giới hạn **1,2 A tổng cho các thiết bị USB** trên Pi 4 Model B. Khi lắp thêm webcam, loa USB hoặc thiết bị khác, thử lại với đúng bộ ngoại vi sẽ dùng. [Thông số Waveshare](https://www.waveshare.com/wiki/7inch_HDMI_LCD_%28C%29#Specification) · [Yêu cầu nguồn Raspberry Pi](https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#typical-power-requirements)
+1. Nếu Pi đang chạy, tắt qua menu hệ điều hành, chờ tắt hẳn rồi ngắt adapter.
+2. Nối **micro‑HDMI trên Pi** với **HDMI trên màn**. Nối **USB‑A trên Pi** với **cổng Touch đã thử** trên màn. Để trống cổng Touch kia.
+3. Đặt công tắc màn ở **ON**, cắm lại adapter của Pi và chờ vào desktop. Kiểm tra lên hình, rồi chạm một lần vào một nút.
 
-### Hai cổng Touch và nguồn ngoài
+<strong style="background-color:#FDE7E7;color:#A71F31;padding:1px 4px;border-radius:3px;">Cách đấu cần tránh</strong> Cắm USB từ Pi vào một cổng Touch rồi cắm củ sạc vào cổng Touch thứ hai. Nếu hai cổng dùng chung đường 5 V, cách đấu đó nối hai nguồn song song. Điện áp không cộng thành 10 V, nhưng dòng điện có thể chạy ngược qua USB về Pi và bỏ qua mạch bảo vệ nguồn. [Giải thích cấp ngược nguồn của Raspberry Pi](https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#back-powering)
 
-**Cách đang dùng.** Adapter **5 V – 3 A** sẵn có cấp điện cho Pi 4. Nối **một dây USB dữ liệu** từ Pi đến cổng Touch đã thử. Dây này vừa cấp điện cho màn vừa đưa tín hiệu chạm về Pi. Để trống cổng Touch còn lại. [BOM PBL6](STT_BOM.md)
+### 2.2. Dùng hub có nguồn riêng nếu cần
 
-Tài liệu **LCDWiki MPI7002** cho thấy bố trí cổng tương tự và mô tả hai cổng của mẫu đó có cùng chức năng nguồn và dữ liệu. Nhóm chưa xác nhận bo thực tế có đúng mã này hoặc hai đường 5 V được đấu thế nào. [Tài liệu MPI7002, trang 7](https://www.lcdwiki.com/res/MPI7002/7inch_MPI7002_datasheet.pdf#page=7)
+Khi bộ ngoại vi thực tế vượt khả năng cấp nguồn USB của Pi, có thể dùng hub USB có adapter riêng. Chọn hub có truyền dữ liệu và có thiết kế tránh cấp điện ngược về Pi. **Adapter của hub cắm vào cổng nguồn của hub.** Hình 1 cho thấy Pi và hub dùng hai adapter riêng, còn màn dùng một cổng Touch. [Nguồn và thiết bị USB trên Pi](https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#typical-power-requirements)
 
-**Nếu sau này cần giảm tải USB cho Pi.** Dùng **hub USB có nguồn riêng**, tức bộ chia có adapter cấp điện cho thiết bị cắm vào hub. Chọn hub truyền được dữ liệu và không cấp ngược nguồn qua dây nối về Pi. Dùng đúng adapter theo thông số của hub. [Raspberry Pi về nguồn USB](https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#typical-power-requirements) · [Raspberry Pi về cấp ngược nguồn](https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#back-powering)
-
-```text
-Adapter 5 V – 3 A của nhóm → cổng nguồn USB-C của Pi 4
-Adapter của hub            → cổng nguồn riêng của hub
-Pi 4 ↔ USB ↔ hub ↔ một dây USB ↔ cổng Touch đã thử trên màn
-Pi 4 → cáp HDMI → cổng HDMI trên màn
+```mermaid
+flowchart LR
+    AP["Adapter 5 V – 3 A của Pi"] -->|"Nguồn USB-C"| P["Raspberry Pi 4"]
+    AH["Adapter của hub"] -->|"Cổng nguồn của hub"| H["Hub USB có nguồn riêng"]
+    P <-->|"USB · dữ liệu"| H
+    H -->|"Một dây USB · nguồn 5 V và dữ liệu chạm"| M["NH2067 · một cổng Touch"]
+    P -->|"HDMI · hình ảnh"| M
+    classDef power fill:#FFF3C4,stroke:#946200,color:#6E4900,font-weight:bold;
+    classDef device fill:#DFF8FC,stroke:#087789,color:#075A67,font-weight:bold;
+    class AP,AH power;
+    class P,H,M device;
 ```
 
-**Adapter của hub cắm vào hub.** Dây nối từ hub đến màn mang cả nguồn 5 V từ hub và dữ liệu cảm ứng. Hai phần dùng các đường dây khác nhau trong cùng cáp USB. Khi đổi cách nối, tắt Pi qua hệ điều hành và ngắt nguồn Pi, hub. Chuyển đầu USB của dây màn đang cắm vào Pi sang một cổng USB thiết bị trên hub, rồi nối dây USB của hub về Pi. Sau khi nối xong, cấp nguồn và thử lên hình, chạm.
+**Hình 1.** Sơ đồ đề xuất khi dùng hub có nguồn riêng. Mũi tên USB từ hub đến màn chỉ hướng cấp điện. Dữ liệu chạm đi từ màn qua hub về Pi trên cùng dây USB. HDMI vẫn nối thẳng từ Pi đến màn.
 
-<strong style="color:#946200;">Chỉ cắm một cổng Touch trên màn.</strong> Tránh cắm USB từ Pi vào một cổng rồi cắm củ sạc vào cổng Touch thứ hai. Nếu hai cổng chung đường 5 V, hai nguồn sẽ nối song song. Vấn đề cần tránh là dòng điện có thể chạy ngược về Pi, dù điện áp hai nguồn không cộng thành 10 V. Củ sạc cắm riêng vào màn cũng chỉ cấp điện. Pi cần đường dữ liệu USB để nhận cảm ứng. [Giải thích về cấp ngược nguồn](https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#back-powering)
+Để chuyển cách nối, tắt Pi và ngắt nguồn Pi lẫn hub. Chuyển đầu USB của dây màn từ Pi sang **cổng USB thiết bị trên hub**, rồi nối dây USB của hub về Pi. Cắm adapter của Pi và adapter đúng loại của hub vào cổng nguồn tương ứng, sau đó thử lên hình và chạm. Củ sạc cắm trực tiếp vào Touch chỉ cấp điện. Để cảm ứng điều khiển Pi, dây Touch cần có đường dữ liệu về Pi.
 
-## 3. Kiểm tra độ phân giải, cảm ứng và bàn phím
+### 2.3. Thử hình ảnh, chạm và bàn phím
 
-**Hình ảnh.** Trên **Raspberry Pi OS Trixie Desktop**, mở **Preferences → Control Centre → Screens**, chọn đúng màn HDMI và đọc mục **Resolution**. Nếu hệ thống đang dùng **1024 × 600**, giữ thiết lập đó. Nếu đang dùng chế độ khác và danh sách có **1024 × 600**, chọn chế độ này, bấm **Apply** và xác nhận khi hình hiển thị đúng. Nếu chế độ không xuất hiện, ghi lại tên ngõ HDMI và những độ phân giải đang có để kiểm tra tiếp. [Cài đặt màn hình Raspberry Pi OS](https://www.raspberrypi.com/documentation/computers/configuration.html#configure-display-settings)
+1. **Độ phân giải.** Trên **Raspberry Pi OS Trixie Desktop**, vào **Preferences → Control Centre → Screens** và đọc **Resolution** của màn HDMI. Nếu đang ở **1024 × 600**, giữ thiết lập đó. Nếu danh sách có mức này nhưng Pi đang dùng mức khác, chọn **1024 × 600**, bấm **Apply** rồi xác nhận nếu hình hiển thị đúng. Nếu mức này không xuất hiện, ghi lại tên ngõ HDMI và các chế độ hiện có. [Cài đặt màn hình Raspberry Pi OS](https://www.raspberrypi.com/documentation/computers/configuration.html#configure-display-settings)
+2. **Cảm ứng.** Chạm một lần vào vài nút ở các vị trí cách xa nhau. Ghi lại nút phản hồi ngay, cần chạm lại hay bị lệch. Thử cuộn một trang dài và ghi riêng kết quả cuộn.
+3. **Bàn phím ảo.** Chạm ô nhập trên desktop, gõ thử **“Tôi muốn hỏi giờ làm việc.”** rồi dùng **Xóa / Backspace**. Nếu bàn phím chưa hiện và thanh tác vụ có biểu tượng bàn phím, dùng biểu tượng đó để mở. Khi có bản kiosk, thử lại trong vùng soạn để xác nhận gõ dấu tiếng Việt, nhìn thấy câu đang sửa và chạm được **Gửi** khi bàn phím mở. [Cài đặt bàn phím ảo](https://www.raspberrypi.com/documentation/computers/configuration.html#configure-onscreen-keyboard) · [Bản phác PBL6 khi mở bàn phím](reports/ui_ux_20261107/assets/wireframe-ban-phim-ao.png)
 
-**Cảm ứng.** Thử chạm một lần vào vài nút ở các vị trí cách xa nhau trên desktop. Ghi lại nút có phản hồi ngay, phải chạm lại hay bị lệch. Sau đó thử cuộn một trang dài. Ghi riêng lỗi chạm và lỗi cuộn để biết khác biệt so với điện thoại nằm ở thao tác nào.
+### 2.4. Thử thêm thiết bị và kiểm tra nguồn
 
-**Bàn phím ảo.** Trên desktop, mở trình soạn thảo hoặc ô nhập của trình duyệt, chạm vào ô, gõ thử **“Tôi muốn hỏi giờ làm việc.”** và dùng phím **Xóa / Backspace**. Nếu bàn phím chưa tự hiện và thanh tác vụ có biểu tượng bàn phím, dùng biểu tượng đó để mở thủ công. Khi có bản kiosk, thử lại trong composer để kiểm tra bàn phím hiện khi chạm vùng soạn, gõ được tiếng Việt và nút **Gửi** còn trong tầm chạm. [Cấu hình bàn phím ảo của Raspberry Pi OS](https://www.raspberrypi.com/documentation/computers/configuration.html#configure-onscreen-keyboard) · [Bản phác PBL6 khi bàn phím mở](reports/ui_ux_20261107/assets/wireframe-ban-phim-ao.png)
+Với kiosk trên Pi, thử **Pi + màn** trước, sau đó thêm **webcam Aioneus** và dùng mic tích hợp để thu thử. Dùng tai nghe 3,5 mm đang có để thử phát, rồi thêm loa ở lượt sau. Nếu loa lấy điện từ USB của Pi, tính loa vào tải USB. Loa chủ động có nguồn riêng và ngõ AUX có thể nhận âm thanh qua jack 3,5 mm. Camera nhận dạng ký hiệu gắn vào máy chạy nhận dạng, chẳng hạn laptop. Khi hai dự án được tích hợp, Pi nhận văn bản để hiển thị hoặc đọc. [BOM thiết bị](STT_BOM.md) · [Đặc tả thu âm trên Pi](STT_SYSTEM_SPEC.md) · [Chọn đầu ra âm thanh](https://www.raspberrypi.com/documentation/computers/configuration.html#change-audio-output)
 
-## 4. Xử lý nhanh khi gặp lỗi
+Pi 4 Model B có giới hạn **1,2 A tổng cho thiết bị USB**. Mức **2,5 W ở 5 V** là thông số của mẫu Waveshare tham chiếu. Dòng của bo hai cổng chưa được đo. Khi ứng dụng trên Pi sẵn sàng, thử một lượt **thu → nhận dạng → gửi → phát** với bộ ngoại vi dự định dùng. Quan sát màn có chớp, cảm ứng có ngắt quãng và âm thanh có mất kết nối hay không. [Giới hạn nguồn USB của Pi](https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#typical-power-requirements) · [Thông số mẫu Waveshare](https://www.waveshare.com/wiki/7inch_HDMI_LCD_%28C%29#Specification)
+
+Mở **Terminal trên Pi** và chạy lệnh sau trước và sau lượt thử:
+
+```bash
+vcgencmd get_throttled
+```
+
+Ghi lại hai kết quả và thiết bị đang cắm. `throttled=0x0` nghĩa là không có cờ cảnh báo trong kết quả đọc. Cờ `0x1` báo Pi đang phát hiện sụt áp, còn `0x10000` báo đã từng phát hiện sụt áp. Các cờ có thể xuất hiện cùng nhau. Lệnh theo dõi tình trạng Pi. Vẫn cần kiểm tra màn và ngoại vi bằng thao tác thực tế. [Giải nghĩa cờ trên Raspberry Pi OS](https://www.raspberrypi.com/documentation/computers/os.html#get_throttled)
+
+### 2.5. Xử lý khi gặp lỗi
+
+**Bảng 2.** Kiểm tra đầu tiên theo triệu chứng.
 
 | Hiện tượng | Kiểm tra trước |
 | --- | --- |
-| Màn tối khi Pi đã khởi động | Kiểm tra dây USB đang vào cổng **Touch** và công tắc **Backlight** ở **ON**. |
-| Đèn nền sáng nhưng chưa có hình | Kiểm tra hai đầu HDMI. Thử khởi động với một màn cắm sẵn vào **HDMI0**. |
-| Có hình nhưng chưa nhận chạm | Đổi sang dây USB‑A → micro‑USB đã biết có truyền dữ liệu và thử chạm lại. |
-| Chạm lệch hoặc điều khiển nhầm màn | Thử với riêng NH2067, để hướng màn **Normal** và chạm lại ở vài vị trí. Ghi rõ nếu chỉ lệch sau khi xoay hoặc khi gắn màn thứ hai. |
-| Màn chớp hoặc chạm ngắt quãng khi cắm thêm ngoại vi | Thử lại với màn và Pi trước, rồi thêm từng ngoại vi để xem lỗi xuất hiện khi cắm thiết bị nào. Kiểm tra nguồn Pi và dây USB trước khi chọn cách cấp nguồn khác. |
+| Màn tối khi Pi đã khởi động | Kiểm tra dây USB vào cổng Touch đã thử và công tắc màn ở **ON**. |
+| Đèn nền sáng nhưng chưa có hình | Kiểm tra hai đầu HDMI. Thử khởi động với một màn cắm sẵn ở **HDMI0**. |
+| Có hình nhưng chưa nhận chạm | Thử dây **USB‑A → micro‑USB có truyền dữ liệu**. |
+| Chạm lệch hoặc điều khiển nhầm màn | Thử với riêng NH2067 ở hướng **Normal**. Ghi rõ nếu chỉ lệch khi xoay hoặc gắn thêm màn. |
+| Màn chớp hoặc chạm ngắt quãng khi thêm ngoại vi | Thử lại với Pi và màn trước. Thêm từng thiết bị, kiểm tra nguồn Pi và dây USB khi lỗi xuất hiện. |
 
-Nếu đã có hình nhưng cảm ứng vẫn lỗi, mở **Terminal trên Pi** bằng chuột hoặc bàn phím vật lý và chạy:
+Nếu đã có hình mà cảm ứng vẫn lỗi, mở **Terminal trên Pi** bằng chuột hoặc bàn phím vật lý và chạy:
 
 ```bash
 cat /etc/os-release
 lsusb
 ```
 
-Gửi lại tên và phiên bản hệ điều hành, đầu ra `lsusb`, cổng đang cắm và mô tả lỗi chạm. `lsusb` cho biết thiết bị nào được Pi nhận qua USB. Tên thiết bị có thể khác nhau theo bo. Việc thiết bị xuất hiện trong danh sách chỉ xác nhận Pi nhận được kết nối USB; vẫn cần thử chạm để kiểm tra thao tác.
+Gửi lại phiên bản hệ điều hành, đầu ra `lsusb`, cổng Touch đang cắm và triệu chứng. `lsusb` cho biết Pi nhận thiết bị nào qua USB. Đối chiếu thêm phản hồi khi chạm để kiểm tra điều khiển thực tế.
 
-## 5. Thử thêm mic, loa và camera
+## 3. Kết quả thử trên Pi 4
 
-Gắn ngoại vi vào máy thực hiện thao tác tương ứng. Với cấu hình kiosk chạy trên Pi, dùng **màn NH2067 và webcam Aioneus có mic tích hợp** để thử thu âm trước. Nếu xử lý ký hiệu trên laptop, camera phục vụ ký hiệu có thể gắn laptop. Pi chỉ cần nhận văn bản khi hai luồng được tích hợp. [Thiết bị hiện có trong BOM](STT_BOM.md) · [Luồng thu âm Pi trong đặc tả](STT_SYSTEM_SPEC.md)
+<strong style="background-color:#DDF7E9;color:#0B6B45;padding:1px 4px;border-radius:3px;">Đã thử</strong> Theo báo cáo của người dùng ngày **07/11/2026**, màn **lên hình và nhận chạm** khi kết nối với Pi 4. Người dùng thấy cảm giác chạm hơi khác điện thoại. [Ghi nhận trong BOM](STT_BOM.md)
 
-| Thiết bị | Khi cần dùng |
-| --- | --- |
-| **Webcam Aioneus / mic** | Cắm webcam vào Pi để dùng mic tích hợp khi thử STT. Thử mic USB riêng nếu mic hiện có chưa đáp ứng. |
-| **Tai nghe hoặc loa** | Cắm tai nghe 3,5 mm đang có để thử phát. Để hai người cùng nghe, có thể dùng loa chủ động có nguồn riêng và ngõ AUX 3,5 mm. Nếu loa lấy điện từ USB của Pi, tính loa vào tổng tải USB. |
-| **Camera cho ký hiệu** | Gắn vào máy chạy nhận dạng ký hiệu. Bài thử STT và TTS chỉ cần thu, phát âm thanh và văn bản. |
-
-[Thông số phần cứng Pi 4](https://datasheets.raspberrypi.com/rpi4/raspberry-pi-4-product-brief.pdf) · [Cách chọn đầu ra âm thanh](https://www.raspberrypi.com/documentation/computers/configuration.html#change-audio-output)
-
-1. Thử **Pi + màn**, rồi gắn **webcam Aioneus** và kiểm tra chạm trong lúc thu thử. Thêm thiết bị phát ở lượt sau để dễ xác định thiết bị nào gây gián đoạn nếu có.
-2. Khi bản ứng dụng trên Pi sẵn sàng, chạy một lượt **thu → nhận dạng → gửi → phát**, đồng thời kiểm tra màn có chớp, chạm có ngắt quãng và âm thanh có mất kết nối không.
-3. Mở **Terminal trên Pi** và chạy lệnh dưới đây trước và sau lượt thử. Ghi lại cả hai kết quả và danh sách thiết bị đang cắm.
-
-```bash
-vcgencmd get_throttled
-```
-
-`throttled=0x0` nghĩa là lệnh không báo cờ cảnh báo tại thời điểm kiểm tra. Cờ `0x1` cho biết Pi đang phát hiện sụt áp, cờ `0x10000` cho biết đã từng phát hiện sụt áp. Các cờ có thể xuất hiện cùng nhau. Lệnh này theo dõi tình trạng Pi, còn màn và ngoại vi cần được kiểm tra bằng thao tác thực tế. Nếu nguồn hoặc cổng USB không đáp ứng khi chạy đúng bộ thiết bị, cân nhắc **hub USB có adapter riêng** để cấp điện cho ngoại vi vẫn cần truyền dữ liệu với Pi. [Giải nghĩa các cờ trên Raspberry Pi OS](https://www.raspberrypi.com/documentation/computers/os.html#get_throttled) · [Giới hạn USB và khuyến nghị về hub](https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#typical-power-requirements)
-
-## Tình trạng thử của PBL6
-
-<strong style="color:#087A47;">Đã thử kết nối và có phản hồi chạm</strong> theo báo cáo người dùng ngày **07/11/2026**. Cảm giác chạm hơi khác điện thoại. <strong style="color:#946200;">Cần kiểm tra tiếp</strong> độ phân giải đang chạy, vị trí chạm và bàn phím ảo trong ứng dụng. [Ghi nhận trong BOM](STT_BOM.md)
+<strong style="background-color:#FFF3C4;color:#6E4900;padding:1px 4px;border-radius:3px;">Cần xác minh</strong> Ghi lại độ phân giải đầu ra thực tế, cổng Touch đang dùng, chạm có đúng vị trí và cuộn có đều hay không. Khi thử trong kiosk, ghi thêm kết quả bàn phím ảo tiếng Việt và thao tác **Gửi**. Sơ đồ hub ở Hình 1 là phương án lắp nếu cần, chưa có kết quả thử trên bộ thiết bị của nhóm.
