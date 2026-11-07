@@ -1,0 +1,1339 @@
+{
+  "version": "2.22",
+  "children": [
+    {
+      "type": "frame",
+      "id": "p0010",
+      "name": "01 · Trao đổi · 1024 × 600",
+      "x": 0,
+      "y": 0,
+      "width": 1024,
+      "height": 600,
+      "fill": "#F5F7F9",
+      "layout": "none",
+      "clip": true,
+      "children": [
+        {
+          "type": "frame",
+          "id": "p0009",
+          "name": "Thanh đầu",
+          "x": 0,
+          "y": 0,
+          "width": 1024,
+          "height": 76,
+          "fill": "#FFFFFF",
+          "layout": "none",
+          "clip": false,
+          "children": [
+            {
+              "type": "rectangle",
+              "id": "p0001",
+              "name": "Đường phân cách",
+              "x": 0,
+              "y": 75,
+              "width": 1024,
+              "height": 1,
+              "fill": "#BAC5D0",
+              "cornerRadius": 0
+            },
+            {
+              "type": "frame",
+              "id": "p0004",
+              "name": "Hội thoại",
+              "x": 28,
+              "y": 14,
+              "width": 144,
+              "height": 48,
+              "fill": "#00000000",
+              "layout": "none",
+              "clip": false,
+              "children": [
+                {
+                  "type": "rectangle",
+                  "id": "p0002",
+                  "name": "Nền nút",
+                  "x": 0,
+                  "y": 0,
+                  "width": 144,
+                  "height": 48,
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 8,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#BAC5D0"
+                  }
+                },
+                {
+                  "type": "text",
+                  "id": "p0003",
+                  "name": "Hội thoại",
+                  "content": "Hội thoại",
+                  "x": 10,
+                  "y": 0,
+                  "width": 124,
+                  "height": 48,
+                  "fontFamily": "Segoe UI",
+                  "fontSize": 18,
+                  "fontWeight": "600",
+                  "textAlign": "center",
+                  "textAlignVertical": "middle",
+                  "textGrowth": "fixed-width-height",
+                  "fill": "#18212B"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "p0005",
+              "name": "Trao đổi tại quầy",
+              "content": "Trao đổi tại quầy",
+              "x": 200,
+              "y": 0,
+              "width": 624,
+              "height": 76,
+              "fontFamily": "Segoe UI",
+              "fontSize": 24,
+              "fontWeight": "600",
+              "textAlign": "center",
+              "textAlignVertical": "middle",
+              "textGrowth": "fixed-width-height",
+              "fill": "#18212B"
+            },
+            {
+              "type": "frame",
+              "id": "p0008",
+              "name": "Cài đặt",
+              "x": 876,
+              "y": 14,
+              "width": 120,
+              "height": 48,
+              "fill": "#00000000",
+              "layout": "none",
+              "clip": false,
+              "children": [
+                {
+                  "type": "rectangle",
+                  "id": "p0006",
+                  "name": "Nền nút",
+                  "x": 0,
+                  "y": 0,
+                  "width": 120,
+                  "height": 48,
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 8,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#BAC5D0"
+                  }
+                },
+                {
+                  "type": "text",
+                  "id": "p0007",
+                  "name": "Cài đặt",
+                  "content": "Cài đặt",
+                  "x": 10,
+                  "y": 0,
+                  "width": 100,
+                  "height": 48,
+                  "fontFamily": "Segoe UI",
+                  "fontSize": 18,
+                  "fontWeight": "600",
+                  "textAlign": "center",
+                  "textAlignVertical": "middle",
+                  "textGrowth": "fixed-width-height",
+                  "fill": "#18212B"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "p000m",
+          "name": "Tin nhắn đã gửi",
+          "x": 0,
+          "y": 76,
+          "width": 1024,
+          "height": 366,
+          "fill": "#F5F7F9",
+          "layout": "none",
+          "clip": false,
+          "children": [
+            {
+              "type": "frame",
+              "id": "p000f",
+              "name": "Tôi muốn hỏi giờ làm việc.",
+              "x": 28,
+              "y": 24,
+              "width": 968,
+              "height": 76,
+              "fill": "#FFFFFF",
+              "layout": "none",
+              "clip": false,
+              "children": [
+                {
+                  "type": "rectangle",
+                  "id": "p000a",
+                  "name": "Khung tin nhắn",
+                  "x": 0,
+                  "y": 0,
+                  "width": 968,
+                  "height": 76,
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 10,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#BAC5D0"
+                  }
+                },
+                {
+                  "type": "text",
+                  "id": "p000b",
+                  "name": "Tôi muốn hỏi giờ làm việc.",
+                  "content": "Tôi muốn hỏi giờ làm việc.",
+                  "x": 18,
+                  "y": 0,
+                  "width": 806,
+                  "height": 76,
+                  "fontFamily": "Segoe UI",
+                  "fontSize": 24,
+                  "fontWeight": "400",
+                  "textAlign": "left",
+                  "textAlignVertical": "middle",
+                  "textGrowth": "fixed-width-height",
+                  "fill": "#18212B"
+                },
+                {
+                  "type": "frame",
+                  "id": "p000e",
+                  "name": "Đọc",
+                  "x": 862,
+                  "y": 14,
+                  "width": 86,
+                  "height": 48,
+                  "fill": "#00000000",
+                  "layout": "none",
+                  "clip": false,
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "id": "p000c",
+                      "name": "Nền nút",
+                      "x": 0,
+                      "y": 0,
+                      "width": 86,
+                      "height": 48,
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 8,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "#BAC5D0"
+                      }
+                    },
+                    {
+                      "type": "text",
+                      "id": "p000d",
+                      "name": "Đọc",
+                      "content": "Đọc",
+                      "x": 10,
+                      "y": 0,
+                      "width": 66,
+                      "height": 48,
+                      "fontFamily": "Segoe UI",
+                      "fontSize": 18,
+                      "fontWeight": "600",
+                      "textAlign": "center",
+                      "textAlignVertical": "middle",
+                      "textGrowth": "fixed-width-height",
+                      "fill": "#18212B"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "p000l",
+              "name": "Quầy mở đến 17 giờ.",
+              "x": 28,
+              "y": 112,
+              "width": 968,
+              "height": 76,
+              "fill": "#FFFFFF",
+              "layout": "none",
+              "clip": false,
+              "children": [
+                {
+                  "type": "rectangle",
+                  "id": "p000g",
+                  "name": "Khung tin nhắn",
+                  "x": 0,
+                  "y": 0,
+                  "width": 968,
+                  "height": 76,
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 10,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#BAC5D0"
+                  }
+                },
+                {
+                  "type": "text",
+                  "id": "p000h",
+                  "name": "Quầy mở đến 17 giờ.",
+                  "content": "Quầy mở đến 17 giờ.",
+                  "x": 18,
+                  "y": 0,
+                  "width": 806,
+                  "height": 76,
+                  "fontFamily": "Segoe UI",
+                  "fontSize": 24,
+                  "fontWeight": "400",
+                  "textAlign": "left",
+                  "textAlignVertical": "middle",
+                  "textGrowth": "fixed-width-height",
+                  "fill": "#18212B"
+                },
+                {
+                  "type": "frame",
+                  "id": "p000k",
+                  "name": "Đọc",
+                  "x": 862,
+                  "y": 14,
+                  "width": 86,
+                  "height": 48,
+                  "fill": "#00000000",
+                  "layout": "none",
+                  "clip": false,
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "id": "p000i",
+                      "name": "Nền nút",
+                      "x": 0,
+                      "y": 0,
+                      "width": 86,
+                      "height": 48,
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 8,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "#BAC5D0"
+                      }
+                    },
+                    {
+                      "type": "text",
+                      "id": "p000j",
+                      "name": "Đọc",
+                      "content": "Đọc",
+                      "x": 10,
+                      "y": 0,
+                      "width": 66,
+                      "height": 48,
+                      "fontFamily": "Segoe UI",
+                      "fontSize": 18,
+                      "fontWeight": "600",
+                      "textAlign": "center",
+                      "textAlignVertical": "middle",
+                      "textGrowth": "fixed-width-height",
+                      "fill": "#18212B"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "p000z",
+          "name": "Vùng soạn chung",
+          "x": 0,
+          "y": 442,
+          "width": 1024,
+          "height": 158,
+          "fill": "#FFFFFF",
+          "layout": "none",
+          "clip": false,
+          "children": [
+            {
+              "type": "rectangle",
+              "id": "p000n",
+              "name": "Đường phân cách",
+              "x": 0,
+              "y": 0,
+              "width": 1024,
+              "height": 1,
+              "fill": "#BAC5D0",
+              "cornerRadius": 0
+            },
+            {
+              "type": "frame",
+              "id": "p000q",
+              "name": "Thu âm",
+              "x": 28,
+              "y": 14,
+              "width": 124,
+              "height": 46,
+              "fill": "#00000000",
+              "layout": "none",
+              "clip": false,
+              "children": [
+                {
+                  "type": "rectangle",
+                  "id": "p000o",
+                  "name": "Nền nút",
+                  "x": 0,
+                  "y": 0,
+                  "width": 124,
+                  "height": 46,
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 8,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#BAC5D0"
+                  }
+                },
+                {
+                  "type": "text",
+                  "id": "p000p",
+                  "name": "Thu âm",
+                  "content": "Thu âm",
+                  "x": 10,
+                  "y": 0,
+                  "width": 104,
+                  "height": 46,
+                  "fontFamily": "Segoe UI",
+                  "fontSize": 18,
+                  "fontWeight": "600",
+                  "textAlign": "center",
+                  "textAlignVertical": "middle",
+                  "textGrowth": "fixed-width-height",
+                  "fill": "#18212B"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "p000t",
+              "name": "Chọn file",
+              "x": 164,
+              "y": 14,
+              "width": 130,
+              "height": 46,
+              "fill": "#00000000",
+              "layout": "none",
+              "clip": false,
+              "children": [
+                {
+                  "type": "rectangle",
+                  "id": "p000r",
+                  "name": "Nền nút",
+                  "x": 0,
+                  "y": 0,
+                  "width": 130,
+                  "height": 46,
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 8,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#BAC5D0"
+                  }
+                },
+                {
+                  "type": "text",
+                  "id": "p000s",
+                  "name": "Chọn file",
+                  "content": "Chọn file",
+                  "x": 10,
+                  "y": 0,
+                  "width": 110,
+                  "height": 46,
+                  "fontFamily": "Segoe UI",
+                  "fontSize": 18,
+                  "fontWeight": "600",
+                  "textAlign": "center",
+                  "textAlignVertical": "middle",
+                  "textGrowth": "fixed-width-height",
+                  "fill": "#18212B"
+                }
+              ]
+            },
+            {
+              "type": "rectangle",
+              "id": "p000u",
+              "name": "Ô nhập và sửa chữ",
+              "x": 28,
+              "y": 74,
+              "width": 828,
+              "height": 56,
+              "fill": "#FFFFFF",
+              "cornerRadius": 8,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "#BAC5D0"
+              }
+            },
+            {
+              "type": "text",
+              "id": "p000v",
+              "name": "Gõ hoặc sửa chữ nhận dạng…",
+              "content": "Gõ hoặc sửa chữ nhận dạng…",
+              "x": 44,
+              "y": 74,
+              "width": 796,
+              "height": 56,
+              "fontFamily": "Segoe UI",
+              "fontSize": 21,
+              "fontWeight": "400",
+              "textAlign": "left",
+              "textAlignVertical": "middle",
+              "textGrowth": "fixed-width-height",
+              "fill": "#4F5D6B"
+            },
+            {
+              "type": "frame",
+              "id": "p000y",
+              "name": "Gửi",
+              "x": 872,
+              "y": 74,
+              "width": 124,
+              "height": 56,
+              "fill": "#00000000",
+              "layout": "none",
+              "clip": false,
+              "children": [
+                {
+                  "type": "rectangle",
+                  "id": "p000w",
+                  "name": "Nền nút",
+                  "x": 0,
+                  "y": 0,
+                  "width": 124,
+                  "height": 56,
+                  "fill": "#273D53",
+                  "cornerRadius": 8
+                },
+                {
+                  "type": "text",
+                  "id": "p000x",
+                  "name": "Gửi",
+                  "content": "Gửi",
+                  "x": 10,
+                  "y": 0,
+                  "width": 104,
+                  "height": 56,
+                  "fontFamily": "Segoe UI",
+                  "fontSize": 18,
+                  "fontWeight": "600",
+                  "textAlign": "center",
+                  "textAlignVertical": "middle",
+                  "textGrowth": "fixed-width-height",
+                  "fill": "#FFFFFF"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "p002g",
+      "name": "02 · Mở lịch sử · 1024 × 600",
+      "x": 1096,
+      "y": 0,
+      "width": 1024,
+      "height": 600,
+      "fill": "#F5F7F9",
+      "layout": "none",
+      "clip": true,
+      "children": [
+        {
+          "type": "frame",
+          "id": "p0019",
+          "name": "Thanh đầu",
+          "x": 0,
+          "y": 0,
+          "width": 1024,
+          "height": 76,
+          "fill": "#FFFFFF",
+          "layout": "none",
+          "clip": false,
+          "children": [
+            {
+              "type": "rectangle",
+              "id": "p0011",
+              "name": "Đường phân cách",
+              "x": 0,
+              "y": 75,
+              "width": 1024,
+              "height": 1,
+              "fill": "#BAC5D0",
+              "cornerRadius": 0
+            },
+            {
+              "type": "frame",
+              "id": "p0014",
+              "name": "Hội thoại",
+              "x": 28,
+              "y": 14,
+              "width": 144,
+              "height": 48,
+              "fill": "#00000000",
+              "layout": "none",
+              "clip": false,
+              "children": [
+                {
+                  "type": "rectangle",
+                  "id": "p0012",
+                  "name": "Nền nút",
+                  "x": 0,
+                  "y": 0,
+                  "width": 144,
+                  "height": 48,
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 8,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#BAC5D0"
+                  }
+                },
+                {
+                  "type": "text",
+                  "id": "p0013",
+                  "name": "Hội thoại",
+                  "content": "Hội thoại",
+                  "x": 10,
+                  "y": 0,
+                  "width": 124,
+                  "height": 48,
+                  "fontFamily": "Segoe UI",
+                  "fontSize": 18,
+                  "fontWeight": "600",
+                  "textAlign": "center",
+                  "textAlignVertical": "middle",
+                  "textGrowth": "fixed-width-height",
+                  "fill": "#18212B"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "p0015",
+              "name": "Trao đổi tại quầy",
+              "content": "Trao đổi tại quầy",
+              "x": 200,
+              "y": 0,
+              "width": 624,
+              "height": 76,
+              "fontFamily": "Segoe UI",
+              "fontSize": 24,
+              "fontWeight": "600",
+              "textAlign": "center",
+              "textAlignVertical": "middle",
+              "textGrowth": "fixed-width-height",
+              "fill": "#18212B"
+            },
+            {
+              "type": "frame",
+              "id": "p0018",
+              "name": "Cài đặt",
+              "x": 876,
+              "y": 14,
+              "width": 120,
+              "height": 48,
+              "fill": "#00000000",
+              "layout": "none",
+              "clip": false,
+              "children": [
+                {
+                  "type": "rectangle",
+                  "id": "p0016",
+                  "name": "Nền nút",
+                  "x": 0,
+                  "y": 0,
+                  "width": 120,
+                  "height": 48,
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 8,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#BAC5D0"
+                  }
+                },
+                {
+                  "type": "text",
+                  "id": "p0017",
+                  "name": "Cài đặt",
+                  "content": "Cài đặt",
+                  "x": 10,
+                  "y": 0,
+                  "width": 100,
+                  "height": 48,
+                  "fontFamily": "Segoe UI",
+                  "fontSize": 18,
+                  "fontWeight": "600",
+                  "textAlign": "center",
+                  "textAlignVertical": "middle",
+                  "textGrowth": "fixed-width-height",
+                  "fill": "#18212B"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "p001m",
+          "name": "Tin nhắn đã gửi",
+          "x": 0,
+          "y": 76,
+          "width": 1024,
+          "height": 366,
+          "fill": "#F5F7F9",
+          "layout": "none",
+          "clip": false,
+          "children": [
+            {
+              "type": "frame",
+              "id": "p001f",
+              "name": "Tôi muốn hỏi giờ làm việc.",
+              "x": 28,
+              "y": 24,
+              "width": 968,
+              "height": 76,
+              "fill": "#FFFFFF",
+              "layout": "none",
+              "clip": false,
+              "children": [
+                {
+                  "type": "rectangle",
+                  "id": "p001a",
+                  "name": "Khung tin nhắn",
+                  "x": 0,
+                  "y": 0,
+                  "width": 968,
+                  "height": 76,
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 10,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#BAC5D0"
+                  }
+                },
+                {
+                  "type": "text",
+                  "id": "p001b",
+                  "name": "Tôi muốn hỏi giờ làm việc.",
+                  "content": "Tôi muốn hỏi giờ làm việc.",
+                  "x": 18,
+                  "y": 0,
+                  "width": 806,
+                  "height": 76,
+                  "fontFamily": "Segoe UI",
+                  "fontSize": 24,
+                  "fontWeight": "400",
+                  "textAlign": "left",
+                  "textAlignVertical": "middle",
+                  "textGrowth": "fixed-width-height",
+                  "fill": "#18212B"
+                },
+                {
+                  "type": "frame",
+                  "id": "p001e",
+                  "name": "Đọc",
+                  "x": 862,
+                  "y": 14,
+                  "width": 86,
+                  "height": 48,
+                  "fill": "#00000000",
+                  "layout": "none",
+                  "clip": false,
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "id": "p001c",
+                      "name": "Nền nút",
+                      "x": 0,
+                      "y": 0,
+                      "width": 86,
+                      "height": 48,
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 8,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "#BAC5D0"
+                      }
+                    },
+                    {
+                      "type": "text",
+                      "id": "p001d",
+                      "name": "Đọc",
+                      "content": "Đọc",
+                      "x": 10,
+                      "y": 0,
+                      "width": 66,
+                      "height": 48,
+                      "fontFamily": "Segoe UI",
+                      "fontSize": 18,
+                      "fontWeight": "600",
+                      "textAlign": "center",
+                      "textAlignVertical": "middle",
+                      "textGrowth": "fixed-width-height",
+                      "fill": "#18212B"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "p001l",
+              "name": "Quầy mở đến 17 giờ.",
+              "x": 28,
+              "y": 112,
+              "width": 968,
+              "height": 76,
+              "fill": "#FFFFFF",
+              "layout": "none",
+              "clip": false,
+              "children": [
+                {
+                  "type": "rectangle",
+                  "id": "p001g",
+                  "name": "Khung tin nhắn",
+                  "x": 0,
+                  "y": 0,
+                  "width": 968,
+                  "height": 76,
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 10,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#BAC5D0"
+                  }
+                },
+                {
+                  "type": "text",
+                  "id": "p001h",
+                  "name": "Quầy mở đến 17 giờ.",
+                  "content": "Quầy mở đến 17 giờ.",
+                  "x": 18,
+                  "y": 0,
+                  "width": 806,
+                  "height": 76,
+                  "fontFamily": "Segoe UI",
+                  "fontSize": 24,
+                  "fontWeight": "400",
+                  "textAlign": "left",
+                  "textAlignVertical": "middle",
+                  "textGrowth": "fixed-width-height",
+                  "fill": "#18212B"
+                },
+                {
+                  "type": "frame",
+                  "id": "p001k",
+                  "name": "Đọc",
+                  "x": 862,
+                  "y": 14,
+                  "width": 86,
+                  "height": 48,
+                  "fill": "#00000000",
+                  "layout": "none",
+                  "clip": false,
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "id": "p001i",
+                      "name": "Nền nút",
+                      "x": 0,
+                      "y": 0,
+                      "width": 86,
+                      "height": 48,
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 8,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "#BAC5D0"
+                      }
+                    },
+                    {
+                      "type": "text",
+                      "id": "p001j",
+                      "name": "Đọc",
+                      "content": "Đọc",
+                      "x": 10,
+                      "y": 0,
+                      "width": 66,
+                      "height": 48,
+                      "fontFamily": "Segoe UI",
+                      "fontSize": 18,
+                      "fontWeight": "600",
+                      "textAlign": "center",
+                      "textAlignVertical": "middle",
+                      "textGrowth": "fixed-width-height",
+                      "fill": "#18212B"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "p001z",
+          "name": "Vùng soạn chung",
+          "x": 0,
+          "y": 442,
+          "width": 1024,
+          "height": 158,
+          "fill": "#FFFFFF",
+          "layout": "none",
+          "clip": false,
+          "children": [
+            {
+              "type": "rectangle",
+              "id": "p001n",
+              "name": "Đường phân cách",
+              "x": 0,
+              "y": 0,
+              "width": 1024,
+              "height": 1,
+              "fill": "#BAC5D0",
+              "cornerRadius": 0
+            },
+            {
+              "type": "frame",
+              "id": "p001q",
+              "name": "Thu âm",
+              "x": 28,
+              "y": 14,
+              "width": 124,
+              "height": 46,
+              "fill": "#00000000",
+              "layout": "none",
+              "clip": false,
+              "children": [
+                {
+                  "type": "rectangle",
+                  "id": "p001o",
+                  "name": "Nền nút",
+                  "x": 0,
+                  "y": 0,
+                  "width": 124,
+                  "height": 46,
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 8,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#BAC5D0"
+                  }
+                },
+                {
+                  "type": "text",
+                  "id": "p001p",
+                  "name": "Thu âm",
+                  "content": "Thu âm",
+                  "x": 10,
+                  "y": 0,
+                  "width": 104,
+                  "height": 46,
+                  "fontFamily": "Segoe UI",
+                  "fontSize": 18,
+                  "fontWeight": "600",
+                  "textAlign": "center",
+                  "textAlignVertical": "middle",
+                  "textGrowth": "fixed-width-height",
+                  "fill": "#18212B"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "p001t",
+              "name": "Chọn file",
+              "x": 164,
+              "y": 14,
+              "width": 130,
+              "height": 46,
+              "fill": "#00000000",
+              "layout": "none",
+              "clip": false,
+              "children": [
+                {
+                  "type": "rectangle",
+                  "id": "p001r",
+                  "name": "Nền nút",
+                  "x": 0,
+                  "y": 0,
+                  "width": 130,
+                  "height": 46,
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 8,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#BAC5D0"
+                  }
+                },
+                {
+                  "type": "text",
+                  "id": "p001s",
+                  "name": "Chọn file",
+                  "content": "Chọn file",
+                  "x": 10,
+                  "y": 0,
+                  "width": 110,
+                  "height": 46,
+                  "fontFamily": "Segoe UI",
+                  "fontSize": 18,
+                  "fontWeight": "600",
+                  "textAlign": "center",
+                  "textAlignVertical": "middle",
+                  "textGrowth": "fixed-width-height",
+                  "fill": "#18212B"
+                }
+              ]
+            },
+            {
+              "type": "rectangle",
+              "id": "p001u",
+              "name": "Ô nhập và sửa chữ",
+              "x": 28,
+              "y": 74,
+              "width": 828,
+              "height": 56,
+              "fill": "#FFFFFF",
+              "cornerRadius": 8,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "#BAC5D0"
+              }
+            },
+            {
+              "type": "text",
+              "id": "p001v",
+              "name": "Gõ hoặc sửa chữ nhận dạng…",
+              "content": "Gõ hoặc sửa chữ nhận dạng…",
+              "x": 44,
+              "y": 74,
+              "width": 796,
+              "height": 56,
+              "fontFamily": "Segoe UI",
+              "fontSize": 21,
+              "fontWeight": "400",
+              "textAlign": "left",
+              "textAlignVertical": "middle",
+              "textGrowth": "fixed-width-height",
+              "fill": "#4F5D6B"
+            },
+            {
+              "type": "frame",
+              "id": "p001y",
+              "name": "Gửi",
+              "x": 872,
+              "y": 74,
+              "width": 124,
+              "height": 56,
+              "fill": "#00000000",
+              "layout": "none",
+              "clip": false,
+              "children": [
+                {
+                  "type": "rectangle",
+                  "id": "p001w",
+                  "name": "Nền nút",
+                  "x": 0,
+                  "y": 0,
+                  "width": 124,
+                  "height": 56,
+                  "fill": "#273D53",
+                  "cornerRadius": 8
+                },
+                {
+                  "type": "text",
+                  "id": "p001x",
+                  "name": "Gửi",
+                  "content": "Gửi",
+                  "x": 10,
+                  "y": 0,
+                  "width": 104,
+                  "height": 56,
+                  "fontFamily": "Segoe UI",
+                  "fontSize": 18,
+                  "fontWeight": "600",
+                  "textAlign": "center",
+                  "textAlignVertical": "middle",
+                  "textGrowth": "fixed-width-height",
+                  "fill": "#FFFFFF"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "rectangle",
+          "id": "p0020",
+          "name": "Lớp phủ khi mở lịch sử",
+          "x": 0,
+          "y": 0,
+          "width": 1024,
+          "height": 600,
+          "fill": "#18212B36",
+          "cornerRadius": 0
+        },
+        {
+          "type": "frame",
+          "id": "p002f",
+          "name": "Danh sách hội thoại",
+          "x": 0,
+          "y": 0,
+          "width": 360,
+          "height": 600,
+          "fill": "#FFFFFF",
+          "layout": "none",
+          "clip": false,
+          "children": [
+            {
+              "type": "rectangle",
+              "id": "p0021",
+              "name": "Mép danh sách",
+              "x": 359,
+              "y": 0,
+              "width": 1,
+              "height": 600,
+              "fill": "#BAC5D0",
+              "cornerRadius": 0
+            },
+            {
+              "type": "text",
+              "id": "p0022",
+              "name": "Hội thoại",
+              "content": "Hội thoại",
+              "x": 24,
+              "y": 18,
+              "width": 212,
+              "height": 48,
+              "fontFamily": "Segoe UI",
+              "fontSize": 24,
+              "fontWeight": "600",
+              "textAlign": "left",
+              "textAlignVertical": "middle",
+              "textGrowth": "fixed-width-height",
+              "fill": "#18212B"
+            },
+            {
+              "type": "frame",
+              "id": "p0025",
+              "name": "Đóng",
+              "x": 254,
+              "y": 18,
+              "width": 82,
+              "height": 48,
+              "fill": "#00000000",
+              "layout": "none",
+              "clip": false,
+              "children": [
+                {
+                  "type": "rectangle",
+                  "id": "p0023",
+                  "name": "Nền nút",
+                  "x": 0,
+                  "y": 0,
+                  "width": 82,
+                  "height": 48,
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 8,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#BAC5D0"
+                  }
+                },
+                {
+                  "type": "text",
+                  "id": "p0024",
+                  "name": "Đóng",
+                  "content": "Đóng",
+                  "x": 10,
+                  "y": 0,
+                  "width": 62,
+                  "height": 48,
+                  "fontFamily": "Segoe UI",
+                  "fontSize": 18,
+                  "fontWeight": "600",
+                  "textAlign": "center",
+                  "textAlignVertical": "middle",
+                  "textGrowth": "fixed-width-height",
+                  "fill": "#18212B"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "p0028",
+              "name": "+ Hội thoại mới",
+              "x": 24,
+              "y": 86,
+              "width": 312,
+              "height": 50,
+              "fill": "#00000000",
+              "layout": "none",
+              "clip": false,
+              "children": [
+                {
+                  "type": "rectangle",
+                  "id": "p0026",
+                  "name": "Nền nút",
+                  "x": 0,
+                  "y": 0,
+                  "width": 312,
+                  "height": 50,
+                  "fill": "#273D53",
+                  "cornerRadius": 8
+                },
+                {
+                  "type": "text",
+                  "id": "p0027",
+                  "name": "+ Hội thoại mới",
+                  "content": "+ Hội thoại mới",
+                  "x": 10,
+                  "y": 0,
+                  "width": 292,
+                  "height": 50,
+                  "fontFamily": "Segoe UI",
+                  "fontSize": 18,
+                  "fontWeight": "600",
+                  "textAlign": "center",
+                  "textAlignVertical": "middle",
+                  "textGrowth": "fixed-width-height",
+                  "fill": "#FFFFFF"
+                }
+              ]
+            },
+            {
+              "type": "rectangle",
+              "id": "p0029",
+              "name": "Đang mở",
+              "x": 24,
+              "y": 154,
+              "width": 312,
+              "height": 76,
+              "fill": "#E9EEF3",
+              "cornerRadius": 8,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "#BAC5D0"
+              }
+            },
+            {
+              "type": "text",
+              "id": "p002a",
+              "name": "Trao đổi tại quầy",
+              "content": "Trao đổi tại quầy",
+              "x": 40,
+              "y": 164,
+              "width": 280,
+              "height": 33,
+              "fontFamily": "Segoe UI",
+              "fontSize": 20,
+              "fontWeight": "600",
+              "textAlign": "left",
+              "textAlignVertical": "middle",
+              "textGrowth": "fixed-width-height",
+              "fill": "#18212B"
+            },
+            {
+              "type": "text",
+              "id": "p002b",
+              "name": "Đang mở",
+              "content": "Đang mở",
+              "x": 40,
+              "y": 197,
+              "width": 280,
+              "height": 21,
+              "fontFamily": "Segoe UI",
+              "fontSize": 16,
+              "fontWeight": "400",
+              "textAlign": "left",
+              "textAlignVertical": "middle",
+              "textGrowth": "fixed-width-height",
+              "fill": "#4F5D6B"
+            },
+            {
+              "type": "rectangle",
+              "id": "p002c",
+              "name": "Phiên cũ",
+              "x": 24,
+              "y": 242,
+              "width": 312,
+              "height": 76,
+              "fill": "#FFFFFF",
+              "cornerRadius": 8,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "#BAC5D0"
+              }
+            },
+            {
+              "type": "text",
+              "id": "p002d",
+              "name": "Hỏi đường",
+              "content": "Hỏi đường",
+              "x": 40,
+              "y": 252,
+              "width": 280,
+              "height": 33,
+              "fontFamily": "Segoe UI",
+              "fontSize": 20,
+              "fontWeight": "600",
+              "textAlign": "left",
+              "textAlignVertical": "middle",
+              "textGrowth": "fixed-width-height",
+              "fill": "#18212B"
+            },
+            {
+              "type": "text",
+              "id": "p002e",
+              "name": "Hội thoại đã lưu",
+              "content": "Hội thoại đã lưu",
+              "x": 40,
+              "y": 285,
+              "width": 280,
+              "height": 21,
+              "fontFamily": "Segoe UI",
+              "fontSize": 16,
+              "fontWeight": "400",
+              "textAlign": "left",
+              "textAlignVertical": "middle",
+              "textGrowth": "fixed-width-height",
+              "fill": "#4F5D6B"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
