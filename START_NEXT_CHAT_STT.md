@@ -40,11 +40,11 @@ Dependencies và build đã có trên máy. Ứng dụng có thể vẫn đang c
 
 **Dùng `STT_BOM.md` làm BOM duy nhất để chốt.** Bản trước thay và bản highlight nguyên gốc được giữ bên ngoài repository tại `C:\Users\LAPTOP T&T\Downloads\PBL6_BOM_BACKUP_20261107_9t707jsm`.
 
-Đã chốt: sản phẩm cuối có cảm ứng + Electron kiosk; tích hợp HDMI + USB touch trước, DSI xét sau khi HDMI ổn định. **Người dùng chọn mua màn Nguyễn Hiền NH2067, 7 inch, 1024 × 600, giá trang 1.090.000 VNĐ.** Chờ xác nhận đơn, USB touch, đầu/chiều dài cáp, nguồn, vỏ/giá đỡ, tổng giá và ngày nhận. Loa, micro thay thế, AEC và powered hub phụ thuộc nhu cầu thực tế.
+Sản phẩm cuối dùng cảm ứng và Electron kiosk. Nhóm tích hợp HDMI + USB touch trước, rồi xét DSI sau khi HDMI ổn định. **Phiếu Điện tử Nguyễn Hiền lúc 17:25 ngày 07/11/2026 ghi đã mua 1 màn NH2067, 7 inch, 1024 × 600 (1.090.000 VNĐ) và 1 cáp micro-HDMI sang HDMI (75.000 VNĐ). Tổng tiền hàng là 1.165.000 VNĐ.** Cần kiểm tra USB touch, nguồn và phụ kiện trong hộp. Loa, micro thay thế, AEC và powered hub phụ thuộc nhu cầu thực tế.
 
 Bản highlight gốc có thêm các mức tiền nháp. BOM chính phân biệt chúng với giá niêm yết. Khảo sát DSI ngày 06/11 được giữ để tham khảo. Cần xác nhận tổng ngân sách, khoảng cách thử và cách cấp nguồn theo bộ NH2067 thực tế.
 
-**Bước phần cứng tiếp theo:** xác nhận đúng bộ NH2067 và phụ kiện, VAT/phí giao, bảo hành, sau đó thử 1024 × 600 và USB touch trên Pi 4. Dùng [bản phác bàn phím mở](reports/ui_ux_20261107/assets/wireframe-ban-phim-ao.png) để đối chiếu vùng đọc, vùng sửa chữ và nút Gửi khi thử kiosk. Giữ các ứng viên khác trong BOM làm tham khảo. Việc đặt hàng hoặc liên hệ nhà bán cần người dùng giao riêng.
+**Bước phần cứng tiếp theo:** xác định cổng nguồn và USB touch trên bộ NH2067, rồi thử hình 1024 × 600 và cảm ứng trên Pi 4. Dùng [bản phác bàn phím mở](reports/ui_ux_20261107/assets/wireframe-ban-phim-ao.png) để đối chiếu vùng đọc, vùng sửa chữ và nút Gửi khi thử kiosk. Giữ các ứng viên khác trong BOM làm tham khảo.
 
 ## 4. Giữ công việc nghiên cứu và triển khai còn lại
 

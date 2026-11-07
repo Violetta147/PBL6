@@ -1,12 +1,12 @@
 # 📋 BOM Tổng Thể Cho Thiết Bị Giao Tiếp (Speech-to-Text)
 
 > **Cập nhật mới nhất:** 07/11/2026 *(Đã tích hợp quyết định ưu tiên HDMI + USB touch & DSI là khả năng nâng cấp sau)*<br/>
-> **Nguyên tắc tài chính:** BOM dùng chung cho các mốc phát triển. Chưa có đơn đặt hàng mới. Không lấy giá trong trao đổi cũ làm giá hiện tại. Tận dụng phần cứng đang đáp ứng yêu cầu; chưa chốt ngân sách và không mặc định chọn rẻ nhất.
+> **Nguyên tắc tài chính:** BOM dùng chung cho các mốc phát triển. Chi phí đã mua lấy từ chứng từ. Các mẫu còn khảo sát dùng giá niêm yết có ngày kiểm tra. Tận dụng phần cứng đang đáp ứng yêu cầu.
 
 ---
 
 > [!IMPORTANT]
-> **BOM chính của dự án.** Ngày 07/11/2026, người dùng chọn mua **Nguyễn Hiền NH2067, 7 inch, 1024 × 600** cho lần tích hợp đầu tiên. [Trang sản phẩm](https://www.dientunguyenhien.vn/show/2067) niêm yết **1.090.000 VNĐ**. Trạng thái: **đã chọn, chờ xác nhận đơn và phụ kiện**. P1 mới có Settings, một file và Electron trên Windows; capture Pi, batch và kiosk phần cứng chưa hoàn thành. Xem [bàn giao](START_NEXT_CHAT_STT.md) và [báo cáo P1](reports/stt_v1_p1_20261107/BAO_CAO.md).
+> **BOM chính của dự án.** Phiếu bán hàng Điện tử Nguyễn Hiền lúc **17:25 ngày 07/11/2026** ghi **1 màn NH2067, 7 inch, 1024 × 600** và **1 cáp micro-HDMI sang HDMI**, tổng tiền hàng **1.165.000 VNĐ**. Chờ kiểm tra cổng USB touch, nguồn và khả năng hoạt động trên Pi 4. P1 mới có Settings, một file và Electron trên Windows. Capture Pi, batch và kiosk phần cứng chưa hoàn thành. Xem [bàn giao](START_NEXT_CHAT_STT.md) và [báo cáo P1](reports/stt_v1_p1_20261107/BAO_CAO.md).
 
 > **Liên quan đến chọn vỏ/giá đỡ:** đối chiếu kích thước, lỗ bắt vít và hướng ra dây trên màn NH2067 thực tế. Dùng [bản phác hội thoại 1024 × 600](reports/ui_ux_20261107/assets/wireframe-hoi-thoai-1024x600.pen) để kiểm tra góc nhìn, khoảng trống cho bàn phím ảo và vùng chạm khi lắp trên bàn.
 
@@ -19,7 +19,9 @@
 
 ### 🔍 Chi tiết phân bổ dự toán Giai đoạn 2 (Kiosk độc lập)
 
-* **1. Màn hình cảm ứng — chọn Nguyễn Hiền NH2067:** <span style="color:#B22563;font-weight:700;">1.090.000 VNĐ niêm yết cho màn; cần xác minh USB touch, nguồn, phụ kiện và giá trọn bộ</span>. Các giá DSI dưới đây dành cho phương án nâng cấp sau.
+* **1. Màn hình và cáp hình ảnh đã mua tại Điện tử Nguyễn Hiền.** Tổng tiền hàng theo phiếu là **1.165.000 VNĐ**.
+  * **Màn NH2067 (1 cái):** **1.090.000 VNĐ**. Cần kiểm tra cổng USB touch, nguồn và phụ kiện trong hộp.
+  * **Cáp micro-HDMI sang HDMI (1 sợi):** **75.000 VNĐ**. Thử kết nối hình ảnh giữa Pi 4 và màn.
   * *Phương án tích hợp đầu tiên:* Màn hình cảm ứng giao tiếp **HDMI (hình ảnh) + USB (cảm ứng)** tương thích Linux ARM64 / Pi 4.
   * *Tham khảo ứng viên DSI (nâng cấp sau; giá khảo sát 06/11/2026, chưa kiểm tra lại lúc mua):*
     * **Cytron: Raspberry Pi Touch Display 2 (7")** — <strong style="background-color:#E7F0FF;color:#1B4494;padding:1px 5px;border-radius:3px;">2.052.000 VNĐ</strong> *(Đã gồm VAT, kèm cáp DSI 15-15 pin & dây nguồn).*
@@ -94,8 +96,8 @@ flowchart TD
 
 | Hạng mục | Số lượng | Công dụng và trạng thái kỹ thuật |
 | :--- | :---: | :--- |
-| **Màn hình cảm ứng HDMI — Nguyễn Hiền NH2067** | <span style="background-color:#E7F0FF;color:#1B4494;padding:2px 6px;border-radius:3px;font-weight:700;">1 cái</span> | Màn hình 7 inch, 1024 × 600 đã chọn mua cho kiosk. Xác nhận đường USB touch của bộ hàng và thử trên Pi 4 với OS đang dùng. |
-| **Cáp micro-HDMI từ Pi 4 tới đầu HDMI đúng loại của màn** | <span style="background-color:#E7F0FF;color:#1B4494;padding:2px 6px;border-radius:3px;font-weight:700;">1 sợi</span> | **Truyền hình ảnh.** Phải kiểm tra chính xác chuẩn đầu cắm phía màn (HDMI tiêu chuẩn / mini-HDMI), độ dài dây và phụ kiện kèm màn trước khi mua. |
+| **Màn hình cảm ứng HDMI — Nguyễn Hiền NH2067** | <span style="background-color:#E7F0FF;color:#1B4494;padding:2px 6px;border-radius:3px;font-weight:700;">1 cái</span> | Màn hình 7 inch, 1024 × 600 đã mua cho kiosk. Xác nhận đường USB touch của bộ hàng và thử trên Pi 4 với OS đang dùng. |
+| **Cáp micro-HDMI sang HDMI** | <span style="background-color:#E7F0FF;color:#1B4494;padding:2px 6px;border-radius:3px;font-weight:700;">1 sợi</span> | **Truyền hình ảnh.** Đã mua theo phiếu. Kiểm tra hai đầu cắm và lên hình khi nối Pi 4 với NH2067. |
 | **Cáp USB dữ liệu từ Pi tới cổng touch của màn** | <span style="background-color:#E7F0FF;color:#1B4494;padding:2px 6px;border-radius:3px;font-weight:700;">1 sợi</span> | **Truyền tín hiệu chạm về Pi.** Chọn đúng chuẩn đầu cắm (micro-USB / Type-C) phía màn. <span style="color:#C52236;font-weight:700;">Lưu ý:</span> Cáp sạc đơn thuần (không có dây data) sẽ không nhận được cảm ứng! |
 | **Bộ nguồn / cáp cấp nguồn cho màn theo model** | <span style="background-color:#FFF3C4;color:#6E4900;padding:2px 6px;border-radius:3px;font-weight:700;">1 bộ</span> | Phương án nguồn riêng hoặc chung USB touch theo model. Xác minh điện áp, dòng tiêu thụ và cổng nguồn đi riêng hay chung với cổng USB touch. Chưa mặc định Pi cấp đủ nguồn. |
 
@@ -108,18 +110,18 @@ flowchart TD
 
 ## 🛒 Ứng viên HDMI do người dùng bổ sung — kiểm tra trang ngày 07/11/2026
 
-**Người dùng đã chọn NH2067.** Bảng giữ các mẫu còn lại để tham khảo. Giá là giá niêm yết, giá trọn bộ và điều kiện nhận hàng cần xác nhận với nơi bán. Kết quả trên Pi 4/Trixie/Electron sẽ ghi sau khi thử thiết bị.
+**Người dùng đã mua NH2067.** Bảng giữ kết quả khảo sát các mẫu để tham khảo. Chi phí thực tế của màn và cáp ghi ở mục dự toán. Kết quả trên Pi 4/Trixie/Electron sẽ ghi sau khi thử thiết bị.
 
 | Nguồn / ứng viên | Giá và thông tin trang | Điểm thuận lợi | Còn thiếu để quyết định |
 | :--- | :--- | :--- | :--- |
-| **[Điện tử Nguyễn Hiền — NH2067](https://www.dientunguyenhien.vn/show/2067)** | **1.090.000 VNĐ**; 7 inch, 1024×600; trang và ảnh người dùng gửi hiển thị tồn 7 khi kiểm tra 07/11/2026 | **Đã chọn mua.** Nhà bán ở Đà Nẵng, thuận tiện hỏi khả năng xem/thử trực tiếp | Xác nhận đường USB touch, model/hãng/board revision, nguồn, cáp kèm, VAT và bảo hành của đúng bộ hàng. |
+| **[Điện tử Nguyễn Hiền — NH2067](https://www.dientunguyenhien.vn/show/2067)** | **1.090.000 VNĐ**; 7 inch, 1024×600; trang và ảnh người dùng gửi hiển thị tồn 7 khi khảo sát 07/11/2026 | **Đã mua.** Phiếu bán hàng ghi cùng giá cho màn. | Kiểm tra đường USB touch, model/hãng/board revision, nguồn và phụ kiện trong hộp. |
 | **[Điện tử Tuyết Nga — màn điện dung 7 inch HDMI Raspberry Pi](https://dientutuyetnga.com/products/man-hinh-cam-ung-dien-dung-7-inch-hdmi-raspberry-pi)** | **820.000 VNĐ**; 1024×600; mô tả hỗ trợ Pi 3/4 | Giá niêm yết thấp hơn NH2067 **270.000 VNĐ** | Nhà bán ở TP.HCM; cần phí/ngày giao Đà Nẵng, tồn kho, VAT, bảo hành, mã board, USB touch/nguồn/cáp. Trang tự lưu ý tồn kho có thể chưa cập nhật; mô tả khác nhau về số điểm chạm theo OS, cần thử đúng OS. |
 | **[Viện Máy Tính — Waveshare 7inch HDMI LCD (C)](https://vienmaytinh.com/products/man-hinh-waveshare-7-inch-hdmi-capacitive-touch-screen-lcd-c)** | **625.000 VNĐ** giá online, chưa gồm công thay. Trang ghi IPS 7 inch 1024×600, HDMI, USB touch điện dung và nguồn 5 V | [Waveshare](https://www.waveshare.com/7inch-HDMI-LCD-C.htm) ghi mã **11199** cho mẫu này. [Tài liệu hãng về cổng](https://www.waveshare.com/wiki/7inch_HDMI_LCD_%28C%29) ghi HDMI chuẩn cho hình và micro-USB dùng chung cho touch và nguồn | Shop ghi micro-USB hoặc USB-C, kèm cáp HDMI, cáp USB và chân đế acrylic. Xác nhận mã/revision và ảnh cổng của hàng thực, cáp/đầu chuyển micro-HDMI cho Pi 4, đủ chân đế, cách cấp nguồn và dòng yêu cầu. Hỏi giá có VAT, phí/ngày giao Đà Nẵng, tồn kho và đổi trả |
 | **[Điện tử Á Châu — LCD HDMI 7 inch 1024×600](https://dientuachau.com/lcd-hdmi-7-inch-1024-x-600)** | **630.000 VNĐ**. Trang ghi ngõ HDMI và điện áp hoạt động 5–12 V DC. Ô loại cảm ứng để trống | Có thể khảo sát như mẫu HDMI để đối chiếu hình ảnh | Cần xác nhận có tấm cảm ứng và USB data hay chỉ có LCD. Hỏi mã board, điện áp đúng của bộ hàng, đầu nguồn, phụ kiện, tồn kho, VAT, giao Đà Nẵng và bảo hành |
 | **[Shopee — bộ số hóa cảm ứng USB nhiều kích cỡ](https://shopee.vn/product/1382786553/24637236048?extraParams=%7B%22display_model_id%22%3A207890570047%2C%22model_selection_logic%22%3A3%7D)** | Tiêu đề trong link nêu bộ số hóa/điều khiển cảm ứng điện dung USB, nhiều kích cỡ. Chưa đọc được trang để xác nhận biến thể hoặc giá | Có thể khảo sát riêng như linh kiện cảm ứng nếu cần | Hỏi biến thể được chọn có kèm LCD và bo HDMI hay chỉ gồm kính touch và bo USB. Nếu chỉ có touch, xác nhận kích thước kính và khả năng ghép với panel trước khi so giá với màn trọn bộ |
 | **[Shop Shopee tuandinh241 — link người dùng gửi](https://shopee.vn/tuandinh241?categoryId=100644&entryPoint=ShopByPDP&itemId=42836315614)** | **Người dùng báo:** đồ cũ, hết HDMI, chỉ còn DSI; chưa có giá/model xác minh | Có thể khảo sát thêm cho phương án DSI về sau | Công cụ không mở được trang; chưa tự xác minh biến thể, giá, tình trạng panel/touch, dây kèm, tương thích, bảo hành và giao hàng. Không xếp vào hàng HDMI còn sẵn. |
 
-**Việc tiếp theo với NH2067:** xác nhận bộ phụ kiện và đường USB touch với Nguyễn Hiền. Nếu có thể, thử hiển thị và cảm ứng bằng Pi 4 tại cửa hàng. Khi tích hợp, kiểm tra hình 1024 × 600 và vị trí chạm trước, sau đó dùng bố cục bàn phím mở để kiểm tra gõ tiếng Việt và thao tác Gửi khi ứng dụng kiosk sẵn sàng.
+**Việc tiếp theo với NH2067:** kiểm tra cổng nguồn, cổng USB touch và phụ kiện thực tế, rồi thử hình 1024 × 600 và vị trí chạm trên Pi 4. Dùng bố cục bàn phím mở để kiểm tra gõ tiếng Việt và thao tác Gửi khi ứng dụng kiosk sẵn sàng.
 
 **Nội dung để người dùng hỏi nhà bán khi muốn chốt:**
 
@@ -162,8 +164,8 @@ Nhóm cần thử wireframe hội thoại, chữ và bàn phím ảo ở **1024�
 | **Loa chủ động AUX hoặc USB Audio** | <span style="background-color:#FFF3C4;color:#6E4900;padding:2px 6px;border-radius:3px;font-weight:700;">CHƯA XÁC NHẬN SẴN</span> | <span style="color:#946200;font-weight:700;">Nháp ~150k–250k; chưa xác minh</span> | Cần cho thử nghiệm hội thoại 2 chiều qua loa ngoài. <span style="color:#087A47;font-weight:700;">Ưu tiên mượn/tận dụng</span>; nếu mua phải xác minh cổng kết nối, công suất và nguồn nuôi. |
 | **Micro USB thay thế** | <span style="background-color:#FFF3C4;color:#6E4900;padding:2px 6px;border-radius:3px;font-weight:700;">CHỜ KIỂM CHỨNG</span> | <span style="color:#946200;font-weight:700;">Chưa phát sinh</span> | <span style="color:#C52236;font-weight:700;">Chỉ mua nếu mic webcam không đáp ứng</span> bài test nhận dạng giọng nói thực tế (thu gần như sử dụng tại bàn, ghi khoảng cách đo thực tế; ưu tiên giọng Đà Nẵng). |
 | **Mạch Mic–Loa tích hợp AEC (chống vọng)** | <span style="background-color:#FFF3C4;color:#6E4900;padding:2px 6px;border-radius:3px;font-weight:700;">ĐÁNH GIÁ SAU</span> | <span style="color:#946200;font-weight:700;">Chưa phát sinh</span> | Đánh giá sau khi thử nghiệm loa ngoài bị lọt tiếng vào mic gây vòng lặp vọng âm. So sánh phương án phần mềm/phần cứng khi có nhu cầu thực tế; chưa chốt giải pháp AEC. |
-| **Màn cảm ứng Nguyễn Hiền NH2067 — phương án đầu** | <span style="background-color:#E7F0FF;color:#1B4494;padding:2px 6px;border-radius:3px;font-weight:700;">GIAI ĐOẠN KIOSK</span> | <span style="color:#B22563;font-weight:700;">1.090.000 VNĐ niêm yết; chờ xác nhận trọn bộ</span> | Màn 7 inch, 1024 × 600 đã chọn mua. Xác nhận cổng USB touch, nguồn và phụ kiện. |
-| **Cáp micro-HDMI sang HDMI cho phương án đầu** | <span style="background-color:#FFF3C4;color:#6E4900;padding:2px 6px;border-radius:3px;font-weight:700;">1 ĐƯỜNG HÌNH ẢNH</span> | <span style="color:#946200;font-weight:700;">Nháp ~50k–100k; chưa xác minh</span> | Truyền hình ảnh cho phương án đầu. Kiểm tra cáp/adapter sẵn có và bộ phụ kiện kèm màn hình trước khi mua. Không dùng để đưa desktop Pi lên laptop qua VNC/web. |
+| **Màn cảm ứng Nguyễn Hiền NH2067** | <span style="background-color:#DDF7E9;color:#0B6B45;padding:2px 6px;border-radius:3px;font-weight:700;">1 CÁI · ĐÃ MUA</span> | **1.090.000 VNĐ** theo phiếu | Màn 7 inch, 1024 × 600. Kiểm tra cổng USB touch, nguồn và phụ kiện. |
+| **Cáp micro-HDMI sang HDMI** | <span style="background-color:#DDF7E9;color:#0B6B45;padding:2px 6px;border-radius:3px;font-weight:700;">1 SỢI · ĐÃ MUA</span> | **75.000 VNĐ** theo phiếu | Truyền hình ảnh từ Pi 4 tới màn. Kiểm tra khi lắp. |
 | **Cáp USB touch + Dây nguồn màn hình** | <span style="background-color:#FFF3C4;color:#6E4900;padding:2px 6px;border-radius:3px;font-weight:700;">ĐI ĐƯỜNG RIÊNG</span> | <span style="color:#946200;font-weight:700;">Nháp ~50k–100k; chưa xác minh</span> | Là các đường riêng biệt với cáp HDMI. Phải đúng model màn. Không giả định Pi cấp đủ nguồn tải cho màn. |
 | **Bộ chia cổng USB có nguồn (Powered USB Hub)** | <span style="background-color:#FFF3C4;color:#6E4900;padding:2px 6px;border-radius:3px;font-weight:700;">CHỜ ĐO TẢI THỰC TẾ</span> | <span style="color:#946200;font-weight:700;">Nháp ~150k; chưa xác minh</span> | Chỉ thêm nếu thiếu cổng hoặc nguồn ngoại vi từ Pi không đáp ứng (tránh sụt áp khi cắm đồng thời webcam + mic + touch + loa). |
 
@@ -217,7 +219,7 @@ Nhóm cần thử wireframe hội thoại, chữ và bàn phím ảo ở **1024�
 | **2. Micro USB riêng + Laptop** | Có thể chọn vị trí và hướng thu thuận tiện hơn. | Phải chọn model, thử Linux, chất lượng và ngày nhận; không mặc định tốt hơn webcam. | <span style="color:#946200;font-weight:700;">Chưa chọn model / giá</span> | Chỉ xét nếu phép thu bằng webcam cho thấy vấn đề. |
 | **3. Mic–loa tích hợp AEC** | Có thể giảm công việc định tuyến tham chiếu loa khi cần chống vọng. | Cần thử đúng Pi/OS; quảng cáo lọc ồn không chứng minh AEC; chưa có nhu cầu mua đã xác nhận. | <span style="color:#946200;font-weight:700;">Chưa có báo giá kiểm tra</span> | Để sau thử vọng âm. |
 | **4. Loa riêng để thử + Micro hiện có** | Kiểm tra tình huống loa phát trong lúc thu âm. | Tùy bố trí có thể thu lẫn tiếng loa; chưa phải giải pháp AEC hoàn chỉnh. | <strong style="background-color:#DDF7E9;color:#0B6B45;padding:2px 6px;border-radius:4px;">0 đồng (nếu mượn)</strong><br/>hoặc mức nháp ~150k–200k chưa xác minh | Tận dụng khi đến bài thử playback. |
-| **5. NH2067 và bộ cáp/nguồn** | **Thiết bị cảm ứng độc lập, chạy Electron kiosk.** | Xác nhận USB touch và phụ kiện rồi thử trên Pi. | <strong style="background-color:#FFF3C4;color:#6E4900;padding:2px 6px;border-radius:4px;">1.090.000 VNĐ niêm yết cho màn; chờ tổng giá bộ</strong> | <span style="background-color:#E7F0FF;color:#1B4494;padding:2px 6px;border-radius:3px;font-weight:700;">PHƯƠNG ÁN TÍCH HỢP ĐẦU TIÊN</span> *(DSI xem xét sau)* |
+| **5. NH2067 và bộ cáp/nguồn** | **Thiết bị cảm ứng độc lập, chạy Electron kiosk.** | Kiểm tra USB touch, nguồn và phụ kiện rồi thử trên Pi. | <strong style="background-color:#DDF7E9;color:#0B6B45;padding:2px 6px;border-radius:4px;">1.165.000 VNĐ cho màn và cáp HDMI theo phiếu</strong> | <span style="background-color:#E7F0FF;color:#1B4494;padding:2px 6px;border-radius:3px;font-weight:700;">PHƯƠNG ÁN TÍCH HỢP ĐẦU TIÊN</span> *(DSI xem xét sau)* |
 
 ---
 
@@ -230,10 +232,10 @@ Nhóm cần thử wireframe hội thoại, chữ và bàn phím ảo ở **1024�
 | Nguồn màn và tổng tải Pi + ngoại vi | Theo thông số đúng model; không mặc định cần nguồn riêng hoặc Pi đủ tải. |
 | Vỏ/giá đỡ và chỗ cho dây, quạt | Chưa chốt; chọn theo kích thước/cổng của màn và Pi. |
 | Loa phục vụ thử playback | Kiểm tra có thể tận dụng/mượn không; nếu mua, so cổng âm thanh, nguồn, mức nghe thực tế. |
-| Nhà bán, tổng giá và cách nhận hàng tại Đà Nẵng | Đã chọn Điện tử Nguyễn Hiền. Chờ xác nhận VAT, phí giao hoặc lấy tại cửa hàng, phụ kiện, bảo hành và ngày nhận. |
+| Nhà bán và chi phí đã mua | Điện tử Nguyễn Hiền. Phiếu ngày 07/11/2026 lúc 17:25 ghi tổng tiền hàng **1.165.000 VNĐ** cho màn và cáp. |
 | DSI, micro thay thế, AEC và powered hub | Giữ là phương án có điều kiện; DSI chỉ xét sau HDMI ổn định. Không tự thêm vào đơn mua bắt buộc. |
 
-**Các mức nháp trong bản highlight gốc chưa phải báo giá hoặc ngân sách đã duyệt.** Chưa dự toán tổng kiosk vì còn phải xác nhận model, phụ kiện, VAT và phí giao. Các mức giá trong mục khảo sát là giá niêm yết theo từng trang. Phần cứng có sẵn ghi 0 đồng là chi phí mua thêm dự kiến, không phải giá trị mua ban đầu và không bao gồm phí API hoặc Internet.
+**Chi phí đã ghi nhận theo phiếu là 1.165.000 VNĐ cho màn và cáp hình ảnh.** Dự toán toàn bộ kiosk còn phụ thuộc vào phụ kiện, nguồn, giá đỡ và các khoản phát sinh thực tế. Các mức nháp trong bản highlight gốc dùng để tham khảo. Các mẫu còn khảo sát ghi theo giá niêm yết.
 
 ## 📌 Ghi Chú Mua Sắm & Logistics
 

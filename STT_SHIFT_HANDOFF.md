@@ -4,9 +4,9 @@ Updated: 2026-11-07. Original target: Thursday, 2026-11-05 (past); no replacemen
 
 ## Next session: BOM decisions and shopping plan — 2026-11-07
 
-**The user selected the Nguyễn Hiền NH2067, a 7-inch 1024 × 600 HDMI touchscreen listed at 1,090,000 VND, for the first integration.** Use `STT_BOM.md` for the purchase status and outstanding checks. Order confirmation, the exact USB touch and power connections, and the bundled accessories are pending. Follow the user's direction before starting P2, running benchmarks, or contacting a seller.
+**The Nguyễn Hiền sales slip dated 2026-11-07 at 17:25 records one NH2067 7-inch 1024 × 600 touchscreen at 1,090,000 VND and one micro-HDMI to HDMI cable at 75,000 VND.** The merchandise total was 1,165,000 VND. Use `STT_BOM.md` for the USB touch, power, and accessory checks. Follow the user's direction before starting P2 or running benchmarks.
 
-Use `START_NEXT_CHAT_STT.md` for the concise P1 handoff and reading order. P1 code is complete at the single-file checkpoint with two user browser trials and the Windows desktop visibility fix; full V1 remains unfinished. Confirm the selected screen's cable and power requirements, accessories, total price, and collection or delivery in Da Nang. Keep DSI optional after HDMI + USB is stable.
+Use `START_NEXT_CHAT_STT.md` for the concise P1 handoff and reading order. P1 code is complete at the single-file checkpoint with two user browser trials and the Windows desktop visibility fix. Full V1 remains unfinished. Identify the screen's power and USB touch connections before checking HDMI video and touch on Pi 4. Keep DSI optional after HDMI + USB is stable.
 
 ## UI/UX discussion to carry forward — 2026-11-07
 
