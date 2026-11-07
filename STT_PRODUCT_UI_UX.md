@@ -75,7 +75,7 @@ Luồng để thảo luận: **người A/B → phương thức nhập → lư�
 
 Đề xuất giữ nhận dạng một file/batch ở công cụ nhập dữ liệu hoặc kiểm thử, để màn hội thoại tập trung vào cuộc trao đổi. Chưa chốt vị trí cuối cùng; chức năng file/batch của V1 vẫn phải được giữ và kiểm thử.
 
-**Settings → Xóa lịch sử** mở danh sách hội thoại đã lưu để người dùng chọn mục cần xóa. Thao tác xóa áp dụng cho các hội thoại đã chọn.
+**Settings → Xóa lịch sử** mở danh sách hội thoại đã lưu để người dùng chọn mục cần xóa. Bấm **Delete** để xóa ngay các hội thoại đã chọn.
 
 Các mục Settings cần bàn thêm: nguồn mic/device path trên Pi, camera, Deepgram `language=vi` và key trên backend, cỡ chữ, âm lượng/giọng TTS. Chưa chọn engine TTS hay mô hình ký hiệu. Browser laptop không tự dùng micro của nó khi đang điều khiển thiết bị Pi.
 
