@@ -2,16 +2,18 @@
 
 **Dành cho nhóm PBL6 · 07/11/2026**
 
-Nếu bo màn khớp với ảnh mặt sau của Nguyễn Hiền, chỉ cần hai dây giữa Pi và màn. <strong style="color:#087789;">HDMI đưa hình lên màn</strong>. <strong style="color:#087789;">Micro‑USB Touch vừa cấp nguồn 5 V cho màn vừa truyền dữ liệu chạm về Pi</strong>. Pi 4 vẫn dùng adapter USB‑C của Pi. [Ảnh mặt sau từ Nguyễn Hiền](https://www.dientunguyenhien.vn/public/images/lcd_7inch_1.jpg) · [Hướng dẫn cổng của Waveshare](https://www.waveshare.com/wiki/7inch_HDMI_LCD_%28C%29#Interface_Introduction)
+<strong style="color:#087789;">HDMI đưa hình lên màn</strong>. Dùng lại dây USB và cổng **Touch** mà người dùng đã thử nhận chạm với Pi 4. <strong style="color:#946200;">Bo thực tế có hai cổng vật lý cùng ghi Touch</strong>. Vai trò cấp nguồn và dữ liệu của từng cổng cần xác minh trước khi đổi cách nối. Pi 4 dùng adapter USB‑C của Pi.
 
 ## 1. Nhận đúng màn và chuẩn bị dây
 
-Trang Nguyễn Hiền dùng mã bán hàng **NH2067** và mô tả màn cảm ứng HDMI **7 inch, 1024 × 600**. Ảnh mặt sau trên trang cho thấy bo in **Waveshare 7inch HDMI LCD (C), Rev4.1**, với cổng **Display**, cổng **Touch** và công tắc **Backlight**. <strong style="color:#946200;">Đối chiếu chữ in trên bo đang dùng</strong> trước khi áp dụng hướng dẫn cổng bên dưới. Phiên bản của bo thực tế cần xác nhận trên thiết bị. [Trang NH2067](https://www.dientunguyenhien.vn/show/2067) · [Ảnh mặt sau](https://www.dientunguyenhien.vn/public/images/lcd_7inch_1.jpg)
+Trang Nguyễn Hiền dùng mã bán hàng **NH2067** và mô tả màn cảm ứng HDMI **7 inch, 1024 × 600**. Ảnh của **bo thực tế** do người dùng gửi cho thấy dòng **7inch HDMI Display**, **1024 × 600 Pixel** và **USB Touch**. Hai cổng nhỏ đều ghi **Touch**, một cổng gần công tắc ON/OFF và một cổng gần HDMI. [Trang NH2067](https://www.dientunguyenhien.vn/show/2067)
+
+Ảnh mặt sau **trên trang bán** minh họa bo **Waveshare 7inch HDMI LCD (C), Rev4.1**, có một cổng micro‑USB và một hàng chân hàn. Bố trí khác với bo thực tế trong ảnh người dùng gửi. Dùng tài liệu Waveshare để tham khảo mẫu Rev4.1 trong ảnh bán hàng. [Ảnh mặt sau trên trang bán](https://www.dientunguyenhien.vn/public/images/lcd_7inch_1.jpg) · [Hướng dẫn cổng của Waveshare](https://www.waveshare.com/wiki/7inch_HDMI_LCD_%28C%29#Interface_Introduction)
 
 | Dây cần dùng | Cắm ở Pi 4 | Cắm ở màn | Công dụng |
 | --- | --- | --- | --- |
-| **Micro‑HDMI → HDMI** đã mua cùng màn | Cổng micro‑HDMI, ưu tiên cổng **HDMI0** khi thử một màn | HDMI cỡ chuẩn, nhãn **Display** | Hình ảnh |
-| **USB‑A → micro‑USB có truyền dữ liệu** | Cổng USB‑A | Cổng micro‑USB, nhãn **Touch** | Nguồn 5 V và dữ liệu cảm ứng |
+| **Micro‑HDMI → HDMI** đã mua cùng màn | Cổng micro‑HDMI, ưu tiên cổng **HDMI0** khi thử một màn | HDMI cỡ chuẩn | Hình ảnh |
+| **USB‑A → micro‑USB có truyền dữ liệu** | Cổng USB‑A | Cổng **Touch** đã thử hoạt động | Dữ liệu cảm ứng. Có thể đồng thời cấp nguồn cho màn tùy theo cách đấu trên bo. |
 | **Adapter USB‑C của Pi 4** | Cổng nguồn USB‑C | — | Cấp nguồn cho Pi và thiết bị USB đang nối |
 
 [Cổng và nguồn Raspberry Pi 4](https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#power-supply) · [Kết nối màn 7inch HDMI LCD (C)](https://www.waveshare.com/wiki/7inch_HDMI_LCD_%28C%29#Hardware_Connection)
@@ -19,17 +21,17 @@ Trang Nguyễn Hiền dùng mã bán hàng **NH2067** và mô tả màn cảm �
 ## 2. Kết nối và bật màn
 
 1. Nếu Pi đang chạy, tắt máy qua menu hệ điều hành, chờ tắt hẳn rồi ngắt adapter của Pi.
-2. Nối **USB‑A từ Pi** đến cổng **Touch** trên màn. Dùng dây có truyền dữ liệu để thử cả cảm ứng.
-3. Nối **micro‑HDMI từ Pi** đến cổng **Display** trên màn. Gạt **Backlight** sang **ON** nếu bo có công tắc như ảnh.
+2. Nối **USB‑A từ Pi** đến đúng cổng **Touch** đã thử nhận chạm. Dùng dây có truyền dữ liệu.
+3. Nối **micro‑HDMI từ Pi** đến cổng **HDMI** trên màn. Đặt công tắc của màn ở **ON**.
 4. Cắm lại adapter USB‑C của Pi và chờ hệ điều hành khởi động. Kiểm tra lần lượt **lên hình**, sau đó **chạm một lần vào một nút** trên desktop.
 
-Nếu màn lên hình và nhận chạm ổn định với cách nối này, có thể dùng nguồn từ USB của Pi. Waveshare công bố mức tiêu thụ màn khoảng **2,5 W** ở **5 V**. Raspberry Pi công bố giới hạn **1,2 A tổng cho các thiết bị USB** trên Pi 4 Model B. Khi lắp thêm webcam, loa USB hoặc thiết bị khác, thử lại với đúng bộ ngoại vi sẽ dùng. [Thông số Waveshare](https://www.waveshare.com/wiki/7inch_HDMI_LCD_%28C%29#Specification) · [Yêu cầu nguồn Raspberry Pi](https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#typical-power-requirements)
+Nếu màn lên hình và nhận chạm ổn định khi giữa Pi và màn chỉ có dây HDMI và một dây USB, có thể tiếp tục dùng cách nối đó. Mức **2,5 W ở 5 V** là thông số cho mẫu **Waveshare** tham chiếu. Dòng tiêu thụ của bo hai cổng chưa được đo. Raspberry Pi công bố giới hạn **1,2 A tổng cho các thiết bị USB** trên Pi 4 Model B. Khi lắp thêm webcam, loa USB hoặc thiết bị khác, thử lại với đúng bộ ngoại vi sẽ dùng. [Thông số Waveshare](https://www.waveshare.com/wiki/7inch_HDMI_LCD_%28C%29#Specification) · [Yêu cầu nguồn Raspberry Pi](https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#typical-power-requirements)
 
-### Cổng Touch, hàng chân hàn và nguồn ngoài
+### Hai cổng Touch và nguồn ngoài
 
-Nhóm có sẵn **một adapter 5 V – 3 A dành cho Pi 4**. Dùng adapter đó cấp điện cho Pi, rồi nối USB từ Pi đến cổng **Touch** của màn để cấp điện và truyền dữ liệu chạm như trong bài thử ban đầu. [BOM PBL6](STT_BOM.md)
+Nhóm có sẵn **một adapter 5 V – 3 A dành cho Pi 4**. Dùng adapter đó cấp điện cho Pi và giữ cách nối USB đã hoạt động trong bài thử ban đầu. [BOM PBL6](STT_BOM.md)
 
-Ảnh bo Rev4.1 của Nguyễn Hiền cho thấy **cổng micro‑USB Touch** và dãy **`5V`, `DN`, `DP`, `GND`** cạnh cổng. Dãy này là hàng chân hàn đưa nguồn và dữ liệu USB ra ngoài. Hãng nêu có thể dùng các chân này để tích hợp nguồn ngoài. <strong style="color:#946200;">Tránh cấp đồng thời 5 V từ Pi qua USB và từ adapter ngoài vào bo</strong> khi chưa xác minh cách tách hai đường nguồn trên đúng revision. Nếu bo thực tế có hai cổng cắm USB vật lý, chụp rộng mặt sau để thấy cả hai cổng và nhãn trước khi chọn cách nối. [Ảnh mặt sau bo](https://www.dientunguyenhien.vn/public/images/lcd_7inch_1.jpg) · [Mô tả phần cứng Waveshare](https://www.waveshare.com/7inch-HDMI-LCD-C.htm) · [Raspberry Pi về cấp ngược nguồn qua USB](https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#back-powering)
+Trên mẫu Waveshare trong ảnh bán hàng, dãy **`5V`, `DN`, `DP`, `GND`** là hàng chân hàn đưa nguồn và dữ liệu USB ra ngoài. Trên **bo hai cổng của nhóm**, cả hai đầu cắm đều mang nhãn **Touch**. Ảnh giúp xác nhận vị trí cổng, còn việc cổng nào mang dữ liệu, cổng nào nhận nguồn và hai đường 5 V có tách nhau hay không cần sơ đồ đúng bo hoặc xác nhận từ nhà bán. <strong style="color:#946200;">Dùng một cổng Touch đã thử và để trống cổng còn lại</strong> trong khi chờ xác minh cách cấp nguồn ngoài. [Mô tả phần cứng Waveshare](https://www.waveshare.com/7inch-HDMI-LCD-C.htm) · [Raspberry Pi về cấp ngược nguồn qua USB](https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#back-powering)
 
 ## 3. Kiểm tra độ phân giải, cảm ứng và bàn phím
 
