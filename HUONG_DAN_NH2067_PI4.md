@@ -56,7 +56,10 @@ flowchart LR
 ### 2.3. Thử hình ảnh, chạm và bàn phím
 
 1. **Độ phân giải.** Trên **Raspberry Pi OS Trixie Desktop**, vào **Preferences → Control Centre → Screens** và đọc **Resolution** của màn HDMI. Nếu đang ở **1024 × 600**, giữ thiết lập đó. Nếu danh sách có mức này nhưng Pi đang dùng mức khác, chọn **1024 × 600**, bấm **Apply** rồi xác nhận nếu hình hiển thị đúng. Nếu mức này không xuất hiện, ghi lại tên ngõ HDMI và các chế độ hiện có. [Cài đặt màn hình Raspberry Pi OS](https://www.raspberrypi.com/documentation/computers/configuration.html#configure-display-settings)
-2. **Cảm ứng.** Chạm một lần vào vài nút ở các vị trí cách xa nhau. Ghi lại nút phản hồi ngay, cần chạm lại hay bị lệch. Thử cuộn một trang dài và ghi riêng kết quả cuộn.
+2. **Cảm ứng.** Chạm một lần vào vài nút ở các vị trí cách xa nhau. Ghi lại nút phản hồi ngay, cần chạm lại hay bị lệch. Mở một trang dài trong Chromium, vuốt một ngón ngay giữa nội dung và ghi lại trang có cuộn hay chỉ kéo được khi đặt ngón lên thanh cuộn.
+
+   Nếu chỉ kéo được thanh cuộn hoặc phải chạm hai lần để mở thư mục, vào **Preferences → Control Centre → Screens**, mở menu của màn HDMI rồi xem **Touchscreen → Mode**. Trong chế độ **Mouse Emulation** (giả lập chuột), chạm rồi rê ngón tay tương đương giữ nút chuột trái rồi kéo. Nếu đang bật chế độ này, thử chọn **Multitouch** và vuốt lại trên cùng trang trong Chromium. Sau khi đổi, thử lại cả thao tác mở thư mục vì chạm đúp có thể hoạt động khác. [Hai chế độ cảm ứng trên Raspberry Pi OS](https://www.raspberrypi.com/news/a-new-raspberry-pi-os-release/#improved-touchscreen-support)
+
 3. **Bàn phím ảo.** Chạm ô nhập trên desktop, gõ thử **“Tôi muốn hỏi giờ làm việc.”** rồi dùng **Xóa / Backspace**. Nếu bàn phím chưa hiện và thanh tác vụ có biểu tượng bàn phím, dùng biểu tượng đó để mở. Khi có bản kiosk, thử lại trong vùng soạn để xác nhận gõ dấu tiếng Việt, nhìn thấy câu đang sửa và chạm được **Gửi** khi bàn phím mở. [Cài đặt bàn phím ảo](https://www.raspberrypi.com/documentation/computers/configuration.html#configure-onscreen-keyboard) · [Bản phác PBL6 khi mở bàn phím](reports/ui_ux_20261107/assets/wireframe-ban-phim-ao.png)
 
 ### 2.4. Thử thêm thiết bị và kiểm tra nguồn
@@ -96,6 +99,6 @@ Gửi lại phiên bản hệ điều hành, đầu ra `lsusb`, cổng Touch đa
 
 ## 3. Kết quả thử trên Pi 4
 
-<strong style="background-color:#DDF7E9;color:#0B6B45;padding:1px 4px;border-radius:3px;">Đã thử</strong> Theo báo cáo của người dùng ngày **07/11/2026**, màn **lên hình và nhận chạm** khi kết nối với Pi 4. Người dùng thấy cảm giác chạm hơi khác điện thoại. [Ghi nhận trong BOM](STT_BOM.md)
+<strong style="background-color:#DDF7E9;color:#0B6B45;padding:1px 4px;border-radius:3px;">Đã thử</strong> Theo báo cáo của người dùng ngày **07/11/2026**, màn **lên hình và nhận chạm** khi kết nối với Pi 4. Người dùng ghi nhận chỉ cuộn được khi đặt ngón lên thanh cuộn rồi kéo, và phải chạm hai lần để mở ứng dụng hoặc thư mục đã thử. [Ghi nhận kết nối trong BOM](STT_BOM.md)
 
-<strong style="background-color:#FFF3C4;color:#6E4900;padding:1px 4px;border-radius:3px;">Cần xác minh</strong> Ghi lại độ phân giải đầu ra thực tế, cổng Touch đang dùng, chạm có đúng vị trí và cuộn có đều hay không. Khi thử trong kiosk, ghi thêm kết quả bàn phím ảo tiếng Việt và thao tác **Gửi**. Sơ đồ hub ở Hình 1 là phương án lắp nếu cần, chưa có kết quả thử trên bộ thiết bị của nhóm.
+<strong style="background-color:#FFF3C4;color:#6E4900;padding:1px 4px;border-radius:3px;">Cần xác minh</strong> Ghi lại độ phân giải đầu ra thực tế, cổng Touch đang dùng và độ chính xác của vị trí chạm. Kiểm tra chế độ cảm ứng hiện tại và ghi kết quả vuốt giữa trang trong Chromium nếu thử chuyển sang **Multitouch**. Khi thử trong kiosk, ghi thêm kết quả bàn phím ảo tiếng Việt và thao tác **Gửi**. Sơ đồ hub ở Hình 1 là phương án lắp nếu cần, chưa có kết quả thử trên bộ thiết bị của nhóm.
