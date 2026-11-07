@@ -71,6 +71,8 @@ Luồng để thảo luận: **người A/B → phương thức nhập → lư�
 
 **Mỗi lần mở ứng dụng, màn chính hiện một hội thoại mới.** Hội thoại chỉ xuất hiện trong **Lịch sử** sau khi người dùng gửi tin nhắn đầu tiên. Các tin nhắn đã gửi được lưu để người dùng mở lại sau khi đóng và mở ứng dụng. Tên phiên, tìm kiếm, đổi tên, xóa, xuất và chính sách giữ nội dung cần quyết định riêng trước triển khai.
 
+**Phương án đề xuất cho tên hội thoại.** Lấy tin đã gửi đầu tiên làm tên ban đầu, rút gọn ở ranh giới từ khi câu dài và cho phép đổi tên hiển thị. Mỗi hội thoại có ID riêng để truy xuất các tin đã lưu. [Nghiên cứu cách đặt tên của Codex, DSH và LearnHarness](reports/NGHIEN_CUU_DAT_TEN_HOI_THOAI.md)
+
 Đề xuất giữ nhận dạng một file/batch ở công cụ nhập dữ liệu hoặc kiểm thử, để màn hội thoại tập trung vào cuộc trao đổi. Chưa chốt vị trí cuối cùng; chức năng file/batch của V1 vẫn phải được giữ và kiểm thử.
 
 Các mục Settings cần bàn thêm: nguồn mic/device path trên Pi, camera, Deepgram `language=vi` và key trên backend, cỡ chữ, âm lượng/giọng TTS, hành vi lưu/xóa hội thoại. Chưa chọn engine TTS hay mô hình ký hiệu. Browser laptop không tự dùng micro của nó khi đang điều khiển thiết bị Pi.
