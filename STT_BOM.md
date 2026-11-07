@@ -6,7 +6,7 @@
 ---
 
 > [!IMPORTANT]
-> **BOM chính của dự án.** Phiếu bán hàng Điện tử Nguyễn Hiền lúc **17:25 ngày 07/11/2026** ghi **1 màn NH2067, 7 inch, 1024 × 600** và **1 cáp micro-HDMI sang HDMI**, tổng tiền hàng **1.165.000 VNĐ**. Chờ kiểm tra cổng USB touch, nguồn và khả năng hoạt động trên Pi 4. P1 mới có Settings, một file và Electron trên Windows. Capture Pi, batch và kiosk phần cứng chưa hoàn thành. Xem [bàn giao](START_NEXT_CHAT_STT.md) và [báo cáo P1](reports/stt_v1_p1_20261107/BAO_CAO.md).
+> **BOM chính của dự án.** Phiếu bán hàng Điện tử Nguyễn Hiền lúc **17:25 ngày 07/11/2026** ghi **1 màn NH2067, 7 inch, 1024 × 600** và **1 cáp micro-HDMI sang HDMI**, tổng tiền hàng **1.165.000 VNĐ**. Người dùng đã thử kết nối với Pi 4 và xác nhận màn hoạt động, có nhận thao tác chạm. P1 mới có Settings, một file và Electron trên Windows. Capture Pi, batch và kiosk phần cứng chưa hoàn thành. Xem [bàn giao](START_NEXT_CHAT_STT.md) và [báo cáo P1](reports/stt_v1_p1_20261107/BAO_CAO.md).
 
 > **Liên quan đến chọn vỏ/giá đỡ:** đối chiếu kích thước, lỗ bắt vít và hướng ra dây trên màn NH2067 thực tế. Dùng [bản phác hội thoại 1024 × 600](reports/ui_ux_20261107/assets/wireframe-hoi-thoai-1024x600.pen) để kiểm tra góc nhìn, khoảng trống cho bàn phím ảo và vùng chạm khi lắp trên bàn.
 
@@ -96,8 +96,8 @@ flowchart TD
 
 | Hạng mục | Số lượng | Công dụng và trạng thái kỹ thuật |
 | :--- | :---: | :--- |
-| **Màn hình cảm ứng HDMI — Nguyễn Hiền NH2067** | <span style="background-color:#E7F0FF;color:#1B4494;padding:2px 6px;border-radius:3px;font-weight:700;">1 cái</span> | Màn hình 7 inch, 1024 × 600 đã mua cho kiosk. Xác nhận đường USB touch của bộ hàng và thử trên Pi 4 với OS đang dùng. |
-| **Cáp micro-HDMI sang HDMI** | <span style="background-color:#E7F0FF;color:#1B4494;padding:2px 6px;border-radius:3px;font-weight:700;">1 sợi</span> | **Truyền hình ảnh.** Đã mua theo phiếu. Kiểm tra hai đầu cắm và lên hình khi nối Pi 4 với NH2067. |
+| **Màn hình cảm ứng HDMI — Nguyễn Hiền NH2067** | <span style="background-color:#E7F0FF;color:#1B4494;padding:2px 6px;border-radius:3px;font-weight:700;">1 cái</span> | Đã thử lên hình và nhận chạm trên Pi 4 theo báo cáo của người dùng. Cần kiểm tra độ chính xác vị trí chạm khi dùng giao diện. |
+| **Cáp micro-HDMI sang HDMI** | <span style="background-color:#E7F0FF;color:#1B4494;padding:2px 6px;border-radius:3px;font-weight:700;">1 sợi</span> | **Truyền hình ảnh.** Đã mua theo phiếu. |
 | **Cáp USB dữ liệu từ Pi tới cổng touch của màn** | <span style="background-color:#E7F0FF;color:#1B4494;padding:2px 6px;border-radius:3px;font-weight:700;">1 sợi</span> | **Truyền tín hiệu chạm về Pi.** Chọn đúng chuẩn đầu cắm (micro-USB / Type-C) phía màn. <span style="color:#C52236;font-weight:700;">Lưu ý:</span> Cáp sạc đơn thuần (không có dây data) sẽ không nhận được cảm ứng! |
 | **Bộ nguồn / cáp cấp nguồn cho màn theo model** | <span style="background-color:#FFF3C4;color:#6E4900;padding:2px 6px;border-radius:3px;font-weight:700;">1 bộ</span> | Phương án nguồn riêng hoặc chung USB touch theo model. Xác minh điện áp, dòng tiêu thụ và cổng nguồn đi riêng hay chung với cổng USB touch. Chưa mặc định Pi cấp đủ nguồn. |
 
@@ -110,7 +110,7 @@ flowchart TD
 
 ## 🛒 Ứng viên HDMI do người dùng bổ sung — kiểm tra trang ngày 07/11/2026
 
-**Người dùng đã mua NH2067.** Bảng giữ kết quả khảo sát các mẫu để tham khảo. Chi phí thực tế của màn và cáp ghi ở mục dự toán. Kết quả trên Pi 4/Trixie/Electron sẽ ghi sau khi thử thiết bị.
+**Người dùng đã mua NH2067.** Bảng giữ kết quả khảo sát các mẫu để tham khảo. Chi phí thực tế của màn và cáp ghi ở mục dự toán.
 
 | Nguồn / ứng viên | Giá và thông tin trang | Điểm thuận lợi | Còn thiếu để quyết định |
 | :--- | :--- | :--- | :--- |
@@ -121,7 +121,9 @@ flowchart TD
 | **[Shopee — bộ số hóa cảm ứng USB nhiều kích cỡ](https://shopee.vn/product/1382786553/24637236048?extraParams=%7B%22display_model_id%22%3A207890570047%2C%22model_selection_logic%22%3A3%7D)** | Tiêu đề trong link nêu bộ số hóa/điều khiển cảm ứng điện dung USB, nhiều kích cỡ. Chưa đọc được trang để xác nhận biến thể hoặc giá | Có thể khảo sát riêng như linh kiện cảm ứng nếu cần | Hỏi biến thể được chọn có kèm LCD và bo HDMI hay chỉ gồm kính touch và bo USB. Nếu chỉ có touch, xác nhận kích thước kính và khả năng ghép với panel trước khi so giá với màn trọn bộ |
 | **[Shop Shopee tuandinh241 — link người dùng gửi](https://shopee.vn/tuandinh241?categoryId=100644&entryPoint=ShopByPDP&itemId=42836315614)** | **Người dùng báo:** đồ cũ, hết HDMI, chỉ còn DSI; chưa có giá/model xác minh | Có thể khảo sát thêm cho phương án DSI về sau | Công cụ không mở được trang; chưa tự xác minh biến thể, giá, tình trạng panel/touch, dây kèm, tương thích, bảo hành và giao hàng. Không xếp vào hàng HDMI còn sẵn. |
 
-**Việc tiếp theo với NH2067:** kiểm tra cổng nguồn, cổng USB touch và phụ kiện thực tế, rồi thử hình 1024 × 600 và vị trí chạm trên Pi 4. Dùng bố cục bàn phím mở để kiểm tra gõ tiếng Việt và thao tác Gửi khi ứng dụng kiosk sẵn sàng.
+**Lượt thử NH2067 trên Pi 4 ngày 07/11/2026:** người dùng xác nhận kết nối thành công và có tương tác cảm ứng. Cảm giác chạm hơi khác điện thoại. Chưa ghi loại khác biệt, độ phân giải đầu ra đang dùng, sơ đồ nguồn/USB hoặc kết quả kiểm tra vị trí chạm.
+
+**Việc tiếp theo với NH2067:** thử chạm một lần ở vài vị trí trên màn và mô tả khác biệt quan sát được. Khi thử kiosk, đối chiếu thêm cách gõ tiếng Việt và chạm Gửi lúc mở bàn phím ảo.
 
 **Nội dung để người dùng hỏi nhà bán khi muốn chốt:**
 
@@ -181,7 +183,7 @@ Nhóm cần thử wireframe hội thoại, chữ và bàn phím ảo ở **1024�
 * **Phần mềm màn hình cảm ứng (Chốt 07/11/2026):**
   * Ứng dụng dùng <span style="color:#713DB0;font-weight:700;">React + TypeScript + Tailwind CSS, Next.js / Node.js và Electron</span>.
   * Trên thiết bị cuối, Pi chạy backend và Electron mở giao diện STT ở kiosk mode. Tiếp tục dùng laptop cho phát triển/kiểm thử ban đầu; **ổn định HDMI + USB touch trước DSI**.
-  * Lựa chọn stack không thay đổi cáp/nguồn cần mua theo đúng model màn. Kiểm thử cảm ứng, bàn phím ảo và khởi động kiosk với bản Linux ARM64 thực tế; chưa có kết quả chạy thiết bị.
+  * Lượt thử màn ban đầu đã nhận chạm trên Pi 4. Kiểm tra bàn phím ảo, thao tác trong ứng dụng và khởi động Electron kiosk với bản Linux ARM64 ở bước tích hợp.
 
 ---
 

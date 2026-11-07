@@ -6,7 +6,7 @@ Updated: 2026-11-07. Original target: Thursday, 2026-11-05 (past); no replacemen
 
 **The Nguyễn Hiền sales slip dated 2026-11-07 at 17:25 records one NH2067 7-inch 1024 × 600 touchscreen at 1,090,000 VND and one micro-HDMI to HDMI cable at 75,000 VND.** The merchandise total was 1,165,000 VND. Use `STT_BOM.md` for the USB touch, power, and accessory checks. Follow the user's direction before starting P2 or running benchmarks.
 
-Use `START_NEXT_CHAT_STT.md` for the concise P1 handoff and reading order. P1 code is complete at the single-file checkpoint with two user browser trials and the Windows desktop visibility fix. Full V1 remains unfinished. Identify the screen's power and USB touch connections before checking HDMI video and touch on Pi 4. Keep DSI optional after HDMI + USB is stable.
+Use `START_NEXT_CHAT_STT.md` for the concise P1 handoff and reading order. P1 code is complete at the single-file checkpoint with two user browser trials and the Windows desktop visibility fix. Full V1 remains unfinished. On 2026-11-07, the user reported a working NH2067 connection and responsive touch on Pi 4. Touch felt different from a phone. The active display resolution, tap accuracy, and kiosk behavior still need checking.
 
 ## UI/UX discussion to carry forward — 2026-11-07
 
@@ -30,7 +30,7 @@ Display sequence: **validate HDMI + USB touch first; DSI is a later optional upg
 
 Read `reports/stt_v1_p1_20261107/BAO_CAO.md` and `stt-app/README.md` for evidence and startup/trial commands. The user has returned the initial single-file result. The immediate next-session priority is BOM decisions and shopping planning; batch then Pi capture remain the proposed software sequence when the user resumes implementation. N02 remains unfinished; preserve B01–B04 and the timing-scope caveat.
 
-Current handoff: shift 1, V1-P1 checkpoint complete; full V1 pending; branch `master`. Find the implementation commit with `git log -1 -- stt-app`. Preserve all pre-existing document edits and experiment results. From `stt-app`, the prepared Windows command is `npm run desktop` (dependencies and build already present on this machine). Tests: 20 backend and 8 UI/HTTP/Electron passed; production build and TypeScript passed. Real checks: two user-provided browser file/API trials; a suspected word error in phone_F1; no Pi checks. Evidence: `reports/stt_v1_p1_20261107/validation.json`. Next action: user finalizes the highlighted canonical BOM and plans shopping; no Pi command or automatic batch implementation is required yet.
+Current handoff: shift 1, V1-P1 checkpoint complete; full V1 pending; branch `master`. Find the implementation commit with `git log -1 -- stt-app`. Preserve all pre-existing document edits and experiment results. From `stt-app`, the prepared Windows command is `npm run desktop` (dependencies and build already present on this machine). Tests: 20 backend and 8 UI/HTTP/Electron passed; production build and TypeScript passed. P1 real checks: two user-provided browser file/API trials and a suspected word error in phone_F1. Evidence: `reports/stt_v1_p1_20261107/validation.json`. The initial Pi display and touch check is recorded separately in `STT_BOM.md`. Next hardware step: characterize touch behavior on the selected display.
 
 ## Five people, one sequence
 

@@ -44,7 +44,7 @@ Sản phẩm cuối dùng cảm ứng và Electron kiosk. Nhóm tích hợp HDMI
 
 Bản highlight gốc có thêm các mức tiền nháp. BOM chính phân biệt chúng với giá niêm yết. Khảo sát DSI ngày 06/11 được giữ để tham khảo. Cần xác nhận tổng ngân sách, khoảng cách thử và cách cấp nguồn theo bộ NH2067 thực tế.
 
-**Bước phần cứng tiếp theo:** xác định cổng nguồn và USB touch trên bộ NH2067, rồi thử hình 1024 × 600 và cảm ứng trên Pi 4. Dùng [bản phác bàn phím mở](reports/ui_ux_20261107/assets/wireframe-ban-phim-ao.png) để đối chiếu vùng đọc, vùng sửa chữ và nút Gửi khi thử kiosk. Giữ các ứng viên khác trong BOM làm tham khảo.
+**Lượt thử màn ngày 07/11/2026:** người dùng báo NH2067 kết nối thành công với Pi 4 và nhận chạm, cảm giác hơi khác điện thoại. Bước tiếp theo là xác nhận độ phân giải đang dùng và thử vị trí chạm ở vài điểm. Dùng [bản phác bàn phím mở](reports/ui_ux_20261107/assets/wireframe-ban-phim-ao.png) để đối chiếu vùng đọc, vùng sửa chữ và nút Gửi khi thử kiosk.
 
 ## 4. Giữ công việc nghiên cứu và triển khai còn lại
 
