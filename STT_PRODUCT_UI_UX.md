@@ -32,7 +32,9 @@ Chạm vùng soạn để mở **bàn phím ảo** khi cần nhập hoặc sửa
 
 Trong V1, ứng dụng nhận dạng sau khi dừng thu và trả về chữ cuối hoặc lỗi rõ ràng. V2 gửi âm thanh trong lúc thu và vẫn hiển thị chữ cuối. V3 bổ sung chữ tạm cập nhật trong lúc nói. Khi laptop điều khiển Pi, nguồn thu là thiết bị đã chọn trên Pi.
 
-**Còn để bàn.** Cách xử lý khi hai người thao tác đồng thời, cách giữ bản nháp, có lưu audio thô hay tệp tạm hay không, và định dạng lưu. JSON và tệp phân mảnh là các ý tưởng để xem xét khi cần.
+**Bản nháp.** Theo LearnHarness, chữ chưa gửi chỉ tồn tại trong vùng soạn của hội thoại đang mở. Chuyển hội thoại hoặc đóng ứng dụng sẽ bỏ bản nháp. Nếu gửi lỗi khi hội thoại vẫn đang mở, ứng dụng giữ chữ để người dùng sửa hoặc thử gửi lại. [Khảo sát cách giữ bản nháp](reports/NGHIEN_CUU_BAN_NHAP_HOI_THOAI.md)
+
+**Còn để bàn.** Cách xử lý khi hai người thao tác đồng thời, có lưu audio thô hay tệp tạm hay không, và định dạng lưu. JSON và tệp phân mảnh là các ý tưởng để xem xét khi cần.
 
 ### Cách hình dung “harness bao quanh model”
 
@@ -103,6 +105,7 @@ Nếu có điểm chưa rõ, bàn từng điểm trực tiếp trên kịch bả
 - Phân biệt được chữ đang soạn và tin đã gửi. Chạm vùng soạn mở bàn phím và vẫn nhìn thấy câu đang sửa cùng nút **Gửi**.
 - Đặt con trỏ giữa “Tôi muốn” và “vào sáng mai.” rồi thu câu “hẹn gặp”. Vùng soạn hiện “Tôi muốn hẹn gặp vào sáng mai.” để người dùng đọc lại trước khi gửi.
 - Nếu gửi thành công khi bàn phím đang mở, bàn phím tự đóng để hai người đọc tin vừa gửi.
+- Gửi lỗi thì chữ vẫn nằm trong vùng soạn khi hội thoại còn mở. Chuyển sang hội thoại khác rồi quay lại, hoặc đóng rồi mở lại ứng dụng, sẽ thấy vùng soạn trống.
 - Người dùng có thể thao tác chính bằng một lần chạm trên vùng điều khiển và cùng đọc nội dung trên màn 7 inch.
 - Tin đầu tiên được gửi thành công thì hội thoại xuất hiện trong **Lịch sử**. Sau khi đóng và mở ứng dụng, màn chính hiện cuộc mới và người dùng có thể mở lại cuộc đã lưu.
 

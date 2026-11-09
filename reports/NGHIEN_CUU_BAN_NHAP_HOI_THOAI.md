@@ -1,0 +1,15 @@
+# Khảo sát cách giữ bản nháp hội thoại
+
+**PBL6 · 09/11/2026.** Bản nháp là chữ đang có trong vùng soạn trước khi bấm **Gửi**. Khảo sát đối chiếu việc khôi phục bản nháp khi chuyển hội thoại rồi quay lại và khi đóng ứng dụng rồi mở lại.
+
+| Ứng dụng | Chuyển hội thoại rồi quay lại | Đóng rồi mở lại |
+| --- | --- | --- |
+| **DeepSeek Harness `0.2.1-rc.5`** | Mã bản cài đọc bản nháp theo mã hội thoại. Tài liệu DSH mô tả việc <strong style="color:#087789;">khôi phục khi quay lại đúng hội thoại</strong>. [Tài liệu vùng soạn DSH](https://github.com/deepseek-ai/deepseek-harness/blob/master/packages/client/ui-conversation/README.md) | DSH lưu chữ trong `localStorage`, bộ nhớ lưu của giao diện. Bộ kiểm thử Web trên nhánh `master` kiểm tra khôi phục sau khi tải lại trang. Việc khôi phục sau khi mở lại Desktop với cùng hồ sơ là suy luận từ cơ chế lưu. [Mã đọc bản nháp](https://github.com/deepseek-ai/deepseek-harness/blob/master/packages/client/ui-conversation/src/client/stores.ts) · [Mã kiểm thử](https://github.com/deepseek-ai/deepseek-harness/blob/master/apps/web/tests/draft-initialization.e2e.ts) |
+| **Codex Desktop `26.1103.4239.0`** | Mã bản cài lưu bản nháp theo mã hội thoại và dùng mã đó để nạp lại chữ vào vùng soạn. | Kho `composer-prompt-drafts-v2` dùng cơ chế ghi trạng thái Electron xuống tệp cục bộ. Theo mã, khi mở lại cùng hồ sơ và hội thoại, ứng dụng có thể nạp bản nháp đã lưu. Các dấu vết nằm trong `webview/assets/async/182735.bb2cb0d2af.js` và `.vite/build` bên trong `app.asar`. |
+| **LearnHarness `0.5.0`** | Chữ chưa gửi thuộc trạng thái của vùng soạn đang mở. Mã khởi tạo vùng soạn rỗng khi giao diện hội thoại được dựng lại. [Mã vùng soạn](https://github.com/amosblomqvist/learnharness/blob/v0.5.0/components/chat.tsx#L559) · [Mã mở hội thoại](https://github.com/amosblomqvist/learnharness/blob/v0.5.0/app/chat/%5Bid%5D/page.tsx#L21) | Mã đã rà chỉ cho thấy trạng thái trong vùng soạn. Ghi chú phát hành xác nhận chữ được giữ khi gửi lỗi trong lúc phiên vẫn mở. [Ghi chú phát hành 0.5.0](https://github.com/amosblomqvist/learnharness/releases/tag/v0.5.0) |
+
+<strong style="color:#946200;">Giới hạn kiểm chứng.</strong> Kết quả dựa trên mã bản cài, tài liệu và mã kiểm thử. Chưa chạy lại thao tác đóng rồi mở trên ba ứng dụng. Trường hợp DSH `0.2.1-rc.2` cho thấy hội thoại chưa gửi tin đầu tiên có thể mất đường quay lại từ danh sách dù chữ còn trong bộ nhớ lưu. Với PBL6, **Lịch sử** bắt đầu từ lần gửi thành công đầu tiên. [Trao đổi về hội thoại chưa gửi của DSH](https://github.com/deepseek-ai/deepseek-harness/discussions/10223)
+
+## Quyết định cho PBL6 V1
+
+<strong style="color:#087A47;">Đã chọn cách giữ bản nháp của LearnHarness.</strong> Bản nháp chỉ tồn tại trong vùng soạn của hội thoại đang mở. Khi chuyển hội thoại hoặc đóng ứng dụng, bản nháp bị bỏ. Nếu gửi lỗi khi hội thoại vẫn đang mở, vùng soạn giữ nguyên chữ để người dùng sửa hoặc thử gửi lại. [Đặc tả UI/UX](../STT_PRODUCT_UI_UX.md)
