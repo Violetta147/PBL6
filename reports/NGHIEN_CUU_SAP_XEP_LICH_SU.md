@@ -14,4 +14,4 @@
 
 Nhóm chọn quy tắc **Last updated** của DeepSeek Harness cho danh sách **Lịch sử**. Hội thoại có **tin nhắn được gửi thành công gần nhất** đứng đầu. Khi gửi tin đầu tiên, hội thoại xuất hiện trong danh sách. Gửi thêm tin đưa hội thoại lên đầu. Mở lại để xem, đổi tên hoặc bấm **Đọc to** giữ nguyên vị trí.
 
-Ví dụ, người dùng mở một hội thoại từ hôm qua và đổi tên. Hội thoại vẫn ở vị trí cũ. Nếu nhóm chốt cho nhắn tiếp vào hội thoại đã mở lại, việc gửi thành công một tin mới sẽ đưa hội thoại đó lên đầu. [Đặc tả UI/UX PBL6](../STT_PRODUCT_UI_UX.md)
+Ví dụ, người dùng mở một hội thoại từ hôm qua và đổi tên. Hội thoại vẫn ở vị trí cũ. Người dùng có thể soạn và gửi tiếp trong hội thoại đã mở lại. Khi tin mới được gửi thành công, hội thoại đó lên đầu Lịch sử. [Đặc tả UI/UX PBL6](../STT_PRODUCT_UI_UX.md)

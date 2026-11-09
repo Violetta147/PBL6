@@ -53,7 +53,7 @@ Khi triển khai bàn phím, cập nhật vùng soạn và trạng thái nút **
 
 ### Quy tắc Lịch sử đã chốt
 
-**Mỗi lần mở ứng dụng, màn chính hiện một hội thoại mới.** Người dùng cũng có thể bấm **+ Hội thoại mới** trong lúc ứng dụng đang mở. Bản phác đặt nút này trong bảng Lịch sử. Hội thoại chỉ xuất hiện trong **Lịch sử** sau khi gửi thành công tin đầu tiên. Các tin đã gửi mở lại được sau khi đóng và mở ứng dụng.
+**Mỗi lần mở ứng dụng, màn chính hiện một hội thoại mới.** Người dùng cũng có thể bấm **+ Hội thoại mới** trong lúc ứng dụng đang mở. Bản phác đặt nút này trong bảng Lịch sử. Hội thoại chỉ xuất hiện trong **Lịch sử** sau khi gửi thành công tin đầu tiên. Sau khi đóng và mở ứng dụng, người dùng có thể mở lại hội thoại đã lưu, soạn và gửi tiếp vào cùng hội thoại đó.
 
 **Thứ tự trong Lịch sử.** Dùng quy tắc **Last updated** của DeepSeek Harness theo thời điểm gửi thành công tin nhắn gần nhất. Gửi thêm tin đưa hội thoại lên đầu. Mở để xem, đổi tên hoặc bấm **Đọc to** giữ nguyên vị trí. [Nghiên cứu cách sắp xếp Lịch sử](reports/NGHIEN_CUU_SAP_XEP_LICH_SU.md)
 
@@ -63,7 +63,7 @@ Khi triển khai bàn phím, cập nhật vùng soạn và trạng thái nút **
 
 **Tên hội thoại.** Phương án tham khảo LearnHarness dùng tin đã gửi đầu tiên làm tên ban đầu và rút gọn ở ranh giới từ nếu câu dài. ID hội thoại tách với tên hiển thị. Hai cách mở phần đổi tên đang bàn là chạm tiêu đề trên cùng hoặc dùng menu chuột phải của một mục trong Lịch sử. [Nghiên cứu cách đặt và đổi tên](reports/NGHIEN_CUU_DAT_TEN_HOI_THOAI.md)
 
-**Các điểm còn mở.** Khả năng nhắn tiếp trong hội thoại đã mở lại, tìm kiếm hoặc xuất Lịch sử và chính sách giữ nội dung. Nhận dạng một file và batch vẫn thuộc phạm vi V1. Đặt chúng trong một công cụ nhập hoặc kiểm thử riêng là phương án đang bàn.
+**Các điểm còn mở.** Tìm kiếm hoặc xuất Lịch sử và chính sách giữ nội dung. Nhận dạng một file và batch vẫn thuộc phạm vi V1. Đặt chúng trong một công cụ nhập hoặc kiểm thử riêng là phương án đang bàn.
 
 ## 4. Ghi nhận ảnh tham khảo người dùng gửi
 
