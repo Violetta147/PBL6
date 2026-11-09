@@ -28,7 +28,7 @@ Cập nhật 09/11/2026. Tài liệu ghi các quyết định thiết kế, nh�
 
 Chạm biểu tượng **mic** để bắt đầu thu. Vùng soạn vẫn hiện phía trên thanh báo thu và nút mic đổi thành **hình vuông** ngay tại chỗ. Chạm hình vuông để dừng. Trong lúc nhận dạng, nút hiện **vòng xoay**. Khi có chữ cuối, biểu tượng mic trở lại và ứng dụng đưa chữ vào vùng soạn để người dùng đọc lại. Nếu câu đã đúng, có thể bấm **Gửi** ngay.
 
-Chạm vùng soạn để mở **bàn phím ảo** khi cần nhập hoặc sửa. Dùng **Backspace** trên bàn phím để xóa chữ. Việc nhận dạng xong tự điền chữ vào vùng soạn và giữ bàn phím ở trạng thái đóng nếu người dùng chưa chạm vào vùng đó. Người dùng cũng có thể gõ trực tiếp. Chỉ thao tác **Gửi** mới đưa chữ vào hội thoại.
+Chạm vùng soạn để mở **bàn phím ảo** khi cần nhập hoặc sửa. Dùng **Backspace** trên bàn phím để xóa chữ. Việc nhận dạng xong tự điền chữ vào vùng soạn và giữ bàn phím ở trạng thái đóng nếu người dùng chưa chạm vào vùng đó. Người dùng cũng có thể gõ trực tiếp. Chỉ thao tác **Gửi** mới đưa chữ vào hội thoại. Nếu bàn phím đang mở, ứng dụng tự đóng bàn phím sau khi gửi thành công.
 
 Trong V1, ứng dụng nhận dạng sau khi dừng thu và trả về chữ cuối hoặc lỗi rõ ràng. V2 gửi âm thanh trong lúc thu và vẫn hiển thị chữ cuối. V3 bổ sung chữ tạm cập nhật trong lúc nói. Khi laptop điều khiển Pi, nguồn thu là thiết bị đã chọn trên Pi.
 
@@ -46,7 +46,7 @@ Trong V1, ứng dụng nhận dạng sau khi dừng thu và trả về chữ cu�
 | :--- | :--- | :--- |
 | Điều hướng | Hội thoại, Lịch sử và Settings. | Cách mở và thu gọn Lịch sử trên màn nhỏ. Vị trí công cụ nhập file hoặc batch. |
 | Vùng hội thoại | Hiển thị các tin đã gửi để hai người cùng đọc. | Cỡ chữ, bố cục từng tin và việc có cần nhãn nguồn nhập. |
-| Vùng soạn | Một vùng soạn chung có mic và **Gửi**. Khi chạm vào vùng soạn, bàn phím mở dưới cùng. Vùng soạn và **Gửi** ở ngay phía trên. Vùng hội thoại dùng phần chiều cao còn lại và có thể cuộn. | Kiểm tra độ dễ nhận ra các trạng thái thu, chờ và lỗi. Bàn cách xử lý bàn phím sau khi gửi. |
+| Vùng soạn | Một vùng soạn chung có mic và **Gửi**. Khi chạm vào vùng soạn, bàn phím mở dưới cùng. Vùng soạn và **Gửi** ở ngay phía trên. Vùng hội thoại dùng phần chiều cao còn lại và có thể cuộn. | Kiểm tra độ dễ nhận ra các trạng thái thu, chờ và lỗi. |
 | Settings | Cài đặt Deepgram đã có ở P1. **Xóa lịch sử** đã chốt ở mức thiết kế. | Cách trình bày nguồn mic trên Pi và các mục hiển thị. Mục âm thanh sẽ bàn cùng TTS. |
 
 Khi triển khai bàn phím, cập nhật vùng soạn và trạng thái nút **Gửi** theo từng phím. [Khảo sát vùng soạn và bàn phím ảo](reports/NGHIEN_CUU_VUNG_SOAN_VA_BAN_PHIM_AO.md)
@@ -99,6 +99,7 @@ Nếu có điểm chưa rõ, bàn từng điểm trực tiếp trên kịch bả
 
 - Biểu tượng mic và trạng thái cho biết lúc nào đang thu, đang nhận dạng hoặc có lỗi.
 - Phân biệt được chữ đang soạn và tin đã gửi. Chạm vùng soạn mở bàn phím và vẫn nhìn thấy câu đang sửa cùng nút **Gửi**.
+- Nếu gửi thành công khi bàn phím đang mở, bàn phím tự đóng để hai người đọc tin vừa gửi.
 - Người dùng có thể thao tác chính bằng một lần chạm trên vùng điều khiển và cùng đọc nội dung trên màn 7 inch.
 - Tin đầu tiên được gửi thành công thì hội thoại xuất hiện trong **Lịch sử**. Sau khi đóng và mở ứng dụng, màn chính hiện cuộc mới và người dùng có thể mở lại cuộc đã lưu.
 
