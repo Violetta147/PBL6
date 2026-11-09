@@ -47,7 +47,7 @@ Trong V1, ứng dụng nhận dạng sau khi dừng thu và trả về chữ cu�
 | Vùng giao diện | Nội dung đã xác định | Việc cần duyệt trên bản phác |
 | :--- | :--- | :--- |
 | Điều hướng | Hội thoại, Lịch sử và Settings. | Cách mở và thu gọn Lịch sử trên màn nhỏ. Vị trí công cụ nhập file hoặc batch. |
-| Vùng hội thoại | Hiển thị các tin đã gửi để hai người cùng đọc. | Cỡ chữ, bố cục từng tin và việc có cần nhãn nguồn nhập. |
+| Vùng hội thoại | Hiển thị các tin đã gửi. Tin vừa gửi dùng cùng kiểu và cỡ chữ với các tin khác trong hội thoại. | Kiểm tra cỡ chữ chung trên màn 7 inch, bố cục từng tin và việc có cần nhãn nguồn nhập. |
 | Vùng soạn | Một vùng soạn chung có mic và **Gửi**. Khi chạm vào vùng soạn, bàn phím mở dưới cùng. Vùng soạn và **Gửi** ở ngay phía trên. Vùng hội thoại dùng phần chiều cao còn lại và có thể cuộn. | Kiểm tra độ dễ nhận ra các trạng thái thu, chờ và lỗi. |
 | Settings | Cài đặt Deepgram đã có ở P1. **Xóa lịch sử** đã chốt ở mức thiết kế. | Cách trình bày nguồn mic trên Pi và các mục hiển thị. Mục âm thanh sẽ bàn cùng TTS. |
 
@@ -97,7 +97,7 @@ Các ảnh dùng để đối chiếu bố cục và cách tổ chức hội tho
 
 Mở bản phác Pencil và xem các khung **Trao đổi**, **Bàn phím mở** và **Mở lịch sử**. Duyệt một người chạm mic, dừng thu và đợi câu xuất hiện trong vùng soạn. Người đó đọc lại, chạm vào vùng soạn để sửa nếu cần, rồi bấm **Gửi**. Sau đó đối chiếu cách tin hiển thị và hội thoại xuất hiện trong Lịch sử. [Bản phác Pencil 1024 × 600](reports/ui_ux_20261107/assets/wireframe-hoi-thoai-1024x600.pen)
 
-Duyệt một lượt nói, đọc và đáp trên cùng màn hình. Sau khi một người gửi, đối chiếu cách người kia tìm và đọc câu vừa gửi trên màn 7 inch trước khi đáp. Dùng lượt này để xem câu đang trao đổi cần chiếm bao nhiêu chỗ.
+Duyệt một lượt nói, đọc và đáp trên cùng màn hình. Sau khi một người gửi, đối chiếu vị trí của tin vừa gửi trong vùng hội thoại và xem người kia có đọc được câu ở cỡ chữ chung trên màn 7 inch trước khi đáp hay không.
 
 Nếu có điểm chưa rõ, bàn từng điểm trực tiếp trên kịch bản này. Các nút **Đọc** và **Chọn file** trong bản phác là cách bố trí để tham khảo. Khi quay lại TTS, xem các phương án vị trí, phần chữ cần đọc và cách tạo giọng. [Khảo sát nút Đọc to](reports/NGHIEN_CUU_DOC_TO_CAC_HARNESS.md)
 

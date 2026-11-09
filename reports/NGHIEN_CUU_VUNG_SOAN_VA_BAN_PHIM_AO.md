@@ -19,4 +19,6 @@ Khi chữ nhận dạng xuất hiện, bàn phím vẫn đóng. Người dùng c
 
 Nếu vùng soạn đã có chữ, PBL6 chèn kết quả nhận dạng tại **vị trí con trỏ**, giữa phần chữ trước và sau con trỏ.
 
+Tin vừa gửi dùng cùng kiểu và cỡ chữ với các tin khác trong hội thoại. Vị trí cuộn là một quyết định riêng. DSH mô tả trường hợp thao tác gửi đưa vùng hội thoại trở về cuối danh sách. Đây là tham chiếu cho cách đưa tin vừa gửi vào tầm nhìn. [Tài liệu cuộn hội thoại DSH](https://github.com/deepseek-ai/deepseek-harness/blob/master/packages/client/ui-chat/README.md#scroll-ownership)
+
 <strong style="color:#946200;">Chưa đo độ trễ trên Pi 4.</strong> Bảng dựa trên ảnh, tài liệu và mã kiểm thử của các ứng dụng tham chiếu. Khi có bản chạy trên Pi 4, kiểm tra thời gian từ lúc chạm tới lúc bàn phím hiện và độ trễ khi gõ tiếng Việt trong một hội thoại dài. [Hướng dẫn thử trên NH2067](../HUONG_DAN_NH2067_PI4.md#23-thử-hình-ảnh-chạm-và-bàn-phím)
