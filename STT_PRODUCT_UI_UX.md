@@ -28,11 +28,11 @@ Cập nhật 09/11/2026. Tài liệu ghi các quyết định thiết kế, nh�
 
 Chạm biểu tượng **mic** để bắt đầu thu. Vùng soạn vẫn hiện phía trên thanh báo thu và nút mic đổi thành **hình vuông** ngay tại chỗ. Chạm hình vuông để dừng. Trong lúc nhận dạng, nút hiện **vòng xoay**. Khi có chữ cuối, biểu tượng mic trở lại và ứng dụng đưa chữ vào vùng soạn để người dùng đọc lại. Nếu câu đã đúng, có thể bấm **Gửi** ngay.
 
-Chạm vùng soạn để mở **bàn phím ảo** khi cần nhập hoặc sửa. Dùng **Backspace** trên bàn phím để xóa chữ. Việc nhận dạng xong tự điền chữ vào vùng soạn và giữ bàn phím ở trạng thái đóng nếu người dùng chưa chạm vào vùng đó. Người dùng cũng có thể gõ trực tiếp. Chỉ thao tác **Gửi** mới đưa chữ vào hội thoại. Nếu bàn phím đang mở, ứng dụng tự đóng bàn phím sau khi gửi thành công.
+Chạm vùng soạn để mở **bàn phím ảo** khi cần nhập hoặc sửa. Dùng **Backspace** trên bàn phím để xóa chữ. Nếu vùng soạn đã có chữ, kết quả nhận dạng được chèn tại **vị trí con trỏ**, giữa phần chữ trước và sau con trỏ. Việc nhận dạng xong giữ bàn phím ở trạng thái đóng nếu người dùng chưa chạm vào vùng soạn. Người dùng cũng có thể gõ trực tiếp. Chỉ thao tác **Gửi** mới đưa chữ vào hội thoại. Nếu bàn phím đang mở, ứng dụng tự đóng bàn phím sau khi gửi thành công.
 
 Trong V1, ứng dụng nhận dạng sau khi dừng thu và trả về chữ cuối hoặc lỗi rõ ràng. V2 gửi âm thanh trong lúc thu và vẫn hiển thị chữ cuối. V3 bổ sung chữ tạm cập nhật trong lúc nói. Khi laptop điều khiển Pi, nguồn thu là thiết bị đã chọn trên Pi.
 
-**Còn để bàn.** Cách xử lý khi vùng soạn đã có chữ hoặc khi hai người thao tác đồng thời, cách giữ bản nháp, có lưu audio thô hay tệp tạm hay không, và định dạng lưu. JSON và tệp phân mảnh là các ý tưởng để xem xét khi cần.
+**Còn để bàn.** Cách xử lý khi hai người thao tác đồng thời, cách giữ bản nháp, có lưu audio thô hay tệp tạm hay không, và định dạng lưu. JSON và tệp phân mảnh là các ý tưởng để xem xét khi cần.
 
 ### Cách hình dung “harness bao quanh model”
 
@@ -101,6 +101,7 @@ Nếu có điểm chưa rõ, bàn từng điểm trực tiếp trên kịch bả
 
 - Biểu tượng mic và trạng thái cho biết lúc nào đang thu, đang nhận dạng hoặc có lỗi.
 - Phân biệt được chữ đang soạn và tin đã gửi. Chạm vùng soạn mở bàn phím và vẫn nhìn thấy câu đang sửa cùng nút **Gửi**.
+- Đặt con trỏ giữa “Tôi muốn” và “vào sáng mai.” rồi thu câu “hẹn gặp”. Vùng soạn hiện “Tôi muốn hẹn gặp vào sáng mai.” để người dùng đọc lại trước khi gửi.
 - Nếu gửi thành công khi bàn phím đang mở, bàn phím tự đóng để hai người đọc tin vừa gửi.
 - Người dùng có thể thao tác chính bằng một lần chạm trên vùng điều khiển và cùng đọc nội dung trên màn 7 inch.
 - Tin đầu tiên được gửi thành công thì hội thoại xuất hiện trong **Lịch sử**. Sau khi đóng và mở ứng dụng, màn chính hiện cuộc mới và người dùng có thể mở lại cuộc đã lưu.
