@@ -22,10 +22,10 @@
 | **Codex Desktop** · bản cài `26.1103.4239.0` | Mục **Rename** nằm trong menu thao tác của hàng chat. Mã sidebar nối thao tác chuột phải với menu của hàng. | Bấm tiêu đề của chat đang mở để sửa tại chỗ khi thao tác đổi tên khả dụng. Tài liệu OpenAI cũng ghi phím tắt **Ctrl + Alt + R** trên Windows. [OpenAI Docs — Commands](https://learn.chatgpt.com/docs/reference/commands) |
 | **DeepSeek Harness** · `dsh 0.2.1-rc.5` | Bản cài có **… → Rename** và <strong style="color:#087789;">bấm đúp tiêu đề của hàng</strong>. Cả hai mở hộp thoại có sẵn tên cũ. Mã nguồn nhánh `master` còn ghi nhận menu chuột phải của hàng. [Tài liệu UI Workspace](https://github.com/deepseek-ai/deepseek-harness/blob/master/packages/client/ui-workspace/README.md) | Đã xác nhận thao tác từ hàng trong danh sách. Việc bấm trực tiếp tiêu đề ở vùng hội thoại cần kiểm tra riêng. |
 
-## 3. Tên ban đầu đã chọn và phương án đổi tên cho PBL6
+## 3. Cách đặt tên và đổi tên đã chọn cho PBL6
 
 1. Khi gửi thành công tin đầu tiên, hội thoại xuất hiện trong **Lịch sử**. <strong style="color:#087789;">Dùng chính tin đã gửi để tạo tên ban đầu</strong> theo cách của LearnHarness. Gộp khoảng trắng, rút gọn câu dài ở ranh giới từ và thêm dấu ba chấm khi cần.
 2. Có thao tác **Đổi tên** cho hội thoại đã lưu. <strong style="color:#087789;">Tên hiển thị và ID được lưu riêng</strong>. Khi người dùng đổi tên, các tin cũ vẫn thuộc cùng hội thoại.
-3. Đề xuất **chạm tiêu đề trên cùng** để đổi tên khi đang xem hội thoại trên màn cảm ứng. Khi dùng chuột, có thể thêm **chuột phải vào một mục trong Lịch sử → Đổi tên**. Hai cách cập nhật tên của cùng một hội thoại.
+3. Trên màn cảm ứng, **chạm tiêu đề của hội thoại đang mở** để sửa tên tại chỗ. Khi dùng chuột, **nhấn chuột phải vào mục trong Lịch sử** rồi chọn **Đổi tên**. Chạm một lần vào mục trong **Lịch sử** để mở hội thoại.
 
 Ví dụ, nếu tin đầu tiên là “Mai gặp lúc mấy giờ?”, ứng dụng dùng câu đó làm tên. Người dùng có thể đổi thành “Hẹn giờ gặp”. <strong style="color:#6E4900;">Câu mở đầu chung chung</strong> như “Chào bạn” sẽ cho tên chung chung. Nếu gặp tình trạng này thường xuyên khi dùng thử, nhóm có thể cân nhắc gợi ý tên từ vài tin đã gửi và giữ ưu tiên cho tên người dùng đã đặt. [Quy tắc hội thoại trong tài liệu UI/UX](../STT_PRODUCT_UI_UX.md)
