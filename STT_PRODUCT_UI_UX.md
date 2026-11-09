@@ -10,7 +10,7 @@ Cập nhật 09/11/2026. Tài liệu ghi các quyết định thiết kế, nh�
 
 ## 1. Những gì đã xác nhận
 
-**Hai người dùng một vùng soạn chung trên một màn hình.** Ai cũng có thể nhập vào vùng này. Hai người có thể cùng xem nếu cả hai ở phía nhìn được màn. Khi ngồi đối diện qua bàn, cần xác định màn hướng về người nào ở từng lượt, chẳng hạn bằng cách quay thiết bị hoặc đổi vị trí. Giá đỡ là phụ kiện, còn kiểu giá đỡ và cách lắp sẽ bàn riêng. [Khảo sát vùng soạn và tình huống dùng một màn hình](reports/NGHIEN_CUU_COMPOSER_ANTIGRAVITY.md)
+**Hai người dùng một vùng soạn chung trên một màn hình.** Ai cũng có thể nhập vào vùng này. Người dùng tự chọn cách đặt, cầm hoặc xoay thiết bị để xem, tương tự cách đưa màn hình điện thoại cho người khác đọc. Giá đỡ là phụ kiện, còn kiểu giá đỡ và cách lắp sẽ bàn riêng. [Khảo sát vùng soạn và tình huống dùng một màn hình](reports/NGHIEN_CUU_COMPOSER_ANTIGRAVITY.md)
 
 | Phương thức | Vai trò trong cuộc giao tiếp | Trạng thái |
 | :--- | :--- | :--- |
@@ -97,7 +97,7 @@ Các ảnh dùng để đối chiếu bố cục và cách tổ chức hội tho
 
 Mở bản phác Pencil và xem các khung **Trao đổi**, **Bàn phím mở** và **Mở lịch sử**. Duyệt một người chạm mic, dừng thu và đợi câu xuất hiện trong vùng soạn. Người đó đọc lại, chạm vào vùng soạn để sửa nếu cần, rồi bấm **Gửi**. Sau đó đối chiếu cách tin hiển thị và hội thoại xuất hiện trong Lịch sử. [Bản phác Pencil 1024 × 600](reports/ui_ux_20261107/assets/wireframe-hoi-thoai-1024x600.pen)
 
-Đặt thiết bị trên bàn và chỉ rõ ai thao tác, ai cần đọc và màn hướng về phía nào trong lượt nói, đọc và đáp. Nếu hai người ngồi đối diện, duyệt cách chuyển hướng màn để người cần đọc nhìn được câu vừa gửi. Dùng kịch bản này để xem câu đang trao đổi cần chiếm bao nhiêu chỗ trên màn 7 inch.
+Duyệt một lượt nói, đọc và đáp trên cùng màn hình. Sau khi một người gửi, đối chiếu cách người kia tìm và đọc câu vừa gửi trên màn 7 inch trước khi đáp. Dùng lượt này để xem câu đang trao đổi cần chiếm bao nhiêu chỗ.
 
 Nếu có điểm chưa rõ, bàn từng điểm trực tiếp trên kịch bản này. Các nút **Đọc** và **Chọn file** trong bản phác là cách bố trí để tham khảo. Khi quay lại TTS, xem các phương án vị trí, phần chữ cần đọc và cách tạo giọng. [Khảo sát nút Đọc to](reports/NGHIEN_CUU_DOC_TO_CAC_HARNESS.md)
 
@@ -108,7 +108,7 @@ Nếu có điểm chưa rõ, bàn từng điểm trực tiếp trên kịch bả
 - Đặt con trỏ giữa “Tôi muốn” và “vào sáng mai.” rồi thu câu “hẹn gặp”. Vùng soạn hiện “Tôi muốn hẹn gặp vào sáng mai.” để người dùng đọc lại trước khi gửi.
 - Nếu gửi thành công khi bàn phím đang mở, bàn phím tự đóng để dành thêm chỗ cho tin vừa gửi.
 - Gửi lỗi thì chữ vẫn nằm trong vùng soạn khi hội thoại còn mở. Chuyển sang hội thoại khác rồi quay lại, hoặc đóng rồi mở lại ứng dụng, sẽ thấy vùng soạn trống.
-- Người dùng có thể thao tác chính bằng một lần chạm trên vùng điều khiển. Người cần đọc nhìn rõ câu vừa gửi khi màn 7 inch hướng về phía họ.
+- Người dùng có thể thao tác chính bằng một lần chạm trên vùng điều khiển. Người nhận dễ tìm và đọc câu vừa gửi trên màn 7 inch.
 - Tin đầu tiên được gửi thành công thì hội thoại xuất hiện trong **Lịch sử**. Sau khi đóng và mở ứng dụng, màn chính hiện cuộc mới và người dùng có thể mở lại cuộc đã lưu.
 
 Đây là tiêu chí duyệt thiết kế. Lượt thử trên phần cứng sẽ đối chiếu thêm độ phân giải, vị trí chạm, vuốt và bàn phím tiếng Việt theo [hướng dẫn NH2067](HUONG_DAN_NH2067_PI4.md).

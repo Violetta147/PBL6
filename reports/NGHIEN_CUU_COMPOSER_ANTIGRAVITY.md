@@ -21,6 +21,6 @@ Google mô tả Antigravity App là ứng dụng desktop kế thừa cách tổ 
 
 ## Áp dụng vào thiết bị PBL6
 
-**Một màn hình có một hướng đọc.** Hai người có thể cùng xem khi cả hai ở phía nhìn được màn. Khi ngồi đối diện qua bàn, có thể quay thiết bị về người cần đọc hoặc đổi vị trí. Kịch bản duyệt cần xác định ai nhìn màn ở mỗi lượt. Bố cục chat dùng để tham khảo vùng soạn và cách xem lại câu trước. Phương án đang cân nhắc ưu tiên câu đang trao đổi và các nút cần cho lượt nói, đọc hoặc đáp. [Đặc tả UI/UX](../STT_PRODUCT_UI_UX.md)
+**Hai người dùng chung một màn hình.** Cầm hoặc xoay thiết bị để đưa chữ cho người kia xem là một ví dụ về cách sử dụng, tương tự khi đưa màn hình điện thoại cho người khác đọc. Bố cục chat dùng để tham khảo vùng soạn và cách xem lại câu trước. Phương án đang cân nhắc ưu tiên câu đang trao đổi và các nút cần cho lượt nói, đọc hoặc đáp. [Đặc tả UI/UX](../STT_PRODUCT_UI_UX.md)
 
 <strong style="color:#087A47;">Đã chốt chèn kết quả tại con trỏ.</strong> V1 trả chữ cuối sau khi dừng. Đề xuất đang bàn là dùng vị trí con trỏ lúc chạm mic làm mốc cho lượt thu. Ví dụ, người dùng đặt con trỏ giữa “Tôi muốn” và “vào sáng mai”, rồi nói “hẹn gặp”. Vùng soạn hiện câu “Tôi muốn hẹn gặp vào sáng mai.” Việc cho phép sửa chữ trong lúc thu hoặc chờ vẫn cần duyệt cùng kịch bản dùng chung thiết bị.
