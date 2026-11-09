@@ -57,11 +57,13 @@ Khi triển khai bàn phím, cập nhật vùng soạn và trạng thái nút **
 
 **Thứ tự trong Lịch sử.** Dùng quy tắc **Last updated** của DeepSeek Harness theo thời điểm gửi thành công tin nhắn gần nhất. Gửi thêm tin đưa hội thoại lên đầu. Mở để xem, đổi tên hoặc bấm **Đọc to** giữ nguyên vị trí. [Nghiên cứu cách sắp xếp Lịch sử](reports/NGHIEN_CUU_SAP_XEP_LICH_SU.md)
 
+**Tên ban đầu.** Dùng nội dung tin đầu tiên được gửi thành công theo cách của LearnHarness. Gộp khoảng trắng và rút gọn câu dài ở ranh giới từ. ID hội thoại tách với tên hiển thị. Người dùng có thể đổi tên sau. [Nghiên cứu cách đặt và đổi tên](reports/NGHIEN_CUU_DAT_TEN_HOI_THOAI.md)
+
 **Xóa lịch sử trong Settings.** Người dùng chọn hội thoại cần xóa trong danh sách đã lưu. Bấm **Delete** để xóa ngay các hội thoại đã chọn.
 
 ### Phương án đang thảo luận
 
-**Tên hội thoại.** Phương án tham khảo LearnHarness dùng tin đã gửi đầu tiên làm tên ban đầu và rút gọn ở ranh giới từ nếu câu dài. ID hội thoại tách với tên hiển thị. Hai cách mở phần đổi tên đang bàn là chạm tiêu đề trên cùng hoặc dùng menu chuột phải của một mục trong Lịch sử. [Nghiên cứu cách đặt và đổi tên](reports/NGHIEN_CUU_DAT_TEN_HOI_THOAI.md)
+**Thao tác đổi tên.** Hai cách mở phần đổi tên đang bàn là chạm tiêu đề trên cùng hoặc dùng menu chuột phải của một mục trong Lịch sử. [Nghiên cứu cách đặt và đổi tên](reports/NGHIEN_CUU_DAT_TEN_HOI_THOAI.md)
 
 **Các điểm còn mở.** Tìm kiếm hoặc xuất Lịch sử và chính sách giữ nội dung. Nhận dạng một file và batch vẫn thuộc phạm vi V1. Đặt chúng trong một công cụ nhập hoặc kiểm thử riêng là phương án đang bàn.
 

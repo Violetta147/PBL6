@@ -22,7 +22,7 @@
 | **Codex Desktop** · bản cài `26.1103.4239.0` | Mục **Rename** nằm trong menu thao tác của hàng chat. Mã sidebar nối thao tác chuột phải với menu của hàng. | Bấm tiêu đề của chat đang mở để sửa tại chỗ khi thao tác đổi tên khả dụng. Tài liệu OpenAI cũng ghi phím tắt **Ctrl + Alt + R** trên Windows. [OpenAI Docs — Commands](https://learn.chatgpt.com/docs/reference/commands) |
 | **DeepSeek Harness** · `dsh 0.2.1-rc.5` | Bản cài có **… → Rename** và <strong style="color:#087789;">bấm đúp tiêu đề của hàng</strong>. Cả hai mở hộp thoại có sẵn tên cũ. Mã nguồn nhánh `master` còn ghi nhận menu chuột phải của hàng. [Tài liệu UI Workspace](https://github.com/deepseek-ai/deepseek-harness/blob/master/packages/client/ui-workspace/README.md) | Đã xác nhận thao tác từ hàng trong danh sách. Việc bấm trực tiếp tiêu đề ở vùng hội thoại cần kiểm tra riêng. |
 
-## 3. Phương án đề xuất cho PBL6
+## 3. Tên ban đầu đã chọn và phương án đổi tên cho PBL6
 
 1. Khi gửi thành công tin đầu tiên, hội thoại xuất hiện trong **Lịch sử**. <strong style="color:#087789;">Dùng chính tin đã gửi để tạo tên ban đầu</strong> theo cách của LearnHarness. Gộp khoảng trắng, rút gọn câu dài ở ranh giới từ và thêm dấu ba chấm khi cần.
 2. Có thao tác **Đổi tên** cho hội thoại đã lưu. <strong style="color:#087789;">Tên hiển thị và ID được lưu riêng</strong>. Khi người dùng đổi tên, các tin cũ vẫn thuộc cùng hội thoại.
