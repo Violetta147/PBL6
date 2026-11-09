@@ -18,7 +18,7 @@ Read `reports/stt_v1_p1_20261107/BAO_CAO.md` and `stt-app/README.md` for evidenc
 
 The target deployment runs the Next.js/Node.js STT backend and Electron on the Pi. After boot, the backend starts and Electron opens the local STT interface in kiosk mode on the attached touchscreen. The Pi microphone remains the capture source selected by the user. The laptop remains the development and initial V1 test interface.
 
-The device integration gate is a real boot into the STT interface, followed by touch-only microphone start and stop, Settings, final transcript or error display, and text entry on the chosen screen. The user selected NH2067 and verified basic display output and touch on Pi 4. The complete touch-only app and kiosk gate remain pending. Complete the V1/V2/V3 gates in order.
+The device integration gate is a real boot into the STT interface, followed by touch-only microphone start and stop, Settings, final transcript display, recovery to a ready microphone after recognition fails, and text entry on the chosen screen. The user selected NH2067 and verified basic display output and touch on Pi 4. The complete touch-only app and kiosk gate remain pending. Complete the V1/V2/V3 gates in order.
 
 ### HDMI baseline and optional DSI upgrade
 
@@ -40,7 +40,7 @@ DSI is a later hardware-integration option. Keep the web UI, STT session contrac
 | Electron | Load the local application UI in a desktop window; support the final device kiosk experience and desktop lifecycle. |
 | Pi OS and audio/display support | Expose the actual microphone and touchscreen; start the backend and desktop application after boot. |
 
-On the final device, the Next.js/Node.js backend and Electron run on the Pi. The OS starts the backend; Electron loads its local UI when ready. The backend controls the selected Pi microphone through a Pi capture adapter. For V1: Record -> capture -> Stop -> finish the audio file -> backend sends a prerecorded request to Deepgram with `language=vi` -> final transcript or explicit error. A file or batch uses the same provider interface, with independent status/results per file. Electron does not add streaming to V1.
+On the final device, the Next.js/Node.js backend and Electron run on the Pi. The OS starts the backend, and Electron loads its local UI when ready. The backend controls the selected Pi microphone through a Pi capture adapter. In V1, Stop ends the recording and the backend sends the audio to Deepgram with `language=vi`. A successful result goes into the composer. If recognition fails, the interface keeps the draft and returns the control to the ready microphone icon. A file or batch uses the same provider interface, with independent status and results per file. Electron does not add streaming to V1.
 
 During development, run the application on the laptop. For device tests, the laptop browser may open the shared UI served by the Pi backend; the selected capture source remains on the Pi. A laptop desktop build must identify which backend it controls and must not silently switch to its own microphone. This is one application with a shared UI and contracts, not separate desktop and web implementations.
 
@@ -89,7 +89,7 @@ The main extra difficulty in live text is maintaining a correct session across a
 | Path | Purpose | Initial data/behavior |
 |---|---|---|
 | Pi -> speech cloud | Speech recognition | Audio through the provider's supported HTTP/streaming transport; no separate MQTT step required |
-| Pi -> web application | User interaction | Subtitles, capture state, Settings and explicit errors |
+| Pi -> web application | User interaction | Subtitles, capture state, Settings and recognition results |
 | Pi -> MQTT -> cloud dashboard | Manage the STT application | Device/application identity, session state, selected engine, completed/failed requests, processed audio seconds, software version and update status |
 | Cloud package service -> Pi | Application OTA | Announce a version; retrieve its package; authenticate the publisher, verify integrity, install into a versioned directory, run a health check, switch or roll back, report result |
 

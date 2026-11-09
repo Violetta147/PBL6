@@ -22,3 +22,13 @@ Nếu vùng soạn đã có chữ, PBL6 chèn kết quả nhận dạng tại **
 Tin vừa gửi dùng cùng kiểu và cỡ chữ với các tin khác trong hội thoại. <strong style="color:#087A47;">Sau khi gửi thành công, vùng hội thoại tự cuộn đến tin vừa gửi.</strong> Hành vi này tham khảo cách DSH đưa người dùng về cuối danh sách khi gửi. [Tài liệu cuộn hội thoại DSH](https://github.com/deepseek-ai/deepseek-harness/blob/master/packages/client/ui-chat/README.md#scroll-ownership)
 
 <strong style="color:#946200;">Chưa đo độ trễ trên Pi 4.</strong> Bảng dựa trên ảnh, tài liệu và mã kiểm thử của các ứng dụng tham chiếu. Khi có bản chạy trên Pi 4, kiểm tra thời gian từ lúc chạm tới lúc bàn phím hiện và độ trễ khi gõ tiếng Việt trong một hội thoại dài. [Hướng dẫn thử trên NH2067](../HUONG_DAN_NH2067_PI4.md#23-thử-hình-ảnh-chạm-và-bàn-phím)
+
+## Khi nhận dạng giọng nói thất bại
+
+Đối chiếu mã các bản Windows đã cài ngày 10/11/2026.
+
+- **DSH `0.2.1-rc.5`** hiện lý do ngay trong thanh thu. Nút mic ở trạng thái này bắt đầu thu một đoạn mới. Mã nằm trong `dsh/node_modules/@deepseek-ai/dsh-experimental-client-ui-voice-input/lib/client.js` bên trong `app.asar`. [Tài liệu nhập bằng giọng nói của DSH](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/subsystems/voice-input.md)
+- **Codex Desktop `26.1103.4239.0`** có thông báo nổi khi nhận dạng lỗi, trong đó có thông báo kiểm tra kết nối. Mã xử lý nằm trong `webview/assets/async/476181.b9a1c6297e.js` và `webview/assets/async/314290.21d21cdcbd.js` bên trong `app.asar`.
+- **LearnHarness `0.5.0`** có trường hợp hiện lỗi mất kết nối ngay trên nút **Dictate**. Lần chạm tiếp theo xóa nhãn lỗi và bắt đầu lượt thu mới. [Mã kết nối](https://github.com/amosblomqvist/learnharness/blob/v0.5.0/components/dictation.tsx#L420) · [Mã nút Dictate](https://github.com/amosblomqvist/learnharness/blob/v0.5.0/components/dictation.tsx#L694)
+
+<strong style="color:#087A47;">PBL6 V1 quay lại biểu tượng mic khi nhận dạng đoạn vừa thu thất bại.</strong> Giao diện giữ chữ đang soạn và chỉ hiện lại mic. Người dùng chạm mic để bắt đầu một lượt thu mới. [Đặc tả UI/UX](../STT_PRODUCT_UI_UX.md)
