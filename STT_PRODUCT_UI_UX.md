@@ -108,13 +108,13 @@ Các ảnh dùng để đối chiếu bố cục và cách tổ chức hội tho
 
 Ảnh Hand Morse được giữ làm tham chiếu bố cục từ phạm vi thảo luận ban đầu. Camera và mô hình nhận dạng ký hiệu thuộc phần tích hợp riêng. Lượt duyệt STT dùng mic và vùng soạn chung.
 
-## 5. Kịch bản duyệt trong phiên tiếp theo
+## 5. Kịch bản V1 trên bản phác
 
-Mở bản phác Pencil và xem các khung **Trao đổi**, **Bàn phím mở** và **Mở lịch sử**. Duyệt một người chạm mic, dừng thu và đợi câu xuất hiện trong vùng soạn. Người đó đọc lại, chạm vào vùng soạn để sửa nếu cần, rồi bấm **Gửi**. Sau đó đối chiếu cách tin hiển thị và hội thoại xuất hiện trong Lịch sử. [Bản phác Pencil 1024 × 600](reports/ui_ux_20261107/assets/wireframe-hoi-thoai-1024x600.pen)
+Các khung **Trao đổi**, **Mở lịch sử** và **Bàn phím mở** dùng nút biểu tượng mic ở vị trí trước đây của nút **Chọn file**. Các khung **Đang thu**, **Chờ nhận dạng** và **Lỗi nhận dạng** minh họa cùng vị trí đó với hình vuông dừng, vòng xoay hoặc biểu tượng mic đã trở lại kèm thông báo lỗi bên cạnh. [Bản phác Pencil 1024 × 600](reports/ui_ux_20261107/assets/wireframe-hoi-thoai-1024x600.pen)
 
-Duyệt một lượt nói, đọc và đáp trên cùng màn hình. Sau khi một người gửi, đối chiếu vị trí của tin vừa gửi trong vùng hội thoại và xem người kia có đọc được câu ở cỡ chữ chung trên màn 7 inch trước khi đáp hay không.
+Dùng bản phác làm tham chiếu khi triển khai một lượt nói, đọc và đáp trên cùng màn hình. Người nói chạm mic, dừng thu và đợi chữ vào vùng soạn, rồi đọc lại, sửa nếu cần và bấm **Gửi**. Khi kiểm tra trên thiết bị, đối chiếu vị trí của tin vừa gửi, cỡ chữ chung và cách mở lại hội thoại từ **Lịch sử**.
 
-Nếu có điểm chưa rõ, bàn từng điểm trực tiếp trên kịch bản này. Nút **Chọn file** trong bản phác ghi lại một bố trí cũ để tham khảo. Kịch bản hội thoại dùng mic và vùng soạn. Khi quay lại TTS, xem các phương án vị trí, phần chữ cần đọc và cách tạo giọng cho nút **Đọc**. [Khảo sát nút Đọc to](reports/NGHIEN_CUU_DOC_TO_CAC_HARNESS.md)
+Khi quay lại TTS, xem các phương án vị trí, phần chữ cần đọc và cách tạo giọng cho nút **Đọc**. [Khảo sát nút Đọc to](reports/NGHIEN_CUU_DOC_TO_CAC_HARNESS.md)
 
 ## 6. Tiêu chí duyệt bản phác
 

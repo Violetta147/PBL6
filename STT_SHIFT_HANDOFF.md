@@ -2,9 +2,9 @@
 
 Updated 2026-11-10. The original target was Thursday, 2026-11-05. A replacement deadline is still open. Keep this Git repository and active STT data in the current C-drive workspace. Read `AGENTS.md` and check Git status, then follow [the current session handoff](START_NEXT_CHAT_STT.md). Use `STT_PLAN_1_WEEK.md` and `STT_SYSTEM_SPEC.md` when returning to implementation.
 
-## Next session — review the shared STT composer
+## Next session — use the updated V1 wireframe
 
-Review one STT interaction on the existing 1024 × 600 Pencil wireframe. Two people share the same composer. The microphone starts and stops recording, recognition fills the composer, and the user reviews or edits the text before pressing **Gửi**. The first successful send adds the conversation to History. Read sections 1–3 and 5–6 of [the product UI/UX specification](STT_PRODUCT_UI_UX.md) for the confirmed rules and review criteria.
+The 1024 × 600 Pencil wireframe now replaces the old file button with the microphone control and shows recording, recognition and error states. Use sections 1–3 and 5–6 of [the product UI/UX specification](STT_PRODUCT_UI_UX.md) as the reference for the confirmed flow and checks.
 
 PBL6 handles speech recognition, reading text aloud, and Settings. Another project can supply recognized-sign text. Sign recognition and its camera path are separate integration work. **Gửi** and **Đọc to** are separate actions, and the user has deferred the details of TTS. The next chat reviews the design. Software implementation, device tests, benchmarks, and purchases follow a separate user request.
 
@@ -32,7 +32,7 @@ Validate **HDMI and USB touch first**. Keep the tested NH2067 setup for the firs
 
 **V1-P1 code is in `stt-app`: local Settings, one-file Deepgram adapter, shared UI and Electron window.** Production build and TypeScript checks passed; 20 backend tests and 8 Chrome/HTTP/Electron tests passed on Windows with offline provider fixtures. The user supplied two completed real single-file browser trials (studio_M1.wav and phone_F1.wav, nova-3/vi, exported .txt; a word error is suspected in phone_F1); evidence is recorded in reports/stt_v1_p1_20261107/user_trial_studio_M1.json and user_trial_phone_F1.json. This is user-provided evidence, not an agent API rerun. Pi capture, LAN control and Linux ARM64/touch/kiosk acceptance remain incomplete. Full V1 remains unfinished.
 
-Read `reports/stt_v1_p1_20261107/BAO_CAO.md` and `stt-app/README.md` for evidence and startup commands. The user approved V1 acceptance through the Pi microphone, draft, send, History and error-recovery flow. Use the existing one-file path for integration checks and the experiment runners for batches. The next step is design review on the wireframe. The N02 timing protocol is documented, and comparable Pi results remain pending. [V1 acceptance](STT_PLAN_1_WEEK.md#approved-version-order) · [Historical timing scope](experiments/inventory_20261102/README.md)
+Read `reports/stt_v1_p1_20261107/BAO_CAO.md` and `stt-app/README.md` for evidence and startup commands. The user approved V1 acceptance through the Pi microphone, draft, send, History and error-recovery flow. Use the existing one-file path for integration checks and the experiment runners for batches. When implementation resumes, complete Pi capture and connect it to the agreed composer states. The N02 timing protocol is documented, and comparable Pi results remain pending. [V1 acceptance](STT_PLAN_1_WEEK.md#approved-version-order) · [Historical timing scope](experiments/inventory_20261102/README.md)
 
 The P1 checkpoint is complete on `master`. Find the latest implementation commit with `git log -1 -- stt-app`. Preserve pre-existing edits and experiment results. From `stt-app`, the prepared Windows command is `npm run desktop`. See `reports/stt_v1_p1_20261107/validation.json` for recorded checks and the NH2067 guide for device observations.
 

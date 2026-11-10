@@ -4,7 +4,7 @@ Updated 2026-11-08. The original target was Thursday, 2026-11-05. A replacement 
 
 ## Next session — review one STT interaction
 
-Start with [the current session handoff](START_NEXT_CHAT_STT.md). **Review one interaction on the existing 1024 × 600 wireframe.** Use the microphone to record and stop, review the recognized text in the shared composer, and send it to the conversation. The first successful send adds the conversation to History. Implementation, device tests, benchmarks, and purchases follow separate user requests.
+Start with [the current session handoff](START_NEXT_CHAT_STT.md). The 1024 × 600 wireframe shows the confirmed microphone states. Use it as the reference for recording, stopping, reviewing the recognized text in the shared composer, and sending it to the conversation. The first successful send adds the conversation to History. Implementation, device tests, benchmarks, and purchases follow separate user requests.
 
 Use [the BOM](STT_BOM.md) for the confirmed purchase and pending hardware checks. The 7-inch NH2067 and its HDMI cable have been purchased and initially tested on Pi 4. The total project spending ceiling, test distance, exact board revision, and stand remain open. DSI is an optional later upgrade after HDMI and USB touch are stable.
 
@@ -46,7 +46,7 @@ The user confirmed on 2026-11-10 that batch processing is outside V1 acceptance.
 
 **V1-P1 code is in `stt-app`: local Settings, one-file Deepgram adapter, shared UI and Electron window.** Production build and TypeScript checks passed; 20 backend tests and 8 Chrome/HTTP/Electron tests passed on Windows with offline provider fixtures. The user supplied two completed real single-file browser trials (studio_M1.wav and phone_F1.wav, nova-3/vi, exported .txt; a word error is suspected in phone_F1); evidence is recorded in reports/stt_v1_p1_20261107/user_trial_studio_M1.json and user_trial_phone_F1.json. This is user-provided evidence, not an agent API rerun. Pi capture, LAN control and Linux ARM64/touch/kiosk acceptance remain incomplete. Full V1 remains unfinished.
 
-Read `reports/stt_v1_p1_20261107/BAO_CAO.md` and `stt-app/README.md` for evidence and startup commands. Review the STT interaction on the wireframe before implementing Pi capture. N02 remains unfinished. Preserve B01–B04 and the timing-scope caveat.
+Read `reports/stt_v1_p1_20261107/BAO_CAO.md` and `stt-app/README.md` for evidence and startup commands. Use the updated wireframe as the reference when implementing Pi capture. N02 remains unfinished. Preserve B01–B04 and the timing-scope caveat.
 
 ## 2. Fixed experiment rules
 
