@@ -86,11 +86,11 @@ Nếu mic đang được dùng đã bị rút, lần chạm nút mic tiếp theo
 
 **Đổi tên hội thoại đã lưu.** Trên màn cảm ứng, chạm tiêu đề của hội thoại đang mở để sửa tại chỗ. Khi dùng chuột, nhấn chuột phải vào mục trong **Lịch sử** rồi chọn **Đổi tên**. Chạm một lần vào mục trong **Lịch sử** để mở hội thoại.
 
-**Xóa lịch sử trong Settings.** Người dùng chọn hội thoại cần xóa trong danh sách đã lưu. Bấm **Delete** để xóa ngay các hội thoại đã chọn.
+**Xóa lịch sử trong Settings.** Đặt ô **Tìm theo tên** và bộ lọc **Thời gian** trên danh sách hội thoại đã lưu. Bộ lọc dùng thời điểm gửi tin thành công gần nhất. Khi đang tìm hoặc lọc, **Chọn N kết quả** chọn tất cả hội thoại khớp điều kiện, kể cả dòng nằm ngoài vùng nhìn thấy. Người dùng có thể bỏ chọn từng dòng. Đổi điều kiện tìm hoặc lọc sẽ bỏ toàn bộ lựa chọn trước đó. Chỉ danh sách cuộn. Ô tìm, bộ lọc và nút **Xóa N hội thoại** luôn trong tầm nhìn khi cuộn danh sách. Bấm **Xóa N hội thoại** để xóa ngay các hội thoại đang được chọn. [Nghiên cứu tìm, lọc và xóa hội thoại](reports/NGHIEN_CUU_TIM_LOC_VA_XOA_LICH_SU.md)
 
 ### Phương án đang thảo luận
 
-**Các điểm còn mở.** Tìm kiếm hoặc xuất Lịch sử và chính sách giữ nội dung.
+**Các điểm còn mở.** Tìm kiếm trong bảng Lịch sử để mở lại hội thoại, xuất Lịch sử và chính sách giữ nội dung. Tìm kiếm trong **Cài đặt → Lịch sử** để chọn hội thoại cần xóa đã được duyệt.
 
 **Nhận dạng file.** Nhóm chạy batch trong bộ thí nghiệm `experiments/` và dùng đường một file của P1 để kiểm tra tích hợp khi cần. Tiêu chí hoàn thành V1 tập trung vào lượt giao tiếp dùng mic trên Pi. Việc đưa công cụ nhận dạng file vào Settings có thể xem lại khi có nhu cầu sử dụng riêng. [Bằng chứng thí nghiệm](experiments/inventory_20261102/README.md) · [Phạm vi P1](stt-app/README.md)
 
@@ -126,7 +126,7 @@ Khung **08 · Cài đặt giọng nói** minh họa một panel **Giọng nói t
 
 Khung **09 · Cài đặt theo nhóm** phác cách mở rộng menu. Thanh bên liệt kê **Giọng nói thành chữ** và **Lịch sử**. Chọn một nhóm sẽ đổi nội dung bên phải. Hai nhãn **Thu âm** và **Nhận dạng** vẫn nằm trong một panel và luôn hiện. Khung 09 minh họa trạng thái đang chọn **Giọng nói thành chữ**. Ảnh dựng đã được kiểm tra ở 1024 × 600. Đây là phương án điều hướng đang xem xét.
 
-Khung **10 · Cài đặt Lịch sử** minh họa trạng thái đang chọn **Lịch sử** trong cùng menu. Mỗi hội thoại mẫu có ô chọn, tên và thời điểm gửi tin gần nhất. Hai dòng đã chọn có dấu tích và nền riêng. Nút **Xóa 2 hội thoại** thể hiện số mục sẽ bị xóa khi bấm. Đã xem ảnh dựng trong Pencil ở 1024 × 600 và đối chiếu số trên nút với hai dòng được chọn. Đây là bản phác bố cục cho luồng xóa đã chốt ở mục 3.
+Khung **10 · Cài đặt Lịch sử** minh họa trạng thái đang chọn **Lịch sử** trong cùng menu. Mỗi hội thoại mẫu có ô chọn, tên và thời điểm gửi tin gần nhất. Hai dòng đã chọn có dấu tích và nền riêng. Nút **Xóa 2 hội thoại** thể hiện số mục sẽ bị xóa khi bấm. Đã xem ảnh dựng trong Pencil ở 1024 × 600 và đối chiếu số trên nút với hai dòng được chọn. Bản phác này có trước quyết định bổ sung ô tìm, bộ lọc thời gian và thao tác **Chọn N kết quả** ở mục 3.
 
 Dùng bản phác làm tham chiếu khi triển khai một lượt nói, đọc và đáp trên cùng màn hình. Thử cả cách bấm hình vuông để dừng và xem lại chữ trước khi gửi, và cách bấm **Gửi** khi đang thu để app đợi chữ rồi gửi câu đã ghép. Khi kiểm tra trên thiết bị, đối chiếu vị trí của tin vừa gửi, cỡ chữ chung và cách mở lại hội thoại từ **Lịch sử**.
 
@@ -141,6 +141,7 @@ Khi quay lại TTS, xem các phương án vị trí, phần chữ cần đọc v
 - Khi vòng xoay xuất hiện sau khi bấm hình vuông, **Gửi** vẫn bấm được. Sau lần bấm **Gửi** đầu tiên, nhãn nút vẫn là **Gửi**, nút mờ và lần bấm tiếp theo không tạo yêu cầu mới. Ô soạn vẫn sửa được trong lúc chờ chữ.
 - Trong hội thoại A, mở bảng **Lịch sử** khi đang thu và kiểm tra lượt thu vẫn tiếp tục. Chọn hội thoại B để hủy lượt thu. Lặp lại bằng cách bấm **Gửi** ở A rồi chuyển sang B khi còn chờ chữ. Kết quả về muộn không chèn chữ vào vùng soạn và không tạo tin ở A hay B.
 - Khi chưa có lựa chọn đã lưu, Pi có một mic thì thu ngay bằng mic đó và **Settings** hiện tên mic. Pi có nhiều mic thì chọn nguồn trong **Settings** trước khi thu. Nếu rút mic đang dùng rồi chạm nút mic, thông báo mất kết nối xuất hiện cạnh nút.
+- Trong **Cài đặt → Lịch sử**, dùng bộ lọc có 12 kết quả, gồm cả dòng nằm ngoài vùng nhìn thấy. Bấm **Chọn 12 kết quả**, bỏ chọn hai dòng và cuộn danh sách. Ô tìm, bộ lọc và nút **Xóa 10 hội thoại** vẫn trong tầm nhìn. Bấm xóa và kiểm tra chỉ mười hội thoại đã chọn biến mất. Đổi điều kiện tìm hoặc lọc sau khi chọn ở một lượt kiểm tra khác và kiểm tra lựa chọn cũ đã được bỏ.
 - Khi nhận dạng đoạn vừa thu thất bại, vòng xoay kết thúc, biểu tượng mic trở lại và thông báo xuất hiện ở vị trí chung cạnh mic. Chữ đang soạn vẫn còn. Lần chạm mic kế tiếp bắt đầu một lượt thu mới.
 - Phân biệt được chữ đang soạn và tin đã gửi. Chạm vùng soạn mở bàn phím và vẫn nhìn thấy câu đang sửa cùng nút **Gửi**.
 - Sửa chữ và di chuyển con trỏ trong lúc đang thu, rồi lặp lại khi vòng xoay đang hiện. Vùng soạn nhận thao tác ở cả hai giai đoạn và giữ các chỉnh sửa khi kết quả về.
