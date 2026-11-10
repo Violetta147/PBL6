@@ -1,12 +1,14 @@
 # STT implementation and shift handoff
 
-Updated 2026-11-08. The original target was Thursday, 2026-11-05. A replacement deadline is still open. Keep this Git repository and active STT data in the current C-drive workspace. Read `AGENTS.md` and check Git status, then follow [the current session handoff](START_NEXT_CHAT_STT.md). Use `STT_PLAN_1_WEEK.md` and `STT_SYSTEM_SPEC.md` when returning to implementation.
+Updated 2026-11-10. The original target was Thursday, 2026-11-05. A replacement deadline is still open. Keep this Git repository and active STT data in the current C-drive workspace. Read `AGENTS.md` and check Git status, then follow [the current session handoff](START_NEXT_CHAT_STT.md). Use `STT_PLAN_1_WEEK.md` and `STT_SYSTEM_SPEC.md` when returning to implementation.
 
 ## Next session — review the shared STT composer
 
 Review one STT interaction on the existing 1024 × 600 Pencil wireframe. Two people share the same composer. The microphone starts and stops recording, recognition fills the composer, and the user reviews or edits the text before pressing **Gửi**. The first successful send adds the conversation to History. Read sections 1–3 and 5–6 of [the product UI/UX specification](STT_PRODUCT_UI_UX.md) for the confirmed rules and review criteria.
 
 PBL6 handles speech recognition, reading text aloud, and Settings. Another project can supply recognized-sign text. Sign recognition and its camera path are separate integration work. **Gửi** and **Đọc to** are separate actions, and the user has deferred the details of TTS. The next chat reviews the design. Software implementation, device tests, benchmarks, and purchases follow a separate user request.
+
+The [audio design notes](reports/NGHIEN_CUU_AM_THANH_TAM_STT.md#thiết-kế-tăng-dần-từ-v1-đến-v3) describe a shared microphone path across three versions. V1 proposes a temporary WAV for recognition after Stop. V2 reuses capture and sends audio during recording. V3 reuses that transport and adds interim text. For Pi verification, carry forward the [RAM and Stop-to-text measurements](STT_PLAN_1_WEEK.md#approved-version-order). The next open design point is how the V1 Settings UI chooses a Pi microphone, including the first run and what happens when a selected microphone is disconnected.
 
 ## Hardware evidence to carry forward
 

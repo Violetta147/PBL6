@@ -30,6 +30,8 @@
 
 **Tốc độ nói giúp chọn kịch bản thử.** Ruan và cộng sự đo khoảng **153 từ/phút** khi nhập tin nhắn ngắn bằng giọng nói tiếng Anh trong phòng thí nghiệm. Pellegrino và cộng sự báo cáo khoảng **5,22 âm tiết/giây** cho tiếng Việt trong khảo sát đọc thành tiếng. Một từ tiếng Việt có thể gồm nhiều âm tiết. Các số này là mốc tham khảo cho từng bài nghiên cứu. Độ dài lượt thu PBL6 nên được tính từ lúc bắt đầu đến khi dừng, gồm cả khoảng ngập ngừng. Các mốc **10, 30 và 60 giây** là ví dụ để kiểm tra, chưa phải phân bố thời lượng sử dụng thực tế hay giới hạn thu. [Nghiên cứu nhập tin nhắn của Ruan và cộng sự](https://arxiv.org/abs/1608.07323) · [Nghiên cứu tốc độ nói của Pellegrino và cộng sự](https://www.ddl.cnrs.fr/fulltext/pellegrino/Pellegrino_2011_Language.pdf)
 
+**Ví dụ tính theo số âm tiết.** Nếu nói 30 âm tiết với tốc độ tham khảo trên, phần nói kéo dài `30 / 5,22 ≈ 5,75 giây` và tạo khoảng `5,75 × 32 ≈ 184 kB` dữ liệu. Nếu lượt thu kéo dài 10 giây khi tính cả khoảng ngập ngừng, dung lượng là **320 kB**.
+
 **Khi kiểm tra Pi**, lấy mốc RAM của phần xử lý khi chưa thu và theo dõi đỉnh RAM suốt lượt. Ghi riêng đoạn từ khi phần xử lý bắt đầu đọc hoặc chuẩn bị âm thanh đến khi nhận phản hồi Deepgram. Khâu này có thể giữ cả tệp và các bản sao phục vụ yêu cầu mạng cùng lúc, trong khi khâu thu chỉ cần giữ các khối đang xử lý. Đo riêng độ trễ từ chạm nút dừng đến khi thấy chữ trong ô soạn. Nếu cần so RAM với tệp tạm, dùng cùng âm thanh, thiết bị và đường nhận dạng. [Hạng mục kiểm tra V1](../STT_PLAN_1_WEEK.md#approved-version-order)
 
 ## Thiết kế tăng dần từ V1 đến V3
