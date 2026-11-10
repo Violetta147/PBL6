@@ -124,6 +124,8 @@ Các khung **Trao đổi**, **Mở lịch sử** và **Bàn phím mở** đặt 
 
 Khung **08 · Cài đặt giọng nói** minh họa một panel **Giọng nói thành chữ**. Nhãn ở bên trái, giá trị ở bên phải. Hai phần **Thu âm** và **Nhận dạng** luôn hiện trong cùng panel. Bản phác đặt mic và giới hạn thu mặc định **120 giây** cạnh cấu hình Deepgram, gồm khóa API, mô hình và giới hạn chờ nhận dạng hiện mặc định **60 giây** ở P1. Đã xem ảnh dựng trong Pencil để kiểm tra cả năm dòng và nút **Lưu cài đặt** đều vừa khung 1024 × 600. Tên mic và các điều khiển trong khung dùng để minh họa bố cục.
 
+Khung **09 · Cài đặt theo nhóm** phác cách mở rộng menu. Thanh bên liệt kê **Giọng nói thành chữ** và **Lịch sử**. Chọn một nhóm sẽ đổi nội dung bên phải. Hai nhãn **Thu âm** và **Nhận dạng** vẫn nằm trong một panel và luôn hiện. Khung 09 minh họa trạng thái đang chọn **Giọng nói thành chữ**. Ảnh dựng đã được kiểm tra ở 1024 × 600. Đây là phương án điều hướng đang xem xét.
+
 Dùng bản phác làm tham chiếu khi triển khai một lượt nói, đọc và đáp trên cùng màn hình. Thử cả cách bấm hình vuông để dừng và xem lại chữ trước khi gửi, và cách bấm **Gửi** khi đang thu để app đợi chữ rồi gửi câu đã ghép. Khi kiểm tra trên thiết bị, đối chiếu vị trí của tin vừa gửi, cỡ chữ chung và cách mở lại hội thoại từ **Lịch sử**.
 
 Khi quay lại TTS, xem các phương án vị trí, phần chữ cần đọc và cách tạo giọng cho nút **Đọc**. [Khảo sát nút Đọc to](reports/NGHIEN_CUU_DOC_TO_CAC_HARNESS.md)
