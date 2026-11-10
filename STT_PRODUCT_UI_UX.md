@@ -72,11 +72,11 @@ Khi triển khai bàn phím, cập nhật vùng soạn và trạng thái nút **
 
 ### Chọn nguồn mic trên Pi
 
-Khi chưa có lựa chọn đã lưu và Pi phát hiện ít nhất một mic, V1 tự chọn một mic khả dụng để thu và hiện tên trong **Settings**. Nếu có nhiều mic, người dùng có thể đổi nguồn trong **Settings**. Nguồn thu thuộc Pi cả khi người dùng mở giao diện từ laptop. Quy tắc xác định mic được tự chọn khi có nhiều nguồn còn cần làm rõ.
+Khi khởi động, nếu chưa có lựa chọn đã lưu, V1 dùng mic mặc định của hệ điều hành Pi (**PipeWire default source**) và hiện tên mic đang dùng trong **Settings**. Người dùng có thể đổi mic trong **Settings**; lựa chọn đó được lưu qua các lần mở ứng dụng và được ưu tiên khi còn khả dụng. Mỗi lần chạm nút mic, ứng dụng bắt đầu thu bằng nguồn đang dùng mà không yêu cầu chọn lại. Nguồn thu thuộc Pi cả khi người dùng mở giao diện từ laptop.
 
 Nếu Pi chưa phát hiện mic nào khi người dùng chạm nút mic, ứng dụng hiện cạnh nút: **“Không tìm thấy mic. Hãy kết nối mic rồi thử lại.”** Sau khi kết nối, người dùng chạm mic lần nữa để bắt đầu thu theo quy tắc chọn nguồn.
 
-Nếu mic đang được dùng đã bị rút, lần chạm nút mic tiếp theo báo nguồn thu mất kết nối ở vị trí báo lỗi chung cạnh mic. Người dùng có thể kết nối lại nguồn thu hoặc chọn mic khác trong **Settings**.
+Nếu mic đã lưu không còn khả dụng, ứng dụng chuyển sang mic mặc định khả dụng của hệ điều hành. Nếu không có mic khả dụng, ứng dụng hiện thông báo không tìm thấy mic cạnh nút khi người dùng chạm mic.
 
 ### Quy tắc Lịch sử đã chốt
 
@@ -150,7 +150,8 @@ Khi duyệt nút **Đọc**, dùng ba trạng thái loa, vòng xoay và nút d�
 - Kiểm tra **Thời lượng thu tối đa** mặc định là 120 giây. Đổi sang 10 giây rồi thu một lượt. Mic tự dừng ở mốc đã đặt, chữ nhận được vào vùng soạn và hội thoại không có tin mới cho đến khi người dùng bấm **Gửi**.
 - Khi vòng xoay xuất hiện sau khi bấm hình vuông, **Gửi** vẫn bấm được. Sau lần bấm **Gửi** đầu tiên, nhãn nút vẫn là **Gửi**, nút mờ và lần bấm tiếp theo không tạo yêu cầu mới. Ô soạn vẫn sửa được trong lúc chờ chữ.
 - Trong hội thoại A, mở bảng **Lịch sử** khi đang thu và kiểm tra lượt thu vẫn tiếp tục. Chọn hội thoại B để hủy lượt thu. Lặp lại bằng cách bấm **Gửi** ở A rồi chuyển sang B khi còn chờ chữ. Kết quả về muộn không chèn chữ vào vùng soạn và không tạo tin ở A hay B.
-- Khi chưa có lựa chọn đã lưu, Pi có một hoặc nhiều mic thì tự chọn một mic khả dụng để thu và **Settings** hiện tên mic. Với nhiều mic, đổi nguồn trong **Settings** rồi kiểm tra lượt thu dùng nguồn vừa chọn. Nếu rút mic đang dùng rồi chạm nút mic, thông báo mất kết nối xuất hiện cạnh nút.
+- Khi chưa có lựa chọn đã lưu, khởi động ứng dụng với nhiều mic và kiểm tra nguồn đang dùng là mic mặc định của PipeWire. Chạm mic nhiều lần qua các lượt thu và kiểm tra ứng dụng dùng nguồn đó mà không yêu cầu chọn lại.
+- Đổi mic trong **Settings**, khởi động lại ứng dụng và kiểm tra các lượt thu dùng mic đã lưu. Khi mic đã lưu không còn khả dụng, kiểm tra lượt thu dùng mic mặc định khả dụng của hệ điều hành và tên nguồn đang dùng hiện trong **Settings**.
 - Khi Pi chưa phát hiện mic, chạm nút mic và kiểm tra thông báo **“Không tìm thấy mic. Hãy kết nối mic rồi thử lại.”** xuất hiện cạnh nút. Kết nối một mic rồi chạm lại và kiểm tra lượt thu bắt đầu theo quy tắc chọn nguồn.
 - Trong **Cài đặt → Lịch sử**, dùng bộ lọc có 12 kết quả, gồm cả dòng nằm ngoài vùng nhìn thấy. Bấm **Chọn 12 kết quả**, bỏ chọn hai dòng và cuộn danh sách. Ô tìm, bộ lọc và nút **Xóa 10 hội thoại** vẫn trong tầm nhìn. Bấm xóa và kiểm tra chỉ mười hội thoại đã chọn biến mất. Đổi điều kiện tìm hoặc lọc sau khi chọn ở một lượt kiểm tra khác và kiểm tra lựa chọn cũ đã được bỏ.
 - Mở một hội thoại đã lưu, nhập bản nháp rồi vào **Cài đặt → Lịch sử** và xóa hội thoại đó. Khi quay lại **Hội thoại**, kiểm tra màn chính hiện cuộc mới, vùng soạn trống và hội thoại đã xóa không còn trong danh sách.
