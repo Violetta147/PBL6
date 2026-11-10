@@ -6,6 +6,8 @@ Cập nhật 07/11/2026. Dự án giữ tại `C:\Users\LAPTOP T&T\VIOLETTA\Docu
 
 **Bản phác V1 đặt nút mic ngay bên trái Gửi.** Các khung dừng thu, chờ nhận dạng và báo lỗi dùng chung vị trí nút. Dùng bản phác làm tham chiếu khi triển khai.
 
+**Bấm Gửi khi đang thu** sẽ dừng mic, đợi chữ rồi gửi toàn bộ bản nháp đã ghép. Bấm **Gửi** khi đang chờ thì đợi cùng lượt nhận dạng. Nếu nhận dạng lỗi, bỏ yêu cầu gửi và giữ bản nháp. [Khảo sát và quyết định V1](reports/NGHIEN_CUU_GUI_KHI_DANG_THU.md)
+
 1. `AGENTS.md`: quy tắc kiểm thử, tài liệu và commit.
 2. `STT_BOM.md`: BOM chính, đã thay bằng bố cục highlight người dùng đưa và hiệu chỉnh các nội dung chưa có căn cứ. Không dùng một bản `_HIGHLIGHTED` khác làm nguồn quyết định song song.
 3. [STT_PRODUCT_UI_UX.md](STT_PRODUCT_UI_UX.md): yêu cầu giao tiếp đa phương thức giữa hai người; ba tham chiếu Codex/LearnHarness/Deepseek Harness, cơ chế conversation/session và nhận định sơ bộ “harness bao quanh model”; ảnh tham khảo và các quyết định UI/UX chưa chốt.

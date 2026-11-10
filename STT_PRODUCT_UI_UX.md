@@ -28,6 +28,8 @@ Cập nhật 10/11/2026. Tài liệu ghi các quyết định thiết kế, nh�
 
 Chạm biểu tượng **mic** để bắt đầu thu. Vùng soạn vẫn hiện phía trên thanh báo thu và nút mic đổi thành **hình vuông** ngay tại chỗ. Chạm hình vuông để dừng. Trong lúc nhận dạng, nút hiện **vòng xoay**. Khi có chữ cuối, biểu tượng mic trở lại và ứng dụng đưa chữ vào vùng soạn để người dùng đọc lại. Nếu câu đã đúng, có thể bấm **Gửi** ngay.
 
+**Bấm Gửi khi đang thu hoặc chờ nhận dạng.** Nếu đang thu, ứng dụng dừng mic và đợi chữ cuối. Nếu đã dừng, ứng dụng đợi kết quả của cùng lượt thu. Khi nhận dạng thành công, ứng dụng chèn chữ vào bản nháp theo vị trí con trỏ đã chốt rồi gửi toàn bộ câu đã ghép đúng một lần. Trong lúc chờ, người dùng vẫn sửa được bản nháp và di chuyển con trỏ. Nếu nhận dạng lỗi, ứng dụng bỏ yêu cầu gửi đang chờ và giữ bản nháp. [Khảo sát nút Gửi khi đang thu](reports/NGHIEN_CUU_GUI_KHI_DANG_THU.md)
+
 Chạm vùng soạn để mở **bàn phím ảo** khi cần nhập hoặc sửa. Dùng **Backspace** trên bàn phím để xóa chữ. Việc nhận dạng xong giữ bàn phím ở trạng thái đóng nếu người dùng chưa chạm vào vùng soạn. Người dùng cũng có thể gõ trực tiếp. Chỉ thao tác **Gửi** mới đưa chữ vào hội thoại. Nếu bàn phím đang mở, ứng dụng tự đóng bàn phím sau khi gửi thành công.
 
 Trong V1, ứng dụng nhận dạng sau khi dừng thu và đưa chữ cuối vào vùng soạn. Nếu nhận dạng thất bại, vòng xoay kết thúc, biểu tượng **mic** trở lại và chữ đang soạn được giữ. Giao diện dùng **một vị trí cạnh mic** để hiện thông báo lỗi dành cho người dùng do API PBL6 trả về. Người dùng chạm mic để thu một lượt mới. V2 gửi âm thanh trong lúc thu và vẫn hiển thị chữ cuối. V3 bổ sung chữ tạm cập nhật trong lúc nói. Khi laptop điều khiển Pi, nguồn thu là thiết bị đã chọn trên Pi. [Đối chiếu cách xử lý khi nhận dạng thất bại](reports/NGHIEN_CUU_VUNG_SOAN_VA_BAN_PHIM_AO.md#khi-nhận-dạng-giọng-nói-thất-bại)
@@ -112,13 +114,14 @@ Các ảnh dùng để đối chiếu bố cục và cách tổ chức hội tho
 
 Các khung **Trao đổi**, **Mở lịch sử** và **Bàn phím mở** đặt nút biểu tượng mic ngay bên trái **Gửi**. Các khung **Đang thu**, **Chờ nhận dạng** và **Lỗi nhận dạng** dùng cùng vị trí đó cho hình vuông dừng, vòng xoay và biểu tượng mic trở lại. Khung lỗi đặt thông báo ngay phía trên nút mic. [Bản phác Pencil 1024 × 600](reports/ui_ux_20261107/assets/wireframe-hoi-thoai-1024x600.pen)
 
-Dùng bản phác làm tham chiếu khi triển khai một lượt nói, đọc và đáp trên cùng màn hình. Người nói chạm mic, dừng thu và đợi chữ vào vùng soạn, rồi đọc lại, sửa nếu cần và bấm **Gửi**. Khi kiểm tra trên thiết bị, đối chiếu vị trí của tin vừa gửi, cỡ chữ chung và cách mở lại hội thoại từ **Lịch sử**.
+Dùng bản phác làm tham chiếu khi triển khai một lượt nói, đọc và đáp trên cùng màn hình. Thử cả cách bấm hình vuông để dừng và xem lại chữ trước khi gửi, và cách bấm **Gửi** khi đang thu để app đợi chữ rồi gửi câu đã ghép. Khi kiểm tra trên thiết bị, đối chiếu vị trí của tin vừa gửi, cỡ chữ chung và cách mở lại hội thoại từ **Lịch sử**.
 
 Khi quay lại TTS, xem các phương án vị trí, phần chữ cần đọc và cách tạo giọng cho nút **Đọc**. [Khảo sát nút Đọc to](reports/NGHIEN_CUU_DOC_TO_CAC_HARNESS.md)
 
 ## 6. Tiêu chí duyệt bản phác
 
 - Nút bên trái **Gửi** hiển thị biểu tượng mic khi sẵn sàng, hình vuông khi đang thu và vòng xoay khi chờ nhận dạng. Nút vẫn nằm cạnh **Gửi** khi bàn phím mở.
+- Gõ “Tôi muốn”, đặt con trỏ cuối câu, thu “hẹn gặp vào sáng mai” và bấm **Gửi** khi đang thu. Ứng dụng dừng, đợi nhận dạng và gửi “Tôi muốn hẹn gặp vào sáng mai” đúng một lần. Thử lại bằng cách bấm hình vuông trước, rồi bấm **Gửi** khi vòng xoay đang hiện. Nếu nhận dạng thất bại sau khi bấm **Gửi**, bản nháp vẫn còn và không xuất hiện tin mới.
 - Khi chưa có lựa chọn đã lưu, Pi có một mic thì thu ngay bằng mic đó và **Settings** hiện tên mic. Pi có nhiều mic thì chọn nguồn trong **Settings** trước khi thu. Nếu rút mic đang dùng rồi chạm nút mic, thông báo mất kết nối xuất hiện cạnh nút.
 - Khi nhận dạng đoạn vừa thu thất bại, vòng xoay kết thúc, biểu tượng mic trở lại và thông báo xuất hiện ở vị trí chung cạnh mic. Chữ đang soạn vẫn còn. Lần chạm mic kế tiếp bắt đầu một lượt thu mới.
 - Phân biệt được chữ đang soạn và tin đã gửi. Chạm vùng soạn mở bàn phím và vẫn nhìn thấy câu đang sửa cùng nút **Gửi**.

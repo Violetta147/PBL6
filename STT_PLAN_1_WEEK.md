@@ -130,7 +130,7 @@ Verify Vietnamese language support, service model, region, terms, and price for 
 
 | Version | Behavior | Completion gate |
 |---|---|---|
-| V1 | ==**Record on Pi, Stop, transcribe, review and send; Settings**== | On Pi, review and send the final text, reopen the saved conversation and send again. On recognition failure, show the error by the microphone, keep the draft and allow another recording. |
+| V1 | ==**Record on Pi, Stop, transcribe and send; Settings**== | On Pi, Stop leaves text in the draft for review. **Gửi** during recording or recognition waits for final text and sends the combined draft once. On recognition failure, drop the pending send, show the error by the microphone, keep the draft and allow another recording. Reopen the saved conversation and send again. |
 | V2 | Stream audio while recording; display final transcript after Stop | Capture/send/receive do not block each other; Stop preserves the audio tail and final text. |
 | V3 | Show revisable interim text and committed final segments | Replacement, event ordering, duplicate prevention and late results pass tests. |
 
