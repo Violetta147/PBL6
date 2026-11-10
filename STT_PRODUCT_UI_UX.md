@@ -122,6 +122,8 @@ Các ảnh dùng để đối chiếu bố cục và cách tổ chức hội tho
 
 Các khung **Trao đổi**, **Mở lịch sử** và **Bàn phím mở** đặt nút biểu tượng mic ngay bên trái **Gửi**. Các khung **Đang thu**, **Chờ nhận dạng** và **Lỗi nhận dạng** dùng cùng vị trí đó cho hình vuông dừng, vòng xoay và biểu tượng mic trở lại. Khung lỗi đặt thông báo ngay phía trên nút mic. Khung **Đã bấm Gửi, chờ chữ** minh họa nút **Gửi** đã mờ trong lúc vòng xoay vẫn hiện. [Bản phác Pencil 1024 × 600](reports/ui_ux_20261107/assets/wireframe-hoi-thoai-1024x600.pen)
 
+Khung **08 · Cài đặt giọng nói** minh họa một panel **Giọng nói thành chữ**. Nhãn ở bên trái, giá trị ở bên phải. Hai phần **Thu âm** và **Nhận dạng** luôn hiện trong cùng panel. Bản phác đặt mic và giới hạn thu mặc định **120 giây** cạnh cấu hình Deepgram, gồm khóa API, mô hình và giới hạn chờ nhận dạng hiện mặc định **60 giây** ở P1. Đã xem ảnh dựng trong Pencil để kiểm tra cả năm dòng và nút **Lưu cài đặt** đều vừa khung 1024 × 600. Tên mic và các điều khiển trong khung dùng để minh họa bố cục.
+
 Dùng bản phác làm tham chiếu khi triển khai một lượt nói, đọc và đáp trên cùng màn hình. Thử cả cách bấm hình vuông để dừng và xem lại chữ trước khi gửi, và cách bấm **Gửi** khi đang thu để app đợi chữ rồi gửi câu đã ghép. Khi kiểm tra trên thiết bị, đối chiếu vị trí của tin vừa gửi, cỡ chữ chung và cách mở lại hội thoại từ **Lịch sử**.
 
 Khi quay lại TTS, xem các phương án vị trí, phần chữ cần đọc và cách tạo giọng cho nút **Đọc**. [Khảo sát nút Đọc to](reports/NGHIEN_CUU_DOC_TO_CAC_HARNESS.md)

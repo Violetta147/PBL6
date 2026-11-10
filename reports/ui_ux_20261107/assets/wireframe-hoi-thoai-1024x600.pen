@@ -4880,6 +4880,634 @@
           ]
         }
       ]
+    },
+    {
+      "type": "frame",
+      "id": "E3iBya",
+      "x": 2192,
+      "y": 1328,
+      "name": "08 · Cài đặt giọng nói · 1024 × 600",
+      "clip": true,
+      "width": 1024,
+      "height": 600,
+      "fill": "#F5F7F9",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "GG99z",
+          "name": "Thanh đầu",
+          "width": "fill_container",
+          "height": 76,
+          "fill": "#FFFFFF",
+          "stroke": "#DCE3EA",
+          "strokeWidth": {
+            "bottom": 1
+          },
+          "strokeAlignment": "inner",
+          "padding": [
+            0,
+            28
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "Cb27R",
+              "name": "Về hội thoại",
+              "width": 220,
+              "height": 44,
+              "gap": 9,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "BkLyl",
+                  "name": "Mũi tên quay lại",
+                  "width": 18,
+                  "height": 18,
+                  "icon": "arrow-left",
+                  "library": "lucide",
+                  "fill": "#4F5D6B"
+                },
+                {
+                  "type": "text",
+                  "id": "MQfu7",
+                  "name": "Nhãn quay lại",
+                  "fill": "#18212B",
+                  "content": "Hội thoại",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "IgJY0",
+              "name": "Tiêu đề thanh đầu",
+              "width": "fill_container",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "gktvE",
+                  "name": "Tiêu đề Cài đặt",
+                  "fill": "#18212B",
+                  "content": "Cài đặt",
+                  "fontFamily": "Inter",
+                  "fontSize": 24,
+                  "fontWeight": "semibold"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "d0Xne",
+              "name": "Khoảng cân đối thanh đầu",
+              "width": 220,
+              "height": 1
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "NfDmM",
+          "name": "Vùng đặt panel",
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "vertical",
+          "padding": [
+            18,
+            0
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "sPvgj",
+              "name": "Panel Giọng nói thành chữ",
+              "width": 828,
+              "fill": "#FFFFFF",
+              "cornerRadius": 12,
+              "stroke": "#DCE3EA",
+              "strokeWidth": 1,
+              "strokeAlignment": "inner",
+              "layout": "vertical",
+              "gap": 10,
+              "padding": [
+                16,
+                24,
+                12,
+                24
+              ],
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "hE4ha",
+                  "name": "Tiêu đề panel",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 2,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "eYRfU",
+                      "name": "Tên tính năng",
+                      "fill": "#18212B",
+                      "content": "Giọng nói thành chữ",
+                      "fontFamily": "Inter",
+                      "fontSize": 26,
+                      "fontWeight": "semibold"
+                    },
+                    {
+                      "type": "text",
+                      "id": "R52uB",
+                      "name": "Mô tả panel",
+                      "fill": "#4F5D6B",
+                      "content": "Chọn mic và cách thiết bị chuyển lời nói thành chữ.",
+                      "fontFamily": "Inter",
+                      "fontSize": 16,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "lTwhW",
+                  "name": "Nhóm Thu âm",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 2,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "qE1Ee",
+                      "name": "Đầu nhóm Thu âm",
+                      "width": "fill_container",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "kCtPe",
+                          "name": "Nhãn nhóm Thu âm",
+                          "fill": "#24384D",
+                          "content": "Thu âm",
+                          "fontFamily": "Inter",
+                          "fontSize": 16,
+                          "fontWeight": "semibold"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Y4Dbxr",
+                      "name": "Dòng Mic trên Raspberry Pi",
+                      "width": "fill_container",
+                      "height": 48,
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "t5SAV",
+                          "name": "Nhãn Mic trên Raspberry Pi",
+                          "fill": "#18212B",
+                          "content": "Mic trên Raspberry Pi",
+                          "fontFamily": "Inter",
+                          "fontSize": 18,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "VcBiq",
+                          "name": "Vùng giá trị Mic trên Raspberry Pi",
+                          "width": 278,
+                          "height": 44,
+                          "gap": 10,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "ZNMlF",
+                              "name": "Ô Mic trên Raspberry Pi",
+                              "width": "fill_container",
+                              "height": "fill_container",
+                              "fill": "#FFFFFF",
+                              "cornerRadius": 8,
+                              "stroke": "#AAB7C4",
+                              "strokeWidth": 1,
+                              "strokeAlignment": "inner",
+                              "padding": [
+                                0,
+                                12
+                              ],
+                              "justifyContent": "space_between",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "diZLw",
+                                  "name": "Giá trị Mic trên Raspberry Pi",
+                                  "fill": "#18212B",
+                                  "content": "Mic USB",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 17,
+                                  "fontWeight": "normal"
+                                },
+                                {
+                                  "type": "icon",
+                                  "id": "qozxz",
+                                  "name": "Mở danh sách Mic trên Raspberry Pi",
+                                  "width": 16,
+                                  "height": 16,
+                                  "icon": "chevron-down",
+                                  "library": "lucide",
+                                  "fill": "#4F5D6B"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "XlMFZ",
+                      "name": "Dòng Thời lượng thu tối đa",
+                      "width": "fill_container",
+                      "height": 48,
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "ZYtwc",
+                          "name": "Nhãn Thời lượng thu tối đa",
+                          "fill": "#18212B",
+                          "content": "Thời lượng thu tối đa",
+                          "fontFamily": "Inter",
+                          "fontSize": 18,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "RH9yh",
+                          "name": "Vùng giá trị Thời lượng thu tối đa",
+                          "width": 278,
+                          "height": 44,
+                          "gap": 10,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "pHkdh",
+                              "name": "Ô Thời lượng thu tối đa",
+                              "width": 94,
+                              "height": "fill_container",
+                              "fill": "#FFFFFF",
+                              "cornerRadius": 8,
+                              "stroke": "#AAB7C4",
+                              "strokeWidth": 1,
+                              "strokeAlignment": "inner",
+                              "padding": [
+                                0,
+                                12
+                              ],
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "JLTKN",
+                                  "name": "Giá trị Thời lượng thu tối đa",
+                                  "fill": "#18212B",
+                                  "content": "120",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 17,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "text",
+                              "id": "PUVHD",
+                              "name": "Đơn vị Thời lượng thu tối đa",
+                              "fill": "#4F5D6B",
+                              "content": "giây",
+                              "fontFamily": "Inter",
+                              "fontSize": 16,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "rectangle",
+                  "id": "E8M5iF",
+                  "name": "Vạch phân cách thu âm và nhận dạng",
+                  "fill": "#DCE3EA",
+                  "width": "fill_container",
+                  "height": 1
+                },
+                {
+                  "type": "frame",
+                  "id": "bvMvX",
+                  "name": "Nhóm Nhận dạng",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 2,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "C0FrKP",
+                      "name": "Đầu nhóm Nhận dạng",
+                      "width": "fill_container",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "qCUdn",
+                          "name": "Nhãn nhóm Nhận dạng",
+                          "fill": "#24384D",
+                          "content": "Nhận dạng",
+                          "fontFamily": "Inter",
+                          "fontSize": 16,
+                          "fontWeight": "semibold"
+                        },
+                        {
+                          "type": "text",
+                          "id": "tZTaa",
+                          "name": "Dịch vụ nhận dạng",
+                          "fill": "#4F5D6B",
+                          "content": "Deepgram",
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "nmdFE",
+                      "name": "Dòng Khóa API",
+                      "width": "fill_container",
+                      "height": 48,
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "uyf0E",
+                          "name": "Nhãn Khóa API",
+                          "fill": "#18212B",
+                          "content": "Khóa API",
+                          "fontFamily": "Inter",
+                          "fontSize": 18,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "tAxli",
+                          "name": "Vùng giá trị Khóa API",
+                          "width": 278,
+                          "height": 44,
+                          "gap": 10,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "NSdCq",
+                              "name": "Ô Khóa API",
+                              "width": "fill_container",
+                              "height": "fill_container",
+                              "fill": "#FFFFFF",
+                              "cornerRadius": 8,
+                              "stroke": "#AAB7C4",
+                              "strokeWidth": 1,
+                              "strokeAlignment": "inner",
+                              "padding": [
+                                0,
+                                12
+                              ],
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "doVVu",
+                                  "name": "Giá trị Khóa API",
+                                  "fill": "#4F5D6B",
+                                  "content": "Dán khóa Deepgram",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 17,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "fIywf",
+                      "name": "Dòng Mô hình nhận dạng",
+                      "width": "fill_container",
+                      "height": 48,
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "GPRf1",
+                          "name": "Nhãn Mô hình nhận dạng",
+                          "fill": "#18212B",
+                          "content": "Mô hình nhận dạng",
+                          "fontFamily": "Inter",
+                          "fontSize": 18,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "mMvB5",
+                          "name": "Vùng giá trị Mô hình nhận dạng",
+                          "width": 278,
+                          "height": 44,
+                          "gap": 10,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "o5KET5",
+                              "name": "Ô Mô hình nhận dạng",
+                              "width": "fill_container",
+                              "height": "fill_container",
+                              "fill": "#FFFFFF",
+                              "cornerRadius": 8,
+                              "stroke": "#AAB7C4",
+                              "strokeWidth": 1,
+                              "strokeAlignment": "inner",
+                              "padding": [
+                                0,
+                                12
+                              ],
+                              "justifyContent": "space_between",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "qEe0J",
+                                  "name": "Giá trị Mô hình nhận dạng",
+                                  "fill": "#18212B",
+                                  "content": "Nova-3",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 17,
+                                  "fontWeight": "normal"
+                                },
+                                {
+                                  "type": "icon",
+                                  "id": "R4Gl5",
+                                  "name": "Mở danh sách Mô hình nhận dạng",
+                                  "width": 16,
+                                  "height": 16,
+                                  "icon": "chevron-down",
+                                  "library": "lucide",
+                                  "fill": "#4F5D6B"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "UAPtK",
+                      "name": "Dòng Thời gian chờ nhận dạng",
+                      "width": "fill_container",
+                      "height": 48,
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "lABwn",
+                          "name": "Nhãn Thời gian chờ nhận dạng",
+                          "fill": "#18212B",
+                          "content": "Thời gian chờ nhận dạng",
+                          "fontFamily": "Inter",
+                          "fontSize": 18,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "f2Z9tS",
+                          "name": "Vùng giá trị Thời gian chờ nhận dạng",
+                          "width": 278,
+                          "height": 44,
+                          "gap": 10,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "oD9MV",
+                              "name": "Ô Thời gian chờ nhận dạng",
+                              "width": 94,
+                              "height": "fill_container",
+                              "fill": "#FFFFFF",
+                              "cornerRadius": 8,
+                              "stroke": "#AAB7C4",
+                              "strokeWidth": 1,
+                              "strokeAlignment": "inner",
+                              "padding": [
+                                0,
+                                12
+                              ],
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "Zj263",
+                                  "name": "Giá trị Thời gian chờ nhận dạng",
+                                  "fill": "#18212B",
+                                  "content": "60",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 17,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "text",
+                              "id": "Z6acp",
+                              "name": "Đơn vị Thời gian chờ nhận dạng",
+                              "fill": "#4F5D6B",
+                              "content": "giây",
+                              "fontFamily": "Inter",
+                              "fontSize": 16,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "rectangle",
+                  "id": "koGua",
+                  "name": "Vạch trên vùng lưu",
+                  "fill": "#DCE3EA",
+                  "width": "fill_container",
+                  "height": 1
+                },
+                {
+                  "type": "frame",
+                  "id": "KopTY",
+                  "name": "Vùng thao tác",
+                  "width": "fill_container",
+                  "height": 44,
+                  "justifyContent": "end",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "cfQWG",
+                      "name": "Nút Lưu cài đặt",
+                      "height": "fill_container",
+                      "fill": "#24384D",
+                      "cornerRadius": 8,
+                      "padding": [
+                        0,
+                        18
+                      ],
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "dZOxJ",
+                          "name": "Chữ trên nút lưu",
+                          "fill": "#FFFFFF",
+                          "content": "Lưu cài đặt",
+                          "fontFamily": "Inter",
+                          "fontSize": 17,
+                          "fontWeight": "semibold"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ],
   "fileToken": "fa4ba6be-bb7a-43a9-ad48-58bc8bf1513d"
