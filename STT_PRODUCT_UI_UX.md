@@ -22,7 +22,7 @@ Cập nhật 10/11/2026. Tài liệu ghi các quyết định thiết kế, nh�
 
 - **Sản phẩm đích.** Thiết bị để bàn có màn cảm ứng và Electron ở chế độ kiosk. Stack đã chốt là React + TypeScript + Tailwind CSS, Next.js/Node.js và Electron.
 - **Màu sắc.** Ảnh tham khảo dùng để xem bố cục. Bảng màu thay thế, theme sáng hoặc tối, font và bộ icon còn để duyệt.
-- **Mốc phần mềm.** Hoàn thành V1 STT trước V2 và V3. Duyệt giao diện là một bước riêng trước khi người dùng yêu cầu triển khai.
+- **Mốc phần mềm.** Ưu tiên có sản phẩm chạy được luồng STT V1 trên Pi từ thu, dừng, nhận chữ đến sửa và gửi. Sau mốc đó mới quay lại chọn công nghệ TTS. Hoàn thành V1 STT trước V2 và V3. Duyệt giao diện là một bước riêng trước khi người dùng yêu cầu triển khai.
 
 ## 2. Thu, sửa và gửi trong vùng soạn chung
 
@@ -131,6 +131,8 @@ Khung **10 · Cài đặt Lịch sử** minh họa luồng đã duyệt ở mụ
 Dùng bản phác làm tham chiếu khi triển khai một lượt nói, đọc và đáp trên cùng màn hình. Thử cả cách bấm hình vuông để dừng và xem lại chữ trước khi gửi, và cách bấm **Gửi** khi đang thu để app đợi chữ rồi gửi câu đã ghép. Khi kiểm tra trên thiết bị, đối chiếu vị trí của tin vừa gửi, cỡ chữ chung và cách mở lại hội thoại từ **Lịch sử**.
 
 Khi duyệt nút **Đọc**, dùng ba trạng thái loa, vòng xoay và nút dừng của Codex Desktop làm tham chiếu. Cách hiển thị trên màn cảm ứng và bộ tạo giọng vẫn để bàn. [Khảo sát nút Đọc to](reports/NGHIEN_CUU_DOC_TO_CAC_HARNESS.md)
+
+**Ứng viên TTS để xem lại sau mốc STT V1 (10/11/2026).** Deepgram Flux TTS có hai giọng tiếng Việt ở Early Access là Hoa (`flux-hoa-vi`) và Minh (`flux-minh-vi`). Deepgram chưa tự chuyển số, ngày giờ và chữ viết tắt sang cách đọc tiếng Việt. Khi quay lại, nghe thử câu có giờ như “Quầy đóng lúc 17:30” và kiểm tra quyền gọi TTS của khóa đang dùng ở P1. Hiện mới xác minh bằng tài liệu. [Danh mục giọng Flux TTS](https://developers.deepgram.com/docs/flux-tts/voices#vietnamese-early-access)
 
 ## 6. Tiêu chí duyệt bản phác
 
