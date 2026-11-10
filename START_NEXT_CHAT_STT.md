@@ -1,5 +1,17 @@
 # STT — bàn giao sau P1 và chốt BOM
 
+## Điểm tiếp tục hiện tại · 10/11/2026
+
+**Tiếp tục duyệt thiết kế V1 trên workspace PBL6 hiện tại.** Bắt đầu với hai khung **09 · Cài đặt theo nhóm** và **10 · Cài đặt Lịch sử**, rồi đi qua một lượt nói, sửa, gửi, mở lại hội thoại và quản lý lịch sử dài trên bản phác 1024 × 600. Dựa vào [đặc tả UI/UX, mục 1–3 và 5–6](STT_PRODUCT_UI_UX.md), [tệp Pencil](reports/ui_ux_20261107/assets/wireframe-hoi-thoai-1024x600.pen) và [nghiên cứu tìm, lọc và xóa hội thoại](reports/NGHIEN_CUU_TIM_LOC_VA_XOA_LICH_SU.md). Các đoạn bàn giao cũ bên dưới dùng để tra mốc và bằng chứng.
+
+**Vừa hoàn thành.** Khung 10 đã có tìm theo tên, lọc theo lần gửi tin thành công gần nhất, chọn toàn bộ kết quả khớp và vùng cuộn riêng cho danh sách. Đổi điều kiện tìm hoặc lọc sẽ bỏ lựa chọn cũ. Nút **Xóa N hội thoại** nằm ngoài vùng cuộn và xóa ngay các hội thoại đang chọn. Ví dụ trên Pencil có 12 kết quả, đã bỏ chọn hai và còn 10 mục sẽ xóa. Đây là thiết kế đã duyệt và đã kiểm tra ảnh dựng. Hành vi thực tế là phần việc triển khai.
+
+**Các quyết định cần mang sang.** Một màn hình dùng chung, một vùng soạn. Mic, hình vuông dừng và vòng xoay dùng cùng vị trí cạnh **Gửi**. **Gửi** khi thu hoặc chờ chữ sẽ đợi cùng lượt nhận dạng rồi gửi câu đã ghép đúng một lần. Dừng bằng hình vuông hoặc hết giờ đưa chữ vào bản nháp. Mặc định thu tối đa **120 giây**, chỉnh được trong Settings. Giữ cách chọn mic trên Pi, chèn theo con trỏ của Antigravity, xử lý bản nháp, đổi tên và gửi tiếp vào hội thoại đã lưu theo đặc tả. Tìm kiếm trong bảng mở lại hội thoại, xuất Lịch sử, chính sách lưu giữ, chi tiết **Đọc to** và giao diện hoàn chỉnh còn để bàn.
+
+**Ranh giới triển khai.** `stt-app` đang ở P1 nhận dạng một file bằng Deepgram và có bằng chứng Windows. Phần thu mic trên Pi và luồng hội thoại V1 còn phải triển khai. V1 nhận dạng sau dừng, V2 truyền âm thanh trong lúc thu và hiển thị chữ cuối, V3 mới hiển thị chữ tạm. Người dùng sẽ tự chạy bài kiểm tra trên Pi khi đến bước đó. N02 đã ghi quy trình thống nhất RTF và còn chờ kết quả đo công bằng trên Pi. Xem [bàn giao kỹ thuật](STT_SHIFT_HANDOFF.md), [lộ trình V1–V3 và kế hoạch đo](STT_PLAN_1_WEEK.md#approved-version-order) và [báo cáo P1](reports/stt_v1_p1_20261107/BAO_CAO.md) khi cần. Đọc `AGENTS.md` và xem Git status trước khi sửa. Phạm vi phiên mới tiếp tục là thiết kế cho đến khi có yêu cầu triển khai hoặc kiểm thử thiết bị.
+
+### Bàn giao trước đó
+
 Cập nhật 07/11/2026. Dự án giữ tại `C:\Users\LAPTOP T&T\VIOLETTA\Documents\ChatGPT\PBL6`. **Ưu tiên phiên tiếp theo: thảo luận UI/UX sản phẩm đa phương thức cùng các lựa chọn BOM và lập kế hoạch mua sắm tại Đà Nẵng. Chưa tự triển khai P2/batch hoặc đặt hàng.**
 
 ## 1. Đọc theo thứ tự

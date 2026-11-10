@@ -4,7 +4,7 @@
 
 ## 1. Vấn đề trong bản phác
 
-Khung 10 dùng ô chọn từng dòng và nút **Xóa N hội thoại**. Với lịch sử dài, người dùng phải cuộn để tìm hội thoại và chạm từng dòng muốn xóa. ==Tìm và lọc giúp thu hẹp danh sách. Chọn hàng loạt giúp giảm số lần chạm.== [Đặc tả UI/UX và khung Pencil](../STT_PRODUCT_UI_UX.md#5-kịch-bản-v1-trên-bản-phác)
+Bản phác ban đầu của khung 10 dùng ô chọn từng dòng và nút **Xóa N hội thoại**. Với lịch sử dài, người dùng phải cuộn để tìm hội thoại và chạm từng dòng muốn xóa. ==Tìm và lọc giúp thu hẹp danh sách. Chọn hàng loạt giúp giảm số lần chạm.== [Đặc tả UI/UX và khung Pencil](../STT_PRODUCT_UI_UX.md#5-kịch-bản-v1-trên-bản-phác)
 
 ## 2. Cách hai ứng dụng xử lý
 
@@ -27,4 +27,4 @@ Khung 10 dùng ô chọn từng dòng và nút **Xóa N hội thoại**. Với l
 
 **Ví dụ.** Lọc **Cũ hơn 30 ngày** và thấy **12 kết quả**. Bấm **Chọn 12 kết quả**, bỏ chọn hai hội thoại muốn giữ, rồi bấm **Xóa 10 hội thoại**. Hai hội thoại được bỏ chọn vẫn còn trong lịch sử. Mốc 30 ngày trong ví dụ minh họa cách lọc.
 
-**Trạng thái.** Phương án đã duyệt ở mức thiết kế. Khung Pencil 10 minh họa chọn từng dòng và nút xóa theo số lượng. Ô tìm, bộ lọc và nút chọn theo kết quả đã được ghi trong đặc tả để bổ sung vào bản vẽ và ứng dụng.
+**Trạng thái.** Phương án đã duyệt ở mức thiết kế. Khung Pencil 10 đã minh họa tìm, lọc, chọn theo kết quả và nút xóa trong ví dụ trên. Hành vi khi đổi bộ lọc, cuộn hoặc xóa thuộc tiêu chí kiểm tra khi triển khai ứng dụng.

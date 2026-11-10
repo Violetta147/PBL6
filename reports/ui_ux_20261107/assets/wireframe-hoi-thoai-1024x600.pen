@@ -6457,82 +6457,65 @@
                 },
                 {
                   "type": "frame",
-                  "id": "evfWN",
-                  "name": "Danh sách hội thoại đã lưu",
+                  "id": "cReMU",
+                  "name": "Thanh tìm và lọc cố định",
                   "width": "fill_container",
-                  "height": "fill_container",
-                  "layout": "vertical",
-                  "gap": 4,
+                  "height": 44,
+                  "gap": 10,
+                  "alignItems": "center",
                   "children": [
                     {
                       "type": "frame",
-                      "id": "PUr7z",
-                      "name": "Hội thoại Trao đổi tại quầy",
+                      "id": "wG1yO",
+                      "name": "Ô tìm theo tên",
                       "width": "fill_container",
-                      "height": 60,
+                      "height": 44,
                       "fill": "#FFFFFF",
-                      "cornerRadius": 7,
+                      "cornerRadius": 8,
+                      "stroke": "#AAB7C4",
+                      "strokeWidth": 1,
+                      "strokeAlignment": "inner",
+                      "gap": 8,
                       "padding": [
                         0,
                         12
                       ],
-                      "justifyContent": "space_between",
                       "alignItems": "center",
                       "children": [
                         {
-                          "type": "frame",
-                          "id": "dKwLY",
-                          "name": "Ô chọn và tên Trao đổi tại quầy",
-                          "height": "fill_container",
-                          "gap": 12,
-                          "alignItems": "center",
-                          "children": [
-                            {
-                              "type": "frame",
-                              "id": "rDPsv",
-                              "name": "Ô chọn Trao đổi tại quầy",
-                              "width": 23,
-                              "height": 23,
-                              "fill": "#FFFFFF",
-                              "cornerRadius": 5,
-                              "stroke": "#8E9EAE",
-                              "strokeWidth": 1,
-                              "strokeAlignment": "inner",
-                              "justifyContent": "center",
-                              "alignItems": "center"
-                            },
-                            {
-                              "type": "text",
-                              "id": "D4eTQs",
-                              "name": "Tên Trao đổi tại quầy",
-                              "fill": "#18212B",
-                              "content": "Trao đổi tại quầy",
-                              "fontFamily": "Inter",
-                              "fontSize": 18,
-                              "fontWeight": "normal"
-                            }
-                          ]
+                          "type": "icon",
+                          "id": "g4NGIS",
+                          "name": "Kính lúp",
+                          "width": 16,
+                          "height": 16,
+                          "icon": "search",
+                          "library": "lucide",
+                          "fill": "#4F5D6B"
                         },
                         {
                           "type": "text",
-                          "id": "h2ExJH",
-                          "name": "Cập nhật Trao đổi tại quầy",
+                          "id": "Svm1f",
+                          "name": "Nhãn ô tìm",
                           "fill": "#4F5D6B",
-                          "content": "Hôm nay, 14:32",
+                          "content": "Tìm theo tên",
                           "fontFamily": "Inter",
-                          "fontSize": 15,
+                          "fontSize": 16,
                           "fontWeight": "normal"
                         }
                       ]
                     },
                     {
                       "type": "frame",
-                      "id": "mKvxc",
-                      "name": "Hội thoại Hỏi đường",
-                      "width": "fill_container",
-                      "height": 60,
-                      "fill": "#EAF0F6",
-                      "cornerRadius": 7,
+                      "id": "icMtB",
+                      "name": "Bộ lọc thời gian",
+                      "width": 196,
+                      "height": 44,
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 8,
+                      "stroke": "#AAB7C4",
+                      "strokeWidth": 1,
+                      "strokeAlignment": "inner",
+                      "gap": 8,
                       "padding": [
                         0,
                         12
@@ -6541,194 +6524,385 @@
                       "alignItems": "center",
                       "children": [
                         {
+                          "type": "text",
+                          "id": "XTf8C",
+                          "name": "Khoảng thời gian đang lọc",
+                          "fill": "#18212B",
+                          "content": "Cũ hơn 30 ngày",
+                          "fontFamily": "Inter",
+                          "fontSize": 16,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "icon",
+                          "id": "G5J3Q",
+                          "name": "Mở bộ lọc thời gian",
+                          "width": 16,
+                          "height": 16,
+                          "icon": "chevron-down",
+                          "library": "lucide",
+                          "fill": "#4F5D6B"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "tiOZp",
+                  "name": "Phạm vi chọn cố định",
+                  "width": "fill_container",
+                  "height": 44,
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "jawM1",
+                      "name": "Tổng kết quả khớp",
+                      "fill": "#4F5D6B",
+                      "content": "12 kết quả",
+                      "fontFamily": "Inter",
+                      "fontSize": 16,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Q32D0E",
+                      "name": "Nút Chọn 12 kết quả",
+                      "height": 44,
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 8,
+                      "stroke": "#E1E8EF",
+                      "strokeWidth": 1,
+                      "strokeAlignment": "inner",
+                      "gap": 8,
+                      "padding": [
+                        0,
+                        12
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "a4xYi",
+                          "name": "Nhãn chọn theo kết quả",
+                          "fill": "#24384D",
+                          "content": "Chọn 12 kết quả",
+                          "fontFamily": "Inter",
+                          "fontSize": 16,
+                          "fontWeight": "semibold"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "cyUqm",
+                  "name": "Vùng cuộn riêng của danh sách",
+                  "clip": true,
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "gap": 8,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "evfWN",
+                      "name": "Danh sách hội thoại đã lưu",
+                      "width": "fill_container",
+                      "height": "fill_container",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "children": [
+                        {
                           "type": "frame",
-                          "id": "g7Nb7T",
-                          "name": "Ô chọn và tên Hỏi đường",
-                          "height": "fill_container",
-                          "gap": 12,
+                          "id": "PUr7z",
+                          "name": "Hội thoại Trao đổi tại quầy",
+                          "width": "fill_container",
+                          "height": 46,
+                          "fill": "#FFFFFF",
+                          "cornerRadius": 7,
+                          "padding": [
+                            0,
+                            12
+                          ],
+                          "justifyContent": "space_between",
                           "alignItems": "center",
                           "children": [
                             {
                               "type": "frame",
-                              "id": "dXDCw",
-                              "name": "Ô chọn Hỏi đường",
-                              "width": 23,
-                              "height": 23,
-                              "fill": "#24384D",
-                              "cornerRadius": 5,
-                              "stroke": "#24384D",
-                              "strokeWidth": 1,
-                              "strokeAlignment": "inner",
-                              "justifyContent": "center",
+                              "id": "dKwLY",
+                              "name": "Ô chọn và tên Trao đổi tại quầy",
+                              "height": "fill_container",
+                              "gap": 12,
                               "alignItems": "center",
                               "children": [
                                 {
-                                  "type": "icon",
-                                  "id": "wfl5w",
-                                  "name": "Dấu đã chọn Hỏi đường",
-                                  "width": 15,
-                                  "height": 15,
-                                  "icon": "check",
-                                  "library": "lucide",
-                                  "fill": "#FFFFFF"
+                                  "type": "frame",
+                                  "id": "rDPsv",
+                                  "name": "Ô chọn Trao đổi tại quầy",
+                                  "width": 23,
+                                  "height": 23,
+                                  "fill": "#FFFFFF",
+                                  "cornerRadius": 5,
+                                  "stroke": "#8E9EAE",
+                                  "strokeWidth": 1,
+                                  "strokeAlignment": "inner",
+                                  "justifyContent": "center",
+                                  "alignItems": "center"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "D4eTQs",
+                                  "name": "Tên Trao đổi tại quầy",
+                                  "fill": "#18212B",
+                                  "content": "Trao đổi tại quầy",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 18,
+                                  "fontWeight": "normal"
                                 }
                               ]
                             },
                             {
                               "type": "text",
-                              "id": "X2JVNG",
-                              "name": "Tên Hỏi đường",
-                              "fill": "#18212B",
-                              "content": "Hỏi đường",
+                              "id": "h2ExJH",
+                              "name": "Cập nhật Trao đổi tại quầy",
+                              "fill": "#4F5D6B",
+                              "content": "29/09, 14:32",
                               "fontFamily": "Inter",
-                              "fontSize": 18,
+                              "fontSize": 15,
                               "fontWeight": "normal"
                             }
                           ]
                         },
                         {
-                          "type": "text",
-                          "id": "jXi8w",
-                          "name": "Cập nhật Hỏi đường",
-                          "fill": "#4F5D6B",
-                          "content": "Hôm nay, 10:08",
-                          "fontFamily": "Inter",
-                          "fontSize": 15,
-                          "fontWeight": "normal"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "frame",
-                      "id": "LNQZn",
-                      "name": "Hội thoại Lịch hẹn",
-                      "width": "fill_container",
-                      "height": 60,
-                      "fill": "#EAF0F6",
-                      "cornerRadius": 7,
-                      "padding": [
-                        0,
-                        12
-                      ],
-                      "justifyContent": "space_between",
-                      "alignItems": "center",
-                      "children": [
-                        {
                           "type": "frame",
-                          "id": "vKbAh",
-                          "name": "Ô chọn và tên Lịch hẹn",
-                          "height": "fill_container",
-                          "gap": 12,
+                          "id": "mKvxc",
+                          "name": "Hội thoại Hỏi đường",
+                          "width": "fill_container",
+                          "height": 46,
+                          "fill": "#EAF0F6",
+                          "cornerRadius": 7,
+                          "padding": [
+                            0,
+                            12
+                          ],
+                          "justifyContent": "space_between",
                           "alignItems": "center",
                           "children": [
                             {
                               "type": "frame",
-                              "id": "s9zxHJ",
-                              "name": "Ô chọn Lịch hẹn",
-                              "width": 23,
-                              "height": 23,
-                              "fill": "#24384D",
-                              "cornerRadius": 5,
-                              "stroke": "#24384D",
-                              "strokeWidth": 1,
-                              "strokeAlignment": "inner",
-                              "justifyContent": "center",
+                              "id": "g7Nb7T",
+                              "name": "Ô chọn và tên Hỏi đường",
+                              "height": "fill_container",
+                              "gap": 12,
                               "alignItems": "center",
                               "children": [
                                 {
-                                  "type": "icon",
-                                  "id": "gvC1E",
-                                  "name": "Dấu đã chọn Lịch hẹn",
-                                  "width": 15,
-                                  "height": 15,
-                                  "icon": "check",
-                                  "library": "lucide",
-                                  "fill": "#FFFFFF"
+                                  "type": "frame",
+                                  "id": "dXDCw",
+                                  "name": "Ô chọn Hỏi đường",
+                                  "width": 23,
+                                  "height": 23,
+                                  "fill": "#24384D",
+                                  "cornerRadius": 5,
+                                  "stroke": "#24384D",
+                                  "strokeWidth": 1,
+                                  "strokeAlignment": "inner",
+                                  "justifyContent": "center",
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "icon",
+                                      "id": "wfl5w",
+                                      "name": "Dấu đã chọn Hỏi đường",
+                                      "width": 15,
+                                      "height": 15,
+                                      "icon": "check",
+                                      "library": "lucide",
+                                      "fill": "#FFFFFF"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "X2JVNG",
+                                  "name": "Tên Hỏi đường",
+                                  "fill": "#18212B",
+                                  "content": "Hỏi đường",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 18,
+                                  "fontWeight": "normal"
                                 }
                               ]
                             },
                             {
                               "type": "text",
-                              "id": "ksfvS",
-                              "name": "Tên Lịch hẹn",
-                              "fill": "#18212B",
-                              "content": "Lịch hẹn",
+                              "id": "jXi8w",
+                              "name": "Cập nhật Hỏi đường",
+                              "fill": "#4F5D6B",
+                              "content": "28/09, 10:08",
                               "fontFamily": "Inter",
-                              "fontSize": 18,
+                              "fontSize": 15,
                               "fontWeight": "normal"
                             }
                           ]
                         },
                         {
-                          "type": "text",
-                          "id": "E5dvUd",
-                          "name": "Cập nhật Lịch hẹn",
-                          "fill": "#4F5D6B",
-                          "content": "Hôm qua, 16:24",
-                          "fontFamily": "Inter",
-                          "fontSize": 15,
-                          "fontWeight": "normal"
+                          "type": "frame",
+                          "id": "LNQZn",
+                          "name": "Hội thoại Lịch hẹn",
+                          "width": "fill_container",
+                          "height": 46,
+                          "fill": "#EAF0F6",
+                          "cornerRadius": 7,
+                          "padding": [
+                            0,
+                            12
+                          ],
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "vKbAh",
+                              "name": "Ô chọn và tên Lịch hẹn",
+                              "height": "fill_container",
+                              "gap": 12,
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "s9zxHJ",
+                                  "name": "Ô chọn Lịch hẹn",
+                                  "width": 23,
+                                  "height": 23,
+                                  "fill": "#24384D",
+                                  "cornerRadius": 5,
+                                  "stroke": "#24384D",
+                                  "strokeWidth": 1,
+                                  "strokeAlignment": "inner",
+                                  "justifyContent": "center",
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "icon",
+                                      "id": "gvC1E",
+                                      "name": "Dấu đã chọn Lịch hẹn",
+                                      "width": 15,
+                                      "height": 15,
+                                      "icon": "check",
+                                      "library": "lucide",
+                                      "fill": "#FFFFFF"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "ksfvS",
+                                  "name": "Tên Lịch hẹn",
+                                  "fill": "#18212B",
+                                  "content": "Lịch hẹn",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 18,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "text",
+                              "id": "E5dvUd",
+                              "name": "Cập nhật Lịch hẹn",
+                              "fill": "#4F5D6B",
+                              "content": "27/09, 16:24",
+                              "fontFamily": "Inter",
+                              "fontSize": 15,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "X1FMyf",
+                          "name": "Hội thoại Nhờ hỗ trợ",
+                          "width": "fill_container",
+                          "height": 46,
+                          "fill": "#FFFFFF",
+                          "cornerRadius": 7,
+                          "padding": [
+                            0,
+                            12
+                          ],
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "aZXw8",
+                              "name": "Ô chọn và tên Nhờ hỗ trợ",
+                              "height": "fill_container",
+                              "gap": 12,
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "G66l1o",
+                                  "name": "Ô chọn Nhờ hỗ trợ",
+                                  "width": 23,
+                                  "height": 23,
+                                  "fill": "#FFFFFF",
+                                  "cornerRadius": 5,
+                                  "stroke": "#8E9EAE",
+                                  "strokeWidth": 1,
+                                  "strokeAlignment": "inner",
+                                  "justifyContent": "center",
+                                  "alignItems": "center"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "dxpq3",
+                                  "name": "Tên Nhờ hỗ trợ",
+                                  "fill": "#18212B",
+                                  "content": "Nhờ hỗ trợ",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 18,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "text",
+                              "id": "XK4rt",
+                              "name": "Cập nhật Nhờ hỗ trợ",
+                              "fill": "#4F5D6B",
+                              "content": "26/09, 09:15",
+                              "fontFamily": "Inter",
+                              "fontSize": 15,
+                              "fontWeight": "normal"
+                            }
+                          ]
                         }
                       ]
                     },
                     {
                       "type": "frame",
-                      "id": "X1FMyf",
-                      "name": "Hội thoại Nhờ hỗ trợ",
-                      "width": "fill_container",
-                      "height": 60,
-                      "fill": "#FFFFFF",
-                      "cornerRadius": 7,
-                      "padding": [
-                        0,
-                        12
-                      ],
-                      "justifyContent": "space_between",
-                      "alignItems": "center",
+                      "id": "h7gpzZ",
+                      "name": "Rãnh thanh cuộn",
+                      "width": 5,
+                      "height": "fill_container",
+                      "fill": "#E1E8EF",
+                      "cornerRadius": 3,
+                      "layout": "vertical",
                       "children": [
                         {
                           "type": "frame",
-                          "id": "aZXw8",
-                          "name": "Ô chọn và tên Nhờ hỗ trợ",
-                          "height": "fill_container",
-                          "gap": 12,
-                          "alignItems": "center",
-                          "children": [
-                            {
-                              "type": "frame",
-                              "id": "G66l1o",
-                              "name": "Ô chọn Nhờ hỗ trợ",
-                              "width": 23,
-                              "height": 23,
-                              "fill": "#FFFFFF",
-                              "cornerRadius": 5,
-                              "stroke": "#8E9EAE",
-                              "strokeWidth": 1,
-                              "strokeAlignment": "inner",
-                              "justifyContent": "center",
-                              "alignItems": "center"
-                            },
-                            {
-                              "type": "text",
-                              "id": "dxpq3",
-                              "name": "Tên Nhờ hỗ trợ",
-                              "fill": "#18212B",
-                              "content": "Nhờ hỗ trợ",
-                              "fontFamily": "Inter",
-                              "fontSize": 18,
-                              "fontWeight": "normal"
-                            }
-                          ]
-                        },
-                        {
-                          "type": "text",
-                          "id": "XK4rt",
-                          "name": "Cập nhật Nhờ hỗ trợ",
-                          "fill": "#4F5D6B",
-                          "content": "Hôm qua, 09:15",
-                          "fontFamily": "Inter",
-                          "fontSize": 15,
-                          "fontWeight": "normal"
+                          "id": "gKguH",
+                          "name": "Tay kéo thanh cuộn",
+                          "width": "fill_container",
+                          "height": 59,
+                          "fill": "#8494A4",
+                          "cornerRadius": 3
                         }
                       ]
                     }
@@ -6754,7 +6928,7 @@
                     {
                       "type": "frame",
                       "id": "loMA1",
-                      "name": "Nút Xóa 2 hội thoại",
+                      "name": "Nút Xóa 10 hội thoại",
                       "height": "fill_container",
                       "fill": "#A32835",
                       "cornerRadius": 8,
@@ -6781,7 +6955,7 @@
                           "id": "xNgXT",
                           "name": "Nhãn nút xóa",
                           "fill": "#FFFFFF",
-                          "content": "Xóa 2 hội thoại",
+                          "content": "Xóa 10 hội thoại",
                           "fontFamily": "Inter",
                           "fontSize": 17,
                           "fontWeight": "semibold"
