@@ -132,4 +132,6 @@ Verify Vietnamese language support, service model, region, terms, and price for 
 | V2 | Stream audio while recording; display final transcript after Stop | Capture/send/receive do not block each other; Stop preserves the audio tail and final text. |
 | V3 | Show revisable interim text and committed final segments | Replacement, event ordering, duplicate prevention and late results pass tests. |
 
+For V1 verification on the Pi, record the backend memory baseline before capture and the peak over the interaction. Note the peak while preparing and uploading audio to Deepgram and waiting for its response. Record the elapsed time from tapping Stop until the final text is visible in the composer. Use clips of 10, 30 and 60 seconds as measurement cases. [Audio sizing and measurement rationale](reports/NGHIEN_CUU_AM_THANH_TAM_STT.md#số-tệp-tải-ghi-và-tốc-độ-nói)
+
 ==**Complete V1 before V2, and V2 before V3.**== Experimental WER_ws, CER, timing, RTF and RAM remain research measurements. They do not add a product resource-management system. Do not use library adoption as evidence that a provider has better recognition quality. Compare the actual configurations on the same data.
