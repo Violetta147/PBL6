@@ -92,6 +92,8 @@ Khi cắm thêm mic, ứng dụng tiếp tục dùng mic đã chọn nếu mic �
 
 **Lịch sử lưu các hội thoại**, gồm tên hội thoại và các tin đã gửi. Hội thoại xuất hiện trong **Lịch sử** sau khi gửi thành công tin đầu tiên. Sau khi đóng và mở ứng dụng, người dùng có thể mở lại hội thoại đã lưu, đọc các tin trước, soạn và gửi tiếp vào cùng hội thoại đó.
 
+Khi mở lại một hội thoại, vùng hội thoại hiện **cuối hội thoại**. Nếu tin cuối dài hơn vùng nhìn thấy, màn hình hiện cuối tin đó. Người dùng có thể vuốt lên để đọc các phần trước.
+
 **Thời gian lưu.** V1 giữ các hội thoại đã lưu cho đến khi người dùng chủ động xóa. Bộ lọc thời gian giúp tìm hội thoại để chọn xóa.
 
 **Mỗi lần mở ứng dụng, màn chính hiện một hội thoại mới.** Người dùng cũng có thể bấm **+ Hội thoại mới** trong lúc ứng dụng đang mở. Bản phác đặt nút này trong bảng Lịch sử.
@@ -183,6 +185,7 @@ Khi duyệt nút **Đọc**, dùng ba trạng thái loa, vòng xoay và nút d�
 - Gửi lỗi thì chữ vẫn nằm trong vùng soạn khi hội thoại còn mở. Chuyển sang hội thoại khác rồi quay lại, hoặc đóng rồi mở lại ứng dụng, sẽ thấy vùng soạn trống.
 - Người dùng có thể thao tác chính bằng một lần chạm trên vùng điều khiển. Người nhận dễ tìm và đọc câu vừa gửi trên màn 7 inch.
 - Tin đầu tiên được gửi thành công thì hội thoại xuất hiện trong **Lịch sử**. Sau khi đóng và mở ứng dụng, màn chính hiện cuộc mới và người dùng có thể mở lại cuộc đã lưu.
+- Mở lại một hội thoại dài và kiểm tra vùng hội thoại hiện cuối cuộc. Lặp lại với tin cuối dài hơn vùng nhìn thấy, kiểm tra màn hình hiện cuối tin và người dùng vuốt lên đọc được các phần trước.
 - Với hội thoại đã lưu có lần gửi thành công gần nhất cũ hơn 30 ngày, kiểm tra hội thoại vẫn mở lại được và vẫn còn sau khi dùng bộ lọc **Cũ hơn 30 ngày**, cho đến khi người dùng chọn xóa.
 
 Đây là tiêu chí duyệt thiết kế. Lượt thử trên phần cứng sẽ đối chiếu thêm độ phân giải, vị trí chạm, vuốt và bàn phím tiếng Việt theo [hướng dẫn NH2067](HUONG_DAN_NH2067_PI4.md).
