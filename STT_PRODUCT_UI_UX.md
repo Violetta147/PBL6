@@ -70,6 +70,8 @@ Phương án tệp thu tạm của V1 và cách phát triển dần sang V2, V3 
 | Vùng soạn | Một vùng soạn chung có nút mic ngay bên trái **Gửi**, cùng hàng với ô nhập. Khi chạm vào vùng soạn, bàn phím mở dưới cùng. Vùng soạn, mic và **Gửi** ở ngay phía trên. Vùng hội thoại dùng phần chiều cao còn lại và có thể cuộn. | Kiểm tra độ dễ nhận ra khi mic sẵn sàng, đang thu và đang chờ nhận dạng. |
 | Settings | Cài đặt Deepgram đã có ở P1. **Nguồn mic trên Pi**, **Thời lượng thu tối đa (giây)** và **Xóa lịch sử** đã chốt ở mức thiết kế. | Cách bố trí các mục hiển thị. Đầu ra âm thanh sẽ bàn cùng TTS. |
 
+**Tin dài đã gửi.** Nội dung tin tự xuống dòng theo chiều rộng màn hình. Nếu tin dài hơn vùng hội thoại đang thấy, người đọc vuốt vùng hội thoại để xem toàn bộ. Nút **Đọc** đi cùng tin đó, vị trí cụ thể sẽ được duyệt khi quay lại TTS. Điểm hiển thị đầu hay cuối của tin vừa gửi khi tin dài hơn vùng nhìn thấy vẫn để bàn.
+
 Khi triển khai bàn phím, cập nhật vùng soạn và trạng thái nút **Gửi** theo từng phím. [Khảo sát vùng soạn và bàn phím ảo](reports/NGHIEN_CUU_VUNG_SOAN_VA_BAN_PHIM_AO.md)
 
 ### Chọn nguồn mic trên Pi
@@ -177,6 +179,7 @@ Khi duyệt nút **Đọc**, dùng ba trạng thái loa, vòng xoay và nút d�
 - Với V3, chèn chữ tạm rồi chuyển con trỏ sang phần khác của bản nháp. Chữ tạm tiếp tục cập nhật tại đoạn đã chèn, rồi chuyển thành chữ thường tại đó khi có kết quả cuối. Vẫn sửa được phần chữ xung quanh, và Backspace hoặc Delete chỉ bị chặn khi thao tác sẽ xóa chữ tạm.
 - Nếu gửi thành công khi bàn phím đang mở, bàn phím tự đóng để dành thêm chỗ cho tin vừa gửi.
 - Trong một hội thoại dài, cuộn lên xem tin cũ rồi gửi một tin mới. Khi gửi thành công, vùng hội thoại tự cuộn để đưa tin vừa gửi vào tầm nhìn.
+- Với một tin đã gửi dài hơn vùng hội thoại, kiểm tra nội dung tự xuống dòng và người dùng có thể vuốt vùng hội thoại để đọc toàn bộ tin.
 - Gửi lỗi thì chữ vẫn nằm trong vùng soạn khi hội thoại còn mở. Chuyển sang hội thoại khác rồi quay lại, hoặc đóng rồi mở lại ứng dụng, sẽ thấy vùng soạn trống.
 - Người dùng có thể thao tác chính bằng một lần chạm trên vùng điều khiển. Người nhận dễ tìm và đọc câu vừa gửi trên màn 7 inch.
 - Tin đầu tiên được gửi thành công thì hội thoại xuất hiện trong **Lịch sử**. Sau khi đóng và mở ứng dụng, màn chính hiện cuộc mới và người dùng có thể mở lại cuộc đã lưu.
