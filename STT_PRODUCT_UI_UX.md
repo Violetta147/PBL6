@@ -38,7 +38,7 @@ Chạm biểu tượng **mic** để bắt đầu thu. Vùng soạn vẫn hiện
 
 Chạm vùng soạn để mở **bàn phím ảo** khi cần nhập hoặc sửa. Dùng **Backspace** trên bàn phím để xóa chữ. Việc nhận dạng xong giữ bàn phím ở trạng thái đóng nếu người dùng chưa chạm vào vùng soạn. Người dùng cũng có thể gõ trực tiếp. Chỉ thao tác **Gửi** mới đưa chữ vào hội thoại. Nếu bàn phím đang mở, ứng dụng tự đóng bàn phím sau khi gửi thành công.
 
-**Câu dài trong vùng soạn.** Ô soạn hiển thị nhiều dòng đến một chiều cao giới hạn. Khi nội dung dài hơn, vùng chữ bên trong ô soạn cuộn và đưa dòng có con trỏ vào tầm nhìn khi người dùng sửa. Mic và **Gửi** vẫn ở cạnh ô soạn, phía trên bàn phím khi bàn phím mở. Chiều cao cụ thể cần duyệt trên khung 1024 × 600.
+**Câu dài trong vùng soạn.** Khi bàn phím mở, phương án đã duyệt trên bản phác 1024 × 600 cho ô soạn hiện ba dòng. Khi nội dung dài hơn, vùng chữ bên trong ô soạn cuộn và đưa dòng có con trỏ vào tầm nhìn khi người dùng sửa. Mic và **Gửi** vẫn ở cạnh ô soạn, phía trên bàn phím khi bàn phím mở. Cần đối chiếu với bàn phím Squeekboard thực tế trên Pi.
 
 **Bàn phím V1 · 11/11/2026.** V1 dùng bàn phím ảo hệ thống **Squeekboard** trên **Raspberry Pi OS Bookworm**. Ứng dụng không tự làm bàn phím hoặc bộ gõ Telex. Người dùng sẽ xác nhận trên thiết bị thật khi đến bước thử: (1) chạm ô nhập và kiểm tra bàn phím tự bật, (2) gõ một câu có dấu và kiểm tra kết quả đúng, (3) kiểm tra bàn phím không che nút **Gửi**. Nếu cả ba bước đạt, V1 dùng Squeekboard. Nếu một bước không đạt, ghi lại và báo bước đó để xem xét. Hiện chưa tính phương án bàn phím tùy chỉnh. Kết quả ba bước còn chờ thử trên Pi.
 
@@ -138,7 +138,7 @@ Các ảnh dùng để đối chiếu bố cục và cách tổ chức hội tho
 
 Các khung **Trao đổi**, **Mở lịch sử** và **Bàn phím mở** đặt nút biểu tượng mic ngay bên trái **Gửi**. Các khung **Đang thu**, **Chờ nhận dạng** và **Lỗi nhận dạng** dùng cùng vị trí đó cho hình vuông dừng, vòng xoay và biểu tượng mic trở lại. Khung lỗi đặt thông báo ngay phía trên nút mic. Khung **Đã bấm Gửi, chờ chữ** minh họa nút **Gửi** đã mờ trong lúc vòng xoay vẫn hiện. [Bản phác Pencil 1024 × 600](reports/ui_ux_20261107/assets/wireframe-hoi-thoai-1024x600.pen)
 
-Khung **11 · Vùng soạn ba dòng** minh họa phương án đang duyệt khi bàn phím mở. Ô soạn hiện ba dòng, mic và **Gửi** nằm phía trên bàn phím, còn một tin đã gửi phía trên. Bàn phím là hình minh họa, kích thước thực tế của Squeekboard cần kiểm tra trên Pi. [Ảnh dựng khung 11](reports/ui_ux_20261107/assets/xMqX3.png)
+Khung **11 · Vùng soạn ba dòng** minh họa phương án đã duyệt khi bàn phím mở. Ô soạn hiện ba dòng, mic và **Gửi** nằm phía trên bàn phím, còn một tin đã gửi phía trên. Bàn phím là hình minh họa, kích thước thực tế của Squeekboard cần kiểm tra trên Pi. [Ảnh dựng khung 11](reports/ui_ux_20261107/assets/xMqX3.png)
 
 Khung **08 · Cài đặt giọng nói** minh họa một panel **Giọng nói thành chữ**. Nhãn ở bên trái, giá trị ở bên phải. Hai phần **Thu âm** và **Nhận dạng** luôn hiện trong cùng panel. Bản phác đặt mic và giới hạn thu mặc định **120 giây** cạnh cấu hình Deepgram, gồm khóa API, mô hình và giới hạn chờ nhận dạng hiện mặc định **60 giây** ở P1. Đã xem ảnh dựng trong Pencil để kiểm tra cả năm dòng và nút **Lưu cài đặt** đều vừa khung 1024 × 600. Tên mic và các điều khiển trong khung dùng để minh họa bố cục.
 
