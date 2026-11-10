@@ -10,6 +10,8 @@
 
 Google mô tả Antigravity App là ứng dụng desktop kế thừa cách tổ chức Agent Manager của Antigravity IDE. Tài liệu cho biết Antigravity App hiện chữ khi đang nói và dùng phần văn bản quanh con trỏ làm ngữ cảnh nhận dạng. Mã giao diện trong bản Windows `2.29.0` cho thấy cách xử lý từng bước. [Giới thiệu Antigravity 2.0](https://antigravity.google/blog/introducing-google-antigravity-2) · [Tài liệu nhận dạng giọng nói](https://antigravity.google/docs/features#voice-transcription)
 
+**Phân biệt với Antigravity IDE đời trước.** Trong bài ra mắt 2.0, Google đối chiếu tính năng hiện chữ trực tiếp của Antigravity App với cách trước đó là thu một tệp âm thanh gốc để chuyển cho mô hình. Phần đối chiếu bên dưới áp dụng cho App `2.29.0`. Bài giới thiệu xác nhận dạng dữ liệu chuyển cho mô hình, còn thao tác gửi cụ thể của IDE cũ chưa được kiểm tra trực tiếp. [Mô tả thay đổi của Google](https://antigravity.google/blog/introducing-google-antigravity-2)
+
 | Thời điểm | Hành vi trong mã Antigravity App `2.29.0` |
 | --- | --- |
 | Bắt đầu thu | Ứng dụng đọc chữ quanh con trỏ để cung cấp ngữ cảnh cho bộ nhận dạng. |

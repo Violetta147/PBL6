@@ -51,7 +51,7 @@ Phương án tệp thu tạm của V1 và cách phát triển dần sang V2, V3 
 
 | Vùng giao diện | Nội dung đã xác định | Việc cần duyệt trên bản phác |
 | :--- | :--- | :--- |
-| Điều hướng | Hội thoại, Lịch sử và Settings. | Cách mở và thu gọn Lịch sử trên màn nhỏ. Vị trí công cụ nhập file hoặc batch. |
+| Điều hướng | Hội thoại, Lịch sử và Settings. | Cách mở và thu gọn Lịch sử trên màn nhỏ. |
 | Vùng hội thoại | Hiển thị các tin đã gửi. Sau khi gửi thành công, vùng hội thoại tự cuộn đến tin vừa gửi. Tin này dùng cùng kiểu và cỡ chữ với các tin khác trong hội thoại. | Kiểm tra cỡ chữ chung trên màn 7 inch, bố cục từng tin và việc có cần nhãn nguồn nhập. |
 | Vùng soạn | Một vùng soạn chung có mic và **Gửi**. Khi chạm vào vùng soạn, bàn phím mở dưới cùng. Vùng soạn và **Gửi** ở ngay phía trên. Vùng hội thoại dùng phần chiều cao còn lại và có thể cuộn. | Kiểm tra độ dễ nhận ra khi mic sẵn sàng, đang thu và đang chờ nhận dạng. |
 | Settings | Cài đặt Deepgram đã có ở P1. **Nguồn mic trên Pi** và **Xóa lịch sử** đã chốt ở mức thiết kế. | Cách bố trí các mục hiển thị. Đầu ra âm thanh sẽ bàn cùng TTS. |
@@ -80,7 +80,9 @@ Nếu mic đang được dùng đã bị rút, lần chạm nút mic tiếp theo
 
 ### Phương án đang thảo luận
 
-**Các điểm còn mở.** Tìm kiếm hoặc xuất Lịch sử và chính sách giữ nội dung. Nhận dạng một file và batch vẫn thuộc phạm vi V1. Đặt chúng trong một công cụ nhập hoặc kiểm thử riêng là phương án đang bàn.
+**Các điểm còn mở.** Tìm kiếm hoặc xuất Lịch sử và chính sách giữ nội dung.
+
+**Nhận dạng file.** Batch là chạy nhận dạng trên danh sách file. Tách batch khỏi vùng soạn của hội thoại. Nhóm đã có đường chạy thí nghiệm theo danh sách bản thu trong `experiments/` và màn một file để kiểm tra tích hợp ở P1. Kế hoạch cũ có mục batch cho V1. Phạm vi sản phẩm đang được xem lại giữa hai phương án là giữ công cụ file riêng trong Settings nếu có tình huống sử dụng, hoặc dùng công cụ thí nghiệm và kiểm thử bên ngoài giao diện sản phẩm. [Bằng chứng thí nghiệm](experiments/inventory_20261102/README.md) · [Phạm vi P1](stt-app/README.md)
 
 ## 4. Ghi nhận ảnh tham khảo người dùng gửi
 
@@ -112,7 +114,7 @@ Mở bản phác Pencil và xem các khung **Trao đổi**, **Bàn phím mở** 
 
 Duyệt một lượt nói, đọc và đáp trên cùng màn hình. Sau khi một người gửi, đối chiếu vị trí của tin vừa gửi trong vùng hội thoại và xem người kia có đọc được câu ở cỡ chữ chung trên màn 7 inch trước khi đáp hay không.
 
-Nếu có điểm chưa rõ, bàn từng điểm trực tiếp trên kịch bản này. Các nút **Đọc** và **Chọn file** trong bản phác là cách bố trí để tham khảo. Khi quay lại TTS, xem các phương án vị trí, phần chữ cần đọc và cách tạo giọng. [Khảo sát nút Đọc to](reports/NGHIEN_CUU_DOC_TO_CAC_HARNESS.md)
+Nếu có điểm chưa rõ, bàn từng điểm trực tiếp trên kịch bản này. Nút **Chọn file** trong bản phác ghi lại một bố trí cũ để tham khảo. Kịch bản hội thoại dùng mic và vùng soạn. Khi quay lại TTS, xem các phương án vị trí, phần chữ cần đọc và cách tạo giọng cho nút **Đọc**. [Khảo sát nút Đọc to](reports/NGHIEN_CUU_DOC_TO_CAC_HARNESS.md)
 
 ## 6. Tiêu chí duyệt bản phác
 
