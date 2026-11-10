@@ -16,7 +16,7 @@ Read `reports/stt_v1_p1_20261107/BAO_CAO.md` and `stt-app/README.md` for evidenc
 
 ==**The final tabletop product uses a touchscreen and kiosk mode.**== Normal user operation must work by touch, including Record/Stop and Settings. Provide on-screen text entry when a field requires typing; essential actions must not depend on mouse hover.
 
-The target deployment runs the Next.js/Node.js STT backend and Electron on the Pi. After boot, the backend starts and Electron opens the local STT interface in kiosk mode on the attached touchscreen. The Pi microphone remains the capture source selected by the user. The laptop remains the development and initial V1 test interface.
+The target deployment runs the Next.js/Node.js STT backend and Electron on the Pi. After boot, the backend starts and Electron opens the local STT interface in kiosk mode on the attached touchscreen. The device path captures audio from a microphone on the Pi. The laptop remains the development and initial V1 test interface.
 
 The device integration gate is a real boot into the STT interface, followed by touch-only microphone start and stop, Settings, final transcript display, a shared error message location by the microphone, and text entry on the chosen screen. The user selected NH2067 and verified basic display output and touch on Pi 4. The complete touch-only app and kiosk gate remain pending. Complete the V1/V2/V3 gates in order.
 
@@ -43,6 +43,8 @@ DSI is a later hardware-integration option. Keep the web UI, STT session contrac
 On the final device, the Next.js/Node.js backend and Electron run on the Pi. The OS starts the backend, and Electron loads its local UI when ready. The backend controls the selected Pi microphone through a Pi capture adapter. In V1, Stop ends the recording and the backend sends the audio to Deepgram with `language=vi`. A successful result goes into the composer. If recognition fails, the interface keeps the draft, restores the ready microphone icon, and shows the application's user-facing error message in a shared location beside the microphone. A file or batch uses the same provider interface, with independent status and results per file. Electron does not add streaming to V1.
 
 During development, run the application on the laptop. For device tests, the laptop browser may open the shared UI served by the Pi backend; the selected capture source remains on the Pi. A laptop desktop build must identify which backend it controls and must not silently switch to its own microphone. This is one application with a shared UI and contracts, not separate desktop and web implementations.
+
+With no saved selection, V1 uses the sole detected Pi microphone and shows its name in Settings. If several microphones are detected, the user selects one in Settings before recording. If the active microphone has been unplugged, the next recording attempt reports the disconnected source in the shared location beside the microphone button. [Microphone selection and review criteria](STT_PRODUCT_UI_UX.md#chọn-nguồn-mic-trên-pi)
 
 Enter the Deepgram key through Settings and keep it on the backend machine. Return only redacted configuration/key-presence status; do not persist or expose the key in browser storage, Electron renderer code or logs. Future local engines may use separate Python/native adapters when required; the historical Python experiment scripts remain unchanged and do not require a FastAPI service for V1.
 

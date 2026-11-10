@@ -54,9 +54,15 @@ Phương án tệp thu tạm của V1 và cách phát triển dần sang V2, V3 
 | Điều hướng | Hội thoại, Lịch sử và Settings. | Cách mở và thu gọn Lịch sử trên màn nhỏ. Vị trí công cụ nhập file hoặc batch. |
 | Vùng hội thoại | Hiển thị các tin đã gửi. Sau khi gửi thành công, vùng hội thoại tự cuộn đến tin vừa gửi. Tin này dùng cùng kiểu và cỡ chữ với các tin khác trong hội thoại. | Kiểm tra cỡ chữ chung trên màn 7 inch, bố cục từng tin và việc có cần nhãn nguồn nhập. |
 | Vùng soạn | Một vùng soạn chung có mic và **Gửi**. Khi chạm vào vùng soạn, bàn phím mở dưới cùng. Vùng soạn và **Gửi** ở ngay phía trên. Vùng hội thoại dùng phần chiều cao còn lại và có thể cuộn. | Kiểm tra độ dễ nhận ra khi mic sẵn sàng, đang thu và đang chờ nhận dạng. |
-| Settings | Cài đặt Deepgram đã có ở P1. **Xóa lịch sử** đã chốt ở mức thiết kế. | Cách trình bày nguồn mic trên Pi và các mục hiển thị. Mục âm thanh sẽ bàn cùng TTS. |
+| Settings | Cài đặt Deepgram đã có ở P1. **Nguồn mic trên Pi** và **Xóa lịch sử** đã chốt ở mức thiết kế. | Cách bố trí các mục hiển thị. Đầu ra âm thanh sẽ bàn cùng TTS. |
 
 Khi triển khai bàn phím, cập nhật vùng soạn và trạng thái nút **Gửi** theo từng phím. [Khảo sát vùng soạn và bàn phím ảo](reports/NGHIEN_CUU_VUNG_SOAN_VA_BAN_PHIM_AO.md)
+
+### Chọn nguồn mic trên Pi
+
+Khi chưa có lựa chọn đã lưu và Pi chỉ phát hiện một mic, V1 dùng ngay mic đó và hiện tên trong **Settings**. Nếu Pi phát hiện nhiều mic khi chưa có lựa chọn, người dùng chọn một mic trong **Settings** trước khi thu. Nguồn thu thuộc Pi cả khi người dùng mở giao diện từ laptop.
+
+Nếu mic đang được dùng đã bị rút, lần chạm nút mic tiếp theo báo nguồn thu mất kết nối ở vị trí báo lỗi chung cạnh mic. Người dùng có thể kết nối lại nguồn thu hoặc chọn mic khác trong **Settings**.
 
 ### Quy tắc Lịch sử đã chốt
 
@@ -111,6 +117,7 @@ Nếu có điểm chưa rõ, bàn từng điểm trực tiếp trên kịch bả
 ## 6. Tiêu chí duyệt bản phác
 
 - Biểu tượng cho biết lúc nào mic sẵn sàng, đang thu hoặc đang chờ nhận dạng.
+- Khi chưa có lựa chọn đã lưu, Pi có một mic thì thu ngay bằng mic đó và **Settings** hiện tên mic. Pi có nhiều mic thì chọn nguồn trong **Settings** trước khi thu. Nếu rút mic đang dùng rồi chạm nút mic, thông báo mất kết nối xuất hiện cạnh nút.
 - Khi nhận dạng đoạn vừa thu thất bại, vòng xoay kết thúc, biểu tượng mic trở lại và thông báo xuất hiện ở vị trí chung cạnh mic. Chữ đang soạn vẫn còn. Lần chạm mic kế tiếp bắt đầu một lượt thu mới.
 - Phân biệt được chữ đang soạn và tin đã gửi. Chạm vùng soạn mở bàn phím và vẫn nhìn thấy câu đang sửa cùng nút **Gửi**.
 - Sửa chữ và di chuyển con trỏ trong lúc đang thu, rồi lặp lại khi vòng xoay đang hiện. Vùng soạn nhận thao tác ở cả hai giai đoạn và giữ các chỉnh sửa khi kết quả về.
