@@ -23,4 +23,6 @@
 
 **Khi nhận dạng lỗi**, app bỏ yêu cầu gửi đang chờ, giữ bản nháp và hiện báo lỗi ở vị trí chung cạnh mic. Khi nhận dạng thành công nhưng gửi tin lỗi, app giữ bản nháp đã ghép để người dùng xử lý theo quy tắc gửi lỗi hiện có. [Đặc tả vùng soạn và tiêu chí duyệt](../STT_PRODUCT_UI_UX.md#2-thu-sửa-và-gửi-trong-vùng-soạn-chung)
 
+**Khi nhận dạng xong mà không có chữ**, PBL6 dùng trạng thái `completed_empty` đã có từ P1. Nút mic trở lại, bản nháp được giữ, yêu cầu tự gửi bị bỏ và **Gửi** trở về trạng thái theo nội dung ô soạn. Mic trở lại là phản hồi của giao diện cho trường hợp này. [Mã trả kết quả của P1](../stt-app/src/server/deepgram.ts#L31-L36)
+
 **Khi chuyển hội thoại**, PBL6 hủy lượt đang thu hoặc đang chờ chữ, kể cả khi đã bấm **Gửi**. Kết quả đến sau bị bỏ qua. Chỉ mở bảng **Lịch sử** để xem danh sách thì lượt thu vẫn tiếp tục. Mã LearnHarness hủy lượt thu khi rời màn hình và vô hiệu hóa các thao tác đang chờ. [Mã LearnHarness](https://github.com/amosblomqvist/learnharness/blob/v0.5.0/components/dictation.tsx#L564-L571)

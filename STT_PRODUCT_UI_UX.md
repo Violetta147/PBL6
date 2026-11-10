@@ -32,6 +32,8 @@ Chạm biểu tượng **mic** để bắt đầu thu. Vùng soạn vẫn hiện
 
 **Trạng thái nút Gửi khi chờ chữ.** Nếu chỉ bấm hình vuông, **Gửi** vẫn bấm được. Sau khi người dùng bấm **Gửi**, nút giữ nguyên chữ **Gửi**, làm mờ và tạm khóa. Nút mic tiếp tục hiện vòng xoay trong lúc đợi chữ.
 
+**Khi nhận dạng xong mà không có chữ.** Với kết quả `completed_empty`, vòng xoay kết thúc và biểu tượng mic trở lại. Ứng dụng giữ bản nháp, bỏ yêu cầu tự gửi nếu có và đưa nút **Gửi** về trạng thái theo nội dung ô soạn. Người dùng có thể thu lại hoặc chủ động gửi phần chữ đang có. Giao diện chỉ hiện lại mic cho trường hợp này.
+
 Chạm vùng soạn để mở **bàn phím ảo** khi cần nhập hoặc sửa. Dùng **Backspace** trên bàn phím để xóa chữ. Việc nhận dạng xong giữ bàn phím ở trạng thái đóng nếu người dùng chưa chạm vào vùng soạn. Người dùng cũng có thể gõ trực tiếp. Chỉ thao tác **Gửi** mới đưa chữ vào hội thoại. Nếu bàn phím đang mở, ứng dụng tự đóng bàn phím sau khi gửi thành công.
 
 Trong V1, ứng dụng nhận dạng sau khi dừng thu và đưa chữ cuối vào vùng soạn. Nếu nhận dạng thất bại, vòng xoay kết thúc, biểu tượng **mic** trở lại và chữ đang soạn được giữ. Giao diện dùng **một vị trí cạnh mic** để hiện thông báo lỗi dành cho người dùng do API PBL6 trả về. Người dùng chạm mic để thu một lượt mới. V2 gửi âm thanh trong lúc thu và vẫn hiển thị chữ cuối. V3 bổ sung chữ tạm cập nhật trong lúc nói. Khi laptop điều khiển Pi, nguồn thu là thiết bị đã chọn trên Pi. [Đối chiếu cách xử lý khi nhận dạng thất bại](reports/NGHIEN_CUU_VUNG_SOAN_VA_BAN_PHIM_AO.md#khi-nhận-dạng-giọng-nói-thất-bại)
@@ -126,6 +128,7 @@ Khi quay lại TTS, xem các phương án vị trí, phần chữ cần đọc v
 
 - Nút bên trái **Gửi** hiển thị biểu tượng mic khi sẵn sàng, hình vuông khi đang thu và vòng xoay khi chờ nhận dạng. Nút vẫn nằm cạnh **Gửi** khi bàn phím mở.
 - Gõ “Tôi muốn”, đặt con trỏ cuối câu, thu “hẹn gặp vào sáng mai” và bấm **Gửi** khi đang thu. Ứng dụng dừng, đợi nhận dạng và gửi “Tôi muốn hẹn gặp vào sáng mai” đúng một lần. Thử lại bằng cách bấm hình vuông trước, rồi bấm **Gửi** khi vòng xoay đang hiện. Nếu nhận dạng thất bại sau khi bấm **Gửi**, bản nháp vẫn còn và không xuất hiện tin mới.
+- Gõ “Tôi muốn”, bắt đầu thu rồi bấm **Gửi**. Giả lập Deepgram trả về `completed_empty`. Biểu tượng mic trở lại, “Tôi muốn” vẫn trong vùng soạn, nút **Gửi** bấm lại được và hội thoại không có tin mới. Với ô soạn trống, mic vẫn trở lại và **Gửi** ở trạng thái dành cho bản nháp trống.
 - Khi vòng xoay xuất hiện sau khi bấm hình vuông, **Gửi** vẫn bấm được. Sau lần bấm **Gửi** đầu tiên, nhãn nút vẫn là **Gửi**, nút mờ và lần bấm tiếp theo không tạo yêu cầu mới. Ô soạn vẫn sửa được trong lúc chờ chữ.
 - Trong hội thoại A, mở bảng **Lịch sử** khi đang thu và kiểm tra lượt thu vẫn tiếp tục. Chọn hội thoại B để hủy lượt thu. Lặp lại bằng cách bấm **Gửi** ở A rồi chuyển sang B khi còn chờ chữ. Kết quả về muộn không chèn chữ vào vùng soạn và không tạo tin ở A hay B.
 - Khi chưa có lựa chọn đã lưu, Pi có một mic thì thu ngay bằng mic đó và **Settings** hiện tên mic. Pi có nhiều mic thì chọn nguồn trong **Settings** trước khi thu. Nếu rút mic đang dùng rồi chạm nút mic, thông báo mất kết nối xuất hiện cạnh nút.
