@@ -20,6 +20,16 @@
 
 **Dung lượng tham khảo.** WAV mono 16 kHz, 16 bit chứa khoảng **1,92 MB dữ liệu âm thanh mỗi phút**, chưa tính phần đầu tệp. Đây là phép tính theo định dạng ví dụ. Ghi dần vào tệp giúp giai đoạn thu không phải giữ toàn bộ bản ghi trong RAM nếu thư mục tạm nằm trên ổ lưu trữ. Đường nhận dạng một file hiện có đọc toàn bộ nội dung vào RAM khi gửi. Vì vậy mức RAM và độ trễ của toàn lượt vẫn cần kiểm tra trên Pi. [Mã đọc file của PBL6](../stt-app/src/server/audio.ts#L20) · [Mã gửi dữ liệu cho Deepgram](../stt-app/src/server/deepgram.ts#L7)
 
+### Số tệp, tải ghi và tốc độ nói
+
+**Một lượt thu có thể gồm nhiều khối âm thanh nhưng chỉ cần một tệp WAV.** Pi nối từng khối vào cùng tệp trong lúc thu. Với đường V1 gửi cả đoạn sau khi dừng, chia cùng lượng dữ liệu ra nhiều tệp sẽ thêm thao tác tạo và dọn tệp. Nếu cần ghép lại để gửi, việc ghép cũng tốn thêm thao tác. Các tệp `.chunk` trong Codex thuộc cơ chế lưu và đọc lại bản ghi. Chưa có phép đo chứng minh cách đó giúp nhận dạng nhanh hơn.
+
+**Tải ghi ở cấu hình ví dụ là 32 kB/s.** Một bản sao dữ liệu âm thanh chiếm khoảng **0,32 MB cho 10 giây**, **0,96 MB cho 30 giây** và **1,92 MB cho 60 giây**. Đây là dung lượng dữ liệu của một bản sao, chưa tính các bản sao trong bộ nhớ, bộ đệm hệ điều hành hoặc phần còn lại của ứng dụng. Tệp tạm là đầu vào cho đường nhận dạng sau khi dừng. Có thể giữ một mẫu thử có chủ đích để nghe lại khi kiểm tra mic và so chữ nhận dạng. Việc đó tách với vòng đời tự dọn của bản thu sử dụng thông thường.
+
+**Tốc độ nói giúp chọn kịch bản thử.** Ruan và cộng sự đo khoảng **153 từ/phút** khi nhập tin nhắn ngắn bằng giọng nói tiếng Anh trong phòng thí nghiệm. Pellegrino và cộng sự báo cáo khoảng **5,22 âm tiết/giây** cho tiếng Việt trong khảo sát đọc thành tiếng. Một từ tiếng Việt có thể gồm nhiều âm tiết. Các số này là mốc tham khảo cho từng bài nghiên cứu. Độ dài lượt thu PBL6 nên được tính từ lúc bắt đầu đến khi dừng, gồm cả khoảng ngập ngừng. Các mốc **10, 30 và 60 giây** là ví dụ để kiểm tra, chưa phải phân bố thời lượng sử dụng thực tế hay giới hạn thu. [Nghiên cứu nhập tin nhắn của Ruan và cộng sự](https://arxiv.org/abs/1608.07323) · [Nghiên cứu tốc độ nói của Pellegrino và cộng sự](https://www.ddl.cnrs.fr/fulltext/pellegrino/Pellegrino_2011_Language.pdf)
+
+**Khi kiểm tra Pi**, đo RAM cao nhất lúc thu và lúc gửi, cùng thời gian từ bấm dừng đến khi chữ xuất hiện. Nếu cần so RAM với tệp tạm, dùng cùng âm thanh, cùng thiết bị và cùng đường nhận dạng để tách ảnh hưởng của cách lưu. Hiện chưa có số đo để xếp hạng ba ứng dụng hoặc kết luận cách ghi nào nhanh hơn trên Pi.
+
 ## Thiết kế tăng dần từ V1 đến V3
 
 | Mốc | Cách xử lý âm thanh | Khi nào chữ xuất hiện trong ô soạn |
