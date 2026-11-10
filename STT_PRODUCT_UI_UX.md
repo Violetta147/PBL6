@@ -34,7 +34,7 @@ Trong V1, ứng dụng nhận dạng sau khi dừng thu và đưa chữ cuối v
 
 **Bản nháp.** Theo LearnHarness, chữ chưa gửi chỉ tồn tại trong vùng soạn của hội thoại đang mở. Chuyển hội thoại hoặc đóng ứng dụng sẽ bỏ bản nháp. Nếu gửi lỗi khi hội thoại vẫn đang mở, ứng dụng giữ chữ để người dùng sửa hoặc thử gửi lại. [Khảo sát cách giữ bản nháp](reports/NGHIEN_CUU_BAN_NHAP_HOI_THOAI.md)
 
-**Còn để bàn.** Có dùng vị trí con trỏ lúc chạm mic làm mốc chèn và cho sửa chữ trong lúc thu hoặc chờ hay không. Việc lưu audio thô, tệp tạm và định dạng lưu cũng còn để bàn. [Khảo sát con trỏ khi soạn bằng giọng nói](reports/NGHIEN_CUU_COMPOSER_ANTIGRAVITY.md)
+**Trong lúc thu và chờ kết quả.** Vùng soạn vẫn cho phép sửa bản nháp và di chuyển con trỏ ở cả hai giai đoạn. Kết quả nhận dạng được chèn vào bản nháp đã cập nhật. Nếu con trỏ đã di chuyển, thời điểm lấy vị trí chèn còn để bàn. Việc lưu audio thô, tệp tạm và định dạng lưu cũng còn để bàn. [Khảo sát con trỏ khi soạn bằng giọng nói](reports/NGHIEN_CUU_COMPOSER_ANTIGRAVITY.md)
 
 ### Cách hình dung “harness bao quanh model”
 
@@ -106,6 +106,7 @@ Nếu có điểm chưa rõ, bàn từng điểm trực tiếp trên kịch bả
 - Biểu tượng cho biết lúc nào mic sẵn sàng, đang thu hoặc đang chờ nhận dạng.
 - Khi nhận dạng đoạn vừa thu thất bại, vòng xoay kết thúc, biểu tượng mic trở lại và thông báo xuất hiện ở vị trí chung cạnh mic. Chữ đang soạn vẫn còn. Lần chạm mic kế tiếp bắt đầu một lượt thu mới.
 - Phân biệt được chữ đang soạn và tin đã gửi. Chạm vùng soạn mở bàn phím và vẫn nhìn thấy câu đang sửa cùng nút **Gửi**.
+- Sửa chữ và di chuyển con trỏ trong lúc đang thu, rồi lặp lại khi vòng xoay đang hiện. Vùng soạn nhận thao tác ở cả hai giai đoạn và giữ các chỉnh sửa khi kết quả về.
 - Đặt con trỏ giữa “Tôi muốn” và “vào sáng mai.” rồi thu câu “hẹn gặp”. Vùng soạn hiện “Tôi muốn hẹn gặp vào sáng mai.” để người dùng đọc lại trước khi gửi.
 - Nếu gửi thành công khi bàn phím đang mở, bàn phím tự đóng để dành thêm chỗ cho tin vừa gửi.
 - Trong một hội thoại dài, cuộn lên xem tin cũ rồi gửi một tin mới. Khi gửi thành công, vùng hội thoại tự cuộn để đưa tin vừa gửi vào tầm nhìn.
