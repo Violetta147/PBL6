@@ -76,7 +76,9 @@ Khi khởi động, nếu chưa có lựa chọn đã lưu, V1 dùng mic mặc �
 
 Nếu Pi chưa phát hiện mic nào khi người dùng chạm nút mic, ứng dụng hiện cạnh nút: **“Không tìm thấy mic. Hãy kết nối mic rồi thử lại.”** Sau khi kết nối, người dùng chạm mic lần nữa để bắt đầu thu theo quy tắc chọn nguồn.
 
-Nếu mic đã lưu không còn khả dụng, ứng dụng chuyển sang mic mặc định khả dụng của hệ điều hành. Nếu không có mic khả dụng, ứng dụng hiện thông báo không tìm thấy mic cạnh nút khi người dùng chạm mic.
+Nếu mic đã lưu không còn khả dụng, ứng dụng tạm dùng mic mặc định khả dụng của hệ điều hành và giữ nguyên lựa chọn đã lưu. Nếu không có mic khả dụng, ứng dụng hiện thông báo không tìm thấy mic cạnh nút khi người dùng chạm mic.
+
+Khi mic đã lưu kết nối lại và sẵn sàng, ứng dụng tự khôi phục nguồn đó cho lượt thu tiếp theo. Nếu đang thu bằng mic dự phòng, giữ nguồn đó đến hết lượt thu. Nếu người dùng đã chọn một mic khác trong **Settings**, lựa chọn mới được lưu và có hiệu lực theo cùng quy tắc. Việc kết nối lại mic không tự bắt đầu thu. **Settings** hiển thị rõ mic người dùng đã chọn và mic thực tế đang dùng, kể cả khi hai mic khác nhau trong lúc dùng nguồn dự phòng.
 
 Khi cắm thêm mic, ứng dụng tiếp tục dùng mic đã chọn nếu mic đó còn khả dụng. Khi ứng dụng đang dùng nguồn mặc định của hệ điều hành, nguồn này có thể đổi theo mic mặc định của hệ điều hành. Trong cả hai trường hợp, ứng dụng không yêu cầu người dùng chọn mic khi bắt đầu lượt thu.
 
@@ -154,6 +156,7 @@ Khi duyệt nút **Đọc**, dùng ba trạng thái loa, vòng xoay và nút d�
 - Trong hội thoại A, mở bảng **Lịch sử** khi đang thu và kiểm tra lượt thu vẫn tiếp tục. Chọn hội thoại B để hủy lượt thu. Lặp lại bằng cách bấm **Gửi** ở A rồi chuyển sang B khi còn chờ chữ. Kết quả về muộn không chèn chữ vào vùng soạn và không tạo tin ở A hay B.
 - Khi chưa có lựa chọn đã lưu, khởi động ứng dụng với nhiều mic và kiểm tra nguồn đang dùng là mic mặc định của PipeWire. Chạm mic nhiều lần qua các lượt thu và kiểm tra ứng dụng dùng nguồn đó mà không yêu cầu chọn lại.
 - Đổi mic trong **Settings**, khởi động lại ứng dụng và kiểm tra các lượt thu dùng mic đã lưu. Khi mic đã lưu không còn khả dụng, kiểm tra lượt thu dùng mic mặc định khả dụng của hệ điều hành và tên nguồn đang dùng hiện trong **Settings**.
+- Chọn mic USB, ngắt kết nối và kiểm tra **Settings** vẫn hiện lựa chọn USB cùng mic dự phòng thực tế. Đang thu bằng mic dự phòng thì kết nối lại USB và kiểm tra nguồn thu giữ nguyên đến hết lượt. Lượt thu tiếp theo dùng USB, và kết nối lại không tự bắt đầu thu. Lặp lại sau khi người dùng chọn mic khác trong **Settings**, kiểm tra lựa chọn mới được giữ khi USB cũ kết nối lại.
 - Cắm thêm mic khi mic đã chọn vẫn khả dụng và kiểm tra lượt thu tiếp tục dùng mic đã chọn. Khi dùng nguồn mặc định của hệ điều hành, đổi mic mặc định rồi kiểm tra nguồn dùng cho lượt thu tiếp theo.
 - Khi Pi chưa phát hiện mic, chạm nút mic và kiểm tra thông báo **“Không tìm thấy mic. Hãy kết nối mic rồi thử lại.”** xuất hiện cạnh nút. Kết nối một mic rồi chạm lại và kiểm tra lượt thu bắt đầu theo quy tắc chọn nguồn.
 - Trong **Cài đặt → Lịch sử**, dùng bộ lọc có 12 kết quả, gồm cả dòng nằm ngoài vùng nhìn thấy. Bấm **Chọn 12 kết quả**, bỏ chọn hai dòng và cuộn danh sách. Ô tìm, bộ lọc và nút **Xóa 10 hội thoại** vẫn trong tầm nhìn. Bấm xóa và kiểm tra chỉ mười hội thoại đã chọn biến mất. Đổi điều kiện tìm hoặc lọc sau khi chọn ở một lượt kiểm tra khác và kiểm tra lựa chọn cũ đã được bỏ.
