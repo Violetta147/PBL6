@@ -66,7 +66,7 @@ Phương án tệp thu tạm của V1 và cách phát triển dần sang V2, V3 
 | Vùng giao diện | Nội dung đã xác định | Việc cần duyệt trên bản phác |
 | :--- | :--- | :--- |
 | Điều hướng | Hội thoại, Lịch sử và Settings. | Cách mở và thu gọn Lịch sử trên màn nhỏ. |
-| Vùng hội thoại | Hiển thị các tin đã gửi. Sau khi gửi thành công, vùng hội thoại tự cuộn đến tin vừa gửi. Tin này dùng cùng kiểu và cỡ chữ với các tin khác trong hội thoại. | Kiểm tra cỡ chữ chung trên màn 7 inch, bố cục từng tin và việc có cần nhãn nguồn nhập. |
+| Vùng hội thoại | Hiển thị các tin đã gửi theo thứ tự gửi. V1 chưa cần gán tên người gửi hay vai trò. Sau khi gửi thành công, vùng hội thoại tự cuộn đến tin vừa gửi. Tin này dùng cùng kiểu và cỡ chữ với các tin khác trong hội thoại. | Kiểm tra cỡ chữ chung trên màn 7 inch, bố cục từng tin và việc có cần nhãn nguồn nhập. |
 | Vùng soạn | Một vùng soạn chung có nút mic ngay bên trái **Gửi**, cùng hàng với ô nhập. Khi chạm vào vùng soạn, bàn phím mở dưới cùng. Vùng soạn, mic và **Gửi** ở ngay phía trên. Vùng hội thoại dùng phần chiều cao còn lại và có thể cuộn. | Kiểm tra độ dễ nhận ra khi mic sẵn sàng, đang thu và đang chờ nhận dạng. |
 | Settings | Cài đặt Deepgram đã có ở P1. **Nguồn mic trên Pi**, **Thời lượng thu tối đa (giây)** và **Xóa lịch sử** đã chốt ở mức thiết kế. | Cách bố trí các mục hiển thị. Đầu ra âm thanh sẽ bàn cùng TTS. |
 
@@ -175,6 +175,7 @@ Khi duyệt nút **Đọc**, dùng ba trạng thái loa, vòng xoay và nút d�
 - Khi nhận dạng đoạn vừa thu thất bại, vòng xoay kết thúc, biểu tượng mic trở lại và thông báo xuất hiện ở vị trí chung cạnh mic. Chữ đang soạn vẫn còn. Lần chạm mic kế tiếp bắt đầu một lượt thu mới.
 - Trong lúc tin A đang đọc, chạm **Đọc** ở tin B. Âm thanh A dừng ngay khi chạm, kể cả khi B còn chờ âm thanh. Khi B sẵn sàng, chỉ phát B.
 - Phân biệt được chữ đang soạn và tin đã gửi. Chạm vùng soạn mở bàn phím và vẫn nhìn thấy câu đang sửa cùng nút **Gửi**.
+- Gửi lần lượt nhiều tin và kiểm tra hội thoại hiện các tin theo thứ tự gửi, không gán tên người gửi hay vai trò.
 - Nhập một câu dài vượt chiều cao ô soạn, mở bàn phím và chạm vào giữa câu để sửa. Kiểm tra dòng có con trỏ hiện trong vùng nhìn thấy, nội dung ô soạn cuộn được và mic cùng **Gửi** vẫn chạm được phía trên bàn phím.
 - Sửa chữ và di chuyển con trỏ trong lúc đang thu, rồi lặp lại khi vòng xoay đang hiện. Vùng soạn nhận thao tác ở cả hai giai đoạn và giữ các chỉnh sửa khi kết quả về.
 - Với V1, bắt đầu thu câu “hẹn gặp” khi con trỏ ở cuối “Tôi muốn vào sáng mai.” Trong lúc chờ, chuyển con trỏ đến giữa “Tôi muốn” và “vào sáng mai.” Khi có kết quả, vùng soạn hiện “Tôi muốn hẹn gặp vào sáng mai.” Chạm nút dừng làm ô soạn mất tiêu điểm thì vị trí gần nhất vẫn dùng được.
