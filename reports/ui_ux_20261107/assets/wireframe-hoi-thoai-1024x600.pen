@@ -181,7 +181,8 @@
                   "content": "Tôi muốn hỏi giờ làm việc.",
                   "textAlignVertical": "middle",
                   "fontFamily": "Segoe UI",
-                  "fontSize": 24
+                  "fontSize": 24,
+                  "fontWeight": "normal"
                 },
                 {
                   "type": "frame",
@@ -261,7 +262,8 @@
                   "content": "Quầy mở đến 17 giờ.",
                   "textAlignVertical": "middle",
                   "fontFamily": "Segoe UI",
-                  "fontSize": 24
+                  "fontSize": 24,
+                  "fontWeight": "normal"
                 },
                 {
                   "type": "frame",
@@ -379,7 +381,8 @@
               "content": "Gõ hoặc sửa chữ nhận dạng…",
               "textAlignVertical": "middle",
               "fontFamily": "Segoe UI",
-              "fontSize": 21
+              "fontSize": 21,
+              "fontWeight": "normal"
             },
             {
               "type": "frame",
@@ -606,7 +609,8 @@
                   "content": "Tôi muốn hỏi giờ làm việc.",
                   "textAlignVertical": "middle",
                   "fontFamily": "Segoe UI",
-                  "fontSize": 24
+                  "fontSize": 24,
+                  "fontWeight": "normal"
                 },
                 {
                   "type": "frame",
@@ -686,7 +690,8 @@
                   "content": "Quầy mở đến 17 giờ.",
                   "textAlignVertical": "middle",
                   "fontFamily": "Segoe UI",
-                  "fontSize": 24
+                  "fontSize": 24,
+                  "fontWeight": "normal"
                 },
                 {
                   "type": "frame",
@@ -804,7 +809,8 @@
               "content": "Gõ hoặc sửa chữ nhận dạng…",
               "textAlignVertical": "middle",
               "fontFamily": "Segoe UI",
-              "fontSize": 21
+              "fontSize": 21,
+              "fontWeight": "normal"
             },
             {
               "type": "frame",
@@ -1018,7 +1024,8 @@
               "content": "Đang mở",
               "textAlignVertical": "middle",
               "fontFamily": "Segoe UI",
-              "fontSize": 16
+              "fontSize": 16,
+              "fontWeight": "normal"
             },
             {
               "type": "rectangle",
@@ -1060,7 +1067,8 @@
               "content": "Hội thoại đã lưu",
               "textAlignVertical": "middle",
               "fontFamily": "Segoe UI",
-              "fontSize": 16
+              "fontSize": 16,
+              "fontWeight": "normal"
             }
           ]
         }
@@ -3332,7 +3340,8 @@
                   "content": "Tôi muốn hỏi giờ làm việc.",
                   "textAlignVertical": "middle",
                   "fontFamily": "Segoe UI",
-                  "fontSize": 24
+                  "fontSize": 24,
+                  "fontWeight": "normal"
                 },
                 {
                   "type": "frame",
@@ -3412,7 +3421,8 @@
                   "content": "Quầy mở đến 17 giờ.",
                   "textAlignVertical": "middle",
                   "fontFamily": "Segoe UI",
-                  "fontSize": 24
+                  "fontSize": 24,
+                  "fontWeight": "normal"
                 },
                 {
                   "type": "frame",
@@ -3542,7 +3552,8 @@
               "content": "Tôi muốn hẹn gặp.",
               "textAlignVertical": "middle",
               "fontFamily": "Segoe UI",
-              "fontSize": 21
+              "fontSize": 21,
+              "fontWeight": "normal"
             },
             {
               "type": "frame",
@@ -3769,7 +3780,8 @@
                   "content": "Tôi muốn hỏi giờ làm việc.",
                   "textAlignVertical": "middle",
                   "fontFamily": "Segoe UI",
-                  "fontSize": 24
+                  "fontSize": 24,
+                  "fontWeight": "normal"
                 },
                 {
                   "type": "frame",
@@ -3849,7 +3861,8 @@
                   "content": "Quầy mở đến 17 giờ.",
                   "textAlignVertical": "middle",
                   "fontFamily": "Segoe UI",
-                  "fontSize": 24
+                  "fontSize": 24,
+                  "fontWeight": "normal"
                 },
                 {
                   "type": "frame",
@@ -3967,7 +3980,8 @@
               "content": "Tôi muốn hẹn gặp.",
               "textAlignVertical": "middle",
               "fontFamily": "Segoe UI",
-              "fontSize": 21
+              "fontSize": 21,
+              "fontWeight": "normal"
             },
             {
               "type": "frame",
@@ -4194,7 +4208,8 @@
                   "content": "Tôi muốn hỏi giờ làm việc.",
                   "textAlignVertical": "middle",
                   "fontFamily": "Segoe UI",
-                  "fontSize": 24
+                  "fontSize": 24,
+                  "fontWeight": "normal"
                 },
                 {
                   "type": "frame",
@@ -4274,7 +4289,8 @@
                   "content": "Quầy mở đến 17 giờ.",
                   "textAlignVertical": "middle",
                   "fontFamily": "Segoe UI",
-                  "fontSize": 24
+                  "fontSize": 24,
+                  "fontWeight": "normal"
                 },
                 {
                   "type": "frame",
@@ -4392,7 +4408,8 @@
               "content": "Tôi muốn hẹn gặp.",
               "textAlignVertical": "middle",
               "fontFamily": "Segoe UI",
-              "fontSize": 21
+              "fontSize": 21,
+              "fontWeight": "normal"
             },
             {
               "type": "frame",
@@ -4636,7 +4653,8 @@
                   "content": "Tôi muốn hỏi giờ làm việc.",
                   "textAlignVertical": "middle",
                   "fontFamily": "Segoe UI",
-                  "fontSize": 24
+                  "fontSize": 24,
+                  "fontWeight": "normal"
                 },
                 {
                   "type": "frame",
@@ -4716,7 +4734,8 @@
                   "content": "Quầy mở đến 17 giờ.",
                   "textAlignVertical": "middle",
                   "fontFamily": "Segoe UI",
-                  "fontSize": 24
+                  "fontSize": 24,
+                  "fontWeight": "normal"
                 },
                 {
                   "type": "frame",
@@ -4834,7 +4853,8 @@
               "content": "Tôi muốn hẹn gặp.",
               "textAlignVertical": "middle",
               "fontFamily": "Segoe UI",
-              "fontSize": 21
+              "fontSize": 21,
+              "fontWeight": "normal"
             },
             {
               "type": "frame",
@@ -6963,6 +6983,2092 @@
                       ]
                     }
                   ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "xMqX3",
+      "x": 5480,
+      "y": 1328,
+      "name": "11 · Vùng soạn ba dòng · 1024 × 600",
+      "clip": true,
+      "width": 1024,
+      "height": 600,
+      "fill": "#F5F7F9",
+      "layout": "none",
+      "children": [
+        {
+          "type": "frame",
+          "id": "LcFIH",
+          "x": 0,
+          "y": 0,
+          "name": "Thanh đầu",
+          "width": 1024,
+          "height": 76,
+          "fill": "#FFFFFF",
+          "layout": "none",
+          "children": [
+            {
+              "type": "rectangle",
+              "id": "Jtrif",
+              "x": 0,
+              "y": 75,
+              "name": "Phân cách",
+              "fill": "#BAC5D0",
+              "width": 1024,
+              "height": 1
+            },
+            {
+              "type": "frame",
+              "id": "RO2r7",
+              "x": 28,
+              "y": 14,
+              "name": "Hội thoại",
+              "width": 144,
+              "height": 48,
+              "fill": "#00000000",
+              "layout": "none",
+              "children": [
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 8,
+                  "id": "sCd55",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Nền nút · viền",
+                  "fill": "#BAC5D0",
+                  "width": 144,
+                  "height": 48
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 7,
+                  "id": "o9YSo",
+                  "x": 1,
+                  "y": 1,
+                  "name": "Nền nút",
+                  "fill": "#FFFFFF",
+                  "width": 142,
+                  "height": 46
+                },
+                {
+                  "type": "text",
+                  "id": "ASmnH",
+                  "x": 4,
+                  "y": 0,
+                  "name": "Hội thoại",
+                  "fill": "#18212B",
+                  "textGrowth": "fixed-width-height",
+                  "width": 136,
+                  "height": 48,
+                  "content": "Hội thoại",
+                  "textAlign": "center",
+                  "textAlignVertical": "middle",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "WtAks",
+              "x": 200,
+              "y": 0,
+              "name": "Trao đổi tại quầy",
+              "fill": "#18212B",
+              "textGrowth": "fixed-width-height",
+              "width": 624,
+              "height": 76,
+              "content": "Trao đổi tại quầy",
+              "textAlign": "center",
+              "textAlignVertical": "middle",
+              "fontFamily": "Inter",
+              "fontSize": 24,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "GdVjc",
+              "x": 876,
+              "y": 14,
+              "name": "Cài đặt",
+              "width": 120,
+              "height": 48,
+              "fill": "#00000000",
+              "layout": "none",
+              "children": [
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 8,
+                  "id": "pLgcU",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Nền nút · viền",
+                  "fill": "#BAC5D0",
+                  "width": 120,
+                  "height": 48
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 7,
+                  "id": "qOTeL",
+                  "x": 1,
+                  "y": 1,
+                  "name": "Nền nút",
+                  "fill": "#FFFFFF",
+                  "width": 118,
+                  "height": 46
+                },
+                {
+                  "type": "text",
+                  "id": "HRv0R",
+                  "x": 4,
+                  "y": 0,
+                  "name": "Cài đặt",
+                  "fill": "#18212B",
+                  "textGrowth": "fixed-width-height",
+                  "width": 112,
+                  "height": 48,
+                  "content": "Cài đặt",
+                  "textAlign": "center",
+                  "textAlignVertical": "middle",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "600"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "wTvtX",
+          "x": 28,
+          "y": 96,
+          "name": "Tin nhắn gần nhất",
+          "width": 968,
+          "height": 76,
+          "fill": "#FFFFFF",
+          "layout": "none",
+          "children": [
+            {
+              "type": "rectangle",
+              "cornerRadius": 10,
+              "id": "EMneI",
+              "x": 0,
+              "y": 0,
+              "name": "Khung tin nhắn · viền",
+              "fill": "#BAC5D0",
+              "width": 968,
+              "height": 76
+            },
+            {
+              "type": "rectangle",
+              "cornerRadius": 9,
+              "id": "pJ0Vb",
+              "x": 1,
+              "y": 1,
+              "name": "Khung tin nhắn",
+              "fill": "#FFFFFF",
+              "width": 966,
+              "height": 74
+            },
+            {
+              "type": "text",
+              "id": "eGLy0",
+              "x": 18,
+              "y": 0,
+              "name": "Quầy mở đến 17 giờ.",
+              "fill": "#18212B",
+              "textGrowth": "fixed-width-height",
+              "width": 806,
+              "height": 76,
+              "content": "Quầy mở đến 17 giờ.",
+              "textAlignVertical": "middle",
+              "fontFamily": "Inter",
+              "fontSize": 24,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "A4Y5D7",
+              "x": 862,
+              "y": 14,
+              "name": "Đọc",
+              "width": 86,
+              "height": 48,
+              "fill": "#00000000",
+              "layout": "none",
+              "children": [
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 8,
+                  "id": "TDijR",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Nền nút · viền",
+                  "fill": "#BAC5D0",
+                  "width": 86,
+                  "height": 48
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 7,
+                  "id": "nd1Q2",
+                  "x": 1,
+                  "y": 1,
+                  "name": "Nền nút",
+                  "fill": "#FFFFFF",
+                  "width": 84,
+                  "height": 46
+                },
+                {
+                  "type": "text",
+                  "id": "pfyfY",
+                  "x": 4,
+                  "y": 0,
+                  "name": "Đọc",
+                  "fill": "#18212B",
+                  "textGrowth": "fixed-width-height",
+                  "width": 78,
+                  "height": 48,
+                  "content": "Đọc",
+                  "textAlign": "center",
+                  "textAlignVertical": "middle",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "600"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "zrImR",
+          "x": 0,
+          "y": 194,
+          "name": "Vùng soạn đang sửa",
+          "width": 1024,
+          "height": 148,
+          "fill": "#FFFFFF",
+          "layout": "none",
+          "children": [
+            {
+              "type": "rectangle",
+              "id": "DIpcm",
+              "x": 0,
+              "y": 0,
+              "name": "Phân cách",
+              "fill": "#BAC5D0",
+              "width": 1024,
+              "height": 1
+            },
+            {
+              "type": "rectangle",
+              "cornerRadius": 8,
+              "id": "xJPQG",
+              "x": 28,
+              "y": 14,
+              "name": "Ô soạn đang chọn · viền",
+              "fill": "#BAC5D0",
+              "width": 768,
+              "height": 118
+            },
+            {
+              "type": "rectangle",
+              "cornerRadius": 7,
+              "id": "uyeQq",
+              "x": 29,
+              "y": 15,
+              "name": "Ô soạn đang chọn",
+              "fill": "#FFFFFF",
+              "width": 766,
+              "height": 116
+            },
+            {
+              "type": "text",
+              "id": "vQEa6",
+              "x": 44,
+              "y": 22,
+              "name": "Cảm ơn bạn.",
+              "fill": "#18212B",
+              "textGrowth": "fixed-width-height",
+              "width": 736,
+              "height": 94,
+              "content": "Tôi muốn hỏi giờ làm việc của quầy.\nNgày mai tôi có thể đến vào buổi sáng\nđể nhận hồ sơ được không?",
+              "fontFamily": "Inter",
+              "fontSize": 21,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "rectangle",
+              "id": "NrwL8",
+              "x": 169,
+              "y": 28,
+              "name": "Con trỏ",
+              "enabled": false,
+              "fill": "#273D53",
+              "width": 2,
+              "height": 27
+            },
+            {
+              "type": "frame",
+              "id": "Lmmvk",
+              "x": 872,
+              "y": 76,
+              "name": "Gửi",
+              "width": 124,
+              "height": 56,
+              "fill": "#00000000",
+              "layout": "none",
+              "children": [
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 8,
+                  "id": "LgoeS",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Nền nút",
+                  "fill": "#273D53",
+                  "width": 124,
+                  "height": 56
+                },
+                {
+                  "type": "text",
+                  "id": "eMU7x",
+                  "x": 4,
+                  "y": 0,
+                  "name": "Gửi",
+                  "fill": "#FFFFFF",
+                  "textGrowth": "fixed-width-height",
+                  "width": 116,
+                  "height": 56,
+                  "content": "Gửi",
+                  "textAlign": "center",
+                  "textAlignVertical": "middle",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "KE43v",
+              "x": 808,
+              "y": 81,
+              "name": "Nút mic",
+              "width": 52,
+              "height": 46,
+              "fill": "#273D53",
+              "cornerRadius": 8,
+              "layout": "none",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "BXRWV",
+                  "x": 14,
+                  "y": 11,
+                  "name": "Mic sẵn sàng",
+                  "width": 24,
+                  "height": 24,
+                  "icon": "mic",
+                  "library": "lucide",
+                  "fill": "#FFFFFF"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "G9vFVa",
+          "x": 0,
+          "y": 342,
+          "name": "Bàn phím ảo minh họa",
+          "width": 1024,
+          "height": 258,
+          "fill": "#E9EEF3",
+          "layout": "none",
+          "children": [
+            {
+              "type": "rectangle",
+              "id": "xOfMN",
+              "x": 0,
+              "y": 0,
+              "name": "Phân cách",
+              "fill": "#BAC5D0",
+              "width": 1024,
+              "height": 1
+            },
+            {
+              "type": "frame",
+              "id": "B46UX",
+              "x": 36,
+              "y": 14,
+              "name": "Q",
+              "width": 88,
+              "height": 48,
+              "fill": "#00000000",
+              "layout": "none",
+              "children": [
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 8,
+                  "id": "oQnQ1",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Nền nút · viền",
+                  "fill": "#BAC5D0",
+                  "width": 88,
+                  "height": 48
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 7,
+                  "id": "YNIsO",
+                  "x": 1,
+                  "y": 1,
+                  "name": "Nền nút",
+                  "fill": "#FFFFFF",
+                  "width": 86,
+                  "height": 46
+                },
+                {
+                  "type": "text",
+                  "id": "gt8kY",
+                  "x": 4,
+                  "y": 0,
+                  "name": "Q",
+                  "fill": "#18212B",
+                  "textGrowth": "fixed-width-height",
+                  "width": 80,
+                  "height": 48,
+                  "content": "Q",
+                  "textAlign": "center",
+                  "textAlignVertical": "middle",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "J8JsLu",
+              "x": 132,
+              "y": 14,
+              "name": "W",
+              "width": 88,
+              "height": 48,
+              "fill": "#00000000",
+              "layout": "none",
+              "children": [
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 8,
+                  "id": "NUatF",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Nền nút · viền",
+                  "fill": "#BAC5D0",
+                  "width": 88,
+                  "height": 48
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 7,
+                  "id": "hQkAB",
+                  "x": 1,
+                  "y": 1,
+                  "name": "Nền nút",
+                  "fill": "#FFFFFF",
+                  "width": 86,
+                  "height": 46
+                },
+                {
+                  "type": "text",
+                  "id": "UzgOw",
+                  "x": 4,
+                  "y": 0,
+                  "name": "W",
+                  "fill": "#18212B",
+                  "textGrowth": "fixed-width-height",
+                  "width": 80,
+                  "height": 48,
+                  "content": "W",
+                  "textAlign": "center",
+                  "textAlignVertical": "middle",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "mtdwQ",
+              "x": 228,
+              "y": 14,
+              "name": "E",
+              "width": 88,
+              "height": 48,
+              "fill": "#00000000",
+              "layout": "none",
+              "children": [
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 8,
+                  "id": "XXlZr",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Nền nút · viền",
+                  "fill": "#BAC5D0",
+                  "width": 88,
+                  "height": 48
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 7,
+                  "id": "BsM4v",
+                  "x": 1,
+                  "y": 1,
+                  "name": "Nền nút",
+                  "fill": "#FFFFFF",
+                  "width": 86,
+                  "height": 46
+                },
+                {
+                  "type": "text",
+                  "id": "IHAVi",
+                  "x": 4,
+                  "y": 0,
+                  "name": "E",
+                  "fill": "#18212B",
+                  "textGrowth": "fixed-width-height",
+                  "width": 80,
+                  "height": 48,
+                  "content": "E",
+                  "textAlign": "center",
+                  "textAlignVertical": "middle",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "ptHvW",
+              "x": 324,
+              "y": 14,
+              "name": "R",
+              "width": 88,
+              "height": 48,
+              "fill": "#00000000",
+              "layout": "none",
+              "children": [
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 8,
+                  "id": "N5HrpF",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Nền nút · viền",
+                  "fill": "#BAC5D0",
+                  "width": 88,
+                  "height": 48
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 7,
+                  "id": "vDGSS",
+                  "x": 1,
+                  "y": 1,
+                  "name": "Nền nút",
+                  "fill": "#FFFFFF",
+                  "width": 86,
+                  "height": 46
+                },
+                {
+                  "type": "text",
+                  "id": "qz4HA",
+                  "x": 4,
+                  "y": 0,
+                  "name": "R",
+                  "fill": "#18212B",
+                  "textGrowth": "fixed-width-height",
+                  "width": 80,
+                  "height": 48,
+                  "content": "R",
+                  "textAlign": "center",
+                  "textAlignVertical": "middle",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "ZH1EQ",
+              "x": 420,
+              "y": 14,
+              "name": "T",
+              "width": 88,
+              "height": 48,
+              "fill": "#00000000",
+              "layout": "none",
+              "children": [
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 8,
+                  "id": "dXm94",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Nền nút · viền",
+                  "fill": "#BAC5D0",
+                  "width": 88,
+                  "height": 48
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 7,
+                  "id": "m5SSRL",
+                  "x": 1,
+                  "y": 1,
+                  "name": "Nền nút",
+                  "fill": "#FFFFFF",
+                  "width": 86,
+                  "height": 46
+                },
+                {
+                  "type": "text",
+                  "id": "TVBvv",
+                  "x": 4,
+                  "y": 0,
+                  "name": "T",
+                  "fill": "#18212B",
+                  "textGrowth": "fixed-width-height",
+                  "width": 80,
+                  "height": 48,
+                  "content": "T",
+                  "textAlign": "center",
+                  "textAlignVertical": "middle",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "gCLRB",
+              "x": 516,
+              "y": 14,
+              "name": "Y",
+              "width": 88,
+              "height": 48,
+              "fill": "#00000000",
+              "layout": "none",
+              "children": [
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 8,
+                  "id": "aXd3a",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Nền nút · viền",
+                  "fill": "#BAC5D0",
+                  "width": 88,
+                  "height": 48
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 7,
+                  "id": "R8w6lc",
+                  "x": 1,
+                  "y": 1,
+                  "name": "Nền nút",
+                  "fill": "#FFFFFF",
+                  "width": 86,
+                  "height": 46
+                },
+                {
+                  "type": "text",
+                  "id": "o06Up",
+                  "x": 4,
+                  "y": 0,
+                  "name": "Y",
+                  "fill": "#18212B",
+                  "textGrowth": "fixed-width-height",
+                  "width": 80,
+                  "height": 48,
+                  "content": "Y",
+                  "textAlign": "center",
+                  "textAlignVertical": "middle",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "uLVNF",
+              "x": 612,
+              "y": 14,
+              "name": "U",
+              "width": 88,
+              "height": 48,
+              "fill": "#00000000",
+              "layout": "none",
+              "children": [
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 8,
+                  "id": "q13ovV",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Nền nút · viền",
+                  "fill": "#BAC5D0",
+                  "width": 88,
+                  "height": 48
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 7,
+                  "id": "CzcO5",
+                  "x": 1,
+                  "y": 1,
+                  "name": "Nền nút",
+                  "fill": "#FFFFFF",
+                  "width": 86,
+                  "height": 46
+                },
+                {
+                  "type": "text",
+                  "id": "WEESN",
+                  "x": 4,
+                  "y": 0,
+                  "name": "U",
+                  "fill": "#18212B",
+                  "textGrowth": "fixed-width-height",
+                  "width": 80,
+                  "height": 48,
+                  "content": "U",
+                  "textAlign": "center",
+                  "textAlignVertical": "middle",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "izWJX",
+              "x": 708,
+              "y": 14,
+              "name": "I",
+              "width": 88,
+              "height": 48,
+              "fill": "#00000000",
+              "layout": "none",
+              "children": [
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 8,
+                  "id": "Oqxlc",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Nền nút · viền",
+                  "fill": "#BAC5D0",
+                  "width": 88,
+                  "height": 48
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 7,
+                  "id": "WQ7fo",
+                  "x": 1,
+                  "y": 1,
+                  "name": "Nền nút",
+                  "fill": "#FFFFFF",
+                  "width": 86,
+                  "height": 46
+                },
+                {
+                  "type": "text",
+                  "id": "HzO8j",
+                  "x": 4,
+                  "y": 0,
+                  "name": "I",
+                  "fill": "#18212B",
+                  "textGrowth": "fixed-width-height",
+                  "width": 80,
+                  "height": 48,
+                  "content": "I",
+                  "textAlign": "center",
+                  "textAlignVertical": "middle",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "BdJre",
+              "x": 804,
+              "y": 14,
+              "name": "O",
+              "width": 88,
+              "height": 48,
+              "fill": "#00000000",
+              "layout": "none",
+              "children": [
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 8,
+                  "id": "dn57W",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Nền nút · viền",
+                  "fill": "#BAC5D0",
+                  "width": 88,
+                  "height": 48
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 7,
+                  "id": "mQZXX",
+                  "x": 1,
+                  "y": 1,
+                  "name": "Nền nút",
+                  "fill": "#FFFFFF",
+                  "width": 86,
+                  "height": 46
+                },
+                {
+                  "type": "text",
+                  "id": "A8qgaA",
+                  "x": 4,
+                  "y": 0,
+                  "name": "O",
+                  "fill": "#18212B",
+                  "textGrowth": "fixed-width-height",
+                  "width": 80,
+                  "height": 48,
+                  "content": "O",
+                  "textAlign": "center",
+                  "textAlignVertical": "middle",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "mGwek",
+              "x": 900,
+              "y": 14,
+              "name": "P",
+              "width": 88,
+              "height": 48,
+              "fill": "#00000000",
+              "layout": "none",
+              "children": [
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 8,
+                  "id": "yeDQR",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Nền nút · viền",
+                  "fill": "#BAC5D0",
+                  "width": 88,
+                  "height": 48
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 7,
+                  "id": "JZd9W",
+                  "x": 1,
+                  "y": 1,
+                  "name": "Nền nút",
+                  "fill": "#FFFFFF",
+                  "width": 86,
+                  "height": 46
+                },
+                {
+                  "type": "text",
+                  "id": "OKFWL",
+                  "x": 4,
+                  "y": 0,
+                  "name": "P",
+                  "fill": "#18212B",
+                  "textGrowth": "fixed-width-height",
+                  "width": 80,
+                  "height": 48,
+                  "content": "P",
+                  "textAlign": "center",
+                  "textAlignVertical": "middle",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "F2UcV",
+              "x": 84,
+              "y": 74,
+              "name": "A",
+              "width": 88,
+              "height": 48,
+              "fill": "#00000000",
+              "layout": "none",
+              "children": [
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 8,
+                  "id": "HjTlX",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Nền nút · viền",
+                  "fill": "#BAC5D0",
+                  "width": 88,
+                  "height": 48
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 7,
+                  "id": "a9QGz",
+                  "x": 1,
+                  "y": 1,
+                  "name": "Nền nút",
+                  "fill": "#FFFFFF",
+                  "width": 86,
+                  "height": 46
+                },
+                {
+                  "type": "text",
+                  "id": "fQktD",
+                  "x": 4,
+                  "y": 0,
+                  "name": "A",
+                  "fill": "#18212B",
+                  "textGrowth": "fixed-width-height",
+                  "width": 80,
+                  "height": 48,
+                  "content": "A",
+                  "textAlign": "center",
+                  "textAlignVertical": "middle",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "Krtfu",
+              "x": 180,
+              "y": 74,
+              "name": "S",
+              "width": 88,
+              "height": 48,
+              "fill": "#00000000",
+              "layout": "none",
+              "children": [
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 8,
+                  "id": "V5d2fg",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Nền nút · viền",
+                  "fill": "#BAC5D0",
+                  "width": 88,
+                  "height": 48
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 7,
+                  "id": "uJTuZ",
+                  "x": 1,
+                  "y": 1,
+                  "name": "Nền nút",
+                  "fill": "#FFFFFF",
+                  "width": 86,
+                  "height": 46
+                },
+                {
+                  "type": "text",
+                  "id": "uVSHj",
+                  "x": 4,
+                  "y": 0,
+                  "name": "S",
+                  "fill": "#18212B",
+                  "textGrowth": "fixed-width-height",
+                  "width": 80,
+                  "height": 48,
+                  "content": "S",
+                  "textAlign": "center",
+                  "textAlignVertical": "middle",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "c5nBC",
+              "x": 276,
+              "y": 74,
+              "name": "D",
+              "width": 88,
+              "height": 48,
+              "fill": "#00000000",
+              "layout": "none",
+              "children": [
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 8,
+                  "id": "PDJIK",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Nền nút · viền",
+                  "fill": "#BAC5D0",
+                  "width": 88,
+                  "height": 48
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 7,
+                  "id": "d1cfm",
+                  "x": 1,
+                  "y": 1,
+                  "name": "Nền nút",
+                  "fill": "#FFFFFF",
+                  "width": 86,
+                  "height": 46
+                },
+                {
+                  "type": "text",
+                  "id": "IXCNI",
+                  "x": 4,
+                  "y": 0,
+                  "name": "D",
+                  "fill": "#18212B",
+                  "textGrowth": "fixed-width-height",
+                  "width": 80,
+                  "height": 48,
+                  "content": "D",
+                  "textAlign": "center",
+                  "textAlignVertical": "middle",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "CqUfq",
+              "x": 372,
+              "y": 74,
+              "name": "F",
+              "width": 88,
+              "height": 48,
+              "fill": "#00000000",
+              "layout": "none",
+              "children": [
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 8,
+                  "id": "kednd",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Nền nút · viền",
+                  "fill": "#BAC5D0",
+                  "width": 88,
+                  "height": 48
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 7,
+                  "id": "d7pq6N",
+                  "x": 1,
+                  "y": 1,
+                  "name": "Nền nút",
+                  "fill": "#FFFFFF",
+                  "width": 86,
+                  "height": 46
+                },
+                {
+                  "type": "text",
+                  "id": "q1xesy",
+                  "x": 4,
+                  "y": 0,
+                  "name": "F",
+                  "fill": "#18212B",
+                  "textGrowth": "fixed-width-height",
+                  "width": 80,
+                  "height": 48,
+                  "content": "F",
+                  "textAlign": "center",
+                  "textAlignVertical": "middle",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "hWZ9L",
+              "x": 468,
+              "y": 74,
+              "name": "G",
+              "width": 88,
+              "height": 48,
+              "fill": "#00000000",
+              "layout": "none",
+              "children": [
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 8,
+                  "id": "S2Lj4",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Nền nút · viền",
+                  "fill": "#BAC5D0",
+                  "width": 88,
+                  "height": 48
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 7,
+                  "id": "qEW8K",
+                  "x": 1,
+                  "y": 1,
+                  "name": "Nền nút",
+                  "fill": "#FFFFFF",
+                  "width": 86,
+                  "height": 46
+                },
+                {
+                  "type": "text",
+                  "id": "Q9aC42",
+                  "x": 4,
+                  "y": 0,
+                  "name": "G",
+                  "fill": "#18212B",
+                  "textGrowth": "fixed-width-height",
+                  "width": 80,
+                  "height": 48,
+                  "content": "G",
+                  "textAlign": "center",
+                  "textAlignVertical": "middle",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "x8mdZ",
+              "x": 564,
+              "y": 74,
+              "name": "H",
+              "width": 88,
+              "height": 48,
+              "fill": "#00000000",
+              "layout": "none",
+              "children": [
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 8,
+                  "id": "rjHil",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Nền nút · viền",
+                  "fill": "#BAC5D0",
+                  "width": 88,
+                  "height": 48
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 7,
+                  "id": "ql6sv",
+                  "x": 1,
+                  "y": 1,
+                  "name": "Nền nút",
+                  "fill": "#FFFFFF",
+                  "width": 86,
+                  "height": 46
+                },
+                {
+                  "type": "text",
+                  "id": "SY7qY",
+                  "x": 4,
+                  "y": 0,
+                  "name": "H",
+                  "fill": "#18212B",
+                  "textGrowth": "fixed-width-height",
+                  "width": 80,
+                  "height": 48,
+                  "content": "H",
+                  "textAlign": "center",
+                  "textAlignVertical": "middle",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "jmIG0",
+              "x": 660,
+              "y": 74,
+              "name": "J",
+              "width": 88,
+              "height": 48,
+              "fill": "#00000000",
+              "layout": "none",
+              "children": [
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 8,
+                  "id": "ph8Yb",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Nền nút · viền",
+                  "fill": "#BAC5D0",
+                  "width": 88,
+                  "height": 48
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 7,
+                  "id": "G2ak4I",
+                  "x": 1,
+                  "y": 1,
+                  "name": "Nền nút",
+                  "fill": "#FFFFFF",
+                  "width": 86,
+                  "height": 46
+                },
+                {
+                  "type": "text",
+                  "id": "Vp2GQ",
+                  "x": 4,
+                  "y": 0,
+                  "name": "J",
+                  "fill": "#18212B",
+                  "textGrowth": "fixed-width-height",
+                  "width": 80,
+                  "height": 48,
+                  "content": "J",
+                  "textAlign": "center",
+                  "textAlignVertical": "middle",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "palAx",
+              "x": 756,
+              "y": 74,
+              "name": "K",
+              "width": 88,
+              "height": 48,
+              "fill": "#00000000",
+              "layout": "none",
+              "children": [
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 8,
+                  "id": "SUOHN",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Nền nút · viền",
+                  "fill": "#BAC5D0",
+                  "width": 88,
+                  "height": 48
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 7,
+                  "id": "cESMP",
+                  "x": 1,
+                  "y": 1,
+                  "name": "Nền nút",
+                  "fill": "#FFFFFF",
+                  "width": 86,
+                  "height": 46
+                },
+                {
+                  "type": "text",
+                  "id": "fQ1h2",
+                  "x": 4,
+                  "y": 0,
+                  "name": "K",
+                  "fill": "#18212B",
+                  "textGrowth": "fixed-width-height",
+                  "width": 80,
+                  "height": 48,
+                  "content": "K",
+                  "textAlign": "center",
+                  "textAlignVertical": "middle",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "AKbUY",
+              "x": 852,
+              "y": 74,
+              "name": "L",
+              "width": 88,
+              "height": 48,
+              "fill": "#00000000",
+              "layout": "none",
+              "children": [
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 8,
+                  "id": "o64N4",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Nền nút · viền",
+                  "fill": "#BAC5D0",
+                  "width": 88,
+                  "height": 48
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 7,
+                  "id": "fnqKY",
+                  "x": 1,
+                  "y": 1,
+                  "name": "Nền nút",
+                  "fill": "#FFFFFF",
+                  "width": 86,
+                  "height": 46
+                },
+                {
+                  "type": "text",
+                  "id": "yf9Pe",
+                  "x": 4,
+                  "y": 0,
+                  "name": "L",
+                  "fill": "#18212B",
+                  "textGrowth": "fixed-width-height",
+                  "width": 80,
+                  "height": 48,
+                  "content": "L",
+                  "textAlign": "center",
+                  "textAlignVertical": "middle",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "zyRnZ",
+              "x": 62,
+              "y": 134,
+              "name": "Shift",
+              "width": 100,
+              "height": 48,
+              "fill": "#00000000",
+              "layout": "none",
+              "children": [
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 8,
+                  "id": "Hmu5E",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Nền nút · viền",
+                  "fill": "#BAC5D0",
+                  "width": 100,
+                  "height": 48
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 7,
+                  "id": "D9Yt3",
+                  "x": 1,
+                  "y": 1,
+                  "name": "Nền nút",
+                  "fill": "#FFFFFF",
+                  "width": 98,
+                  "height": 46
+                },
+                {
+                  "type": "text",
+                  "id": "S5RkBZ",
+                  "x": 4,
+                  "y": 0,
+                  "name": "Shift",
+                  "fill": "#18212B",
+                  "textGrowth": "fixed-width-height",
+                  "width": 92,
+                  "height": 48,
+                  "content": "Shift",
+                  "textAlign": "center",
+                  "textAlignVertical": "middle",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "ceItF",
+              "x": 170,
+              "y": 134,
+              "name": "Z",
+              "width": 88,
+              "height": 48,
+              "fill": "#00000000",
+              "layout": "none",
+              "children": [
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 8,
+                  "id": "aMJRf",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Nền nút · viền",
+                  "fill": "#BAC5D0",
+                  "width": 88,
+                  "height": 48
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 7,
+                  "id": "LbPsK",
+                  "x": 1,
+                  "y": 1,
+                  "name": "Nền nút",
+                  "fill": "#FFFFFF",
+                  "width": 86,
+                  "height": 46
+                },
+                {
+                  "type": "text",
+                  "id": "p3O2sy",
+                  "x": 4,
+                  "y": 0,
+                  "name": "Z",
+                  "fill": "#18212B",
+                  "textGrowth": "fixed-width-height",
+                  "width": 80,
+                  "height": 48,
+                  "content": "Z",
+                  "textAlign": "center",
+                  "textAlignVertical": "middle",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "M8Wfv9",
+              "x": 266,
+              "y": 134,
+              "name": "X",
+              "width": 88,
+              "height": 48,
+              "fill": "#00000000",
+              "layout": "none",
+              "children": [
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 8,
+                  "id": "dELjI",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Nền nút · viền",
+                  "fill": "#BAC5D0",
+                  "width": 88,
+                  "height": 48
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 7,
+                  "id": "xQ0d1",
+                  "x": 1,
+                  "y": 1,
+                  "name": "Nền nút",
+                  "fill": "#FFFFFF",
+                  "width": 86,
+                  "height": 46
+                },
+                {
+                  "type": "text",
+                  "id": "MDGVQ",
+                  "x": 4,
+                  "y": 0,
+                  "name": "X",
+                  "fill": "#18212B",
+                  "textGrowth": "fixed-width-height",
+                  "width": 80,
+                  "height": 48,
+                  "content": "X",
+                  "textAlign": "center",
+                  "textAlignVertical": "middle",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "ifSJr",
+              "x": 362,
+              "y": 134,
+              "name": "C",
+              "width": 88,
+              "height": 48,
+              "fill": "#00000000",
+              "layout": "none",
+              "children": [
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 8,
+                  "id": "Y10Eiw",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Nền nút · viền",
+                  "fill": "#BAC5D0",
+                  "width": 88,
+                  "height": 48
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 7,
+                  "id": "junfJ",
+                  "x": 1,
+                  "y": 1,
+                  "name": "Nền nút",
+                  "fill": "#FFFFFF",
+                  "width": 86,
+                  "height": 46
+                },
+                {
+                  "type": "text",
+                  "id": "Eskt3",
+                  "x": 4,
+                  "y": 0,
+                  "name": "C",
+                  "fill": "#18212B",
+                  "textGrowth": "fixed-width-height",
+                  "width": 80,
+                  "height": 48,
+                  "content": "C",
+                  "textAlign": "center",
+                  "textAlignVertical": "middle",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "Ckvqk",
+              "x": 458,
+              "y": 134,
+              "name": "V",
+              "width": 88,
+              "height": 48,
+              "fill": "#00000000",
+              "layout": "none",
+              "children": [
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 8,
+                  "id": "L42GPL",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Nền nút · viền",
+                  "fill": "#BAC5D0",
+                  "width": 88,
+                  "height": 48
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 7,
+                  "id": "pCn9p",
+                  "x": 1,
+                  "y": 1,
+                  "name": "Nền nút",
+                  "fill": "#FFFFFF",
+                  "width": 86,
+                  "height": 46
+                },
+                {
+                  "type": "text",
+                  "id": "ZVy2l",
+                  "x": 4,
+                  "y": 0,
+                  "name": "V",
+                  "fill": "#18212B",
+                  "textGrowth": "fixed-width-height",
+                  "width": 80,
+                  "height": 48,
+                  "content": "V",
+                  "textAlign": "center",
+                  "textAlignVertical": "middle",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "azx6K",
+              "x": 554,
+              "y": 134,
+              "name": "B",
+              "width": 88,
+              "height": 48,
+              "fill": "#00000000",
+              "layout": "none",
+              "children": [
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 8,
+                  "id": "H83GV",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Nền nút · viền",
+                  "fill": "#BAC5D0",
+                  "width": 88,
+                  "height": 48
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 7,
+                  "id": "rbQUq",
+                  "x": 1,
+                  "y": 1,
+                  "name": "Nền nút",
+                  "fill": "#FFFFFF",
+                  "width": 86,
+                  "height": 46
+                },
+                {
+                  "type": "text",
+                  "id": "naZFb",
+                  "x": 4,
+                  "y": 0,
+                  "name": "B",
+                  "fill": "#18212B",
+                  "textGrowth": "fixed-width-height",
+                  "width": 80,
+                  "height": 48,
+                  "content": "B",
+                  "textAlign": "center",
+                  "textAlignVertical": "middle",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "R5Lu1",
+              "x": 650,
+              "y": 134,
+              "name": "N",
+              "width": 88,
+              "height": 48,
+              "fill": "#00000000",
+              "layout": "none",
+              "children": [
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 8,
+                  "id": "GARAL",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Nền nút · viền",
+                  "fill": "#BAC5D0",
+                  "width": 88,
+                  "height": 48
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 7,
+                  "id": "Zx2jC",
+                  "x": 1,
+                  "y": 1,
+                  "name": "Nền nút",
+                  "fill": "#FFFFFF",
+                  "width": 86,
+                  "height": 46
+                },
+                {
+                  "type": "text",
+                  "id": "K2Hse",
+                  "x": 4,
+                  "y": 0,
+                  "name": "N",
+                  "fill": "#18212B",
+                  "textGrowth": "fixed-width-height",
+                  "width": 80,
+                  "height": 48,
+                  "content": "N",
+                  "textAlign": "center",
+                  "textAlignVertical": "middle",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "V3yxL",
+              "x": 746,
+              "y": 134,
+              "name": "M",
+              "width": 88,
+              "height": 48,
+              "fill": "#00000000",
+              "layout": "none",
+              "children": [
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 8,
+                  "id": "VjVIE",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Nền nút · viền",
+                  "fill": "#BAC5D0",
+                  "width": 88,
+                  "height": 48
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 7,
+                  "id": "aQxch",
+                  "x": 1,
+                  "y": 1,
+                  "name": "Nền nút",
+                  "fill": "#FFFFFF",
+                  "width": 86,
+                  "height": 46
+                },
+                {
+                  "type": "text",
+                  "id": "tkHHf",
+                  "x": 4,
+                  "y": 0,
+                  "name": "M",
+                  "fill": "#18212B",
+                  "textGrowth": "fixed-width-height",
+                  "width": 80,
+                  "height": 48,
+                  "content": "M",
+                  "textAlign": "center",
+                  "textAlignVertical": "middle",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "bvMu8",
+              "x": 842,
+              "y": 134,
+              "name": "Xóa",
+              "width": 120,
+              "height": 48,
+              "fill": "#00000000",
+              "layout": "none",
+              "children": [
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 8,
+                  "id": "sdEQ3",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Nền nút · viền",
+                  "fill": "#BAC5D0",
+                  "width": 120,
+                  "height": 48
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 7,
+                  "id": "RFqpQ",
+                  "x": 1,
+                  "y": 1,
+                  "name": "Nền nút",
+                  "fill": "#FFFFFF",
+                  "width": 118,
+                  "height": 46
+                },
+                {
+                  "type": "text",
+                  "id": "cPHqo",
+                  "x": 4,
+                  "y": 0,
+                  "name": "Xóa",
+                  "fill": "#18212B",
+                  "textGrowth": "fixed-width-height",
+                  "width": 112,
+                  "height": 48,
+                  "content": "Xóa",
+                  "textAlign": "center",
+                  "textAlignVertical": "middle",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "p4ko4",
+              "x": 98,
+              "y": 194,
+              "name": "123",
+              "width": 100,
+              "height": 48,
+              "fill": "#00000000",
+              "layout": "none",
+              "children": [
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 8,
+                  "id": "b2X6Y",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Nền nút · viền",
+                  "fill": "#BAC5D0",
+                  "width": 100,
+                  "height": 48
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 7,
+                  "id": "nIDtE",
+                  "x": 1,
+                  "y": 1,
+                  "name": "Nền nút",
+                  "fill": "#FFFFFF",
+                  "width": 98,
+                  "height": 46
+                },
+                {
+                  "type": "text",
+                  "id": "LsuPv",
+                  "x": 4,
+                  "y": 0,
+                  "name": "123",
+                  "fill": "#18212B",
+                  "textGrowth": "fixed-width-height",
+                  "width": 92,
+                  "height": 48,
+                  "content": "123",
+                  "textAlign": "center",
+                  "textAlignVertical": "middle",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "p6mln6",
+              "x": 206,
+              "y": 194,
+              "name": "VI",
+              "width": 84,
+              "height": 48,
+              "fill": "#00000000",
+              "layout": "none",
+              "children": [
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 8,
+                  "id": "eiWiP",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Nền nút · viền",
+                  "fill": "#BAC5D0",
+                  "width": 84,
+                  "height": 48
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 7,
+                  "id": "VZCSv",
+                  "x": 1,
+                  "y": 1,
+                  "name": "Nền nút",
+                  "fill": "#FFFFFF",
+                  "width": 82,
+                  "height": 46
+                },
+                {
+                  "type": "text",
+                  "id": "jTPzi",
+                  "x": 4,
+                  "y": 0,
+                  "name": "VI",
+                  "fill": "#18212B",
+                  "textGrowth": "fixed-width-height",
+                  "width": 76,
+                  "height": 48,
+                  "content": "VI",
+                  "textAlign": "center",
+                  "textAlignVertical": "middle",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "Z2Nkk",
+              "x": 298,
+              "y": 194,
+              "name": "Dấu cách",
+              "width": 500,
+              "height": 48,
+              "fill": "#00000000",
+              "layout": "none",
+              "children": [
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 8,
+                  "id": "eWFrP",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Nền nút · viền",
+                  "fill": "#BAC5D0",
+                  "width": 500,
+                  "height": 48
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 7,
+                  "id": "PMJ3B",
+                  "x": 1,
+                  "y": 1,
+                  "name": "Nền nút",
+                  "fill": "#FFFFFF",
+                  "width": 498,
+                  "height": 46
+                },
+                {
+                  "type": "text",
+                  "id": "s587h",
+                  "x": 4,
+                  "y": 0,
+                  "name": "Dấu cách",
+                  "fill": "#18212B",
+                  "textGrowth": "fixed-width-height",
+                  "width": 492,
+                  "height": 48,
+                  "content": "Dấu cách",
+                  "textAlign": "center",
+                  "textAlignVertical": "middle",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "w9yQwS",
+              "x": 806,
+              "y": 194,
+              "name": "Ẩn",
+              "width": 120,
+              "height": 48,
+              "fill": "#00000000",
+              "layout": "none",
+              "children": [
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 8,
+                  "id": "psoRE",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Nền nút · viền",
+                  "fill": "#BAC5D0",
+                  "width": 120,
+                  "height": 48
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 7,
+                  "id": "R1fIR",
+                  "x": 1,
+                  "y": 1,
+                  "name": "Nền nút",
+                  "fill": "#FFFFFF",
+                  "width": 118,
+                  "height": 46
+                },
+                {
+                  "type": "text",
+                  "id": "a5y8L6",
+                  "x": 4,
+                  "y": 0,
+                  "name": "Ẩn",
+                  "fill": "#18212B",
+                  "textGrowth": "fixed-width-height",
+                  "width": 112,
+                  "height": 48,
+                  "content": "Ẩn",
+                  "textAlign": "center",
+                  "textAlignVertical": "middle",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "600"
                 }
               ]
             }
