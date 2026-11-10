@@ -38,6 +38,8 @@ Chạm biểu tượng **mic** để bắt đầu thu. Vùng soạn vẫn hiện
 
 Chạm vùng soạn để mở **bàn phím ảo** khi cần nhập hoặc sửa. Dùng **Backspace** trên bàn phím để xóa chữ. Việc nhận dạng xong giữ bàn phím ở trạng thái đóng nếu người dùng chưa chạm vào vùng soạn. Người dùng cũng có thể gõ trực tiếp. Chỉ thao tác **Gửi** mới đưa chữ vào hội thoại. Nếu bàn phím đang mở, ứng dụng tự đóng bàn phím sau khi gửi thành công.
 
+**Câu dài trong vùng soạn.** Ô soạn hiển thị nhiều dòng đến một chiều cao giới hạn. Khi nội dung dài hơn, vùng chữ bên trong ô soạn cuộn và đưa dòng có con trỏ vào tầm nhìn khi người dùng sửa. Mic và **Gửi** vẫn ở cạnh ô soạn, phía trên bàn phím khi bàn phím mở. Chiều cao cụ thể cần duyệt trên khung 1024 × 600.
+
 **Bàn phím V1 · 11/11/2026.** V1 dùng bàn phím ảo hệ thống **Squeekboard** trên **Raspberry Pi OS Bookworm**. Ứng dụng không tự làm bàn phím hoặc bộ gõ Telex. Người dùng sẽ xác nhận trên thiết bị thật khi đến bước thử: (1) chạm ô nhập và kiểm tra bàn phím tự bật, (2) gõ một câu có dấu và kiểm tra kết quả đúng, (3) kiểm tra bàn phím không che nút **Gửi**. Nếu cả ba bước đạt, V1 dùng Squeekboard. Nếu một bước không đạt, ghi lại và báo bước đó để xem xét. Hiện chưa tính phương án bàn phím tùy chỉnh. Kết quả ba bước còn chờ thử trên Pi.
 
 Trong V1, ứng dụng nhận dạng sau khi dừng thu và đưa chữ cuối vào vùng soạn. Nếu nhận dạng thất bại, vòng xoay kết thúc, biểu tượng **mic** trở lại và chữ đang soạn được giữ. Giao diện dùng **một vị trí cạnh mic** để hiện thông báo lỗi dành cho người dùng do API PBL6 trả về. Người dùng chạm mic để thu một lượt mới. V2 gửi âm thanh trong lúc thu và vẫn hiển thị chữ cuối. V3 bổ sung chữ tạm cập nhật trong lúc nói. Khi laptop điều khiển Pi, nguồn thu là thiết bị đã chọn trên Pi. [Đối chiếu cách xử lý khi nhận dạng thất bại](reports/NGHIEN_CUU_VUNG_SOAN_VA_BAN_PHIM_AO.md#khi-nhận-dạng-giọng-nói-thất-bại)
@@ -167,6 +169,7 @@ Khi duyệt nút **Đọc**, dùng ba trạng thái loa, vòng xoay và nút d�
 - Khi nhận dạng đoạn vừa thu thất bại, vòng xoay kết thúc, biểu tượng mic trở lại và thông báo xuất hiện ở vị trí chung cạnh mic. Chữ đang soạn vẫn còn. Lần chạm mic kế tiếp bắt đầu một lượt thu mới.
 - Trong lúc tin A đang đọc, chạm **Đọc** ở tin B. Âm thanh A dừng ngay khi chạm, kể cả khi B còn chờ âm thanh. Khi B sẵn sàng, chỉ phát B.
 - Phân biệt được chữ đang soạn và tin đã gửi. Chạm vùng soạn mở bàn phím và vẫn nhìn thấy câu đang sửa cùng nút **Gửi**.
+- Nhập một câu dài vượt chiều cao ô soạn, mở bàn phím và chạm vào giữa câu để sửa. Kiểm tra dòng có con trỏ hiện trong vùng nhìn thấy, nội dung ô soạn cuộn được và mic cùng **Gửi** vẫn chạm được phía trên bàn phím.
 - Sửa chữ và di chuyển con trỏ trong lúc đang thu, rồi lặp lại khi vòng xoay đang hiện. Vùng soạn nhận thao tác ở cả hai giai đoạn và giữ các chỉnh sửa khi kết quả về.
 - Với V1, bắt đầu thu câu “hẹn gặp” khi con trỏ ở cuối “Tôi muốn vào sáng mai.” Trong lúc chờ, chuyển con trỏ đến giữa “Tôi muốn” và “vào sáng mai.” Khi có kết quả, vùng soạn hiện “Tôi muốn hẹn gặp vào sáng mai.” Chạm nút dừng làm ô soạn mất tiêu điểm thì vị trí gần nhất vẫn dùng được.
 - Với V3, chèn chữ tạm rồi chuyển con trỏ sang phần khác của bản nháp. Chữ tạm tiếp tục cập nhật tại đoạn đã chèn, rồi chuyển thành chữ thường tại đó khi có kết quả cuối. Vẫn sửa được phần chữ xung quanh, và Backspace hoặc Delete chỉ bị chặn khi thao tác sẽ xóa chữ tạm.
