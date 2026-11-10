@@ -90,6 +90,8 @@ Nếu mic đang được dùng đã bị rút, lần chạm nút mic tiếp theo
 
 **Xóa lịch sử trong Settings.** Đặt ô **Tìm theo tên** và bộ lọc **Thời gian** trên danh sách hội thoại đã lưu. Bộ lọc dùng thời điểm gửi tin thành công gần nhất. Khi đang tìm hoặc lọc, **Chọn N kết quả** chọn tất cả hội thoại khớp điều kiện, kể cả dòng nằm ngoài vùng nhìn thấy. Người dùng có thể bỏ chọn từng dòng. Đổi điều kiện tìm hoặc lọc sẽ bỏ toàn bộ lựa chọn trước đó. Chỉ danh sách cuộn. Ô tìm, bộ lọc và nút **Xóa N hội thoại** luôn trong tầm nhìn khi cuộn danh sách. Bấm **Xóa N hội thoại** để xóa ngay các hội thoại đang được chọn. [Nghiên cứu tìm, lọc và xóa hội thoại](reports/NGHIEN_CUU_TIM_LOC_VA_XOA_LICH_SU.md)
 
+Nếu các hội thoại được xóa có hội thoại đang mở, ứng dụng chuyển sang một hội thoại mới, trống và bỏ bản nháp của hội thoại vừa xóa. Khi người dùng rời Cài đặt để quay lại **Hội thoại**, màn chính hiện cuộc mới.
+
 ### Phương án đang thảo luận
 
 **Các điểm còn mở.** Tìm kiếm trong bảng Lịch sử để mở lại hội thoại, xuất Lịch sử và chính sách giữ nội dung. Tìm kiếm trong **Cài đặt → Lịch sử** để chọn hội thoại cần xóa đã được duyệt.
@@ -146,6 +148,7 @@ Khi duyệt nút **Đọc**, dùng ba trạng thái loa, vòng xoay và nút d�
 - Trong hội thoại A, mở bảng **Lịch sử** khi đang thu và kiểm tra lượt thu vẫn tiếp tục. Chọn hội thoại B để hủy lượt thu. Lặp lại bằng cách bấm **Gửi** ở A rồi chuyển sang B khi còn chờ chữ. Kết quả về muộn không chèn chữ vào vùng soạn và không tạo tin ở A hay B.
 - Khi chưa có lựa chọn đã lưu, Pi có một mic thì thu ngay bằng mic đó và **Settings** hiện tên mic. Pi có nhiều mic thì chọn nguồn trong **Settings** trước khi thu. Nếu rút mic đang dùng rồi chạm nút mic, thông báo mất kết nối xuất hiện cạnh nút.
 - Trong **Cài đặt → Lịch sử**, dùng bộ lọc có 12 kết quả, gồm cả dòng nằm ngoài vùng nhìn thấy. Bấm **Chọn 12 kết quả**, bỏ chọn hai dòng và cuộn danh sách. Ô tìm, bộ lọc và nút **Xóa 10 hội thoại** vẫn trong tầm nhìn. Bấm xóa và kiểm tra chỉ mười hội thoại đã chọn biến mất. Đổi điều kiện tìm hoặc lọc sau khi chọn ở một lượt kiểm tra khác và kiểm tra lựa chọn cũ đã được bỏ.
+- Mở một hội thoại đã lưu, nhập bản nháp rồi vào **Cài đặt → Lịch sử** và xóa hội thoại đó. Khi quay lại **Hội thoại**, kiểm tra màn chính hiện cuộc mới, vùng soạn trống và hội thoại đã xóa không còn trong danh sách.
 - Khi nhận dạng đoạn vừa thu thất bại, vòng xoay kết thúc, biểu tượng mic trở lại và thông báo xuất hiện ở vị trí chung cạnh mic. Chữ đang soạn vẫn còn. Lần chạm mic kế tiếp bắt đầu một lượt thu mới.
 - Trong lúc tin A đang đọc, chạm **Đọc** ở tin B. Âm thanh A dừng ngay khi chạm, kể cả khi B còn chờ âm thanh. Khi B sẵn sàng, chỉ phát B.
 - Phân biệt được chữ đang soạn và tin đã gửi. Chạm vùng soạn mở bàn phím và vẫn nhìn thấy câu đang sửa cùng nút **Gửi**.
