@@ -1,6 +1,6 @@
 # STT V1 — mốc P1: Settings và một file
 
-Ứng dụng nằm trong repository PBL6 hiện tại, dùng React/TypeScript/Tailwind CSS, Next.js/Node.js và Electron. Mốc này xây đường **nhập key tại máy → chọn một file → Deepgram `language=vi` → chữ cuối hoặc lỗi**. Chưa phải V1 hoàn chỉnh: thu micro Pi, batch và triển khai Pi/kiosk thực tế còn ở các bước tiếp theo. V2/V3 chưa triển khai.
+Ứng dụng nằm trong repository PBL6 hiện tại, dùng React/TypeScript/Tailwind CSS, Next.js/Node.js và Electron. Mốc này xây đường **nhập key tại máy → chọn một file → Deepgram `language=vi` → chữ cuối hoặc lỗi**. Chưa phải V1 hoàn chỉnh: thu micro Pi và triển khai Pi/kiosk thực tế còn ở các bước tiếp theo. V2/V3 chưa triển khai.
 
 Đọc [báo cáo P1 và hướng dẫn thử API thật](../reports/stt_v1_p1_20261107/BAO_CAO.md) trước khi quyết định bước tiếp theo.
 
@@ -53,7 +53,7 @@ Backend tests dùng thư mục tạm và transport mô phỏng, không gọi Dee
 
 ## Bước tiếp theo
 
-Sau khi xem báo cáo P1 và thử API thật: hoàn thiện batch, sau đó capture Pi/Record/Stop và các kiểm thử tích hợp còn thiếu. Trước thao tác Pi phải có lệnh, nơi chạy và đầu ra cần gửi lại. Giữ nguyên B01–B04. N02 vẫn chưa hoàn thành; nó không chặn V1 Deepgram, nhưng cần hoàn thành trước so sánh tốc độ hoặc chọn local engine dựa trên tốc độ.
+Sau khi duyệt luồng giao diện, hoàn thiện thu và dừng trên Pi cùng các kiểm thử tích hợp V1. Dùng đường một file hiện có khi cần kiểm tra Deepgram. Chạy batch thí nghiệm bằng bộ chạy riêng. Trước thao tác Pi phải có lệnh, nơi chạy và đầu ra cần gửi lại. N02 còn thiếu lượt đo so sánh theo cùng phạm vi thời gian. Hoàn thành N02 trước khi xếp hạng tốc độ hoặc chọn bộ nhận dạng chạy tại máy dựa trên tốc độ. [Tiêu chí V1](../STT_PLAN_1_WEEK.md#approved-version-order)
 
 ## Tài liệu API đã đối chiếu
 

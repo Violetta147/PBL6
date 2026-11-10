@@ -82,7 +82,7 @@ Nếu mic đang được dùng đã bị rút, lần chạm nút mic tiếp theo
 
 **Các điểm còn mở.** Tìm kiếm hoặc xuất Lịch sử và chính sách giữ nội dung.
 
-**Nhận dạng file.** Batch là chạy nhận dạng trên danh sách file. Tách batch khỏi vùng soạn của hội thoại. Nhóm đã có đường chạy thí nghiệm theo danh sách bản thu trong `experiments/` và màn một file để kiểm tra tích hợp ở P1. Kế hoạch cũ có mục batch cho V1. Phạm vi sản phẩm đang được xem lại giữa hai phương án là giữ công cụ file riêng trong Settings nếu có tình huống sử dụng, hoặc dùng công cụ thí nghiệm và kiểm thử bên ngoài giao diện sản phẩm. [Bằng chứng thí nghiệm](experiments/inventory_20261102/README.md) · [Phạm vi P1](stt-app/README.md)
+**Nhận dạng file.** Nhóm chạy batch trong bộ thí nghiệm `experiments/` và dùng đường một file của P1 để kiểm tra tích hợp khi cần. Tiêu chí hoàn thành V1 tập trung vào lượt giao tiếp dùng mic trên Pi. Việc đưa công cụ nhận dạng file vào Settings có thể xem lại khi có nhu cầu sử dụng riêng. [Bằng chứng thí nghiệm](experiments/inventory_20261102/README.md) · [Phạm vi P1](stt-app/README.md)
 
 ## 4. Ghi nhận ảnh tham khảo người dùng gửi
 

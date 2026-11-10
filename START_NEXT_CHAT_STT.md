@@ -22,8 +22,8 @@ Không cần đọc lại toàn bộ chat/log phiên cũ. Người dùng đã y�
 - Production build, TypeScript, 20 backend tests và 8 Chrome/HTTP/Electron tests đã đạt trên Windows. Đây là kết quả đã chạy ở P1, không phải yêu cầu chạy lại mặc định cho phiên chốt BOM.
 - Người dùng đã gửi hai lượt Nova-3/vi trên Chrome: `studio_M1.wav` và `phone_F1.wav`, có ảnh và .txt. Chi tiết trong `user_trial_studio_M1.json`, `user_trial_phone_F1.json` cùng thư mục báo cáo. phone_F1 có cụm “nước sệt”, người dùng nghĩ là “nước sạch”; reference chưa xác nhận, chưa quy nguyên nhân cho vùng miền và chưa chấm WER/CER.
 - Lỗi không thấy cửa sổ desktop sau `npm run desktop` đã sửa: tiến trình Electron dùng `windowsHide: false`, backend vẫn chạy ẩn. Kiểm thử hồi quy xác nhận launcher production tạo cửa sổ có tiêu đề. Commit mã P1 ban đầu `e99ccaa9`, sửa desktop và lưu hai lượt thử `9041d6e2`.
-- Chưa có batch, thu micro Pi/Record/Stop, điều khiển qua LAN, bản cài Windows, kiểm chứng Linux ARM64, cảm ứng/kiosk khởi động trên Pi, V2/V3 hoặc IoT/OTA hoàn chỉnh.
-- Luồng V1 còn phải hoàn thiện: chọn nguồn/device path trên Pi → Record → Stop dừng capture → Deepgram → transcript cuối hoặc lỗi rõ ràng; hỗ trợ một file và batch. Không tự dùng micro của browser laptop. V2 mới đưa audio lên trong khi thu (hiện kết quả cuối); V3 mới hiện chữ tạm cập nhật rồi chốt chữ cuối.
+- Chưa có thu micro Pi/Record/Stop, điều khiển qua LAN, bản cài Windows, kiểm chứng Linux ARM64, cảm ứng/kiosk khởi động trên Pi, V2/V3 hoặc IoT/OTA hoàn chỉnh.
+- Luồng V1 còn phải hoàn thiện: chọn nguồn/device path trên Pi → Record → Stop dừng capture → Deepgram → transcript cuối hoặc lỗi rõ ràng; dùng đường một file của P1 để kiểm tra tích hợp khi cần. Batch chạy trong bộ thí nghiệm. Không tự dùng micro của browser laptop. V2 mới đưa audio lên trong khi thu (hiện kết quả cuối); V3 mới hiện chữ tạm cập nhật rồi chốt chữ cuối.
 
 Khi cần mở lại trên laptop, PowerShell:
 
@@ -48,9 +48,9 @@ Bản highlight gốc có thêm các mức tiền nháp. BOM chính phân biệt
 
 ## 4. Giữ công việc nghiên cứu và triển khai còn lại
 
-- **N02 chưa hoàn thành**, không chặn V1 Deepgram. RTF Whisper CLI cũ gồm khởi động/nạp model từng WAV, khác phạm vi RTF gọi nhận dạng của Zipformer. Không lấy tỷ số đó để kết luận tăng tốc. Hoàn thành phép đo thống nhất trước so sánh tốc độ hoặc chọn local engine dựa trên tốc độ.
+- **N02 đã có quy trình đo thống nhất, còn chờ kết quả so sánh trên Pi.** RTF Whisper CLI cũ gồm khởi động/nạp model từng WAV, khác phạm vi RTF gọi nhận dạng của Zipformer. Giữ số cũ theo đúng phạm vi đo. Dùng N02 trước khi so sánh tốc độ hoặc chọn bộ nhận dạng chạy tại máy dựa trên tốc độ. V1 Deepgram có thể tiếp tục song song.
 - Giữ B01–B04, prediction, dữ liệu và scorer. Không chạy model/benchmark từ bàn giao này.
-- Nếu người dùng tiếp tục phần mềm: bước tiếp theo dự kiến là batch, rồi capture Pi/Record/Stop để hoàn thiện V1. Hoàn thành V1 trước V2 rồi V3. Deepgram là provider đang dùng; không khôi phục Google STT vào phạm vi chủ động.
+- Nếu người dùng tiếp tục phần mềm: hoàn thiện luồng thu và dừng trên Pi, sửa và gửi chữ, mở lại hội thoại để gửi tiếp, rồi thử nhận dạng lỗi và thu lại. Hoàn thành V1 trước V2 rồi V3. Deepgram là provider đang dùng; không khôi phục Google STT vào phạm vi chủ động.
 - Khi cần Pi: kiểm tra phiên truy cập hiện tại, đưa từng bước với lệnh, nơi chạy, kết quả mong đợi và đầu ra cần gửi lại; không giả định Pi đã nhận bản mã mới.
 
 ## 5. Git và bảo toàn thay đổi

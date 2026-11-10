@@ -8,9 +8,9 @@ Two people share one screen and composer. PBL6 handles speech recognition, readi
 
 ## Implementation checkpoint — V1-P1, 2026-11-07
 
-**V1-P1 code is in `stt-app`: local Settings, one-file Deepgram adapter, shared UI and Electron window.** Production build and TypeScript checks passed; 20 backend tests and 8 Chrome/HTTP/Electron tests passed on Windows with offline provider fixtures. The user supplied two completed real single-file browser trials (studio_M1.wav and phone_F1.wav, nova-3/vi, exported .txt; a word error is suspected in phone_F1); evidence is recorded in reports/stt_v1_p1_20261107/user_trial_studio_M1.json and user_trial_phone_F1.json. This is user-provided evidence, not an agent API rerun. Pi capture, batch, LAN control and Linux ARM64/touch/kiosk acceptance remain incomplete. Full V1 remains unfinished.
+**V1-P1 code is in `stt-app`: local Settings, one-file Deepgram adapter, shared UI and Electron window.** Production build and TypeScript checks passed; 20 backend tests and 8 Chrome/HTTP/Electron tests passed on Windows with offline provider fixtures. The user supplied two completed real single-file browser trials (studio_M1.wav and phone_F1.wav, nova-3/vi, exported .txt; a word error is suspected in phone_F1); evidence is recorded in reports/stt_v1_p1_20261107/user_trial_studio_M1.json and user_trial_phone_F1.json. This is user-provided evidence, not an agent API rerun. Pi capture, LAN control and Linux ARM64/touch/kiosk acceptance remain incomplete. Full V1 remains unfinished.
 
-Read `reports/stt_v1_p1_20261107/BAO_CAO.md` and `stt-app/README.md` for evidence and startup commands. Use [the current session handoff](START_NEXT_CHAT_STT.md) to begin the next design review. Batch followed by Pi capture remains the recorded implementation sequence when the user resumes coding. N02 remains unfinished. Preserve B01–B04 and the timing-scope caveat.
+Read `reports/stt_v1_p1_20261107/BAO_CAO.md` and `stt-app/README.md` for evidence and startup commands. Use [the current session handoff](START_NEXT_CHAT_STT.md) to begin the next design review. V1 acceptance covers Pi capture and the conversation flow. Use the existing one-file path for integration checks and the experiment runners for batches. Comparable Pi timing results remain pending in N02.
 
 ## Final device: touchscreen and kiosk (confirmed 2026-11-06)
 
@@ -34,13 +34,13 @@ DSI is a later hardware-integration option. Keep the web UI, STT session contrac
 
 | Layer | Responsibility |
 |---|---|
-| React + TypeScript | Recording controls, session state, per-file/batch status, transcript/error display and Settings. |
+| React + TypeScript | Recording controls, session state, transcript/error display and Settings. |
 | Tailwind CSS | Touch-friendly layout, readable subtitles and controls that work without hover. |
 | Next.js/Node.js backend | Authoritative sessions, validated Settings, selected capture device, audio/file handling and provider requests. Keep capture work separate from network waits. |
 | Electron | Load the local application UI in a desktop window; support the final device kiosk experience and desktop lifecycle. |
 | Pi OS and audio/display support | Expose the actual microphone and touchscreen; start the backend and desktop application after boot. |
 
-On the final device, the Next.js/Node.js backend and Electron run on the Pi. The OS starts the backend, and Electron loads its local UI when ready. The backend controls the selected Pi microphone through a Pi capture adapter. In V1, Stop ends the recording and the backend sends the audio to Deepgram with `language=vi`. A successful result goes into the composer. If recognition fails, the interface keeps the draft, restores the ready microphone icon, and shows the application's user-facing error message in a shared location beside the microphone. A file or batch uses the same provider interface, with independent status and results per file. Electron does not add streaming to V1.
+On the final device, the Next.js/Node.js backend and Electron run on the Pi. The OS starts the backend, and Electron loads its local UI when ready. The backend controls the selected Pi microphone through a Pi capture adapter. In V1, Stop ends the recording and the backend sends the audio to Deepgram with `language=vi`. A successful result goes into the composer. If recognition fails, the interface keeps the draft, restores the ready microphone icon, and shows the application's user-facing error message in a shared location beside the microphone. Electron does not add streaming to V1.
 
 During development, run the application on the laptop. For device tests, the laptop browser may open the shared UI served by the Pi backend; the selected capture source remains on the Pi. A laptop desktop build must identify which backend it controls and must not silently switch to its own microphone. This is one application with a shared UI and contracts, not separate desktop and web implementations.
 
@@ -52,7 +52,7 @@ Desktop verification must distinguish Windows laptop builds from Linux ARM64 Pi 
 
 ## Input and text
 
-==**Capture on the Pi for the device path.**== Show the selected capture source in the web application on the laptop. ==A laptop browser must not silently substitute its own microphone.== ==Support live capture, record-once capture, one file and a file list.== A cloud service can process a file. A local engine can work without Internet after its model is installed.
+==**Capture on the Pi for the device path.**== Show the selected capture source in the web application on the laptop. ==A laptop browser must not silently substitute its own microphone.== V1 records then recognizes after Stop. Later versions stream audio during capture. A cloud service can process a file for integration checks. A local engine can work without Internet after its model is installed.
 
 Support one foreground speaker at near-device distance, seated or standing. The group is from Da Nang; prioritize their Central Vietnamese speech. Record the actual distance in experiments. Do not claim overlapping-speaker separation. One microphone can contain several voices; separate online meeting participants can instead supply separate source streams. That is a different input contract.
 
