@@ -96,7 +96,7 @@ Nếu các hội thoại được xóa có hội thoại đang mở, ứng dụn
 
 ### Phương án đang thảo luận
 
-**Các điểm còn mở.** Tìm kiếm trong bảng Lịch sử để mở lại hội thoại và xuất Lịch sử. Tìm kiếm trong **Cài đặt → Lịch sử** để chọn hội thoại cần xóa đã được duyệt.
+**Các điểm tạm hoãn.** Tìm kiếm trong bảng Lịch sử để mở lại hội thoại và xuất Lịch sử hiện chưa cần cho V1. Tìm kiếm trong **Cài đặt → Lịch sử** để chọn hội thoại cần xóa đã được duyệt.
 
 **Nhận dạng file.** Nhóm chạy batch trong bộ thí nghiệm `experiments/` và dùng đường một file của P1 để kiểm tra tích hợp khi cần. Tiêu chí hoàn thành V1 tập trung vào lượt giao tiếp dùng mic trên Pi. Việc đưa công cụ nhận dạng file vào Settings có thể xem lại khi có nhu cầu sử dụng riêng. [Bằng chứng thí nghiệm](experiments/inventory_20261102/README.md) · [Phạm vi P1](stt-app/README.md)
 
