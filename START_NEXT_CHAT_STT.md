@@ -4,7 +4,7 @@ Cập nhật 07/11/2026. Dự án giữ tại `C:\Users\LAPTOP T&T\VIOLETTA\Docu
 
 ## 1. Đọc theo thứ tự
 
-**Bản phác V1 đã cập nhật nút mic.** Nút ở vị trí trước đây của **Chọn file**, với các khung minh họa dừng thu, chờ nhận dạng và báo lỗi. Dùng bản phác làm tham chiếu khi triển khai. Quy tắc vị trí và trạng thái mic đã được người dùng chốt.
+**Bản phác V1 đặt nút mic ngay bên trái Gửi.** Các khung dừng thu, chờ nhận dạng và báo lỗi dùng chung vị trí nút. Dùng bản phác làm tham chiếu khi triển khai.
 
 1. `AGENTS.md`: quy tắc kiểm thử, tài liệu và commit.
 2. `STT_BOM.md`: BOM chính, đã thay bằng bố cục highlight người dùng đưa và hiệu chỉnh các nội dung chưa có căn cứ. Không dùng một bản `_HIGHLIGHTED` khác làm nguồn quyết định song song.

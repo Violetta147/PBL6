@@ -332,8 +332,8 @@
             {
               "type": "frame",
               "id": "p000t",
-              "x": 164,
-              "y": 14,
+              "x": 808,
+              "y": 79,
               "name": "Nút mic",
               "width": 52,
               "height": 46,
@@ -363,7 +363,7 @@
               "y": 74,
               "name": "Ô nhập và sửa chữ",
               "fill": "#FFFFFF",
-              "width": 828,
+              "width": 768,
               "height": 56
             },
             {
@@ -374,7 +374,7 @@
               "name": "Gõ hoặc sửa chữ nhận dạng…",
               "fill": "#4F5D6B",
               "textGrowth": "fixed-width-height",
-              "width": 796,
+              "width": 736,
               "height": 56,
               "content": "Gõ hoặc sửa chữ nhận dạng…",
               "textAlignVertical": "middle",
@@ -757,8 +757,8 @@
             {
               "type": "frame",
               "id": "p001t",
-              "x": 164,
-              "y": 14,
+              "x": 808,
+              "y": 79,
               "name": "Nút mic",
               "width": 52,
               "height": 46,
@@ -788,7 +788,7 @@
               "y": 74,
               "name": "Ô nhập và sửa chữ",
               "fill": "#FFFFFF",
-              "width": 828,
+              "width": 768,
               "height": 56
             },
             {
@@ -799,7 +799,7 @@
               "name": "Gõ hoặc sửa chữ nhận dạng…",
               "fill": "#4F5D6B",
               "textGrowth": "fixed-width-height",
-              "width": 796,
+              "width": 736,
               "height": 56,
               "content": "Gõ hoặc sửa chữ nhận dạng…",
               "textAlignVertical": "middle",
@@ -1354,7 +1354,7 @@
               "y": 14,
               "name": "Ô soạn đang chọn · viền",
               "fill": "#BAC5D0",
-              "width": 828,
+              "width": 768,
               "height": 56
             },
             {
@@ -1365,7 +1365,7 @@
               "y": 15,
               "name": "Ô soạn đang chọn",
               "fill": "#FFFFFF",
-              "width": 826,
+              "width": 766,
               "height": 54
             },
             {
@@ -1376,7 +1376,7 @@
               "name": "Cảm ơn bạn.",
               "fill": "#18212B",
               "textGrowth": "fixed-width-height",
-              "width": 796,
+              "width": 736,
               "height": 56,
               "content": "Cảm ơn bạn.",
               "textAlignVertical": "middle",
@@ -1438,8 +1438,8 @@
             {
               "type": "frame",
               "id": "Ek2ED",
-              "x": 164,
-              "y": 84,
+              "x": 808,
+              "y": 19,
               "name": "Nút mic",
               "width": 52,
               "height": 46,
@@ -3483,8 +3483,8 @@
             {
               "type": "frame",
               "id": "crVn1",
-              "x": 164,
-              "y": 14,
+              "x": 808,
+              "y": 79,
               "name": "Nút mic",
               "width": 52,
               "height": 46,
@@ -3526,7 +3526,7 @@
               "y": 74,
               "name": "Ô nhập và sửa chữ",
               "fill": "#FFFFFF",
-              "width": 828,
+              "width": 768,
               "height": 56
             },
             {
@@ -3537,7 +3537,7 @@
               "name": "Bản nháp đang soạn",
               "fill": "#4F5D6B",
               "textGrowth": "fixed-width-height",
-              "width": 796,
+              "width": 736,
               "height": 56,
               "content": "Tôi muốn hẹn gặp.",
               "textAlignVertical": "middle",
@@ -3920,8 +3920,8 @@
             {
               "type": "frame",
               "id": "FeFqK",
-              "x": 164,
-              "y": 14,
+              "x": 808,
+              "y": 79,
               "name": "Nút mic",
               "width": 52,
               "height": 46,
@@ -3951,7 +3951,7 @@
               "y": 74,
               "name": "Ô nhập và sửa chữ",
               "fill": "#FFFFFF",
-              "width": 828,
+              "width": 768,
               "height": 56
             },
             {
@@ -3962,7 +3962,7 @@
               "name": "Bản nháp đang soạn",
               "fill": "#4F5D6B",
               "textGrowth": "fixed-width-height",
-              "width": 796,
+              "width": 736,
               "height": 56,
               "content": "Tôi muốn hẹn gặp.",
               "textAlignVertical": "middle",
@@ -4345,8 +4345,8 @@
             {
               "type": "frame",
               "id": "dMnae",
-              "x": 164,
-              "y": 14,
+              "x": 808,
+              "y": 79,
               "name": "Nút mic",
               "width": 52,
               "height": 46,
@@ -4376,7 +4376,7 @@
               "y": 74,
               "name": "Ô nhập và sửa chữ",
               "fill": "#FFFFFF",
-              "width": 828,
+              "width": 768,
               "height": 56
             },
             {
@@ -4387,7 +4387,7 @@
               "name": "Bản nháp đang soạn",
               "fill": "#4F5D6B",
               "textGrowth": "fixed-width-height",
-              "width": 796,
+              "width": 736,
               "height": 56,
               "content": "Tôi muốn hẹn gặp.",
               "textAlignVertical": "middle",
@@ -4438,7 +4438,7 @@
             {
               "type": "text",
               "id": "SWIgT",
-              "x": 230,
+              "x": 260,
               "y": 14,
               "name": "Thông báo lỗi cạnh mic",
               "fill": "#A83232",
@@ -4446,6 +4446,7 @@
               "width": 600,
               "height": 46,
               "content": "Không kết nối được Deepgram. Kiểm tra Internet rồi thử lại.",
+              "textAlign": "right",
               "textAlignVertical": "middle",
               "fontFamily": "Inter",
               "fontSize": 16,

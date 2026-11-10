@@ -4,7 +4,7 @@ Updated 2026-11-10. The original target was Thursday, 2026-11-05. A replacement 
 
 ## Next session — use the updated V1 wireframe
 
-The 1024 × 600 Pencil wireframe now replaces the old file button with the microphone control and shows recording, recognition and error states. Use sections 1–3 and 5–6 of [the product UI/UX specification](STT_PRODUCT_UI_UX.md) as the reference for the confirmed flow and checks.
+The 1024 × 600 Pencil wireframe places the microphone control immediately to the left of **Gửi**, including when the keyboard is open. The same control shows recording and recognition states. The error appears just above it. Use sections 1–3 and 5–6 of [the product UI/UX specification](STT_PRODUCT_UI_UX.md) as the reference for the confirmed flow and checks.
 
 PBL6 handles speech recognition, reading text aloud, and Settings. Another project can supply recognized-sign text. Sign recognition and its camera path are separate integration work. **Gửi** and **Đọc to** are separate actions, and the user has deferred the details of TTS. The next chat reviews the design. Software implementation, device tests, benchmarks, and purchases follow a separate user request.
 
