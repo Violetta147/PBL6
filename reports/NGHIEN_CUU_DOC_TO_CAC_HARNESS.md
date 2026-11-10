@@ -1,6 +1,6 @@
 # Khảo sát nút Đọc to trong các ứng dụng harness
 
-**PBL6 · 07/11/2026 · Tạm hoãn.** Phần này lưu các quan sát để tham khảo khi nhóm quay lại thiết kế **Text-to-Speech (TTS)**. Giải pháp tạo và phát giọng của PBL6 sẽ được chọn riêng cho Raspberry Pi và phải hoạt động độc lập với gói đăng ký ChatGPT.
+**PBL6 · Cập nhật 10/11/2026.** Phần này lưu các quan sát phục vụ thiết kế **Đọc to (TTS)**. Giải pháp tạo và phát giọng của PBL6 sẽ được chọn riêng cho Raspberry Pi và phải hoạt động độc lập với gói đăng ký ChatGPT.
 
 ## Kết quả khảo sát
 
@@ -12,4 +12,6 @@
 
 ## Tham chiếu cho PBL6
 
-Giữ ảnh Codex làm tham chiếu cho **icon loa đi theo từng tin nhắn**. Trong PBL6, **Gửi** và **Đọc to** là hai thao tác riêng. Vị trí nút loa, nội dung được đọc và cách tạo giọng sẽ được chốt khi nhóm quay lại phần TTS. [Tài liệu UI/UX PBL6](../STT_PRODUCT_UI_UX.md)
+**Kiểm tra lại Codex Desktop trên Windows.** Ba ảnh người dùng gửi cho thấy nút loa, vòng xoay khi tải và hình vuông khi đang phát. Mã trong bản cài `26.1103.7773.0` (`resources/app.asar`, `webview/assets/async/708390.17710d5ff1.js`, mô-đun `DM5G`) cho thấy nút truyền mã của tin vừa chọn cho bộ phát. Nếu đang có lượt của tin khác, bộ phát dừng âm thanh và hủy xử lý của lượt cũ trước khi đưa tin mới vào trạng thái chờ. Mã cũng kiểm tra lượt còn hiệu lực trước khi phát, nên kết quả cũ về muộn không phát trở lại. Kết luận dựa trên đọc mã và ảnh tham chiếu. Chưa thử phát âm thanh A rồi chuyển sang B trên ứng dụng.
+
+**Đã chốt cho PBL6.** **Gửi** và **Đọc to** là hai thao tác riêng. Chỉ đọc từng tin đã gửi. Khi đang đọc tin A mà người dùng chạm loa ở tin B, dừng A ngay và chuyển sang B. Dùng ba trạng thái của Codex làm tham chiếu khi duyệt giao diện nút. [Tài liệu UI/UX PBL6](../STT_PRODUCT_UI_UX.md)
