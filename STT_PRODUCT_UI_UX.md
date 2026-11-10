@@ -36,6 +36,8 @@ Trong V1, ứng dụng nhận dạng sau khi dừng thu và đưa chữ cuối v
 
 **Bản nháp.** Theo LearnHarness, chữ chưa gửi chỉ tồn tại trong vùng soạn của hội thoại đang mở. Chuyển hội thoại hoặc đóng ứng dụng sẽ bỏ bản nháp. Nếu gửi lỗi khi hội thoại vẫn đang mở, ứng dụng giữ chữ để người dùng sửa hoặc thử gửi lại. [Khảo sát cách giữ bản nháp](reports/NGHIEN_CUU_BAN_NHAP_HOI_THOAI.md)
 
+**Chuyển hội thoại khi đang thu hoặc chờ chữ.** Khi người dùng mở hội thoại khác hoặc tạo hội thoại mới, ứng dụng hủy lượt thu hoặc lượt nhận dạng đang chờ, bỏ yêu cầu **Gửi** nếu có và bỏ qua kết quả trả về muộn. Mở bảng **Lịch sử** để xem danh sách vẫn giữ lượt hiện tại.
+
 **Chèn chữ theo Antigravity.** Người dùng có thể sửa bản nháp và di chuyển con trỏ trong lúc thu hoặc chờ kết quả. Khi có chữ nhận dạng đầu tiên để hiển thị, ứng dụng chèn vào bản nháp tại vị trí con trỏ lúc đó. Nếu ô soạn đang mất tiêu điểm, dùng vị trí gần nhất ô soạn còn giữ. Nếu chưa có vị trí, chèn vào cuối bản nháp.
 
 - **V1 và V2.** Chữ đầu tiên đưa vào vùng soạn là chữ cuối sau khi dừng thu. Ứng dụng chèn chữ một lần theo quy tắc trên.
@@ -122,6 +124,7 @@ Khi quay lại TTS, xem các phương án vị trí, phần chữ cần đọc v
 
 - Nút bên trái **Gửi** hiển thị biểu tượng mic khi sẵn sàng, hình vuông khi đang thu và vòng xoay khi chờ nhận dạng. Nút vẫn nằm cạnh **Gửi** khi bàn phím mở.
 - Gõ “Tôi muốn”, đặt con trỏ cuối câu, thu “hẹn gặp vào sáng mai” và bấm **Gửi** khi đang thu. Ứng dụng dừng, đợi nhận dạng và gửi “Tôi muốn hẹn gặp vào sáng mai” đúng một lần. Thử lại bằng cách bấm hình vuông trước, rồi bấm **Gửi** khi vòng xoay đang hiện. Nếu nhận dạng thất bại sau khi bấm **Gửi**, bản nháp vẫn còn và không xuất hiện tin mới.
+- Trong hội thoại A, mở bảng **Lịch sử** khi đang thu và kiểm tra lượt thu vẫn tiếp tục. Chọn hội thoại B để hủy lượt thu. Lặp lại bằng cách bấm **Gửi** ở A rồi chuyển sang B khi còn chờ chữ. Kết quả về muộn không chèn chữ vào vùng soạn và không tạo tin ở A hay B.
 - Khi chưa có lựa chọn đã lưu, Pi có một mic thì thu ngay bằng mic đó và **Settings** hiện tên mic. Pi có nhiều mic thì chọn nguồn trong **Settings** trước khi thu. Nếu rút mic đang dùng rồi chạm nút mic, thông báo mất kết nối xuất hiện cạnh nút.
 - Khi nhận dạng đoạn vừa thu thất bại, vòng xoay kết thúc, biểu tượng mic trở lại và thông báo xuất hiện ở vị trí chung cạnh mic. Chữ đang soạn vẫn còn. Lần chạm mic kế tiếp bắt đầu một lượt thu mới.
 - Phân biệt được chữ đang soạn và tin đã gửi. Chạm vùng soạn mở bàn phím và vẫn nhìn thấy câu đang sửa cùng nút **Gửi**.
