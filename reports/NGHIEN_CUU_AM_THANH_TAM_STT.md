@@ -34,7 +34,7 @@
 
 **Khi kiểm tra Pi**, lấy mốc RAM của phần xử lý khi chưa thu và theo dõi đỉnh RAM suốt lượt. Ghi riêng đoạn từ khi phần xử lý bắt đầu đọc hoặc chuẩn bị âm thanh đến khi nhận phản hồi Deepgram. Khâu này có thể giữ cả tệp và các bản sao phục vụ yêu cầu mạng cùng lúc, trong khi khâu thu chỉ cần giữ các khối đang xử lý. Đo riêng độ trễ từ chạm nút dừng đến khi thấy chữ trong ô soạn. Nếu cần so RAM với tệp tạm, dùng cùng âm thanh, thiết bị và đường nhận dạng. [Hạng mục kiểm tra V1](../STT_PLAN_1_WEEK.md#approved-version-order)
 
-**Cách tạo lượt đo 10, 30 và 60 giây.** Bắt đầu thu bằng nút mic của ứng dụng, dùng đồng hồ ngoài để canh lúc bấm hình vuông, rồi ghi thời lượng thực tế từ đoạn thu. Các mốc này nằm trong kịch bản kiểm thử. Có thể phát cùng một mẫu âm thanh qua loa để thử lại với mic Pi trong điều kiện lặp được. Dùng tệp có thời lượng cố định qua đường một file của P1 chỉ đo được phần xử lý tệp và nhận dạng.
+**Cách tạo lượt đo 10, 30 và 60 giây.** Người dùng thử trên Pi, lần lượt đặt từng giá trị trong **Thời lượng thu tối đa (giây)**, chạm mic để thu rồi để ứng dụng tự dừng. Bài thử ghi thời lượng thu thực tế, RAM và thời gian từ lúc tự dừng đến lúc thấy chữ. Sau bài thử, trả lại giá trị đã dùng trước đó. Có thể phát cùng một mẫu âm thanh qua loa để thử lại với mic Pi trong điều kiện lặp được. Dùng tệp có thời lượng cố định qua đường một file của P1 chỉ đo được phần xử lý tệp và nhận dạng.
 
 ### Giới hạn thời lượng thu
 
@@ -45,7 +45,7 @@
 | **Antigravity IDE `2.6.0`, Agent Manager** | Nhánh thu để đính kèm âm thanh tự dừng sau **5 phút**. Nhánh nhận dạng trực tiếp trong ô soạn thông thường, khi được bật, tự dừng sau **3 phút 30 giây**. Kiểm tra `out/jetskiAgent/main.js` của bản cài. |
 | **LearnHarness `0.5.0`** | Chưa thấy bộ đếm tự dừng theo tổng thời lượng trong mã vùng soạn đã rà. **3 giây** là giới hạn chờ kết thúc nhận dạng sau khi dừng thu. [Mã dừng và chờ](https://github.com/amosblomqvist/learnharness/blob/713377f366771e3e4730e6acd1bc290e0ebc6d6e/components/dictation.tsx#L530-L559) |
 
-<strong style="color:#087A47;">Đã chốt hành vi khi chạm giới hạn.</strong> PBL6 dừng mic, nhận dạng phần đã thu và đưa chữ vào bản nháp. Tự dừng không tạo yêu cầu **Gửi**. **120 giây vẫn là mốc đề xuất.** Bảng trên dựa vào mã và tài liệu, chưa thử bằng mic thật đến lúc tự dừng. [Đặc tả PBL6](../STT_PRODUCT_UI_UX.md#2-thu-sửa-và-gửi-trong-vùng-soạn-chung)
+<strong style="color:#087A47;">Đã chốt giới hạn mặc định 120 giây, cho phép chỉnh trong Settings.</strong> Khi chạm giới hạn đã đặt, PBL6 dừng mic, nhận dạng phần đã thu và đưa chữ vào bản nháp. Tự dừng không tạo yêu cầu **Gửi**. Bảng trên dựa vào mã và tài liệu, chưa thử bằng mic thật đến lúc tự dừng. [Đặc tả PBL6](../STT_PRODUCT_UI_UX.md#2-thu-sửa-và-gửi-trong-vùng-soạn-chung)
 
 ## Thiết kế tăng dần từ V1 đến V3
 
