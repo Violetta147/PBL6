@@ -23,4 +23,6 @@ Google mô tả Antigravity App là ứng dụng desktop kế thừa cách tổ 
 
 **Hai người dùng chung một màn hình.** Cầm hoặc xoay thiết bị để đưa chữ cho người kia xem là một ví dụ về cách sử dụng, tương tự khi đưa màn hình điện thoại cho người khác đọc. Bố cục chat dùng để tham khảo vùng soạn và cách xem lại câu trước. Phương án đang cân nhắc ưu tiên câu đang trao đổi và các nút cần cho lượt nói, đọc hoặc đáp. [Đặc tả UI/UX](../STT_PRODUCT_UI_UX.md)
 
-<strong style="color:#087A47;">Đã chốt chèn kết quả tại con trỏ và cho sửa bản nháp, di chuyển con trỏ cả khi đang thu lẫn khi chờ kết quả.</strong> V1 trả chữ cuối sau khi dừng. Ví dụ, nếu giữ con trỏ giữa “Tôi muốn” và “vào sáng mai” rồi nói “hẹn gặp”, vùng soạn hiện “Tôi muốn hẹn gặp vào sáng mai.” Nếu con trỏ di chuyển trước khi có kết quả, thời điểm lấy vị trí chèn vẫn cần chốt.
+<strong style="color:#087A47;">PBL6 dùng quy tắc chèn chữ của Antigravity.</strong> Người dùng vẫn có thể sửa bản nháp và di chuyển con trỏ khi đang thu hoặc chờ kết quả. Chữ đầu tiên được chèn tại vị trí con trỏ lúc hiển thị, hoặc vị trí gần nhất ô soạn còn giữ nếu mất tiêu điểm. Nếu chưa có vị trí, chèn cuối bản nháp.
+
+V1 và V2 áp dụng quy tắc này cho chữ cuối sau khi dừng thu. V3 áp dụng cho chữ tạm đầu tiên. Các lần cập nhật và kết quả cuối dùng chính đoạn chữ tạm đã chèn, kể cả khi con trỏ đã dời sang chỗ khác. [Quy tắc chèn và tiêu chí duyệt của PBL6](../STT_PRODUCT_UI_UX.md#2-thu-sửa-và-gửi-trong-vùng-soạn-chung)

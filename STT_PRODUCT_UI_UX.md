@@ -28,13 +28,18 @@ Cập nhật 10/11/2026. Tài liệu ghi các quyết định thiết kế, nh�
 
 Chạm biểu tượng **mic** để bắt đầu thu. Vùng soạn vẫn hiện phía trên thanh báo thu và nút mic đổi thành **hình vuông** ngay tại chỗ. Chạm hình vuông để dừng. Trong lúc nhận dạng, nút hiện **vòng xoay**. Khi có chữ cuối, biểu tượng mic trở lại và ứng dụng đưa chữ vào vùng soạn để người dùng đọc lại. Nếu câu đã đúng, có thể bấm **Gửi** ngay.
 
-Chạm vùng soạn để mở **bàn phím ảo** khi cần nhập hoặc sửa. Dùng **Backspace** trên bàn phím để xóa chữ. Nếu vùng soạn đã có chữ, kết quả nhận dạng được chèn tại **vị trí con trỏ**, giữa phần chữ trước và sau con trỏ. Việc nhận dạng xong giữ bàn phím ở trạng thái đóng nếu người dùng chưa chạm vào vùng soạn. Người dùng cũng có thể gõ trực tiếp. Chỉ thao tác **Gửi** mới đưa chữ vào hội thoại. Nếu bàn phím đang mở, ứng dụng tự đóng bàn phím sau khi gửi thành công.
+Chạm vùng soạn để mở **bàn phím ảo** khi cần nhập hoặc sửa. Dùng **Backspace** trên bàn phím để xóa chữ. Việc nhận dạng xong giữ bàn phím ở trạng thái đóng nếu người dùng chưa chạm vào vùng soạn. Người dùng cũng có thể gõ trực tiếp. Chỉ thao tác **Gửi** mới đưa chữ vào hội thoại. Nếu bàn phím đang mở, ứng dụng tự đóng bàn phím sau khi gửi thành công.
 
 Trong V1, ứng dụng nhận dạng sau khi dừng thu và đưa chữ cuối vào vùng soạn. Nếu nhận dạng thất bại, vòng xoay kết thúc, biểu tượng **mic** trở lại và chữ đang soạn được giữ. Giao diện dùng **một vị trí cạnh mic** để hiện thông báo lỗi dành cho người dùng do API PBL6 trả về. Người dùng chạm mic để thu một lượt mới. V2 gửi âm thanh trong lúc thu và vẫn hiển thị chữ cuối. V3 bổ sung chữ tạm cập nhật trong lúc nói. Khi laptop điều khiển Pi, nguồn thu là thiết bị đã chọn trên Pi. [Đối chiếu cách xử lý khi nhận dạng thất bại](reports/NGHIEN_CUU_VUNG_SOAN_VA_BAN_PHIM_AO.md#khi-nhận-dạng-giọng-nói-thất-bại)
 
 **Bản nháp.** Theo LearnHarness, chữ chưa gửi chỉ tồn tại trong vùng soạn của hội thoại đang mở. Chuyển hội thoại hoặc đóng ứng dụng sẽ bỏ bản nháp. Nếu gửi lỗi khi hội thoại vẫn đang mở, ứng dụng giữ chữ để người dùng sửa hoặc thử gửi lại. [Khảo sát cách giữ bản nháp](reports/NGHIEN_CUU_BAN_NHAP_HOI_THOAI.md)
 
-**Trong lúc thu và chờ kết quả.** Vùng soạn vẫn cho phép sửa bản nháp và di chuyển con trỏ ở cả hai giai đoạn. Kết quả nhận dạng được chèn vào bản nháp đã cập nhật. Nếu con trỏ đã di chuyển, thời điểm lấy vị trí chèn còn để bàn. Việc lưu audio thô, tệp tạm và định dạng lưu cũng còn để bàn. [Khảo sát con trỏ khi soạn bằng giọng nói](reports/NGHIEN_CUU_COMPOSER_ANTIGRAVITY.md)
+**Chèn chữ theo Antigravity.** Người dùng có thể sửa bản nháp và di chuyển con trỏ trong lúc thu hoặc chờ kết quả. Khi có chữ nhận dạng đầu tiên để hiển thị, ứng dụng chèn vào bản nháp tại vị trí con trỏ lúc đó. Nếu ô soạn đang mất tiêu điểm, dùng vị trí gần nhất ô soạn còn giữ. Nếu chưa có vị trí, chèn vào cuối bản nháp.
+
+- **V1 và V2.** Chữ đầu tiên đưa vào vùng soạn là chữ cuối sau khi dừng thu. Ứng dụng chèn chữ một lần theo quy tắc trên.
+- **V3.** Chữ đầu tiên có thể là chữ tạm, hiển thị mờ trong vùng soạn. Kết quả tiếp theo cập nhật chính đoạn chữ tạm, kể cả khi người dùng đã dời con trỏ. Người dùng vẫn có thể sửa phần bản nháp xung quanh. **Backspace** và **Delete** chỉ bị chặn khi thao tác sẽ xóa chữ tạm. Khi có kết quả cuối, đoạn chữ tạm chuyển thành chữ thường tại chỗ.
+
+Việc lưu audio thô, tệp tạm và định dạng lưu còn để bàn. [Khảo sát con trỏ khi soạn bằng giọng nói](reports/NGHIEN_CUU_COMPOSER_ANTIGRAVITY.md)
 
 ### Cách hình dung “harness bao quanh model”
 
@@ -107,7 +112,8 @@ Nếu có điểm chưa rõ, bàn từng điểm trực tiếp trên kịch bả
 - Khi nhận dạng đoạn vừa thu thất bại, vòng xoay kết thúc, biểu tượng mic trở lại và thông báo xuất hiện ở vị trí chung cạnh mic. Chữ đang soạn vẫn còn. Lần chạm mic kế tiếp bắt đầu một lượt thu mới.
 - Phân biệt được chữ đang soạn và tin đã gửi. Chạm vùng soạn mở bàn phím và vẫn nhìn thấy câu đang sửa cùng nút **Gửi**.
 - Sửa chữ và di chuyển con trỏ trong lúc đang thu, rồi lặp lại khi vòng xoay đang hiện. Vùng soạn nhận thao tác ở cả hai giai đoạn và giữ các chỉnh sửa khi kết quả về.
-- Đặt con trỏ giữa “Tôi muốn” và “vào sáng mai.” rồi thu câu “hẹn gặp”. Vùng soạn hiện “Tôi muốn hẹn gặp vào sáng mai.” để người dùng đọc lại trước khi gửi.
+- Với V1, bắt đầu thu câu “hẹn gặp” khi con trỏ ở cuối “Tôi muốn vào sáng mai.” Trong lúc chờ, chuyển con trỏ đến giữa “Tôi muốn” và “vào sáng mai.” Khi có kết quả, vùng soạn hiện “Tôi muốn hẹn gặp vào sáng mai.” Chạm nút dừng làm ô soạn mất tiêu điểm thì vị trí gần nhất vẫn dùng được.
+- Với V3, chèn chữ tạm rồi chuyển con trỏ sang phần khác của bản nháp. Chữ tạm tiếp tục cập nhật tại đoạn đã chèn, rồi chuyển thành chữ thường tại đó khi có kết quả cuối. Vẫn sửa được phần chữ xung quanh, và Backspace hoặc Delete chỉ bị chặn khi thao tác sẽ xóa chữ tạm.
 - Nếu gửi thành công khi bàn phím đang mở, bàn phím tự đóng để dành thêm chỗ cho tin vừa gửi.
 - Trong một hội thoại dài, cuộn lên xem tin cũ rồi gửi một tin mới. Khi gửi thành công, vùng hội thoại tự cuộn để đưa tin vừa gửi vào tầm nhìn.
 - Gửi lỗi thì chữ vẫn nằm trong vùng soạn khi hội thoại còn mở. Chuyển sang hội thoại khác rồi quay lại, hoặc đóng rồi mở lại ứng dụng, sẽ thấy vùng soạn trống.
