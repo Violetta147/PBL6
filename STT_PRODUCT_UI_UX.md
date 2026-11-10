@@ -126,6 +126,8 @@ Khung **08 · Cài đặt giọng nói** minh họa một panel **Giọng nói t
 
 Khung **09 · Cài đặt theo nhóm** phác cách mở rộng menu. Thanh bên liệt kê **Giọng nói thành chữ** và **Lịch sử**. Chọn một nhóm sẽ đổi nội dung bên phải. Hai nhãn **Thu âm** và **Nhận dạng** vẫn nằm trong một panel và luôn hiện. Khung 09 minh họa trạng thái đang chọn **Giọng nói thành chữ**. Ảnh dựng đã được kiểm tra ở 1024 × 600. Đây là phương án điều hướng đang xem xét.
 
+Khung **10 · Cài đặt Lịch sử** minh họa trạng thái đang chọn **Lịch sử** trong cùng menu. Mỗi hội thoại mẫu có ô chọn, tên và thời điểm gửi tin gần nhất. Hai dòng đã chọn có dấu tích và nền riêng. Nút **Xóa 2 hội thoại** thể hiện số mục sẽ bị xóa khi bấm. Đã xem ảnh dựng trong Pencil ở 1024 × 600 và đối chiếu số trên nút với hai dòng được chọn. Đây là bản phác bố cục cho luồng xóa đã chốt ở mục 3.
+
 Dùng bản phác làm tham chiếu khi triển khai một lượt nói, đọc và đáp trên cùng màn hình. Thử cả cách bấm hình vuông để dừng và xem lại chữ trước khi gửi, và cách bấm **Gửi** khi đang thu để app đợi chữ rồi gửi câu đã ghép. Khi kiểm tra trên thiết bị, đối chiếu vị trí của tin vừa gửi, cỡ chữ chung và cách mở lại hội thoại từ **Lịch sử**.
 
 Khi quay lại TTS, xem các phương án vị trí, phần chữ cần đọc và cách tạo giọng cho nút **Đọc**. [Khảo sát nút Đọc to](reports/NGHIEN_CUU_DOC_TO_CAC_HARNESS.md)
