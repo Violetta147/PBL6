@@ -74,7 +74,7 @@ Phương án tệp thu tạm của V1 và cách phát triển dần sang V2, V3 
 | Vùng soạn | Một vùng soạn chung có nút mic ngay bên trái **Gửi**, cùng hàng với ô nhập. Khi chạm vào vùng soạn, bàn phím mở dưới cùng. Vùng soạn, mic và **Gửi** ở ngay phía trên. Vùng hội thoại dùng phần chiều cao còn lại và có thể cuộn. | Kiểm tra độ dễ nhận ra khi mic sẵn sàng, đang thu và đang chờ nhận dạng. |
 | Settings | Cài đặt Deepgram đã có ở P1. **Nguồn mic trên Pi**, **Thời lượng thu tối đa (giây)** và **Xóa lịch sử** đã chốt ở mức thiết kế. | Cách bố trí các mục hiển thị. Đầu ra âm thanh sẽ bàn cùng TTS. |
 
-**Tin dài đã gửi.** Nội dung tin tự xuống dòng theo chiều rộng màn hình. Khi gửi thành công một tin dài hơn vùng hội thoại đang thấy, ứng dụng cuộn đến **cuối tin vừa gửi**. Người đọc vuốt vùng hội thoại để xem toàn bộ tin. Nút **Đọc** đi cùng tin đó, vị trí cụ thể sẽ được duyệt khi quay lại TTS.
+**Tin dài đã gửi.** Nội dung tin tự xuống dòng theo chiều rộng màn hình. Khi gửi thành công một tin dài hơn vùng hội thoại đang thấy, ứng dụng cuộn đến **cuối tin vừa gửi**. Người đọc vuốt vùng hội thoại để xem toàn bộ tin. Khi triển khai giao diện V1 (chưa tích hợp TTS), thẻ tin đã gửi **ẩn nút Đọc** để nội dung chữ trải rộng toàn thẻ và không hiện nút chưa có chức năng. Trên bản phác Pencil, nút **Đọc** được giữ như hình giữ chỗ minh họa bố cục; vị trí và trạng thái chi tiết sẽ bật lên khi bước sang chặng TTS.
 
 Khi triển khai bàn phím, cập nhật vùng soạn và trạng thái nút **Gửi** theo từng phím. [Khảo sát vùng soạn và bàn phím ảo](reports/NGHIEN_CUU_VUNG_SOAN_VA_BAN_PHIM_AO.md)
 
@@ -164,7 +164,7 @@ Khung **10 · Cài đặt Lịch sử** minh họa luồng đã duyệt ở mụ
 
 Dùng bản phác làm tham chiếu khi triển khai một lượt nói, đọc và đáp trên cùng màn hình. Thử cả cách bấm hình vuông để dừng và xem lại chữ trước khi gửi, và cách bấm **Gửi** khi đang thu để app đợi chữ rồi gửi câu đã ghép. Khi kiểm tra trên thiết bị, đối chiếu vị trí của tin vừa gửi, cỡ chữ chung và cách mở lại hội thoại từ **Lịch sử**.
 
-Khi duyệt nút **Đọc**, dùng ba trạng thái loa, vòng xoay và nút dừng của Codex Desktop làm tham chiếu. Cách hiển thị trên màn cảm ứng và bộ tạo giọng vẫn để bàn. [Khảo sát nút Đọc to](reports/NGHIEN_CUU_DOC_TO_CAC_HARNESS.md)
+Khi duyệt nút **Đọc**, dùng ba trạng thái loa, vòng xoay và nút dừng của Codex Desktop làm tham chiếu. Trong giao diện V1 (trước chặng TTS), thẻ tin đã gửi ẩn nút **Đọc**; trên bản phác Pencil nút vẫn giữ làm hình giữ chỗ bố cục. Cách hiển thị trên màn cảm ứng và bộ tạo giọng sẽ chốt khi quay lại TTS. [Khảo sát nút Đọc to](reports/NGHIEN_CUU_DOC_TO_CAC_HARNESS.md)
 
 **Ứng viên TTS để xem lại sau khi hoàn thành STT V3 (10/11/2026).** Deepgram Flux TTS có hai giọng tiếng Việt ở Early Access là Hoa (`flux-hoa-vi`) và Minh (`flux-minh-vi`). Deepgram chưa tự chuyển số, ngày giờ và chữ viết tắt sang cách đọc tiếng Việt. Khi quay lại, nghe thử câu có giờ như “Quầy đóng lúc 17:30” và kiểm tra quyền gọi TTS của khóa đang dùng ở P1. Hiện mới xác minh bằng tài liệu. [Danh mục giọng Flux TTS](https://developers.deepgram.com/docs/flux-tts/voices#vietnamese-early-access)
 
@@ -191,7 +191,7 @@ Khi duyệt nút **Đọc**, dùng ba trạng thái loa, vòng xoay và nút d�
 - Khi nhận dạng đoạn vừa thu thất bại, vòng xoay kết thúc, biểu tượng mic trở lại và thông báo xuất hiện ở vị trí chung cạnh mic. Chữ đang soạn vẫn còn. Lần chạm mic kế tiếp bắt đầu một lượt thu mới.
 - Trong lúc tin A đang đọc, chạm **Đọc** ở tin B. Âm thanh A dừng ngay khi chạm, kể cả khi B còn chờ âm thanh. Khi B sẵn sàng, chỉ phát B.
 - Phân biệt được chữ đang soạn và tin đã gửi. Chạm vùng soạn mở bàn phím và vẫn nhìn thấy câu đang sửa cùng nút **Gửi**.
-- Gửi lần lượt nhiều tin và kiểm tra hội thoại hiện các tin theo thứ tự gửi, không gán tên người gửi hay vai trò.
+- Gửi lần lượt nhiều tin và kiểm tra hội thoại hiện các tin theo thứ tự gửi, không gán tên người gửi hay vai trò, và ở V1 thẻ tin đã gửi không hiện nút **Đọc**.
 - Nhập một câu dài vượt chiều cao ô soạn, mở bàn phím và chạm vào giữa câu để sửa. Kiểm tra dòng có con trỏ hiện trong vùng nhìn thấy, nội dung ô soạn cuộn được và mic cùng **Gửi** vẫn chạm được phía trên bàn phím.
 - Sửa chữ và di chuyển con trỏ trong lúc đang thu, rồi lặp lại khi vòng xoay đang hiện. Vùng soạn nhận thao tác ở cả hai giai đoạn và giữ các chỉnh sửa khi kết quả về.
 - Với V1, bắt đầu thu câu “hẹn gặp” khi con trỏ ở cuối “Tôi muốn vào sáng mai.” Trong lúc chờ, chuyển con trỏ đến giữa “Tôi muốn” và “vào sáng mai.” Khi có kết quả, vùng soạn hiện “Tôi muốn hẹn gặp vào sáng mai.” Chạm nút dừng làm ô soạn mất tiêu điểm thì vị trí gần nhất vẫn dùng được.
