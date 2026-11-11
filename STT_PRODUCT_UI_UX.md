@@ -102,6 +102,8 @@ Khi mở lại một hội thoại, vùng hội thoại hiện **cuối hội th
 
 **Nút + Hội thoại mới.** Nút mở một màn soạn trống chưa lưu, theo cách Codex Desktop chuyển sang màn soạn trống khi bấm **New chat**. Hội thoại chỉ vào **Lịch sử** sau khi gửi thành công tin đầu tiên. Nếu màn đang mở đã trống, nút chỉ đóng bảng. Nếu có bản nháp chưa gửi, bản nháp bị bỏ theo quy tắc bản nháp. [Khảo sát hội thoại mới trong Codex](reports/NGHIEN_CUU_HOI_THOAI_MOI_CODEX.md)
 
+**Lịch sử trống.** Khi chưa có hội thoại đã lưu, bảng Lịch sử vẫn mở bình thường với nút **+ Hội thoại mới** ở đầu bảng. Danh sách hiện dòng chữ **“Chưa có hội thoại đã lưu.”**, dòng này không bấm được. Trong **Cài đặt → Lịch sử**, ô tìm và bộ lọc vẫn hiện cùng dòng chữ đó. Nút **Chọn N kết quả** và **Xóa N hội thoại** bị mờ vì không có gì để xóa.
+
 **Thứ tự trong Lịch sử.** Dùng quy tắc **Last updated** của DeepSeek Harness theo thời điểm gửi thành công tin nhắn gần nhất. Gửi thêm tin đưa hội thoại lên đầu. Mở để xem, đổi tên hoặc bấm **Đọc to** giữ nguyên vị trí. [Nghiên cứu cách sắp xếp Lịch sử](reports/NGHIEN_CUU_SAP_XEP_LICH_SU.md)
 
 **Tên ban đầu.** Dùng nội dung tin đầu tiên được gửi thành công theo cách của LearnHarness. Gộp khoảng trắng và rút gọn câu dài ở ranh giới từ. ID hội thoại tách với tên hiển thị. Người dùng có thể đổi tên sau. [Nghiên cứu cách đặt và đổi tên](reports/NGHIEN_CUU_DAT_TEN_HOI_THOAI.md)
@@ -171,6 +173,7 @@ Khi duyệt nút **Đọc**, dùng ba trạng thái loa, vòng xoay và nút d�
 - Kiểm tra **Thời lượng thu tối đa** mặc định là 120 giây. Đổi sang 10 giây rồi thu một lượt. Mic tự dừng ở mốc đã đặt, chữ nhận được vào vùng soạn và hội thoại không có tin mới cho đến khi người dùng bấm **Gửi**.
 - Khi vòng xoay xuất hiện sau khi bấm hình vuông, **Gửi** vẫn bấm được. Sau lần bấm **Gửi** đầu tiên, nhãn nút vẫn là **Gửi**, nút mờ và lần bấm tiếp theo không tạo yêu cầu mới. Ô soạn vẫn sửa được trong lúc chờ chữ.
 - Chạm **Hội thoại** để mở bảng Lịch sử. Đóng bảng lần lượt bằng nút **Đóng**, bằng cách chạm vùng nền mờ và bằng cách chạm một hội thoại. Hai cách đầu giữ nguyên hội thoại đang mở. Cách thứ ba mở hội thoại vừa chọn ở cuối hội thoại. Nút **+ Hội thoại mới** hiện ở đầu bảng.
+- Mở **Lịch sử** khi chưa có hội thoại đã lưu và kiểm tra dòng “Chưa có hội thoại đã lưu.”. Bấm **+ Hội thoại mới** khi màn đang trống chỉ đóng bảng, còn khi có bản nháp thì bản nháp bị bỏ. Trong **Cài đặt → Lịch sử**, kiểm tra **Chọn N kết quả** và **Xóa N hội thoại** bị mờ. Xóa hết hội thoại đã lưu rồi kiểm tra cùng trạng thái đó.
 - Trong hội thoại A, mở bảng **Lịch sử** khi đang thu và kiểm tra lượt thu vẫn tiếp tục. Chọn hội thoại B để hủy lượt thu. Lặp lại bằng cách bấm **Gửi** ở A rồi chuyển sang B khi còn chờ chữ. Kết quả về muộn không chèn chữ vào vùng soạn và không tạo tin ở A hay B.
 - Khi chưa có lựa chọn đã lưu, khởi động ứng dụng với nhiều mic và kiểm tra nguồn đang dùng là mic mặc định của PipeWire. Chạm mic nhiều lần qua các lượt thu và kiểm tra ứng dụng dùng nguồn đó mà không yêu cầu chọn lại.
 - Đổi mic trong **Settings**, khởi động lại ứng dụng và kiểm tra các lượt thu dùng mic đã lưu. Khi mic đã lưu không còn khả dụng, kiểm tra lượt thu dùng mic mặc định khả dụng của hệ điều hành và lựa chọn đã lưu được giữ.
