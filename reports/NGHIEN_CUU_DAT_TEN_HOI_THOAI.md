@@ -24,8 +24,8 @@
 
 ## 3. Cách đặt tên và đổi tên đã chọn cho PBL6
 
-1. Khi gửi thành công tin đầu tiên, hội thoại xuất hiện trong **Lịch sử**. <strong style="color:#087789;">Dùng chính tin đã gửi để tạo tên ban đầu</strong> theo cách của LearnHarness. Gộp khoảng trắng, rút gọn câu dài ở ranh giới từ và thêm dấu ba chấm khi cần.
-2. Có thao tác **Đổi tên** cho hội thoại đã lưu. <strong style="color:#087789;">Tên hiển thị và ID được lưu riêng</strong>. Khi người dùng đổi tên, các tin cũ vẫn thuộc cùng hội thoại.
-3. Trên màn cảm ứng, **chạm tiêu đề của hội thoại đang mở** để sửa tên tại chỗ. Khi dùng chuột, **nhấn chuột phải vào mục trong Lịch sử** rồi chọn **Đổi tên**. Chạm một lần vào mục trong **Lịch sử** để mở hội thoại.
+1. **Trạng thái ban đầu và tạo tên:** Khi ở màn hội thoại mới (chưa gửi tin nào), thanh đầu hiện nhãn **“Hội thoại mới”**, chạm vào **chưa bật sửa tên** và vùng hội thoại để trống. Khi gửi thành công tin đầu tiên, hội thoại xuất hiện trong **Lịch sử**. <strong style="color:#087789;">Dùng chính tin đã gửi để tạo tên ban đầu</strong> theo cách của LearnHarness. Gộp khoảng trắng, rút gọn câu dài ở ranh giới từ và thêm dấu ba chấm khi cần.
+2. **Định danh:** Có thao tác **Đổi tên** cho hội thoại đã lưu. <strong style="color:#087789;">Tên hiển thị và ID được lưu riêng</strong>. Khi người dùng đổi tên, các tin cũ vẫn thuộc cùng hội thoại.
+3. **Thao tác đổi tên:** Trên màn cảm ứng, **chạm tiêu đề của hội thoại đã lưu ở thanh đầu** để gõ sửa trực tiếp ngay trên dòng chữ (nền trong suốt, không khung viền như LearnHarness) và mở bàn phím ảo. Bấm **Enter** hoặc chạm ra ngoài để lưu tên mới (tối đa **72 ký tự**). Nếu người dùng xóa trống hoàn toàn hoặc chỉ nhập khoảng trắng rồi xác nhận, ứng dụng **tự giữ lại tên cũ** trước khi sửa. Khi dùng chuột, **nhấn chuột phải vào mục trong Lịch sử** rồi chọn **Đổi tên**. Chạm một lần vào mục trong **Lịch sử** để mở hội thoại.
 
 Ví dụ, nếu tin đầu tiên là “Mai gặp lúc mấy giờ?”, ứng dụng dùng câu đó làm tên. Người dùng có thể đổi thành “Hẹn giờ gặp”. <strong style="color:#6E4900;">Câu mở đầu chung chung</strong> như “Chào bạn” sẽ cho tên chung chung. Nếu gặp tình trạng này thường xuyên khi dùng thử, nhóm có thể cân nhắc gợi ý tên từ vài tin đã gửi và giữ ưu tiên cho tên người dùng đã đặt. [Quy tắc hội thoại trong tài liệu UI/UX](../STT_PRODUCT_UI_UX.md)
