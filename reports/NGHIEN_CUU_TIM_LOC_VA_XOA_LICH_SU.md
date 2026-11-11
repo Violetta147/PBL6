@@ -19,10 +19,10 @@ Bản phác ban đầu của khung 10 dùng ô chọn từng dòng và nút **X�
 
 ## 3. Quyết định đã duyệt cho PBL6
 
-1. **Tìm và lọc.** Đặt ô **Tìm theo tên** và bộ lọc **Thời gian** ngay trên danh sách. Bộ lọc dùng thời điểm gửi tin thành công gần nhất, cùng mốc với thứ tự Lịch sử. [Nghiên cứu quy tắc sắp xếp](NGHIEN_CUU_SAP_XEP_LICH_SU.md)
-2. **Chọn hàng loạt.** Khi đang tìm hoặc lọc, hiện **Chọn N kết quả**. Nút chọn tất cả kết quả khớp điều kiện hiện tại, kể cả các dòng nằm ngoài vùng nhìn thấy. Có thể bỏ chọn từng dòng.
+1. **Tìm và lọc.** Đặt ô **Tìm theo tên** và bộ lọc **Thời gian** ngay trên danh sách. Bộ lọc dùng thời điểm gửi tin thành công gần nhất (cùng mốc với thứ tự Lịch sử), mặc định là **Tất cả thời gian** và gồm **Tất cả thời gian**, **Cũ hơn 7 ngày**, **Cũ hơn 30 ngày**. Khi tìm hoặc lọc không có kết quả khớp, danh sách hiện **“Không có hội thoại khớp điều kiện.”**, nút **Chọn 0 kết quả** và **Xóa 0 hội thoại** bị mờ. [Nghiên cứu quy tắc sắp xếp](NGHIEN_CUU_SAP_XEP_LICH_SU.md)
+2. **Chọn hàng loạt.** Khi đang tìm hoặc lọc có kết quả, hiện **Chọn N kết quả**. Nút chọn tất cả kết quả khớp điều kiện hiện tại, kể cả các dòng nằm ngoài vùng nhìn thấy. Có thể bỏ chọn từng dòng.
 3. **Đổi phạm vi.** Khi đổi điều kiện tìm hoặc lọc, ==bỏ toàn bộ lựa chọn trước đó== để danh sách xóa chỉ gồm các hội thoại được chọn trong kết quả mới.
-4. **Vị trí thao tác.** Chỉ danh sách cuộn. Ô tìm và bộ lọc giữ ở phía trên, nút **Xóa N hội thoại** giữ ở phía dưới. N là số hội thoại đang được chọn.
+4. **Vị trí thao tác và trạng thái nút xóa.** Chỉ danh sách cuộn. Ô tìm và bộ lọc giữ ở phía trên, nút **Xóa N hội thoại** giữ ở phía dưới. Khi chưa chọn dòng nào (`N = 0`), nút hiện **“Xóa 0 hội thoại”** ở trạng thái mờ; khi chọn từ 1 hội thoại trở lên, nút sáng lên với số lượng tương ứng.
 5. **Xóa.** Bấm **Xóa N hội thoại** để xóa ngay các hội thoại đã chọn, theo quy tắc đã chốt của PBL6. [Đặc tả UI/UX](../STT_PRODUCT_UI_UX.md#3-bố-cục-lịch-sử-và-settings)
 
 **Ví dụ.** Lọc **Cũ hơn 30 ngày** và thấy **12 kết quả**. Bấm **Chọn 12 kết quả**, bỏ chọn hai hội thoại muốn giữ, rồi bấm **Xóa 10 hội thoại**. Hai hội thoại được bỏ chọn vẫn còn trong lịch sử. Mốc 30 ngày trong ví dụ minh họa cách lọc.
