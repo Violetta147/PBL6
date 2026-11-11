@@ -148,6 +148,8 @@ Khung **08 · Cài đặt giọng nói** minh họa một panel **Giọng nói t
 
 Khung **09 · Cài đặt theo nhóm** minh họa phương án điều hướng đã duyệt. Thanh bên liệt kê **Giọng nói thành chữ** và **Lịch sử**. Chọn một nhóm sẽ đổi nội dung bên phải. Hai nhãn **Thu âm** và **Nhận dạng** vẫn nằm trong một panel và luôn hiện. Khung 09 minh họa trạng thái đang chọn **Giọng nói thành chữ**. Ảnh dựng đã được kiểm tra ở 1024 × 600.
 
+Khi có thay đổi chưa lưu trong nhóm **Giọng nói thành chữ** và người dùng chọn nhóm khác hoặc quay lại **Hội thoại**, ứng dụng hỏi **“Bạn có muốn lưu thay đổi?”** với ba lựa chọn. **Lưu** áp dụng thay đổi rồi chuyển màn hình. **Không lưu** bỏ thay đổi chưa lưu rồi chuyển màn hình. **Ở lại** giữ màn hình và các giá trị đang sửa. Quy tắc này áp dụng cả khi thay đổi mic.
+
 Khung **10 · Cài đặt Lịch sử** minh họa luồng đã duyệt ở mục 3. Ô **Tìm theo tên**, bộ lọc **Cũ hơn 30 ngày** và nút **Chọn 12 kết quả** nằm trên vùng cuộn riêng của danh sách. Bốn trong 12 dòng xuất hiện trong khung, gồm hai dòng đã bỏ chọn và hai dòng vẫn được chọn. Tám dòng còn lại được tính trong lựa chọn và nằm dưới vùng nhìn thấy. Nút **Xóa 10 hội thoại** nằm dưới danh sách. Đã kiểm tra ảnh dựng ở 1024 × 600, thứ tự các vùng và số lượng trong ví dụ. Khung Pencil minh họa trạng thái giao diện bằng dữ liệu mẫu.
 
 Dùng bản phác làm tham chiếu khi triển khai một lượt nói, đọc và đáp trên cùng màn hình. Thử cả cách bấm hình vuông để dừng và xem lại chữ trước khi gửi, và cách bấm **Gửi** khi đang thu để app đợi chữ rồi gửi câu đã ghép. Khi kiểm tra trên thiết bị, đối chiếu vị trí của tin vừa gửi, cỡ chữ chung và cách mở lại hội thoại từ **Lịch sử**.
@@ -159,6 +161,7 @@ Khi duyệt nút **Đọc**, dùng ba trạng thái loa, vòng xoay và nút d�
 ## 6. Tiêu chí duyệt bản phác
 
 - Nút bên trái **Gửi** hiển thị biểu tượng mic khi sẵn sàng, hình vuông khi đang thu và vòng xoay khi chờ nhận dạng. Nút vẫn nằm cạnh **Gửi** khi bàn phím mở.
+- Đổi thời lượng thu hoặc mic trong **Cài đặt** mà chưa lưu, sau đó chọn **Lịch sử** hoặc quay lại **Hội thoại**. Kiểm tra hộp hỏi có **Lưu**, **Không lưu** và **Ở lại**. Kiểm tra lần lượt từng lựa chọn lưu rồi chuyển, bỏ thay đổi rồi chuyển, hoặc giữ nguyên màn hình và giá trị đang sửa.
 - Gõ “Tôi muốn”, đặt con trỏ cuối câu, thu “hẹn gặp vào sáng mai” và bấm **Gửi** khi đang thu. Ứng dụng dừng, đợi nhận dạng và gửi “Tôi muốn hẹn gặp vào sáng mai” đúng một lần. Thử lại bằng cách bấm hình vuông trước, rồi bấm **Gửi** khi vòng xoay đang hiện. Nếu nhận dạng thất bại sau khi bấm **Gửi**, bản nháp vẫn còn và không xuất hiện tin mới.
 - Gõ “Tôi muốn”, bắt đầu thu rồi bấm **Gửi**. Giả lập Deepgram trả về `completed_empty`. Biểu tượng mic trở lại, “Tôi muốn” vẫn trong vùng soạn, nút **Gửi** bấm lại được và hội thoại không có tin mới. Với ô soạn trống, mic vẫn trở lại và **Gửi** ở trạng thái dành cho bản nháp trống.
 - Kiểm tra **Thời lượng thu tối đa** mặc định là 120 giây. Đổi sang 10 giây rồi thu một lượt. Mic tự dừng ở mốc đã đặt, chữ nhận được vào vùng soạn và hội thoại không có tin mới cho đến khi người dùng bấm **Gửi**.
