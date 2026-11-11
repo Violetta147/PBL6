@@ -48,6 +48,8 @@ Trong V1, ứng dụng nhận dạng sau khi dừng thu và đưa chữ cuối v
 
 **Bản nháp.** Theo LearnHarness, chữ chưa gửi chỉ tồn tại trong vùng soạn của hội thoại đang mở. Chuyển hội thoại hoặc đóng ứng dụng sẽ bỏ bản nháp. Nếu gửi lỗi khi hội thoại vẫn đang mở, ứng dụng giữ chữ để người dùng sửa hoặc thử gửi lại. [Khảo sát cách giữ bản nháp](reports/NGHIEN_CUU_BAN_NHAP_HOI_THOAI.md)
 
+**Xử lý khi gửi tin thất bại.** Nếu gửi tin không thành công, tin không xuất hiện trong vùng hội thoại và hội thoại chưa được thêm vào **Lịch sử** nếu đây là tin đầu tiên. Ứng dụng giữ nguyên câu đang soạn trong ô nhập, nút **Gửi** sáng trở lại ngay để có thể bấm gửi lại. Thông báo lỗi hiện ở vị trí chung cạnh nút mic: **“Không gửi được. Hãy thử lại.”** Thông báo tự động biến mất khi người dùng gõ sửa chữ, chạm mic hoặc bấm gửi lại. [Khảo sát xử lý gửi lỗi](reports/NGHIEN_CUU_XU_LY_GUI_LOI.md)
+
 **Chuyển hội thoại khi đang thu hoặc chờ chữ.** Khi người dùng mở hội thoại khác hoặc tạo hội thoại mới, ứng dụng hủy lượt thu hoặc lượt nhận dạng đang chờ, bỏ yêu cầu **Gửi** nếu có và bỏ qua kết quả trả về muộn. Mở bảng **Lịch sử** để xem danh sách vẫn giữ lượt hiện tại.
 
 **Chèn chữ theo Antigravity.** Người dùng có thể sửa bản nháp và di chuyển con trỏ trong lúc thu hoặc chờ kết quả. Khi có chữ nhận dạng đầu tiên để hiển thị, ứng dụng chèn vào bản nháp tại vị trí con trỏ lúc đó. Nếu ô soạn đang mất tiêu điểm, dùng vị trí gần nhất ô soạn còn giữ. Nếu chưa có vị trí, chèn vào cuối bản nháp.
@@ -197,7 +199,7 @@ Khi duyệt nút **Đọc**, dùng ba trạng thái loa, vòng xoay và nút d�
 - Nếu gửi thành công khi bàn phím đang mở, bàn phím tự đóng để dành thêm chỗ cho tin vừa gửi.
 - Trong một hội thoại dài, cuộn lên xem tin cũ rồi gửi một tin mới. Khi gửi thành công, vùng hội thoại tự cuộn để đưa tin vừa gửi vào tầm nhìn.
 - Gửi một tin dài hơn vùng hội thoại và kiểm tra nội dung tự xuống dòng, màn hình hiển thị cuối tin sau khi gửi thành công, người dùng có thể vuốt vùng hội thoại để đọc toàn bộ tin.
-- Gửi lỗi thì chữ vẫn nằm trong vùng soạn khi hội thoại còn mở. Chuyển sang hội thoại khác rồi quay lại, hoặc đóng rồi mở lại ứng dụng, sẽ thấy vùng soạn trống.
+- Gửi lỗi thì chữ vẫn nằm trong ô soạn, tin không xuất hiện trong hội thoại, thông báo “Không gửi được. Hãy thử lại.” hiện cạnh mic và nút **Gửi** bấm lại được ngay. Gõ sửa chữ, chạm mic hoặc gửi lại thì thông báo tự biến mất. Chuyển sang hội thoại khác rồi quay lại, hoặc đóng rồi mở lại ứng dụng, sẽ thấy vùng soạn trống.
 - Người dùng có thể thao tác chính bằng một lần chạm trên vùng điều khiển. Người nhận dễ tìm và đọc câu vừa gửi trên màn 7 inch.
 - Tin đầu tiên được gửi thành công thì hội thoại xuất hiện trong **Lịch sử**. Sau khi đóng và mở ứng dụng, màn chính hiện cuộc mới và người dùng có thể mở lại cuộc đã lưu.
 - Mở lại một hội thoại dài và kiểm tra vùng hội thoại hiện cuối cuộc. Lặp lại với tin cuối dài hơn vùng nhìn thấy, kiểm tra màn hình hiện cuối tin và người dùng vuốt lên đọc được các phần trước.
