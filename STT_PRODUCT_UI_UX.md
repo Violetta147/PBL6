@@ -65,7 +65,7 @@ Phương án tệp thu tạm của V1 và cách phát triển dần sang V2, V3 
 
 | Vùng giao diện | Nội dung đã xác định | Việc cần duyệt trên bản phác |
 | :--- | :--- | :--- |
-| Điều hướng | Hội thoại, Lịch sử và Settings. | Cách mở và thu gọn Lịch sử trên màn nhỏ. |
+| Điều hướng | Hội thoại, Lịch sử và Settings. Bảng Lịch sử mở và đóng theo quy tắc bên dưới, đã duyệt trên khung 02. | Kiểm tra độ dễ chạm của nút mở, nút **Đóng** và vùng nền mờ trên màn 7 inch. |
 | Vùng hội thoại | Hiển thị các tin đã gửi theo thứ tự gửi. V1 chưa cần gán tên người gửi hay vai trò. Sau khi gửi thành công, vùng hội thoại tự cuộn đến tin vừa gửi. Tin này dùng cùng kiểu và cỡ chữ với các tin khác trong hội thoại. | Kiểm tra cỡ chữ chung trên màn 7 inch, bố cục từng tin và việc có cần nhãn nguồn nhập. |
 | Vùng soạn | Một vùng soạn chung có nút mic ngay bên trái **Gửi**, cùng hàng với ô nhập. Khi chạm vào vùng soạn, bàn phím mở dưới cùng. Vùng soạn, mic và **Gửi** ở ngay phía trên. Vùng hội thoại dùng phần chiều cao còn lại và có thể cuộn. | Kiểm tra độ dễ nhận ra khi mic sẵn sàng, đang thu và đang chờ nhận dạng. |
 | Settings | Cài đặt Deepgram đã có ở P1. **Nguồn mic trên Pi**, **Thời lượng thu tối đa (giây)** và **Xóa lịch sử** đã chốt ở mức thiết kế. | Cách bố trí các mục hiển thị. Đầu ra âm thanh sẽ bàn cùng TTS. |
@@ -97,6 +97,8 @@ Khi mở lại một hội thoại, vùng hội thoại hiện **cuối hội th
 **Thời gian lưu.** V1 giữ các hội thoại đã lưu cho đến khi người dùng chủ động xóa. Bộ lọc thời gian giúp tìm hội thoại để chọn xóa.
 
 **Mỗi lần mở ứng dụng, màn chính hiện một hội thoại mới.** Người dùng cũng có thể bấm **+ Hội thoại mới** trong lúc ứng dụng đang mở. Bản phác đặt nút này trong bảng Lịch sử.
+
+**Mở và đóng bảng Lịch sử.** Chạm nút **Hội thoại** ở góc trên bên trái để mở bảng Lịch sử. Bảng trượt ra từ mép trái, rộng 360 px trên màn 1024 × 600. Phần còn lại của màn hình có lớp nền mờ phủ lên hội thoại. Nút **+ Hội thoại mới** nằm đầu bảng, phía trên danh sách. Có ba cách đóng bảng: chạm **Đóng** ở góc trên bên phải của bảng, chạm vùng nền mờ, hoặc chạm một hội thoại để mở hội thoại đó. Mở hoặc đóng bảng mà không chọn hội thoại khác thì lượt thu hoặc lượt nhận dạng đang chạy vẫn tiếp tục.
 
 **Thứ tự trong Lịch sử.** Dùng quy tắc **Last updated** của DeepSeek Harness theo thời điểm gửi thành công tin nhắn gần nhất. Gửi thêm tin đưa hội thoại lên đầu. Mở để xem, đổi tên hoặc bấm **Đọc to** giữ nguyên vị trí. [Nghiên cứu cách sắp xếp Lịch sử](reports/NGHIEN_CUU_SAP_XEP_LICH_SU.md)
 
@@ -166,6 +168,7 @@ Khi duyệt nút **Đọc**, dùng ba trạng thái loa, vòng xoay và nút d�
 - Gõ “Tôi muốn”, bắt đầu thu rồi bấm **Gửi**. Giả lập Deepgram trả về `completed_empty`. Biểu tượng mic trở lại, “Tôi muốn” vẫn trong vùng soạn, nút **Gửi** bấm lại được và hội thoại không có tin mới. Với ô soạn trống, mic vẫn trở lại và **Gửi** ở trạng thái dành cho bản nháp trống.
 - Kiểm tra **Thời lượng thu tối đa** mặc định là 120 giây. Đổi sang 10 giây rồi thu một lượt. Mic tự dừng ở mốc đã đặt, chữ nhận được vào vùng soạn và hội thoại không có tin mới cho đến khi người dùng bấm **Gửi**.
 - Khi vòng xoay xuất hiện sau khi bấm hình vuông, **Gửi** vẫn bấm được. Sau lần bấm **Gửi** đầu tiên, nhãn nút vẫn là **Gửi**, nút mờ và lần bấm tiếp theo không tạo yêu cầu mới. Ô soạn vẫn sửa được trong lúc chờ chữ.
+- Chạm **Hội thoại** để mở bảng Lịch sử. Đóng bảng lần lượt bằng nút **Đóng**, bằng cách chạm vùng nền mờ và bằng cách chạm một hội thoại. Hai cách đầu giữ nguyên hội thoại đang mở. Cách thứ ba mở hội thoại vừa chọn ở cuối hội thoại. Nút **+ Hội thoại mới** hiện ở đầu bảng.
 - Trong hội thoại A, mở bảng **Lịch sử** khi đang thu và kiểm tra lượt thu vẫn tiếp tục. Chọn hội thoại B để hủy lượt thu. Lặp lại bằng cách bấm **Gửi** ở A rồi chuyển sang B khi còn chờ chữ. Kết quả về muộn không chèn chữ vào vùng soạn và không tạo tin ở A hay B.
 - Khi chưa có lựa chọn đã lưu, khởi động ứng dụng với nhiều mic và kiểm tra nguồn đang dùng là mic mặc định của PipeWire. Chạm mic nhiều lần qua các lượt thu và kiểm tra ứng dụng dùng nguồn đó mà không yêu cầu chọn lại.
 - Đổi mic trong **Settings**, khởi động lại ứng dụng và kiểm tra các lượt thu dùng mic đã lưu. Khi mic đã lưu không còn khả dụng, kiểm tra lượt thu dùng mic mặc định khả dụng của hệ điều hành và lựa chọn đã lưu được giữ.
