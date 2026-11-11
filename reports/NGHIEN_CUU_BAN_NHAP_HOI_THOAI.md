@@ -12,4 +12,4 @@
 
 ## Quyết định cho PBL6 V1
 
-<strong style="color:#087A47;">Đã chọn cách giữ bản nháp của LearnHarness.</strong> Bản nháp chỉ tồn tại trong vùng soạn của hội thoại đang mở. Khi chuyển hội thoại hoặc đóng ứng dụng, bản nháp bị bỏ. Nếu gửi lỗi khi hội thoại vẫn đang mở, vùng soạn giữ nguyên chữ để người dùng sửa hoặc thử gửi lại. [Đặc tả UI/UX](../STT_PRODUCT_UI_UX.md)
+<strong style="color:#087A47;">Đã chọn cách giữ bản nháp của LearnHarness.</strong> Bản nháp chỉ tồn tại trong vùng soạn của hội thoại đang mở. Khi chuyển hội thoại hoặc đóng ứng dụng, bản nháp bị bỏ. Mở **Cài đặt** rồi quay lại **Hội thoại** vẫn giữ nguyên bản nháp của hội thoại đang mở (trừ khi hội thoại đó bị xóa trong **Cài đặt → Lịch sử**). Nếu gửi lỗi khi hội thoại vẫn đang mở, vùng soạn giữ nguyên chữ để người dùng sửa hoặc thử gửi lại. [Đặc tả UI/UX](../STT_PRODUCT_UI_UX.md)
