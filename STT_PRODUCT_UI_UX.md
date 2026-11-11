@@ -112,7 +112,7 @@ Khi mở lại một hội thoại, vùng hội thoại hiện **cuối hội th
 
 **Tên ban đầu.** Dùng nội dung tin đầu tiên được gửi thành công theo cách của LearnHarness. Gộp khoảng trắng và rút gọn câu dài ở ranh giới từ. ID hội thoại tách với tên hiển thị. Người dùng có thể đổi tên sau. [Nghiên cứu cách đặt và đổi tên](reports/NGHIEN_CUU_DAT_TEN_HOI_THOAI.md)
 
-**Đổi tên hội thoại đã lưu.** Trên màn cảm ứng, chạm tiêu đề của hội thoại đang mở để sửa tại chỗ. Khi dùng chuột, nhấn chuột phải vào mục trong **Lịch sử** rồi chọn **Đổi tên**. Chạm một lần vào mục trong **Lịch sử** để mở hội thoại.
+**Đổi tên hội thoại đã lưu.** Trên màn cảm ứng, chạm tiêu đề của hội thoại đang mở ở thanh đầu để gõ sửa trực tiếp ngay trên dòng chữ đó (nền trong suốt, không khung viền như LearnHarness) và mở bàn phím ảo. Bấm **Enter** hoặc chạm ra ngoài tiêu đề để lưu tên mới (tối đa 72 ký tự). Nếu người dùng xóa trống hoàn toàn hoặc chỉ nhập khoảng trắng rồi xác nhận, ứng dụng tự giữ lại tên cũ trước khi sửa. Khi dùng chuột, nhấn chuột phải vào mục trong **Lịch sử** rồi chọn **Đổi tên**. Chạm một lần vào mục trong **Lịch sử** để mở hội thoại.
 
 **Xóa lịch sử trong Settings.** Đặt ô **Tìm theo tên** và bộ lọc **Thời gian** trên danh sách hội thoại đã lưu. Bộ lọc dùng thời điểm gửi tin thành công gần nhất. Khi đang tìm hoặc lọc, **Chọn N kết quả** chọn tất cả hội thoại khớp điều kiện, kể cả dòng nằm ngoài vùng nhìn thấy. Người dùng có thể bỏ chọn từng dòng. Đổi điều kiện tìm hoặc lọc sẽ bỏ toàn bộ lựa chọn trước đó. Chỉ danh sách cuộn. Ô tìm, bộ lọc và nút **Xóa N hội thoại** luôn trong tầm nhìn khi cuộn danh sách. Bấm **Xóa N hội thoại** để xóa ngay các hội thoại đang được chọn. [Nghiên cứu tìm, lọc và xóa hội thoại](reports/NGHIEN_CUU_TIM_LOC_VA_XOA_LICH_SU.md)
 
@@ -202,6 +202,7 @@ Khi duyệt nút **Đọc**, dùng ba trạng thái loa, vòng xoay và nút d�
 - Gửi lỗi thì chữ vẫn nằm trong ô soạn, tin không xuất hiện trong hội thoại, thông báo “Không gửi được. Hãy thử lại.” hiện cạnh mic và nút **Gửi** bấm lại được ngay. Gõ sửa chữ, chạm mic hoặc gửi lại thì thông báo tự biến mất. Chuyển sang hội thoại khác rồi quay lại, hoặc đóng rồi mở lại ứng dụng, sẽ thấy vùng soạn trống.
 - Người dùng có thể thao tác chính bằng một lần chạm trên vùng điều khiển. Người nhận dễ tìm và đọc câu vừa gửi trên màn 7 inch.
 - Tin đầu tiên được gửi thành công thì hội thoại xuất hiện trong **Lịch sử**. Sau khi đóng và mở ứng dụng, màn chính hiện cuộc mới và người dùng có thể mở lại cuộc đã lưu.
+- Chạm tiêu đề của hội thoại đã lưu ở thanh đầu, gõ tên mới trực tiếp trên dòng chữ (không khung viền) rồi bấm **Enter** hoặc chạm ra ngoài; kiểm tra tiêu đề và mục trong **Lịch sử** cập nhật tên mới mà không đổi thứ tự danh sách. Thử xóa trống tiêu đề rồi chạm ra ngoài và kiểm tra tên cũ được giữ nguyên.
 - Mở lại một hội thoại dài và kiểm tra vùng hội thoại hiện cuối cuộc. Lặp lại với tin cuối dài hơn vùng nhìn thấy, kiểm tra màn hình hiện cuối tin và người dùng vuốt lên đọc được các phần trước.
 - Với hội thoại đã lưu có lần gửi thành công gần nhất cũ hơn 30 ngày, kiểm tra hội thoại vẫn mở lại được và vẫn còn sau khi dùng bộ lọc **Cũ hơn 30 ngày**, cho đến khi người dùng chọn xóa.
 
