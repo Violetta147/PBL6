@@ -100,6 +100,8 @@ Khi mở lại một hội thoại, vùng hội thoại hiện **cuối hội th
 
 **Mở và đóng bảng Lịch sử.** Chạm nút **Hội thoại** ở góc trên bên trái để mở bảng Lịch sử. Bảng trượt ra từ mép trái, rộng 360 px trên màn 1024 × 600. Phần còn lại của màn hình có lớp nền mờ phủ lên hội thoại. Nút **+ Hội thoại mới** nằm đầu bảng, phía trên danh sách. Có ba cách đóng bảng: chạm **Đóng** ở góc trên bên phải của bảng, chạm vùng nền mờ, hoặc chạm một hội thoại để mở hội thoại đó. Mở hoặc đóng bảng mà không chọn hội thoại khác thì lượt thu hoặc lượt nhận dạng đang chạy vẫn tiếp tục.
 
+**Nút + Hội thoại mới.** Nút mở một màn soạn trống chưa lưu, theo cách Codex Desktop chuyển sang màn soạn trống khi bấm **New chat**. Hội thoại chỉ vào **Lịch sử** sau khi gửi thành công tin đầu tiên. Nếu màn đang mở đã trống, nút chỉ đóng bảng. Nếu có bản nháp chưa gửi, bản nháp bị bỏ theo quy tắc bản nháp. [Khảo sát hội thoại mới trong Codex](reports/NGHIEN_CUU_HOI_THOAI_MOI_CODEX.md)
+
 **Thứ tự trong Lịch sử.** Dùng quy tắc **Last updated** của DeepSeek Harness theo thời điểm gửi thành công tin nhắn gần nhất. Gửi thêm tin đưa hội thoại lên đầu. Mở để xem, đổi tên hoặc bấm **Đọc to** giữ nguyên vị trí. [Nghiên cứu cách sắp xếp Lịch sử](reports/NGHIEN_CUU_SAP_XEP_LICH_SU.md)
 
 **Tên ban đầu.** Dùng nội dung tin đầu tiên được gửi thành công theo cách của LearnHarness. Gộp khoảng trắng và rút gọn câu dài ở ranh giới từ. ID hội thoại tách với tên hiển thị. Người dùng có thể đổi tên sau. [Nghiên cứu cách đặt và đổi tên](reports/NGHIEN_CUU_DAT_TEN_HOI_THOAI.md)
