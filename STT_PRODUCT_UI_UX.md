@@ -1,6 +1,6 @@
 # UI/UX sản phẩm — giao tiếp đa phương thức giữa hai người
 
-Cập nhật 10/11/2026. Tài liệu ghi các quyết định thiết kế, những điểm đang thảo luận và kịch bản cần duyệt trên bản phác. Kết quả triển khai P1 được ghi riêng trong [báo cáo P1](reports/stt_v1_p1_20261107/BAO_CAO.md).
+Cập nhật 12/11/2026. Tài liệu ghi các quyết định thiết kế, những điểm đang thảo luận và kịch bản cần duyệt trên bản phác. Kết quả triển khai P1 được ghi riêng trong [báo cáo P1](reports/stt_v1_p1_20261107/BAO_CAO.md).
 
 > **Yêu cầu cốt lõi của người dùng: “giao tiếp giữa 2 người, giao tiếp multi modal”.**
 >
@@ -21,7 +21,7 @@ Cập nhật 10/11/2026. Tài liệu ghi các quyết định thiết kế, nh�
 | **Settings** | Có mục **Xóa lịch sử** theo quy tắc ở mục 3. | P1 đã có cài đặt key Deepgram tại máy. Các mục còn lại sẽ chốt theo từng luồng. |
 
 - **Sản phẩm đích.** Thiết bị để bàn có màn cảm ứng và Electron ở chế độ kiosk. Stack đã chốt là React + TypeScript + Tailwind CSS, Next.js/Node.js và Electron.
-- **Màu sắc.** Ảnh tham khảo dùng để xem bố cục. Bảng màu thay thế, theme sáng hoặc tối, font và bộ icon còn để duyệt.
+- **Bảng màu, cỡ chữ và bộ icon (V1).** Dùng giao diện sáng (Light theme) độ tương phản cao theo bản phác Pencil (chưa cần nút chuyển Sáng/Tối ở V1): nền màn hình `#F5F7F9`, thẻ tin/ô soạn/thanh đầu `#FFFFFF`, viền `#BAC5D0`, chữ chính `#18212B`, chữ phụ `#4F5D6B`, nút hành động chính (Mic, Gửi, + Hội thoại mới, Lưu cài đặt) `#273D53`, chữ báo lỗi `#DC2626`. Dùng font không chân (**Inter** / font hệ thống) với thang cỡ chữ chuẩn trên màn `1024 × 600`: tin đã gửi và tiêu đề thanh đầu **24 px**, chữ đang soạn trong ô nhập **21 px**, nhãn nút bấm và mục cài đặt **18 px**. Bộ icon dùng **Lucide**.
 - **Mốc phần mềm.** Hoàn thành STT theo thứ tự V1, V2 rồi V3. Sau khi hoàn thành STT V3 mới quay lại chọn công nghệ TTS. Duyệt giao diện là một bước riêng trước khi người dùng yêu cầu triển khai.
 
 ## 2. Thu, sửa và gửi trong vùng soạn chung
@@ -200,7 +200,7 @@ Khi duyệt nút **Đọc**, dùng ba trạng thái loa, vòng xoay và nút d�
 - Trong một hội thoại dài, cuộn lên xem tin cũ rồi gửi một tin mới. Khi gửi thành công, vùng hội thoại tự cuộn để đưa tin vừa gửi vào tầm nhìn.
 - Gửi một tin dài hơn vùng hội thoại và kiểm tra nội dung tự xuống dòng, màn hình hiển thị cuối tin sau khi gửi thành công, người dùng có thể vuốt vùng hội thoại để đọc toàn bộ tin.
 - Gửi lỗi thì chữ vẫn nằm trong ô soạn, tin không xuất hiện trong hội thoại, thông báo “Không gửi được. Hãy thử lại.” hiện cạnh mic và nút **Gửi** bấm lại được ngay. Gõ sửa chữ, chạm mic hoặc gửi lại thì thông báo tự biến mất. Chuyển sang hội thoại khác rồi quay lại, hoặc đóng rồi mở lại ứng dụng, sẽ thấy vùng soạn trống.
-- Người dùng có thể thao tác chính bằng một lần chạm trên vùng điều khiển. Người nhận dễ tìm và đọc câu vừa gửi trên màn 7 inch.
+- Người dùng có thể thao tác chính bằng một lần chạm trên vùng điều khiển. Người nhận dễ tìm và đọc câu vừa gửi trên màn 7 inch với giao diện sáng độ tương phản cao (`#F5F7F9` / `#FFFFFF` / `#18212B` / `#273D53`), bộ icon Lucide và thang cỡ chữ `24 px` (tin đã gửi, tiêu đề), `21 px` (ô soạn), `18 px` (nút bấm, cài đặt).
 - Khi ở màn hội thoại mới chưa gửi tin nào, kiểm tra thanh đầu hiện “Hội thoại mới”, vùng hội thoại trống và chạm vào tiêu đề chưa bật sửa tên. Tin đầu tiên được gửi thành công thì tiêu đề tự cập nhật theo nội dung tin đó và hội thoại xuất hiện trong **Lịch sử**. Sau khi đóng và mở ứng dụng, màn chính hiện cuộc mới và người dùng có thể mở lại cuộc đã lưu.
 - Chạm tiêu đề của hội thoại đã lưu ở thanh đầu, gõ tên mới trực tiếp trên dòng chữ (không khung viền) rồi bấm **Enter** hoặc chạm ra ngoài; kiểm tra tiêu đề và mục trong **Lịch sử** cập nhật tên mới mà không đổi thứ tự danh sách. Thử xóa trống tiêu đề rồi chạm ra ngoài và kiểm tra tên cũ được giữ nguyên.
 - Mở lại một hội thoại dài và kiểm tra vùng hội thoại hiện cuối cuộc. Lặp lại với tin cuối dài hơn vùng nhìn thấy, kiểm tra màn hình hiện cuối tin và người dùng vuốt lên đọc được các phần trước.
