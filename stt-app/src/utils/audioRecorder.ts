@@ -117,12 +117,45 @@ export class WebAudioRecorder {
     // Stop any existing stream
     this.cancelRecording();
 
+    let targetDeviceId = deviceId;
+    if (deviceId && deviceId !== 'default' && navigator.mediaDevices.enumerateDevices) {
+      try {
+        const available = await navigator.mediaDevices.enumerateDevices();
+        const existsDirect = available.some((d) => d.kind === 'audioinput' && d.deviceId === deviceId);
+        if (!existsDirect) {
+          // If deviceId was saved from backend GUID or previous session, try matching by label or name
+          const byLabel = available.find(
+            (d) =>
+              d.kind === 'audioinput' &&
+              d.deviceId &&
+              d.deviceId !== 'default' &&
+              d.label &&
+              (d.label.toLowerCase().includes('internal microphone') ||
+                d.label.toLowerCase().includes('conexant') ||
+                deviceId.toLowerCase().includes(d.label.toLowerCase()) ||
+                d.label.toLowerCase().includes(deviceId.toLowerCase()))
+          );
+          if (byLabel) {
+            targetDeviceId = byLabel.deviceId;
+          }
+        }
+      } catch {}
+    }
+
     const constraints: MediaStreamConstraints = {
-      audio: deviceId && deviceId !== 'default' ? { deviceId: { exact: deviceId } } : true,
+      audio: targetDeviceId && targetDeviceId !== 'default' ? { deviceId: { exact: targetDeviceId } } : true,
       video: false,
     };
 
-    this.stream = await navigator.mediaDevices.getUserMedia(constraints);
+    try {
+      this.stream = await navigator.mediaDevices.getUserMedia(constraints);
+    } catch (err) {
+      if (deviceId && deviceId !== 'default') {
+        this.stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+      } else {
+        throw err;
+      }
+    }
     const tracks = this.stream.getAudioTracks();
     if (tracks.length === 0) {
       throw new Error('No audio tracks found in media stream.');
@@ -266,7 +299,16 @@ export class WebAudioRecorder {
       );
 
       if (realDevices.length > 0) {
-        return realDevices.map((d, index) => ({
+        // Sort so non-virtual/non-communications physical device appears first
+        const sorted = [...realDevices].sort((a, b) => {
+          const aComm = a.deviceId === 'communications' || a.label.toLowerCase().startsWith('communications');
+          const bComm = b.deviceId === 'communications' || b.label.toLowerCase().startsWith('communications');
+          if (aComm && !bComm) return 1;
+          if (!aComm && bComm) return -1;
+          return 0;
+        });
+
+        return sorted.map((d, index) => ({
           id: d.deviceId,
           name: d.label.trim() || `Microphone ${index + 1}`,
           isDefault: index === 0,

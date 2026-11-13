@@ -1,4 +1,4 @@
-import { spawn, execFile, type ChildProcess } from 'node:child_process';
+import { spawn, execFile, execSync, type ChildProcess } from 'node:child_process';
 import { existsSync, createWriteStream, type WriteStream } from 'node:fs';
 import { readdir, rm, stat, readFile, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
@@ -56,6 +56,92 @@ export function createMockWavBuffer(durationSeconds = 1, sampleRate = 16000): Ui
     view.setInt16(i * 2, sample, true);
   }
   return full;
+}
+
+export function enumerateWindowsAudioDevices(): AudioDevice[] {
+  const devices: AudioDevice[] = [];
+  try {
+    const regBase = 'HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\MMDevices\\Audio\\Capture';
+    const rawKeys = execSync(`reg query "${regBase}"`, {
+      encoding: 'utf8',
+      stdio: ['ignore', 'pipe', 'ignore'],
+      timeout: 6000,
+      windowsHide: true,
+    });
+
+    for (const line of rawKeys.split('\n')) {
+      const trimmed = line.trim();
+      if (!trimmed.startsWith('HKEY_LOCAL_MACHINE')) continue;
+      try {
+        const stateOut = execSync(`reg query "${trimmed}" /v "DeviceState"`, {
+          encoding: 'utf8',
+          stdio: ['ignore', 'pipe', 'ignore'],
+          timeout: 4000,
+          windowsHide: true,
+        });
+        const stateMatch = stateOut.match(/DeviceState\s+REG_DWORD\s+0x([0-9a-fA-F]+)/);
+        const state = stateMatch ? parseInt(stateMatch[1], 16) : null;
+        if (state !== 1) continue; // Only DEVICE_STATE_ACTIVE
+
+        const id = trimmed.split('\\').pop() || '';
+        const propOut = execSync(`reg query "${trimmed}\\Properties"`, {
+          encoding: 'utf8',
+          stdio: ['ignore', 'pipe', 'ignore'],
+          timeout: 4000,
+          windowsHide: true,
+        });
+
+        let endpointName = '';
+        let adapterName = '';
+        for (const pLine of propOut.split('\n')) {
+          const pt = pLine.trim();
+          const friendlyMatch = pt.match(/\{a45c254e-df1c-4efd-8020-67d146a850e0\},2\s+REG_\w+\s+(.*)$/i);
+          if (friendlyMatch) {
+            endpointName = friendlyMatch[1].trim();
+          }
+          const adapterMatch = pt.match(/\{b3f8fa53-0004-438e-9003-51a46e139bfc\},6\s+REG_\w+\s+(.*)$/i);
+          if (adapterMatch) {
+            adapterName = adapterMatch[1].trim();
+          }
+        }
+
+        const fullName = endpointName && adapterName
+          ? `${endpointName} (${adapterName})`
+          : (endpointName || adapterName || `Microphone ${id}`);
+
+        devices.push({
+          id,
+          name: fullName,
+          isDefault: false,
+        });
+      } catch {}
+    }
+  } catch {}
+
+  // Fallback to PowerShell Win32_SoundDevice
+  if (devices.length === 0) {
+    try {
+      const psOut = execSync('powershell -NoProfile -Command "Get-CimInstance Win32_SoundDevice | Where-Object { $_.Status -eq \'OK\' } | Select-Object -ExpandProperty Name"', {
+        encoding: 'utf8',
+        stdio: ['ignore', 'pipe', 'ignore'],
+        timeout: 8000,
+        windowsHide: true,
+      });
+      const names = psOut.split('\n').map((s) => s.trim()).filter(Boolean);
+      for (const name of names) {
+        devices.push({
+          id: name.toLowerCase().replace(/[^a-z0-9]/g, '_'),
+          name,
+          isDefault: false,
+        });
+      }
+    } catch {}
+  }
+
+  if (devices.length > 0) {
+    devices[0].isDefault = true;
+  }
+  return devices;
 }
 
 export async function cleanupOrphanRecordings(dir = tmpdir()): Promise<number> {
@@ -180,6 +266,18 @@ export class HardwareRecorder {
       }
       return [
         { id: 'default', name: 'Microphone mặc định (PipeWire)', isDefault: true },
+      ];
+    }
+
+    if (process.platform === 'win32') {
+      try {
+        const winDevices = enumerateWindowsAudioDevices();
+        if (winDevices.length > 0) {
+          return winDevices;
+        }
+      } catch {}
+      return [
+        { id: 'default', name: 'Microphone mặc định (Hệ thống)', isDefault: true },
       ];
     }
 

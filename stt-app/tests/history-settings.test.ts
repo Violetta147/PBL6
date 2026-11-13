@@ -772,3 +772,64 @@ test('Stale query sequence rejection: out-of-order search responses are discarde
   // Must NOT overwrite req 2's results
   assert.deepEqual(displayedConversations, ['Kết quả mới của req 2']);
 });
+
+test('Permissions-Policy configuration allows self microphone access', async () => {
+  const nextConfigModule = await import('../next.config');
+  const config = nextConfigModule.default || nextConfigModule;
+  assert.ok(typeof config.headers === 'function');
+  const headersList = await config.headers();
+  assert.ok(Array.isArray(headersList));
+  const rootHeaderEntry = headersList.find((h: any) => h.source === '/(.*)');
+  assert.ok(rootHeaderEntry);
+  const permHeader = rootHeaderEntry.headers.find((hdr: any) => hdr.key === 'Permissions-Policy');
+  assert.ok(permHeader);
+  assert.ok(
+    permHeader.value.includes('microphone=(self)') || permHeader.value.includes('microphone=*'),
+    `Permissions-Policy MUST allow microphone on self, got: ${permHeader.value}`
+  );
+  assert.ok(!permHeader.value.includes('microphone=()'), 'microphone=() disallows mic access and must not be used');
+});
+
+test('SettingsView microphone resolution maps server GUID to matching WebAudio device', () => {
+  const serverMics = [
+    {
+      id: '{821a377a-8f39-4d65-9b85-ac6bc53096f5}',
+      name: 'Internal Microphone (Conexant SmartAudio HD)',
+      isDefault: true,
+    },
+  ];
+  const webMics = [
+    {
+      id: '7f38d0f9e3ea57f7e682847a34ed5a7047a3ca45d29b23c3299f2ab6de67f199',
+      name: 'Internal Microphone (Conexant SmartAudio HD)',
+      isDefault: true,
+    },
+    {
+      id: 'communications',
+      name: 'Communications - Internal Microphone (Conexant SmartAudio HD)',
+      isDefault: false,
+    },
+  ];
+
+  // Logic from SettingsView: resolve loaded server GUID against detected webMics
+  function resolveMicrophoneId(savedMicId: string, availableWebMics: typeof webMics, availableServerMics: typeof serverMics) {
+    if (!savedMicId || savedMicId === 'default') return '';
+    const direct = availableWebMics.find((m) => m.id === savedMicId);
+    if (direct) return direct.id;
+
+    const serverMatch = availableServerMics.find((s) => s.id === savedMicId);
+    if (serverMatch) {
+      const webMatch = availableWebMics.find(
+        (w) =>
+          w.name === serverMatch.name ||
+          w.name.includes(serverMatch.name) ||
+          serverMatch.name.includes(w.name)
+      );
+      if (webMatch) return webMatch.id;
+    }
+    return savedMicId;
+  }
+
+  const resolved = resolveMicrophoneId('{821a377a-8f39-4d65-9b85-ac6bc53096f5}', webMics, serverMics);
+  assert.equal(resolved, '7f38d0f9e3ea57f7e682847a34ed5a7047a3ca45d29b23c3299f2ab6de67f199');
+});

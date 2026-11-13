@@ -9,6 +9,7 @@ import {
   cleanupOrphanRecordings,
   createMockWavBuffer,
   createWavHeader,
+  enumerateWindowsAudioDevices,
 } from '../src/server/recorder';
 import { AppError } from '../src/server/errors';
 import type { Settings } from '../src/server/settings';
@@ -365,4 +366,17 @@ test('mid-recording disconnect without audio <= 44 bytes sets error and cleans u
   const errorState = recorder.getState();
   assert.equal(errorState.status, 'error');
   assert.equal(errorState.error, 'Mic bị ngắt kết nối và không thu được âm thanh.');
+});
+
+test('enumerateWindowsAudioDevices returns valid audio capture devices on Windows', () => {
+  if (process.platform !== 'win32') return;
+  const devices = enumerateWindowsAudioDevices();
+  assert.ok(Array.isArray(devices));
+  assert.ok(devices.length >= 1);
+  assert.ok(devices.some(d => d.name.includes('Conexant') || d.name.includes('Microphone')));
+  for (const dev of devices) {
+    assert.ok(typeof dev.id === 'string' && dev.id.length > 0);
+    assert.ok(typeof dev.name === 'string' && dev.name.length > 0);
+    assert.ok(typeof dev.isDefault === 'boolean');
+  }
 });

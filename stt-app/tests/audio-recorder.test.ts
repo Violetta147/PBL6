@@ -133,3 +133,38 @@ test('WebAudioRecorder: enumerateMicrophones filters unpermissioned empty IDs an
     }
   }
 });
+
+test('WebAudioRecorder: sorts physical microphones before communications devices', async () => {
+  const originalMediaDevices = Object.getOwnPropertyDescriptor(globalThis.navigator, 'mediaDevices');
+  try {
+    const mockDevices = [
+      { kind: 'audioinput', deviceId: 'default', label: 'Default - Internal Microphone (Conexant SmartAudio HD)' },
+      { kind: 'audioinput', deviceId: 'communications', label: 'Communications - Internal Microphone (Conexant SmartAudio HD)' },
+      { kind: 'audioinput', deviceId: 'hash-con-123', label: 'Internal Microphone (Conexant SmartAudio HD)' },
+    ];
+
+    Object.defineProperty(globalThis.navigator, 'mediaDevices', {
+      value: {
+        enumerateDevices: async () => mockDevices,
+      },
+      configurable: true,
+      writable: true,
+    });
+
+    const result = await WebAudioRecorder.enumerateMicrophones();
+    assert.equal(result.length, 2);
+    // Physical mic must be first and marked default
+    assert.equal(result[0].id, 'hash-con-123');
+    assert.equal(result[0].name, 'Internal Microphone (Conexant SmartAudio HD)');
+    assert.equal(result[0].isDefault, true);
+    // Communications mic must be second
+    assert.equal(result[1].id, 'communications');
+    assert.equal(result[1].isDefault, false);
+  } finally {
+    if (originalMediaDevices) {
+      Object.defineProperty(globalThis.navigator, 'mediaDevices', originalMediaDevices);
+    } else {
+      delete (globalThis.navigator as unknown as { mediaDevices?: unknown }).mediaDevices;
+    }
+  }
+});

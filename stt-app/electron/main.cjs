@@ -17,22 +17,44 @@ if (!origin || !/^http:\/\/127\.0\.0\.1:\d+$/.test(origin)) {
   app.on('second-instance', () => { if (window) { if (window.isMinimized()) window.restore(); window.focus(); } });
   app.whenReady().then(() => {
     // Allow media (microphone) permission exclusively for our trusted local application origin.
-    const allowedPermissions = new Set(['media', 'microphone', 'audioCapture']);
-    session.defaultSession.setPermissionRequestHandler((webContents, permission, callback) => {
+    const allowedPermissions = new Set([
+      'media',
+      'microphone',
+      'audioCapture',
+      'speaker-selection',
+      'mediaKeySystem',
+    ]);
+
+    const isLocalAppOrigin = (urlOrOrigin) => {
+      if (!urlOrOrigin || urlOrOrigin === 'about:blank') return true;
       try {
-        const urlStr = webContents.getURL();
-        const reqOrigin = urlStr ? new URL(urlStr).origin : '';
-        if ((!reqOrigin || reqOrigin === origin) && allowedPermissions.has(permission)) {
+        const u = new URL(urlOrOrigin);
+        if (u.protocol === 'about:' || u.protocol === 'data:') return true;
+        const o = new URL(origin);
+        const isLocalHost = u.hostname === '127.0.0.1' || u.hostname === 'localhost';
+        const isLocalOrig = o.hostname === '127.0.0.1' || o.hostname === 'localhost';
+        return isLocalHost && isLocalOrig && (u.port === o.port || !u.port || !o.port);
+      } catch {
+        return false;
+      }
+    };
+
+    session.defaultSession.setPermissionRequestHandler((webContents, permission, callback, details) => {
+      try {
+        const reqUrl = details?.requestingUrl || details?.securityOrigin || webContents?.getURL() || '';
+        if (allowedPermissions.has(permission) && isLocalAppOrigin(reqUrl)) {
           return callback(true);
         }
       } catch {}
       callback(false);
     });
-    session.defaultSession.setPermissionCheckHandler((webContents, permission, requestingOrigin) => {
-      const normReq = requestingOrigin ? requestingOrigin.replace(/\/$/, '') : '';
-      const normOrigin = origin.replace(/\/$/, '');
-      return (normReq === normOrigin || !normReq) && allowedPermissions.has(permission);
+
+    session.defaultSession.setPermissionCheckHandler((webContents, permission, requestingOrigin, details) => {
+      const reqUrl = details?.requestingUrl || details?.securityOrigin || requestingOrigin || webContents?.getURL() || '';
+      return allowedPermissions.has(permission) && isLocalAppOrigin(reqUrl);
     });
+
+    session.defaultSession.setDevicePermissionHandler(() => true);
     window = new BrowserWindow({
       width: 1180, height: 860, minWidth: 640, minHeight: 600,
       title: 'STT · Tiếng Việt', backgroundColor: '#F5F7F9', autoHideMenuBar: true,

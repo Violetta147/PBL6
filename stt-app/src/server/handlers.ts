@@ -316,8 +316,14 @@ export async function getMicrophonesHandler(request: Request): Promise<Response>
     const recorder = getRecorder();
     const devices = await recorder.listMicrophones();
     const settings = await readSettings();
+    const logLine = `[Devices] Enumerated ${devices.length} microphone(s): ${devices.map(d => d.name).join(', ')}`;
+    console.log(logLine);
+    try { process.stdout.write(logLine + '\n'); } catch {}
     return jsonResponse({ devices, selectedId: settings.selectedMicrophoneId });
   } catch (error) {
+    const errLine = `[Devices] Failed to enumerate microphones: ${error}`;
+    console.error(errLine);
+    try { process.stderr.write(errLine + '\n'); } catch {}
     return errorResponse(error);
   }
 }
