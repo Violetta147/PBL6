@@ -833,3 +833,28 @@ test('SettingsView microphone resolution maps server GUID to matching WebAudio d
   const resolved = resolveMicrophoneId('{821a377a-8f39-4d65-9b85-ac6bc53096f5}', webMics, serverMics);
   assert.equal(resolved, '7f38d0f9e3ea57f7e682847a34ed5a7047a3ca45d29b23c3299f2ab6de67f199');
 });
+
+test('Settings refresh parses maxRecordSeconds and selectedMicrophoneId', () => {
+  const settingsPayload = {
+    provider: 'deepgram',
+    language: 'vi',
+    model: 'nova-3',
+    timeoutSeconds: 60,
+    hasApiKey: true,
+    selectedMicrophoneId: 'web-mic-123',
+    maxRecordSeconds: 5,
+  };
+
+  let maxRecord = 120;
+  let micId: string | undefined = undefined;
+
+  if (typeof settingsPayload.selectedMicrophoneId === 'string') {
+    micId = settingsPayload.selectedMicrophoneId;
+  }
+  if (typeof settingsPayload.maxRecordSeconds === 'number') {
+    maxRecord = settingsPayload.maxRecordSeconds;
+  }
+
+  assert.equal(maxRecord, 5);
+  assert.equal(micId, 'web-mic-123');
+});

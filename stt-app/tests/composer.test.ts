@@ -5,6 +5,7 @@ import {
   determineSendButtonState,
   calculateSources,
   validateTitle,
+  getEffectiveMaxRecordSeconds,
 } from '../src/utils/composerLogic';
 
 test('insertTranscript: empty or whitespace transcript returns original draft', () => {
@@ -197,4 +198,147 @@ test('validateTitle: truncates title at 72 characters max', () => {
   assert.equal(r.title.length, 72);
   assert.equal(r.title, 'a'.repeat(72));
   assert.equal(r.changed, true);
+});
+
+test('getEffectiveMaxRecordSeconds: respects configured seconds in range [5, 300]', () => {
+  assert.equal(getEffectiveMaxRecordSeconds(5), 5);
+  assert.equal(getEffectiveMaxRecordSeconds(10), 10);
+  assert.equal(getEffectiveMaxRecordSeconds(60), 60);
+  assert.equal(getEffectiveMaxRecordSeconds(120), 120);
+  assert.equal(getEffectiveMaxRecordSeconds(300), 300);
+});
+
+test('getEffectiveMaxRecordSeconds: defaults to 120 when undefined, null, out of range, or invalid', () => {
+  assert.equal(getEffectiveMaxRecordSeconds(undefined), 120);
+  assert.equal(getEffectiveMaxRecordSeconds(null), 120);
+  assert.equal(getEffectiveMaxRecordSeconds(0), 120);
+  assert.equal(getEffectiveMaxRecordSeconds(-5), 120);
+  assert.equal(getEffectiveMaxRecordSeconds(4), 120);
+  assert.equal(getEffectiveMaxRecordSeconds(301), 120);
+  assert.equal(getEffectiveMaxRecordSeconds(NaN), 120);
+  assert.equal(getEffectiveMaxRecordSeconds(Infinity), 120);
+});
+
+test('auto-stop timer: timer fires after configured maxRecordSeconds, cancels latch and stops recording', (t) => {
+  t.mock.timers.enable({ apis: ['setTimeout'] });
+  try {
+    let recordingStatus: 'idle' | 'recording' | 'transcribing' = 'idle';
+    let isLatchedToSend = false;
+    let draft = 'Bản nháp ban đầu';
+    let stopCalled = false;
+    let sendCalled = false;
+
+    // Simulation of Composer's auto-stop schedule
+    const durationSec = getEffectiveMaxRecordSeconds(5);
+    recordingStatus = 'recording';
+    let timer: NodeJS.Timeout | null = setTimeout(() => {
+      // Auto-stop handler in Composer
+      isLatchedToSend = false;
+      stopRecording();
+    }, durationSec * 1000);
+
+    function stopRecording() {
+      if (timer) {
+        clearTimeout(timer);
+        timer = null;
+      }
+      stopCalled = true;
+      recordingStatus = 'transcribing';
+
+      // Simulate transcript arrival
+      const transcript = 'văn bản mới';
+      const insertResult = insertTranscript(draft, transcript, draft.length);
+      draft = insertResult.newDraft;
+      recordingStatus = 'idle';
+
+      if (isLatchedToSend) {
+        sendCalled = true;
+      }
+    }
+
+    assert.equal(recordingStatus, 'recording');
+    assert.equal(stopCalled, false);
+
+    // Fast-forward 4999 ms -> still recording
+    t.mock.timers.tick(4999);
+    assert.equal(recordingStatus, 'recording');
+    assert.equal(stopCalled, false);
+
+    // Tick remaining 1 ms -> fires auto-stop
+    t.mock.timers.tick(1);
+    assert.equal(stopCalled, true);
+    assert.equal(recordingStatus, 'idle');
+    assert.equal(draft, 'Bản nháp ban đầu văn bản mới');
+    assert.equal(sendCalled, false); // "Tự dừng vì hết giờ không tạo yêu cầu Gửi"
+    assert.equal(isLatchedToSend, false);
+  } finally {
+    t.mock.timers.reset();
+  }
+});
+
+test('auto-stop timer: manual stop before timeout clears timer and prevents late auto-stop', (t) => {
+  t.mock.timers.enable({ apis: ['setTimeout'] });
+  try {
+    let stopCalls = 0;
+    const durationSec = getEffectiveMaxRecordSeconds(5);
+    let timer: NodeJS.Timeout | null = setTimeout(() => {
+      stopCalls++;
+    }, durationSec * 1000);
+
+    function manualStop() {
+      if (timer) {
+        clearTimeout(timer);
+        timer = null;
+      }
+      stopCalls++;
+    }
+
+    // Manual stop at 2 seconds
+    t.mock.timers.tick(2000);
+    manualStop();
+    assert.equal(stopCalls, 1);
+
+    // Advance past 5 seconds
+    t.mock.timers.tick(4000);
+    // stopCalls should remain 1, not 2
+    assert.equal(stopCalls, 1);
+  } finally {
+    t.mock.timers.reset();
+  }
+});
+
+test('auto-stop timer: cancelSignal before timeout cancels timer and resets state to idle', (t) => {
+  t.mock.timers.enable({ apis: ['setTimeout'] });
+  try {
+    let recordingStatus: 'idle' | 'recording' | 'transcribing' = 'recording';
+    let isLatchedToSend = true;
+    let stopCalled = false;
+
+    const durationSec = getEffectiveMaxRecordSeconds(5);
+    let timer: NodeJS.Timeout | null = setTimeout(() => {
+      stopCalled = true;
+    }, durationSec * 1000);
+
+    function handleCancelSignal() {
+      if (timer) {
+        clearTimeout(timer);
+        timer = null;
+      }
+      recordingStatus = 'idle';
+      isLatchedToSend = false;
+    }
+
+    // Cancel at 3 seconds (e.g. user opens Settings)
+    t.mock.timers.tick(3000);
+    handleCancelSignal();
+    assert.equal(recordingStatus, 'idle');
+    assert.equal(isLatchedToSend, false);
+
+    // Advance past 5 seconds
+    t.mock.timers.tick(5000);
+    assert.equal(stopCalled, false);
+    assert.equal(recordingStatus, 'idle');
+  } finally {
+    t.mock.timers.reset();
+  }
 });

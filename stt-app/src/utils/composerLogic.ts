@@ -100,6 +100,19 @@ export function calculateSources(params: {
 }
 
 /**
+ * Resolves effective maximum recording duration in seconds, enforcing bounds [5, 300] and default 120s.
+ */
+export function getEffectiveMaxRecordSeconds(maxRecordSeconds?: number | null): number {
+  if (typeof maxRecordSeconds === 'number' && Number.isFinite(maxRecordSeconds)) {
+    const rounded = Math.round(maxRecordSeconds);
+    if (rounded >= 5 && rounded <= 300) {
+      return rounded;
+    }
+  }
+  return 120;
+}
+
+/**
  * Normalizes and validates conversation title for inline renaming.
  * Reverts to current title if new title is empty/whitespace.
  * Truncates at max 72 characters.

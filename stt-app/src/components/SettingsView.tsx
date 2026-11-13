@@ -10,6 +10,7 @@ interface SettingsViewProps {
   onClose: () => void;
   activeConversationId?: string | null;
   onActiveConversationDeleted?: () => void;
+  onSettingsSaved?: () => void;
 }
 
 type TabType = 'stt' | 'history';
@@ -36,6 +37,7 @@ export function SettingsView({
   onClose,
   activeConversationId,
   onActiveConversationDeleted,
+  onSettingsSaved,
 }: SettingsViewProps) {
   const [activeTab, setActiveTab] = useState<TabType>('stt');
 
@@ -357,6 +359,7 @@ export function SettingsView({
       });
 
       setSaveNotice('Đã lưu cài đặt.');
+      onSettingsSaved?.();
       setTimeout(() => setSaveNotice(''), 3000);
       return true;
     } catch {

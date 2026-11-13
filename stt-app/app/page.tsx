@@ -17,6 +17,7 @@ export default function Home() {
     'idle' | 'recording' | 'transcribing'
   >('idle');
   const [selectedMicrophoneId, setSelectedMicrophoneId] = useState<string | undefined>(undefined);
+  const [maxRecordSeconds, setMaxRecordSeconds] = useState<number>(120);
 
   const [isHistoryOpen, setIsHistoryOpen] = useState<boolean>(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
@@ -25,8 +26,11 @@ export default function Home() {
     fetch('/api/settings')
       .then((res) => (res.ok ? res.json() : null))
       .then((data) => {
-        if (data?.selectedMicrophoneId) {
+        if (typeof data?.selectedMicrophoneId === 'string') {
           setSelectedMicrophoneId(data.selectedMicrophoneId);
+        }
+        if (typeof data?.maxRecordSeconds === 'number') {
+          setMaxRecordSeconds(data.maxRecordSeconds);
         }
       })
       .catch(() => {});
@@ -197,6 +201,7 @@ export default function Home() {
         cancelSignal={cancelSignal}
         onRecordingStateChange={setRecordingStatus}
         selectedMicrophoneId={selectedMicrophoneId}
+        maxRecordSeconds={maxRecordSeconds}
       />
 
       {/* History Drawer */}
@@ -214,6 +219,7 @@ export default function Home() {
         onClose={handleCloseSettings}
         activeConversationId={conversation?.id}
         onActiveConversationDeleted={handleActiveConversationDeleted}
+        onSettingsSaved={refreshSettings}
       />
     </main>
   );

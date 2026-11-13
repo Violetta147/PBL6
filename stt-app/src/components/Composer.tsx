@@ -6,6 +6,7 @@ import {
   insertTranscript,
   determineSendButtonState,
   calculateSources,
+  getEffectiveMaxRecordSeconds,
 } from '../utils/composerLogic';
 import { WebAudioRecorder } from '../utils/audioRecorder';
 import { MicIcon, SquareIcon, SpinnerIcon } from './Icons';
@@ -18,6 +19,7 @@ interface ComposerProps {
   cancelSignal?: number;
   onRecordingStateChange?: (status: 'idle' | 'recording' | 'transcribing') => void;
   selectedMicrophoneId?: string;
+  maxRecordSeconds?: number;
 }
 
 export function Composer({
@@ -28,6 +30,7 @@ export function Composer({
   cancelSignal,
   onRecordingStateChange,
   selectedMicrophoneId,
+  maxRecordSeconds = 120,
 }: ComposerProps) {
   const [draft, setDraft] = useState(draftProp ?? '');
   const [hasTyped, setHasTyped] = useState(false);
@@ -48,11 +51,18 @@ export function Composer({
   const isSendingRef = useRef(false);
   const recordingStatusRef = useRef<'idle' | 'recording' | 'transcribing'>('idle');
   const cancelEpochRef = useRef(0);
+  const isStoppingRef = useRef(false);
+  const maxRecordSecondsRef = useRef(maxRecordSeconds);
+  const autoStopTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const lastSelectionRef = useRef<number | null>(null);
   const pollIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const webRecorderRef = useRef<WebAudioRecorder | null>(null);
+
+  useEffect(() => {
+    maxRecordSecondsRef.current = maxRecordSeconds;
+  }, [maxRecordSeconds]);
 
   // Sync with draftProp from parent
   useEffect(() => {
@@ -102,6 +112,13 @@ export function Composer({
     }
   }, []);
 
+  const clearAutoStopTimeout = useCallback(() => {
+    if (autoStopTimeoutRef.current) {
+      clearTimeout(autoStopTimeoutRef.current);
+      autoStopTimeoutRef.current = null;
+    }
+  }, []);
+
   // Helper to ensure the line containing the cursor remains in view
   const scrollCursorIntoView = useCallback((textarea: HTMLTextAreaElement, cursorPos: number) => {
     try {
@@ -131,10 +148,11 @@ export function Composer({
     }
   }, [scrollCursorIntoView]);
 
-  // Clean up polling timer and cancel hardware recorder on unmount
+  // Clean up polling timer, auto-stop timer, and cancel hardware recorder on unmount
   useEffect(() => {
     return () => {
       clearPolling();
+      clearAutoStopTimeout();
       if (webRecorderRef.current?.recording) {
         webRecorderRef.current.cancelRecording();
       }
@@ -145,13 +163,15 @@ export function Composer({
         }).catch(() => {});
       }
     };
-  }, [clearPolling]);
+  }, [clearPolling, clearAutoStopTimeout]);
 
   // Cancel recording on external cancelSignal
   useEffect(() => {
     if (cancelSignal && cancelSignal > 0) {
       cancelEpochRef.current++;
       clearPolling();
+      clearAutoStopTimeout();
+      isStoppingRef.current = false;
       if (webRecorderRef.current?.recording) {
         webRecorderRef.current.cancelRecording();
       }
@@ -169,7 +189,7 @@ export function Composer({
       isSendingRef.current = false;
       setErrorMessage('');
     }
-  }, [cancelSignal, clearPolling]);
+  }, [cancelSignal, clearPolling, clearAutoStopTimeout]);
 
   function handleTextChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
     const val = e.target.value;
@@ -284,49 +304,90 @@ export function Composer({
 
   // Stop recording and retrieve transcript
   const stopRecording = useCallback(async () => {
+    if (isStoppingRef.current || recordingStatusRef.current === 'idle') {
+      return;
+    }
+    isStoppingRef.current = true;
     const currentEpoch = cancelEpochRef.current;
     clearPolling();
+    clearAutoStopTimeout();
     setRecordingStatus('transcribing');
     recordingStatusRef.current = 'transcribing';
 
-    // If Web Audio recorder is active on client
-    if (webRecorderRef.current?.recording) {
-      const { blob, hasAudio } = webRecorderRef.current.stopRecording();
-      if (!hasAudio) {
-        setRecordingStatus('idle');
-        recordingStatusRef.current = 'idle';
-        setIsLatchedToSend(false);
-        isLatchedRef.current = false;
+    try {
+      // If Web Audio recorder is active on client
+      if (webRecorderRef.current?.recording) {
+        const { blob, hasAudio } = webRecorderRef.current.stopRecording();
+        if (!hasAudio) {
+          setRecordingStatus('idle');
+          recordingStatusRef.current = 'idle';
+          setIsLatchedToSend(false);
+          isLatchedRef.current = false;
+          return;
+        }
+        try {
+          const formData = new FormData();
+          formData.append('audio', blob, 'recording.wav');
+          const response = await fetch('/api/record/stop', {
+            method: 'POST',
+            body: formData,
+          });
+
+          if (currentEpoch !== cancelEpochRef.current) return;
+          if (!response.ok) {
+            const errData: ApiError = await response.json();
+            throw new Error(errData.error?.message || 'Lỗi nhận dạng âm thanh.');
+          }
+
+          const data = await response.json();
+          if (currentEpoch !== cancelEpochRef.current) return;
+          await handleTranscriptResult({
+            sessionId: 'web-session',
+            fileName: 'recording.wav',
+            text: data.transcript || '',
+            status: (data.transcript || '').trim() ? 'completed' : 'completed_empty',
+            provider: 'deepgram',
+            language: 'vi',
+            model: 'nova-3',
+            requestId: null,
+            audioSeconds: (data.durationMs || 0) / 1000,
+            requestMs: 0,
+          });
+        } catch (err: unknown) {
+          if (currentEpoch !== cancelEpochRef.current) return;
+          setRecordingStatus('idle');
+          recordingStatusRef.current = 'idle';
+          setIsLatchedToSend(false);
+          isLatchedRef.current = false;
+          const msg =
+            err instanceof Error
+              ? err.message
+              : 'Không nhận dạng được âm thanh. Hãy thử lại.';
+          setErrorMessage(msg);
+        }
         return;
       }
+
       try {
-        const formData = new FormData();
-        formData.append('audio', blob, 'recording.wav');
         const response = await fetch('/api/record/stop', {
           method: 'POST',
-          body: formData,
+          headers: { 'Content-Type': 'application/json' },
         });
 
-        if (currentEpoch !== cancelEpochRef.current) return;
+        if (currentEpoch !== cancelEpochRef.current) {
+          return; // Discard late response
+        }
+
         if (!response.ok) {
           const errData: ApiError = await response.json();
           throw new Error(errData.error?.message || 'Lỗi nhận dạng âm thanh.');
         }
 
-        const data = await response.json();
-        if (currentEpoch !== cancelEpochRef.current) return;
-        await handleTranscriptResult({
-          sessionId: 'web-session',
-          fileName: 'recording.wav',
-          text: data.transcript || '',
-          status: (data.transcript || '').trim() ? 'completed' : 'completed_empty',
-          provider: 'deepgram',
-          language: 'vi',
-          model: 'nova-3',
-          requestId: null,
-          audioSeconds: (data.durationMs || 0) / 1000,
-          requestMs: 0,
-        });
+        const transcript: Transcript = await response.json();
+        if (currentEpoch !== cancelEpochRef.current) {
+          return; // Discard late response
+        }
+        await handleTranscriptResult(transcript);
       } catch (err: unknown) {
         if (currentEpoch !== cancelEpochRef.current) return;
         setRecordingStatus('idle');
@@ -339,46 +400,16 @@ export function Composer({
             : 'Không nhận dạng được âm thanh. Hãy thử lại.';
         setErrorMessage(msg);
       }
-      return;
+    } finally {
+      isStoppingRef.current = false;
     }
-
-    try {
-      const response = await fetch('/api/record/stop', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-      });
-
-      if (currentEpoch !== cancelEpochRef.current) {
-        return; // Discard late response
-      }
-
-      if (!response.ok) {
-        const errData: ApiError = await response.json();
-        throw new Error(errData.error?.message || 'Lỗi nhận dạng âm thanh.');
-      }
-
-      const transcript: Transcript = await response.json();
-      if (currentEpoch !== cancelEpochRef.current) {
-        return; // Discard late response
-      }
-      await handleTranscriptResult(transcript);
-    } catch (err: unknown) {
-      if (currentEpoch !== cancelEpochRef.current) return;
-      setRecordingStatus('idle');
-      recordingStatusRef.current = 'idle';
-      setIsLatchedToSend(false);
-      isLatchedRef.current = false;
-      const msg =
-        err instanceof Error
-          ? err.message
-          : 'Không nhận dạng được âm thanh. Hãy thử lại.';
-      setErrorMessage(msg);
-    }
-  }, [clearPolling, handleTranscriptResult]);
+  }, [clearPolling, clearAutoStopTimeout, handleTranscriptResult]);
 
   // Cancel recording via /api/record/cancel
   const cancelRecording = useCallback(async () => {
     clearPolling();
+    clearAutoStopTimeout();
+    isStoppingRef.current = false;
     if (webRecorderRef.current?.recording) {
       webRecorderRef.current.cancelRecording();
     }
@@ -394,13 +425,28 @@ export function Composer({
     } catch {
       // Ignore cancellation failures
     }
-  }, [clearPolling]);
+  }, [clearPolling, clearAutoStopTimeout]);
 
   // Start recording
   async function startRecording() {
     // Clear error message when user taps mic per spec
     setErrorMessage('');
     updateCaret();
+    isStoppingRef.current = false;
+    clearAutoStopTimeout();
+
+    const durationSec = getEffectiveMaxRecordSeconds(maxRecordSecondsRef.current);
+
+    const scheduleAutoStop = () => {
+      clearAutoStopTimeout();
+      autoStopTimeoutRef.current = setTimeout(() => {
+        // Auto-stopped due to reaching max duration
+        // Per spec: "Tự dừng vì hết giờ không tạo yêu cầu Gửi."
+        setIsLatchedToSend(false);
+        isLatchedRef.current = false;
+        void stopRecording();
+      }, durationSec * 1000);
+    };
 
     const hasMedia =
       typeof navigator !== 'undefined' &&
@@ -412,6 +458,7 @@ export function Composer({
           webRecorderRef.current = new WebAudioRecorder();
         }
         await webRecorderRef.current.startRecording(selectedMicrophoneId, () => {
+          clearAutoStopTimeout();
           setErrorMessage('Mic bị ngắt kết nối. Đang nhận dạng phần đã thu.');
           setIsLatchedToSend(false);
           isLatchedRef.current = false;
@@ -419,6 +466,7 @@ export function Composer({
         });
         setRecordingStatus('recording');
         recordingStatusRef.current = 'recording';
+        scheduleAutoStop();
         return;
       } catch {
         setErrorMessage('Không tìm thấy mic. Hãy kết nối mic rồi thử lại.');
@@ -430,6 +478,10 @@ export function Composer({
       const response = await fetch('/api/record/start', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          deviceId: selectedMicrophoneId,
+          maxDurationSeconds: durationSec,
+        }),
       });
 
       if (!response.ok) {
@@ -444,6 +496,7 @@ export function Composer({
 
       setRecordingStatus('recording');
       recordingStatusRef.current = 'recording';
+      scheduleAutoStop();
 
       // Poll hardware status for auto-stop or hardware disconnect
       clearPolling();
@@ -454,16 +507,19 @@ export function Composer({
           const state: RecorderState = await statusRes.json();
 
           if (state.error === 'microphone_disconnected') {
+            clearAutoStopTimeout();
             setErrorMessage('Mic bị ngắt kết nối. Đang nhận dạng phần đã thu.');
             setIsLatchedToSend(false);
             isLatchedRef.current = false;
             void stopRecording();
           } else if (state.status === 'transcribing') {
+            clearAutoStopTimeout();
             setRecordingStatus('transcribing');
             recordingStatusRef.current = 'transcribing';
           } else if (state.status === 'idle') {
             // Auto-stopped on backend due to maxDuration
             // Per spec: "Tự dừng vì hết giờ không tạo yêu cầu Gửi."
+            clearAutoStopTimeout();
             setIsLatchedToSend(false);
             isLatchedRef.current = false;
             void stopRecording();
