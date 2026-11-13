@@ -1,18 +1,16 @@
-# STT — bàn giao sau P1 và chốt BOM
+# PBL6 STT — bàn giao để duyệt luồng hội thoại
 
-## Điểm tiếp tục hiện tại · 10/11/2026
+## Điểm tiếp tục hiện tại · 13/11/2026
 
-**Tiếp tục duyệt thiết kế V1 trên workspace PBL6 hiện tại.** Bắt đầu với hai khung **09 · Cài đặt theo nhóm** và **10 · Cài đặt Lịch sử**, rồi đi qua một lượt nói, sửa, gửi, mở lại hội thoại và quản lý lịch sử dài trên bản phác 1024 × 600. Dựa vào [đặc tả UI/UX, mục 1–3 và 5–6](STT_PRODUCT_UI_UX.md), [tệp Pencil](reports/ui_ux_20261107/assets/wireframe-hoi-thoai-1024x600.pen) và [nghiên cứu tìm, lọc và xóa hội thoại](reports/NGHIEN_CUU_TIM_LOC_VA_XOA_LICH_SU.md). Các đoạn bàn giao cũ bên dưới dùng để tra mốc và bằng chứng.
-
-**Vừa hoàn thành.** Khung 10 đã có tìm theo tên, lọc theo lần gửi tin thành công gần nhất, chọn toàn bộ kết quả khớp và vùng cuộn riêng cho danh sách. Đổi điều kiện tìm hoặc lọc sẽ bỏ lựa chọn cũ. Nút **Xóa N hội thoại** nằm ngoài vùng cuộn và xóa ngay các hội thoại đang chọn. Ví dụ trên Pencil có 12 kết quả, đã bỏ chọn hai và còn 10 mục sẽ xóa. Đây là thiết kế đã duyệt và đã kiểm tra ảnh dựng. Hành vi thực tế là phần việc triển khai.
-
-**Các quyết định cần mang sang.** Một màn hình dùng chung, một vùng soạn. Mic, hình vuông dừng và vòng xoay dùng cùng vị trí cạnh **Gửi**. **Gửi** khi thu hoặc chờ chữ sẽ đợi cùng lượt nhận dạng rồi gửi câu đã ghép đúng một lần. Dừng bằng hình vuông hoặc hết giờ đưa chữ vào bản nháp. Mặc định thu tối đa **120 giây**, chỉnh được trong Settings. Giữ cách chọn mic trên Pi, chèn theo con trỏ của Antigravity, xử lý bản nháp, đổi tên và gửi tiếp vào hội thoại đã lưu theo đặc tả. Tìm kiếm trong bảng mở lại hội thoại, xuất Lịch sử, chính sách lưu giữ, chi tiết **Đọc to** và giao diện hoàn chỉnh còn để bàn.
-
-**Ranh giới triển khai.** `stt-app` đang ở P1 nhận dạng một file bằng Deepgram và có bằng chứng Windows. Phần thu mic trên Pi và luồng hội thoại V1 còn phải triển khai. V1 nhận dạng sau dừng, V2 truyền âm thanh trong lúc thu và hiển thị chữ cuối, V3 mới hiển thị chữ tạm. Người dùng sẽ tự chạy bài kiểm tra trên Pi khi đến bước đó. N02 đã ghi quy trình thống nhất RTF và còn chờ kết quả đo công bằng trên Pi. Xem [bàn giao kỹ thuật](STT_SHIFT_HANDOFF.md), [lộ trình V1–V3 và kế hoạch đo](STT_PLAN_1_WEEK.md#approved-version-order) và [báo cáo P1](reports/stt_v1_p1_20261107/BAO_CAO.md) khi cần. Đọc `AGENTS.md` và xem Git status trước khi sửa. Phạm vi phiên mới tiếp tục là thiết kế cho đến khi có yêu cầu triển khai hoặc kiểm thử thiết bị.
+**Giai đoạn 1 & Giai đoạn 2 đã hoàn thành 100% với 92 tests đạt (Green). Đang thực hiện Giai đoạn 3.**
+- **Giai đoạn 1 (Backend Storage & APIs):** Xây dựng module lưu trữ JSON nguyên tử (atomic write, queue Promise chống race condition), 13 API endpoints cho hội thoại, tin nhắn, cài đặt, và thu âm. 92/92 unit & integration tests pass trong 5.7s.
+- **Giai đoạn 2 (Giao diện 1024×600 & Trình soạn thảo Smart Latch):** Hoàn thiện giao diện Light theme tối ưu màn hình cảm ứng 7 inch, vùng soạn thảo thông minh (Smart Latch: bấm Gửi khi đang thu sẽ tự ngắt, đợi chữ và gửi đúng 1 lần), chỉnh sửa tiêu đề tại chỗ (inline editable title), hiển thị danh sách tin nhắn.
+- **Giai đoạn 3 (Đang triển khai):** Tích hợp thu âm micro đa nền tảng (Windows qua WASAPI, Pi qua PipeWire) bằng chuẩn Web Audio API phía client; phân quyền Electron (`permission === 'media'`) trên `127.0.0.1`; Bảng Lịch sử trượt 360px; Màn Cài đặt toàn diện với modal cảnh báo thay đổi chưa lưu.
+- **Dọn dẹp:** Đã xóa bỏ hoàn toàn trang và route tạm `/file-upload` để giữ dự án sạch sẽ. Không sử dụng mô hình laptop điều khiển Pi qua LAN; sản phẩm hoạt động độc lập trên Pi (kiosk) hoặc Windows.
 
 ### Bàn giao trước đó
 
-Cập nhật 07/11/2026. Dự án giữ tại `C:\Users\LAPTOP T&T\VIOLETTA\Documents\ChatGPT\PBL6`. **Ưu tiên phiên tiếp theo: thảo luận UI/UX sản phẩm đa phương thức cùng các lựa chọn BOM và lập kế hoạch mua sắm tại Đà Nẵng. Chưa tự triển khai P2/batch hoặc đặt hàng.**
+Cập nhật 08/11/2026. Dự án giữ tại `C:\Users\LAPTOP T&T\VIOLETTA\Documents\ChatGPT\PBL6`. **Phiên tiếp theo tiếp tục thảo luận từng bước. Bắt đầu bằng một lượt thu giọng nói, sửa chữ và gửi tin trên bản phác 1024 × 600.** Việc triển khai phần mềm, thử nghiệm trên Pi và mua sắm được thực hiện theo yêu cầu riêng của người dùng.
 
 ## 1. Đọc theo thứ tự
 
@@ -20,26 +18,24 @@ Cập nhật 07/11/2026. Dự án giữ tại `C:\Users\LAPTOP T&T\VIOLETTA\Docu
 
 **Bấm Gửi khi đang thu** sẽ dừng mic, đợi chữ rồi gửi toàn bộ bản nháp đã ghép. Bấm **Gửi** khi đang chờ thì đợi cùng lượt nhận dạng. Nếu nhận dạng lỗi, bỏ yêu cầu gửi và giữ bản nháp. [Khảo sát và quyết định V1](reports/NGHIEN_CUU_GUI_KHI_DANG_THU.md)
 
-1. `AGENTS.md`: quy tắc kiểm thử, tài liệu và commit.
-2. `STT_BOM.md`: BOM chính, đã thay bằng bố cục highlight người dùng đưa và hiệu chỉnh các nội dung chưa có căn cứ. Không dùng một bản `_HIGHLIGHTED` khác làm nguồn quyết định song song.
-3. [STT_PRODUCT_UI_UX.md](STT_PRODUCT_UI_UX.md): yêu cầu giao tiếp đa phương thức giữa hai người; ba tham chiếu Codex/LearnHarness/Deepseek Harness, cơ chế conversation/session và nhận định sơ bộ “harness bao quanh model”; ảnh tham khảo và các quyết định UI/UX chưa chốt.
-4. `reports/stt_v1_p1_20261107/BAO_CAO.md`: báo cáo triển khai, hai lượt dùng thử và lỗi desktop đã sửa.
-5. `STT_SHIFT_HANDOFF.md`: trạng thái công việc và nhiệm vụ tiếp theo.
-6. Khi cần chi tiết phần mềm/nghiên cứu: `STT_SYSTEM_SPEC.md`, `STT_PLAN_1_WEEK.md`, `stt-app/README.md`, `experiments/inventory_20261102/README.md`.
+1. [AGENTS.md](AGENTS.md). Đọc quy tắc làm việc, kiểm thử và commit. Kiểm tra Git status trước khi sửa.
+2. [STT_PRODUCT_UI_UX.md](STT_PRODUCT_UI_UX.md). Đọc mục 1–3 để nắm phạm vi, cách dùng vùng soạn, luồng mic và các quy tắc Lịch sử đã chốt. Dùng mục 5–6 để duyệt kịch bản phiên mới.
+3. [Bản phác Pencil 1024 × 600](reports/ui_ux_20261107/assets/wireframe-hoi-thoai-1024x600.pen). Xem ba khung Trao đổi, Mở lịch sử và Bàn phím mở. Đối chiếu vùng soạn, mic, nút Gửi và chỗ đọc tin khi bàn phím hiện.
+4. [STT_BOM.md](STT_BOM.md) và [HUONG_DAN_NH2067_PI4.md](HUONG_DAN_NH2067_PI4.md). Đọc cấu hình màn đã dùng và mục kết quả thử để tách bằng chứng thực tế khỏi phụ kiện và phép thử còn chờ.
+5. [STT_SHIFT_HANDOFF.md](STT_SHIFT_HANDOFF.md) và [báo cáo P1](reports/stt_v1_p1_20261107/BAO_CAO.md). Đọc phần `Implementation checkpoint` và mục 3 của báo cáo khi cần xác nhận phạm vi phần mềm, kiểm thử trên Windows hoặc kết quả dùng thử một file.
 
-Không cần đọc lại toàn bộ chat/log phiên cũ. Người dùng đã yêu cầu tránh việc đó để tiết kiệm context; dùng các tài liệu và bằng chứng hiện có, chỉ tra lịch sử nếu người dùng yêu cầu hoặc có điểm thật sự chưa thể giải quyết từ nguồn hiện tại.
+Dùng bàn giao và bằng chứng trong repo để tiếp tục. Chỉ tra một đoạn chat cũ khi cần làm rõ một quyết định cụ thể. Đọc `STT_SYSTEM_SPEC.md`, `STT_PLAN_1_WEEK.md`, `stt-app/README.md` và `experiments/inventory_20261102/README.md` khi quay lại triển khai hoặc đánh giá STT.
 
-## 2. P1 đã làm đến đâu?
+## 2. Tiến trình triển khai V1 (Cập nhật 13/11/2026)
 
-**P1 đã triển khai và đã có bằng chứng sử dụng thực tế ở phạm vi một file. Toàn bộ V1 chưa hoàn thành.**
+**Giai đoạn 1 & 2 đã hoàn thành và đạt 92/92 test trên Windows. Giai đoạn 3 đang thực hiện.**
 
 - Mã tại `stt-app`, phiên bản 0.1.0. Stack đã chốt: React + TypeScript + Tailwind CSS, Next.js/Node.js và Electron.
-- Settings nhập/xóa key tại máy, giữ key trên backend; nhận một WAV/MP3/FLAC tối đa 20 MiB; gọi Deepgram `language=vi`; hiện chữ cuối/lỗi; xuất .txt và sao chép.
-- Production build, TypeScript, 20 backend tests và 8 Chrome/HTTP/Electron tests đã đạt trên Windows. Đây là kết quả đã chạy ở P1, không phải yêu cầu chạy lại mặc định cho phiên chốt BOM.
-- Người dùng đã gửi hai lượt Nova-3/vi trên Chrome: `studio_M1.wav` và `phone_F1.wav`, có ảnh và .txt. Chi tiết trong `user_trial_studio_M1.json`, `user_trial_phone_F1.json` cùng thư mục báo cáo. phone_F1 có cụm “nước sệt”, người dùng nghĩ là “nước sạch”; reference chưa xác nhận, chưa quy nguyên nhân cho vùng miền và chưa chấm WER/CER.
-- Lỗi không thấy cửa sổ desktop sau `npm run desktop` đã sửa: tiến trình Electron dùng `windowsHide: false`, backend vẫn chạy ẩn. Kiểm thử hồi quy xác nhận launcher production tạo cửa sổ có tiêu đề. Commit mã P1 ban đầu `e99ccaa9`, sửa desktop và lưu hai lượt thử `9041d6e2`.
-- Chưa có thu micro Pi/Record/Stop, điều khiển qua LAN, bản cài Windows, kiểm chứng Linux ARM64, cảm ứng/kiosk khởi động trên Pi, V2/V3 hoặc IoT/OTA hoàn chỉnh.
-- Luồng V1 còn phải hoàn thiện: chọn nguồn/device path trên Pi → Record → Stop dừng capture → Deepgram → transcript cuối hoặc lỗi rõ ràng; dùng đường một file của P1 để kiểm tra tích hợp khi cần. Batch chạy trong bộ thí nghiệm. Không tự dùng micro của browser laptop. V2 mới đưa audio lên trong khi thu (hiện kết quả cuối); V3 mới hiện chữ tạm cập nhật rồi chốt chữ cuối.
+- **Giai đoạn 1 (Backend Storage & APIs):** Đã hoàn thành lưu trữ JSON nguyên tử, chống race condition, 13 API endpoints, mock recorder cho test suite, 92 tests passing.
+- **Giai đoạn 2 (UI Composer & Smart Latch):** Đã hoàn thành giao diện 1024×600, vùng soạn thảo thông minh Smart Latch, đổi tên hội thoại tại chỗ, cuộn tin nhắn.
+- **Giai đoạn 3 (Web Audio Micro & Lịch sử/Cài đặt):** Chuyển dịch sang thu âm Web Audio API đa nền tảng (WASAPI trên Windows, PipeWire trên Pi) mã hóa WAV 16kHz Mono phía client; tích hợp Drawer Lịch sử 360px và Cài đặt.
+- **Làm sạch dự án:** Route tạm `/file-upload` đã được xóa sạch. Sản phẩm hoạt động độc lập (standalone kiosk trên Pi hoặc cửa sổ desktop trên Windows), không dùng mô hình điều khiển qua LAN.
+- V2 gửi âm thanh trong lúc thu và hiện chữ cuối. V3 bổ sung chữ tạm cập nhật trong khi nói.
 
 Khi cần mở lại trên laptop, PowerShell:
 
@@ -50,26 +46,37 @@ npm run desktop
 
 Dependencies và build đã có trên máy. Ứng dụng có thể vẫn đang chạy; không mở thêm backend cùng cổng 3100. Nếu bản web riêng đang chạy, dừng đúng terminal của nó trước. Không tắt hàng loạt Node/Electron. Không đọc/chia sẻ key trong Settings để làm bàn giao.
 
-## 3. Công việc phiên tiếp theo: UI/UX, chốt BOM và kế hoạch đi mua
+## 3. Quyết định thiết kế đã chốt
 
-**Yêu cầu sản phẩm mới cần bàn:** giao tiếp giữa hai người bằng ký hiệu, giọng nói và chữ, có TTS và Settings. Giao diện P1 chưa được duyệt làm sản phẩm cuối. Đọc [STT_PRODUCT_UI_UX.md](STT_PRODUCT_UI_UX.md) trước khi chốt màn/giá đỡ: cách hai người nhìn và dùng màn ảnh hưởng BOM. Tham khảo tinh thần Codex/LearnHarness/messenger và bố cục ảnh người dùng gửi; không lấy bảng màu ảnh làm mặc định. Chưa triển khai lại UI hoặc thêm sign-to-text/TTS; giữ các mốc V1/V2/V3 STT. Người dùng muốn tiếp tục thảo luận ở phiên mới.
+- **Phạm vi.** Hai người dùng chung một màn hình và một vùng soạn. Ai cũng có thể nhập. Người dùng tự chọn cách đặt, cầm hoặc xoay thiết bị để xem, tương tự khi đưa màn hình điện thoại cho người khác đọc. Giá đỡ là phụ kiện. PBL6 phụ trách STT, TTS và Settings. Chữ để đọc có thể đến từ luồng khác, kể cả dự án nhận dạng ký hiệu. Phần nhận dạng ký hiệu và camera phục vụ nhận dạng nằm ngoài luồng STT đang duyệt. [Khảo sát vùng soạn và tình huống dùng một màn hình](reports/NGHIEN_CUU_COMPOSER_ANTIGRAVITY.md)
+- **Thu, sửa và gửi.** Chạm mic một lần để bắt đầu thu, chạm lần nữa để dừng. Trong lúc nhận dạng, giao diện hiện vòng chờ. Chữ nhận được vào vùng soạn để đọc lại và sửa. Người dùng cũng có thể gõ trực tiếp. Chỉ mở bàn phím ảo khi chạm vùng soạn, dùng Backspace trên bàn phím để xóa chữ. Bấm **Gửi** mới đưa câu vào hội thoại.
+- **Lịch sử.** Mở ứng dụng vào hội thoại mới. Trong Lịch sử có nút **+ Hội thoại mới**. Hội thoại được lưu từ lần gửi thành công đầu tiên và mở lại được sau khi tắt ứng dụng. Người dùng có thể soạn và gửi tiếp trong hội thoại đã mở lại. Sắp theo thời điểm gửi thành công tin gần nhất, theo quy tắc **Last updated** của DeepSeek Harness. Xem lại, đổi tên và đọc to giữ nguyên vị trí. Trong **Settings**, mục **Xóa lịch sử** cho chọn hội thoại, rồi bấm **Delete** để xóa ngay các mục đã chọn.
+- **TTS.** **Đọc to** và **Gửi** là hai thao tác riêng. Vị trí nút, phần chữ được đọc và giải pháp tạo giọng đang tạm hoãn. Giao diện Codex là tham chiếu, còn TTS của PBL6 phải hoạt động độc lập với gói đăng ký ChatGPT. [Khảo sát Đọc to](reports/NGHIEN_CUU_DOC_TO_CAC_HARNESS.md)
 
-**Dùng `STT_BOM.md` làm BOM duy nhất để chốt.** Bản trước thay và bản highlight nguyên gốc được giữ bên ngoài repository tại `C:\Users\LAPTOP T&T\Downloads\PBL6_BOM_BACKUP_20261107_9t707jsm`.
+**Tên và cách đổi tên hội thoại.** Dùng tin đầu tiên được gửi thành công để tạo tên theo LearnHarness, rút gọn câu dài ở ranh giới từ. Chạm tiêu đề của hội thoại đang mở để sửa tên tại chỗ. Khi dùng chuột, nhấn chuột phải vào mục trong **Lịch sử** rồi chọn **Đổi tên**. ID hội thoại tách với tên hiển thị.
 
-Sản phẩm cuối dùng cảm ứng và Electron kiosk. Nhóm tích hợp HDMI + USB touch trước, rồi xét DSI sau khi HDMI ổn định. **Phiếu Điện tử Nguyễn Hiền lúc 17:25 ngày 07/11/2026 ghi đã mua 1 màn NH2067, 7 inch, 1024 × 600 (1.090.000 VNĐ) và 1 cáp micro-HDMI sang HDMI (75.000 VNĐ). Tổng tiền hàng là 1.165.000 VNĐ.** Cần kiểm tra USB touch, nguồn và phụ kiện trong hộp. Loa, micro thay thế, AEC và powered hub phụ thuộc nhu cầu thực tế.
+**Bản nháp.** V1 giữ chữ chưa gửi trong vùng soạn của hội thoại đang mở theo LearnHarness. Chuyển hội thoại hoặc đóng ứng dụng sẽ bỏ bản nháp. Nếu gửi lỗi khi hội thoại vẫn mở, ứng dụng giữ chữ để sửa hoặc thử gửi lại. [Khảo sát cách giữ bản nháp](reports/NGHIEN_CUU_BAN_NHAP_HOI_THOAI.md)
 
-Bản highlight gốc có thêm các mức tiền nháp. BOM chính phân biệt chúng với giá niêm yết. Khảo sát DSI ngày 06/11 được giữ để tham khảo. Cần xác nhận tổng ngân sách, khoảng cách thử và cách cấp nguồn theo bộ NH2067 thực tế.
+**Còn để duyệt.** Màu sắc, các mục Settings còn lại, cách xử lý audio thô, tệp tạm và định dạng lưu. Phần nghiên cứu Codex, LearnHarness và DeepSeek Harness dùng để tham khảo hành vi. Cordis và kiến trúc plugin vẫn là chủ đề thảo luận. Chỉ đọc [bản so sánh Cordis](comparision_everything_is_a_plugin.md) và [ghi chú Everything is a Plugin](everything_is_a_plugin_cordis.md) khi quay lại câu hỏi kiến trúc.
 
-**Lượt thử màn ngày 07/11/2026:** người dùng báo NH2067 kết nối thành công với Pi 4 và nhận chạm, cảm giác hơi khác điện thoại. Bước tiếp theo là xác nhận độ phân giải đang dùng và thử vị trí chạm ở vài điểm. Dùng [bản phác bàn phím mở](reports/ui_ux_20261107/assets/wireframe-ban-phim-ao.png) để đối chiếu vùng đọc, vùng sửa chữ và nút Gửi khi thử kiosk.
+## 4. Phần cứng đã thử và việc để sau
 
-## 4. Giữ công việc nghiên cứu và triển khai còn lại
+**Dùng `STT_BOM.md` làm BOM chính.** Phiếu Điện tử Nguyễn Hiền lúc 17:25 ngày 07/11/2026 ghi màn NH2067 7 inch 1024 × 600 giá **1.090.000 VNĐ** và cáp micro-HDMI sang HDMI giá **75.000 VNĐ**, tổng **1.165.000 VNĐ**. Bản BOM trước khi thay và bản highlight nguyên gốc được giữ tại `C:\Users\LAPTOP T&T\Downloads\PBL6_BOM_BACKUP_20261107_9t707jsm`.
+
+Màn đã lên hình và nhận chạm với Pi 4. HDMI truyền hình ảnh. Một dây USB dữ liệu nối từ Pi đến cổng Touch đã thử mang cả nguồn và dữ liệu chạm. Pi dùng adapter **5 V – 3 A** sẵn có. Bo thực tế có hai cổng Touch, mã bo vẫn cần xác minh. Đầu ra tai nghe 3,5 mm đã thử nghe được. Mic tích hợp trên webcam Aioneus đã thử thu âm, chất lượng nhận dạng ở khoảng cách sử dụng còn cần đo.
+
+Giữ ưu tiên HDMI và USB touch cho tích hợp đầu tiên. Bài thử vuốt trong Chromium được tạm hoãn. Độ phân giải đang dùng, vị trí chạm, bàn phím tiếng Việt và kiosk trên Pi vẫn cần kiểm tra. Loa ngoài, hub có nguồn và DSI là các hạng mục xem xét khi có nhu cầu thực tế. Bài thử RealVNC chờ ở [kế hoạch riêng](reports/KE_HOACH_THU_AM_THANH_REALVNC.md).
+
+## 5. Việc tiếp theo và thứ tự triển khai hiện có
+
+Dùng bản phác Trao đổi và Bàn phím mở để đi qua một lượt STT. Xem người dùng nhận ra trạng thái đang thu, đang nhận dạng và lúc chữ vào vùng soạn thế nào. Sau đó kiểm tra họ có sửa chữ, bấm **Gửi** và tìm lại tin trong **Lịch sử** được hay không. Đây là kịch bản duyệt giao diện. Khi người dùng sẵn sàng thử Pi, dùng mục 2.3 của hướng dẫn NH2067 cho bài chạm và bàn phím thật.
 
 - **N02 đã có quy trình đo thống nhất, còn chờ kết quả so sánh trên Pi.** RTF Whisper CLI cũ gồm khởi động/nạp model từng WAV, khác phạm vi RTF gọi nhận dạng của Zipformer. Giữ số cũ theo đúng phạm vi đo. Dùng N02 trước khi so sánh tốc độ hoặc chọn bộ nhận dạng chạy tại máy dựa trên tốc độ. V1 Deepgram có thể tiếp tục song song.
 - Giữ B01–B04, prediction, dữ liệu và scorer. Không chạy model/benchmark từ bàn giao này.
-- Nếu người dùng tiếp tục phần mềm: hoàn thiện luồng thu và dừng trên Pi, sửa và gửi chữ, mở lại hội thoại để gửi tiếp, rồi thử nhận dạng lỗi và thu lại. Hoàn thành V1 trước V2 rồi V3. Deepgram là provider đang dùng; không khôi phục Google STT vào phạm vi chủ động.
-- Khi cần Pi: kiểm tra phiên truy cập hiện tại, đưa từng bước với lệnh, nơi chạy, kết quả mong đợi và đầu ra cần gửi lại; không giả định Pi đã nhận bản mã mới.
+- Khi tiếp tục phần mềm, hoàn thiện luồng thu và dừng trên Pi, sửa và gửi chữ, mở lại hội thoại để gửi tiếp, rồi thử nhận dạng lỗi và thu lại. Hoàn thành V1 trước V2 và V3. Deepgram là dịch vụ STT đang dùng. [Tiêu chí V1](STT_PLAN_1_WEEK.md#approved-version-order)
+- Khi cần thử Pi, kiểm tra phiên truy cập và bản mã hiện có. Ghi từng lệnh, nơi chạy, kết quả mong đợi và đầu ra cần gửi lại.
 
-## 5. Git và bảo toàn thay đổi
+## 6. Git và bảo toàn thay đổi
 
 Nhánh hiện tại `master`; kiểm tra `git status --short` và `git log -3 --oneline` trước khi sửa. Có nhiều chỉnh sửa tài liệu và file chưa theo dõi của người dùng; giữ nguyên, kể cả trạng thái xóa `marp_slides_tutorial.zip`. Không reset/clean hoặc gộp chúng vào commit nhiệm vụ mới. Bản BOM cũ đã được sao lưu trước lần ghi đè được người dùng yêu cầu.
 

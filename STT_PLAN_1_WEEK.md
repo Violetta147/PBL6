@@ -14,9 +14,9 @@ Two people share a screen and composer. PBL6 handles speech-to-text, text-to-spe
 
 ## 1. Scope and dependencies
 
-Recognize speech from a microphone and show the result in the shared application. Open the application on the laptop for development and initial checks. ==Use the Pi microphone for the device path.== Use **Deepgram with `language=vi`** for V1. Use the existing one-file path for integration checks and the experiment runners for research batches.
+Recognize speech from a microphone and show the result in the shared application. The application operates as a standalone tabletop device (Pi 4 with touchscreen in kiosk mode) or as a native Windows desktop app. Audio capture uses cross-platform Web Audio API. Use **Deepgram with `language=vi`** for V1. Research batches continue using experiment runners.
 
-==**Final product decision (2026-11-06): use a touchscreen and kiosk mode.**== The device must boot into the STT interface in full screen, with normal operation by touch. Keep laptop-based development and initial V1 testing first. The final device display is a later integration gate. NH2067 is the selected display for first integration.
+==**Final product decision (2026-11-06): use a touchscreen and kiosk mode (Pi) or standalone desktop window (Windows).**== Normal operation functions fully by touch or mouse. Remote control from a laptop over LAN is not part of the product. NH2067 is the selected display for the Pi tabletop device.
 
 ==**Display integration order (2026-11-06): stabilize HDMI video and USB touch first, then consider DSI as an optional upgrade.**== Preserve the approved V1/V2/V3 order. Before any DSI switch, keep the working HDMI configuration, verify the exact Pi 4, OS, display, and cable combination, and repeat display, touch, on-screen input, and kiosk startup checks.
 
@@ -34,17 +34,17 @@ The user confirms that Deepgram API access is ready. ==**The implementation must
 
 ### Selected software stack and next implementation target — 2026-11-07
 
-==**Approved stack (2026-11-07): React + TypeScript + Tailwind CSS, Next.js/Node.js, and Electron.**== Use one shared UI in the laptop browser/development environment and the Electron desktop application. The final Pi runs the Node.js backend and Electron kiosk; capture uses the selected Pi microphone. Backend Settings holds the Deepgram key. Do not add FastAPI as the default V1 backend. The application structure is defined in `STT_SYSTEM_SPEC.md`; exact versions/build tooling remain implementation decisions.
+==**Approved stack (2026-11-07): React + TypeScript + Tailwind CSS, Next.js/Node.js, and Electron.**== Use one shared UI across Windows desktop and Raspberry Pi kiosk. Audio capture uses Web Audio API directly in Chromium/Electron. Backend Settings holds the Deepgram key. Do not add FastAPI as the default V1 backend. The application structure is defined in `STT_SYSTEM_SPEC.md`; exact versions/build tooling remain implementation decisions.
 
 **Proceed with V1 Deepgram before V2/V3. N02 remains separate, unfinished research.** The common timing protocol is documented, and the old runners and results still have different timing scopes. Finish the comparable Pi runs in N02 before a speed comparison or speed-based local-engine selection. Preserve the B01–B04 results with their original timing scopes.
 
-V1 builds on the P1 checkpoint for backend Settings and one-file Deepgram recognition. When implementation resumes, complete the selected Pi microphone path and the shared UI for recording, stopping, displaying the result or error, and sending into the conversation. Keep fixture tests and real API/Pi checks distinct. Windows development and Linux ARM64 device packaging have separate acceptance checks. Include a clean startup command and trial instructions with the implemented version.
+V1 Stage 1 and Stage 2 are complete (92/92 tests passing). Stage 3 completes the sliding History drawer, Settings modal, and cross-platform Web Audio microphone capture for both Windows desktop and Raspberry Pi OS Bookworm. All temporary test pages have been removed to keep the repo clean. Keep fixture tests and real API checks distinct. Include clean startup commands and trial instructions.
 
 The user confirmed on 2026-11-10 that batch processing is outside V1 acceptance. Research batches run against a manifest through experiment runners. Use known audio files in the existing P1 path for integration checks when needed. [Product UI scope](STT_PRODUCT_UI_UX.md#phương-án-đang-thảo-luận) · [Experiment inventory](experiments/inventory_20261102/README.md)
 
 ## Implementation checkpoint — V1-P1, 2026-11-07
 
-**V1-P1 code is in `stt-app`: local Settings, one-file Deepgram adapter, shared UI and Electron window.** Production build and TypeScript checks passed; 20 backend tests and 8 Chrome/HTTP/Electron tests passed on Windows with offline provider fixtures. The user supplied two completed real single-file browser trials (studio_M1.wav and phone_F1.wav, nova-3/vi, exported .txt; a word error is suspected in phone_F1); evidence is recorded in reports/stt_v1_p1_20261107/user_trial_studio_M1.json and user_trial_phone_F1.json. This is user-provided evidence, not an agent API rerun. Pi capture, LAN control and Linux ARM64/touch/kiosk acceptance remain incomplete. Full V1 remains unfinished.
+**V1 Stage 1 and Stage 2 code is in `stt-app` (92 passing tests).** Production build and TypeScript checks passed. Stage 1 & 2 delivered local storage, API routes, and 1024×600 UI with smart-latch composer. Standalone device capture on Pi 4 kiosk mode remains an integration gate. Stage 3 is underway.
 
 Read `reports/stt_v1_p1_20261107/BAO_CAO.md` and `stt-app/README.md` for evidence and startup commands. Use the updated wireframe as the reference when implementing Pi capture. N02 remains unfinished. Preserve B01–B04 and the timing-scope caveat.
 
@@ -82,7 +82,7 @@ Choose the lowest development WER_ws among candidates that meet the agreed compl
 | 2 / N02 | Agent: implement a common local measurement path and test its timer boundaries, timeout records and model reuse. User: provide a Pi session for the device check. | N01, Pi, C0 Whisper-base and C1 Zipformer | New configuration and runner tests. Then one smoke per engine and the same dev20 comparison. Keep tiny separate. Stop each engine after the agreed run limit; retain partial outputs. |
 | 3 / N03 | Agent: implement the Deepgram adapter with `language=vi`. User: enter the API key locally when Settings is ready. | Accounts, official language/model support check, N01 data | Same-file development outputs or explicit account/service failure. Test one file and a list. Record API options and client timing. Do not invent API results for an unavailable account. |
 | 4 / N04 | Agent: add Pi capture, bounded queues, replay and subtitle events. User: test the selected capture device on Pi. | At least one working local or cloud adapter | Microphone -> subtitles and realtime WAV replay. Capture does not wait for network I/O. No silent queue overflow, missing final text or duplicated final segments in scripted tests. |
-| 5 / N05 | Agent: connect the web interface. User: run capture on Pi and open the web application on the laptop. | N04, browser, local network | Start/Stop, engine selection, status and subtitles work. Test partial replacement, Stop, long silence, timeout, network loss and restart. Run local without Internet. |
+| 5 / N05 | Agent: connect the web interface. User: verify capture and UI on Windows desktop and Pi kiosk. | N04, browser, local desktop/kiosk | Start/Stop, engine selection, status and subtitles work. Test partial replacement, Stop, long silence, timeout, network loss and restart. Run local without Internet. |
 | 6 / N06 | Agent and user: freeze settings, then evaluate reserved audio and live behavior. Test playback with capture enabled. | Checked references, frozen settings, physical speaker if testing echo | Raw predictions, per-segment timestamps, scores, failures, resource readings and selection outcome. Do not claim an echo test passed with headphones. If echo causes a problem, register an AEC condition and retain raw/processed audio for comparison. |
 | 7 / N07 | Agent: finish reproducible startup, STT telemetry and application update checks. | N02–N06 or explicit failure status; MQTT endpoint and update package | Clean-start check, session/version/error status on the dashboard, one verified application update and failure recovery. Keep an unavailable service explicit. |
 
@@ -92,7 +92,7 @@ For N02, propose a 300-second per-file limit and a 45-minute per-engine session 
 
 ## 5. Live input and subtitle contract
 
-Use Pi capture for the device microphone path. Do not accidentally use the laptop microphone because the page is open there. Replay feeds stored audio at its recorded rate and is labeled as replay. A recorded file can use a cloud engine; file input does not imply operation without Internet.
+Capture audio directly on the active device (Raspberry Pi kiosk or Windows desktop) via standard Web Audio API. Replay feeds stored audio at its recorded rate and is labeled as replay. A recorded file can use a cloud engine; file input does not imply operation without Internet.
 
 The capture callback writes a small block and returns. A separate worker sends or processes audio. Start with 20 ms capture blocks and a queue limit of two seconds of audio. Treat these values as development settings. On overflow, show an error and record the affected time interval. Do not silently discard audio or accumulate an unlimited delay. Audio blocks are not words and are not independent recognition requests.
 

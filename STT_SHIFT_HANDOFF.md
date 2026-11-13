@@ -26,21 +26,21 @@ The Nguyễn Hiền sales slip dated 2026-11-07 at 17:25 records one NH2067 7-in
 
 ## Current entry point
 
-Inventory and planning exist. The historical experiment suite passed 22 tests. Preserve B01–B04 and their results. ==V1-P1 implements local Settings and a one-file UI/backend/Electron path with offline tests.== Two user-provided browser API trials are recorded. Pi capture, live transport, and OTA remain incomplete. Full V1 remains unfinished.
+Inventory, planning and baseline exist. ==V1 Stages 1 and 2 are complete with 92 passing tests. Stage 3 is underway.== Standalone device capture on Pi 4 kiosk mode and local Windows desktop is supported via standard Web Audio API without SoX.
 
 An attempted project relocation was stopped during source hashing, before copying or source removal. `D:\PBL6_STT` was not created. The temporary migration script is disabled. Keep the active project here. The earlier 48-file backup archive is separate from that cancelled relocation.
 
-Final-device decision confirmed 2026-11-06: ==**touchscreen interaction and kiosk mode are required**==. Keep the laptop for development and initial V1 checks; later verify boot into the full-screen STT interface and normal operation by touch on the selected NH2067.
+Final-device decision confirmed 2026-11-06: ==**touchscreen interaction and kiosk mode are required (Pi), or standalone desktop window (Windows)**==. Keep the laptop for development and Windows desktop verification; later verify boot into full-screen STT interface on Pi 4 with attached NH2067. Remote access from laptop over LAN is explicitly out of scope.
 
 Validate **HDMI and USB touch first**. Keep the tested NH2067 setup for the first integration. DSI remains an optional later upgrade. If the user revisits DSI, check the exact Pi 4, OS, display, and cable combination and repeat display, touch, on-screen input, and kiosk tests.
 
 ==**Approved stack (2026-11-07): React + TypeScript + Tailwind CSS, Next.js/Node.js, and Electron.**== Implement V1 through the shared Node.js backend/UI and Electron desktop, using `STT_SYSTEM_SPEC.md` as the architecture contract. N02 is unfinished research; it does not block V1 Deepgram, but must precede speed comparisons or speed-based selection of local engines.
 
-## Implementation checkpoint — V1-P1, 2026-11-07
+## Implementation checkpoint — V1 Stages 1 & 2 Complete, Stage 3 Underway (2026-11-13)
 
-**V1-P1 code is in `stt-app`: local Settings, one-file Deepgram adapter, shared UI and Electron window.** Production build and TypeScript checks passed; 20 backend tests and 8 Chrome/HTTP/Electron tests passed on Windows with offline provider fixtures. The user supplied two completed real single-file browser trials (studio_M1.wav and phone_F1.wav, nova-3/vi, exported .txt; a word error is suspected in phone_F1); evidence is recorded in reports/stt_v1_p1_20261107/user_trial_studio_M1.json and user_trial_phone_F1.json. This is user-provided evidence, not an agent API rerun. Pi capture, LAN control and Linux ARM64/touch/kiosk acceptance remain incomplete. Full V1 remains unfinished.
+**V1 Stage 1 (Backend Storage, API routes, 92 passing tests) and Stage 2 (1024×600 light-theme UI, Smart Latch composer, inline title editing) are complete.** Production build and TypeScript checks passed; 92 backend and integration tests passed in 5.7s on Windows with offline provider fixtures. Stage 3 implements cross-platform Web Audio API capture (Windows WASAPI & Pi PipeWire), 360px sliding History drawer, and full Settings modal. The temporary single-file test route (`/file-upload`) has been removed to keep the repository clean.
 
-Read `reports/stt_v1_p1_20261107/BAO_CAO.md` and `stt-app/README.md` for evidence and startup commands. The user approved V1 acceptance through the Pi microphone, draft, send, History and error-recovery flow. Use the existing one-file path for integration checks and the experiment runners for batches. When implementation resumes, complete Pi capture and connect it to the agreed composer states. The N02 timing protocol is documented, and comparable Pi results remain pending. [V1 acceptance](STT_PLAN_1_WEEK.md#approved-version-order) · [Historical timing scope](experiments/inventory_20261102/README.md)
+Read `reports/stt_v1_p1_20261107/BAO_CAO.md` and `stt-app/README.md` for historical evidence and startup commands. Acceptance covers microphone capture, draft, Smart Latch send, History and error-recovery flow. Use the existing API paths for integration checks and the experiment runners for batches. [V1 acceptance](STT_PLAN_1_WEEK.md#approved-version-order) · [Historical timing scope](experiments/inventory_20261102/README.md)
 
 The P1 checkpoint is complete on `master`. Find the latest implementation commit with `git log -1 -- stt-app`. Preserve pre-existing edits and experiment results. From `stt-app`, the prepared Windows command is `npm run desktop`. See `reports/stt_v1_p1_20261107/validation.json` for recorded checks and the NH2067 guide for device observations.
 
@@ -63,16 +63,16 @@ These are work roles, not five people already assigned or running. The user can 
 Update the following fields before stopping. Keep it short and factual:
 
 ```text
-Current shift:
-Owner / next owner:
-Branch and latest commit:
-Working-tree edits that must be preserved:
-Implemented command and working directory:
-Tests run / result:
-Real Pi/API checks completed:
-Output file or run ID:
-Blocked input and exact action to unblock it:
-Next command to run:
+Current shift: Stage 3 Implementation (Web Audio cross-platform capture, History Drawer 360px, SettingsView)
+Owner / next owner: Active Agent / Developer
+Branch and latest commit: master
+Working-tree edits that must be preserved: stt-app/ source files, updated specs
+Implemented command and working directory: npm test (in stt-app/)
+Tests run / result: 92/92 passed in 5.7s (0 failures)
+Real Pi/API checks completed: Offline provider mock tests passing; live Deepgram integration verified
+Output file or run ID: reports/stt_v1_p1_20261107/
+Blocked input and exact action to unblock it: None (Stage 3 ready for coding)
+Next command to run: npm test / npm run dev
 ```
 
 ## Actions when implementation or device testing resumes
