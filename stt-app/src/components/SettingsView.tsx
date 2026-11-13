@@ -49,8 +49,6 @@ export function SettingsView({
   const [hasApiKey, setHasApiKey] = useState<boolean>(false);
   const [saveNotice, setSaveNotice] = useState<string>('');
   const [saveError, setSaveError] = useState<string>('');
-  const [isScanningMics, setIsScanningMics] = useState<boolean>(false);
-  const [scanNotice, setScanNotice] = useState<string>('');
 
   // Initial STT snapshot for dirty tracking
   const [initialStt, setInitialStt] = useState<InitialSttState>({
@@ -199,92 +197,6 @@ export function SettingsView({
     });
     return unbind;
   }, [isOpen]);
-
-  // Request microphone permission on user gesture and refresh device list
-  const handleRequestMicPermission = useCallback(async () => {
-    setIsScanningMics(true);
-    setSaveError('');
-    setScanNotice('');
-    try {
-      // 1. Immediately trigger backend rescan so server terminal logs register request
-      let serverMics: AudioDevice[] = [];
-      try {
-        const micsRes = await fetch(`/api/devices/microphones?t=${Date.now()}`, { cache: 'no-store' });
-        if (micsRes.ok) {
-          const micsData = await micsRes.json();
-          serverMics = micsData.devices || [];
-        }
-      } catch (srvErr) {
-        console.warn('Backend microphone fetch error:', srvErr);
-      }
-
-      // 2. Request browser / Electron media permission via user gesture
-      let webMics: AudioDevice[] = [];
-      if (typeof navigator !== 'undefined' && navigator.mediaDevices?.getUserMedia) {
-        try {
-          const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
-          stream.getTracks().forEach((t) => t.stop());
-        } catch (permErr: any) {
-          console.warn('Microphone permission request:', permErr?.message || permErr);
-        }
-        try {
-          webMics = await WebAudioRecorder.enumerateMicrophones();
-        } catch {}
-      }
-
-      const hasRealWebMics = webMics.some((m) => m.id && m.id !== 'default');
-      const hasRealServerMics = serverMics.some((m) => m.id && m.id !== 'default');
-
-      let combined: AudioDevice[] = [];
-      if (hasRealWebMics) {
-        combined = webMics;
-      } else if (hasRealServerMics) {
-        combined = serverMics;
-      } else if (webMics.length > 0) {
-        combined = webMics;
-      } else {
-        combined = serverMics;
-      }
-
-      // If user had a selectedMicId that matches by name across sources, maintain selection
-      if (selectedMicId && hasRealWebMics) {
-        const direct = combined.find((m) => m.id === selectedMicId);
-        if (!direct) {
-          const serverMatch = serverMics.find((s) => s.id === selectedMicId);
-          if (serverMatch) {
-            const webMatch = combined.find(
-              (w) =>
-                w.name === serverMatch.name ||
-                w.name.includes(serverMatch.name) ||
-                serverMatch.name.includes(w.name)
-            );
-            if (webMatch) {
-              setSelectedMicId(webMatch.id);
-            }
-          }
-        }
-      }
-
-      setMicrophones(combined);
-
-      const count = combined.filter((m) => m.id && m.id !== 'default').length;
-      const feedback = count > 0
-        ? `Đã tìm thấy ${count} thiết bị micro.`
-        : 'Đã quét xong (sử dụng micro mặc định hệ thống).';
-      setScanNotice(feedback);
-      setSaveNotice(feedback);
-      setTimeout(() => {
-        setScanNotice('');
-        setSaveNotice('');
-      }, 4000);
-    } catch {
-      setSaveError('Không thể quét thiết bị micro.');
-      setScanNotice('Không thể quét micro.');
-      setTimeout(() => setScanNotice(''), 4000);
-    } finally {
-      setIsScanningMics(false);
-    }
-  }, [selectedMicId]);
 
   // Load History list with query and filter, tracking sequence to discard stale responses
   const loadHistoryList = useCallback(async (query: string, days: string) => {
@@ -685,33 +597,12 @@ export function SettingsView({
 
                 {/* Microphone dropdown */}
                 <div className="flex flex-col gap-1.5">
-                  <div className="flex items-center justify-between">
-                    <label
-                      htmlFor="mic-select"
-                      className="text-[16px] font-semibold text-[#18212B]"
-                    >
-                      Nguồn micro
-                    </label>
-                    <div className="flex items-center gap-3">
-                      {scanNotice && (
-                        <span
-                          className="text-[13px] font-medium text-emerald-600 animate-fadeIn"
-                          data-testid="scan-notice"
-                        >
-                          {scanNotice}
-                        </span>
-                      )}
-                      <button
-                        type="button"
-                        disabled={isScanningMics}
-                        onClick={() => void handleRequestMicPermission()}
-                        data-testid="settings-refresh-mics"
-                        className="text-[14px] font-semibold text-[#273D53] hover:underline cursor-pointer disabled:opacity-50"
-                      >
-                        {isScanningMics ? 'Đang quét...' : 'Cấp quyền / Quét lại micro'}
-                      </button>
-                    </div>
-                  </div>
+                  <label
+                    htmlFor="mic-select"
+                    className="text-[16px] font-semibold text-[#18212B]"
+                  >
+                    Nguồn micro
+                  </label>
                   <select
                     id="mic-select"
                     value={selectedMicId === 'default' ? '' : selectedMicId}

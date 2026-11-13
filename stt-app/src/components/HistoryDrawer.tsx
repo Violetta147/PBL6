@@ -127,7 +127,7 @@ export function HistoryDrawer({
             className="flex min-h-[48px] w-full items-center justify-center gap-2 rounded-xl bg-[#273D53] px-4 py-2.5 text-[18px] font-semibold text-white shadow-sm transition-all hover:bg-[#1E2F40] active:scale-[0.99] focus-visible:outline-2 focus-visible:outline-[#273D53]"
           >
             <PlusIcon size={20} />
-            + Hội thoại mới
+            Hội thoại mới
           </button>
         </div>
 
