@@ -138,6 +138,22 @@ export function SettingsView({
     return unbind;
   }, [isOpen]);
 
+  // Request microphone permission on user gesture and refresh device list
+  const handleRequestMicPermission = useCallback(async () => {
+    try {
+      if (typeof navigator !== 'undefined' && navigator.mediaDevices?.getUserMedia) {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+        stream.getTracks().forEach((t) => t.stop());
+        const webMics = await WebAudioRecorder.enumerateMicrophones();
+        if (webMics.length > 0) {
+          setMicrophones(webMics);
+        }
+      }
+    } catch {
+      // Permission denied or dismissed
+    }
+  }, []);
+
   // Load History list with query and filter, tracking sequence to discard stale responses
   const loadHistoryList = useCallback(async (query: string, days: string) => {
     const seq = ++searchSeqRef.current;
@@ -537,12 +553,22 @@ export function SettingsView({
 
                 {/* Microphone dropdown */}
                 <div className="flex flex-col gap-1.5">
-                  <label
-                    htmlFor="mic-select"
-                    className="text-[16px] font-semibold text-[#18212B]"
-                  >
-                    Nguồn micro
-                  </label>
+                  <div className="flex items-center justify-between">
+                    <label
+                      htmlFor="mic-select"
+                      className="text-[16px] font-semibold text-[#18212B]"
+                    >
+                      Nguồn micro
+                    </label>
+                    <button
+                      type="button"
+                      onClick={() => void handleRequestMicPermission()}
+                      data-testid="settings-refresh-mics"
+                      className="text-[14px] font-semibold text-[#273D53] hover:underline cursor-pointer"
+                    >
+                      Cấp quyền / Quét lại micro
+                    </button>
+                  </div>
                   <select
                     id="mic-select"
                     value={selectedMicId === 'default' ? '' : selectedMicId}
