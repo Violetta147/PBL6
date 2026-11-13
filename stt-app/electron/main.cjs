@@ -16,12 +16,26 @@ if (!origin || !/^http:\/\/127\.0\.0\.1:\d+$/.test(origin)) {
   let window;
   app.on('second-instance', () => { if (window) { if (window.isMinimized()) window.restore(); window.focus(); } });
   app.whenReady().then(() => {
-    // Capture stays in the Pi backend; this milestone never requests a browser microphone.
-    session.defaultSession.setPermissionRequestHandler((_contents, _permission, callback) => callback(false));
-    session.defaultSession.setPermissionCheckHandler(() => false);
+    // Allow media (microphone) permission exclusively for our trusted local application origin.
+    const allowedPermissions = new Set(['media', 'microphone', 'audioCapture']);
+    session.defaultSession.setPermissionRequestHandler((webContents, permission, callback) => {
+      try {
+        const urlStr = webContents.getURL();
+        const reqOrigin = urlStr ? new URL(urlStr).origin : '';
+        if ((!reqOrigin || reqOrigin === origin) && allowedPermissions.has(permission)) {
+          return callback(true);
+        }
+      } catch {}
+      callback(false);
+    });
+    session.defaultSession.setPermissionCheckHandler((webContents, permission, requestingOrigin) => {
+      const normReq = requestingOrigin ? requestingOrigin.replace(/\/$/, '') : '';
+      const normOrigin = origin.replace(/\/$/, '');
+      return (normReq === normOrigin || !normReq) && allowedPermissions.has(permission);
+    });
     window = new BrowserWindow({
       width: 1180, height: 860, minWidth: 640, minHeight: 600,
-      title: 'STT · Tiếng Việt', backgroundColor: '#f4f6f2', autoHideMenuBar: true,
+      title: 'STT · Tiếng Việt', backgroundColor: '#F5F7F9', autoHideMenuBar: true,
       kiosk: process.env.PBL6_STT_KIOSK === '1',
       webPreferences: { nodeIntegration: false, contextIsolation: true, sandbox: true, devTools: process.env.PBL6_STT_DEV === '1' },
     });

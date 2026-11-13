@@ -12,7 +12,7 @@
     "desktop": "node scripts/desktop.mjs",
     "desktop:kiosk": "node scripts/desktop.mjs --kiosk",
     "typecheck": "node node_modules/typescript/bin/tsc --noEmit",
-    "test": "node --import tsx --test tests/backend.test.ts",
+    "test": "node --import tsx --test tests/**/*.test.ts",
     "test:ui": "node node_modules/@playwright/test/cli.js test"
   },
   "dependencies": {
