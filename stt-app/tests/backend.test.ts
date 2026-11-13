@@ -35,7 +35,7 @@ function upload(name = 'sample.wav', bytes = wav()) {
   const form = new FormData(); form.append('file', new Blob([bytes as BlobPart]), name);
   return request(undefined, { body: form });
 }
-const settings: Settings = { schemaVersion: 1, apiKey: fakeKey, model: 'nova-3', timeoutSeconds: 15 };
+const settings: Settings = { schemaVersion: 1, apiKey: fakeKey, model: 'nova-3', timeoutSeconds: 15, maxRecordSeconds: 120 };
 const audio = { name: 'sample.wav', bytes: wav(), contentType: 'audio/wav' };
 function mockFetch(handler: (url: URL, init: RequestInit) => Response | Promise<Response>): typeof fetch {
   return ((url: string | URL, init: RequestInit) => Promise.resolve(handler(new URL(String(url)), init))) as typeof fetch;
@@ -45,7 +45,7 @@ function providerResult(text: unknown = 'Xin chào Đà Nẵng.') {
 }
 
 test('defaults are Vietnamese Nova-3; public settings contain no key field', async () => {
-  assert.deepEqual(publicSettings(await readSettings()), { provider: 'deepgram', language: 'vi', model: 'nova-3', timeoutSeconds: 60, hasApiKey: false });
+  assert.deepEqual(publicSettings(await readSettings()), { provider: 'deepgram', language: 'vi', model: 'nova-3', timeoutSeconds: 60, hasApiKey: false, maxRecordSeconds: 120, selectedMicrophoneId: undefined });
 });
 test('save, preserve blank key, change model and explicitly delete key', async () => {
   const output = await updateSettings({ apiKey: fakeKey });
@@ -55,8 +55,9 @@ test('save, preserve blank key, change model and explicitly delete key', async (
   await updateSettings({ clearApiKey: true }); assert.equal((await readSettings()).apiKey, '');
 });
 test('invalid settings and secret-bearing inputs are rejected without echo', async () => {
-  for (const input of [null, [], { language: 'en' }, { model: 'unknown' }, { timeoutSeconds: 14 }, { timeoutSeconds: 15.5 },
-    { apiKey: fakeKey + '\n' }, { clearApiKey: 'yes' }, { apiKey: fakeKey, clearApiKey: true }]) {
+  for (const input of [null, [], { language: 'en' }, { model: 'unknown' }, { timeoutSeconds: 4 }, { timeoutSeconds: 301 }, { timeoutSeconds: 15.5 }, { maxRecordSeconds: 4 }, { maxRecordSeconds: 301 },
+    { apiKey: fakeKey + '\n' }, { clearApiKey: 'yes' }, { apiKey: fakeKey, clearApiKey: true },
+    { selectedMicrophoneId: 'a'.repeat(257) }, { selectedMicrophoneId: 123 }, { selectedMicrophoneId: null }]) {
     await assert.rejects(updateSettings(input), AppError);
   }
   const response = errorResponse(new Error(fakeKey));
@@ -64,7 +65,7 @@ test('invalid settings and secret-bearing inputs are rejected without echo', asy
 });
 test('concurrent updates preserve the key and both validated changes', async () => {
   await Promise.all([updateSettings({ apiKey: fakeKey }), updateSettings({ model: 'nova-2', timeoutSeconds: 90 })]);
-  assert.deepEqual(await readSettings(), { ...settings, model: 'nova-2', timeoutSeconds: 90 });
+  assert.deepEqual(await readSettings(), { ...settings, model: 'nova-2', timeoutSeconds: 90, maxRecordSeconds: 120 });
 });
 test('corrupted settings fail visibly and are never overwritten', async () => {
   await writeFile(join(directory, 'settings.json'), 'BROKEN_CONFIG');
