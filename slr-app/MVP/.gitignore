@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+.venv/
+.env
+.env.*
+local_data/
+outputs/
+*.mp4
+*.avi
+*.wav
+*.pt
+*.pth
+*.npy
+*.npz
+deployment/slgcn_feature_trial/reference/
+deployment/handoff_assets/

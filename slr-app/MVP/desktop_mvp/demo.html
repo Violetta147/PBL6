@@ -1,0 +1,1266 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PBL6 · Nhận dạng ký hiệu tiếng Việt</title>
+<style>
+  :root {
+    --bg-kiosk: #F5F7F9;
+    --card-bg: #FFFFFF;
+    --border: #BAC5D0;
+    --border-light: #EEF2F6;
+    --text-primary: #18212B;
+    --text-secondary: #4F5D6B;
+    --btn-primary: #273D53;
+    --btn-primary-hover: #1D2F41;
+    --btn-primary-disabled: #BAC5D0;
+    --kbd-dark-bg: #182635;
+    --kbd-dark-border: #486581;
+    --kbd-dark-text: #CBD5E1;
+    --kbd-light-bg: #F1F5F9;
+    --kbd-light-border: #BAC5D0;
+    --kbd-light-text: #334155;
+    --accent-red: #DC2626;
+    --accent-amber: #D97706;
+    --accent-green: #087A47;
+  }
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: var(--bg-kiosk);
+    color: var(--text-primary);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  .kiosk-container {
+    width: 100%;
+    max-width: 1024px;
+    height: 100%;
+    max-height: 600px;
+    margin: 0 auto;
+    padding: 10px 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+  }
+  header {
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  h1 {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.01em;
+  }
+  .kiosk-badge {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    background: #E2E8F0;
+    padding: 2px 7px;
+    border-radius: 4px;
+  }
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .btn-fullscreen {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .btn-fullscreen svg {
+    width: 16px;
+    height: 16px;
+  }
+  .btn-fullscreen:hover {
+    background: #E2E8F0;
+    color: var(--text-primary);
+  }
+
+  /* Two Column Kiosk Grid: 1024x600 fit */
+  .layout-grid {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 12px;
+    margin-top: 8px;
+    height: calc(100% - 46px);
+    max-height: 536px;
+    overflow: hidden;
+  }
+
+  /* Left Column: Fixed 640x480 Camera Feed */
+  .cam-box {
+    position: relative;
+    border-radius: 12px;
+    background: #16202A;
+    border: 3px solid var(--border);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.2s ease;
+    height: 100%;
+  }
+  .cam-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    /* UI Mirroring: Flip display horizontally so signer sees natural mirror reflection,
+       while backend frame stream to MediaPipe/SL-GCN remains unflipped (non-mirrored). */
+    transform: scaleX(-1);
+  }
+  .posture-guide {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+  }
+  .guide-silhouette {
+    width: 176px;
+    height: 144px;
+    opacity: 0.85;
+  }
+
+  /* Quiet Camera Status Badge */
+  .cam-status {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 10;
+    padding: 4px 9px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.95);
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+    backdrop-filter: blur(4px);
+    transition: all 0.2s ease;
+  }
+  .cam-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--text-secondary);
+    flex-shrink: 0;
+  }
+
+  /* Countdown Overlay: 250px #F59E0B / 30% Sharp & Transparent */
+  .countdown-badge {
+    position: absolute;
+    inset: 0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .countdown-number {
+    font-size: 250px;
+    font-weight: 900;
+    color: rgba(245, 158, 11, 0.30);
+    line-height: 1;
+    letter-spacing: -0.05em;
+    user-select: none;
+  }
+
+  /* 4.0s Recording Progress Bar at bottom edge */
+  .rec-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.25);
+    z-index: 20;
+  }
+  .rec-fill {
+    height: 100%;
+    background: var(--accent-red);
+    width: 100%;
+  }
+
+  /* Right Column: Clean White Control & Result Card */
+  .panel-card {
+    border-radius: 12px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+    height: 100%;
+  }
+
+  /* Top Section */
+  .panel-top {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .panel-header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .panel-label {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-secondary);
+  }
+  .played-pill {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--accent-green);
+    background: #DDF7E9;
+    padding: 2px 7px;
+    border-radius: 4px;
+  }
+  .sound-status-msg {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-secondary);
+  }
+
+  /* Main Word & Suggestion Chips Row */
+  .result-word-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+    flex-wrap: wrap;
+    min-height: 48px;
+  }
+  .main-word {
+    font-size: 42px;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    overflow-wrap: anywhere;
+  }
+  .chips-container {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex-wrap: wrap;
+  }
+  .chip-btn {
+    padding: 4px 9px;
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    background: #FFFFFF;
+    color: var(--text-secondary);
+    font-weight: 500;
+    transition: all 0.15s ease;
+  }
+  .chip-btn:hover {
+    border-color: var(--btn-primary);
+    color: var(--text-primary);
+  }
+  .chip-btn.active {
+    background: #EEF2F6;
+    border-color: var(--btn-primary);
+    color: var(--text-primary);
+    font-weight: 700;
+  }
+
+  /* Middle Section */
+  .panel-middle {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 10px 0;
+  }
+  .prompt-box {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 28px 24px;
+    border-radius: 12px;
+    background: #F8FAFC;
+    border: 1px solid var(--border);
+  }
+  .prompt-box p {
+    font-size: 28px;
+    font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: -0.015em;
+    color: var(--text-primary);
+  }
+
+  /* Mode B Semantic Timing Table */
+  .timing-table {
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: #FAFBFD;
+    overflow: hidden;
+    font-size: 12px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  }
+  /* Row 1: Pipeline Total Highlight */
+  .timing-row-pipeline {
+    padding: 7px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #FFF8E1;
+    border-bottom: 1px solid #FDE68A;
+  }
+  .pipeline-badge {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 11px;
+    font-weight: 900;
+    color: #92400E;
+    background: #FDE68A;
+    padding: 2px 7px;
+    border-radius: 4px;
+  }
+  .pipeline-time {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-weight: 700;
+    font-size: 14px;
+    color: #78350F;
+    font-variant-numeric: tabular-nums;
+  }
+  /* Rows 2-4: Clean Semantic Component Rows */
+  .timing-rows-body {
+    display: flex;
+    flex-direction: column;
+  }
+  .timing-row {
+    padding: 6px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid var(--border-light);
+  }
+  .timing-row:first-child {
+    border-top: none;
+  }
+  .timing-badge {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    padding: 1.5px 7px;
+    border-radius: 3px;
+    font-weight: 700;
+    font-size: 11.5px;
+    flex-shrink: 0;
+  }
+  .timing-time {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-weight: 600;
+    font-size: 12px;
+    color: var(--text-primary);
+    font-variant-numeric: tabular-nums;
+    flex-shrink: 0;
+  }
+
+  /* Bottom Actions: 52px Touch Standard */
+  .actions-container {
+    margin-top: 8px;
+  }
+  .btn-single {
+    width: 100%;
+    height: 52px;
+    border-radius: 10px;
+    background: var(--btn-primary);
+    color: #FFFFFF;
+    font-size: 16px;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: background 0.15s ease;
+  }
+  .btn-single:hover:not(:disabled) {
+    background: var(--btn-primary-hover);
+  }
+  .btn-single:disabled {
+    background: var(--btn-primary-disabled);
+    cursor: not-allowed;
+    color: #64748B;
+  }
+
+  /* Result Action Buttons: Circular Touch Standard (Loa & Retry) */
+  .actions-result-circular {
+    padding-top: 6px;
+    border-top: 1px solid var(--border-light);
+  }
+  .circular-actions-group {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+  }
+  .circular-btn-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+  .btn-circle-speak {
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    background: var(--btn-primary);
+    color: #FFFFFF;
+    border: 2px solid #38536F;
+    box-shadow: 0 4px 10px rgba(39, 61, 83, 0.25);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  .btn-circle-speak:hover:not(:disabled) {
+    background: var(--btn-primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(39, 61, 83, 0.35);
+  }
+  .btn-circle-speak:active:not(:disabled) {
+    transform: scale(0.95);
+  }
+  .btn-circle-speak:disabled {
+    background: var(--btn-primary-disabled);
+    border-color: var(--border);
+    cursor: not-allowed;
+    color: #64748B;
+    transform: none;
+    box-shadow: none;
+  }
+
+  .btn-circle-retry {
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    background: #FFFFFF;
+    color: var(--text-primary);
+    border: 2px solid var(--border);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  .btn-circle-retry:hover:not(:disabled) {
+    background: #F8FAFC;
+    border-color: var(--text-secondary);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+  }
+  .btn-circle-retry:active:not(:disabled) {
+    transform: scale(0.95);
+  }
+  .btn-circle-retry:disabled {
+    background: #F1F5F9;
+    border-color: var(--border-light);
+    cursor: not-allowed;
+    color: #94A3B8;
+    transform: none;
+    box-shadow: none;
+  }
+
+  .circular-btn-label {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-primary);
+    white-space: nowrap;
+  }
+  .circular-btn-label.text-secondary {
+    color: var(--text-secondary);
+  }
+  .kbd-circular {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 4px;
+    border-radius: 4px;
+    background: #E2E8F0;
+    color: #334155;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 10px;
+    font-weight: 800;
+    border: 1px solid #CBD5E1;
+  }
+  .kbd-circular-light {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 4px;
+    border-radius: 4px;
+    background: #F1F5F9;
+    color: #475569;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 10px;
+    font-weight: 800;
+    border: 1px solid #CBD5E1;
+  }
+
+  /* Mechanical Keycap Badges [F] and [R] */
+  .kbd-dark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 22px;
+    height: 22px;
+    padding: 0 5px;
+    border-radius: 5px;
+    background: var(--kbd-dark-bg);
+    color: var(--kbd-dark-text);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 11px;
+    font-weight: 700;
+    border: 1px solid var(--kbd-dark-border);
+    flex-shrink: 0;
+  }
+  .kbd-light {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 22px;
+    height: 22px;
+    padding: 0 5px;
+    border-radius: 5px;
+    background: var(--kbd-light-bg);
+    color: var(--kbd-light-text);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 11px;
+    font-weight: 700;
+    border: 1px solid var(--kbd-light-border);
+    flex-shrink: 0;
+  }
+
+  /* Utility */
+  [hidden] {
+    display: none !important;
+  }
+</style>
+</head>
+<body>
+<div class="kiosk-container">
+  <!-- Kiosk Compact Header -->
+  <header>
+    <div class="header-left">
+      <h1>PBL6 · Nhận dạng ký hiệu tiếng Việt</h1>
+      <span class="kiosk-badge">Kiosk 1024×600</span>
+    </div>
+    <div class="header-right">
+      <button class="btn-fullscreen" id="fullscreen-btn" type="button" title="Toàn màn hình" aria-label="Toàn màn hình">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polyline points="15 3 21 3 21 9"></polyline>
+          <polyline points="9 21 3 21 3 15"></polyline>
+          <line x1="21" y1="3" x2="14" y2="10"></line>
+          <line x1="3" y1="21" x2="10" y2="14"></line>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- 2-Column Main Viewport -->
+  <div class="layout-grid">
+    <!-- Left: 640x480 Camera Feed (UI Mirrored via scaleX(-1), Backend Raw) -->
+    <div class="cam-box" id="cam-box">
+      <!-- Camera Status Pill -->
+      <div class="cam-status" id="cam-status">
+        <span class="cam-dot" id="cam-dot"></span>
+        <span id="cam-status-text">Webcam · 640×480</span>
+      </div>
+
+      <!-- Live MJPEG Stream -->
+      <img id="preview" alt="Khung hình camera" hidden>
+
+      <!-- Raw Fixed-Camera Person Silhouette Guide (Framing Guide) -->
+      <div class="posture-guide" id="posture-guide">
+        <svg viewBox="0 0 180 150" class="guide-silhouette" aria-hidden="true">
+          <circle cx="90" cy="42" r="16" fill="#64748B" />
+          <path d="M54 140 C54 88, 68 74, 90 74 C112 74, 126 88, 126 140 Z" fill="#475569" />
+          <path d="M62 88 L42 62" stroke="#CBD5E1" stroke-width="9" stroke-linecap="round" />
+          <path d="M118 88 L138 62" stroke="#CBD5E1" stroke-width="9" stroke-linecap="round" />
+        </svg>
+      </div>
+
+      <!-- 250px Sharp Semi-Transparent Yellow Countdown Number -->
+      <div class="countdown-badge" id="countdown-badge" hidden>
+        <span class="countdown-number" id="countdown-number">3</span>
+      </div>
+
+      <!-- 4.0s Recording Progress Bar -->
+      <div class="rec-bar" id="rec-bar" hidden>
+        <div class="rec-fill" id="rec-fill"></div>
+      </div>
+    </div>
+
+    <!-- Right: Minimal Control & Result Card -->
+    <section class="panel-card" aria-label="Bảng điều khiển và kết quả nhận dạng">
+      <div class="panel-top">
+        <div class="panel-header-row">
+          <span class="panel-label" id="panel-label">Sẵn sàng</span>
+          <div style="display:flex; align-items:center; gap:6px;">
+            <span class="sound-status-msg" id="sound-status"></span>
+            <span class="played-pill" id="played-pill" hidden>Đã phát</span>
+          </div>
+        </div>
+
+        <!-- Predicted Word & Interactive Candidate Chips -->
+        <div class="result-word-row" id="result-word-row" hidden>
+          <div class="main-word" id="main-word">—</div>
+          <div class="chips-container" id="chips-container"></div>
+        </div>
+      </div>
+
+      <!-- Middle Content Area -->
+      <div class="panel-middle">
+        <!-- Guidance Prompt (Ready, Countdown, Recording, Processing, Retry) -->
+        <div class="prompt-box" id="center-prompt">
+          <p id="prompt-text">Giữ hai vai và hai tay trong khung hình, sau đó bấm Bắt đầu hoặc nhấn phím [R].</p>
+        </div>
+
+        <!-- Mode B Semantic Timing Breakdown Table (Result only) -->
+        <div class="timing-table" id="timing-table" hidden>
+          <!-- Pipeline Total Row -->
+          <div class="timing-row-pipeline">
+            <span class="pipeline-badge">pipeline</span>
+            <span class="pipeline-time" id="time-pipeline">1.20s</span>
+          </div>
+          <!-- Component Breakdown Rows -->
+          <div class="timing-rows-body">
+            <div class="timing-row">
+              <span class="timing-badge" style="background-color:#DFF8FC; color:#087789;">mediapipe extraction</span>
+              <span class="timing-time" id="time-extraction">1.13s</span>
+            </div>
+            <div class="timing-row">
+              <span class="timing-badge" style="background-color:#F0E9FF; color:#713DB0;">tiền xử lý</span>
+              <span class="timing-time" id="time-adapter">0.02s</span>
+            </div>
+            <div class="timing-row">
+              <span class="timing-badge" style="background-color:#FBE7F0; color:#B22563;">SL-GCL forward first inference</span>
+              <span class="timing-time" id="time-forward">0.05s</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Touch Action Buttons (52px Height Standard) -->
+      <div class="actions-container">
+        <!-- Single Button State (Ready / Countdown / Recording / Processing) -->
+        <div id="actions-start">
+          <button class="btn-single" id="btn-start" type="button">
+            <span id="btn-start-label">Bắt đầu</span>
+            <kbd class="kbd-dark">R</kbd>
+          </button>
+        </div>
+
+        <!-- Two Button State: Large Circular Touch Buttons (Loa & Retry) -->
+        <div class="actions-result-circular" id="actions-result" hidden>
+          <div class="circular-actions-group">
+            <!-- Nút Tròn Loa: Xác nhận & phát [F] -->
+            <div class="circular-btn-item">
+              <button class="btn-circle-speak" id="btn-confirm" type="button" aria-label="Xác nhận và phát âm qua loa (phím F)">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                  <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+                </svg>
+              </button>
+              <div class="circular-btn-label">
+                <span id="confirm-label">Xác nhận &amp; phát</span>
+                <kbd class="kbd-circular">F</kbd>
+              </div>
+            </div>
+
+            <!-- Nút Tròn Retry: Thử lại [R] -->
+            <div class="circular-btn-item">
+              <button class="btn-circle-retry" id="btn-retry" type="button" aria-label="Thử lại lượt quay mới (phím R)">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+                  <path d="M3 3v5h5"/>
+                </svg>
+              </button>
+              <div class="circular-btn-label text-secondary">
+                <span>Thử lại</span>
+                <kbd class="kbd-circular-light">R</kbd>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<script>
+// DOM Elements
+const camBox = document.getElementById("cam-box");
+const camStatus = document.getElementById("cam-status");
+const camDot = document.getElementById("cam-dot");
+const camStatusText = document.getElementById("cam-status-text");
+const preview = document.getElementById("preview");
+const postureGuide = document.getElementById("posture-guide");
+const countdownBadge = document.getElementById("countdown-badge");
+const countdownNumber = document.getElementById("countdown-number");
+const recBar = document.getElementById("rec-bar");
+const recFill = document.getElementById("rec-fill");
+
+const panelLabel = document.getElementById("panel-label");
+const soundStatus = document.getElementById("sound-status");
+const playedPill = document.getElementById("played-pill");
+const resultWordRow = document.getElementById("result-word-row");
+const mainWord = document.getElementById("main-word");
+const chipsContainer = document.getElementById("chips-container");
+const centerPrompt = document.getElementById("center-prompt");
+const promptText = document.getElementById("prompt-text");
+
+const timingTable = document.getElementById("timing-table");
+const timePipeline = document.getElementById("time-pipeline");
+const timeExtraction = document.getElementById("time-extraction");
+const timeAdapter = document.getElementById("time-adapter");
+const timeForward = document.getElementById("time-forward");
+
+const actionsStart = document.getElementById("actions-start");
+const btnStart = document.getElementById("btn-start");
+const btnStartLabel = document.getElementById("btn-start-label");
+
+const actionsResult = document.getElementById("actions-result");
+const btnConfirm = document.getElementById("btn-confirm");
+const confirmLabel = document.getElementById("confirm-label");
+const btnRetry = document.getElementById("btn-retry");
+const fullscreenBtn = document.getElementById("fullscreen-btn");
+
+// State Tracking
+let currentState = { phase: "loading" };
+let starting = false;
+let playing = false;
+let played = false;
+let selectedCandidate = null; // { index, gloss }
+let currentChips = [];
+let animFrameId = null;
+let recStartTime = 0;
+
+function isLiveCameraPhase(phase) {
+  return phase === "countdown" || phase === "recording" || phase === "processing";
+}
+
+function formatSeconds(val) {
+  if (typeof val === "number") return val.toFixed(2) + "s";
+  if (typeof val === "string" && val.endsWith("s")) return val;
+  if (val === null || val === undefined) return "0.00s";
+  const num = parseFloat(val);
+  return isNaN(num) ? "0.00s" : num.toFixed(2) + "s";
+}
+
+function selectCandidate(candidate, chipIdx) {
+  selectedCandidate = candidate;
+  mainWord.textContent = candidate.gloss || "—";
+  played = false;
+  playedPill.hidden = true;
+  confirmLabel.textContent = "Xác nhận & phát";
+  soundStatus.textContent = "";
+
+  const chipButtons = chipsContainer.querySelectorAll(".chip-btn");
+  chipButtons.forEach((btn, idx) => {
+    btn.classList.toggle("active", idx === chipIdx);
+  });
+}
+
+function render(state) {
+  const prevPhase = currentState.phase;
+  currentState = state;
+  const { phase, sample } = state;
+
+  // Handle Recording Animation
+  if (phase === "recording") {
+    if (prevPhase !== "recording") {
+      recStartTime = performance.now();
+      if (animFrameId) cancelAnimationFrame(animFrameId);
+      function updateRecBar() {
+        const elapsed = (performance.now() - recStartTime) / 1000;
+        const left = Math.max(0, 4.0 - elapsed);
+        recFill.style.width = ((left / 4.0) * 100).toFixed(1) + "%";
+        if (left > 0 && currentState.phase === "recording") {
+          animFrameId = requestAnimationFrame(updateRecBar);
+        }
+      }
+      animFrameId = requestAnimationFrame(updateRecBar);
+    }
+  } else {
+    if (animFrameId) {
+      cancelAnimationFrame(animFrameId);
+      animFrameId = null;
+    }
+    recFill.style.width = "100%";
+  }
+
+  // Camera Box Display State:
+  // Show "người que" silhouette guide while waiting (loading, ready, result, retry, etc.).
+  // Only transition to showing the live camera feed once recognition flow starts (countdown, recording, processing).
+  const wasCameraActive = isLiveCameraPhase(prevPhase);
+  const isCameraActive = isLiveCameraPhase(phase);
+
+  if (!isCameraActive) {
+    preview.hidden = true;
+    preview.removeAttribute("src");
+    if (postureGuide) postureGuide.hidden = false;
+    if (previewTimer) {
+      clearTimeout(previewTimer);
+      previewTimer = null;
+    }
+  } else if (!wasCameraActive) {
+    fetchNextPreview();
+  }
+
+  if (phase === "countdown") {
+    camBox.style.borderColor = "#D97706";
+    camStatus.style.background = "#FEF3C7";
+    camStatus.style.borderColor = "#FDE68A";
+    camStatus.style.color = "#92400E";
+    camDot.style.background = "#D97706";
+    camStatusText.textContent = "Chuẩn bị";
+    countdownBadge.hidden = false;
+    countdownNumber.textContent = state.remaining || "3";
+    recBar.hidden = true;
+  } else if (phase === "recording") {
+    camBox.style.borderColor = "#DC2626";
+    camStatus.style.background = "#DC2626";
+    camStatus.style.borderColor = "#DC2626";
+    camStatus.style.color = "#FFFFFF";
+    camDot.style.background = "#FFFFFF";
+    camStatusText.textContent = "● Đang quay";
+    countdownBadge.hidden = true;
+    recBar.hidden = false;
+  } else {
+    camBox.style.borderColor = "#BAC5D0";
+    camStatus.style.background = "rgba(255, 255, 255, 0.95)";
+    camStatus.style.borderColor = "#BAC5D0";
+    camStatus.style.color = "#18212B";
+    camDot.style.background = (phase === "result" || phase === "ready") ? "#087A47" : "#4F5D6B";
+    if (phase === "processing") {
+      camStatusText.textContent = "Đang nhận dạng…";
+    } else if (phase === "ready") {
+      camStatusText.textContent = sample ? "Clip đối chứng · Sẵn sàng" : "Webcam sẵn sàng";
+    } else {
+      camStatusText.textContent = sample ? "Clip đối chứng · 640×480" : "Webcam · 640×480";
+    }
+    countdownBadge.hidden = true;
+    recBar.hidden = true;
+  }
+
+  // Right Column Configurations
+  if (phase === "result") {
+    panelLabel.textContent = "Kết quả";
+    resultWordRow.hidden = false;
+    centerPrompt.hidden = true;
+    timingTable.hidden = false;
+
+    // Timing Metrics (Mode B Semantic)
+    const timing = state.timing || {};
+    timePipeline.textContent = formatSeconds(timing.pipeline ?? state.pipeline ?? state.seconds);
+    timeExtraction.textContent = formatSeconds(timing.extraction ?? state.extraction);
+    timeAdapter.textContent = formatSeconds(timing.adapter ?? state.adapter);
+    timeForward.textContent = formatSeconds(timing.forward_first ?? state.forward_first);
+
+    // Candidates / Top Suggestions
+    const topList = state.top5 && state.top5.length > 0
+      ? state.top5.slice(0, 3)
+      : [{ index: state.index, gloss: state.gloss }];
+
+    const prevSig = currentChips.map(c => c.index).join(",");
+    const newSig = topList.map(c => c.index).join(",");
+
+    if (prevPhase !== "result" || prevSig !== newSig || !selectedCandidate) {
+      currentChips = topList;
+      selectedCandidate = topList[0];
+      played = false;
+      playedPill.hidden = true;
+      confirmLabel.textContent = "Xác nhận & phát";
+
+      chipsContainer.innerHTML = "";
+      topList.forEach((cand, idx) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "chip-btn" + (cand.index === selectedCandidate.index ? " active" : "");
+        btn.textContent = cand.gloss;
+        btn.addEventListener("click", () => selectCandidate(cand, idx));
+        chipsContainer.appendChild(btn);
+      });
+    }
+
+    mainWord.textContent = selectedCandidate.gloss || state.gloss || "—";
+
+    actionsStart.hidden = true;
+    actionsResult.hidden = false;
+    btnConfirm.disabled = playing;
+    btnRetry.disabled = playing;
+  } else {
+    // Non-result phases
+    resultWordRow.hidden = true;
+    centerPrompt.hidden = false;
+    timingTable.hidden = true;
+    selectedCandidate = null;
+    currentChips = [];
+    playedPill.hidden = true;
+    soundStatus.textContent = "";
+
+    actionsStart.hidden = false;
+    actionsResult.hidden = true;
+
+    if (phase === "loading") {
+      panelLabel.textContent = "Đang khởi động";
+      promptText.textContent = "Đang nạp mô hình SL-GCN và bộ trích xuất MediaPipe…";
+      btnStart.disabled = true;
+      btnStartLabel.textContent = "Đang khởi động…";
+      btnRetry.disabled = true;
+    } else if (phase === "ready") {
+      panelLabel.textContent = "Sẵn sàng";
+      promptText.textContent = sample
+        ? "Video đối chứng đã sẵn sàng. Bấm Bắt đầu hoặc nhấn phím [R] để nhận dạng."
+        : "Giữ hai vai và hai tay trong khung hình, sau đó bấm Bắt đầu hoặc nhấn phím [R].";
+      btnStart.disabled = false;
+      btnStartLabel.textContent = "Bắt đầu";
+      btnRetry.disabled = false;
+    } else if (phase === "countdown") {
+      panelLabel.textContent = "Chuẩn bị";
+      promptText.textContent = "Chuẩn bị ký hiệu sau 3 giây đếm ngược.";
+      btnStart.disabled = true;
+      btnStartLabel.textContent = "Đang đếm ngược…";
+      btnRetry.disabled = true;
+    } else if (phase === "recording") {
+      panelLabel.textContent = "Đang quay (4s)";
+      promptText.textContent = "Thực hiện ký hiệu một cách tự nhiên và giữ hai tay trong khung hình.";
+      btnStart.disabled = true;
+      btnStartLabel.textContent = "Đang quay…";
+      btnRetry.disabled = true;
+    } else if (phase === "processing") {
+      panelLabel.textContent = "Đang nhận dạng";
+      promptText.textContent = "Đang trích xuất khớp và chạy mô hình suy luận SL-GCN…";
+      btnStart.disabled = true;
+      btnStartLabel.textContent = "Đang nhận dạng…";
+      btnRetry.disabled = true;
+    } else if (phase === "retry") {
+      panelLabel.textContent = "Cần thử lại";
+      promptText.textContent = state.message || "Không xử lý được lượt này. Giữ vai và hai tay trong khung rồi bấm Thử lại.";
+      btnStart.disabled = false;
+      btnStartLabel.textContent = "Thử lại";
+      btnRetry.disabled = false;
+    } else if (phase === "error") {
+      panelLabel.textContent = "Lỗi hệ thống";
+      promptText.textContent = state.message || "Không thể kết nối camera hoặc tải mô hình. Xem chi tiết trên console.";
+      btnStart.disabled = true;
+      btnStartLabel.textContent = "Lỗi hệ thống";
+      btnRetry.disabled = true;
+    } else if (phase === "disconnected") {
+      panelLabel.textContent = "Mất kết nối";
+      promptText.textContent = "Mất kết nối với máy chủ demo. Kiểm tra cửa sổ console hoặc khởi động lại.";
+      btnStart.disabled = true;
+      btnStartLabel.textContent = "Mất kết nối";
+      btnRetry.disabled = true;
+    }
+  }
+}
+
+// Background Polling
+async function refreshState() {
+  try {
+    const res = await fetch("/state");
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    const data = await res.json();
+    if (!starting) render(data);
+  } catch {
+    render({ phase: "disconnected" });
+  } finally {
+    setTimeout(refreshState, 200);
+  }
+}
+
+// Live Camera Preview Poller
+let previewTimer = null;
+
+function fetchNextPreview() {
+  if (previewTimer) {
+    clearTimeout(previewTimer);
+    previewTimer = null;
+  }
+  const active = isLiveCameraPhase(currentState.phase);
+  if (!active) {
+    preview.hidden = true;
+    preview.removeAttribute("src");
+    if (postureGuide) postureGuide.hidden = false;
+    return;
+  }
+  preview.src = "/preview?t=" + Date.now();
+}
+
+preview.onload = () => {
+  const active = isLiveCameraPhase(currentState.phase);
+  if (active) {
+    preview.hidden = false;
+    if (postureGuide) postureGuide.hidden = true;
+    if (previewTimer) clearTimeout(previewTimer);
+    previewTimer = setTimeout(fetchNextPreview, 90);
+  } else {
+    preview.hidden = true;
+    preview.removeAttribute("src");
+    if (postureGuide) postureGuide.hidden = false;
+    if (previewTimer) {
+      clearTimeout(previewTimer);
+      previewTimer = null;
+    }
+  }
+};
+
+preview.onerror = () => {
+  if (previewTimer) clearTimeout(previewTimer);
+  const active = isLiveCameraPhase(currentState.phase);
+  if (active) {
+    previewTimer = setTimeout(fetchNextPreview, 150);
+  }
+};
+
+function updatePreview() {
+  fetchNextPreview();
+}
+
+// Action: Start / Retry Flow
+async function triggerStart() {
+  if (starting || playing) return;
+  if (currentState.phase !== "ready" && currentState.phase !== "result" && currentState.phase !== "retry") return;
+  starting = true;
+  soundStatus.textContent = "";
+  played = false;
+  btnStart.disabled = true;
+  btnRetry.disabled = true;
+
+  try {
+    const res = await fetch("/start", {
+      method: "POST",
+      headers: { "X-PBL6": "demo" }
+    });
+    if (!res.ok && res.status !== 409) throw new Error("Start failed");
+    const state = await res.json();
+    render(state);
+  } catch (err) {
+    console.error("Start request failed:", err);
+    render({ phase: "disconnected" });
+  } finally {
+    starting = false;
+  }
+}
+
+btnStart.addEventListener("click", triggerStart);
+btnRetry.addEventListener("click", triggerStart);
+
+// Action: Confirm & Speak [F]
+async function triggerConfirmSpeak() {
+  if (currentState.phase !== "result" || playing || starting) return;
+  const candidate = selectedCandidate || { index: currentState.index, gloss: currentState.gloss };
+  if (!candidate || !candidate.gloss) return;
+
+  playing = true;
+  soundStatus.textContent = "Đang phát qua loa…";
+  confirmLabel.textContent = "Đang phát…";
+  btnConfirm.disabled = true;
+
+  try {
+    let playedCleanly = false;
+
+    // 1. Try local audio file if candidate has pre-recorded index
+    if (candidate.index !== undefined && candidate.index !== null) {
+      try {
+        const audio = new Audio("/audio/" + candidate.index + ".mp3");
+        await new Promise((resolve, reject) => {
+          const timer = setTimeout(() => {
+            audio.pause();
+            reject(new Error("Audio timeout"));
+          }, 8000);
+          audio.onended = () => { clearTimeout(timer); resolve(); };
+          audio.onerror = () => { clearTimeout(timer); reject(new Error("Audio error")); };
+          audio.play().catch(err => { clearTimeout(timer); reject(err); });
+        });
+        playedCleanly = true;
+      } catch (audioErr) {
+        console.warn("Direct MP3 playback failed or not found, falling back to TTS:", audioErr);
+      }
+    }
+
+    // 2. Fallback to Web Speech Synthesis if audio file not available or failed
+    if (!playedCleanly) {
+      if (!window.speechSynthesis) {
+        throw new Error("Speech synthesis not supported");
+      }
+      const voices = window.speechSynthesis.getVoices();
+      const viVoice = voices.find(v => /^vi/i.test(v.lang)) || voices[0];
+      const utterance = new SpeechSynthesisUtterance(candidate.gloss);
+      if (viVoice) {
+        utterance.voice = viVoice;
+        utterance.lang = viVoice.lang;
+      }
+      utterance.rate = 0.95;
+
+      await new Promise((resolve, reject) => {
+        const timer = setTimeout(() => {
+          window.speechSynthesis.cancel();
+          reject(new Error("TTS timeout"));
+        }, 8000);
+        utterance.onend = () => { clearTimeout(timer); resolve(); };
+        utterance.onerror = () => { clearTimeout(timer); reject(new Error("TTS error")); };
+        window.speechSynthesis.speak(utterance);
+      });
+      playedCleanly = true;
+    }
+
+    // 3. Post to /speak for server-side logging/handling with chosen candidate payload
+    try {
+      fetch("/speak", {
+        method: "POST",
+        headers: { "X-PBL6": "demo", "Content-Type": "application/json" },
+        body: JSON.stringify({ index: candidate.index, gloss: candidate.gloss })
+      }).catch(() => {});
+    } catch {}
+
+    played = true;
+    playedPill.hidden = false;
+    soundStatus.textContent = "Đã phát thành công.";
+    confirmLabel.textContent = "Phát lại";
+  } catch (err) {
+    console.error("Playback error:", err);
+    soundStatus.textContent = "Không phát được âm thanh. Kiểm tra loa rồi thử lại.";
+    confirmLabel.textContent = "Thử phát lại";
+  } finally {
+    playing = false;
+    btnConfirm.disabled = false;
+  }
+}
+
+btnConfirm.addEventListener("click", triggerConfirmSpeak);
+
+// Keyboard Shortcuts: [F], [R], and Candidate Selection [1], [2], [3]
+document.addEventListener("keydown", (event) => {
+  if (event.repeat || event.ctrlKey || event.altKey || event.metaKey) return;
+  const key = event.key ? event.key.toLowerCase() : "";
+  const code = event.code || "";
+
+  // Confirm / Speak [F]
+  if (key === "f" || code === "KeyF") {
+    if (currentState.phase === "result" && !btnConfirm.disabled && !actionsResult.hidden) {
+      event.preventDefault();
+      btnConfirm.click();
+    }
+  }
+  // Start / Retry [R]
+  else if (key === "r" || code === "KeyR") {
+    if (currentState.phase === "result") {
+      if (!btnRetry.disabled && !actionsResult.hidden) {
+        event.preventDefault();
+        btnRetry.click();
+      }
+    } else if ((currentState.phase === "ready" || currentState.phase === "retry") && !btnStart.disabled) {
+      event.preventDefault();
+      btnStart.click();
+    }
+  }
+  // Numeric Selection for Top-1, Top-2, Top-3 Suggestion Chips
+  else if (currentState.phase === "result" && currentChips && currentChips.length > 0) {
+    if ((key === "1" || code === "Digit1" || code === "Numpad1") && currentChips[0]) {
+      event.preventDefault();
+      selectCandidate(currentChips[0], 0);
+    } else if ((key === "2" || code === "Digit2" || code === "Numpad2") && currentChips[1]) {
+      event.preventDefault();
+      selectCandidate(currentChips[1], 1);
+    } else if ((key === "3" || code === "Digit3" || code === "Numpad3") && currentChips[2]) {
+      event.preventDefault();
+      selectCandidate(currentChips[2], 2);
+    }
+  }
+});
+
+// Fullscreen Toggle
+fullscreenBtn.addEventListener("click", async () => {
+  try {
+    if (document.fullscreenElement) {
+      await document.exitFullscreen();
+    } else {
+      await document.documentElement.requestFullscreen();
+    }
+  } catch (err) {
+    console.warn("Fullscreen toggle failed:", err);
+  }
+});
+const ENTER_FS_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>`;
+const EXIT_FS_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 14 10 14 10 20"></polyline><polyline points="20 10 14 10 14 4"></polyline><line x1="14" y1="10" x2="21" y2="3"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>`;
+
+document.addEventListener("fullscreenchange", () => {
+  const isFs = Boolean(document.fullscreenElement);
+  fullscreenBtn.innerHTML = isFs ? EXIT_FS_ICON : ENTER_FS_ICON;
+  fullscreenBtn.title = isFs ? "Thoát toàn màn hình" : "Toàn màn hình";
+  fullscreenBtn.setAttribute("aria-label", fullscreenBtn.title);
+});
+
+// Init
+refreshState();
+updatePreview();
+</script>
+</body>
+</html>

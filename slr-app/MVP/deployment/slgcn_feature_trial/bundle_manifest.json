@@ -1,0 +1,25 @@
+{
+  "sha256": {
+    "prepare_clip.py": "f4d1b920a6934a71b324f85480c77dfb46e1ee45732e3d375920cf74e3c63bb4",
+    "README.md": "35c42404c8d98146d4ae84a3a99ea597a47cb3b3a8170edfb71a3f02617011af",
+    "reference/cell08_pilot_cache_v1.py": "a5bb2b3109c7faf70de3526993ff9b2018131c6792fa936269d3f45ce217d19c",
+    "reference/notebook_identity.json": "c7c99a26adf744fdd6bf8b600ff1a2cec1cdc8b3813d8483dec68221d9932fcf",
+    "reference/provenance.json": "e560c36b176fe7ab6699fe60fd634ef26908720d6ca24880cd4c7c2f8726d740",
+    "reference/test_metrics.json": "ca417b2457db414a77145e635a82c9563910ee5ded3501834b242d92f9ad7d00",
+    "reference/training_config.json": "87dda319521bf7914137ab8ea9462b984a2f7b28aa2b56f50e8c19b3e259b0b0",
+    "reference/training_qc/014615_front.npz": "dd51103dc8923ff1ee4ae215e7b4a1b9d5fef33243a2a9c38dbb3e9d6323e6e8",
+    "reference/training_qc/020536_front.npz": "51946dbc67b5dabf4c45b64d7bb260c6543a38cf308bf29f1c44023fd9e4d896",
+    "reference/training_qc/adapter_config.json": "c231a27336c9c11b1586b60efe2c4dd74778fa24036fa996bf11ffb143a83d1d",
+    "reference/training_qc/bone_xy.npy": "0ad9720c43ccd78558528178b655fd638a63c3b3a042d84764dbf6fb2a158bfd",
+    "reference/training_qc/drive_files.json": "03727dafabf2da5ac32a0aa83f1d752bf0139c186243b0c75dd1345933b082df",
+    "reference/training_qc/index_qc.csv": "6e69a3f5f33da0c63a73c9ca894ba1a41d84b1ad5e8d88a7ff79a124b385a830",
+    "reference/training_qc/masks_and_frames.npz": "113acea353b6c74aa4b22dc770d11cb23a4fff1d88a79dfe33517538f37b2c4e",
+    "reference/training_qc/sha256.json": "2edf10f297d83e6a934328f8b5fcc8ca0b3dac424634d0209b88bec0cfbe6761",
+    "reference/training_result.json": "1aebded4c65eb2d9107ef4c1e401c8858c054f0e28b6e2c1280689db22f9cdc4",
+    "SOURCE_MAP.md": "476a03efbe6169b0461df0500490d76d22e63e2e5def0da867e368612741fa71",
+    "test_adapter.py": "74f393731d57f44958869dd2dd8d74a71c17cfb2da35856c2bead83146f210ea",
+    "vendor/slgcn_xy_adapter.py": "d4ef152c29aab4986fff558a105abfdf3382055dd9c2e90b1d2aee158c8f5bd8",
+    "vendor/team_repair.py": "065fd21c4179524805d580ee1036f8a8f62096a85e73c1f24bca001023ea1bbe",
+    "verify_reference.py": "a4f5826a593858b800bdb733acd95d0175e74b928c3062f8775513374e246764"
+  }
+}

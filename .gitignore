@@ -1,3 +1,16 @@
 /data/
 __pycache__/
 .ipynb_checkpoints/
+
+# Obsidian editor workspace & plugins
+.obsidian/
+
+# Local SLR demo outputs & recorded clips
+slr-app/MVP/outputs/
+slr-app/MVP/local_data/*.avi
+
+# Node / Electron build artifacts
+dist/
+.next/
+node_modules/
+

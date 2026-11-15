@@ -1,0 +1,83 @@
+{
+  "title": "SLR Kiosk 1024x600 Specification",
+  "version": "1.0.0",
+  "screens": [
+    {
+      "id": "ready",
+      "name": "Trạng thái 1: Sẵn sàng (Ready)",
+      "viewport": { "width": 1024, "height": 600 },
+      "layout": {
+        "header": { "height": 40, "title": "PBL6 · Nhận dạng ký hiệu tiếng Việt" },
+        "leftColumn": {
+          "role": "camera",
+          "width": 540,
+          "height": 520,
+          "border": "3px solid #BAC5D0",
+          "feed": "640x480 raw webcam",
+          "tag": "Webcam sẵn sàng"
+        },
+        "rightColumn": {
+          "role": "control_card",
+          "width": 440,
+          "height": 520,
+          "title": "SẴN SÀNG",
+          "prompt": "Giữ hai vai và hai tay trong khung hình, sau đó bấm Bắt đầu.",
+          "button": { "label": "Bắt đầu", "key": "R", "height": 52, "bg": "#273D53", "color": "#FFFFFF" }
+        }
+      }
+    },
+    {
+      "id": "countdown",
+      "name": "Trạng thái 2: Đếm ngược 3s (Countdown)",
+      "viewport": { "width": 1024, "height": 600 },
+      "layout": {
+        "leftColumn": {
+          "border": "3px solid #D97706",
+          "overlayNumber": { "size": 250, "color": "rgba(245, 158, 11, 0.30)", "value": 2 }
+        },
+        "rightColumn": {
+          "title": "CHUẨN BỊ",
+          "button": { "label": "Đang đếm ngược…", "disabled": true }
+        }
+      }
+    },
+    {
+      "id": "recording",
+      "name": "Trạng thái 3: Đang quay 4s (Recording)",
+      "viewport": { "width": 1024, "height": 600 },
+      "layout": {
+        "leftColumn": {
+          "border": "3px solid #DC2626",
+          "progressBar": { "height": 6, "color": "#DC2626", "duration": 4.0 }
+        },
+        "rightColumn": {
+          "title": "ĐANG QUAY",
+          "button": { "label": "Đang quay…", "disabled": true }
+        }
+      }
+    },
+    {
+      "id": "result",
+      "name": "Trạng thái 4: Kết quả (Result)",
+      "viewport": { "width": 1024, "height": 600 },
+      "layout": {
+        "leftColumn": { "border": "3px solid #BAC5D0" },
+        "rightColumn": {
+          "title": "KẾT QUẢ",
+          "mainWord": { "text": "Dài", "size": 42, "color": "#18212B" },
+          "chips": ["Dài", "Cảm ơn", "Nước"],
+          "timingTable": [
+            { "label": "pipeline", "time": "1.20s", "highlight": true, "bg": "#FFF8E1", "color": "#92400E" },
+            { "label": "mediapipe extraction", "time": "1.13s", "bg": "#DFF8FC", "color": "#087789" },
+            { "label": "tiền xử lý", "time": "0.02s", "bg": "#F0E9FF", "color": "#713DB0" },
+            { "label": "SL-GCL forward first inference", "time": "0.05s", "bg": "#FBE7F0", "color": "#B22563" }
+          ],
+          "buttons": [
+            { "id": "confirm", "shape": "circle", "diameter": 68, "icon": "speaker", "label": "Xác nhận & phát", "key": "F", "bg": "#273D53", "color": "#FFFFFF" },
+            { "id": "retry", "shape": "circle", "diameter": 68, "icon": "retry", "label": "Thử lại", "key": "R", "bg": "#FFFFFF", "border": "#BAC5D0", "color": "#18212B" }
+          ]
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "purpose": "Synthetic CPU SL-GCN smoke test only",
+  "pi_runtime": "PENDING",
+  "patch": "Exactly four device literals cuda -> cpu; AST verified",
+  "original_source_hashes_verified": true,
+  "files": {
+    "check_slgcn.py": {
+      "bytes": 4328,
+      "sha256": "5a99df8af244171c359ddffb3046d8123dd7ee71b03aa32acc4437170dd83fc7"
+    },
+    "gcnCkpt.pt": {
+      "bytes": 35414971,
+      "sha256": "cd742dadd5b6d7aa1e4c742d618c78a9f616cfda7a6d5d968e14996f4f2e544f"
+    },
+    "graph/__init__.py": {
+      "bytes": 41,
+      "sha256": "837d121075a0ca4b91ed4bf79fe2a38bedfa2ff40aa240863b59c920e73f8d2f"
+    },
+    "graph/sign_27.py": {
+      "bytes": 1441,
+      "sha256": "ec850fd9b1ca4e06761a3d0c085106d930b1e74c74bdf82a76a1950e7693230a"
+    },
+    "graph/tools.py": {
+      "bytes": 638,
+      "sha256": "7458504b35d18004b59cfb1b46132df47f7e64d04381177127c251d6f3613c80"
+    },
+    "model/__init__.py": {
+      "bytes": 73,
+      "sha256": "ab4e384160737bd9067234aeaae805c415b37f0d66ceedddb04bf7e5ee38d5bb"
+    },
+    "model/decouple_gcn_attn.py": {
+      "bytes": 10759,
+      "sha256": "77676fd89c38475873d2e09a59ab09e86f580e04990740b627706d0aeaf6c06b"
+    },
+    "model/dropSke.py": {
+      "bytes": 1339,
+      "sha256": "6c36601367ff27c99ed836638a884315003f2d0d70c68af93e59d327fa158310"
+    },
+    "model/dropT.py": {
+      "bytes": 1069,
+      "sha256": "3f9cfefd792423e372f8e07c51715eed8ee754bdde18f8250890bd0c0cc933fd"
+    },
+    "README.md": {
+      "bytes": 1960,
+      "sha256": "50d5e96679fcab55b7c816e2e078dd56c3e94feed19e48b94d4261226d15a2b2"
+    },
+    "training_config.json": {
+      "bytes": 6279,
+      "sha256": "68ba58d1cab67bdbfd25518a8750c79c6c935f748ff5f8edc3d68d8dc1d3c51e"
+    }
+  }
+}

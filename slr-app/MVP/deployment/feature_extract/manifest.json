@@ -1,0 +1,19 @@
+{
+  "origin": "Unmodified local audit copies; extraction-only config JSON transcribed from preprocConfig.txt",
+  "checks": [
+    "Python syntax",
+    "Exact bytes against local audit sources",
+    "Wrist normalization and degenerate-scale/NaN preservation",
+    "Anatomical hand assignment when detection order reversed"
+  ],
+  "pi_extraction": "PENDING",
+  "sha256": {
+    "extract_fixed_clip.py": "a1dc2cba1d5675be4027bc688436e26d851483a89b1efb7e93790ef53b45752b",
+    "extraction_config.json": "847ef7a0d63550268da1f5f95185e97c229da4b4e9e314dfb4e4fbd67134fa22",
+    "src/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/extraction/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/extraction/handedness.py": "45e4ca6bb0e40516660f78e98c816aeae12f2f754a11ab974a7398adb2b4b739",
+    "src/extraction/mediapipe_extractor.py": "8f54c36d54d3008a696cc956f4707acbdf32e1b2429f5417a305d19d3a47c27b",
+    "src/extraction/normalization.py": "1df90dec38549fb2bece010c41322113c2e32e4f38e630b4023ec64a44f6d6fd"
+  }
+}
