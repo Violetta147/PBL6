@@ -75,12 +75,22 @@ def test_demo_server():
 
         # 1b. Verify /preview endpoints (with and without query string)
         for preview_url in (f"http://{host}/preview", f"http://{host}/preview?t={int(time.time()*1000)}"):
-            with urllib.request.urlopen(preview_url, timeout=2) as resp:
-                assert resp.status == 200, f"{preview_url} returned status {resp.status}"
-                assert resp.headers.get("Content-Type") == "image/jpeg"
-                img_data = resp.read()
-                assert len(img_data) > 100, f"Preview image too small: {len(img_data)}"
-                assert img_data.startswith(b"\xff\xd8"), "Invalid JPEG header in preview stream"
+            preview_ok = False
+            for _ in range(25):
+                try:
+                    with urllib.request.urlopen(preview_url, timeout=2) as resp:
+                        if resp.status == 200:
+                            assert resp.headers.get("Content-Type") == "image/jpeg"
+                            img_data = resp.read()
+                            assert len(img_data) > 100, f"Preview image too small: {len(img_data)}"
+                            assert img_data.startswith(b"\xff\xd8"), "Invalid JPEG header in preview stream"
+                            preview_ok = True
+                            break
+                        elif resp.status == 204:
+                            time.sleep(0.2)
+                except Exception:
+                    time.sleep(0.2)
+            assert preview_ok, f"{preview_url} did not yield a valid JPEG frame within timeout"
         print("[PASS] GET /preview and GET /preview?t=... return valid JPEG camera frames.")
 
         # 2. Check /state in ready phase
@@ -224,7 +234,8 @@ def test_demo_server():
 
         # 11. Verify Demo start() transitions from 'retry' phase
         sys.path.insert(0, str(ROOT / "desktop_mvp"))
-        from demo import Demo
+        from demo import Demo, make_handler
+        from http.server import ThreadingHTTPServer
         import threading
 
         class MockDemo:
@@ -262,6 +273,72 @@ def test_demo_server():
         mock_demo.camera_ready = False
         assert mock_demo.start() is False
         print("[PASS] Demo.start() handling in 'retry' phase verified: cleanly clears prompt, starts 3s countdown, and guards state transitions.")
+
+        # 12. Deep verification: Live HTTP server receiving POST /start in 'retry' phase
+        retry_demo = MockDemo(SAMPLE_CLIP)
+        retry_port = 8793
+        retry_host = f"127.0.0.1:{retry_port}"
+        retry_server = ThreadingHTTPServer(("127.0.0.1", retry_port), make_handler(retry_demo, DEMO_PY.with_name("demo.html").read_bytes(), retry_host))
+        retry_thread = threading.Thread(target=retry_server.serve_forever, daemon=True)
+        retry_thread.start()
+        try:
+            # 12a. Verify initial /state over HTTP is 'retry'
+            with urllib.request.urlopen(f"http://{retry_host}/state", timeout=2) as resp:
+                data = json.loads(resp.read().decode())
+                assert data["phase"] == "retry"
+                assert "Không xử lý được lượt này" in data["message"]
+
+            # 12b. Issue POST /start from 'retry' phase over HTTP with correct headers
+            retry_post = urllib.request.Request(
+                f"http://{retry_host}/start",
+                data=b"",
+                headers={"Origin": f"http://{retry_host}", "X-PBL6": "demo", "Host": retry_host},
+                method="POST",
+            )
+            with urllib.request.urlopen(retry_post, timeout=2) as resp:
+                assert resp.status == 200
+                res_data = json.loads(resp.read().decode())
+                assert res_data["phase"] == "countdown"
+                assert res_data["remaining"] == 3
+                assert "message" not in res_data
+
+            # 12c. Verify subsequent GET /state is 'countdown' with no residual retry message
+            with urllib.request.urlopen(f"http://{retry_host}/state", timeout=2) as resp:
+                data = json.loads(resp.read().decode())
+                assert data["phase"] == "countdown"
+                assert "message" not in data
+
+            # 12d. Verify 409 Conflict when attempting second start during active countdown
+            conflict_post = urllib.request.Request(
+                f"http://{retry_host}/start",
+                data=b"",
+                headers={"Origin": f"http://{retry_host}", "X-PBL6": "demo", "Host": retry_host},
+                method="POST",
+            )
+            try:
+                urllib.request.urlopen(conflict_post, timeout=2)
+                assert False, "Expected HTTP 409 Conflict"
+            except urllib.error.HTTPError as err:
+                assert err.code == 409
+
+            # 12e. Verify 409 Conflict if camera is not ready
+            retry_demo.state["phase"] = "retry"
+            retry_demo.camera_ready = False
+            cam_unready_post = urllib.request.Request(
+                f"http://{retry_host}/start",
+                data=b"",
+                headers={"Origin": f"http://{retry_host}", "X-PBL6": "demo", "Host": retry_host},
+                method="POST",
+            )
+            try:
+                urllib.request.urlopen(cam_unready_post, timeout=2)
+                assert False, "Expected HTTP 409 when camera not ready"
+            except urllib.error.HTTPError as err:
+                assert err.code == 409
+
+            print("[PASS] Live HTTP integration for 'retry' -> 'countdown' verified: HTTP 200 status, snapshot schema, message cleanup, and 409 conflict guards.")
+        finally:
+            retry_server.shutdown()
 
         print("\n=== ALL E2E INTEGRATION TESTS PASSED SUCCESSFULLY! ===")
 

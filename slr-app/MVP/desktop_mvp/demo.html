@@ -980,30 +980,35 @@ function render(state) {
         : "Giữ hai vai và hai tay trong khung hình, sau đó bấm Bắt đầu hoặc nhấn phím [R].";
       btnStart.disabled = false;
       btnStartLabel.textContent = "Bắt đầu";
+      btnStart.setAttribute("aria-label", "Bắt đầu lượt quay mới (phím R)");
       btnRetry.disabled = false;
     } else if (phase === "countdown") {
       panelLabel.textContent = "Chuẩn bị";
       promptText.textContent = "Chuẩn bị ký hiệu sau 3 giây đếm ngược.";
       btnStart.disabled = true;
       btnStartLabel.textContent = "Đang đếm ngược…";
+      btnStart.setAttribute("aria-label", "Đang đếm ngược");
       btnRetry.disabled = true;
     } else if (phase === "recording") {
       panelLabel.textContent = "Đang quay (4s)";
       promptText.textContent = "Thực hiện ký hiệu một cách tự nhiên và giữ hai tay trong khung hình.";
       btnStart.disabled = true;
       btnStartLabel.textContent = "Đang quay…";
+      btnStart.setAttribute("aria-label", "Đang quay");
       btnRetry.disabled = true;
     } else if (phase === "processing") {
       panelLabel.textContent = "Đang nhận dạng";
       promptText.textContent = "Đang trích xuất khớp và chạy mô hình suy luận SL-GCN…";
       btnStart.disabled = true;
       btnStartLabel.textContent = "Đang nhận dạng…";
+      btnStart.setAttribute("aria-label", "Đang nhận dạng");
       btnRetry.disabled = true;
     } else if (phase === "retry") {
       panelLabel.textContent = "Cần thử lại";
       promptText.textContent = state.message || "Không xử lý được lượt này. Giữ vai và hai tay trong khung rồi bấm Thử lại.";
       btnStart.disabled = false;
       btnStartLabel.textContent = "Thử lại";
+      btnStart.setAttribute("aria-label", "Thử lại lượt quay mới (phím R)");
       btnRetry.disabled = false;
     } else if (phase === "error") {
       panelLabel.textContent = "Lỗi hệ thống";

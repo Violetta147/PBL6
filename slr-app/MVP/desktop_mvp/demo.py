@@ -218,7 +218,7 @@ class Demo:
 
 def make_handler(demo, page, host):
     port = host.split(":")[-1]
-    allowed_hosts = {host, f"127.0.0.1:{port}", f"localhost:{port}"}
+    allowed_hosts = {host, f"127.0.0.1:{port}", f"localhost:{port}", f"[::1]:{port}"}
     allowed_origins = {f"http://{h}" for h in allowed_hosts}
 
     class Handler(BaseHTTPRequestHandler):
@@ -238,7 +238,14 @@ def make_handler(demo, page, host):
             if req_host not in allowed_hosts:
                 self.send_error(403)
             elif self.path == "/":
-                self.send_data(page, "text/html; charset=utf-8")
+                html = page
+                try:
+                    html_file = Path(__file__).with_name("demo.html")
+                    if html_file.is_file():
+                        html = html_file.read_bytes()
+                except Exception:
+                    pass
+                self.send_data(html, "text/html; charset=utf-8")
             elif self.path == "/state":
                 self.send_data(json.dumps(demo.snapshot()).encode(), "application/json")
             elif self.path == "/speak" or self.path.startswith("/speak?"):
