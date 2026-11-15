@@ -2,7 +2,10 @@
   "name": "pbl6-stt",
   "version": "0.1.0",
   "private": true,
-  "engines": { "node": ">=22.12.0" },
+  "main": "electron/main.cjs",
+  "engines": {
+    "node": ">=22.12.0"
+  },
   "scripts": {
     "postinstall": "node node_modules/electron/install.js",
     "dev": "node node_modules/next/dist/bin/next dev --hostname 127.0.0.1 --port 3100",
@@ -11,8 +14,11 @@
     "desktop:dev": "node scripts/desktop.mjs --dev",
     "desktop": "node scripts/desktop.mjs",
     "desktop:kiosk": "node scripts/desktop.mjs --kiosk",
+    "curate:server": "node scripts/build-server.mjs",
+    "pack": "node node_modules/next/dist/bin/next build && node scripts/build-server.mjs && node node_modules/electron-builder/cli.js --dir",
+    "dist:win": "node node_modules/next/dist/bin/next build && node scripts/build-server.mjs && node node_modules/electron-builder/cli.js --win",
     "typecheck": "node node_modules/typescript/bin/tsc --noEmit",
-    "test": "node --import tsx --test tests/**/*.test.ts",
+    "test": "node --import tsx --test tests/**/*.test.ts tests/**/*.test.mjs",
     "test:ui": "node node_modules/@playwright/test/cli.js test"
   },
   "dependencies": {
@@ -27,8 +33,37 @@
     "@types/react-dom": "19.3.0",
     "@playwright/test": "1.65.0",
     "electron": "45.2.3",
+    "electron-builder": "^26.18.0",
     "tailwindcss": "4.3.5",
     "tsx": "4.23.15",
     "typescript": "5.9.3"
+  },
+  "build": {
+    "appId": "com.pbl6.stt-touchscreen",
+    "productName": "STT Touchscreen App",
+    "asar": true,
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "!**/*",
+      "electron/**/*",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": ".next",
+        "to": "server",
+        "filter": [
+          "standalone/**/*"
+        ]
+      }
+    ],
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ]
+    }
   }
 }

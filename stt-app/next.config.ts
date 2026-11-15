@@ -1,6 +1,7 @@
 import type { NextConfig } from 'next';
 
 const config: NextConfig = {
+  output: 'standalone',
   poweredByHeader: false,
   // This milestone is local-only. LAN control/authentication is a later gate.
   async headers() {

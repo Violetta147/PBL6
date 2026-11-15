@@ -23,11 +23,13 @@ export default function Home() {
   const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
 
   const refreshSettings = useCallback(() => {
-    fetch('/api/settings')
+    fetch('/api/settings', { cache: 'no-store' })
       .then((res) => (res.ok ? res.json() : null))
       .then((data) => {
         if (typeof data?.selectedMicrophoneId === 'string') {
           setSelectedMicrophoneId(data.selectedMicrophoneId);
+        } else {
+          setSelectedMicrophoneId(undefined);
         }
         if (typeof data?.maxRecordSeconds === 'number') {
           setMaxRecordSeconds(data.maxRecordSeconds);

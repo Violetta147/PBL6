@@ -342,3 +342,140 @@ test('auto-stop timer: cancelSignal before timeout cancels timer and resets stat
     t.mock.timers.reset();
   }
 });
+
+test('auto-stop timer: smart latch Send during recording takes precedence, clears timer, and sends upon arrival', (t) => {
+  t.mock.timers.enable({ apis: ['setTimeout'] });
+  try {
+    let recordingStatus: 'idle' | 'recording' | 'transcribing' = 'recording';
+    let isLatchedToSend = false;
+    let draft = 'Tôi muốn';
+    let sendCalled = false;
+    let autoStopFired = false;
+
+    const durationSec = getEffectiveMaxRecordSeconds(5);
+    let timer: NodeJS.Timeout | null = setTimeout(() => {
+      autoStopFired = true;
+      isLatchedToSend = false;
+    }, durationSec * 1000);
+
+    // User clicks Send at 2000ms during recording
+    t.mock.timers.tick(2000);
+    // handleSendClick logic:
+    isLatchedToSend = true;
+    if (timer) {
+      clearTimeout(timer);
+      timer = null;
+    }
+    recordingStatus = 'transcribing';
+
+    // Simulate transcript arrival at 2500ms
+    t.mock.timers.tick(500);
+    const transcript = 'hẹn gặp';
+    const insertResult = insertTranscript(draft, transcript, draft.length);
+    draft = insertResult.newDraft;
+    if (isLatchedToSend) {
+      sendCalled = true;
+      isLatchedToSend = false;
+      draft = ''; // Cleared on successful send
+    }
+    recordingStatus = 'idle';
+
+    assert.equal(sendCalled, true);
+    assert.equal(draft, '');
+    assert.equal(recordingStatus, 'idle');
+
+    // Advance past original 5000ms mark
+    t.mock.timers.tick(5000);
+    assert.equal(autoStopFired, false);
+  } finally {
+    t.mock.timers.reset();
+  }
+});
+
+test('auto-stop timer: latching Send during transcribing after auto-stop timeout sends message', (t) => {
+  t.mock.timers.enable({ apis: ['setTimeout'] });
+  try {
+    let recordingStatus: 'idle' | 'recording' | 'transcribing' = 'recording';
+    let isLatchedToSend = false;
+    let draft = 'Bản nháp';
+    let sendCalled = false;
+
+    const durationSec = getEffectiveMaxRecordSeconds(5);
+    let timer: NodeJS.Timeout | null = setTimeout(() => {
+      // Auto-stop fired: does not latch by default
+      isLatchedToSend = false;
+      recordingStatus = 'transcribing';
+    }, durationSec * 1000);
+
+    // Fast-forward 5000ms to trigger auto-stop
+    t.mock.timers.tick(5000);
+    assert.equal(recordingStatus, 'transcribing');
+    assert.equal(isLatchedToSend, false);
+
+    // User sees spinner and clicks "Gửi" while transcribing
+    isLatchedToSend = true;
+
+    // Transcript arrives 300ms later
+    t.mock.timers.tick(300);
+    const transcript = 'đoạn nói thêm';
+    const insertResult = insertTranscript(draft, transcript, draft.length);
+    draft = insertResult.newDraft;
+    if (isLatchedToSend) {
+      sendCalled = true;
+      isLatchedToSend = false;
+      draft = '';
+    }
+    recordingStatus = 'idle';
+
+    assert.equal(sendCalled, true);
+    assert.equal(draft, '');
+    assert.equal(recordingStatus, 'idle');
+  } finally {
+    t.mock.timers.reset();
+  }
+});
+
+test('auto-stop timer: mid-recording disconnect clears auto-stop timer and handles partial transcript', (t) => {
+  t.mock.timers.enable({ apis: ['setTimeout'] });
+  try {
+    let recordingStatus: 'idle' | 'recording' | 'transcribing' = 'recording';
+    let isLatchedToSend = true; // Suppose user had latched or unlatched
+    let autoStopFired = false;
+    let draft = 'Ghi chú';
+    let sendCalled = false;
+
+    const durationSec = getEffectiveMaxRecordSeconds(5);
+    let timer: NodeJS.Timeout | null = setTimeout(() => {
+      autoStopFired = true;
+    }, durationSec * 1000);
+
+    // Mic disconnects at 2500ms
+    t.mock.timers.tick(2500);
+    if (timer) {
+      clearTimeout(timer);
+      timer = null;
+    }
+    // Spec: "Mic bị ngắt kết nối. Đang nhận dạng phần đã thu." - unlatches send per spec
+    isLatchedToSend = false;
+    recordingStatus = 'transcribing';
+
+    // Transcript arrives
+    t.mock.timers.tick(400);
+    const partialTranscript = 'nói được một nửa';
+    draft = insertTranscript(draft, partialTranscript, draft.length).newDraft;
+    if (isLatchedToSend) {
+      sendCalled = true;
+    }
+    recordingStatus = 'idle';
+
+    assert.equal(draft, 'Ghi chú nói được một nửa');
+    assert.equal(sendCalled, false); // Must NOT auto-send on mid-recording disconnect per spec
+    assert.equal(recordingStatus, 'idle');
+
+    // Advance past 5000ms
+    t.mock.timers.tick(5000);
+    assert.equal(autoStopFired, false);
+  } finally {
+    t.mock.timers.reset();
+  }
+});

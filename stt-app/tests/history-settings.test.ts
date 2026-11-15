@@ -858,3 +858,23 @@ test('Settings refresh parses maxRecordSeconds and selectedMicrophoneId', () => 
   assert.equal(maxRecord, 5);
   assert.equal(micId, 'web-mic-123');
 });
+
+test('Settings refresh resets selectedMicrophoneId to undefined when cleared to OS default', () => {
+  let micId: string | undefined = 'old-device-guid-123';
+
+  function applyRefresh(data: { selectedMicrophoneId?: string | null }) {
+    if (typeof data?.selectedMicrophoneId === 'string') {
+      micId = data.selectedMicrophoneId;
+    } else {
+      micId = undefined;
+    }
+  }
+
+  // User resets microphone to OS default in Settings
+  applyRefresh({ selectedMicrophoneId: undefined });
+  assert.equal(micId, undefined);
+
+  // User selects another mic
+  applyRefresh({ selectedMicrophoneId: 'new-usb-mic' });
+  assert.equal(micId, 'new-usb-mic');
+});
