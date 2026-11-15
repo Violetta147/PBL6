@@ -55,10 +55,10 @@ Chi tiết file và nguồn nằm ở phần tra cứu cuối **chính tài li�
 
 [▶ Nghe WAV mẫu](../data/derived/stt_b01_b03/train/18182759805207678941.wav)
 
-| | Transcript mẫu đã lưu |
-|---|---|
+|           | Transcript mẫu đã lưu                                                   |
+| --------- | ----------------------------------------------------------------------- |
 | Reference | Những **cây** này nhìn giống cây **cọ** nhỏ có tán **lá** sắc **nhọn**. |
-| Whisper | Những **cái** này nhìn giống cây **cộ** nhỏ có tán **là** sắc **nhỏ**. |
+| Whisper   | Những **cái** này nhìn giống cây **cộ** nhỏ có tán **là** sắc **nhỏ**.  |
 
 **4 lỗi / 13 đơn vị = WER_ws 30,77%** cho mẫu này.  
 Cả pilot 10 câu: WER_ws **36,88%**, CER **20,39%** — phạm vi khác.

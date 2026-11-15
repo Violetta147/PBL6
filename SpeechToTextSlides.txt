@@ -1,0 +1,325 @@
+GIAI ĐOẠN 1
+Data Understanding & Light Cleaning
+Thành phần dữ liệu Speech-to-Text
+1. Audio (Tệp âm thanh)
+File âm thanh chứa giọng nói của con người (sóng âm thanh tín hiệu tương tự được số hóa).
+2. Transcript (Văn bản)
+Văn bản tương ứng phản ánh chính xác nội dung được nói trong tệp âm thanh.
+Minh họa một mẫu dữ liệu (Data Sample)
+AUDIO FILE studio_M2.wav
+DURATION 2,38 giây
+SAMPLE RATE 44100 Hz
+TRANSCRIPT 		Channels: Mono (1 kênh)
+"Anh vẫn có thể làm trọng tài."
+Đồ thị biểu diễn biên độ của tín hiệu âm thanh theo thời gian
+
+GIAI ĐOẠN 1
+BƯỚC 1: Data Collection – Thu thập dữ liệu
+Mục tiêu & Nguồn dữ liệu
+Tạo tập dữ liệu bao gồm các cặp audio–transcript chính xác, đảm bảo tính hợp lệ và đa dạng.
+Nguồn dữ liệu:
+• Bộ dữ liệu công khai: Mozilla Common Voice, Google FLEURS,...
+• Bản ghi âm có sự đồng ý của người tham gia.
+• Dữ liệu do nhóm tự thu thập theo kịch bản.
+Yêu cầu với tiếng Việt:
+• Đa dạng vùng miền, giọng nói (Bắc, Trung, Nam).
+• Cân bằng về giới tính, độ tuổi và tốc độ nói.
+• Môi trường thu âm (yên tĩnh, có tiếng ồn nhiễu).
+• Ghi nhận nguồn, giấy phép & cách thức thu thập.
+Cấu trúc lưu trữ & Metadata
+dataset/
+├── audio/
+│ ├── audio_001.wav
+│ ├── audio_002.wav
+│ └── audio_003.wav
+└── metadata.csv
+Ví dụ file metadata.csv:
+audio_path
+transcript
+audio_001.wav
+Xin chào mọi người
+audio_002.wav
+Hôm nay là thứ hai
+audio_003.wav
+Tôi đang học máy
+
+GIAI ĐOẠN 1
+BƯỚC 2: Light Cleaning – Làm sạch dữ liệu cơ bản
+Các tiêu chí lọc & loại bỏ
+Loại bỏ những dữ liệu rõ ràng không thể sử dụng để đảm bảo chất lượng huấn luyện.
+1. File âm thanh rỗng hoặc bị hỏng
+• Kiểm tra file có tồn tại, đọc được và chứa dữ liệu.
+• Loại bỏ những file rỗng hoặc không thể giải mã.
+2. Audio không có transcript
+• Tìm các bản ghi thiếu transcript hoặc transcript rỗng.
+• Phát hiện đường dẫn file audio không chính xác.
+3. Dữ liệu trùng lặp
+• Phát hiện bản ghi trùng nhau khi gộp nhiều nguồn.
+Lưu ý quan trọng khi làm sạch
+Xử lý trùng lặp thông minh
+• Không nên xóa các bản ghi chỉ vì chúng có cùng transcript.
+• Nếu âm thanh khác nhau (giọng nói, môi trường khác nhau), đó vẫn là dữ liệu giá trị cho mô hình.
+• Chỉ loại bỏ khi cả audio và transcript hoàn toàn trùng lặp.
+Giữ lại độ đa dạng thực tế (Robustness)
+• Không nên loại bỏ tất cả âm thanh có tiếng ồn nhiễu hoặc giọng địa phương.
+• Dữ liệu nhiễu nhẹ và đa dạng vùng miền giúp mô hình hoạt động tốt hơn trong điều kiện thực tế.
+• Chỉ lọc bỏ những file hoàn toàn không nghe rõ hoặc bị lỗi kỹ thuật.
+
+GIAI ĐOẠN 1
+BƯỚC 3: Logic Check – Kiểm tra tính hợp lệ
+Tiêu chí & Cách xử lý
+Kiểm tra xem dữ liệu có hợp lý về mặt kỹ thuật và ngữ nghĩa hay không.
+Tiêu chí
+Ví dụ vấn đề
+Cách xử lý
+Duration
+Audio dài 0 giây
+Loại bỏ
+Sample rate
+Giá trị không hợp lệ
+Kiểm tra hoặc loại bỏ
+Channels
+Có cả mono và stereo
+Ghi nhận; chuyển đổi ở GĐ3
+Transcript
+Audio tiếng Việt nhưng transcript không liên quan
+Đánh dấu để kiểm tra
+Alignment
+Audio 3 giây, transcript dài bất thường
+Đánh dấu để nghe lại
+Clipping
+Âm thanh bị méo do mức ghi âm quá cao
+Đánh giá chất lượng
+Lưu ý quan trọng
+Tương quan Thời lượng & Transcript
+• Thời lượng âm thanh và độ dài transcript có liên hệ với nhau.
+• Tuy nhiên, không có một tỷ lệ cố định cho mọi người nói (do tốc độ nói, khoảng lặng khác nhau).
+• Các bản ghi bất thường cần được đánh dấu và kiểm tra kỹ lưỡng trước khi đưa ra quyết định loại bỏ.
+
+GIAI ĐOẠN 1
+BƯỚC 4: Data Convention – Quy ước dữ liệu
+1. Quy ước metadata Audio
+Ghi nhận định dạng gốc và yêu cầu đầu vào của mô hình trước khi tiền xử lý.
+Metadata cần ghi nhận:
+• Sample rate gốc của từng file
+• Số kênh, thời lượng và định dạng file
+Ranh giới với Giai đoạn 3
+• Ở đây chỉ kiểm tra và ghi nhận thông số audio gốc.
+• Resample và chuyển mono theo yêu cầu mô hình thực hiện ở GĐ3.
+• Giữ bản gốc để tránh chuyển đổi lặp lại.
+2. Quy ước Transcript
+Ví dụ quy ước:
+Bản gốc: "XIN CHÀO MỌI NGƯỜI!"
+Bản dùng cho mô hình: tạo ở GĐ3
+Quy tắc cần chốt trước khi xử lý:
+• Lưu transcript gốc; xác định chuẩn Unicode, chữ hoa và dấu câu.
+• Giữ đúng dấu thanh và các từ thực sự được nói.
+• Áp dụng quy tắc nhất quán ở GĐ3, không sửa làm lệch nghĩa.
+
+GIAI ĐOẠN 2
+Exploratory Data Analysis (EDA) cho Speech-to-Text
+Phân tích đặc điểm dữ liệu âm thanh và transcript nhằm xác định độ phù hợp, phát hiện vấn đề chất lượng để tối ưu hóa hiệu suất mô hình nhận dạng giọng nói.
+01
+1. Dataset Overview
+Khảo sát tổng quan bộ dữ liệu:
+• Quy mô: Số lượng audio & tổng giờ ghi âm.
+• Đối tượng: Số lượng người nói (speakers).
+• Ngôn ngữ: Phân bố ngôn ngữ / ngữ cảnh.
+• Kế hoạch chia: Theo speaker / nguồn ở GĐ3.
+02
+2. Audio Analysis
+Phân tích thông số kỹ thuật âm thanh:
+• Đặc tính: Thời lượng, sample rate, số kênh.
+• Âm lượng: Phân phối tín hiệu & độ lớn.
+• Chất lượng: Mức độ khoảng lặng (silence).
+• Môi trường: Tỷ lệ nhiễu nền (noise level).
+03
+3. Transcript Analysis
+Phân tích đặc trưng văn bản:
+• Độ dài: Phân phối số từ & ký tự transcript.
+• Từ vựng: Mật độ & tần suất xuất hiện từ.
+• Ký tự: Dấu câu & các ký tự đặc biệt.
+• Tần suất: Phát hiện câu lặp lại nhiều lần.
+04
+4. Audio–Text Alignment (Tương ứng chuỗi)
+Kiểm tra độ khớp giữa Audio và Transcript:
+• Độ khớp Alignment: Phát hiện các bản ghi bị lệch âm / thiếu chữ.
+• Gán nhầm nhãn: Nhận diện transcript không đúng nội dung giọng nói.
+• Khoảng lặng thừa: Đánh dấu mẫu nghi vấn để nghe lại.
+05
+5. Outlier & Dataset Bias Analysis
+Phát hiện mẫu bất thường & thiên vị dữ liệu:
+• Outliers: Phát hiện các mẫu âm thanh/văn bản dị biệt kỳ lạ.
+• Mất cân bằng Speaker: Lệch giới tính, độ tuổi hoặc vùng miền (Bắc/Trung/Nam).
+• Điều kiện thu âm: Thiên vị thiết bị thu (mic xịn vs mic điện thoại, mộc vs phòng thu).
+
+GIAI ĐOẠN 2
+2. Những chỉ số quan trọng cần phân tích
+Giả sử chúng ta có một bộ dữ liệu gồm các bản ghi tiếng Việt và transcript tương ứng.
+Nhóm
+Chỉ số
+Mục đích
+Dataset
+Tổng số giờ audio
+Đánh giá quy mô dữ liệu
+Audio
+Duration
+Phát hiện audio quá ngắn hoặc quá dài
+Audio
+Sample rate
+Kiểm tra sự nhất quán về tần số lấy mẫu
+Audio
+Silence ratio
+Xác định audio chứa nhiều khoảng lặng
+Audio
+SNR
+Ước lượng chất lượng tín hiệu so với nhiễu
+Text
+Transcript length
+Phân tích độ dài câu
+Text
+Vocabulary
+Khảo sát sự đa dạng từ vựng
+Audio–Text
+Speaking rate
+Phát hiện các cặp audio–text bất thường
+Dataset
+Speaker distribution
+Đánh giá mức độ cân bằng người nói
+Lưu ý quan trọng
+Bản chất của các phép đo
+• Một số chỉ số như SNR và speaking rate chỉ là phép ước lượng.
+• Chúng không thể tự xác nhận một bản ghi hoặc transcript đúng hay sai.
+• Cần kết hợp quan sát trực quan và các bước phân tích sâu hơn trước khi đưa ra quyết định loại bỏ dữ liệu.
+
+GIAI ĐOẠN 3
+Data Preprocessing & Dataset Splitting cho Speech-to-Text (STT)
+1. Raw Audio + Text
+Dữ liệu sau EDA
+2. Dataset Splitting
+Theo speaker / nguồn
+3. Audio Preprocessing
+Resample, mono, VAD
+4. Text Normalization
+Theo quy ước GĐ1
+5. Clean Split Dataset
+Chuyển sang GĐ4
+3.1. Dataset Splitting
+• Chia Train / Validation / Test theo speaker hoặc nguồn.
+• Chia trước augmentation và trước khi tính thống kê chuẩn hóa.
+• Giữ Test riêng cho đánh giá cuối.
+3.2. Audio Preprocessing
+• Resample và chuyển mono nếu mô hình yêu cầu.
+• Dùng VAD, chia bản ghi dài và căn transcript theo đoạn.
+• Giữ bản gốc, kiểm tra tín hiệu sau biến đổi.
+3.3. Text Normalization
+• Áp dụng thống nhất quy tắc chữ hoa, dấu câu, khoảng trắng và chữ số.
+• Giữ đúng dấu thanh và nội dung được nói.
+Raw: "HÔM NAY... "
+Clean: "hôm nay"
+3.4. Kiểm tra sau tiền xử lý
+• Xác nhận mỗi đoạn audio còn khớp transcript.
+• Kiểm tra độ dài, lỗi đọc file và tỷ lệ khoảng lặng.
+• Chuyển việc tạo đặc trưng và token sang GĐ4.
+3.5. Bàn giao sang Giai đoạn 4
+• Giữ nguyên nhãn Train / Validation / Test theo từng mẫu.
+• Ghi lại phép biến đổi để tái lập dữ liệu.
+• Augmentation chỉ áp dụng cho Train ở GĐ4.
+
+GIAI ĐOẠN 4
+Feature Extraction & Tokenization cho Speech-to-Text (STT)
+Chuyển đổi dữ liệu âm thanh đã tiền xử lý từ các giai đoạn trước thành dạng biểu diễn phù hợp để mô hình Machine Learning hoặc Deep Learning có thể học tối ưu.
+4.1. Biểu diễn âm thanh
+• Waveform: Biểu diễn biên độ theo thời gian. Mô hình như Wav2Vec 2.0 có thể học trực tiếp.
+• Spectrogram: Biểu diễn năng lượng các tần số theo thời gian qua STFT.
+• Log-Mel Spectrogram: Dùng thang tần số Mel & logarit, phổ biến nhất (Whisper, CNN-RNN).
+• MFCC: Hệ số đặc trưng âm học cho ML truyền thống (HMM-GMM).
+Mô hình STT
+Dạng đầu vào tương ứng
+HMM-GMM truyền thống
+MFCC
+CNN / CNN-RNN / Whisper
+Log-Mel Spectrogram (theo cấu hình chuẩn)
+Wav2Vec 2.0 / HuBERT
+Raw waveform
+• Lưu ý quan trọng: Khi sử dụng mô hình pretrained, bắt buộc dùng chính feature extractor / processor tương ứng với checkpoint thay vì tự đặt lại các thông số.
+4.2. Chuẩn bị đầu vào mô hình
+• Transcript tokenization: Chuyển đổi văn bản thành token, ký tự hoặc subwords tùy theo kiến trúc mô hình.
+• Padding & Attention mask: Xử lý các mẫu âm thanh có độ dài khác nhau để đồng bộ hóa kích thước đầu vào theo batch.
+• Feature normalization: Chuẩn hóa đặc trưng bằng các thống kê chỉ tính riêng từ tập huấn luyện (Train set).
+• Data augmentation: Chỉ áp dụng cho Train; giữ nguyên Validation / Test.
+
+GIAI ĐOẠN 5
+Model Training / Fine-tuning & Pretrained STT
+Hai nhánh cùng nhận dữ liệu từ GĐ4: huấn luyện hoặc fine-tune mô hình; hoặc dùng checkpoint pretrained để suy luận. Cả hai chuyển sang đánh giá ở GĐ6.
+1. Model-ready Data
+Đầu vào từ GĐ4
+2. Chọn nhánh
+Huấn luyện / pretrained
+3. Xây dựng mô hình
+Train / fine-tune
+4. Suy luận baseline
+Checkpoint sẵn có
+5. Validation
+Chuyển sang GĐ6
+5.1. Hai nhánh mô hình
+• Nhánh A: Huấn luyện từ đầu hoặc fine-tune checkpoint.
+• Nhánh B: Dùng checkpoint pretrained để suy luận baseline.
+• Cả hai dùng cùng cách chia dữ liệu và quy tắc transcript.
+• Chỉ so sánh khi cách tính WER / CER giống nhau.
+5.2. Train / Fine-tune
+• Chỉ dùng Train để cập nhật trọng số mô hình.
+• Validation theo dõi chất lượng và chọn checkpoint.
+• Lưu seed, cấu hình, dữ liệu và phiên bản processor.
+• Giữ Test tách biệt đến GĐ6.
+5.3. Pretrained Baseline
+• Nạp checkpoint cùng processor / tokenizer tương ứng.
+• Chạy suy luận trên Validation để có mốc so sánh.
+• Không cập nhật trọng số ở nhánh baseline.
+• Ghi lại cấu hình decoding và phiên bản mô hình.
+5.4. Chọn mô hình
+• So sánh các nhánh bằng WER / CER trên Validation.
+• Cân nhắc độ trễ và chi phí suy luận theo mục tiêu.
+• Chốt checkpoint và cấu hình trước khi mở Test.
+5.5. Bàn giao cho GĐ6
+• Bàn giao checkpoint, processor và cấu hình decoding.
+• Ghi rõ nhánh train / fine-tune hay pretrained baseline.
+• GĐ6 phân tích lỗi trên Validation, rồi đánh giá Test cuối.
+
+GIAI ĐOẠN 6
+Model Evaluation & Optimization cho Speech-to-Text (STT)
+Đánh giá, phân tích lỗi và tối ưu hóa mô hình STT đã chọn nhằm xác định nguyên nhân sai sót, nâng cao độ chính xác và đảm bảo hiệu suất thực tế.
+1. Selected STT Model
+Đầu vào từ GĐ5
+2. Model Evaluation
+Đo WER & CER
+3. Error Analysis
+Phân loại nguyên nhân
+4. Hyperparameter Tuning
+Tối ưu tham số
+5. Final Testing
+Test giữ riêng
+6.1. Model Evaluation (Chỉ số)
+• WER (Word Error Rate): Tỷ lệ lỗi cấp độ từ. WER = (S + D + I) / N.
+• CER (Character Error Rate): Tỷ lệ lỗi cấp độ ký tự (quan trọng cho tiếng Việt).
+• Tiêu chuẩn: Cả WER và CER đều càng thấp càng tốt.
+• Yếu tố thực tế: Đo lường tốc độ xử lý, độ trễ và khả năng chống chịu tiếng ồn.
+6.2. Error Analysis (Phân tích lỗi)
+• Dấu thanh & Ngữ âm: Nhận diện sai lệch "bán" → "ban".
+• Phương ngữ: Kiểm tra độ chính xác theo giọng Bắc / Trung / Nam.
+• Nhiễu & Miền dữ liệu: Phân tích tác động tiếng ồn & từ chuyên ngành.
+• Phương pháp: Chia tập Validation theo speaker, môi trường để tính WER riêng.
+6.3. Visualizing WER Example
+Ví dụ lỗi Substitution (Thay thế):
+GT: "Hôm nay tôi đi học"
+Pred: "Hôm nay tôi đi chơi"
+• Lỗi: 1 từ sai (S=1) / 5 từ gốc (N=5).
+• Kết quả: WER = 20% (Cần bổ sung dữ liệu/decoding).
+6.4. Hyperparameter Tuning
+• Tham số tinh chỉnh: Learning rate, batch size, epochs và LM decoding weight.
+• Nguyên tắc cô lập: Chỉ thay đổi 1 nhóm tham số trong mỗi thử nghiệm để xác định chính xác hiệu quả.
+• Tập dữ liệu: Chọn cấu hình bằng Validation; chỉ dùng Test một lần để báo cáo cuối.
+6.5. Robustness & RTF Testing
+• Real-Time Factor (RTF): RTF = Process_Time / Audio_Duration.
+• Ví dụ RTF: Xử lý 10s audio trong 2s → RTF = 0.2 (< 1.0 đảm bảo tốc độ xử lý nhanh hơn thời gian thực).
+• Robustness Checklist: Kiểm thử nhiễu nền, mộc vs phòng thu, cắt đoạn VAD và độ trễ streaming.

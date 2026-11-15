@@ -2,12 +2,12 @@
 marp: true
 theme: default
 size: 16:9
-paginate: false
+paginate: true
 lang: vi
 title: Nhận dạng tiếng Việt trên Raspberry Pi 4
 backgroundImage: url("themes/dut/content.png")
 footer: PBL6 · Báo cáo tiến độ STT
-style: |
+style: |-
   section {
     font-family: Arial, sans-serif;
     color: #14364e;
@@ -57,10 +57,7 @@ style: |
 
 **Báo cáo tiến độ luồng Speech To Text**
 
-Phần phụ đề cho đề tài hỗ trợ giao tiếp bằng kính thông minh.
-
-Nguyễn Hữu Minh Quân  
-GVHD: TS. Ninh Khánh Duy
+Phần phụ đề cho đề tài thiết bị hỗ trợ giao tiếp cho người khiếm khuyết
 
 <!--
 Báo cáo phần STT do Nguyễn Hữu Minh Quân thực hiện; thông tin GVHD lấy từ mẫu người dùng cung cấp. Mở đầu: “Em phụ trách phần nhận dạng tiếng nói tiếng Việt cho hướng kính thông minh. Bốn buổi đầu giúp em hiểu đầu ra của model, so các cấu hình có sẵn và thử ứng viên trên Pi thật. Hiện mới chạy được WAV thành chữ; phần audio liên tục và hiển thị còn là bước tiếp theo.”
@@ -76,7 +73,7 @@ Phạm vi là đề tài học tập, một người thực hiện. Chưa huấn
 
 Phần STT cần chuyển lời nói tiếng Việt thành chữ để hiển thị phụ đề.
 
-Câu hỏi hiện tại là cấu hình có sẵn nào cho ít lỗi và chạy được trên Pi 4. Đề tài chưa huấn luyện lại model; trước hết thử WAV, sau đó mới nhận audio đến dần.
+**Câu hỏi hiện tại là cấu hình nào có sẵn cho ít lỗi và chạy được trên Rasberry Pi của nhóm. Đề tài chưa đi sâu vào nghiên cứu so với SLR; trước hết thử Offline Recognition với file WAV, sau đó mới nhận stream audio liên tục.**
 
 <!--
 Baseline là cấu hình ban đầu để đối chiếu. B01 dùng Whisper-base trên 10 câu pilot từ FLEURS train, chỉ inference, không huấn luyện. B02 so Whisper-base và Zipformer trên FLEURS dev100. B03 thêm Qwen trên cùng dev100, sau đó so cả ba trên self dev20. B04 đo Pi.
@@ -88,13 +85,13 @@ Baseline là cấu hình ban đầu để đối chiếu. B01 dùng Whisper-base
 
 ## Model và runtime
 
-ASR là bài toán nhận dạng tiếng nói thành văn bản. Model đã học mối liên hệ giữa âm thanh và chữ; runtime là phần mềm thực thi model.
+ASR là bài toán nhận dạng tiếng nói thành văn bản. Model học mối liên hệ giữa âm thanh và chữ; runtime là thư viện dùng để chạy model.
 
-| Cấu hình | Nơi chạy |
-|---|---|
-| Whisper-base / openai-whisper | CPU laptop |
+| Cấu hình                         | Nơi chạy         |
+| -------------------------------- | ---------------- |
+| Whisper-base / openai-whisper    | CPU laptop       |
 | Zipformer-30M INT8 / sherpa-onnx | CPU laptop và Pi |
-| Qwen3-ASR-0.6B / Transformers | A100 trên Colab |
+| Qwen3-ASR-0.6B / Transformers    | A100 trên Colab  |
 
 <!--
 Whisper-base là baseline đa ngôn ngữ, Zipformer là ứng viên tiếng Việt nhỏ cho CPU; Qwen là model mới để đối chiếu. Các hệ thống khác checkpoint, dữ liệu train, kích cỡ và runtime, chưa cô lập riêng kiến trúc. Nguồn: cấu hình từng run và Hugging Face Audio Course.
@@ -104,14 +101,14 @@ Whisper-base là baseline đa ngôn ngữ, Zipformer là ứng viên tiếng Vi�
 
 ## Chuẩn bị đầu vào WAV
 
-| Nguồn | Xử lý trước khi chạy model |
-|---|---|
-| FLEURS | WAV float → PCM16; giữ mono 16 kHz |
-| Điện thoại | M4A → WAV PCM16, mono 16 kHz |
-| Cả hai | Kiểm tra định dạng, thời lượng; lưu ID, nhãn và hash |
+| Nguồn             | Xử lý trước khi chạy model                           |
+| ----------------- | ---------------------------------------------------- |
+| Dataset FLEURS-vi | WAV float32 → PCM16; giữ mono, 16 kHz                |
+| Điện thoại        | M4A float32 → PCM16, giữ mono, 48kHz→16 kHz          |
+| Cả hai            | Kiểm tra định dạng, thời lượng; lưu ID, nhãn và hash |
 
-Mono là một kênh âm thanh; 16 kHz là 16.000 mẫu/giây; PCM16 lưu mỗi mẫu bằng 16 bit.
-
+Mono là sử dụng một kênh âm thanh; 16 kHz là 16.000 mẫu/giây; PCM16 lưu mỗi mẫu bằng 16 bit.
+![width:1200px](<Pasted image 20261015123604.png>)
 Giữ nguyên tiếng nền và khoảng nghỉ; chưa khử nhiễu hay dùng VAD. Các nhánh nhận cùng bản WAV đã kiểm tra.
 
 <!--
@@ -152,7 +149,7 @@ Nguồn sơ đồ Mermaid: diagrams/slides_overview.mmd. Nhúng SVG đã render 
 
 S là số đơn vị bị thay, D bị xóa, I bị chèn. N là số đơn vị trong nhãn chuẩn.
 
-Ở đây mỗi đơn vị được tách bằng khoảng trắng, thường là một tiếng trong tiếng Việt. Chưa dùng bộ tách từ.
+Ở đây mỗi đơn vị được tách bằng khoảng trắng, mặc định là một tiếng trong tiếng Việt. Không dùng bộ tách từ.
 
 <!--
 WER_ws dùng tổng số lỗi thay/xóa/chèn chia tổng đơn vị reference trên tập, không lấy trung bình đơn giản từng câu. Có thể vượt 100% nếu chèn nhiều. Reference rỗng cần kiểm tra riêng; không chia cho 0. Nguồn: experiments/common.py và https://jitsi.github.io/jiwer/usage/.
@@ -166,9 +163,9 @@ WER_ws dùng tổng số lỗi thay/xóa/chèn chia tổng đơn vị reference 
 
 **CER = (S_c + D_c + I_c) / C × 100%**
 
-Các lỗi được đếm theo ký tự; C là số ký tự của nhãn chuẩn sau bỏ khoảng trắng.
+Các lỗi được đếm theo ký tự; C là số ký tự của nhãn chuẩn không tính khoảng trắng.
 
-Nhãn và đầu ra cùng chuẩn hóa NFC, chữ thường và dấu câu. Dấu tiếng Việt vẫn được giữ.
+Nhãn và đầu ra cùng chuẩn hóa NFC Unicode, chữ thường và dấu câu. Dấu tiếng Việt vẫn được giữ.
 
 <!--
 S_c, D_c, I_c là lỗi thay/xóa/chèn theo ký tự. Quy tắc bỏ khoảng trắng là quy tắc của dự án. NFC gom các biểu diễn Unicode tương đương; không sửa nội dung. Ví dụ riêng cọ nhận thành cộ: 1/1 tiếng sai và 1/2 ký tự sai, WER_ws 100%, CER 50%. Đây là minh họa, không phải điểm corpus. Code trả về tỷ lệ 0–1, slide nhân 100 để hiển thị phần trăm.
@@ -178,7 +175,7 @@ S_c, D_c, I_c là lỗi thay/xóa/chèn theo ký tự. Quy tắc bỏ khoảng t
 
 <!-- _class: example -->
 
-## Đối chiếu lỗi nhận dạng · B01
+## Pilot test pipeline và Đối chiếu lỗi nhận dạng · Thí nghiệm B01
 
 | Nhãn chuẩn | Whisper |
 |---|---|
@@ -187,7 +184,7 @@ S_c, D_c, I_c là lỗi thay/xóa/chèn theo ký tự. Quy tắc bỏ khoảng t
 | lá | là |
 | nhọn | nhỏ |
 
-Mẫu này có **4 lỗi thay trên 13 đơn vị**, nên WER_ws là **30,77%**.
+Mẫu này có **4 lỗi "thay thế" trên 13 đơn vị**, nên WER_ws là **30,77%**.
 
 [Nghe câu mẫu](../data/derived/stt_b01_b03/train/18182759805207678941.wav)
 
@@ -205,11 +202,11 @@ Chuẩn hóa chung: Unicode NFC, chữ thường, dấu câu thành khoảng tr�
 
 <!-- _class: chart -->
 
-## Chất lượng trên FLEURS · B02–B03
+## Chất lượng trên FLEURS ·  Thí nghiệm B02–B03
 
 ![Kết quả ba cấu hình trên FLEURS dev100](figures/fleurs_dev100.png)
 
-Zipformer có điểm lỗi thấp nhất trên 100 câu này. Biểu đồ so chất lượng, chưa so tốc độ CPU với GPU.
+Zipformer có điểm lỗi thấp nhất trên 100 câu từ tập dev(validatation). Biểu đồ so chất lượng, chưa so tốc độ CPU với GPU.
 
 <!--
 Vì sao chọn ba cấu hình: Whisper-base là baseline đa ngôn ngữ quen thuộc; Zipformer-30M INT8 là ứng viên tiếng Việt nhỏ chạy CPU; Qwen3-ASR-0.6B là hướng model mới để đối chiếu. Dùng model có sẵn giúp tập trung học đánh giá và tích hợp trong thời gian đề tài.
@@ -231,7 +228,7 @@ Nguồn: ../experiments/B03/results/summary.csv. Hình đọc CSV đã lưu; rec
 
 ![Kết quả ba cấu hình trên audio tự thu](figures/self_dev20.png)
 
-20 câu do một người đọc bằng Galaxy M15, cách khoảng 30 cm: 2 câu phòng ngủ, 18 câu cà phê. Bộ nhỏ nên chưa đại diện hội thoại thực tế.
+20 câu do một người đọc bằng Galaxy M15, cách khoảng 30 cm: 2 câu ở phòng ngủ, 18 câu ở quán cà phê. Quy mô nhỏ nên chưa đại diện hội thoại thực tế.
 
 <!--
 Vì sao thêm self dev20: FLEURS là lời đọc từ bộ public; audio tự thu kiểm tra thêm thiết bị và tiếng nền gần điều kiện thực hành. Không gộp điểm hai bộ thành một hoặc suy ra “cà phê dễ hơn FLEURS”, vì nội dung, độ dài và người nói khác nhau.

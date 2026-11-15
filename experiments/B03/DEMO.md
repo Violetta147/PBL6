@@ -2,13 +2,13 @@
 
 Qwen đã chạy trên Colab A100-SXM4-40GB, Transformers bfloat16, batch 1, ngôn ngữ Vietnamese; không huấn luyện. Lần chạy `qwen_gpu_20261010_023946` được giữ trên Drive. Hai baseline là kết quả CPU laptop đã đo, được dùng lại nguyên vẹn. Prediction và metadata Qwen được sao lưu tại `results/`; bảng sinh lại local trùng summary Colab.
 
-| Checkpoint/runtime đã đo | Thiết bị | WER_ws | CER | Hoàn tất |
-|---|---|---:|---:|---:|
-| Whisper-base đa ngôn ngữ, openai-whisper | CPU laptop | 49,3743% | 33,9208% | 100/100 |
-| Zipformer-30M, sherpa-onnx offline ONNX INT8 | CPU laptop | 7,5080% | 5,3494% | 100/100 |
-| Qwen3-ASR-0.6B, qwen-asr Transformers | A100 Colab | 9,7605% | 6,2771% | 100/100 |
+| Checkpoint/runtime đã đo                     | Thiết bị   |   WER_ws |      CER | Hoàn tất |
+| -------------------------------------------- | ---------- | -------: | -------: | -------: |
+| Whisper-base đa ngôn ngữ, openai-whisper     | CPU laptop | 49,3743% | 33,9208% |  100/100 |
+| Zipformer-30M, sherpa-onnx offline ONNX INT8 | CPU laptop |  7,5080% |  5,3494% |  100/100 |
+| Qwen3-ASR-0.6B, qwen-asr Transformers        | A100 Colab |  9,7605% |  6,2771% |  100/100 |
 
-Cùng 2.797 đơn vị reference và 9.702 ký tự; giữ dấu/chữ số, cùng chuẩn hóa và WAV. Đã kiểm tra ID, audio/reference hash, signature mã/manifest và chấm lại bằng JiWER. Bằng chứng ở [verification.json](../verification.json), [source.json](results/source.json) và [comparison.csv](results/comparison.csv). `false_captions_per_minute` trống vì tập này chưa đo audio không có lời nói.
+Cùng 2.797 đơn vị reference và 9.702 ký tự; giữ dấu/chữ số, cùng chuẩn hóa và WAV. Đã kiểm tra ID, audio/reference hash, signature mã/manifest và chấm lại bằng [^1]JiWER. Bằng chứng ở [verification.json](../verification.json), [source.json](results/source.json) và [comparison.csv](results/comparison.csv). `false_captions_per_minute` trống vì tập này chưa đo audio không có lời nói.
 
 Zipformer có tỷ lệ lỗi thấp nhất trong lần đo này. Qwen cao hơn Zipformer 2,2524 điểm phần trăm WER_ws, nhưng lỗi thấp hơn ở 18 câu; Zipformer thấp hơn ở 46 câu, bằng ở 36 câu. Thống kê theo câu chỉ mô tả số lỗi, không phải kiểm định thống kê. Một số ví dụ cho thấy Qwen giữ số viết bằng chữ số và tên riêng tốt hơn. Không thay scorer sau khi xem kết quả; khác biệt `25` và `hai mươi lăm` vẫn tính là lỗi theo quy tắc hiện tại.
 
@@ -49,3 +49,5 @@ Qwen chỉ sai [câu 20](../../data/self_recorded/dev/self_20.wav): reference �
 Gói Zipformer dùng token chữ hoa; Whisper/Qwen giữ cách viết model sinh ra, runner không ép kiểu chữ. Qwen self20 viết thường nhưng FLEURS trước có chữ hoa; không kết luận mọi output Qwen đều viết thường. Scorer dùng lower/NFC trên cả reference/prediction nên chữ hoa/thường không thêm WER/CER. Giữ output gốc; chưa cần thêm phần mềm phục hồi chữ hoa/dấu câu cho nghiên cứu này.
 
 Bộ nhỏ một người đọc, điện thoại cách miệng khoảng 30 cm, 2 câu phòng ngủ/18 câu cà phê. Chênh WER Zipformer/Qwen trên self20 là một lỗi đơn vị, chưa đủ kết luận hơn kém tổng quát. Zipformer vẫn là ứng viên thực tế để đo Pi; chưa cần training. Phần chạy/chấm B01–B03 đã xong, còn tập demo/nghe thêm lỗi và B04 đo Pi; chưa mở test, chưa chứng minh chạy trên kính.
+
+[^1]: JiWER là thư viện Python để tính WER và CER từ reference và prediction

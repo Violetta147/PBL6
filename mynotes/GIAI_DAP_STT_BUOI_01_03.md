@@ -35,7 +35,7 @@ Kiểm tra dấu tiếng việt là sao?
 -> Kiểm tra dấu được giữ và chấm đúng: “cọ” khác “cộ”. Hai cách mã hóa Unicode của cùng một chữ có dấu phải được coi là giống nhau sau NFC.
 Giải thích ngắn gọn lỗi chèn/xóa/thay thế và nhãn rỗng
 -> Chèn: “tôi đi” → “tôi đang đi”; xóa: “tôi đi học” → “tôi học”; thay: “đi” → “về”. Nhãn rỗng là reference không có chữ; khi đó không chia WER cho 0 mà kiểm tra model có sinh chữ khi không có lời nói hay không.
-- [ ] Thu và kiểm tra khoảng 20 câu dev của nhóm, ghi điều kiện và người/phiên; chuẩn bị kế hoạch test tách biệt sẽ được thực hiện như nào?
+- [x] Thu và kiểm tra khoảng 20 câu dev của nhóm, ghi điều kiện và người/phiên; chuẩn bị kế hoạch test tách biệt sẽ được thực hiện như nào?
 -> Thu đủ 20 file riêng, nghe lại và sửa nhãn theo lời thực sự nói; ghi mã người nói, phiên, thiết bị và điều kiện. Giữ bản gốc, chuẩn hóa WAV và tạo manifest trước khi chấm. Test thu ở phiên/người khác khi có thể, để riêng và chưa dùng chọn cấu hình.
 
 C1 là model gì?
