@@ -14,7 +14,7 @@ SAMPLE_CLIP = ROOT / "local_data" / "014159.mp4"
 def find_python():
     candidates = [
         sys.executable,
-        r"C:\Users\LAPTOP T&T\miniconda3\envs\pbl6_slr\python.exe",
+        str(Path.home() / "miniconda3" / "envs" / "pbl6_slr" / "python.exe"),
         str(Path(sys.executable).parents[1] / "envs" / "pbl6_slr" / "python.exe"),
     ]
     for c in candidates:
@@ -28,6 +28,110 @@ def find_python():
     return sys.executable
 
 PYTHON = find_python()
+
+
+def test_preview_client_disconnect():
+    from unittest.mock import Mock
+
+    from demo import make_handler
+
+    handler_type = make_handler(None, b"", "127.0.0.1:8765")
+    handler = object.__new__(handler_type)
+    handler.send_response = Mock()
+    handler.send_header = Mock()
+    handler.end_headers = Mock()
+    handler.wfile = Mock()
+    handler.wfile.write.side_effect = ConnectionAbortedError(10053, "Client disconnected")
+    handler.send_data(b"jpeg", "image/jpeg")
+    assert handler.close_connection
+    print("[PASS] Aborted preview clients close without raising WinError 10053.")
+
+
+def test_manual_sequence_finish():
+    import threading
+    from http.server import ThreadingHTTPServer
+
+    from demo import Demo, make_handler
+
+    demo = object.__new__(Demo)
+    demo.lock = threading.Lock()
+    demo.deadline = None
+    demo.sample = None
+    demo.state = {"phase": "recording", "mode": "sequence"}
+    with ThreadingHTTPServer(("127.0.0.1", 0), make_handler(demo, b"", "127.0.0.1:0")) as server:
+        host = f"127.0.0.1:{server.server_port}"
+        server.RequestHandlerClass = make_handler(demo, b"", host)
+        thread = threading.Thread(target=server.serve_forever, daemon=True)
+        thread.start()
+        try:
+            request = urllib.request.Request(f"http://{host}/finish", data=b"", headers={"X-PBL6": "demo"})
+            with urllib.request.urlopen(request, timeout=2) as response:
+                assert json.load(response)["stop_requested"]
+            try:
+                urllib.request.urlopen(request, timeout=2)
+                assert False, "A second finish request should be rejected"
+            except urllib.error.HTTPError as err:
+                assert err.code == 409
+        finally:
+            server.shutdown()
+            thread.join(timeout=2)
+    demo.deadline = time.monotonic() + 4
+    demo.state = {"phase": "recording", "mode": "single"}
+    assert not demo.finish_recording()
+    print("[PASS] Only an active webcam sequence accepts a single manual finish request.")
+
+
+def test_sequence_result_contract():
+    from types import SimpleNamespace
+    from unittest.mock import patch
+
+    from demo import Demo, recognize_sequence
+
+    def segment(index, gloss, start, end):
+        return {"t_start": start, "t_end": end, "error": None, "prediction": {
+            "top5": [{"index": index, "gloss": gloss, "softmax": 0.95}],
+            "missing_after_pct": 10,
+        }}
+
+    recognizer = SimpleNamespace(config={}, extract_video=lambda path, config: SimpleNamespace(
+        error=None, status="success", decoded_frames=181, arrays={},
+    ))
+    first = segment(86, "Cảm ơn", 14, 65)
+    second = segment(154, "Khăn quàng cổ", 92, 160)
+    third = segment(95, "Dài", 161, 181)
+    raw_bounds = [(14, 65), (92, 135), (140, 151), (161, 181)]
+    for raw_count, length_limited, segments, retry_message in (
+        (2, False, [first, second], None),
+        (3, False, [first, second, third], None),
+        (1, True, [first, second], "Một đoạn dài quá giới hạn nhận dạng."),
+        (2, True, [first, second], "Một đoạn dài quá giới hạn nhận dạng."),
+        (1, False, [first], "Chỉ tìm được một đoạn."),
+        (0, False, [], "Chưa tìm được đoạn ký hiệu."),
+        (4, False, [first, second, third], "Tìm được 4 đoạn, nhưng chỉ 3 đoạn đủ dài để nhận dạng."),
+        (3, False, [first, second], "Tìm được 3 đoạn, nhưng chỉ 2 đoạn đủ dài để nhận dạng."),
+        (2, False, [], "Tìm được 2 đoạn, nhưng chưa đoạn nào đủ dài để nhận dạng."),
+        (2, False, [first, {**second, "prediction": None, "error": "No usable hand"}],
+         "Có đoạn không nhận dạng được."),
+    ):
+        split = {"num_raw_segments": raw_count, "length_limited": length_limited, "segments": segments,
+                 "raw_segment_bounds": raw_bounds[:raw_count],
+                 "total_adapter_ms": 10, "total_forward_ms": 250}
+        updates = []
+        demo = SimpleNamespace(update=lambda phase, **fields: updates.append((phase, fields)))
+        with patch("demo.make_slgcn_infer_fn"), patch("demo.split_sign_sequence", return_value=split):
+            report = recognize_sequence(recognizer, SAMPLE_CLIP, 181)
+        assert report["raw_segments"] == raw_count
+        Demo.publish_result(demo, report, "sequence")
+        phase, fields = updates[0]
+        if retry_message is None:
+            assert phase == "result"
+            assert [item["index"] for item in fields["sequence"]] == [86, 154, 95][:raw_count]
+        else:
+            assert phase == "retry"
+            assert "sequence" not in fields
+            assert fields["message"].startswith(retry_message)
+    print("[PASS] Sequence results preserve order and explain empty, incomplete, or technically split sequences.")
+
 
 def test_demo_server():
     port = 8791
@@ -52,9 +156,9 @@ def test_demo_server():
                         assert "Kiosk 1024×600" in content
                         assert "timing-table" in content
                         assert "pipeline" in content
-                        assert "mediapipe extraction" in content
+                        assert "Trích xuất MediaPipe" in content
                         assert "tiền xử lý" in content
-                        assert "SL-GCL forward first inference" in content
+                        assert "Suy luận SL-GCN" in content
                         assert "btn-confirm" in content
                         assert "btn-retry" in content
                         assert "transform: scaleX(-1)" in content
@@ -63,11 +167,11 @@ def test_demo_server():
                         assert '<img id="preview" alt="Khung hình camera" hidden>' in content
                         assert "preview.removeAttribute" in content
                         assert 'btnStart.click()' in content
-                        assert 'currentState.phase === "retry"' in content
+                        assert 'phase === "retry"' in content
                         print("[PASS] GET / returns valid Kiosk HTML with Mode B timing table, UI mirroring, posture guide, and retry action bindings.")
                         server_ready = True
                         break
-            except Exception:
+            except (urllib.error.URLError, TimeoutError):
                 time.sleep(0.5)
 
         if not server_ready:
@@ -350,4 +454,7 @@ def test_demo_server():
             proc.kill()
 
 if __name__ == "__main__":
+    test_preview_client_disconnect()
+    test_manual_sequence_finish()
+    test_sequence_result_contract()
     test_demo_server()

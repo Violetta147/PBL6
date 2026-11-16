@@ -17,7 +17,16 @@ Cắm Aioneus, đóng ứng dụng đang giữ webcam rồi chạy từ PowerShe
 
 Trình duyệt mở tại http://127.0.0.1:8765. Chờ trạng thái Sẵn sàng, giữ vai và hai tay trong khung, bấm Bắt đầu và thực hiện một ký hiệu sau khi đếm ngược. Mỗi lần quay khoảng 4 giây. Nhấn R để bắt đầu hoặc thử lại, F để xác nhận và phát. Bạn cũng có thể dùng các nút trên màn hình. Ctrl+C trong PowerShell để dừng. Nếu xem trước mở nhầm camera, khởi động lại với chỉ số camera phù hợp.
 
+Với webcam tích hợp của laptop và môi trường Conda hiện tại:
+
+    conda run -n pbl6_slr --no-capture-output python -X utf8 desktop_mvp/demo.py --camera 0
+
+Chọn **Chuỗi ký hiệu** trước khi bấm **Bắt đầu**. Sau 3 giây đếm ngược, ký lần lượt và hạ tay nghỉ giữa các từ. Bấm **Kết thúc lượt quay** hoặc nhấn `R` khi ký xong. Kiosk hiển thị các nhãn theo thứ tự và phát từng từ khi bạn bấm **Xác nhận & phát**. Lượt chỉ tìm thấy một đoạn, phải chia đoạn theo giới hạn độ dài, hoặc có đoạn không nhận dạng được sẽ hiện yêu cầu quay lại. Chế độ **Một ký hiệu** dùng cửa sổ quay 4 giây và có các gợi ý Top-3 để người dùng chọn. Báo cáo webcam ghi thời gian quay, số khung và FPS quan sát được trong trường `capture`.
+
 Để thử với clip đã có, dùng `--clip local_data/014159.mp4` thay cho `--camera 1`. Video webcam lưu ở `local_data`, báo cáo của ứng dụng lưu ở `outputs/desktop_demo`.
+Với clip hai từ, thêm `--mode sequence` để mở kiosk ở chế độ chuỗi.
+
+Khi yêu cầu thử lại, chế độ chuỗi cho biết lượt không có đoạn ký, chỉ tìm được một đoạn, có đoạn quá dài, có đoạn bị loại vì ngắn hoặc có đoạn không nhận dạng được. Ví dụ, “Tìm được 4 đoạn, nhưng chỉ 3 đoạn đủ dài để nhận dạng” nói về số đoạn phần mềm tìm thấy. Báo cáo JSON vẫn giữ dự đoán nội bộ để đối chiếu.
 
 Âm thanh tiếng Việt cho Dài, Cảm ơn, Nước và Xin lỗi nằm trong local_data/tts, theo mã nhãn của checkpoint. Đây là tệp MP3 tạo sẵn bằng Microsoft Edge TTS (vi-VN-HoaiMyNeural). Ứng dụng phát tệp cục bộ tương ứng với kết quả sau khi người dùng xác nhận. Với nhãn khác, trình duyệt dùng giọng tiếng Việt cục bộ nếu có.
 

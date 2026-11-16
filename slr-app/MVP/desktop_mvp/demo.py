@@ -5,6 +5,7 @@ from datetime import datetime
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import json
 from pathlib import Path
+import sys
 import threading
 import time
 import urllib.parse
@@ -15,8 +16,11 @@ import cv2
 from check_clip import ClipRecognizer, ROOT, save_report
 from record_webcam import open_clip_writer, open_webcam
 
+sys.path.insert(0, str(ROOT))
+from segmentation.sequence_splitter import make_slgcn_infer_fn, split_sign_sequence
 
 AUDIO = ROOT / "local_data" / "tts"
+RECORD_SECONDS = {"single": 4.0, "sequence": None}
 
 
 def audio_path(index):
@@ -37,13 +41,13 @@ def open_webcam_safe(index):
 
 
 class Demo:
-    def __init__(self, camera_index, sample):
+    def __init__(self, camera_index, sample, mode="single"):
         self.camera_index = camera_index
         self.sample = sample
         self.lock = threading.Lock()
         self.stop = threading.Event()
         self.camera_ready = False
-        self.state = {"phase": "loading", "sample": sample is not None}
+        self.state = {"phase": "loading", "sample": sample is not None, "mode": mode}
         self.jpeg = None
         self.deadline = 0.0
         self.executor = ThreadPoolExecutor(max_workers=1)
@@ -53,16 +57,18 @@ class Demo:
 
     def update(self, phase, **details):
         with self.lock:
-            self.state = {"phase": phase, "sample": self.sample is not None, **details}
+            self.state = {"phase": phase, "sample": self.sample is not None,
+                          "mode": self.state.get("mode", "single"), **details}
 
-    def start(self):
+    def start(self, mode=None):
         with self.lock:
             if self.state["phase"] not in ("ready", "result", "retry"):
                 return False
             if not self.camera_ready:
                 return False
+            mode = mode or self.state.get("mode", "single")
             self.deadline = time.monotonic() + 3
-            self.state = {"phase": "countdown", "sample": self.sample is not None}
+            self.state = {"phase": "countdown", "sample": self.sample is not None, "mode": mode}
             return True
 
     def snapshot(self):
@@ -70,12 +76,26 @@ class Demo:
             state = self.state.copy()
             if state["phase"] == "countdown":
                 state["remaining"] = max(1, int(self.deadline - time.monotonic() + 0.999))
-            elif state["phase"] == "recording":
+            elif state["phase"] == "recording" and self.deadline is not None:
                 state["remaining"] = max(0.0, round(self.deadline - time.monotonic(), 1))
             return state
 
-    def infer(self, path, count):
-        report = self.model.result().recognize(path, expected_frames=count)
+    def finish_recording(self):
+        with self.lock:
+            if (self.sample is not None or self.state["phase"] != "recording"
+                    or self.state["mode"] != "sequence" or self.state.get("stop_requested")):
+                return False
+            self.state["stop_requested"] = True
+            return True
+
+    def infer(self, path, count, mode, capture=None):
+        recognizer = self.model.result()
+        if mode == "sequence":
+            report = recognize_sequence(recognizer, path, count)
+        else:
+            report = recognizer.recognize(path, expected_frames=count)
+        if capture is not None:
+            report["capture"] = capture
         destination = save_report(report, "desktop_demo")
         print(f"Report: {destination}", flush=True)
         return report
@@ -84,6 +104,7 @@ class Demo:
         camera = writer = sample_cap = pending = None
         path = None
         count = 0
+        recording_started = 0.0
         last_preview = 0.0
         fps = 30.0
         try:
@@ -111,10 +132,12 @@ class Demo:
                     if not ok or frame is None:
                         raise RuntimeError("Mất hình từ webcam. Kiểm tra cáp USB rồi mở lại ứng dụng.")
                     self.camera_ready = True
-                else:
+                elif sample_cap is None:
                     self.stop.wait(0.03)
                 now = time.monotonic()
-                phase = self.snapshot()["phase"]
+                state = self.snapshot()
+                phase = state["phase"]
+                mode = state["mode"]
                 if camera is not None and now - last_preview >= 0.10:
                     self.publish_frame(frame)
                     last_preview = now
@@ -123,44 +146,50 @@ class Demo:
                     self.model.result()
                     self.update("ready")
                 elif phase == "countdown" and now >= self.deadline:
-                    self.deadline = now + 4.0
+                    duration = RECORD_SECONDS[mode]
+                    self.deadline = now + duration if duration is not None else None
+                    recording_started = now
                     if self.sample is not None:
                         sample_cap = cv2.VideoCapture(str(self.sample))
-                        self.update("recording")
                     else:
                         stamp = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
                         path = ROOT / "local_data" / f"webcam_{stamp}.avi"
                         path.parent.mkdir(exist_ok=True)
                         writer = open_clip_writer(path, frame, fps)
                         count = 0
-                        self.update("recording")
+                    self.update("recording", duration=duration)
                 elif phase == "recording":
+                    within_time = self.deadline is None or now < self.deadline
                     if self.sample is not None:
-                        if sample_cap is not None and now < self.deadline:
+                        if sample_cap is not None and within_time:
                             ok_s, s_frame = sample_cap.read()
                             if ok_s and s_frame is not None:
                                 self.publish_frame(s_frame)
-                                time.sleep(1.0 / fps)
+                                self.stop.wait(1.0 / fps)
                             else:
                                 sample_cap.release()
                                 sample_cap = None
                                 self.update("processing")
-                                pending = self.executor.submit(self.infer, self.sample, None)
+                                pending = self.executor.submit(self.infer, self.sample, None, mode)
                         else:
                             if sample_cap is not None:
                                 sample_cap.release()
                                 sample_cap = None
                             self.update("processing")
-                            pending = self.executor.submit(self.infer, self.sample, None)
+                            pending = self.executor.submit(self.infer, self.sample, None, mode)
                     else:
-                        if now < self.deadline and count < 150:
+                        if not state.get("stop_requested") and within_time and (mode == "sequence" or count < 150):
                             writer.write(frame)
                             count += 1
                         else:
                             writer.release()
                             writer = None
                             self.update("processing")
-                            pending = self.executor.submit(self.infer, path, count)
+                            elapsed = now - recording_started
+                            capture = {"frames_written": count, "seconds": elapsed,
+                                       "observed_fps": count / elapsed if elapsed > 0 else None,
+                                       "avi_header_fps": fps}
+                            pending = self.executor.submit(self.infer, path, count, mode, capture)
                 elif phase == "processing" and pending.done():
                     try:
                         report = pending.result()
@@ -168,29 +197,7 @@ class Demo:
                         print(f"Recognition failed: {exc}", flush=True)
                         self.update("retry", message="Không xử lý được lượt này. Hãy quay lại, giữ vai và hai tay trong khung.")
                     else:
-                        top5 = report.get("top5", [])
-                        prediction = top5[0] if top5 else {"gloss": "—", "index": None}
-                        index = prediction.get("index")
-                        sec = report.get("seconds", {})
-                        timing = {
-                            "pipeline": round(sec.get("clip_total", 0.0), 2),
-                            "extraction": round(sec.get("extraction", 0.0), 2),
-                            "adapter": round(sec.get("adapter", 0.0), 2),
-                            "forward_first": round(sec.get("forward_first", 0.0), 2),
-                        }
-                        self.update(
-                            "result",
-                            gloss=prediction.get("gloss", "—"),
-                            index=index,
-                            top5=top5,
-                            has_audio=audio_path(index).is_file() if index is not None else False,
-                            seconds=timing["pipeline"],
-                            pipeline=timing["pipeline"],
-                            extraction=timing["extraction"],
-                            adapter=timing["adapter"],
-                            forward_first=timing["forward_first"],
-                            timing=timing,
-                        )
+                        self.publish_result(report, mode)
                     pending = None
         except Exception as exc:
             print(f"Demo failed: {exc}", flush=True)
@@ -210,10 +217,84 @@ class Demo:
             with self.lock:
                 self.jpeg = buffer.tobytes()
 
+    def publish_result(self, report, mode):
+        sec = report["seconds"]
+        timing = {
+            "pipeline": round(sec["clip_total"], 2),
+            "extraction": round(sec["extraction"], 2),
+            "adapter": round(sec["adapter"], 2),
+            "forward_first": round(sec["forward_first"], 2),
+        }
+        if mode == "sequence":
+            if not report["accepted"]:
+                raw_count = report["raw_segments"]
+                kept_count = len(report["segments"])
+                if report["length_limited"]:
+                    message = ("Một đoạn dài quá giới hạn nhận dạng. "
+                               "Hãy nghỉ một nhịp giữa các ký hiệu để kiosk tách dễ hơn.")
+                elif kept_count < raw_count:
+                    kept_text = f"chỉ {kept_count} đoạn" if kept_count else "chưa đoạn nào"
+                    message = (f"Tìm được {raw_count} đoạn, nhưng {kept_text} đủ dài để nhận dạng. "
+                               "Hãy giữ tay trong khung suốt mỗi ký hiệu rồi thử lại.")
+                elif raw_count == 0:
+                    message = "Chưa tìm được đoạn ký hiệu. Hãy giữ cả hai tay trong khung rồi thử lại."
+                elif raw_count == 1:
+                    message = "Chỉ tìm được một đoạn. Với chuỗi ký hiệu, hãy nghỉ một nhịp giữa các từ."
+                else:
+                    message = "Có đoạn không nhận dạng được. Hãy giữ cả hai tay trong khung rồi thử lại."
+                self.update("retry", message=message)
+                return
+            self.update("result", sequence=[segment["top5"][0] for segment in report["segments"]],
+                        timing=timing)
+            return
+        top5 = report["top5"]
+        prediction = top5[0]
+        index = prediction["index"]
+        self.update("result", gloss=prediction["gloss"], index=index, top5=top5,
+                    has_audio=audio_path(index).is_file(), seconds=timing["pipeline"],
+                    **timing, timing=timing)
+
     def close(self):
         self.stop.set()
         self.thread.join(timeout=2)
         self.executor.shutdown(cancel_futures=True)
+
+
+def recognize_sequence(recognizer, path, expected_frames):
+    start = time.perf_counter()
+    extracted = recognizer.extract_video(path, recognizer.config)
+    extraction = time.perf_counter() - start
+    if extracted.error or extracted.status not in ("success", "success_with_warning"):
+        raise RuntimeError(extracted.error or extracted.status)
+    if expected_frames is not None and extracted.decoded_frames != expected_frames:
+        raise ValueError(f"Expected {expected_frames} frames, decoded {extracted.decoded_frames}.")
+    result = split_sign_sequence(extracted.arrays, infer_fn=make_slgcn_infer_fn(
+        recognizer, allow_training_truncation=False,
+    ))
+    segments = []
+    for segment in result["segments"]:
+        prediction = segment["prediction"]
+        segments.append({
+            "start": segment["t_start"],
+            "end": segment["t_end"],
+            "top5": prediction["top5"] if prediction else [],
+            "missing_after_pct": prediction["missing_after_pct"] if prediction else None,
+            "error": segment["error"],
+        })
+    raw_count = result["num_raw_segments"]
+    length_limited = result["length_limited"]
+    accepted = not length_limited and raw_count >= 2 and raw_count == len(segments) and all(
+        segment["top5"] and segment["error"] is None for segment in segments
+    )
+    return {
+        "mode": "sequence", "video": str(path.resolve()), "decoded_frames": extracted.decoded_frames,
+        "raw_segments": raw_count, "raw_segment_bounds": result["raw_segment_bounds"],
+        "length_limited": length_limited,
+        "segments": segments, "accepted": accepted,
+        "seconds": {"extraction": extraction, "adapter": result["total_adapter_ms"] / 1000,
+                    "forward_first": result["total_forward_ms"] / 1000,
+                    "clip_total": time.perf_counter() - start},
+    }
 
 
 def make_handler(demo, page, host):
@@ -223,15 +304,15 @@ def make_handler(demo, page, host):
 
     class Handler(BaseHTTPRequestHandler):
         def send_data(self, data, content_type, status=200):
-            self.send_response(status)
-            self.send_header("Content-Type", content_type)
-            self.send_header("Content-Length", str(len(data)))
-            self.send_header("Cache-Control", "no-store")
-            self.end_headers()
             try:
+                self.send_response(status)
+                self.send_header("Content-Type", content_type)
+                self.send_header("Content-Length", str(len(data)))
+                self.send_header("Cache-Control", "no-store")
+                self.end_headers()
                 self.wfile.write(data)
-            except (BrokenPipeError, ConnectionResetError):
-                pass
+            except ConnectionError:
+                self.close_connection = True
 
         def do_GET(self):
             req_host = self.headers.get("Host")
@@ -322,7 +403,14 @@ def make_handler(demo, page, host):
                     pass
 
             if self.path == "/start":
-                status = 200 if demo.start() else 409
+                mode = payload.get("mode") if isinstance(payload, dict) else None
+                if mode is not None and mode not in ("single", "sequence"):
+                    self.send_error(400)
+                    return
+                status = 200 if demo.start(mode) else 409
+                self.send_data(json.dumps(demo.snapshot()).encode(), "application/json", status)
+            elif self.path == "/finish":
+                status = 200 if demo.finish_recording() else 409
                 self.send_data(json.dumps(demo.snapshot()).encode(), "application/json", status)
             elif self.path == "/speak":
                 state = demo.snapshot()
@@ -354,13 +442,14 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--camera", type=int, default=0)
     parser.add_argument("--clip", type=Path, help="Exercise the demo with an existing clip")
+    parser.add_argument("--mode", choices=RECORD_SECONDS, default="single", help="Initial demo mode")
     parser.add_argument("--port", type=int, default=8765)
     parser.add_argument("--no-browser", action="store_true")
     args = parser.parse_args()
     page = Path(__file__).with_name("demo.html").read_bytes()
     host = f"127.0.0.1:{args.port}"
     with ThreadingHTTPServer(("127.0.0.1", args.port), BaseHTTPRequestHandler) as server:
-        demo = Demo(args.camera, args.clip)
+        demo = Demo(args.camera, args.clip, args.mode)
         server.RequestHandlerClass = make_handler(demo, page, host)
         try:
             print(f"PBL6: http://{host} (Ctrl+C to stop)", flush=True)

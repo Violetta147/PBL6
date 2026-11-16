@@ -2,6 +2,7 @@
 const fs = require("fs");
 const path = require("path");
 const assert = require("assert");
+const vm = require("node:vm");
 
 const htmlPath = path.join(__dirname, "demo.html");
 const html = fs.readFileSync(htmlPath, "utf8");
@@ -181,3 +182,66 @@ assert.strictEqual(postureGuide.hidden, true, "Posture guide hidden after retry 
 console.log("[PASS] Step H: Retry loop transition verified.");
 
 console.log("\n=== ALL DOM STATE TRANSITION TESTS PASSED (100%) ===");
+
+async function verifySequencePlayback() {
+  const playedUrls = [];
+  const script = html.match(/<script>([\s\S]+)<\/script>/)[1];
+  new vm.Script(script);
+  const playback = script.slice(script.indexOf("async function playCandidate"),
+    script.indexOf('btnConfirm.addEventListener("click", triggerConfirmSpeak)'));
+  const sandbox = vm.createContext({
+    playing: false, played: false, starting: false, selectedCandidate: null,
+    currentState: { phase: "result", sequence: [
+      { index: 154, gloss: "Khăn quàng cổ" }, { index: 86, gloss: "Cảm ơn" },
+    ] },
+    soundStatus: {}, confirmLabel: {}, btnConfirm: {}, btnRetry: {}, modeSelect: {}, playedPill: {},
+    setTimeout, clearTimeout, fetch: async () => {}, console,
+    Audio: class {
+      constructor(url) { this.url = url; }
+      play() {
+        playedUrls.push(this.url);
+        setImmediate(() => this.onended());
+        return Promise.resolve();
+      }
+    },
+  });
+  vm.runInContext(playback, sandbox);
+  assert.deepStrictEqual(playedUrls, []);
+  const confirmation = sandbox.triggerConfirmSpeak();
+  assert.deepStrictEqual(playedUrls, ["/audio/154.mp3"]);
+  assert.strictEqual(sandbox.btnRetry.disabled, true);
+  await confirmation;
+  assert.deepStrictEqual(playedUrls, ["/audio/154.mp3", "/audio/86.mp3"]);
+  assert.strictEqual(sandbox.playedPill.hidden, false);
+  assert.strictEqual(sandbox.btnRetry.disabled, false);
+  console.log("[PASS] Sequence audio starts on confirmation and plays one clip at a time in order.");
+}
+
+async function verifySequenceFinish() {
+  const script = html.match(/<script>([\s\S]+)<\/script>/)[1];
+  const action = script.slice(script.indexOf("async function triggerStart"),
+    script.indexOf('btnStart.addEventListener("click", triggerStart)'));
+  const requests = [];
+  const sandbox = vm.createContext({
+    starting: false, playing: false, played: false,
+    currentState: { phase: "recording", mode: "sequence", sample: false },
+    soundStatus: {}, btnStart: {}, btnRetry: {}, modeSelect: { value: "sequence" },
+    fetch: async url => {
+      requests.push(url);
+      return { ok: true, json: async () => ({ phase: "recording", mode: "sequence", stop_requested: true }) };
+    },
+    render(state) { sandbox.currentState = state; },
+    console,
+  });
+  vm.runInContext(action, sandbox);
+  await sandbox.triggerStart();
+  await sandbox.triggerStart();
+  assert.deepStrictEqual(requests, ["/finish"]);
+  assert.strictEqual(sandbox.currentState.stop_requested, true);
+  console.log("[PASS] The recording button ends an active sequence once.");
+}
+
+Promise.all([verifySequencePlayback(), verifySequenceFinish()]).catch(error => {
+  console.error(error);
+  process.exitCode = 1;
+});

@@ -84,6 +84,31 @@
     align-items: center;
     gap: 8px;
   }
+
+  .mode-select {
+    min-height: 38px;
+    padding: 0 10px;
+    border: 1px solid #8fa8b6;
+    border-radius: 8px;
+    background: #fff;
+    color: #152e3a;
+    font: inherit;
+    font-weight: 600;
+  }
+  .mode-select:focus-visible {
+    outline: 2px solid #14778b;
+    outline-offset: 2px;
+  }
+  .sequence-words {
+    margin: 4px 0;
+    padding-inline-start: 1.45em;
+    font-size: clamp(1rem, 2.5vw, 1.5rem);
+    font-weight: 700;
+    max-height: 7.5rem;
+    overflow-y: auto;
+    overflow-wrap: anywhere;
+  }
+  .sequence-words li + li { margin-top: 3px; }
   .btn-fullscreen {
     width: 32px;
     height: 32px;
@@ -609,6 +634,10 @@
       <span class="kiosk-badge">Kiosk 1024×600</span>
     </div>
     <div class="header-right">
+      <select class="mode-select" id="mode-select" aria-label="Chế độ nhận dạng" disabled>
+        <option value="single">Một ký hiệu</option>
+        <option value="sequence">Chuỗi ký hiệu</option>
+      </select>
       <button class="btn-fullscreen" id="fullscreen-btn" type="button" title="Toàn màn hình" aria-label="Toàn màn hình">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <polyline points="15 3 21 3 21 9"></polyline>
@@ -648,7 +677,7 @@
         <span class="countdown-number" id="countdown-number">3</span>
       </div>
 
-      <!-- 4.0s Recording Progress Bar -->
+      <!-- Recording progress -->
       <div class="rec-bar" id="rec-bar" hidden>
         <div class="rec-fill" id="rec-fill"></div>
       </div>
@@ -669,6 +698,7 @@
         <div class="result-word-row" id="result-word-row" hidden>
           <div class="main-word" id="main-word">—</div>
           <div class="chips-container" id="chips-container"></div>
+          <ol class="sequence-words" id="sequence-words" aria-label="Ký hiệu theo thứ tự" hidden></ol>
         </div>
       </div>
 
@@ -683,13 +713,13 @@
         <div class="timing-table" id="timing-table" hidden>
           <!-- Pipeline Total Row -->
           <div class="timing-row-pipeline">
-            <span class="pipeline-badge">pipeline</span>
+            <span class="pipeline-badge">Tổng xử lý</span>
             <span class="pipeline-time" id="time-pipeline">1.20s</span>
           </div>
           <!-- Component Breakdown Rows -->
           <div class="timing-rows-body">
             <div class="timing-row">
-              <span class="timing-badge" style="background-color:#DFF8FC; color:#087789;">mediapipe extraction</span>
+              <span class="timing-badge" style="background-color:#DFF8FC; color:#087789;">Trích xuất MediaPipe</span>
               <span class="timing-time" id="time-extraction">1.13s</span>
             </div>
             <div class="timing-row">
@@ -697,7 +727,7 @@
               <span class="timing-time" id="time-adapter">0.02s</span>
             </div>
             <div class="timing-row">
-              <span class="timing-badge" style="background-color:#FBE7F0; color:#B22563;">SL-GCL forward first inference</span>
+              <span class="timing-badge" style="background-color:#FBE7F0; color:#B22563;">Suy luận SL-GCN</span>
               <span class="timing-time" id="time-forward">0.05s</span>
             </div>
           </div>
@@ -770,6 +800,8 @@ const soundStatus = document.getElementById("sound-status");
 const playedPill = document.getElementById("played-pill");
 const resultWordRow = document.getElementById("result-word-row");
 const mainWord = document.getElementById("main-word");
+const modeSelect = document.getElementById("mode-select");
+const sequenceWords = document.getElementById("sequence-words");
 const chipsContainer = document.getElementById("chips-container");
 const centerPrompt = document.getElementById("center-prompt");
 const promptText = document.getElementById("prompt-text");
@@ -827,19 +859,23 @@ function selectCandidate(candidate, chipIdx) {
 }
 
 function render(state) {
+  const previousState = currentState;
   const prevPhase = currentState.phase;
   currentState = state;
   const { phase, sample } = state;
+  if (prevPhase === "loading" && state.mode) modeSelect.value = state.mode;
+  modeSelect.disabled = starting || playing || !["ready", "result", "retry"].includes(phase);
 
   // Handle Recording Animation
-  if (phase === "recording") {
+  if (phase === "recording" && state.duration != null) {
     if (prevPhase !== "recording") {
-      recStartTime = performance.now();
+      const duration = state.duration;
+      recStartTime = performance.now() - (duration - (state.remaining ?? duration)) * 1000;
       if (animFrameId) cancelAnimationFrame(animFrameId);
       function updateRecBar() {
         const elapsed = (performance.now() - recStartTime) / 1000;
-        const left = Math.max(0, 4.0 - elapsed);
-        recFill.style.width = ((left / 4.0) * 100).toFixed(1) + "%";
+        const left = Math.max(0, duration - elapsed);
+        recFill.style.width = ((left / duration) * 100).toFixed(1) + "%";
         if (left > 0 && currentState.phase === "recording") {
           animFrameId = requestAnimationFrame(updateRecBar);
         }
@@ -890,7 +926,7 @@ function render(state) {
     camDot.style.background = "#FFFFFF";
     camStatusText.textContent = "● Đang quay";
     countdownBadge.hidden = true;
-    recBar.hidden = false;
+    recBar.hidden = state.duration == null;
   } else {
     camBox.style.borderColor = "#BAC5D0";
     camStatus.style.background = "rgba(255, 255, 255, 0.95)";
@@ -922,107 +958,142 @@ function render(state) {
     timeAdapter.textContent = formatSeconds(timing.adapter ?? state.adapter);
     timeForward.textContent = formatSeconds(timing.forward_first ?? state.forward_first);
 
-    // Candidates / Top Suggestions
-    const topList = state.top5 && state.top5.length > 0
-      ? state.top5.slice(0, 3)
-      : [{ index: state.index, gloss: state.gloss }];
-
-    const prevSig = currentChips.map(c => c.index).join(",");
-    const newSig = topList.map(c => c.index).join(",");
-
-    if (prevPhase !== "result" || prevSig !== newSig || !selectedCandidate) {
-      currentChips = topList;
-      selectedCandidate = topList[0];
-      played = false;
-      playedPill.hidden = true;
-      confirmLabel.textContent = "Xác nhận & phát";
-
-      chipsContainer.innerHTML = "";
-      topList.forEach((cand, idx) => {
-        const btn = document.createElement("button");
-        btn.type = "button";
-        btn.className = "chip-btn" + (cand.index === selectedCandidate.index ? " active" : "");
-        btn.textContent = cand.gloss;
-        btn.addEventListener("click", () => selectCandidate(cand, idx));
-        chipsContainer.appendChild(btn);
-      });
+    const isSequence = Array.isArray(state.sequence);
+    mainWord.hidden = isSequence;
+    chipsContainer.hidden = isSequence;
+    sequenceWords.hidden = !isSequence;
+    if (isSequence) {
+      panelLabel.textContent = `Chuỗi · ${state.sequence.length} ký hiệu`;
+      if (prevPhase !== "result" || JSON.stringify(previousState.sequence) !== JSON.stringify(state.sequence)) {
+        sequenceWords.replaceChildren(...state.sequence.map(candidate => {
+          const item = document.createElement("li");
+          item.textContent = candidate.gloss;
+          return item;
+        }));
+        currentChips = [];
+        selectedCandidate = null;
+        played = false;
+        playedPill.hidden = true;
+        confirmLabel.textContent = "Xác nhận & phát";
+      }
+    } else {
+      renderSingleResult(state, prevPhase);
     }
-
-    mainWord.textContent = selectedCandidate.gloss || state.gloss || "—";
 
     actionsStart.hidden = true;
     actionsResult.hidden = false;
     btnConfirm.disabled = playing;
     btnRetry.disabled = playing;
   } else {
-    // Non-result phases
-    resultWordRow.hidden = true;
-    centerPrompt.hidden = false;
-    timingTable.hidden = true;
-    selectedCandidate = null;
-    currentChips = [];
+    renderPrompt(state);
+  }
+}
+
+function renderSingleResult(state, prevPhase) {
+  const topList = state.top5 && state.top5.length > 0
+    ? state.top5.slice(0, 3)
+    : [{ index: state.index, gloss: state.gloss }];
+
+  const prevSig = currentChips.map(c => c.index).join(",");
+  const newSig = topList.map(c => c.index).join(",");
+
+  if (prevPhase !== "result" || prevSig !== newSig || !selectedCandidate) {
+    currentChips = topList;
+    selectedCandidate = topList[0];
+    played = false;
     playedPill.hidden = true;
-    soundStatus.textContent = "";
+    confirmLabel.textContent = "Xác nhận & phát";
 
-    actionsStart.hidden = false;
-    actionsResult.hidden = true;
+    chipsContainer.innerHTML = "";
+    topList.forEach((cand, idx) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "chip-btn" + (cand.index === selectedCandidate.index ? " active" : "");
+      btn.textContent = cand.gloss;
+      btn.addEventListener("click", () => selectCandidate(cand, idx));
+      chipsContainer.appendChild(btn);
+    });
+  }
 
-    if (phase === "loading") {
-      panelLabel.textContent = "Đang khởi động";
-      promptText.textContent = "Đang nạp mô hình SL-GCN và bộ trích xuất MediaPipe…";
-      btnStart.disabled = true;
-      btnStartLabel.textContent = "Đang khởi động…";
-      btnRetry.disabled = true;
-    } else if (phase === "ready") {
-      panelLabel.textContent = "Sẵn sàng";
-      promptText.textContent = sample
-        ? "Video đối chứng đã sẵn sàng. Bấm Bắt đầu hoặc nhấn phím [R] để nhận dạng."
+  mainWord.textContent = selectedCandidate.gloss || state.gloss || "—";
+
+}
+
+function renderPrompt(state) {
+  const { phase, sample, mode } = state;
+  // Non-result phases
+  resultWordRow.hidden = true;
+  centerPrompt.hidden = false;
+  timingTable.hidden = true;
+  selectedCandidate = null;
+  currentChips = [];
+  playedPill.hidden = true;
+  soundStatus.textContent = "";
+
+  actionsStart.hidden = false;
+  actionsResult.hidden = true;
+
+  if (phase === "loading") {
+    panelLabel.textContent = "Đang khởi động";
+    promptText.textContent = "Đang nạp mô hình SL-GCN và bộ trích xuất MediaPipe…";
+    btnStart.disabled = true;
+    btnStartLabel.textContent = "Đang khởi động…";
+    btnRetry.disabled = true;
+  } else if (phase === "ready") {
+    panelLabel.textContent = "Sẵn sàng";
+    promptText.textContent = sample
+      ? "Video đối chứng đã sẵn sàng. Bấm Bắt đầu hoặc nhấn phím [R] để nhận dạng."
+      : modeSelect.value === "sequence"
+        ? "Ký lần lượt. Dừng nhẹ giữa các ký hiệu, rồi bấm Kết thúc lượt quay."
         : "Giữ hai vai và hai tay trong khung hình, sau đó bấm Bắt đầu hoặc nhấn phím [R].";
-      btnStart.disabled = false;
-      btnStartLabel.textContent = "Bắt đầu";
-      btnStart.setAttribute("aria-label", "Bắt đầu lượt quay mới (phím R)");
-      btnRetry.disabled = false;
-    } else if (phase === "countdown") {
-      panelLabel.textContent = "Chuẩn bị";
-      promptText.textContent = "Chuẩn bị ký hiệu sau 3 giây đếm ngược.";
-      btnStart.disabled = true;
-      btnStartLabel.textContent = "Đang đếm ngược…";
-      btnStart.setAttribute("aria-label", "Đang đếm ngược");
-      btnRetry.disabled = true;
-    } else if (phase === "recording") {
-      panelLabel.textContent = "Đang quay (4s)";
-      promptText.textContent = "Thực hiện ký hiệu một cách tự nhiên và giữ hai tay trong khung hình.";
-      btnStart.disabled = true;
-      btnStartLabel.textContent = "Đang quay…";
-      btnStart.setAttribute("aria-label", "Đang quay");
-      btnRetry.disabled = true;
-    } else if (phase === "processing") {
-      panelLabel.textContent = "Đang nhận dạng";
-      promptText.textContent = "Đang trích xuất khớp và chạy mô hình suy luận SL-GCN…";
-      btnStart.disabled = true;
-      btnStartLabel.textContent = "Đang nhận dạng…";
-      btnStart.setAttribute("aria-label", "Đang nhận dạng");
-      btnRetry.disabled = true;
-    } else if (phase === "retry") {
-      panelLabel.textContent = "Cần thử lại";
-      promptText.textContent = state.message || "Không xử lý được lượt này. Giữ vai và hai tay trong khung rồi bấm Thử lại.";
-      btnStart.disabled = false;
-      btnStartLabel.textContent = "Thử lại";
-      btnStart.setAttribute("aria-label", "Thử lại lượt quay mới (phím R)");
-      btnRetry.disabled = false;
-    } else if (phase === "error") {
-      panelLabel.textContent = "Lỗi hệ thống";
-      promptText.textContent = state.message || "Không thể kết nối camera hoặc tải mô hình. Xem chi tiết trên console.";
-      btnStart.disabled = true;
-      btnStartLabel.textContent = "Lỗi hệ thống";
-      btnRetry.disabled = true;
-    } else if (phase === "disconnected") {
-      panelLabel.textContent = "Mất kết nối";
-      promptText.textContent = "Mất kết nối với máy chủ demo. Kiểm tra cửa sổ console hoặc khởi động lại.";
-      btnStart.disabled = true;
-      btnStartLabel.textContent = "Mất kết nối";
-      btnRetry.disabled = true;
-    }
+    btnStart.disabled = false;
+    btnStartLabel.textContent = "Bắt đầu";
+    btnStart.setAttribute("aria-label", "Bắt đầu lượt quay mới (phím R)");
+    btnRetry.disabled = false;
+  } else if (phase === "countdown") {
+    panelLabel.textContent = "Chuẩn bị";
+    promptText.textContent = "Chuẩn bị ký hiệu sau 3 giây đếm ngược.";
+    btnStart.disabled = true;
+    btnStartLabel.textContent = "Đang đếm ngược…";
+    btnStart.setAttribute("aria-label", "Đang đếm ngược");
+    btnRetry.disabled = true;
+  } else if (phase === "recording") {
+    const canFinish = mode === "sequence" && !sample;
+    panelLabel.textContent = state.duration == null ? "Đang quay" : `Đang quay · ${state.duration} giây`;
+    promptText.textContent = canFinish
+      ? "Hạ tay nghỉ giữa các ký hiệu. Khi ký xong, bấm Kết thúc lượt quay."
+      : "Thực hiện ký hiệu một cách tự nhiên và giữ hai tay trong khung hình.";
+    btnStart.disabled = !canFinish || starting || Boolean(state.stop_requested);
+    btnStartLabel.textContent = state.stop_requested ? "Đang kết thúc…"
+      : canFinish ? "Kết thúc lượt quay" : "Đang quay…";
+    btnStart.setAttribute("aria-label", btnStartLabel.textContent);
+    btnRetry.disabled = true;
+  } else if (phase === "processing") {
+    panelLabel.textContent = "Đang nhận dạng";
+    promptText.textContent = "Đang trích xuất khớp và chạy mô hình suy luận SL-GCN…";
+    btnStart.disabled = true;
+    btnStartLabel.textContent = "Đang nhận dạng…";
+    btnStart.setAttribute("aria-label", "Đang nhận dạng");
+    btnRetry.disabled = true;
+  } else if (phase === "retry") {
+    panelLabel.textContent = "Cần thử lại";
+    promptText.textContent = state.message || "Không xử lý được lượt này. Giữ vai và hai tay trong khung rồi bấm Thử lại.";
+    btnStart.disabled = false;
+    btnStartLabel.textContent = "Thử lại";
+    btnStart.setAttribute("aria-label", "Thử lại lượt quay mới (phím R)");
+    btnRetry.disabled = false;
+  } else if (phase === "error") {
+    panelLabel.textContent = "Lỗi hệ thống";
+    promptText.textContent = state.message || "Không thể kết nối camera hoặc tải mô hình. Xem chi tiết trên console.";
+    btnStart.disabled = true;
+    btnStartLabel.textContent = "Lỗi hệ thống";
+    btnRetry.disabled = true;
+  } else if (phase === "disconnected") {
+    panelLabel.textContent = "Mất kết nối";
+    promptText.textContent = "Mất kết nối với máy chủ demo. Kiểm tra cửa sổ console hoặc khởi động lại.";
+    btnStart.disabled = true;
+    btnStartLabel.textContent = "Mất kết nối";
+    btnRetry.disabled = true;
   }
 }
 
@@ -1091,17 +1162,21 @@ function updatePreview() {
 // Action: Start / Retry Flow
 async function triggerStart() {
   if (starting || playing) return;
-  if (currentState.phase !== "ready" && currentState.phase !== "result" && currentState.phase !== "retry") return;
+  const finishing = currentState.phase === "recording" && currentState.mode === "sequence"
+    && !currentState.sample && !currentState.stop_requested;
+  if (!finishing && !["ready", "result", "retry"].includes(currentState.phase)) return;
   starting = true;
   soundStatus.textContent = "";
   played = false;
   btnStart.disabled = true;
   btnRetry.disabled = true;
+  modeSelect.disabled = true;
 
   try {
-    const res = await fetch("/start", {
+    const res = await fetch(finishing ? "/finish" : "/start", {
       method: "POST",
-      headers: { "X-PBL6": "demo" }
+      headers: { "X-PBL6": "demo", "Content-Type": "application/json" },
+      body: JSON.stringify({ mode: modeSelect.value })
     });
     if (!res.ok && res.status !== 409) throw new Error("Start failed");
     const state = await res.json();
@@ -1111,80 +1186,89 @@ async function triggerStart() {
     render({ phase: "disconnected" });
   } finally {
     starting = false;
+    modeSelect.disabled = !["ready", "result", "retry"].includes(currentState.phase);
+    if (currentState.phase === "recording") render(currentState);
   }
 }
 
 btnStart.addEventListener("click", triggerStart);
 btnRetry.addEventListener("click", triggerStart);
+modeSelect.addEventListener("change", () => render(currentState));
+
+async function playCandidate(candidate) {
+  let playedCleanly = false;
+
+  // 1. Try local audio file if candidate has pre-recorded index
+  if (candidate.index !== undefined && candidate.index !== null) {
+    try {
+      const audio = new Audio("/audio/" + candidate.index + ".mp3");
+      await new Promise((resolve, reject) => {
+        const timer = setTimeout(() => {
+          audio.pause();
+          reject(new Error("Audio timeout"));
+        }, 8000);
+        audio.onended = () => { clearTimeout(timer); resolve(); };
+        audio.onerror = () => { clearTimeout(timer); reject(new Error("Audio error")); };
+        audio.play().catch(err => { clearTimeout(timer); reject(err); });
+      });
+      playedCleanly = true;
+    } catch (audioErr) {
+      console.warn("Direct MP3 playback failed or not found, falling back to TTS:", audioErr);
+    }
+  }
+
+  // 2. Fallback to Web Speech Synthesis if audio file not available or failed
+  if (!playedCleanly) {
+    if (!window.speechSynthesis) {
+      throw new Error("Speech synthesis not supported");
+    }
+    const voices = window.speechSynthesis.getVoices();
+    const viVoice = voices.find(v => /^vi/i.test(v.lang)) || voices[0];
+    const utterance = new SpeechSynthesisUtterance(candidate.gloss);
+    if (viVoice) {
+      utterance.voice = viVoice;
+      utterance.lang = viVoice.lang;
+    }
+    utterance.rate = 0.95;
+
+    await new Promise((resolve, reject) => {
+      const timer = setTimeout(() => {
+        window.speechSynthesis.cancel();
+        reject(new Error("TTS timeout"));
+      }, 8000);
+      utterance.onend = () => { clearTimeout(timer); resolve(); };
+      utterance.onerror = () => { clearTimeout(timer); reject(new Error("TTS error")); };
+      window.speechSynthesis.speak(utterance);
+    });
+  }
+
+  // 3. Post to /speak for server-side logging/handling with chosen candidate payload
+  try {
+    fetch("/speak", {
+      method: "POST",
+      headers: { "X-PBL6": "demo", "Content-Type": "application/json" },
+      body: JSON.stringify({ index: candidate.index, gloss: candidate.gloss })
+    }).catch(() => {});
+  } catch {}
+}
 
 // Action: Confirm & Speak [F]
 async function triggerConfirmSpeak() {
   if (currentState.phase !== "result" || playing || starting) return;
-  const candidate = selectedCandidate || { index: currentState.index, gloss: currentState.gloss };
-  if (!candidate || !candidate.gloss) return;
+  const candidates = currentState.sequence ?? [selectedCandidate];
+  if (!candidates.length || candidates.some(candidate => !candidate?.gloss)) return;
 
   playing = true;
   soundStatus.textContent = "Đang phát qua loa…";
   confirmLabel.textContent = "Đang phát…";
   btnConfirm.disabled = true;
+  btnRetry.disabled = true;
+  modeSelect.disabled = true;
 
   try {
-    let playedCleanly = false;
-
-    // 1. Try local audio file if candidate has pre-recorded index
-    if (candidate.index !== undefined && candidate.index !== null) {
-      try {
-        const audio = new Audio("/audio/" + candidate.index + ".mp3");
-        await new Promise((resolve, reject) => {
-          const timer = setTimeout(() => {
-            audio.pause();
-            reject(new Error("Audio timeout"));
-          }, 8000);
-          audio.onended = () => { clearTimeout(timer); resolve(); };
-          audio.onerror = () => { clearTimeout(timer); reject(new Error("Audio error")); };
-          audio.play().catch(err => { clearTimeout(timer); reject(err); });
-        });
-        playedCleanly = true;
-      } catch (audioErr) {
-        console.warn("Direct MP3 playback failed or not found, falling back to TTS:", audioErr);
-      }
+    for (const candidate of candidates) {
+      await playCandidate(candidate);
     }
-
-    // 2. Fallback to Web Speech Synthesis if audio file not available or failed
-    if (!playedCleanly) {
-      if (!window.speechSynthesis) {
-        throw new Error("Speech synthesis not supported");
-      }
-      const voices = window.speechSynthesis.getVoices();
-      const viVoice = voices.find(v => /^vi/i.test(v.lang)) || voices[0];
-      const utterance = new SpeechSynthesisUtterance(candidate.gloss);
-      if (viVoice) {
-        utterance.voice = viVoice;
-        utterance.lang = viVoice.lang;
-      }
-      utterance.rate = 0.95;
-
-      await new Promise((resolve, reject) => {
-        const timer = setTimeout(() => {
-          window.speechSynthesis.cancel();
-          reject(new Error("TTS timeout"));
-        }, 8000);
-        utterance.onend = () => { clearTimeout(timer); resolve(); };
-        utterance.onerror = () => { clearTimeout(timer); reject(new Error("TTS error")); };
-        window.speechSynthesis.speak(utterance);
-      });
-      playedCleanly = true;
-    }
-
-    // 3. Post to /speak for server-side logging/handling with chosen candidate payload
-    try {
-      fetch("/speak", {
-        method: "POST",
-        headers: { "X-PBL6": "demo", "Content-Type": "application/json" },
-        body: JSON.stringify({ index: candidate.index, gloss: candidate.gloss })
-      }).catch(() => {});
-    } catch {}
-
     played = true;
     playedPill.hidden = false;
     soundStatus.textContent = "Đã phát thành công.";
@@ -1196,6 +1280,8 @@ async function triggerConfirmSpeak() {
   } finally {
     playing = false;
     btnConfirm.disabled = false;
+    btnRetry.disabled = false;
+    modeSelect.disabled = false;
   }
 }
 
@@ -1221,7 +1307,7 @@ document.addEventListener("keydown", (event) => {
         event.preventDefault();
         btnRetry.click();
       }
-    } else if ((currentState.phase === "ready" || currentState.phase === "retry") && !btnStart.disabled) {
+    } else if (["ready", "retry", "recording"].includes(currentState.phase) && !btnStart.disabled) {
       event.preventDefault();
       btnStart.click();
     }
