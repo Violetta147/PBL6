@@ -308,6 +308,36 @@ Người ký đã duyệt phép thử A/B. Chạy lại hai video với cùng b�
 
 - Phần nối thêm có **0 khung với điểm bàn tay dùng được** ở cả hai clip. Tính mỗi khung nguồn một lần sau lọc và sửa dữ liệu, số điểm tay giữ nguyên **220 điểm trên 11 khung** ở `024431`, và **260 điểm trên 13 khung** ở `024619`. Riêng pha đưa và giữ tay ra trước còn điểm tay ở **2/13** và **1/13** khung tương ứng. Giữ đủ thời đoạn sửa được nhãn ở cả hai clip dù không bổ sung điểm bàn tay. Phép thử chưa phân lập ảnh hưởng riêng của chuyển động thân người và việc lặp đoạn theo độ dài trong bộ chuẩn bị đầu vào.
 - Ghép kết quả B vào đúng vị trí theo thời gian và giữ nguyên các nhãn còn lại cho ra **Khăn quàng cổ → Cảm ơn → Rửa mặt** và **Khăn quàng cổ → Cảm ơn → Khăn quàng cổ → Cảm ơn**. Hai chuỗi này đúng với mô tả khi dùng biên chọn từ ảnh. Chạy lại kiosk mặc định vẫn tái hiện biên và dự đoán cũ. Chạy lại A sau B cho đầu vào và 400 điểm đầu ra giống hệt lần A đầu.
-- Bước tiếp theo là kiểm tra offline một cách giữ đoạn khi bộ dò bàn tay mất dấu giữa động tác mà điểm thân người vẫn theo được. Kiểm tra trên hai clip lỗi, các chuỗi hai ký hiệu vốn đúng và clip múa ngẫu nhiên `024009`. Đo đúng đủ chuỗi, lỗi gộp hai ký hiệu và lượt không ký bị cho qua. Cần duyệt trước khi thử quy tắc tách mới.
+- Phép thử ở mục 8.13 kiểm tra cách giữ đoạn khi bộ dò bàn tay mất dấu giữa động tác, cùng các chuỗi vốn đúng và clip múa ngẫu nhiên `024009`.
 
 [Báo cáo A/B và kết quả ghép theo biên chọn từ ảnh](../outputs/segmentation_experiments/webcam_two_thanks_crop_ab_20261116T040914Z.json).
+
+### 8.13. Thử offline giữ đoạn khi mất dấu bàn tay (16/11/2026)
+
+**Đầu vào.** Bảy chuỗi hai ký hiệu đã có nhãn, ba chuỗi dài `024431`, `024619`, `030632` và hai lượt không ký. Dùng số khung trên mỗi giây ghi trong báo cáo kiosk cho AVI và giá trị do bộ giải mã đọc từ MP4 cho các clip Windows Camera. Hai clip phát hiện lỗi dùng để đặt giả thuyết, nên phép đo là đối chiếu trên tập đã có. Dùng cùng đặc trưng trích từ từng clip cho cả hai phương án.
+
+**Phương án nối qua mất dấu.** Sau ít nhất bốn khung liên tiếp được bộ tách mặc định đánh dấu đang ký, thử giữ đoạn nếu mất dấu bàn tay nhưng cổ tay từ bộ dò thân người vẫn ở vùng ký và có chuyển động trong 0,25 giây đầu. Chỉ nối các khung thiếu tay liên tiếp có cổ tay trong vùng ký, tối đa 1,8 giây tính theo FPS và làm tròn đến số khung gần nhất. Bộ tách mặc định quyết định lúc đóng đoạn. Điểm khớp và checkpoint giữ như cũ.
+
+**Phương án chỉ khôi phục một đoạn ngắn.** Chọn sau khi phép thử đầu cho qua clip múa ngẫu nhiên và nối quá cuối đoạn `024619`. Chỉ áp dụng khi mặc định tìm được ít nhất hai đoạn thô, đúng một đoạn bị loại vì ngắn, và các đoạn còn lại đủ điều kiện nhận dạng. Kéo dài đoạn ngắn qua đúng chuỗi khung được hỗ trợ liên tiếp, rồi thêm đệm trong phạm vi giữa hai đoạn kế cận. Giữ nguyên biên và nhãn của các đoạn còn lại. Khi thủ tục không đủ điều kiện, dùng kết quả mặc định. Điều kiện đúng một đoạn có thể bỏ lỡ lượt mất nhiều đoạn, và cần đo trên tập độc lập do quy tắc được chọn sau khi xem lỗi.
+
+**Đầu ra và kiểm chứng.** Lưu biên, số khung được nối, nhãn và trạng thái cho qua từng clip. Chấm đủ ký hiệu đúng thứ tự, so số đoạn thô với số ký hiệu đã biết và đếm clip không ký được cho qua. So kết quả mặc định với báo cáo trước để phát hiện sai lệch khi chạy lại. Kiểm tra hồi quy tập trung vào bốn chuỗi mặc định đã đúng và hai lượt không ký.
+
+Chạy từ `slr-app/MVP/`. `$cameraRoll` trỏ tới thư mục chứa các MP4 thử nghiệm của Windows Camera.
+
+```powershell
+python -m py_compile segmentation/compare_hand_dropout.py
+python -B -u -X utf8 segmentation/compare_hand_dropout.py --camera-roll $cameraRoll
+```
+
+| Cấu hình | Chuỗi 2 ký hiệu đúng | Chuỗi 3–4 ký hiệu đúng | Lượt không ký được cho qua |
+| --- | ---: | ---: | ---: |
+| Mặc định | 4/7 | 0/3 | 0/2 |
+| Nối qua mất dấu trên mọi đoạn | 4/7 | 1/3 | 1/2 |
+| Chỉ khôi phục đúng một đoạn ngắn | 4/7 | 2/3 | 0/2 |
+
+- Nối trên mọi đoạn sửa đúng `024431`, nhưng nối `024619` tới khung 100 sau đệm và nhận **Cầu lông** ở đoạn cần ra **Cảm ơn**. Nó cũng kéo dài cả hai đoạn ngắn của clip múa ngẫu nhiên `024009`, khiến clip được cho qua với bốn nhãn.
+- Phương án chỉ khôi phục một đoạn ngắn tìm biên tự động `[77,108)` ở `024431` và `[63,95)` ở `024619`. SL-GCN trả **Cảm ơn** đứng đầu với điểm 99,98% và 84,47%, tương ứng. Hai chuỗi 3 và 4 ký hiệu đúng đủ thứ tự. Các đoạn khác trong hai lượt giữ nguyên từ lần chạy mặc định. `030632` vẫn có 5 đoạn thô cho 4 ký hiệu và nhầm **Cảm ơn** cuối thành **Nói chuyện**. Số chuỗi có ít đoạn thô hơn số ký hiệu là 2/10 ở cả ba phương án, đều là hai ca hai ký hiệu đã gộp từ mặc định.
+- Chạy lại mặc định khớp biên, nhãn, trạng thái và điểm dự đoán đầu trong dung sai 0,00001 trên cả 12 báo cáo cũ. Với phương án chỉ khôi phục một đoạn ngắn, kiểm tra quy tắc trên cả 12 clip, kiểm tra mã băm từng clip và chạy lại mô hình ở hai đoạn đủ điều kiện. Mười clip còn lại trả nguyên kết quả mặc định. Kiểm tra riêng điều kiện cần có đoạn đã bắt đầu, tín hiệu chuyển động, giới hạn thời gian và điểm dừng khi cổ tay rời vùng ký.
+- Kết quả ưu tiên cách khôi phục một đoạn ngắn để kiểm tra tiếp trên phiên quay độc lập. Quy tắc chọn từ chính tập đã xem, trong đó chỉ có một clip múa ngẫu nhiên. Kiosk vẫn dùng bộ tách mặc định.
+
+[Báo cáo phép thử nối qua mất dấu](../outputs/segmentation_experiments/hand_dropout_20261116T041914Z.json) · [Báo cáo đối chiếu cả ba cấu hình](../outputs/segmentation_experiments/hand_dropout_guarded_20261116T042209Z.json).
