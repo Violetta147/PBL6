@@ -2,7 +2,7 @@
 
 Đánh giá **39 phương pháp theo số gốc** cho luồng webcam laptop → trích điểm khớp tay và thân bằng MediaPipe → tách đoạn → SL-GCN.
 
-**Ưu tiên hiện tại (16/11/2026).** Thử cách tự động kéo dài đúng một đoạn bị loại vì ngắn đã nhận đúng hai chuỗi dài `024431` và `024619`. Số chuỗi dài đúng tăng từ **0/3 lên 2/3**. Hai lượt không ký vẫn bị từ chối. Cần kiểm tra trên phiên quay độc lập trước khi cân nhắc đưa vào kiosk. [Kết quả đối chứng](02_TEMPORAL_SEGMENTATION_AND_TRIMMING_PLAN.md#813-thử-offline-giữ-đoạn-khi-mất-dấu-bàn-tay-16112026)
+Mục #32 là phương pháp người viết đã đánh dấu để thử. Kết quả #32 và các phép thử sau đó nằm trong [kế hoạch tách đoạn](02_TEMPORAL_SEGMENTATION_AND_TRIMMING_PLAN.md). Đối chứng cải tiến tiếp theo nằm trong [kế hoạch đánh giá VSL400 và kiosk](08_VSL400_AND_KIOSK_EVALUATION_PLAN.md).
 
 **Căn cứ chọn.** Hai clip quay khoảng 15 fps nhận đúng hai thứ tự **Cảm ơn ↔ Khăn quàng cổ** khi bộ tách ghi nhận **26 và 32 khung nghỉ liên tiếp**. Clip `23_04_34` bị gộp khi khoảng nghỉ liên tiếp dài nhất ở vùng nối là **3 khung**, dưới ngưỡng **8**. Trên chính clip đó, **Cảm ơn từ hạng 15 lên hạng 1 khi cắt tay theo thời gian**. Hai clip trước đó vẫn nhầm Cảm ơn thành Tham ăn sau khi cắt tay. Vì vậy cần đo riêng lỗi tách đoạn và lỗi nhận dạng khi đã biết biên. Kết quả hiện có từ một người ký. [Kế hoạch tách đoạn và số liệu](02_TEMPORAL_SEGMENTATION_AND_TRIMMING_PLAN.md) · [Tổng hợp các lượt quay](../outputs/segmentation_experiments/TONG_HOP_WEBCAM_20261115.html)
 
@@ -11,11 +11,11 @@
 | # gốc | Phương pháp | Áp dụng cho PBL6 |
 | --- | --- | --- |
 | 01 | Thu dữ liệu từ môi trường thực | Quay bằng webcam laptop trong bố trí dự kiến khi demo. Ghi FPS thực, nhãn và thứ tự ký trước khi xem dự đoán. |
-| 05 | <strong style="background-color:#DDF7E9;color:#0B6B45;padding:1px 4px;border-radius:3px;">Gán nhãn thủ công</strong> | Biên thủ công đã cho **Cảm ơn** lên hạng 1 ở `23_04_34` và hai lượt bị hụt pha mở tay. Giữ các biên này làm mốc so sánh cho bộ tách tự động. |
+| 05 | Gán nhãn thủ công | Biên thủ công đã cho **Cảm ơn** lên hạng 1 ở `23_04_34` và hai lượt bị hụt pha mở tay. Giữ các biên này làm mốc so sánh cho bộ tách tự động. |
 | 09 | Mẫu âm tính | Thử đứng yên, hạ tay, chỉnh tư thế và với tay bấm nút. Đếm lượt hệ thống phát sinh ký hiệu khi không ký. Giữ nguyên pha mở tay mang nghĩa của Cảm ơn. |
 | 13 | Tập test độc lập | Dùng phiên quay mới để kiểm tra sau khi chọn cấu hình. Muốn đánh giá khả năng tổng quát, giữ riêng người ký chưa dùng để tinh chỉnh hoặc huấn luyện. |
 | 14 | Khai thác ca khó | Giữ hai clip nhầm Cảm ơn thành Tham ăn, clip gộp `23_04_34` và các lượt mất khớp để tái hiện lỗi. So với ca đúng ở cả hai thứ tự. |
-| 32 | Thống kê theo thời gian | Đã thử offline bộ đếm nghỉ chịu ngắt quãng và quy đổi theo FPS. Sửa ca gộp `23_04_34`, nhưng để lọt thêm chuỗi dài sai trong tập đã đo. Giữ cấu hình này để đối chiếu. |
+| 32 | <strong style="background-color:#DDF7E9;color:#0B6B45;padding:1px 4px;border-radius:3px;">Thống kê theo thời gian</strong> | Đã thử offline bộ đếm nghỉ chịu ngắt quãng và quy đổi theo FPS. Sửa ca gộp `23_04_34`, nhưng để lọt thêm chuỗi dài sai trong tập đã đo. Giữ cấu hình này để đối chiếu. |
 | 36 | Camera cố định | Đánh dấu vị trí camera và người ký. Giữ bố trí ổn định khi so sánh hai nhịp nghỉ hoặc hai phương án tách. |
 | 39 | Ánh sáng đồng đều | Chiếu sáng từ trước. Kiểm tra FPS thực, độ nhòe ở pha mở tay và tỷ lệ thiếu điểm khớp trước khi quy lỗi cho thiết bị. |
 | 48 | AI hỗ trợ phân tích lỗi | Dùng AI để lập giả thuyết, sau đó kiểm tra bằng video gốc, nhãn thật, tín hiệu cổ tay và kết quả trên cùng đoạn cắt. |
