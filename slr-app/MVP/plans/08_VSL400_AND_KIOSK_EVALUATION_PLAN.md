@@ -47,3 +47,17 @@ Thử trên ba clip webcam đã phân tích từ phiên 11 giờ. Nhãn xác nh�
 Hai mẫu train tham chiếu ở 25 FPS cho tensor và Top-5 giống hệt đối chứng. Kiểm tra cú pháp, mã băm bundle và đối chiếu tham chiếu đều đạt. Luồng nhận dạng gốc nhận đúng **Dài** trên clip `014159.mp4` (59 khung). [Script](../diagnostics/compare_temporal_sampling.py) · [Báo cáo A/B](../outputs/temporal_sampling_25fps/20261116T051658_953363Z/report.json)
 
 **Quyết định sau phép thử:** hạ ưu tiên ứng viên 25 FPS. Với các đoạn này, thay đổi nhịp chưa sửa được nhãn nào. Riêng đoạn `110216` vẫn thiếu 53/55 khung trong pha giữ lòng bàn tay theo đối chiếu biên trước đó. Chưa chạy validation thay đổi nhịp, test VSL400 hay đánh giá kiosk mới. Chưa tìm thấy đặc trưng gốc của validation trong hai thư mục cục bộ đã rà (MVP và bản sao báo cáo VSL400). Chưa cần chạy notebook hoặc dùng GPU A100 cho kết quả này.
+
+## Kiểm tra lại điểm đã lưu của khung chẵn và lẻ (16/11/2026)
+
+Tính nhãn đứng đầu khi lấy trung bình đều điểm softmax của hai lượt suy luận chẵn và lẻ trên cùng một đoạn. Dùng [báo cáo Top-5 đã lưu](../outputs/segmentation_experiments/webcam_11h_sequence_sampling_20261116T044244Z.json), không chạy lại mô hình. Với nhãn nằm ngoài Top-5 ở một lượt, điểm ở lượt đó nằm từ 0 đến điểm đứng thứ năm. Cận dưới của nhãn thắng cao hơn cận trên của mọi nhãn khác ở cả sáu đoạn, kể cả nhãn nằm ngoài cả hai Top-5. Vì vậy có thể xác định Top-1 của điểm trung bình dù báo cáo chỉ lưu Top-5.
+
+| Clip | Nhãn đứng đầu khi lấy trung bình |
+| --- | --- |
+| `110216` | Khăn quàng cổ → Chạy |
+| `110403` | Hát → Tháng |
+| `110546` | Khăn quàng cổ → Cảm ơn |
+
+So với giữ mọi khung, số chuỗi đúng tăng từ 0/3 lên 1/3 và số vị trí đúng từ 2/6 lên 3/6. Trên đúng ba clip cũ, số chuỗi đúng bằng từng lượt chẵn hoặc lẻ riêng lẻ và số vị trí đúng thấp hơn lượt lẻ (4/6). Đây là phép đọc lại kết quả cũ, chưa kiểm tra chuỗi dài hay lượt không ký.
+
+Bước offline cần duyệt là chạy quy tắc trung bình đều trên các clip chuỗi dài và lượt không ký đã có nhãn, cùng biên, cùng checkpoint và cùng điều kiện chấp nhận chuỗi của đối chứng. So số chuỗi đúng đủ, số lượt không ký bị nhận nhầm và các lượt vốn đúng bị đổi sai. Kết quả dùng để quyết định có nên đưa ứng viên vào đợt kiểm tra kiosk độc lập đã chốt hay không.
