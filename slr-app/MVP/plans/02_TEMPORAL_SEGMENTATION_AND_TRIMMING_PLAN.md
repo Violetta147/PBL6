@@ -458,3 +458,17 @@ Người ký đã duyệt dùng hai biên `[281,332)` và `[281,400)` của cùn
 - Phép thử tiếp theo cần duyệt: so lấy trung bình toàn bộ 400 điểm dự đoán của hai mẫu chẵn/lẻ với giữ toàn bộ khung và từng mẫu riêng. Dùng lại ba clip phiên 11 giờ, giữ biên kiosk khi chấm kết quả chuỗi. Nếu chạy thêm biên mở rộng của `110216`, ghi riêng kết quả vì đó là biên chọn từ ảnh. Đối chiếu số chuỗi đúng đủ, số vị trí đúng và các nhãn vốn đúng bị đổi sai.
 
 [Báo cáo hai biên và ba cách lấy khung trên 110216](../outputs/segmentation_experiments/webcam_110216_boundary_sampling_20261116T044513Z.json).
+
+### Đối chiếu khoảng cách ở vết cắt thừa của 030632 (16/11/2026)
+
+Dùng biên thô đã lưu, trước bước thêm đệm và lọc đoạn ngắn. Khoảng cách bằng chênh lệch giữa đầu đoạn sau và cuối đoạn trước, chia cho FPS đo lúc thu với AVI hoặc FPS đọc từ MP4. Tính trên 15 clip từ hai báo cáo đã có. [Tập gốc](../outputs/segmentation_experiments/hand_dropout_guarded_20261116T042209Z.json) · [Ba clip phiên 11 giờ](../outputs/segmentation_experiments/hand_dropout_independent_11h_20261116T042643Z.json)
+
+| Vị trí | Số khoảng | Thời lượng | Số khoảng ≤ 750 ms |
+| --- | ---: | ---: | ---: |
+| Vết cắt trong **Khăn quàng cổ** lần hai của `030632`, `[243,253)` | 1 | 670 ms | 1 |
+| Các biên giữa hai ký hiệu đã được tách trong clip có ký | 16 | 867–7.650 ms | 0 |
+| Các biên ở lượt không ký | 3 | 2.012–8.852 ms | 0 |
+
+**Bước offline cần duyệt.** Thử gộp đúng một cặp đoạn đã đủ điều kiện phân loại khi khoảng cách biên thô ≤ 750 ms và đoạn liền sau khi gộp vẫn nằm trong giới hạn khung hiện tại. Giữ checkpoint và các điều kiện chấp nhận khác. So số lần tách thừa, gộp nhầm, chuỗi đúng đủ và lượt không ký bị chấp nhận trên các clip có nhãn này. Ghi riêng ca `030632`: đoạn cắt tay `[213,278)` trước đó đã trả đúng **Khăn quàng cổ**, còn nhãn **Cảm ơn** cuối vẫn sai ở các biên đã thử.
+
+750 ms được chọn từ tập cũ. Dữ liệu trên chỉ gồm các biên mà bộ tách đã tìm được, nên chưa đo được nguy cơ gộp hai ký hiệu thật khi người ký nối nhanh. Chưa chạy gộp tự động hoặc sửa ngưỡng kiosk.
