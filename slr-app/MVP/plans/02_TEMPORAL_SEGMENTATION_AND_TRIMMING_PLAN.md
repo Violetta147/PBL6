@@ -365,3 +365,29 @@ Hai lượt **một ký hiệu** được chấm riêng theo báo cáo kiosk g�
 ### 8.15. Tiêu chí dừng thí nghiệm chuỗi đã duyệt (16/11/2026)
 
 Trên 10 chuỗi mới dùng để đánh giá, ít nhất **9/10** được nhận đủ và đúng thứ tự. Chế độ chuỗi phải từ chối cả **5/5 lượt không ký**. Ghi nhãn và thứ tự trước khi đối chiếu dự đoán. Khi đạt đồng thời hai điều kiện, báo **[ĐÃ ĐẠT TIÊU CHÍ]** kèm số lượt đúng và số lượt không ký bị nhận nhầm. Phiên 11 giờ hiện có **0/3 chuỗi đúng**. Tiêu chí này áp dụng cho chế độ chuỗi.
+
+### 8.16. Đối chiếu pha mở tay của ba lượt Cảm ơn lúc 11 giờ (16/11/2026)
+
+Lấy một ảnh mỗi 10 khung nguồn, khoảng 0,34 giây giữa hai ảnh. Gemini 4 Hydrogen Low đọc ảnh theo số khung mà chưa được cung cấp nhãn hay biên của kiosk. Đối chiếu quan sát đó với ảnh và biên đã lưu. Mốc động tác là xấp xỉ do ảnh lấy thưa. Chỉ số khung bắt đầu từ 0 và khoảng `[a,b)` không tính khung `b`.
+
+| Clip | Biên kiosk đưa vào mô hình | Pha giữ lòng bàn tay mở quan sát trên ảnh | Quan sát |
+| --- | --- | --- | --- |
+| `110216` | `[281,332)` | Khoảng 330–380, hạ tay vào khoảng 390–400 | Biên kết thúc ngay đầu pha giữ. Khung 370 và 380 còn thấy hai lòng bàn tay hướng ra trước. |
+| `110403` | `[183,274)` | Khoảng 230–260, tay rút lại ở khung 270 | Có đủ pha mở và giữ tay nhìn thấy trên ảnh. |
+| `110546` | `[204,295)` | Khoảng 250–280, tay rút lại ở khung 290 | Có đủ pha mở và giữ tay nhìn thấy trên ảnh. |
+
+[Ảnh khung 110216](../outputs/segmentation_experiments/webcam_110216_sequence_frames.png) · [Ảnh khung 110403](../outputs/segmentation_experiments/webcam_110403_sequence_frames.png) · [Ảnh khung 110546](../outputs/segmentation_experiments/webcam_110546_sequence_frames.png).
+
+Đếm dữ liệu gốc của bộ dò bàn tay và điểm tay còn dùng được sau lọc/sửa trong đoạn kiosk. Mỗi khung nguồn được tính một lần. Chạy lại tái hiện biên mặc định trên cả ba clip.
+
+| Clip | Khoảng kiểm tra | Số khung trong đoạn kiosk | Khung không có tay ngay từ bộ dò, tính trên toàn khoảng | Khung có điểm của cả hai tay sau chuẩn bị đầu vào, tính trong đoạn kiosk |
+| --- | --- | ---: | ---: | ---: |
+| `110216` | `[330,385)` | 2/55 | 50/55 | 0/2 |
+| `110403` | `[230,261)` | 31/31 | 0/31 | 13/31 |
+| `110546` | `[250,281)` | 31/31 | 0/31 | 31/31 |
+
+- `110216` có **53/55 khung** của khoảng giữ tay nằm ngoài đoạn đưa vào mô hình. Đoạn mặc định dài **51 khung**, nên quy tắc chỉ cứu đoạn dưới 20 khung không tác động. Trong hai khung kiểm tra còn lọt vào đoạn, cả hai đều thiếu dữ liệu tay ngay từ bộ dò.
+- `110403` và `110546` đều còn ít nhất một tay dùng được ở **31/31** khung kiểm tra. Riêng `110546` có cả hai tay trong cả 31 khung và vẫn bị dự đoán là **Tháng**. Có đủ điểm để dùng không xác nhận tọa độ chính xác. Chưa xác định nguyên nhân của nhãn sai trên hai clip đã giữ được pha mở tay.
+- Phép thử tiếp theo cần duyệt: trên `110216`, giữ nguyên khung bắt đầu và so biên `[281,332)` với `[281,400)` bằng cùng checkpoint, qua đó kiểm tra liệu giữ trọn pha mở tay có sửa nhãn ở clip này không. Dùng `110546` làm ca chẩn đoán riêng cho lỗi xảy ra dù pha mở đã nằm trong đoạn và có điểm của hai tay.
+
+[Báo cáo dữ liệu tay theo khung](../outputs/segmentation_experiments/webcam_11h_thanks_boundary_audit_20261116T043351Z.json).
