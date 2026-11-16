@@ -31,3 +31,19 @@ Nếu đánh giá riêng bộ tách, giữ cùng bộ phân loại ở hai cấu
 - Kiểm tra đã chạy từ `slr-app/MVP/deployment/slgcn_feature_trial/` bằng môi trường `pbl6_slr`: `python -B -c "from prepare_clip import verify_bundle; verify_bundle()"` và `python -B verify_reference.py`. Kiểm tra cú pháp bằng `python -m py_compile` khi có script mới. Nghiệm thu đường kiosk với `python -u desktop_mvp/test_demo_server.py` khi đến bước tích hợp đã duyệt.
 
 Huấn luyện với biến thể nhịp nhanh/chậm trên train là phương án dự phòng. Cân nhắc sau khi biết kết quả suy luận với checkpoint hiện tại. Nếu chọn hướng đó, xin duyệt riêng và áp dụng quy trình chọn trên train/validation, khóa ứng viên rồi so một lần trên test gốc. GPU A100 có thể dùng ở bước huấn luyện nếu được chọn.
+
+## Kết quả thử offline lấy mẫu 25 FPS (16/11/2026)
+
+Thử trên ba clip webcam đã phân tích từ phiên 11 giờ. Nhãn xác nhận của cả ba là **Khăn quàng cổ → Cảm ơn**. Giữ sáu đoạn kiosk đã lưu và checkpoint gốc. Chạy trích xuất một lần mỗi clip và tái lập đủ thứ tự Top-5 của cả sáu đoạn trước khi so sánh. Ước lượng thời gian của khung nguồn bằng FPS trung bình đo lúc thu (29,55–29,79 FPS). Đặt mốc 25 FPS từ đầu từng đoạn đến thời điểm khung nguồn cuối và chọn khung nguồn gần nhất với mỗi mốc. Khi khoảng cách bằng nhau, chọn khung đến sau.
+
+| Clip | Giữ mọi khung | Lấy mẫu về 25 FPS |
+| --- | --- | --- |
+| `110216` | Khăn quàng cổ → Chạy | Khăn quàng cổ → Chạy |
+| `110403` | Không nghe lời → Tháng mười một | Không nghe lời → Nói chuyện |
+| `110546` | Khăn quàng cổ → Tháng | Khăn quàng cổ → Quả chuối |
+| Đúng cả chuỗi | 0/3 | 0/3 |
+| Đúng theo vị trí | 2/6 | 2/6 |
+
+Hai mẫu train tham chiếu ở 25 FPS cho tensor và Top-5 giống hệt đối chứng. Kiểm tra cú pháp, mã băm bundle và đối chiếu tham chiếu đều đạt. Luồng nhận dạng gốc nhận đúng **Dài** trên clip `014159.mp4` (59 khung). [Script](../diagnostics/compare_temporal_sampling.py) · [Báo cáo A/B](../outputs/temporal_sampling_25fps/20261116T051658_953363Z/report.json)
+
+**Quyết định sau phép thử:** hạ ưu tiên ứng viên 25 FPS. Với các đoạn này, thay đổi nhịp chưa sửa được nhãn nào. Riêng đoạn `110216` vẫn thiếu 53/55 khung trong pha giữ lòng bàn tay theo đối chiếu biên trước đó. Chưa chạy validation thay đổi nhịp, test VSL400 hay đánh giá kiosk mới. Chưa tìm thấy đặc trưng gốc của validation trong hai thư mục cục bộ đã rà (MVP và bản sao báo cáo VSL400). Chưa cần chạy notebook hoặc dùng GPU A100 cho kết quả này.
