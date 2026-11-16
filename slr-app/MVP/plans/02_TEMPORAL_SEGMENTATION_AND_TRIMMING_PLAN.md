@@ -436,6 +436,25 @@ Người ký đã duyệt áp dụng phép thử trên cả sáu đoạn của `
 | Vị trí nhãn đúng | 2/6 | 3/6 | 4/6 |
 
 - Cả hai cách lấy thưa giữ nguyên hai vị trí **Khăn quàng cổ** vốn đúng. `110403` chỉ nhận đúng **Cảm ơn** khi lấy khung lẻ. Kết quả giữa khung chẵn và khung lẻ chưa đủ ổn định để chọn lệch một khung làm mặc định. Thử nghiệm giữ nguyên biên cắt và chưa đo lượt không ký.
-- `110216` vẫn sai khi giữ biên kiosk và lấy thưa. Phép thử tiếp theo cần duyệt: giữ biên đầy đủ `[281,400)` của `110216` theo mục 8.17 và đối chiếu cả hai cách lấy thưa với đầu vào đầy đủ. Mục tiêu kiểm tra việc kết hợp giữ trọn pha mở với giảm mật độ khung có sửa nhãn trên ca vốn sai với từng cách riêng hay không.
+- `110216` vẫn sai khi giữ biên kiosk và lấy thưa. Mục 8.20 thử kết hợp lấy thưa với giữ trọn pha mở tay.
 
 [Báo cáo đối chiếu cả sáu đoạn](../outputs/segmentation_experiments/webcam_11h_sequence_sampling_20261116T044244Z.json).
+
+### 8.20. Thử kết hợp giữ pha mở và lấy thưa khung trên 110216 (16/11/2026)
+
+Người ký đã duyệt dùng hai biên `[281,332)` và `[281,400)` của cùng lượt Cảm ơn. Với mỗi biên, thử ba cách giữ khung: đầy đủ, khung nguồn chẵn và khung nguồn lẻ. Điểm khớp lấy từ một lần trích trên video gốc. Đối chiếu mã băm, hai mẫu tham chiếu, Top-5, thứ hạng và điểm Cảm ơn với bốn cấu hình đã lưu ở mục 8.17 và 8.19. Chạy lặp đầu vào đầy đủ sau hai lần lấy thưa để kiểm tra toàn bộ 400 điểm mô hình.
+
+| Biên | Giữ khung | Nhãn đứng đầu | Cảm ơn xếp hạng và điểm |
+| --- | --- | --- | --- |
+| `[281,332)` | 51 khung đầy đủ | Chạy | 10, 0,49% |
+| `[281,332)` | 25 khung chẵn | Cầu lông | 2, 39,06% |
+| `[281,332)` | 26 khung lẻ | Chạy | 16, 0,0014% |
+| `[281,400)` | 119 khung đầy đủ | Lạnh | 5, 9,06% |
+| `[281,400)` | 59 khung chẵn | **Cảm ơn** | **1, 99,60%** |
+| `[281,400)` | 60 khung lẻ | Ốm | 2, 7,08% |
+
+- Kết hợp biên mở rộng với khung chẵn sửa **Cảm ơn** ở clip này. Giữ đầu ra gốc của đoạn thứ nhất cho đúng **Khăn quàng cổ → Cảm ơn** trong đối chiếu offline. Biên cuối do người xem ảnh chọn. Kiosk chưa tự tìm được biên này.
+- Trong khoảng giữ lòng bàn tay mở `[330,385)`, cả năm khung bộ dò nhìn thấy tay đều chẵn (356, 362, 364, 366, 370). Sau chuẩn bị đầu vào, mẫu chẵn còn ít nhất một tay ở **5/28** khung pha giữ, mẫu lẻ ở **0/27** khung. Cả hai đều không có khung nào còn điểm của hai tay cùng lúc trong pha này. Khác biệt dữ liệu tay có thể góp phần làm kết quả nhạy với lệch một khung. Chưa cô lập được tác dụng riêng của chất lượng điểm tay.
+- Phép thử tiếp theo cần duyệt: so lấy trung bình toàn bộ 400 điểm dự đoán của hai mẫu chẵn/lẻ với giữ toàn bộ khung và từng mẫu riêng. Dùng lại ba clip phiên 11 giờ, giữ biên kiosk khi chấm kết quả chuỗi. Nếu chạy thêm biên mở rộng của `110216`, ghi riêng kết quả vì đó là biên chọn từ ảnh. Đối chiếu số chuỗi đúng đủ, số vị trí đúng và các nhãn vốn đúng bị đổi sai.
+
+[Báo cáo hai biên và ba cách lấy khung trên 110216](../outputs/segmentation_experiments/webcam_110216_boundary_sampling_20261116T044513Z.json).
