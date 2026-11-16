@@ -469,6 +469,15 @@ Dùng biên thô đã lưu, trước bước thêm đệm và lọc đoạn ng�
 | Các biên giữa hai ký hiệu đã được tách trong clip có ký | 16 | 867–7.650 ms | 0 |
 | Các biên ở lượt không ký | 3 | 2.012–8.852 ms | 0 |
 
-**Bước offline cần duyệt.** Thử gộp đúng một cặp đoạn đã đủ điều kiện phân loại khi khoảng cách biên thô ≤ 750 ms và đoạn liền sau khi gộp vẫn nằm trong giới hạn khung hiện tại. Giữ checkpoint và các điều kiện chấp nhận khác. So số lần tách thừa, gộp nhầm, chuỗi đúng đủ và lượt không ký bị chấp nhận trên các clip có nhãn này. Ghi riêng ca `030632`: đoạn cắt tay `[213,278)` trước đó đã trả đúng **Khăn quàng cổ**, còn nhãn **Cảm ơn** cuối vẫn sai ở các biên đã thử.
+### 8.21. Thử offline gộp một khoảng hở ngắn ≤ 750 ms (16/11/2026)
 
-750 ms được chọn từ tập cũ. Dữ liệu trên chỉ gồm các biên mà bộ tách đã tìm được, nên chưa đo được nguy cơ gộp hai ký hiệu thật khi người ký nối nhanh. Chưa chạy gộp tự động hoặc sửa ngưỡng kiosk.
+Sau khi được duyệt, chạy `segmentation/compare_short_gap_merge.py` trên 15 clip (13 chuỗi có ký từ hai đợt lưu trữ và 2 lượt không ký). Quy tắc chỉ gộp khi lượt không bị chặn bởi giới hạn độ dài, có đúng một cặp đoạn liên tiếp đã đủ điều kiện phân loại có khoảng cách biên thô `0–750 ms`, và đoạn sau khi gộp vẫn không vượt `max_segment_frames` (150 khung). Đối chiếu mã băm video, checkpoint, hai mẫu tham chiếu và tái lập biên mặc định trước khi chạy suy luận trên đoạn gộp. [Script](../segmentation/compare_short_gap_merge.py) · [Báo cáo A/B](../outputs/short_gap_merge/20261116T060735_214945Z/report.json)
+
+| Cấu hình | Chuỗi đúng đủ (13 chuỗi) | Chuỗi dư đoạn thô | Chuỗi thiếu đoạn thô | Lượt không ký bị chấp nhận |
+| --- | ---: | ---: | ---: | ---: |
+| Mặc định | 4/13 | 1/13 | 2/13 | 0/2 |
+| Gộp một khoảng hở ≤ 750 ms | 4/13 | **0/13** | 2/13 | 0/2 |
+
+- Chỉ `030632` kích hoạt quy tắc: hai đoạn thô `[216,243)` và `[253,275)` (cách nhau `670,05 ms`, tức 10 khung ở `14,92 FPS`) được gộp thành đoạn sau đệm `[213,278)`. SL-GCN trả đúng **Khăn quàng cổ** (`99,995%`), loại bỏ nhãn thừa **Vòng tay**. Chuỗi dự đoán chuyển từ 5 nhãn sang 4 nhãn **Khăn quàng cổ → Cảm ơn → Khăn quàng cổ → Nói chuyện**; toàn chuỗi vẫn chưa khớp nhãn đích do đoạn cuối `[308,359)` còn nhận nhầm **Cảm ơn** thành **Nói chuyện**.
+- Mười bốn clip còn lại giữ nguyên biên, nhãn và quyết định chấp nhận của mặc định (0 ca gộp nhầm mới). Ngay cả khi áp dụng sau bước khôi phục một đoạn ngắn ở mục 8.13, các khoảng hở của `024431` (`4.429–5.906 ms`) và `024619` (`2.684–3.355 ms`) đều lớn hơn 750 ms nên hai quy tắc tác động lên các clip tách biệt.
+- Ngưỡng 750 ms được chọn từ chính tập đã xem và mới kiểm tra trên các biên mà bộ tách mặc định tìm được, chưa đo nguy cơ gộp hai ký hiệu thật khi người ký chuyển tay nhanh trên phiên quay độc lập. Kiosk giữ nguyên cấu hình mặc định.
