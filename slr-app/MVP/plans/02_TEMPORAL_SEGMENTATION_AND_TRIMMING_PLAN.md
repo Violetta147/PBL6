@@ -403,6 +403,22 @@ Người ký đã duyệt so A là đoạn kiosk `[281,332)` với B là đoạn
 
 - B thêm 68 khung, trong đó 10 khung có điểm tay dùng được và cả 10 chỉ còn một tay. Riêng 55 khung kiểm tra ở pha giữ lòng bàn tay mở, B có 9 khung còn điểm một tay. Không có khung nào trong pha đó còn điểm cả hai tay.
 - Kéo dài đoạn làm Cảm ơn tăng hạng nhưng Top-1 vẫn sai. Nếu thay riêng đoạn thứ hai bằng kết quả B, chuỗi sẽ là **Khăn quàng cổ → Lạnh**. Số chuỗi đúng của phiên 11 giờ vẫn là 0/3 ngay cả khi dùng biên chọn bằng mắt cho clip này.
-- Phép thử tiếp theo cần duyệt: lấy `110546`, giữ cùng biên `[204,295)` và cùng đặc trưng đã trích, so toàn bộ khung với hai cách lấy cách một khung, bắt đầu từ khung chẵn hoặc khung lẻ. Mục tiêu kiểm tra mật độ lấy mẫu theo thời gian có ảnh hưởng đến nhãn hay không khi pha mở tay đã có điểm hai tay. Xấp xỉ 15 FPS chỉ là mật độ của mẫu đặc trưng sau khi lấy thưa, video vẫn là bản gốc khoảng 30 FPS. Chưa đưa phép thử này vào kiosk.
+- Mục 8.18 kiểm tra ảnh hưởng của mật độ khung trên `110546`, nơi pha mở tay có đủ dữ liệu tay.
 
 [Báo cáo A/B 110216](../outputs/segmentation_experiments/webcam_110216_thanks_crop_ab_20261116T043643Z.json).
+
+### 8.18. Thử offline mật độ khung trên 110546 (16/11/2026)
+
+Người ký đã duyệt so ba đầu vào trên biên `[204,295)` của Cảm ơn. A giữ toàn bộ khung. B lấy các khung nguồn chẵn trong đoạn và C lấy các khung nguồn lẻ, cùng mật độ khoảng 14,88 khung/giây. Trích điểm một lần trên video gốc. Giữ mốc thời gian, điểm và cờ chất lượng của từng khung được chọn. Cả ba dùng cùng checkpoint và cách chuẩn bị đầu vào. Kết quả A khớp Top-5 kiosk trong dung sai 0,00001. Chạy lại A sau B/C cho đầu vào và toàn bộ 400 điểm mô hình giống hệt lần đầu.
+
+| Mẫu | Số khung | Nhãn đứng đầu và điểm | Cảm ơn xếp hạng | Khung có điểm hai tay trong pha giữ tay |
+| --- | ---: | --- | ---: | ---: |
+| A, toàn bộ, 29,76 khung/giây | 91 | Tháng, 34,63% | 11 (0,92%) | 31/31 |
+| B, khung nguồn chẵn | 46 | Cảm ơn, 95,01% | 1 | 16/16 |
+| C, khung nguồn lẻ | 45 | Cảm ơn, 81,68% | 1 | 15/15 |
+
+- Cả hai cách lấy thưa đều sửa nhãn **Cảm ơn** ở biên cố định. Giữ kết quả **Khăn quàng cổ** ở đoạn đầu và thay riêng nhãn đoạn hai bằng B hoặc C cho đúng chuỗi của `110546` trong đối chiếu offline.
+- Việc lấy thưa thay đổi số khung và số lần đoạn được lặp để chuẩn bị đầu vào 150 khung của SL-GCN. Tác dụng riêng của mật độ khung và cách lặp chưa được tách trong phép thử này. Kết quả đo trên một đoạn với điểm trích từ video khoảng 30 FPS, vì vậy chưa đánh giá việc quay trực tiếp ở 15 FPS hay số chuỗi đúng khi áp dụng toàn lượt.
+- Phép thử tiếp theo cần duyệt: áp dụng cùng hai cách lấy thưa ở biên cố định cho cả hai đoạn của `110216`, `110403`, `110546`. Đo đủ nhãn và đúng thứ tự, đồng thời kiểm tra xem các nhãn **Khăn quàng cổ** vốn đúng có bị đổi sai hay không. Chưa dùng quy tắc trong kiosk.
+
+[Báo cáo đối chiếu mật độ khung trên 110546](../outputs/segmentation_experiments/webcam_110546_thanks_sampling_20261116T043859Z.json).
