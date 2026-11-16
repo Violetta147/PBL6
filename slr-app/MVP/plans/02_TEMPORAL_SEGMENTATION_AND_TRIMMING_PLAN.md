@@ -297,4 +297,17 @@ Chấm lại 10 clip có chuỗi và 2 clip không ký dựa trên báo cáo đ�
 
 [Ảnh theo khung của 024431](../outputs/segmentation_experiments/webcam_024431_kiem_tra_bien.png) · [Ảnh theo khung của 024619](../outputs/segmentation_experiments/webcam_024619_kiem_tra_bien.png) · [Tín hiệu theo khung](../outputs/segmentation_experiments/webcam_two_dropped_thanks_trace_20261116T035528Z.json).
 
-**Phép thử tiếp theo, cần duyệt trước khi chạy.** Trên hai video đã có, chạy cùng SL-GCN với hai khoảng cho mỗi lượt. Khoảng A là đoạn mặc định sau đệm (`[77,95)` và `[63,82)`), được đưa vào riêng để chẩn đoán dù kiosk bỏ qua. Khoảng B bao trọn từ lúc nhấc tay đến sau pha mở (`[77,106)` và `[63,95)`). Mốc clip `024619` bao hết pha mở quan sát được, tư thế nghỉ hoàn toàn chưa thấy ở khung cuối của bảng ảnh. Giữ nguyên mô hình và dữ liệu điểm trong từng khung. Ghi nhãn đứng đầu, hạng của **Cảm ơn** và số khung có điểm tay dùng được. Nếu B sửa nhãn, dùng ca đúng và clip múa ngẫu nhiên để kiểm tra một quy tắc tìm biên tự động trước khi cân nhắc đưa vào kiosk. Nếu B vẫn sai, ưu tiên kiểm chứng chất lượng dữ liệu tay ở pha mở.
+### 8.12. Thử offline giữ đủ pha mở tay trong hai lượt Cảm ơn (16/11/2026)
+
+Người ký đã duyệt phép thử A/B. Chạy lại hai video với cùng bộ trích điểm, bước chuẩn bị đầu vào và checkpoint SL-GCN đã kiểm tra mã băm. A dùng đoạn mặc định sau đệm và được đưa vào mô hình riêng dù kiosk loại vì ngắn. B giữ cùng khung bắt đầu và kéo dài đến sau pha mở tay quan sát được. Ở clip `024619`, tư thế nghỉ hoàn toàn chưa thấy tại khung cuối của bảng ảnh. Các khoảng `[đầu, cuối)` dùng chỉ số khung gốc từ 0.
+
+| Clip | A, đoạn ngắn | Hạng và điểm Cảm ơn ở A | B, đủ pha mở | Hạng và điểm Cảm ơn ở B |
+| --- | --- | --- | --- | --- |
+| `024431` | `[77,95)`, 18 khung, nhãn đầu **Cầu lông** | Hạng 4, 0,81% | `[77,106)`, 29 khung | **Hạng 1, 99,63%** |
+| `024619` | `[63,82)`, 19 khung, nhãn đầu **Nói chuyện** | Hạng 12, 0,012% | `[63,95)`, 32 khung | **Hạng 1, 84,47%** |
+
+- Phần nối thêm có **0 khung với điểm bàn tay dùng được** ở cả hai clip. Tính mỗi khung nguồn một lần sau lọc và sửa dữ liệu, số điểm tay giữ nguyên **220 điểm trên 11 khung** ở `024431`, và **260 điểm trên 13 khung** ở `024619`. Riêng pha đưa và giữ tay ra trước còn điểm tay ở **2/13** và **1/13** khung tương ứng. Giữ đủ thời đoạn sửa được nhãn ở cả hai clip dù không bổ sung điểm bàn tay. Phép thử chưa phân lập ảnh hưởng riêng của chuyển động thân người và việc lặp đoạn theo độ dài trong bộ chuẩn bị đầu vào.
+- Ghép kết quả B vào đúng vị trí theo thời gian và giữ nguyên các nhãn còn lại cho ra **Khăn quàng cổ → Cảm ơn → Rửa mặt** và **Khăn quàng cổ → Cảm ơn → Khăn quàng cổ → Cảm ơn**. Hai chuỗi này đúng với mô tả khi dùng biên chọn từ ảnh. Chạy lại kiosk mặc định vẫn tái hiện biên và dự đoán cũ. Chạy lại A sau B cho đầu vào và 400 điểm đầu ra giống hệt lần A đầu.
+- Bước tiếp theo là kiểm tra offline một cách giữ đoạn khi bộ dò bàn tay mất dấu giữa động tác mà điểm thân người vẫn theo được. Kiểm tra trên hai clip lỗi, các chuỗi hai ký hiệu vốn đúng và clip múa ngẫu nhiên `024009`. Đo đúng đủ chuỗi, lỗi gộp hai ký hiệu và lượt không ký bị cho qua. Cần duyệt trước khi thử quy tắc tách mới.
+
+[Báo cáo A/B và kết quả ghép theo biên chọn từ ảnh](../outputs/segmentation_experiments/webcam_two_thanks_crop_ab_20261116T040914Z.json).
