@@ -348,6 +348,20 @@ Phiên này có ba lượt ở chế độ chuỗi (`110216`, `110403`, `110546`
 
 Chấm theo thứ tự ký do người ký xác nhận. Lượt có ký đúng khi bộ tách cho qua và trả đủ nhãn theo đúng thứ tự. Lượt không ký đúng khi hệ thống từ chối. Các clip chưa xác nhận nội dung vẫn dùng được để kiểm tra hai cấu hình có trả cùng kết quả và quy tắc có cơ hội kích hoạt hay không.
 
-Chạy lại với checkpoint và hai mẫu tham chiếu đã kiểm tra. Biên, trạng thái cho qua, nhãn và điểm của kiosk mặc định khớp báo cáo gốc trong dung sai 0,00001. Cả ba clip đều ở khoảng 29,5–29,8 FPS. Mỗi clip có đúng hai đoạn thô và hai đoạn được nhận dạng. Đoạn ngắn nhất trong sáu đoạn là 51 khung sau đệm. Quy tắc khôi phục không kích hoạt lần nào và trả nguyên kết quả mặc định trên cả ba clip. Điều này xác nhận quy tắc không tác động lên ba ca này. Cần clip độc lập có đúng một đoạn bị loại vì ngắn để kiểm chứng tác dụng khôi phục. Chưa chấm độ chính xác tuyệt đối của phiên vì còn thiếu thứ tự ký được xác nhận.
+Chạy lại với checkpoint và hai mẫu tham chiếu đã kiểm tra. Biên, trạng thái cho qua, nhãn và điểm của kiosk mặc định khớp báo cáo gốc trong dung sai 0,00001. Cả ba clip đều ở khoảng 29,5–29,8 FPS. Mỗi clip có đúng hai đoạn thô và hai đoạn được nhận dạng. Đoạn ngắn nhất trong sáu đoạn là 51 khung sau đệm. Quy tắc khôi phục không kích hoạt lần nào và trả nguyên kết quả mặc định trên cả ba clip. Cần clip độc lập có đúng một đoạn bị loại vì ngắn để kiểm chứng tác dụng khôi phục.
 
-[Báo cáo chạy lại ba lượt độc lập](../outputs/segmentation_experiments/hand_dropout_independent_11h_20261116T042643Z.json).
+Người ký xác nhận cả ba lượt đều là **Khăn quàng cổ → Cảm ơn**. Hai cấu hình cùng đạt **0/3 chuỗi đúng** và **2/6 vị trí nhãn đúng**. Có hai đoạn ở mỗi clip, nhưng cả ba vị trí của Cảm ơn đều sai. Chưa đối chiếu biên với video gốc để xác định đoạn đưa vào mô hình có chứa trọn ký hiệu hay không.
+
+| Clip | Kết quả theo thứ tự ở cả hai cấu hình |
+| --- | --- |
+| `110216` | Khăn quàng cổ → Chạy |
+| `110403` | Không nghe lời → Tháng mười một |
+| `110546` | Khăn quàng cổ → Tháng |
+
+Hai lượt **một ký hiệu** được chấm riêng theo báo cáo kiosk gốc. `110720` là lượt không ký nhưng nhận **Màu xanh da trời**. `110739` là **Cảm ơn** nhưng nhận **Cháu**. Lượt không ký này xác nhận lỗi báo nhầm ở chế độ một ký hiệu. Phép chấm chế độ chuỗi chưa có lượt không ký của phiên này.
+
+[Báo cáo chạy lại ba lượt độc lập](../outputs/segmentation_experiments/hand_dropout_independent_11h_20261116T042643Z.json) · [Kết quả chấm năm lượt theo nhãn người ký xác nhận](../outputs/segmentation_experiments/webcam_11h_scored_20261116T042935Z.json).
+
+### 8.15. Tiêu chí dừng thí nghiệm chuỗi đã duyệt (16/11/2026)
+
+Trên 10 chuỗi mới dùng để đánh giá, ít nhất **9/10** được nhận đủ và đúng thứ tự. Chế độ chuỗi phải từ chối cả **5/5 lượt không ký**. Ghi nhãn và thứ tự trước khi đối chiếu dự đoán. Khi đạt đồng thời hai điều kiện, báo **[ĐÃ ĐẠT TIÊU CHÍ]** kèm số lượt đúng và số lượt không ký bị nhận nhầm. Phiên 11 giờ hiện có **0/3 chuỗi đúng**. Tiêu chí này áp dụng cho chế độ chuỗi.
