@@ -388,6 +388,21 @@ Lấy một ảnh mỗi 10 khung nguồn, khoảng 0,34 giây giữa hai ảnh. 
 
 - `110216` có **53/55 khung** của khoảng giữ tay nằm ngoài đoạn đưa vào mô hình. Đoạn mặc định dài **51 khung**, nên quy tắc chỉ cứu đoạn dưới 20 khung không tác động. Trong hai khung kiểm tra còn lọt vào đoạn, cả hai đều thiếu dữ liệu tay ngay từ bộ dò.
 - `110403` và `110546` đều còn ít nhất một tay dùng được ở **31/31** khung kiểm tra. Riêng `110546` có cả hai tay trong cả 31 khung và vẫn bị dự đoán là **Tháng**. Có đủ điểm để dùng không xác nhận tọa độ chính xác. Chưa xác định nguyên nhân của nhãn sai trên hai clip đã giữ được pha mở tay.
-- Phép thử tiếp theo cần duyệt: trên `110216`, giữ nguyên khung bắt đầu và so biên `[281,332)` với `[281,400)` bằng cùng checkpoint, qua đó kiểm tra liệu giữ trọn pha mở tay có sửa nhãn ở clip này không. Dùng `110546` làm ca chẩn đoán riêng cho lỗi xảy ra dù pha mở đã nằm trong đoạn và có điểm của hai tay.
+- Mục 8.17 đối chiếu hai biên của `110216`. Giữ `110546` làm ca chẩn đoán riêng cho lỗi xảy ra dù pha mở đã nằm trong đoạn và có điểm của hai tay.
 
 [Báo cáo dữ liệu tay theo khung](../outputs/segmentation_experiments/webcam_11h_thanks_boundary_audit_20261116T043351Z.json).
+
+### 8.17. Thử offline giữ hết pha mở tay ở 110216 (16/11/2026)
+
+Người ký đã duyệt so A là đoạn kiosk `[281,332)` với B là đoạn kéo đến khung nghỉ `[281,400)`. Cả hai dùng cùng đặc trưng trích một lần và cùng checkpoint. Kiểm tra mã băm video, checkpoint và hai mẫu tham chiếu. Khớp Top-5 của A với báo cáo kiosk trong dung sai 0,00001. Chạy lại A sau B cho đầu vào và toàn bộ 400 điểm mô hình giống hệt lần A đầu.
+
+| Đoạn | Nhãn đứng đầu | Hạng và điểm của Cảm ơn | Khung có điểm bàn tay sử dụng được |
+| --- | --- | --- | ---: |
+| A `[281,332)`, 51 khung | Chạy, 54,00% | Hạng 10, 0,49% | 40/51 |
+| B `[281,400)`, 119 khung | Lạnh, 16,33% | Hạng 5, 9,06% | 50/119 |
+
+- B thêm 68 khung, trong đó 10 khung có điểm tay dùng được và cả 10 chỉ còn một tay. Riêng 55 khung kiểm tra ở pha giữ lòng bàn tay mở, B có 9 khung còn điểm một tay. Không có khung nào trong pha đó còn điểm cả hai tay.
+- Kéo dài đoạn làm Cảm ơn tăng hạng nhưng Top-1 vẫn sai. Nếu thay riêng đoạn thứ hai bằng kết quả B, chuỗi sẽ là **Khăn quàng cổ → Lạnh**. Số chuỗi đúng của phiên 11 giờ vẫn là 0/3 ngay cả khi dùng biên chọn bằng mắt cho clip này.
+- Phép thử tiếp theo cần duyệt: lấy `110546`, giữ cùng biên `[204,295)` và cùng đặc trưng đã trích, so toàn bộ khung với hai cách lấy cách một khung, bắt đầu từ khung chẵn hoặc khung lẻ. Mục tiêu kiểm tra mật độ lấy mẫu theo thời gian có ảnh hưởng đến nhãn hay không khi pha mở tay đã có điểm hai tay. Xấp xỉ 15 FPS chỉ là mật độ của mẫu đặc trưng sau khi lấy thưa, video vẫn là bản gốc khoảng 30 FPS. Chưa đưa phép thử này vào kiosk.
+
+[Báo cáo A/B 110216](../outputs/segmentation_experiments/webcam_110216_thanks_crop_ab_20261116T043643Z.json).
