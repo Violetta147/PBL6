@@ -341,3 +341,13 @@ python -B -u -X utf8 segmentation/compare_hand_dropout.py --camera-roll $cameraR
 - Kết quả ưu tiên cách khôi phục một đoạn ngắn để kiểm tra tiếp trên phiên quay độc lập. Quy tắc chọn từ chính tập đã xem, trong đó chỉ có một clip múa ngẫu nhiên. Kiosk vẫn dùng bộ tách mặc định.
 
 [Báo cáo phép thử nối qua mất dấu](../outputs/segmentation_experiments/hand_dropout_20261116T041914Z.json) · [Báo cáo đối chiếu cả ba cấu hình](../outputs/segmentation_experiments/hand_dropout_guarded_20261116T042209Z.json).
+
+### 8.14. Đối chiếu trên phiên quay lúc 11 giờ (16/11/2026)
+
+Phiên này có ba lượt ở chế độ chuỗi (`110216`, `110403`, `110546`). Mỗi clip có SHA-256 khác toàn bộ 12 clip dùng để chọn quy tắc. Hai lượt quay chế độ một ký hiệu cùng phiên nằm ngoài phép thử. Dùng thời lượng và FPS đo lúc quay trong báo cáo kiosk. So bộ tách mặc định với quy tắc chỉ khôi phục một đoạn ngắn ở mục 8.13, giữ checkpoint và các ngưỡng đã dùng trong phép thử đó.
+
+Chấm theo thứ tự ký do người ký xác nhận. Lượt có ký đúng khi bộ tách cho qua và trả đủ nhãn theo đúng thứ tự. Lượt không ký đúng khi hệ thống từ chối. Các clip chưa xác nhận nội dung vẫn dùng được để kiểm tra hai cấu hình có trả cùng kết quả và quy tắc có cơ hội kích hoạt hay không.
+
+Chạy lại với checkpoint và hai mẫu tham chiếu đã kiểm tra. Biên, trạng thái cho qua, nhãn và điểm của kiosk mặc định khớp báo cáo gốc trong dung sai 0,00001. Cả ba clip đều ở khoảng 29,5–29,8 FPS. Mỗi clip có đúng hai đoạn thô và hai đoạn được nhận dạng. Đoạn ngắn nhất trong sáu đoạn là 51 khung sau đệm. Quy tắc khôi phục không kích hoạt lần nào và trả nguyên kết quả mặc định trên cả ba clip. Điều này xác nhận quy tắc không tác động lên ba ca này. Cần clip độc lập có đúng một đoạn bị loại vì ngắn để kiểm chứng tác dụng khôi phục. Chưa chấm độ chính xác tuyệt đối của phiên vì còn thiếu thứ tự ký được xác nhận.
+
+[Báo cáo chạy lại ba lượt độc lập](../outputs/segmentation_experiments/hand_dropout_independent_11h_20261116T042643Z.json).
