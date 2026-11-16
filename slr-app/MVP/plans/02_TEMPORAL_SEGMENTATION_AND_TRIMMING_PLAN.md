@@ -419,6 +419,23 @@ Người ký đã duyệt so ba đầu vào trên biên `[204,295)` của Cảm 
 
 - Cả hai cách lấy thưa đều sửa nhãn **Cảm ơn** ở biên cố định. Giữ kết quả **Khăn quàng cổ** ở đoạn đầu và thay riêng nhãn đoạn hai bằng B hoặc C cho đúng chuỗi của `110546` trong đối chiếu offline.
 - Việc lấy thưa thay đổi số khung và số lần đoạn được lặp để chuẩn bị đầu vào 150 khung của SL-GCN. Tác dụng riêng của mật độ khung và cách lặp chưa được tách trong phép thử này. Kết quả đo trên một đoạn với điểm trích từ video khoảng 30 FPS, vì vậy chưa đánh giá việc quay trực tiếp ở 15 FPS hay số chuỗi đúng khi áp dụng toàn lượt.
-- Phép thử tiếp theo cần duyệt: áp dụng cùng hai cách lấy thưa ở biên cố định cho cả hai đoạn của `110216`, `110403`, `110546`. Đo đủ nhãn và đúng thứ tự, đồng thời kiểm tra xem các nhãn **Khăn quàng cổ** vốn đúng có bị đổi sai hay không. Chưa dùng quy tắc trong kiosk.
+- Mục 8.19 mở rộng phép thử lấy thưa cho cả hai đoạn của ba clip phiên 11 giờ.
 
 [Báo cáo đối chiếu mật độ khung trên 110546](../outputs/segmentation_experiments/webcam_110546_thanks_sampling_20261116T043859Z.json).
+
+### 8.19. Thử offline mật độ khung trên cả ba chuỗi lúc 11 giờ (16/11/2026)
+
+Người ký đã duyệt áp dụng phép thử trên cả sáu đoạn của `110216`, `110403`, `110546`. Giữ nguyên biên kiosk và dùng cùng đặc trưng trích một lần từ mỗi clip. Đối chiếu ba đầu vào cho từng đoạn: đầy đủ, khung nguồn chẵn, khung nguồn lẻ. Kiểm tra mã băm video và checkpoint, hai mẫu tham chiếu, Top-5 mặc định của từng đoạn và kết quả phép thử trước trên đoạn `110546`. Cả ba chuỗi đã được người ký xác nhận là **Khăn quàng cổ → Cảm ơn**.
+
+| Clip | Giữ toàn bộ khung | Khung nguồn chẵn | Khung nguồn lẻ |
+| --- | --- | --- | --- |
+| `110216` | Khăn quàng cổ → Chạy | Khăn quàng cổ → Cầu lông | Khăn quàng cổ → Chạy |
+| `110403` | Không nghe lời → Tháng mười một | Hát → Tháng | Gió → Cảm ơn |
+| `110546` | Khăn quàng cổ → Tháng | **Khăn quàng cổ → Cảm ơn** | **Khăn quàng cổ → Cảm ơn** |
+| Chuỗi đúng đủ và đúng thứ tự | 0/3 | 1/3 | 1/3 |
+| Vị trí nhãn đúng | 2/6 | 3/6 | 4/6 |
+
+- Cả hai cách lấy thưa giữ nguyên hai vị trí **Khăn quàng cổ** vốn đúng. `110403` chỉ nhận đúng **Cảm ơn** khi lấy khung lẻ. Kết quả giữa khung chẵn và khung lẻ chưa đủ ổn định để chọn lệch một khung làm mặc định. Thử nghiệm giữ nguyên biên cắt và chưa đo lượt không ký.
+- `110216` vẫn sai khi giữ biên kiosk và lấy thưa. Phép thử tiếp theo cần duyệt: giữ biên đầy đủ `[281,400)` của `110216` theo mục 8.17 và đối chiếu cả hai cách lấy thưa với đầu vào đầy đủ. Mục tiêu kiểm tra việc kết hợp giữ trọn pha mở với giảm mật độ khung có sửa nhãn trên ca vốn sai với từng cách riêng hay không.
+
+[Báo cáo đối chiếu cả sáu đoạn](../outputs/segmentation_experiments/webcam_11h_sequence_sampling_20261116T044244Z.json).
