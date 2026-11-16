@@ -60,4 +60,18 @@ Tính nhãn đứng đầu khi lấy trung bình đều điểm softmax của ha
 
 So với giữ mọi khung, số chuỗi đúng tăng từ 0/3 lên 1/3 và số vị trí đúng từ 2/6 lên 3/6. Trên đúng ba clip cũ, số chuỗi đúng bằng từng lượt chẵn hoặc lẻ riêng lẻ và số vị trí đúng thấp hơn lượt lẻ (4/6). Đây là phép đọc lại kết quả cũ, chưa kiểm tra chuỗi dài hay lượt không ký.
 
-Bước offline cần duyệt là chạy quy tắc trung bình đều trên các clip chuỗi dài và lượt không ký đã có nhãn, cùng biên, cùng checkpoint và cùng điều kiện chấp nhận chuỗi của đối chứng. So số chuỗi đúng đủ, số lượt không ký bị nhận nhầm và các lượt vốn đúng bị đổi sai. Kết quả dùng để quyết định có nên đưa ứng viên vào đợt kiểm tra kiosk độc lập đã chốt hay không.
+### Chạy lại trên chuỗi dài và lượt không ký
+
+Sau khi được duyệt, chạy một lần trích xuất và một lần tách cho mỗi clip. Đối chiếu mã băm clip và checkpoint, số khung, biên, nhãn đứng đầu và quyết định chấp nhận với báo cáo gốc. Giữ các đoạn đưa vào mô hình và điều kiện chấp nhận giống nhau ở ba phương án. Chia khung theo chỉ số nguồn chẵn/lẻ và tính trung bình đều trên toàn bộ 400 điểm softmax. [Script](../diagnostics/compare_parity_sampling.py) · [Báo cáo A/B](../outputs/parity_sampling/20261116T055115_789204Z/report.json)
+
+| Phương án | Chuỗi dài đúng đủ, đúng thứ tự | Lượt không ký bị chấp nhận |
+| --- | --- | --- |
+| Giữ mọi khung | 0/3 | 0/2 |
+| Chỉ khung lẻ | 0/3 | 0/2 |
+| Trung bình chẵn/lẻ | 0/3 | 0/2 |
+
+- `024431` và `024619` có đúng số đoạn thô, nhưng mỗi lượt mất một đoạn vì ngắn dưới mức tối thiểu. Cả hai cách lấy thưa còn đổi đoạn **Cảm ơn** cuối đã nhận đúng ở `024619` thành **Nói chuyện**.
+- `030632` vẫn được chấp nhận với 5 đoạn cho 4 ký hiệu, và **Cảm ơn** cuối vẫn bị nhầm thành **Nói chuyện**. Nhãn của đoạn thừa đổi từ **Vòng tay** sang **Trường Cao đẳng**.
+- Cả hai lượt không ký có nhãn ở cấp đoạn nhưng đều bị điều kiện chấp nhận lượt chặn. Kết quả 0/2 chỉ áp dụng cho các clip cũ này. Không chọn lấy thưa chẵn/lẻ cho đợt kiểm tra kiosk độc lập từ bằng chứng hiện có. Ưu tiên kiểm tra biên đoạn. Phép thử khôi phục đoạn ngắn trước đó đã sửa đúng 2/3 chuỗi dài cũ; lỗi tách thừa ở `030632` còn mở. [Kết quả khôi phục đoạn ngắn](02_TEMPORAL_SEGMENTATION_AND_TRIMMING_PLAN.md)
+
+Kiểm tra cú pháp script, mã băm bundle và hai mẫu tham chiếu đều đạt. Đường nhận dạng đơn gốc vẫn nhận đúng **Dài** trên `014159.mp4` (59 khung).
