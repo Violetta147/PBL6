@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PBL6 · SLR M2.1 Live Test Harness</title>
+  <style>
+    :root {
+      --bg: #F5F7F9;
+      --card: #FFFFFF;
+      --border: #BAC5D0;
+      --text: #18212B;
+      --muted: #4F5D6B;
+      --primary: #273D53;
+      --ok: #087A47;
+      --warn: #D97706;
+      --err: #DC2626;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+    header {
+      height: 44px;
+      padding: 0 16px;
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1.15fr 1fr;
+      gap: 12px;
+      padding: 12px;
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+    .panel {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .cam-wrap {
+      position: relative;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 4px solid var(--border);
+      background: #0F172A;
+      aspect-ratio: 4 / 3;
+    }
+    .cam-wrap.st-READY { border-color: var(--ok); }
+    .cam-wrap.st-CAPTURING { border-color: var(--err); }
+    .cam-wrap.st-END_PENDING { border-color: var(--warn); }
+    .cam-wrap.st-UNKNOWN { border-color: var(--border); }
+    #preview {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scaleX(-1);
+      display: block;
+    }
+    .state-pill {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      background: rgba(24, 33, 43, 0.85);
+      color: #FFFFFF;
+    }
+    .controls {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    button {
+      height: 44px;
+      padding: 0 16px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+    }
+    button.primary {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #FFFFFF;
+    }
+    button:disabled { opacity: 0.45; cursor: not-allowed; }
+    .gloss-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      min-height: 54px;
+      padding: 8px;
+      border-radius: 8px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      align-content: flex-start;
+    }
+    .chip {
+      padding: 6px 10px;
+      border-radius: 6px;
+      background: #DDF7E9;
+      color: #0B6B45;
+      font-weight: 700;
+      font-size: 16px;
+    }
+    .chip.low {
+      background: #FDE7E7;
+      color: #C52236;
+    }
+    .utterances {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      max-height: 220px;
+      overflow-y: auto;
+    }
+    .utt-card {
+      padding: 8px 10px;
+      border-radius: 8px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      font-size: 14px;
+    }
+    .meta {
+      font-size: 12px;
+      color: var(--muted);
+      font-family: ui-monospace, SFMono-Regular, monospace;
+    }
+    input[type="number"] {
+      width: 64px;
+      height: 44px;
+      padding: 0 8px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <span>PBL6 · SLR M2.1 LIVE TEST (07b + 0.35s / 1.5s)</span>
+    <span id="ws-badge" class="meta">WS: connecting...</span>
+  </header>
+
+  <main class="grid">
+    <section class="panel">
+      <div id="cam-wrap" class="cam-wrap st-UNKNOWN">
+        <img id="preview" src="/video_feed" alt="Live camera preview" />
+        <div id="state-pill" class="state-pill">IDLE</div>
+      </div>
+      <div class="controls">
+        <label class="meta">Cam:</label>
+        <input id="cam-idx" type="number" value="0" min="0" max="8" />
+        <button id="btn-start" class="primary">Bắt đầu phiên</button>
+        <button id="btn-stop" disabled>Kết thúc phiên</button>
+        <span id="fps-meta" class="meta">FPS: 0 | Queue: 0</span>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div style="font-size:13px;font-weight:700;color:var(--muted);">GLOSS TRỰC TIẾP (TỰ ĐỘNG CẮT 0.35s)</div>
+      <div id="gloss-list" class="gloss-list">
+        <span class="meta">Buông 2 tay 0.35s để vào READY, sau đó ký từng từ...</span>
+      </div>
+
+      <div style="font-size:13px;font-weight:700;color:var(--muted);">CHUỖI ĐÃ CHỐT (NGHỈ 1.5s → SẴN SÀNG M3)</div>
+      <div id="utterances" class="utterances">
+        <span class="meta">Chưa có chuỗi nào.</span>
+      </div>
+
+      <div id="log-line" class="meta">Trạng thái: sẵn sàng.</div>
+    </section>
+  </main>
+
+  <script>
+    const camWrap = document.getElementById('cam-wrap');
+    const statePill = document.getElementById('state-pill');
+    const wsBadge = document.getElementById('ws-badge');
+    const fpsMeta = document.getElementById('fps-meta');
+    const btnStart = document.getElementById('btn-start');
+    const btnStop = document.getElementById('btn-stop');
+    const camIdx = document.getElementById('cam-idx');
+    const glossList = document.getElementById('gloss-list');
+    const utterancesEl = document.getElementById('utterances');
+    const logLine = document.getElementById('log-line');
+
+    let currentState = { running: false, draining: false, segmenter_state: 'UNKNOWN', glosses: [], utterances: [] };
+
+    function esc(str) {
+      return String(str).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    }
+
+    function renderState(s) {
+      currentState = s;
+      btnStart.disabled = s.running || s.draining;
+      btnStop.disabled = !s.running;
+      const st = s.running ? (s.segmenter_state || 'UNKNOWN') : (s.draining ? 'DRAINING' : 'IDLE');
+      statePill.textContent = st;
+      camWrap.className = 'cam-wrap st-' + (s.running ? (s.segmenter_state || 'UNKNOWN') : 'UNKNOWN');
+      fpsMeta.textContent = `FPS: ${s.capture_fps || 0} | Queue: ${s.queue_depth || 0}`;
+
+      if (!s.glosses || !s.glosses.length) {
+        glossList.innerHTML = '<span class="meta">Buông 2 tay 0.35s để vào READY, sau đó ký từng từ...</span>';
+      } else {
+        glossList.innerHTML = s.glosses.map(g => {
+          const pct = Math.round((g.raw.confidence || 0) * 100);
+          const low = g.raw.low_confidence;
+          const label = low ? `CHƯA RÕ (${esc(g.raw.top1_label)} ${pct}%)` : `#${esc(g.segment_id)} ${esc(g.raw.top1_label)} (${pct}%)`;
+          return `<span class="chip ${low ? 'low' : ''}">${label}</span>`;
+        }).join('');
+      }
+
+      if (!s.utterances || !s.utterances.length) {
+        utterancesEl.innerHTML = '<span class="meta">Chưa có chuỗi nào.</span>';
+      } else {
+        utterancesEl.innerHTML = s.utterances.map(u => {
+          const joined = (u.raw_glosses || []).map(esc).join(' · ');
+          return `<div class="utt-card"><strong>Chuỗi #${esc(u.utterance_id)}:</strong> ${joined} <span class="meta">(${esc(u.reason)})</span></div>`;
+        }).join('');
+      }
+    }
+
+    async function refreshState() {
+      const res = await fetch('/api/state');
+      if (res.ok) renderState(await res.json());
+    }
+
+    function connectWS() {
+      const proto = location.protocol === 'https:' ? 'wss:' : 'ws:';
+      const ws = new WebSocket(`${proto}//${location.host}/ws/live`);
+      ws.onopen = () => { wsBadge.textContent = 'WS: connected'; };
+      ws.onclose = () => {
+        wsBadge.textContent = 'WS: reconnecting...';
+        setTimeout(connectWS, 1500);
+      };
+      ws.onmessage = (ev) => {
+        const msg = JSON.parse(ev.data);
+        if (msg.type === 'snapshot') {
+          renderState(msg.snapshot);
+        } else if (msg.type === 'status') {
+          currentState.segmenter_state = msg.segmenter_state;
+          currentState.queue_depth = msg.queue_depth;
+          currentState.capture_fps = msg.capture_fps;
+          renderState(currentState);
+        } else if (msg.type === 'gloss_result') {
+          currentState.glosses = [...(currentState.glosses || []), msg.gloss];
+          renderState(currentState);
+          const t = msg.gloss.timing || {};
+          logLine.textContent = `Nhận #${msg.gloss.segment_id}: ${msg.gloss.raw.top1_label} (pre=${(t.preprocessing_seconds||0).toFixed(2)}s, gcn=${(t.inference_seconds||0).toFixed(2)}s)`;
+        } else if (msg.type === 'utterance_ready') {
+          currentState.utterances = [...(currentState.utterances || []), msg.utterance];
+          renderState(currentState);
+          logLine.textContent = `Chốt chuỗi #${msg.utterance.utterance_id}: ${msg.utterance.raw_glosses.join(' ')}`;
+        } else if (msg.type === 'segment_incomplete') {
+          logLine.textContent = `Bỏ đoạn dở #${msg.segment.segment_id} (${msg.segment.reason})`;
+        } else if (msg.type === 'session_started' || msg.type === 'session_stopped') {
+          refreshState();
+        } else if (msg.type === 'error') {
+          logLine.textContent = `Lỗi: ${msg.message}`;
+        }
+      };
+    }
+
+    btnStart.addEventListener('click', async () => {
+      logLine.textContent = 'Đang mở camera...';
+      const res = await fetch('/api/session/start', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ camera_index: Number(camIdx.value) || 0 })
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        logLine.textContent = `Lỗi mở camera: ${data.detail}`;
+      } else {
+        renderState(data.state);
+        logLine.textContent = `Đã bắt đầu phiên ${data.session_id}`;
+      }
+    });
+
+    btnStop.addEventListener('click', async () => {
+      logLine.textContent = 'Đang kết thúc phiên & xử lý nốt hàng đợi...';
+      const res = await fetch('/api/session/stop', { method: 'POST' });
+      const data = await res.json();
+      if (res.ok) {
+        renderState(data.state);
+        logLine.textContent = 'Đã kết thúc phiên (giữ nguyên kết quả trên màn hình).';
+      }
+    });
+
+    refreshState();
+    connectWS();
+  </script>
+</body>
+</html>

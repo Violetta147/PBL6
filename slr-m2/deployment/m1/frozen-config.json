@@ -1,0 +1,12 @@
+{
+  "onset": 0.35,
+  "leading": 0.3,
+  "rest": 0.35,
+  "trailing": 0.2,
+  "utterance_rest": 1.5,
+  "max_duration": 15.0,
+  "gap": 0.5,
+  "visibility": 0.5,
+  "wrist_below_hip": -0.15,
+  "elbow_below_shoulder": 0.3
+}

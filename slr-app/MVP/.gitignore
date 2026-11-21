@@ -3,7 +3,8 @@ __pycache__/
 .venv/
 .env
 .env.*
-local_data/
+local_data/*
+!local_data/tts/
 outputs/
 *.mp4
 *.avi

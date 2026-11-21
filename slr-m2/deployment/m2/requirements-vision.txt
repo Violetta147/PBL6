@@ -1,0 +1,7 @@
+# M2.2 LAN Vision Backend runtime (MediaPipe extraction + SL-GCN fallback)
+-r ../../extraction/requirements.txt
+torch>=2.5.1
+fastapi==0.115.6
+uvicorn==0.34.0
+httpx==0.28.1
+websockets==14.2

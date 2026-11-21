@@ -6,3 +6,6 @@ experiments/B04/run_whisper_cpp_pi.py text eol=lf
 reports/generate_demo_figures.py text eol=lf
 reports/figures/* -text
 reports/diagrams/*.mmd text eol=lf
+# Keep frozen M1 07b checkpoint bundle byte-identical across OSes for SHA-256 verification.
+slr-m2/models/checkpoints/** -text
+slr-m2/deployment/m2/*.sh text eol=lf

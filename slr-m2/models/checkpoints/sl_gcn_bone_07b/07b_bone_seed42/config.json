@@ -1,0 +1,302 @@
+{
+  "accumulation_steps": 1,
+  "augmentation": false,
+  "batch_size": 16,
+  "bone_root_centering": true,
+  "cache_config_sha256": "1d5c730b092b6aa782ed68e2a8305cdc890676b2ef8711041e3a1282284b2c69",
+  "cache_id": "b0_v3_1d5c730b092b6aa7",
+  "classes": 400,
+  "code_hashes": {
+    "ablation.py": "be2ae4e0d66dfcf71bf1c9fbcd154776ecded765fd3bfe10376c332ab11a37d7",
+    "architecture_comparison.py": "31676bb742baa006f169a2597b31e11440e57e4a98dd261c23cf0120f78a596b",
+    "architecture_data.py": "4f861c78922dfea4029156d8aad2a64760c2f34736d14c43c4eb258af9818885",
+    "architecture_models.py": "b34e24b70d02173775e16b964de20cda4295d7f9b44cd6ba2f6ff4e1f9a20cce",
+    "architecture_runner.py": "5373aa0efe9de3d6d8772821d8622aa73359a34526259442fda2e611f198c987",
+    "dataset.py": "599b9164b85b8f6f2ed8fe97139812e3af851c11e15a186fe34a8aefa60115d5",
+    "feature_cache.py": "766aa2980833e7229340b26c1f0faff68b7c718b6e97f81ac32b0df86810234e",
+    "io_utils.py": "5378b728efdcdb32f7b751fdc58027eeb2c826ade2fb4a9bb10d1c02c382e2c2",
+    "runner.py": "dbb0e5feb52253d63c58048b0f3cd23529be1ffde292e02f46d4083af594ed9b",
+    "short_gap.py": "9482234c58aea8890542db47a8b68d466305394d5f02ba412f39c4376eab83f1",
+    "slgcn_bone_07b.py": "db22cc2a3cd7319f643c0413ce8d8cbf31017556ce749ff89a45ca50c9a72bba"
+  },
+  "cuda_version": "13.0",
+  "cudnn_version": 92800,
+  "device": "cuda",
+  "effective_batch_size": 16,
+  "environment_differences": {
+    "cuda_version": {
+      "current": "13.0",
+      "reference": null
+    },
+    "cudnn_version": {
+      "current": 92800,
+      "reference": null
+    },
+    "gpu": {
+      "current": "Tesla T4",
+      "reference": null
+    }
+  },
+  "epochs": 60,
+  "feature_channels": [
+    "global_x",
+    "global_y",
+    "local_x",
+    "local_y",
+    "usable",
+    "observed",
+    "imputed",
+    "local_valid"
+  ],
+  "feature_dim": 224,
+  "feature_shape": [
+    150,
+    28,
+    8
+  ],
+  "frames": 150,
+  "gpu": "Tesla T4",
+  "grad_clip": null,
+  "graph": {
+    "cache_nodes": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      12,
+      13,
+      16,
+      17,
+      20,
+      21,
+      24,
+      25,
+      28,
+      29,
+      33,
+      34,
+      37,
+      38,
+      41,
+      42,
+      45,
+      46,
+      49
+    ],
+    "inward_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        2,
+        4
+      ],
+      [
+        1,
+        3
+      ],
+      [
+        3,
+        5
+      ],
+      [
+        0,
+        6
+      ],
+      [
+        1,
+        7
+      ],
+      [
+        4,
+        8
+      ],
+      [
+        5,
+        18
+      ],
+      [
+        8,
+        9
+      ],
+      [
+        8,
+        10
+      ],
+      [
+        10,
+        11
+      ],
+      [
+        8,
+        12
+      ],
+      [
+        12,
+        13
+      ],
+      [
+        8,
+        14
+      ],
+      [
+        14,
+        15
+      ],
+      [
+        8,
+        16
+      ],
+      [
+        16,
+        17
+      ],
+      [
+        18,
+        19
+      ],
+      [
+        18,
+        20
+      ],
+      [
+        20,
+        21
+      ],
+      [
+        18,
+        22
+      ],
+      [
+        22,
+        23
+      ],
+      [
+        18,
+        24
+      ],
+      [
+        24,
+        25
+      ],
+      [
+        18,
+        26
+      ],
+      [
+        26,
+        27
+      ]
+    ],
+    "keep_probability": 0.9
+  },
+  "graph_degree_normalization": "absolute_column_sum_floor_1",
+  "lr": 0.01,
+  "membership_sha256": "6d9aaf5957c031e10f5708a5b9af368ed64448382467d766a265f93c83336737",
+  "milestones": [
+    30,
+    45
+  ],
+  "model": "sl_gcn",
+  "model_variant": "slgcn_bone_07b_revamped_100_150",
+  "momentum": 0.9,
+  "nesterov": true,
+  "num_workers": 0,
+  "numpy_version": "2.4.6",
+  "optimizer": "SGD",
+  "padding_policy": "all_positions_real_including_repeats",
+  "parameters": 3911268,
+  "patience": 60,
+  "precision": "fp32",
+  "python_version": "3.13.16",
+  "recipe_differences": {
+    "batch_size": {
+      "current": 16,
+      "reference": 64
+    },
+    "effective_batch_size": {
+      "current": 16,
+      "reference": 64
+    },
+    "epochs": {
+      "current": 60,
+      "reference": 40
+    },
+    "grad_clip": {
+      "current": null,
+      "reference": 1.0
+    },
+    "lr": {
+      "current": 0.01,
+      "reference": 0.0003
+    },
+    "milestones": {
+      "current": [
+        30,
+        45
+      ],
+      "reference": null
+    },
+    "momentum": {
+      "current": 0.9,
+      "reference": null
+    },
+    "nesterov": {
+      "current": true,
+      "reference": null
+    },
+    "optimizer": {
+      "current": "SGD",
+      "reference": "AdamW"
+    },
+    "patience": {
+      "current": 60,
+      "reference": 10
+    },
+    "scheduler": {
+      "current": "multistep",
+      "reference": "cosine"
+    },
+    "scheduler_factor": {
+      "current": 0.1,
+      "reference": null
+    },
+    "weight_decay": {
+      "current": 0.0001,
+      "reference": 0.01
+    }
+  },
+  "reference_hashes": {
+    "config.json": "5b8cc6d6fdd09f145bf985f17528b4f9640e0a3009e3f85cefa9fbac72d679da",
+    "label_map.json": "1e21de38231acabfd12bbdb167c396209e9893d9767d4161ab6d6a439a01d0f0",
+    "validation.json": "d2818e5b46d7af42de102cb06cb0b56220fff3d9c1cd7caec9301b15a690e708",
+    "validation_predictions.jsonl": "e2c5fea4a71ec1c80d093dd806202ec402b8073dab37df8118013ce46d7eba5e"
+  },
+  "reference_run": "20261111T090251683576Z",
+  "sampling": "repeat_or_first_150_then_random_train_crop",
+  "scheduler": "multistep",
+  "scheduler_factor": 0.1,
+  "schema": "vsl400.architecture_comparison.v2",
+  "seed": 42,
+  "selection_metric": "validation_top1_then_loss",
+  "short_gap_policy": {
+    "max_missing_seconds": 0.08,
+    "version": "hand_xy_short_gap_v1"
+  },
+  "stream": "bone",
+  "torch_version": "2.14.1+cu130",
+  "train_frames": 100,
+  "upstream_commit": "de6c53a6fbbc08a5d9a728e33614a4541836714c",
+  "upstream_repo": "jackyjsy/CVPR21Chal-SLR",
+  "weight_decay": 0.0001
+}

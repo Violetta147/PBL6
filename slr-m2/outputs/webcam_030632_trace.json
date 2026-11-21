@@ -1,0 +1,1342 @@
+{
+  "base_url": "http://127.0.0.1:8766",
+  "video_path": "C:\\Users\\LAPTOP T&T\\VIOLETTA\\Documents\\ChatGPT\\PBL6\\slr-app\\MVP\\local_data\\webcam_20261116_030632_419557.avi",
+  "realtime_video": false,
+  "started_at": "2026-11-19T19:48:06+0700",
+  "health": {
+    "status": "ok",
+    "schema_version": "m2.v1",
+    "model": {
+      "bundle": "C:\\Users\\LAPTOP T&T\\VIOLETTA\\Documents\\ChatGPT\\PBL6\\slr-m2\\models\\checkpoints\\sl_gcn_bone_07b\\07b_bone_seed42",
+      "checkpoint_sha256": "7934805bf89a912bc2d450c83facc19d73a72d5b22beb38189968ff6ff2bbddf",
+      "config_sha256": "03f8ef9a68bbd8157a0373472cccfb8a0c033e3eb65bf19ceb299a19450f5308"
+    },
+    "running": false,
+    "draining": false,
+    "ws_clients": 0
+  },
+  "tts_probe": {
+    "status_code": 200,
+    "content_type": "audio/mpeg",
+    "bytes": 11232
+  },
+  "stopped_prior_session": false,
+  "events": [
+    {
+      "elapsed_s": 0.0,
+      "type": "snapshot",
+      "snapshot": {
+        "schema_version": "m2.v1",
+        "session_id": "live-4c9421bb50",
+        "epoch": 1,
+        "running": false,
+        "draining": false,
+        "segmenter_state": "READY",
+        "arms": [
+          "rest",
+          "rest"
+        ],
+        "queue_depth": 0,
+        "capture_fps": 4.9,
+        "config": {
+          "onset": 0.35,
+          "leading": 0.3,
+          "rest": 0.35,
+          "trailing": 0.2,
+          "utterance_rest": 1.5,
+          "max_duration": 15.0,
+          "gap": 0.5,
+          "visibility": 0.5,
+          "wrist_below_hip": -0.15,
+          "elbow_below_shoulder": 0.3
+        },
+        "glosses": [
+          {
+            "segment_id": "1",
+            "utterance_id": "0",
+            "start": 1.18,
+            "movement_start": 1.48,
+            "movement_end": 3.0,
+            "end": 3.2,
+            "raw": {
+              "top1_label": "Dài",
+              "top1_id": 95,
+              "confidence": 0.9887280464172363,
+              "low_confidence": false,
+              "top5": [
+                {
+                  "label": "Dài",
+                  "label_id": 95,
+                  "score": 0.9887280464172363
+                },
+                {
+                  "label": "Rộng",
+                  "label_id": 274,
+                  "score": 0.01125828456133604
+                },
+                {
+                  "label": "Cái bàn",
+                  "label_id": 70,
+                  "score": 8.67350354383234e-06
+                },
+                {
+                  "label": "Sách",
+                  "label_id": 281,
+                  "score": 2.544801418480347e-06
+                },
+                {
+                  "label": "Dễ",
+                  "label_id": 101,
+                  "score": 7.829645483070635e-07
+                }
+              ]
+            },
+            "timing": {
+              "preprocessing_seconds": 17.938642099998106,
+              "inference_seconds": 0.39287070000136737,
+              "queue_and_classify_seconds": 33.169194099999004
+            },
+            "source_frames": 51
+          },
+          {
+            "segment_id": "2",
+            "utterance_id": "0",
+            "start": 3.7,
+            "movement_start": 4.0,
+            "movement_end": 6.5600000000000005,
+            "end": 6.760000000000001,
+            "raw": {
+              "top1_label": "Khăn quàng cổ",
+              "top1_id": 154,
+              "confidence": 0.9968570470809937,
+              "low_confidence": false,
+              "top5": [
+                {
+                  "label": "Khăn quàng cổ",
+                  "label_id": 154,
+                  "score": 0.9968570470809937
+                },
+                {
+                  "label": "Bánh bao",
+                  "label_id": 12,
+                  "score": 0.0015936543932184577
+                },
+                {
+                  "label": "Chơi cờ",
+                  "label_id": 45,
+                  "score": 0.0006467871135100722
+                },
+                {
+                  "label": "Buổi chiều",
+                  "label_id": 3,
+                  "score": 0.0006084666238166392
+                },
+                {
+                  "label": "Hát",
+                  "label_id": 135,
+                  "score": 9.433516243007034e-05
+                }
+              ]
+            },
+            "timing": {
+              "preprocessing_seconds": 9.98942569999781,
+              "inference_seconds": 0.4509862000013527,
+              "queue_and_classify_seconds": 31.710132000000158
+            },
+            "source_frames": 77
+          }
+        ],
+        "utterances": [
+          {
+            "utterance_id": "0",
+            "revision": 1,
+            "reason": "utterance_rest",
+            "timestamp": 8.08,
+            "raw_glosses": [
+              "Dài",
+              "Khăn quàng cổ"
+            ],
+            "segments": [
+              {
+                "segment_id": "1",
+                "utterance_id": "0",
+                "start": 1.18,
+                "movement_start": 1.48,
+                "movement_end": 3.0,
+                "end": 3.2,
+                "raw": {
+                  "top1_label": "Dài",
+                  "top1_id": 95,
+                  "confidence": 0.9887280464172363,
+                  "low_confidence": false,
+                  "top5": [
+                    {
+                      "label": "Dài",
+                      "label_id": 95,
+                      "score": 0.9887280464172363
+                    },
+                    {
+                      "label": "Rộng",
+                      "label_id": 274,
+                      "score": 0.01125828456133604
+                    },
+                    {
+                      "label": "Cái bàn",
+                      "label_id": 70,
+                      "score": 8.67350354383234e-06
+                    },
+                    {
+                      "label": "Sách",
+                      "label_id": 281,
+                      "score": 2.544801418480347e-06
+                    },
+                    {
+                      "label": "Dễ",
+                      "label_id": 101,
+                      "score": 7.829645483070635e-07
+                    }
+                  ]
+                },
+                "timing": {
+                  "preprocessing_seconds": 17.938642099998106,
+                  "inference_seconds": 0.39287070000136737,
+                  "queue_and_classify_seconds": 33.169194099999004
+                },
+                "source_frames": 51
+              },
+              {
+                "segment_id": "2",
+                "utterance_id": "0",
+                "start": 3.7,
+                "movement_start": 4.0,
+                "movement_end": 6.5600000000000005,
+                "end": 6.760000000000001,
+                "raw": {
+                  "top1_label": "Khăn quàng cổ",
+                  "top1_id": 154,
+                  "confidence": 0.9968570470809937,
+                  "low_confidence": false,
+                  "top5": [
+                    {
+                      "label": "Khăn quàng cổ",
+                      "label_id": 154,
+                      "score": 0.9968570470809937
+                    },
+                    {
+                      "label": "Bánh bao",
+                      "label_id": 12,
+                      "score": 0.0015936543932184577
+                    },
+                    {
+                      "label": "Chơi cờ",
+                      "label_id": 45,
+                      "score": 0.0006467871135100722
+                    },
+                    {
+                      "label": "Buổi chiều",
+                      "label_id": 3,
+                      "score": 0.0006084666238166392
+                    },
+                    {
+                      "label": "Hát",
+                      "label_id": 135,
+                      "score": 9.433516243007034e-05
+                    }
+                  ]
+                },
+                "timing": {
+                  "preprocessing_seconds": 9.98942569999781,
+                  "inference_seconds": 0.4509862000013527,
+                  "queue_and_classify_seconds": 31.710132000000158
+                },
+                "source_frames": 77
+              }
+            ],
+            "revised_glosses": null,
+            "vietnamese_sentence": null
+          }
+        ],
+        "incomplete_events": [],
+        "last_error": null
+      }
+    },
+    {
+      "elapsed_s": 0.138,
+      "schema_version": "m2.v1",
+      "event_id": "live-6df5a550c2:2:1",
+      "session_id": "live-6df5a550c2",
+      "epoch": 2,
+      "type": "session_started",
+      "wall_time": 1795092486.8659794,
+      "source": "video",
+      "config": {
+        "onset": 0.35,
+        "leading": 0.3,
+        "rest": 0.35,
+        "trailing": 0.2,
+        "utterance_rest": 1.5,
+        "max_duration": 15.0,
+        "gap": 0.5,
+        "visibility": 0.5,
+        "wrist_below_hip": -0.15,
+        "elbow_below_shoulder": 0.3
+      }
+    },
+    {
+      "elapsed_s": 0.455,
+      "schema_version": "m2.v1",
+      "event_id": "live-6df5a550c2:2:2",
+      "session_id": "live-6df5a550c2",
+      "epoch": 2,
+      "type": "status",
+      "wall_time": 1795092487.1858575,
+      "segmenter_state": "UNKNOWN",
+      "arms": [
+        null,
+        null
+      ],
+      "timestamp": 0.0,
+      "queue_depth": 0,
+      "capture_fps": 0.0
+    },
+    {
+      "elapsed_s": 0.714,
+      "schema_version": "m2.v1",
+      "event_id": "live-6df5a550c2:2:3",
+      "session_id": "live-6df5a550c2",
+      "epoch": 2,
+      "type": "status",
+      "wall_time": 1795092487.4446568,
+      "segmenter_state": "UNKNOWN",
+      "arms": [
+        null,
+        null
+      ],
+      "timestamp": 0.23333333333333334,
+      "queue_depth": 0,
+      "capture_fps": 13.6
+    },
+    {
+      "elapsed_s": 0.983,
+      "schema_version": "m2.v1",
+      "event_id": "live-6df5a550c2:2:4",
+      "session_id": "live-6df5a550c2",
+      "epoch": 2,
+      "type": "status",
+      "wall_time": 1795092487.713363,
+      "segmenter_state": "UNKNOWN",
+      "arms": [
+        null,
+        null
+      ],
+      "timestamp": 0.4666666666666667,
+      "queue_depth": 0,
+      "capture_fps": 18.0
+    },
+    {
+      "elapsed_s": 1.238,
+      "schema_version": "m2.v1",
+      "event_id": "live-6df5a550c2:2:5",
+      "session_id": "live-6df5a550c2",
+      "epoch": 2,
+      "type": "status",
+      "wall_time": 1795092487.9681017,
+      "segmenter_state": "UNKNOWN",
+      "arms": [
+        null,
+        null
+      ],
+      "timestamp": 0.6666666666666666,
+      "queue_depth": 0,
+      "capture_fps": 19.4
+    },
+    {
+      "elapsed_s": 1.525,
+      "schema_version": "m2.v1",
+      "event_id": "live-6df5a550c2:2:6",
+      "session_id": "live-6df5a550c2",
+      "epoch": 2,
+      "type": "status",
+      "wall_time": 1795092488.2564247,
+      "segmenter_state": "UNKNOWN",
+      "arms": [
+        null,
+        null
+      ],
+      "timestamp": 0.9,
+      "queue_depth": 0,
+      "capture_fps": 20.5
+    },
+    {
+      "elapsed_s": 1.78,
+      "schema_version": "m2.v1",
+      "event_id": "live-6df5a550c2:2:7",
+      "session_id": "live-6df5a550c2",
+      "epoch": 2,
+      "type": "status",
+      "wall_time": 1795092488.510368,
+      "segmenter_state": "UNKNOWN",
+      "arms": [
+        null,
+        null
+      ],
+      "timestamp": 1.0666666666666667,
+      "queue_depth": 0,
+      "capture_fps": 24.4
+    },
+    {
+      "elapsed_s": 2.089,
+      "schema_version": "m2.v1",
+      "event_id": "live-6df5a550c2:2:8",
+      "session_id": "live-6df5a550c2",
+      "epoch": 2,
+      "type": "status",
+      "wall_time": 1795092488.8199828,
+      "segmenter_state": "UNKNOWN",
+      "arms": [
+        null,
+        null
+      ],
+      "timestamp": 1.2666666666666666,
+      "queue_depth": 0,
+      "capture_fps": 22.9
+    },
+    {
+      "elapsed_s": 2.388,
+      "schema_version": "m2.v1",
+      "event_id": "live-6df5a550c2:2:9",
+      "session_id": "live-6df5a550c2",
+      "epoch": 2,
+      "type": "status",
+      "wall_time": 1795092489.1191368,
+      "segmenter_state": "UNKNOWN",
+      "arms": [
+        null,
+        null
+      ],
+      "timestamp": 1.4333333333333333,
+      "queue_depth": 0,
+      "capture_fps": 20.9
+    },
+    {
+      "elapsed_s": 2.667,
+      "schema_version": "m2.v1",
+      "event_id": "live-6df5a550c2:2:10",
+      "session_id": "live-6df5a550c2",
+      "epoch": 2,
+      "type": "status",
+      "wall_time": 1795092489.3978074,
+      "segmenter_state": "UNKNOWN",
+      "arms": [
+        null,
+        null
+      ],
+      "timestamp": 1.6333333333333333,
+      "queue_depth": 0,
+      "capture_fps": 20.3
+    },
+    {
+      "elapsed_s": 2.933,
+      "schema_version": "m2.v1",
+      "event_id": "live-6df5a550c2:2:11",
+      "session_id": "live-6df5a550c2",
+      "epoch": 2,
+      "type": "status",
+      "wall_time": 1795092489.6637447,
+      "segmenter_state": "UNKNOWN",
+      "arms": [
+        null,
+        null
+      ],
+      "timestamp": 1.8333333333333333,
+      "queue_depth": 0,
+      "capture_fps": 20.2
+    },
+    {
+      "elapsed_s": 3.196,
+      "schema_version": "m2.v1",
+      "event_id": "live-6df5a550c2:2:12",
+      "session_id": "live-6df5a550c2",
+      "epoch": 2,
+      "type": "status",
+      "wall_time": 1795092489.9263053,
+      "segmenter_state": "UNKNOWN",
+      "arms": [
+        null,
+        null
+      ],
+      "timestamp": 2.0,
+      "queue_depth": 0,
+      "capture_fps": 19.6
+    },
+    {
+      "elapsed_s": 3.458,
+      "schema_version": "m2.v1",
+      "event_id": "live-6df5a550c2:2:13",
+      "session_id": "live-6df5a550c2",
+      "epoch": 2,
+      "type": "status",
+      "wall_time": 1795092490.1892078,
+      "segmenter_state": "UNKNOWN",
+      "arms": [
+        null,
+        null
+      ],
+      "timestamp": 2.2333333333333334,
+      "queue_depth": 0,
+      "capture_fps": 20.7
+    },
+    {
+      "elapsed_s": 3.733,
+      "schema_version": "m2.v1",
+      "event_id": "live-6df5a550c2:2:14",
+      "session_id": "live-6df5a550c2",
+      "epoch": 2,
+      "type": "status",
+      "wall_time": 1795092490.4637043,
+      "segmenter_state": "UNKNOWN",
+      "arms": [
+        null,
+        null
+      ],
+      "timestamp": 2.5,
+      "queue_depth": 0,
+      "capture_fps": 24.3
+    },
+    {
+      "elapsed_s": 3.987,
+      "schema_version": "m2.v1",
+      "event_id": "live-6df5a550c2:2:15",
+      "session_id": "live-6df5a550c2",
+      "epoch": 2,
+      "type": "status",
+      "wall_time": 1795092490.718243,
+      "segmenter_state": "UNKNOWN",
+      "arms": [
+        null,
+        null
+      ],
+      "timestamp": 2.7333333333333334,
+      "queue_depth": 0,
+      "capture_fps": 24.9
+    },
+    {
+      "elapsed_s": 4.277,
+      "schema_version": "m2.v1",
+      "event_id": "live-6df5a550c2:2:16",
+      "session_id": "live-6df5a550c2",
+      "epoch": 2,
+      "type": "status",
+      "wall_time": 1795092491.0067358,
+      "segmenter_state": "UNKNOWN",
+      "arms": [
+        null,
+        null
+      ],
+      "timestamp": 2.933333333333333,
+      "queue_depth": 0,
+      "capture_fps": 25.7
+    },
+    {
+      "elapsed_s": 4.554,
+      "schema_version": "m2.v1",
+      "event_id": "live-6df5a550c2:2:17",
+      "session_id": "live-6df5a550c2",
+      "epoch": 2,
+      "type": "status",
+      "wall_time": 1795092491.285825,
+      "segmenter_state": "UNKNOWN",
+      "arms": [
+        null,
+        null
+      ],
+      "timestamp": 3.1333333333333333,
+      "queue_depth": 0,
+      "capture_fps": 24.9
+    },
+    {
+      "elapsed_s": 4.812,
+      "schema_version": "m2.v1",
+      "event_id": "live-6df5a550c2:2:18",
+      "session_id": "live-6df5a550c2",
+      "epoch": 2,
+      "type": "status",
+      "wall_time": 1795092491.5423064,
+      "segmenter_state": "UNKNOWN",
+      "arms": [
+        null,
+        null
+      ],
+      "timestamp": 3.3333333333333335,
+      "queue_depth": 0,
+      "capture_fps": 24.2
+    },
+    {
+      "elapsed_s": 5.086,
+      "schema_version": "m2.v1",
+      "event_id": "live-6df5a550c2:2:19",
+      "session_id": "live-6df5a550c2",
+      "epoch": 2,
+      "type": "status",
+      "wall_time": 1795092491.817044,
+      "segmenter_state": "UNKNOWN",
+      "arms": [
+        null,
+        null
+      ],
+      "timestamp": 3.533333333333333,
+      "queue_depth": 0,
+      "capture_fps": 23.0
+    },
+    {
+      "elapsed_s": 5.344,
+      "schema_version": "m2.v1",
+      "event_id": "live-6df5a550c2:2:20",
+      "session_id": "live-6df5a550c2",
+      "epoch": 2,
+      "type": "status",
+      "wall_time": 1795092492.074962,
+      "segmenter_state": "UNKNOWN",
+      "arms": [
+        null,
+        null
+      ],
+      "timestamp": 3.7333333333333334,
+      "queue_depth": 0,
+      "capture_fps": 22.1
+    },
+    {
+      "elapsed_s": 5.616,
+      "schema_version": "m2.v1",
+      "event_id": "live-6df5a550c2:2:21",
+      "session_id": "live-6df5a550c2",
+      "epoch": 2,
+      "type": "status",
+      "wall_time": 1795092492.3471096,
+      "segmenter_state": "UNKNOWN",
+      "arms": [
+        null,
+        null
+      ],
+      "timestamp": 3.966666666666667,
+      "queue_depth": 0,
+      "capture_fps": 23.1
+    },
+    {
+      "elapsed_s": 5.894,
+      "schema_version": "m2.v1",
+      "event_id": "live-6df5a550c2:2:22",
+      "session_id": "live-6df5a550c2",
+      "epoch": 2,
+      "type": "status",
+      "wall_time": 1795092492.6248918,
+      "segmenter_state": "UNKNOWN",
+      "arms": [
+        null,
+        null
+      ],
+      "timestamp": 4.233333333333333,
+      "queue_depth": 0,
+      "capture_fps": 24.8
+    },
+    {
+      "elapsed_s": 6.182,
+      "schema_version": "m2.v1",
+      "event_id": "live-6df5a550c2:2:23",
+      "session_id": "live-6df5a550c2",
+      "epoch": 2,
+      "type": "status",
+      "wall_time": 1795092492.9130487,
+      "segmenter_state": "UNKNOWN",
+      "arms": [
+        null,
+        null
+      ],
+      "timestamp": 4.466666666666667,
+      "queue_depth": 0,
+      "capture_fps": 24.9
+    },
+    {
+      "elapsed_s": 6.458,
+      "schema_version": "m2.v1",
+      "event_id": "live-6df5a550c2:2:24",
+      "session_id": "live-6df5a550c2",
+      "epoch": 2,
+      "type": "status",
+      "wall_time": 1795092493.1891136,
+      "segmenter_state": "UNKNOWN",
+      "arms": [
+        null,
+        null
+      ],
+      "timestamp": 4.7,
+      "queue_depth": 0,
+      "capture_fps": 26.0
+    },
+    {
+      "elapsed_s": 6.742,
+      "schema_version": "m2.v1",
+      "event_id": "live-6df5a550c2:2:25",
+      "session_id": "live-6df5a550c2",
+      "epoch": 2,
+      "type": "status",
+      "wall_time": 1795092493.4728544,
+      "segmenter_state": "UNKNOWN",
+      "arms": [
+        null,
+        null
+      ],
+      "timestamp": 4.966666666666667,
+      "queue_depth": 0,
+      "capture_fps": 26.6
+    },
+    {
+      "elapsed_s": 7.019,
+      "schema_version": "m2.v1",
+      "event_id": "live-6df5a550c2:2:26",
+      "session_id": "live-6df5a550c2",
+      "epoch": 2,
+      "type": "status",
+      "wall_time": 1795092493.7499466,
+      "segmenter_state": "UNKNOWN",
+      "arms": [
+        null,
+        null
+      ],
+      "timestamp": 5.2,
+      "queue_depth": 0,
+      "capture_fps": 26.0
+    },
+    {
+      "elapsed_s": 7.285,
+      "schema_version": "m2.v1",
+      "event_id": "live-6df5a550c2:2:27",
+      "session_id": "live-6df5a550c2",
+      "epoch": 2,
+      "type": "status",
+      "wall_time": 1795092494.0155458,
+      "segmenter_state": "UNKNOWN",
+      "arms": [
+        null,
+        null
+      ],
+      "timestamp": 5.4,
+      "queue_depth": 0,
+      "capture_fps": 25.3
+    },
+    {
+      "elapsed_s": 7.574,
+      "schema_version": "m2.v1",
+      "event_id": "live-6df5a550c2:2:28",
+      "session_id": "live-6df5a550c2",
+      "epoch": 2,
+      "type": "status",
+      "wall_time": 1795092494.3036394,
+      "segmenter_state": "UNKNOWN",
+      "arms": [
+        null,
+        null
+      ],
+      "timestamp": 5.633333333333333,
+      "queue_depth": 0,
+      "capture_fps": 25.1
+    },
+    {
+      "elapsed_s": 7.827,
+      "schema_version": "m2.v1",
+      "event_id": "live-6df5a550c2:2:29",
+      "session_id": "live-6df5a550c2",
+      "epoch": 2,
+      "type": "status",
+      "wall_time": 1795092494.55699,
+      "segmenter_state": "UNKNOWN",
+      "arms": [
+        null,
+        null
+      ],
+      "timestamp": 5.833333333333333,
+      "queue_depth": 0,
+      "capture_fps": 24.6
+    },
+    {
+      "elapsed_s": 8.123,
+      "schema_version": "m2.v1",
+      "event_id": "live-6df5a550c2:2:30",
+      "session_id": "live-6df5a550c2",
+      "epoch": 2,
+      "type": "status",
+      "wall_time": 1795092494.8529236,
+      "segmenter_state": "UNKNOWN",
+      "arms": [
+        null,
+        null
+      ],
+      "timestamp": 6.033333333333333,
+      "queue_depth": 0,
+      "capture_fps": 23.0
+    },
+    {
+      "elapsed_s": 8.38,
+      "schema_version": "m2.v1",
+      "event_id": "live-6df5a550c2:2:31",
+      "session_id": "live-6df5a550c2",
+      "epoch": 2,
+      "type": "status",
+      "wall_time": 1795092495.1110039,
+      "segmenter_state": "UNKNOWN",
+      "arms": [
+        null,
+        null
+      ],
+      "timestamp": 6.233333333333333,
+      "queue_depth": 0,
+      "capture_fps": 22.7
+    },
+    {
+      "elapsed_s": 8.652,
+      "schema_version": "m2.v1",
+      "event_id": "live-6df5a550c2:2:32",
+      "session_id": "live-6df5a550c2",
+      "epoch": 2,
+      "type": "status",
+      "wall_time": 1795092495.3829274,
+      "segmenter_state": "UNKNOWN",
+      "arms": [
+        null,
+        null
+      ],
+      "timestamp": 6.466666666666667,
+      "queue_depth": 0,
+      "capture_fps": 23.3
+    },
+    {
+      "elapsed_s": 8.932,
+      "schema_version": "m2.v1",
+      "event_id": "live-6df5a550c2:2:33",
+      "session_id": "live-6df5a550c2",
+      "epoch": 2,
+      "type": "status",
+      "wall_time": 1795092495.6628299,
+      "segmenter_state": "UNKNOWN",
+      "arms": [
+        null,
+        null
+      ],
+      "timestamp": 6.733333333333333,
+      "queue_depth": 0,
+      "capture_fps": 24.2
+    },
+    {
+      "elapsed_s": 9.213,
+      "schema_version": "m2.v1",
+      "event_id": "live-6df5a550c2:2:34",
+      "session_id": "live-6df5a550c2",
+      "epoch": 2,
+      "type": "status",
+      "wall_time": 1795092495.9439704,
+      "segmenter_state": "UNKNOWN",
+      "arms": [
+        null,
+        null
+      ],
+      "timestamp": 6.966666666666667,
+      "queue_depth": 0,
+      "capture_fps": 24.9
+    },
+    {
+      "elapsed_s": 9.473,
+      "schema_version": "m2.v1",
+      "event_id": "live-6df5a550c2:2:35",
+      "session_id": "live-6df5a550c2",
+      "epoch": 2,
+      "type": "status",
+      "wall_time": 1795092496.2043185,
+      "segmenter_state": "UNKNOWN",
+      "arms": [
+        null,
+        null
+      ],
+      "timestamp": 7.2,
+      "queue_depth": 0,
+      "capture_fps": 26.5
+    },
+    {
+      "elapsed_s": 9.738,
+      "schema_version": "m2.v1",
+      "event_id": "live-6df5a550c2:2:36",
+      "session_id": "live-6df5a550c2",
+      "epoch": 2,
+      "type": "status",
+      "wall_time": 1795092496.4695292,
+      "segmenter_state": "UNKNOWN",
+      "arms": [
+        null,
+        null
+      ],
+      "timestamp": 7.433333333333334,
+      "queue_depth": 0,
+      "capture_fps": 26.8
+    },
+    {
+      "elapsed_s": 10.024,
+      "schema_version": "m2.v1",
+      "event_id": "live-6df5a550c2:2:37",
+      "session_id": "live-6df5a550c2",
+      "epoch": 2,
+      "type": "status",
+      "wall_time": 1795092496.754215,
+      "segmenter_state": "UNKNOWN",
+      "arms": [
+        null,
+        null
+      ],
+      "timestamp": 7.666666666666667,
+      "queue_depth": 0,
+      "capture_fps": 26.1
+    },
+    {
+      "elapsed_s": 10.313,
+      "schema_version": "m2.v1",
+      "event_id": "live-6df5a550c2:2:38",
+      "session_id": "live-6df5a550c2",
+      "epoch": 2,
+      "type": "status",
+      "wall_time": 1795092497.043478,
+      "segmenter_state": "UNKNOWN",
+      "arms": [
+        null,
+        null
+      ],
+      "timestamp": 7.866666666666666,
+      "queue_depth": 0,
+      "capture_fps": 24.8
+    },
+    {
+      "elapsed_s": 10.576,
+      "schema_version": "m2.v1",
+      "event_id": "live-6df5a550c2:2:39",
+      "session_id": "live-6df5a550c2",
+      "epoch": 2,
+      "type": "status",
+      "wall_time": 1795092497.3057463,
+      "segmenter_state": "UNKNOWN",
+      "arms": [
+        null,
+        null
+      ],
+      "timestamp": 8.066666666666666,
+      "queue_depth": 0,
+      "capture_fps": 23.9
+    },
+    {
+      "elapsed_s": 10.844,
+      "schema_version": "m2.v1",
+      "event_id": "live-6df5a550c2:2:40",
+      "session_id": "live-6df5a550c2",
+      "epoch": 2,
+      "type": "status",
+      "wall_time": 1795092497.5750563,
+      "segmenter_state": "UNKNOWN",
+      "arms": [
+        null,
+        null
+      ],
+      "timestamp": 8.3,
+      "queue_depth": 0,
+      "capture_fps": 23.8
+    },
+    {
+      "elapsed_s": 11.125,
+      "schema_version": "m2.v1",
+      "event_id": "live-6df5a550c2:2:41",
+      "session_id": "live-6df5a550c2",
+      "epoch": 2,
+      "type": "status",
+      "wall_time": 1795092497.855886,
+      "segmenter_state": "UNKNOWN",
+      "arms": [
+        null,
+        null
+      ],
+      "timestamp": 8.533333333333333,
+      "queue_depth": 0,
+      "capture_fps": 23.6
+    },
+    {
+      "elapsed_s": 11.389,
+      "schema_version": "m2.v1",
+      "event_id": "live-6df5a550c2:2:42",
+      "session_id": "live-6df5a550c2",
+      "epoch": 2,
+      "type": "status",
+      "wall_time": 1795092498.1194801,
+      "segmenter_state": "UNKNOWN",
+      "arms": [
+        null,
+        null
+      ],
+      "timestamp": 8.766666666666666,
+      "queue_depth": 0,
+      "capture_fps": 24.5
+    },
+    {
+      "elapsed_s": 11.652,
+      "schema_version": "m2.v1",
+      "event_id": "live-6df5a550c2:2:43",
+      "session_id": "live-6df5a550c2",
+      "epoch": 2,
+      "type": "status",
+      "wall_time": 1795092498.3835704,
+      "segmenter_state": "UNKNOWN",
+      "arms": [
+        null,
+        null
+      ],
+      "timestamp": 9.0,
+      "queue_depth": 0,
+      "capture_fps": 25.8
+    },
+    {
+      "elapsed_s": 11.906,
+      "schema_version": "m2.v1",
+      "event_id": "live-6df5a550c2:2:44",
+      "session_id": "live-6df5a550c2",
+      "epoch": 2,
+      "type": "status",
+      "wall_time": 1795092498.6371865,
+      "segmenter_state": "UNKNOWN",
+      "arms": [
+        null,
+        null
+      ],
+      "timestamp": 9.233333333333333,
+      "queue_depth": 0,
+      "capture_fps": 26.4
+    },
+    {
+      "elapsed_s": 12.166,
+      "schema_version": "m2.v1",
+      "event_id": "live-6df5a550c2:2:45",
+      "session_id": "live-6df5a550c2",
+      "epoch": 2,
+      "type": "status",
+      "wall_time": 1795092498.8973403,
+      "segmenter_state": "UNKNOWN",
+      "arms": [
+        null,
+        null
+      ],
+      "timestamp": 9.433333333333334,
+      "queue_depth": 0,
+      "capture_fps": 25.6
+    },
+    {
+      "elapsed_s": 12.454,
+      "schema_version": "m2.v1",
+      "event_id": "live-6df5a550c2:2:46",
+      "session_id": "live-6df5a550c2",
+      "epoch": 2,
+      "type": "status",
+      "wall_time": 1795092499.1846726,
+      "segmenter_state": "UNKNOWN",
+      "arms": [
+        null,
+        null
+      ],
+      "timestamp": 9.666666666666666,
+      "queue_depth": 0,
+      "capture_fps": 25.5
+    },
+    {
+      "elapsed_s": 12.731,
+      "schema_version": "m2.v1",
+      "event_id": "live-6df5a550c2:2:47",
+      "session_id": "live-6df5a550c2",
+      "epoch": 2,
+      "type": "status",
+      "wall_time": 1795092499.4621923,
+      "segmenter_state": "UNKNOWN",
+      "arms": [
+        null,
+        null
+      ],
+      "timestamp": 9.9,
+      "queue_depth": 0,
+      "capture_fps": 25.3
+    },
+    {
+      "elapsed_s": 12.985,
+      "schema_version": "m2.v1",
+      "event_id": "live-6df5a550c2:2:48",
+      "session_id": "live-6df5a550c2",
+      "epoch": 2,
+      "type": "status",
+      "wall_time": 1795092499.7159622,
+      "segmenter_state": "UNKNOWN",
+      "arms": [
+        null,
+        null
+      ],
+      "timestamp": 10.133333333333333,
+      "queue_depth": 0,
+      "capture_fps": 25.3
+    },
+    {
+      "elapsed_s": 13.258,
+      "schema_version": "m2.v1",
+      "event_id": "live-6df5a550c2:2:49",
+      "session_id": "live-6df5a550c2",
+      "epoch": 2,
+      "type": "status",
+      "wall_time": 1795092499.9885106,
+      "segmenter_state": "UNKNOWN",
+      "arms": [
+        null,
+        null
+      ],
+      "timestamp": 10.333333333333334,
+      "queue_depth": 0,
+      "capture_fps": 24.5
+    },
+    {
+      "elapsed_s": 13.54,
+      "schema_version": "m2.v1",
+      "event_id": "live-6df5a550c2:2:50",
+      "session_id": "live-6df5a550c2",
+      "epoch": 2,
+      "type": "status",
+      "wall_time": 1795092500.2710583,
+      "segmenter_state": "UNKNOWN",
+      "arms": [
+        null,
+        null
+      ],
+      "timestamp": 10.533333333333333,
+      "queue_depth": 0,
+      "capture_fps": 24.0
+    },
+    {
+      "elapsed_s": 13.817,
+      "schema_version": "m2.v1",
+      "event_id": "live-6df5a550c2:2:51",
+      "session_id": "live-6df5a550c2",
+      "epoch": 2,
+      "type": "status",
+      "wall_time": 1795092500.5486934,
+      "segmenter_state": "UNKNOWN",
+      "arms": [
+        null,
+        null
+      ],
+      "timestamp": 10.766666666666666,
+      "queue_depth": 0,
+      "capture_fps": 24.3
+    },
+    {
+      "elapsed_s": 14.076,
+      "schema_version": "m2.v1",
+      "event_id": "live-6df5a550c2:2:52",
+      "session_id": "live-6df5a550c2",
+      "epoch": 2,
+      "type": "status",
+      "wall_time": 1795092500.8066623,
+      "segmenter_state": "UNKNOWN",
+      "arms": [
+        null,
+        null
+      ],
+      "timestamp": 10.966666666666667,
+      "queue_depth": 0,
+      "capture_fps": 23.9
+    },
+    {
+      "elapsed_s": 14.355,
+      "schema_version": "m2.v1",
+      "event_id": "live-6df5a550c2:2:53",
+      "session_id": "live-6df5a550c2",
+      "epoch": 2,
+      "type": "status",
+      "wall_time": 1795092501.0854256,
+      "segmenter_state": "UNKNOWN",
+      "arms": [
+        null,
+        null
+      ],
+      "timestamp": 11.2,
+      "queue_depth": 0,
+      "capture_fps": 23.3
+    },
+    {
+      "elapsed_s": 14.619,
+      "schema_version": "m2.v1",
+      "event_id": "live-6df5a550c2:2:54",
+      "session_id": "live-6df5a550c2",
+      "epoch": 2,
+      "type": "status",
+      "wall_time": 1795092501.349479,
+      "segmenter_state": "UNKNOWN",
+      "arms": [
+        null,
+        null
+      ],
+      "timestamp": 11.433333333333334,
+      "queue_depth": 0,
+      "capture_fps": 24.6
+    },
+    {
+      "elapsed_s": 14.888,
+      "schema_version": "m2.v1",
+      "event_id": "live-6df5a550c2:2:55",
+      "session_id": "live-6df5a550c2",
+      "epoch": 2,
+      "type": "status",
+      "wall_time": 1795092501.6184618,
+      "segmenter_state": "UNKNOWN",
+      "arms": [
+        null,
+        null
+      ],
+      "timestamp": 11.7,
+      "queue_depth": 0,
+      "capture_fps": 25.9
+    },
+    {
+      "elapsed_s": 15.168,
+      "schema_version": "m2.v1",
+      "event_id": "live-6df5a550c2:2:56",
+      "session_id": "live-6df5a550c2",
+      "epoch": 2,
+      "type": "status",
+      "wall_time": 1795092501.8988197,
+      "segmenter_state": "UNKNOWN",
+      "arms": [
+        null,
+        null
+      ],
+      "timestamp": 11.933333333333334,
+      "queue_depth": 0,
+      "capture_fps": 26.2
+    },
+    {
+      "elapsed_s": 15.448,
+      "schema_version": "m2.v1",
+      "event_id": "live-6df5a550c2:2:57",
+      "session_id": "live-6df5a550c2",
+      "epoch": 2,
+      "type": "status",
+      "wall_time": 1795092502.1791456,
+      "segmenter_state": "UNKNOWN",
+      "arms": [
+        null,
+        null
+      ],
+      "timestamp": 12.133333333333333,
+      "queue_depth": 0,
+      "capture_fps": 25.7
+    },
+    {
+      "elapsed_s": 15.735,
+      "schema_version": "m2.v1",
+      "event_id": "live-6df5a550c2:2:58",
+      "session_id": "live-6df5a550c2",
+      "epoch": 2,
+      "type": "status",
+      "wall_time": 1795092502.4662986,
+      "segmenter_state": "UNKNOWN",
+      "arms": [
+        null,
+        null
+      ],
+      "timestamp": 12.366666666666667,
+      "queue_depth": 0,
+      "capture_fps": 25.4
+    },
+    {
+      "elapsed_s": 15.992,
+      "schema_version": "m2.v1",
+      "event_id": "live-6df5a550c2:2:59",
+      "session_id": "live-6df5a550c2",
+      "epoch": 2,
+      "type": "status",
+      "wall_time": 1795092502.723006,
+      "segmenter_state": "UNKNOWN",
+      "arms": [
+        null,
+        null
+      ],
+      "timestamp": 12.566666666666666,
+      "queue_depth": 0,
+      "capture_fps": 24.4
+    },
+    {
+      "elapsed_s": 16.011,
+      "schema_version": "m2.v1",
+      "event_id": "live-6df5a550c2:2:60",
+      "session_id": "live-6df5a550c2",
+      "epoch": 2,
+      "type": "session_stopped",
+      "wall_time": 1795092502.7412333,
+      "snapshot": {
+        "schema_version": "m2.v1",
+        "session_id": "live-6df5a550c2",
+        "epoch": 2,
+        "running": false,
+        "draining": false,
+        "segmenter_state": "UNKNOWN",
+        "arms": [
+          null,
+          null
+        ],
+        "queue_depth": 0,
+        "capture_fps": 24.4,
+        "config": {
+          "onset": 0.35,
+          "leading": 0.3,
+          "rest": 0.35,
+          "trailing": 0.2,
+          "utterance_rest": 1.5,
+          "max_duration": 15.0,
+          "gap": 0.5,
+          "visibility": 0.5,
+          "wrist_below_hip": -0.15,
+          "elbow_below_shoulder": 0.3
+        },
+        "glosses": [],
+        "utterances": [],
+        "incomplete_events": [],
+        "last_error": null
+      }
+    }
+  ],
+  "final_snapshot": {
+    "schema_version": "m2.v1",
+    "session_id": "live-6df5a550c2",
+    "epoch": 2,
+    "running": false,
+    "draining": false,
+    "segmenter_state": "UNKNOWN",
+    "arms": [
+      null,
+      null
+    ],
+    "queue_depth": 0,
+    "capture_fps": 24.4,
+    "config": {
+      "onset": 0.35,
+      "leading": 0.3,
+      "rest": 0.35,
+      "trailing": 0.2,
+      "utterance_rest": 1.5,
+      "max_duration": 15.0,
+      "gap": 0.5,
+      "visibility": 0.5,
+      "wrist_below_hip": -0.15,
+      "elbow_below_shoulder": 0.3
+    },
+    "glosses": [],
+    "utterances": [],
+    "incomplete_events": [],
+    "last_error": null
+  },
+  "error": null
+}

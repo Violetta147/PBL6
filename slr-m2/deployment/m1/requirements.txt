@@ -1,0 +1,4 @@
+-r ../../extraction/requirements.txt
+torch==2.5.1
+fastapi==0.115.6
+uvicorn==0.34.0

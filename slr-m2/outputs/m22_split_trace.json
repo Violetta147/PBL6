@@ -1,0 +1,1798 @@
+{
+  "base_url": "http://127.0.0.1:8768",
+  "video_path": "C:\\Users\\LAPTOP T&T\\VIOLETTA\\Documents\\ChatGPT\\PBL6\\slr-m2\\outputs\\demo_sequence_vsl400.mp4",
+  "realtime_video": false,
+  "started_at": "2026-11-19T20:10:12+0700",
+  "health": {
+    "status": "ok",
+    "schema_version": "m2.v1",
+    "model": {
+      "bundle": "C:\\Users\\LAPTOP T&T\\VIOLETTA\\Documents\\ChatGPT\\PBL6\\slr-m2\\models\\checkpoints\\sl_gcn_bone_07b\\07b_bone_seed42",
+      "checkpoint_sha256": "7934805bf89a912bc2d450c83facc19d73a72d5b22beb38189968ff6ff2bbddf",
+      "config_sha256": "03f8ef9a68bbd8157a0373472cccfb8a0c033e3eb65bf19ceb299a19450f5308"
+    },
+    "running": false,
+    "draining": false,
+    "ws_clients": 0,
+    "runtime": {
+      "inference_mode": "pi-split",
+      "active_executor": "pi_local",
+      "fallback_active": false,
+      "fallback_reason": null,
+      "fallback_threshold_seconds": 1.5,
+      "consecutive_slow_limit": 2,
+      "consecutive_slow": 0,
+      "last_pi_inference_seconds": null,
+      "last_network_seconds": null,
+      "last_payload_bytes": null,
+      "vision_backend_url": "http://127.0.0.1:8767"
+    }
+  },
+  "tts_probe": {
+    "status_code": 200,
+    "content_type": "audio/mpeg",
+    "bytes": 11232
+  },
+  "stopped_prior_session": false,
+  "events": [
+    {
+      "elapsed_s": 0.0,
+      "type": "snapshot",
+      "snapshot": {
+        "schema_version": "m2.v1",
+        "session_id": null,
+        "epoch": 0,
+        "running": false,
+        "draining": false,
+        "segmenter_state": "UNKNOWN",
+        "arms": [
+          null,
+          null
+        ],
+        "queue_depth": 0,
+        "capture_fps": 0.0,
+        "config": {
+          "onset": 0.35,
+          "leading": 0.3,
+          "rest": 0.35,
+          "trailing": 0.2,
+          "utterance_rest": 1.5,
+          "max_duration": 15.0,
+          "gap": 0.5,
+          "visibility": 0.5,
+          "wrist_below_hip": -0.15,
+          "elbow_below_shoulder": 0.3
+        },
+        "glosses": [],
+        "utterances": [],
+        "incomplete_events": [],
+        "last_error": null
+      }
+    },
+    {
+      "elapsed_s": 0.054,
+      "schema_version": "m2.v1",
+      "event_id": "live-2bedd06acf:1:1",
+      "session_id": "live-2bedd06acf",
+      "epoch": 1,
+      "type": "session_started",
+      "wall_time": 1795093812.4932175,
+      "source": "video",
+      "config": {
+        "onset": 0.35,
+        "leading": 0.3,
+        "rest": 0.35,
+        "trailing": 0.2,
+        "utterance_rest": 1.5,
+        "max_duration": 15.0,
+        "gap": 0.5,
+        "visibility": 0.5,
+        "wrist_below_hip": -0.15,
+        "elbow_below_shoulder": 0.3
+      }
+    },
+    {
+      "elapsed_s": 1.902,
+      "schema_version": "m2.v1",
+      "event_id": "live-2bedd06acf:1:2",
+      "session_id": "live-2bedd06acf",
+      "epoch": 1,
+      "type": "status",
+      "wall_time": 1795093814.343342,
+      "segmenter_state": "UNKNOWN",
+      "arms": [
+        "rest",
+        "rest"
+      ],
+      "timestamp": 0.0,
+      "queue_depth": 0,
+      "capture_fps": 0.0
+    },
+    {
+      "elapsed_s": 2.182,
+      "schema_version": "m2.v1",
+      "event_id": "live-2bedd06acf:1:3",
+      "session_id": "live-2bedd06acf",
+      "epoch": 1,
+      "type": "status",
+      "wall_time": 1795093814.62329,
+      "segmenter_state": "UNKNOWN",
+      "arms": [
+        "rest",
+        "rest"
+      ],
+      "timestamp": 0.24,
+      "queue_depth": 0,
+      "capture_fps": 2.9
+    },
+    {
+      "elapsed_s": 2.321,
+      "schema_version": "m2.v1",
+      "event_id": "live-2bedd06acf:1:4",
+      "session_id": "live-2bedd06acf",
+      "epoch": 1,
+      "type": "status",
+      "wall_time": 1795093814.7625446,
+      "segmenter_state": "READY",
+      "arms": [
+        "rest",
+        "rest"
+      ],
+      "timestamp": 0.36,
+      "queue_depth": 0,
+      "capture_fps": 4.1
+    },
+    {
+      "elapsed_s": 2.622,
+      "schema_version": "m2.v1",
+      "event_id": "live-2bedd06acf:1:5",
+      "session_id": "live-2bedd06acf",
+      "epoch": 1,
+      "type": "status",
+      "wall_time": 1795093815.063114,
+      "segmenter_state": "READY",
+      "arms": [
+        "rest",
+        "rest"
+      ],
+      "timestamp": 0.6,
+      "queue_depth": 0,
+      "capture_fps": 6.0
+    },
+    {
+      "elapsed_s": 2.892,
+      "schema_version": "m2.v1",
+      "event_id": "live-2bedd06acf:1:6",
+      "session_id": "live-2bedd06acf",
+      "epoch": 1,
+      "type": "status",
+      "wall_time": 1795093815.332602,
+      "segmenter_state": "READY",
+      "arms": [
+        "rest",
+        "rest"
+      ],
+      "timestamp": 0.8,
+      "queue_depth": 0,
+      "capture_fps": 7.3
+    },
+    {
+      "elapsed_s": 3.152,
+      "schema_version": "m2.v1",
+      "event_id": "live-2bedd06acf:1:7",
+      "session_id": "live-2bedd06acf",
+      "epoch": 1,
+      "type": "status",
+      "wall_time": 1795093815.5926986,
+      "segmenter_state": "READY",
+      "arms": [
+        "rest",
+        "rest"
+      ],
+      "timestamp": 1.0,
+      "queue_depth": 0,
+      "capture_fps": 8.3
+    },
+    {
+      "elapsed_s": 3.421,
+      "schema_version": "m2.v1",
+      "event_id": "live-2bedd06acf:1:8",
+      "session_id": "live-2bedd06acf",
+      "epoch": 1,
+      "type": "status",
+      "wall_time": 1795093815.8625803,
+      "segmenter_state": "READY",
+      "arms": [
+        "rest",
+        "rest"
+      ],
+      "timestamp": 1.2,
+      "queue_depth": 0,
+      "capture_fps": 19.8
+    },
+    {
+      "elapsed_s": 3.69,
+      "schema_version": "m2.v1",
+      "event_id": "live-2bedd06acf:1:9",
+      "session_id": "live-2bedd06acf",
+      "epoch": 1,
+      "type": "status",
+      "wall_time": 1795093816.131104,
+      "segmenter_state": "READY",
+      "arms": [
+        "rest",
+        "rest"
+      ],
+      "timestamp": 1.4000000000000001,
+      "queue_depth": 0,
+      "capture_fps": 19.3
+    },
+    {
+      "elapsed_s": 3.951,
+      "schema_version": "m2.v1",
+      "event_id": "live-2bedd06acf:1:10",
+      "session_id": "live-2bedd06acf",
+      "epoch": 1,
+      "type": "status",
+      "wall_time": 1795093816.3925307,
+      "segmenter_state": "READY",
+      "arms": [
+        "active",
+        "active"
+      ],
+      "timestamp": 1.6,
+      "queue_depth": 0,
+      "capture_fps": 19.0
+    },
+    {
+      "elapsed_s": 4.242,
+      "schema_version": "m2.v1",
+      "event_id": "live-2bedd06acf:1:11",
+      "session_id": "live-2bedd06acf",
+      "epoch": 1,
+      "type": "status",
+      "wall_time": 1795093816.6833217,
+      "segmenter_state": "CAPTURING",
+      "arms": [
+        "active",
+        "active"
+      ],
+      "timestamp": 1.84,
+      "queue_depth": 0,
+      "capture_fps": 19.0
+    },
+    {
+      "elapsed_s": 4.541,
+      "schema_version": "m2.v1",
+      "event_id": "live-2bedd06acf:1:12",
+      "session_id": "live-2bedd06acf",
+      "epoch": 1,
+      "type": "status",
+      "wall_time": 1795093816.9826517,
+      "segmenter_state": "CAPTURING",
+      "arms": [
+        "active",
+        "active"
+      ],
+      "timestamp": 2.08,
+      "queue_depth": 0,
+      "capture_fps": 19.4
+    },
+    {
+      "elapsed_s": 4.838,
+      "schema_version": "m2.v1",
+      "event_id": "live-2bedd06acf:1:13",
+      "session_id": "live-2bedd06acf",
+      "epoch": 1,
+      "type": "status",
+      "wall_time": 1795093817.2791014,
+      "segmenter_state": "CAPTURING",
+      "arms": [
+        "active",
+        "active"
+      ],
+      "timestamp": 2.32,
+      "queue_depth": 0,
+      "capture_fps": 19.7
+    },
+    {
+      "elapsed_s": 5.102,
+      "schema_version": "m2.v1",
+      "event_id": "live-2bedd06acf:1:14",
+      "session_id": "live-2bedd06acf",
+      "epoch": 1,
+      "type": "status",
+      "wall_time": 1795093817.5429897,
+      "segmenter_state": "CAPTURING",
+      "arms": [
+        "active",
+        "active"
+      ],
+      "timestamp": 2.48,
+      "queue_depth": 0,
+      "capture_fps": 19.8
+    },
+    {
+      "elapsed_s": 5.381,
+      "schema_version": "m2.v1",
+      "event_id": "live-2bedd06acf:1:15",
+      "session_id": "live-2bedd06acf",
+      "epoch": 1,
+      "type": "status",
+      "wall_time": 1795093817.8222077,
+      "segmenter_state": "CAPTURING",
+      "arms": [
+        "active",
+        "active"
+      ],
+      "timestamp": 2.6,
+      "queue_depth": 0,
+      "capture_fps": 17.8
+    },
+    {
+      "elapsed_s": 5.677,
+      "schema_version": "m2.v1",
+      "event_id": "live-2bedd06acf:1:16",
+      "session_id": "live-2bedd06acf",
+      "epoch": 1,
+      "type": "status",
+      "wall_time": 1795093818.118361,
+      "segmenter_state": "CAPTURING",
+      "arms": [
+        "active",
+        "active"
+      ],
+      "timestamp": 2.84,
+      "queue_depth": 0,
+      "capture_fps": 17.8
+    },
+    {
+      "elapsed_s": 5.882,
+      "schema_version": "m2.v1",
+      "event_id": "live-2bedd06acf:1:17",
+      "session_id": "live-2bedd06acf",
+      "epoch": 1,
+      "type": "status",
+      "wall_time": 1795093818.3234022,
+      "segmenter_state": "END_PENDING",
+      "arms": [
+        "rest",
+        "rest"
+      ],
+      "timestamp": 3.0,
+      "queue_depth": 0,
+      "capture_fps": 17.8
+    },
+    {
+      "elapsed_s": 6.138,
+      "schema_version": "m2.v1",
+      "event_id": "live-2bedd06acf:1:18",
+      "session_id": "live-2bedd06acf",
+      "epoch": 1,
+      "type": "status",
+      "wall_time": 1795093818.5792892,
+      "segmenter_state": "END_PENDING",
+      "arms": [
+        "rest",
+        "rest"
+      ],
+      "timestamp": 3.2,
+      "queue_depth": 0,
+      "capture_fps": 17.6
+    },
+    {
+      "elapsed_s": 6.35,
+      "schema_version": "m2.v1",
+      "event_id": "live-2bedd06acf:1:19",
+      "session_id": "live-2bedd06acf",
+      "epoch": 1,
+      "type": "status",
+      "wall_time": 1795093818.791448,
+      "segmenter_state": "READY",
+      "arms": [
+        "rest",
+        "rest"
+      ],
+      "timestamp": 3.36,
+      "queue_depth": 0,
+      "capture_fps": 17.5
+    },
+    {
+      "elapsed_s": 6.402,
+      "schema_version": "m2.v1",
+      "event_id": "live-2bedd06acf:1:20",
+      "session_id": "live-2bedd06acf",
+      "epoch": 1,
+      "type": "segment_complete",
+      "wall_time": 1795093818.8419304,
+      "segment": {
+        "segment_id": "1",
+        "utterance_id": "0",
+        "start": 1.18,
+        "movement_start": 1.48,
+        "movement_end": 3.0,
+        "end": 3.2,
+        "finalized_at": 3.36,
+        "status": "complete",
+        "reason": null
+      },
+      "frame_count": 51
+    },
+    {
+      "elapsed_s": 6.652,
+      "schema_version": "m2.v1",
+      "event_id": "live-2bedd06acf:1:21",
+      "session_id": "live-2bedd06acf",
+      "epoch": 1,
+      "type": "status",
+      "wall_time": 1795093819.0927687,
+      "segmenter_state": "READY",
+      "arms": [
+        "rest",
+        "rest"
+      ],
+      "timestamp": 3.52,
+      "queue_depth": 1,
+      "capture_fps": 16.5
+    },
+    {
+      "elapsed_s": 6.909,
+      "schema_version": "m2.v1",
+      "event_id": "live-2bedd06acf:1:22",
+      "session_id": "live-2bedd06acf",
+      "epoch": 1,
+      "type": "status",
+      "wall_time": 1795093819.3502514,
+      "segmenter_state": "READY",
+      "arms": [
+        "rest",
+        "rest"
+      ],
+      "timestamp": 3.68,
+      "queue_depth": 1,
+      "capture_fps": 16.7
+    },
+    {
+      "elapsed_s": 7.206,
+      "schema_version": "m2.v1",
+      "event_id": "live-2bedd06acf:1:23",
+      "session_id": "live-2bedd06acf",
+      "epoch": 1,
+      "type": "status",
+      "wall_time": 1795093819.6466486,
+      "segmenter_state": "READY",
+      "arms": [
+        "rest",
+        "rest"
+      ],
+      "timestamp": 3.88,
+      "queue_depth": 1,
+      "capture_fps": 17.4
+    },
+    {
+      "elapsed_s": 7.518,
+      "schema_version": "m2.v1",
+      "event_id": "live-2bedd06acf:1:24",
+      "session_id": "live-2bedd06acf",
+      "epoch": 1,
+      "type": "status",
+      "wall_time": 1795093819.9594822,
+      "segmenter_state": "READY",
+      "arms": [
+        "active",
+        "rest"
+      ],
+      "timestamp": 4.04,
+      "queue_depth": 1,
+      "capture_fps": 16.8
+    },
+    {
+      "elapsed_s": 7.817,
+      "schema_version": "m2.v1",
+      "event_id": "live-2bedd06acf:1:25",
+      "session_id": "live-2bedd06acf",
+      "epoch": 1,
+      "type": "status",
+      "wall_time": 1795093820.2579658,
+      "segmenter_state": "READY",
+      "arms": [
+        "active",
+        "rest"
+      ],
+      "timestamp": 4.24,
+      "queue_depth": 1,
+      "capture_fps": 15.9
+    },
+    {
+      "elapsed_s": 8.002,
+      "schema_version": "m2.v1",
+      "event_id": "live-2bedd06acf:1:26",
+      "session_id": "live-2bedd06acf",
+      "epoch": 1,
+      "type": "status",
+      "wall_time": 1795093820.4431505,
+      "segmenter_state": "CAPTURING",
+      "arms": [
+        "active",
+        "rest"
+      ],
+      "timestamp": 4.36,
+      "queue_depth": 1,
+      "capture_fps": 15.6
+    },
+    {
+      "elapsed_s": 8.26,
+      "schema_version": "m2.v1",
+      "event_id": "live-2bedd06acf:1:27",
+      "session_id": "live-2bedd06acf",
+      "epoch": 1,
+      "type": "status",
+      "wall_time": 1795093820.7008333,
+      "segmenter_state": "CAPTURING",
+      "arms": [
+        "active",
+        "active"
+      ],
+      "timestamp": 4.520000000000001,
+      "queue_depth": 1,
+      "capture_fps": 15.3
+    },
+    {
+      "elapsed_s": 8.529,
+      "schema_version": "m2.v1",
+      "event_id": "live-2bedd06acf:1:28",
+      "session_id": "live-2bedd06acf",
+      "epoch": 1,
+      "type": "status",
+      "wall_time": 1795093820.9692676,
+      "segmenter_state": "CAPTURING",
+      "arms": [
+        "active",
+        "active"
+      ],
+      "timestamp": 4.68,
+      "queue_depth": 1,
+      "capture_fps": 15.5
+    },
+    {
+      "elapsed_s": 8.816,
+      "schema_version": "m2.v1",
+      "event_id": "live-2bedd06acf:1:29",
+      "session_id": "live-2bedd06acf",
+      "epoch": 1,
+      "type": "status",
+      "wall_time": 1795093821.2568595,
+      "segmenter_state": "CAPTURING",
+      "arms": [
+        "active",
+        "active"
+      ],
+      "timestamp": 4.84,
+      "queue_depth": 1,
+      "capture_fps": 15.3
+    },
+    {
+      "elapsed_s": 9.142,
+      "schema_version": "m2.v1",
+      "event_id": "live-2bedd06acf:1:30",
+      "session_id": "live-2bedd06acf",
+      "epoch": 1,
+      "type": "status",
+      "wall_time": 1795093821.582798,
+      "segmenter_state": "CAPTURING",
+      "arms": [
+        "active",
+        "active"
+      ],
+      "timestamp": 5.0,
+      "queue_depth": 1,
+      "capture_fps": 14.7
+    },
+    {
+      "elapsed_s": 9.437,
+      "schema_version": "m2.v1",
+      "event_id": "live-2bedd06acf:1:31",
+      "session_id": "live-2bedd06acf",
+      "epoch": 1,
+      "type": "status",
+      "wall_time": 1795093821.8777394,
+      "segmenter_state": "CAPTURING",
+      "arms": [
+        "active",
+        "active"
+      ],
+      "timestamp": 5.16,
+      "queue_depth": 1,
+      "capture_fps": 14.2
+    },
+    {
+      "elapsed_s": 9.72,
+      "schema_version": "m2.v1",
+      "event_id": "live-2bedd06acf:1:32",
+      "session_id": "live-2bedd06acf",
+      "epoch": 1,
+      "type": "status",
+      "wall_time": 1795093822.1602151,
+      "segmenter_state": "CAPTURING",
+      "arms": [
+        "active",
+        "active"
+      ],
+      "timestamp": 5.32,
+      "queue_depth": 1,
+      "capture_fps": 14.4
+    },
+    {
+      "elapsed_s": 9.987,
+      "schema_version": "m2.v1",
+      "event_id": "live-2bedd06acf:1:33",
+      "session_id": "live-2bedd06acf",
+      "epoch": 1,
+      "type": "status",
+      "wall_time": 1795093822.427539,
+      "segmenter_state": "CAPTURING",
+      "arms": [
+        "active",
+        "active"
+      ],
+      "timestamp": 5.48,
+      "queue_depth": 1,
+      "capture_fps": 14.2
+    },
+    {
+      "elapsed_s": 10.289,
+      "schema_version": "m2.v1",
+      "event_id": "live-2bedd06acf:1:34",
+      "session_id": "live-2bedd06acf",
+      "epoch": 1,
+      "type": "status",
+      "wall_time": 1795093822.73037,
+      "segmenter_state": "CAPTURING",
+      "arms": [
+        "active",
+        "active"
+      ],
+      "timestamp": 5.64,
+      "queue_depth": 1,
+      "capture_fps": 13.8
+    },
+    {
+      "elapsed_s": 10.541,
+      "schema_version": "m2.v1",
+      "event_id": "live-2bedd06acf:1:35",
+      "session_id": "live-2bedd06acf",
+      "epoch": 1,
+      "type": "status",
+      "wall_time": 1795093822.982496,
+      "segmenter_state": "CAPTURING",
+      "arms": [
+        "active",
+        "active"
+      ],
+      "timestamp": 5.8,
+      "queue_depth": 1,
+      "capture_fps": 13.9
+    },
+    {
+      "elapsed_s": 10.798,
+      "schema_version": "m2.v1",
+      "event_id": "live-2bedd06acf:1:36",
+      "session_id": "live-2bedd06acf",
+      "epoch": 1,
+      "type": "status",
+      "wall_time": 1795093823.2392266,
+      "segmenter_state": "CAPTURING",
+      "arms": [
+        "active",
+        "active"
+      ],
+      "timestamp": 5.96,
+      "queue_depth": 1,
+      "capture_fps": 14.0
+    },
+    {
+      "elapsed_s": 11.056,
+      "schema_version": "m2.v1",
+      "event_id": "live-2bedd06acf:1:37",
+      "session_id": "live-2bedd06acf",
+      "epoch": 1,
+      "type": "status",
+      "wall_time": 1795093823.496619,
+      "segmenter_state": "CAPTURING",
+      "arms": [
+        "active",
+        "rest"
+      ],
+      "timestamp": 6.12,
+      "queue_depth": 1,
+      "capture_fps": 14.4
+    },
+    {
+      "elapsed_s": 11.378,
+      "schema_version": "m2.v1",
+      "event_id": "live-2bedd06acf:1:38",
+      "session_id": "live-2bedd06acf",
+      "epoch": 1,
+      "type": "status",
+      "wall_time": 1795093823.8194792,
+      "segmenter_state": "CAPTURING",
+      "arms": [
+        "active",
+        "rest"
+      ],
+      "timestamp": 6.32,
+      "queue_depth": 1,
+      "capture_fps": 15.0
+    },
+    {
+      "elapsed_s": 11.689,
+      "schema_version": "m2.v1",
+      "event_id": "live-2bedd06acf:1:39",
+      "session_id": "live-2bedd06acf",
+      "epoch": 1,
+      "type": "status",
+      "wall_time": 1795093824.1301498,
+      "segmenter_state": "CAPTURING",
+      "arms": [
+        "active",
+        "rest"
+      ],
+      "timestamp": 6.520000000000001,
+      "queue_depth": 1,
+      "capture_fps": 15.2
+    },
+    {
+      "elapsed_s": 11.756,
+      "schema_version": "m2.v1",
+      "event_id": "live-2bedd06acf:1:40",
+      "session_id": "live-2bedd06acf",
+      "epoch": 1,
+      "type": "status",
+      "wall_time": 1795093824.1973863,
+      "segmenter_state": "END_PENDING",
+      "arms": [
+        "rest",
+        "rest"
+      ],
+      "timestamp": 6.5600000000000005,
+      "queue_depth": 1,
+      "capture_fps": 15.3
+    },
+    {
+      "elapsed_s": 12.037,
+      "schema_version": "m2.v1",
+      "event_id": "live-2bedd06acf:1:41",
+      "session_id": "live-2bedd06acf",
+      "epoch": 1,
+      "type": "status",
+      "wall_time": 1795093824.4781508,
+      "segmenter_state": "END_PENDING",
+      "arms": [
+        "rest",
+        "rest"
+      ],
+      "timestamp": 6.72,
+      "queue_depth": 1,
+      "capture_fps": 15.4
+    },
+    {
+      "elapsed_s": 12.319,
+      "schema_version": "m2.v1",
+      "event_id": "live-2bedd06acf:1:42",
+      "session_id": "live-2bedd06acf",
+      "epoch": 1,
+      "type": "status",
+      "wall_time": 1795093824.760473,
+      "segmenter_state": "END_PENDING",
+      "arms": [
+        "rest",
+        "rest"
+      ],
+      "timestamp": 6.88,
+      "queue_depth": 1,
+      "capture_fps": 15.3
+    },
+    {
+      "elapsed_s": 12.39,
+      "schema_version": "m2.v1",
+      "event_id": "live-2bedd06acf:1:43",
+      "session_id": "live-2bedd06acf",
+      "epoch": 1,
+      "type": "status",
+      "wall_time": 1795093824.830271,
+      "segmenter_state": "READY",
+      "arms": [
+        "rest",
+        "rest"
+      ],
+      "timestamp": 6.92,
+      "queue_depth": 1,
+      "capture_fps": 15.2
+    },
+    {
+      "elapsed_s": 12.482,
+      "schema_version": "m2.v1",
+      "event_id": "live-2bedd06acf:1:44",
+      "session_id": "live-2bedd06acf",
+      "epoch": 1,
+      "type": "segment_complete",
+      "wall_time": 1795093824.9224749,
+      "segment": {
+        "segment_id": "2",
+        "utterance_id": "0",
+        "start": 3.7,
+        "movement_start": 4.0,
+        "movement_end": 6.5600000000000005,
+        "end": 6.760000000000001,
+        "finalized_at": 6.92,
+        "status": "complete",
+        "reason": null
+      },
+      "frame_count": 77
+    },
+    {
+      "elapsed_s": 12.69,
+      "schema_version": "m2.v1",
+      "event_id": "live-2bedd06acf:1:45",
+      "session_id": "live-2bedd06acf",
+      "epoch": 1,
+      "type": "status",
+      "wall_time": 1795093825.1306205,
+      "segmenter_state": "READY",
+      "arms": [
+        "rest",
+        "rest"
+      ],
+      "timestamp": 7.04,
+      "queue_depth": 2,
+      "capture_fps": 14.4
+    },
+    {
+      "elapsed_s": 12.965,
+      "schema_version": "m2.v1",
+      "event_id": "live-2bedd06acf:1:46",
+      "session_id": "live-2bedd06acf",
+      "epoch": 1,
+      "type": "status",
+      "wall_time": 1795093825.4059608,
+      "segmenter_state": "READY",
+      "arms": [
+        "rest",
+        "rest"
+      ],
+      "timestamp": 7.2,
+      "queue_depth": 2,
+      "capture_fps": 14.3
+    },
+    {
+      "elapsed_s": 13.259,
+      "schema_version": "m2.v1",
+      "event_id": "live-2bedd06acf:1:47",
+      "session_id": "live-2bedd06acf",
+      "epoch": 1,
+      "type": "status",
+      "wall_time": 1795093825.7001717,
+      "segmenter_state": "READY",
+      "arms": [
+        "rest",
+        "rest"
+      ],
+      "timestamp": 7.4,
+      "queue_depth": 2,
+      "capture_fps": 14.3
+    },
+    {
+      "elapsed_s": 13.545,
+      "schema_version": "m2.v1",
+      "event_id": "live-2bedd06acf:1:48",
+      "session_id": "live-2bedd06acf",
+      "epoch": 1,
+      "type": "status",
+      "wall_time": 1795093825.9857888,
+      "segmenter_state": "READY",
+      "arms": [
+        "rest",
+        "rest"
+      ],
+      "timestamp": 7.6000000000000005,
+      "queue_depth": 2,
+      "capture_fps": 14.6
+    },
+    {
+      "elapsed_s": 13.85,
+      "schema_version": "m2.v1",
+      "event_id": "live-2bedd06acf:1:49",
+      "session_id": "live-2bedd06acf",
+      "epoch": 1,
+      "type": "status",
+      "wall_time": 1795093826.2912364,
+      "segmenter_state": "READY",
+      "arms": [
+        "rest",
+        "rest"
+      ],
+      "timestamp": 7.8,
+      "queue_depth": 2,
+      "capture_fps": 14.8
+    },
+    {
+      "elapsed_s": 14.121,
+      "schema_version": "m2.v1",
+      "event_id": "live-2bedd06acf:1:50",
+      "session_id": "live-2bedd06acf",
+      "epoch": 1,
+      "type": "status",
+      "wall_time": 1795093826.5615342,
+      "segmenter_state": "READY",
+      "arms": [
+        "rest",
+        "rest"
+      ],
+      "timestamp": 7.92,
+      "queue_depth": 2,
+      "capture_fps": 14.4
+    },
+    {
+      "elapsed_s": 14.417,
+      "schema_version": "m2.v1",
+      "event_id": "live-2bedd06acf:1:51",
+      "session_id": "live-2bedd06acf",
+      "epoch": 1,
+      "type": "status",
+      "wall_time": 1795093826.857857,
+      "segmenter_state": "READY",
+      "arms": [
+        "rest",
+        "rest"
+      ],
+      "timestamp": 8.08,
+      "queue_depth": 2,
+      "capture_fps": 14.3
+    },
+    {
+      "elapsed_s": 14.478,
+      "schema_version": "m2.v1",
+      "event_id": "live-2bedd06acf:1:52",
+      "session_id": "live-2bedd06acf",
+      "epoch": 1,
+      "type": "gloss_result",
+      "wall_time": 1795093826.89749,
+      "gloss": {
+        "segment_id": "1",
+        "utterance_id": "0",
+        "start": 1.18,
+        "movement_start": 1.48,
+        "movement_end": 3.0,
+        "end": 3.2,
+        "raw": {
+          "top1_label": "Dài",
+          "top1_id": 95,
+          "confidence": 0.9837290644645691,
+          "low_confidence": false,
+          "top5": [
+            {
+              "label": "Dài",
+              "label_id": 95,
+              "score": 0.9837290644645691
+            },
+            {
+              "label": "Rộng",
+              "label_id": 274,
+              "score": 0.01625302992761135
+            },
+            {
+              "label": "Cái bàn",
+              "label_id": 70,
+              "score": 1.0715382813941687e-05
+            },
+            {
+              "label": "Sách",
+              "label_id": 281,
+              "score": 3.968721102864947e-06
+            },
+            {
+              "label": "Dễ",
+              "label_id": 101,
+              "score": 8.149536370183341e-07
+            }
+          ]
+        },
+        "timing": {
+          "preprocessing_seconds": 6.5647941999995965,
+          "inference_seconds": 0.43615370000043185,
+          "network_seconds": 6.597665699999197,
+          "queue_and_classify_seconds": 8.054820299999847
+        },
+        "executor": "pi_local",
+        "source_frames": 51,
+        "landmark_payload_bytes": 18146
+      }
+    },
+    {
+      "elapsed_s": 14.702,
+      "schema_version": "m2.v1",
+      "event_id": "live-2bedd06acf:1:53",
+      "session_id": "live-2bedd06acf",
+      "epoch": 1,
+      "type": "status",
+      "wall_time": 1795093827.1427882,
+      "segmenter_state": "READY",
+      "arms": [
+        "rest",
+        "rest"
+      ],
+      "timestamp": 8.24,
+      "queue_depth": 1,
+      "capture_fps": 14.9
+    },
+    {
+      "elapsed_s": 14.975,
+      "schema_version": "m2.v1",
+      "event_id": "live-2bedd06acf:1:54",
+      "session_id": "live-2bedd06acf",
+      "epoch": 1,
+      "type": "status",
+      "wall_time": 1795093827.4156463,
+      "segmenter_state": "READY",
+      "arms": [
+        "rest",
+        "rest"
+      ],
+      "timestamp": 8.4,
+      "queue_depth": 1,
+      "capture_fps": 15.0
+    },
+    {
+      "elapsed_s": 15.277,
+      "schema_version": "m2.v1",
+      "event_id": "live-2bedd06acf:1:55",
+      "session_id": "live-2bedd06acf",
+      "epoch": 1,
+      "type": "status",
+      "wall_time": 1795093827.7181895,
+      "segmenter_state": "READY",
+      "arms": [
+        "rest",
+        "rest"
+      ],
+      "timestamp": 8.6,
+      "queue_depth": 1,
+      "capture_fps": 14.8
+    },
+    {
+      "elapsed_s": 15.549,
+      "schema_version": "m2.v1",
+      "event_id": "live-2bedd06acf:1:56",
+      "session_id": "live-2bedd06acf",
+      "epoch": 1,
+      "type": "status",
+      "wall_time": 1795093827.990288,
+      "segmenter_state": "READY",
+      "arms": [
+        "rest",
+        "rest"
+      ],
+      "timestamp": 8.8,
+      "queue_depth": 1,
+      "capture_fps": 14.8
+    },
+    {
+      "elapsed_s": 15.845,
+      "schema_version": "m2.v1",
+      "event_id": "live-2bedd06acf:1:57",
+      "session_id": "live-2bedd06acf",
+      "epoch": 1,
+      "type": "status",
+      "wall_time": 1795093828.286537,
+      "segmenter_state": "READY",
+      "arms": [
+        "rest",
+        "rest"
+      ],
+      "timestamp": 9.0,
+      "queue_depth": 1,
+      "capture_fps": 15.0
+    },
+    {
+      "elapsed_s": 16.116,
+      "schema_version": "m2.v1",
+      "event_id": "live-2bedd06acf:1:58",
+      "session_id": "live-2bedd06acf",
+      "epoch": 1,
+      "type": "status",
+      "wall_time": 1795093828.5568998,
+      "segmenter_state": "READY",
+      "arms": [
+        "rest",
+        "rest"
+      ],
+      "timestamp": 9.16,
+      "queue_depth": 1,
+      "capture_fps": 15.6
+    },
+    {
+      "elapsed_s": 23.112,
+      "schema_version": "m2.v1",
+      "event_id": "live-2bedd06acf:1:59",
+      "session_id": "live-2bedd06acf",
+      "epoch": 1,
+      "type": "gloss_result",
+      "wall_time": 1795093835.525156,
+      "gloss": {
+        "segment_id": "2",
+        "utterance_id": "0",
+        "start": 3.7,
+        "movement_start": 4.0,
+        "movement_end": 6.5600000000000005,
+        "end": 6.760000000000001,
+        "raw": {
+          "top1_label": "Khăn quàng cổ",
+          "top1_id": 154,
+          "confidence": 0.9965906143188477,
+          "low_confidence": false,
+          "top5": [
+            {
+              "label": "Khăn quàng cổ",
+              "label_id": 154,
+              "score": 0.9965906143188477
+            },
+            {
+              "label": "Bánh bao",
+              "label_id": 12,
+              "score": 0.0014257329748943448
+            },
+            {
+              "label": "Chơi cờ",
+              "label_id": 45,
+              "score": 0.0011870620073750615
+            },
+            {
+              "label": "Buổi chiều",
+              "label_id": 3,
+              "score": 0.0004873481811955571
+            },
+            {
+              "label": "Hát",
+              "label_id": 135,
+              "score": 0.0001533326430944726
+            }
+          ]
+        },
+        "timing": {
+          "preprocessing_seconds": 6.871588099998917,
+          "inference_seconds": 0.2622736999983317,
+          "network_seconds": 6.900795100002142,
+          "queue_and_classify_seconds": 10.60295910000059
+        },
+        "executor": "pi_local",
+        "source_frames": 77,
+        "landmark_payload_bytes": 28004
+      }
+    },
+    {
+      "elapsed_s": 23.112,
+      "schema_version": "m2.v1",
+      "event_id": "live-2bedd06acf:1:60",
+      "session_id": "live-2bedd06acf",
+      "epoch": 1,
+      "type": "utterance_ready",
+      "wall_time": 1795093835.5521462,
+      "utterance": {
+        "utterance_id": "0",
+        "revision": 1,
+        "reason": "utterance_rest",
+        "timestamp": 8.08,
+        "raw_glosses": [
+          "Dài",
+          "Khăn quàng cổ"
+        ],
+        "segments": [
+          {
+            "segment_id": "1",
+            "utterance_id": "0",
+            "start": 1.18,
+            "movement_start": 1.48,
+            "movement_end": 3.0,
+            "end": 3.2,
+            "raw": {
+              "top1_label": "Dài",
+              "top1_id": 95,
+              "confidence": 0.9837290644645691,
+              "low_confidence": false,
+              "top5": [
+                {
+                  "label": "Dài",
+                  "label_id": 95,
+                  "score": 0.9837290644645691
+                },
+                {
+                  "label": "Rộng",
+                  "label_id": 274,
+                  "score": 0.01625302992761135
+                },
+                {
+                  "label": "Cái bàn",
+                  "label_id": 70,
+                  "score": 1.0715382813941687e-05
+                },
+                {
+                  "label": "Sách",
+                  "label_id": 281,
+                  "score": 3.968721102864947e-06
+                },
+                {
+                  "label": "Dễ",
+                  "label_id": 101,
+                  "score": 8.149536370183341e-07
+                }
+              ]
+            },
+            "timing": {
+              "preprocessing_seconds": 6.5647941999995965,
+              "inference_seconds": 0.43615370000043185,
+              "network_seconds": 6.597665699999197,
+              "queue_and_classify_seconds": 8.054820299999847
+            },
+            "executor": "pi_local",
+            "source_frames": 51,
+            "landmark_payload_bytes": 18146
+          },
+          {
+            "segment_id": "2",
+            "utterance_id": "0",
+            "start": 3.7,
+            "movement_start": 4.0,
+            "movement_end": 6.5600000000000005,
+            "end": 6.760000000000001,
+            "raw": {
+              "top1_label": "Khăn quàng cổ",
+              "top1_id": 154,
+              "confidence": 0.9965906143188477,
+              "low_confidence": false,
+              "top5": [
+                {
+                  "label": "Khăn quàng cổ",
+                  "label_id": 154,
+                  "score": 0.9965906143188477
+                },
+                {
+                  "label": "Bánh bao",
+                  "label_id": 12,
+                  "score": 0.0014257329748943448
+                },
+                {
+                  "label": "Chơi cờ",
+                  "label_id": 45,
+                  "score": 0.0011870620073750615
+                },
+                {
+                  "label": "Buổi chiều",
+                  "label_id": 3,
+                  "score": 0.0004873481811955571
+                },
+                {
+                  "label": "Hát",
+                  "label_id": 135,
+                  "score": 0.0001533326430944726
+                }
+              ]
+            },
+            "timing": {
+              "preprocessing_seconds": 6.871588099998917,
+              "inference_seconds": 0.2622736999983317,
+              "network_seconds": 6.900795100002142,
+              "queue_and_classify_seconds": 10.60295910000059
+            },
+            "executor": "pi_local",
+            "source_frames": 77,
+            "landmark_payload_bytes": 28004
+          }
+        ],
+        "revised_glosses": null,
+        "vietnamese_sentence": null
+      }
+    },
+    {
+      "elapsed_s": 23.113,
+      "schema_version": "m2.v1",
+      "event_id": "live-2bedd06acf:1:61",
+      "session_id": "live-2bedd06acf",
+      "epoch": 1,
+      "type": "session_stopped",
+      "wall_time": 1795093835.553145,
+      "snapshot": {
+        "schema_version": "m2.v1",
+        "session_id": "live-2bedd06acf",
+        "epoch": 1,
+        "running": false,
+        "draining": false,
+        "segmenter_state": "READY",
+        "arms": [
+          "rest",
+          "rest"
+        ],
+        "queue_depth": 0,
+        "capture_fps": 15.6,
+        "config": {
+          "onset": 0.35,
+          "leading": 0.3,
+          "rest": 0.35,
+          "trailing": 0.2,
+          "utterance_rest": 1.5,
+          "max_duration": 15.0,
+          "gap": 0.5,
+          "visibility": 0.5,
+          "wrist_below_hip": -0.15,
+          "elbow_below_shoulder": 0.3
+        },
+        "glosses": [
+          {
+            "segment_id": "1",
+            "utterance_id": "0",
+            "start": 1.18,
+            "movement_start": 1.48,
+            "movement_end": 3.0,
+            "end": 3.2,
+            "raw": {
+              "top1_label": "Dài",
+              "top1_id": 95,
+              "confidence": 0.9837290644645691,
+              "low_confidence": false,
+              "top5": [
+                {
+                  "label": "Dài",
+                  "label_id": 95,
+                  "score": 0.9837290644645691
+                },
+                {
+                  "label": "Rộng",
+                  "label_id": 274,
+                  "score": 0.01625302992761135
+                },
+                {
+                  "label": "Cái bàn",
+                  "label_id": 70,
+                  "score": 1.0715382813941687e-05
+                },
+                {
+                  "label": "Sách",
+                  "label_id": 281,
+                  "score": 3.968721102864947e-06
+                },
+                {
+                  "label": "Dễ",
+                  "label_id": 101,
+                  "score": 8.149536370183341e-07
+                }
+              ]
+            },
+            "timing": {
+              "preprocessing_seconds": 6.5647941999995965,
+              "inference_seconds": 0.43615370000043185,
+              "network_seconds": 6.597665699999197,
+              "queue_and_classify_seconds": 8.054820299999847
+            },
+            "executor": "pi_local",
+            "source_frames": 51,
+            "landmark_payload_bytes": 18146
+          },
+          {
+            "segment_id": "2",
+            "utterance_id": "0",
+            "start": 3.7,
+            "movement_start": 4.0,
+            "movement_end": 6.5600000000000005,
+            "end": 6.760000000000001,
+            "raw": {
+              "top1_label": "Khăn quàng cổ",
+              "top1_id": 154,
+              "confidence": 0.9965906143188477,
+              "low_confidence": false,
+              "top5": [
+                {
+                  "label": "Khăn quàng cổ",
+                  "label_id": 154,
+                  "score": 0.9965906143188477
+                },
+                {
+                  "label": "Bánh bao",
+                  "label_id": 12,
+                  "score": 0.0014257329748943448
+                },
+                {
+                  "label": "Chơi cờ",
+                  "label_id": 45,
+                  "score": 0.0011870620073750615
+                },
+                {
+                  "label": "Buổi chiều",
+                  "label_id": 3,
+                  "score": 0.0004873481811955571
+                },
+                {
+                  "label": "Hát",
+                  "label_id": 135,
+                  "score": 0.0001533326430944726
+                }
+              ]
+            },
+            "timing": {
+              "preprocessing_seconds": 6.871588099998917,
+              "inference_seconds": 0.2622736999983317,
+              "network_seconds": 6.900795100002142,
+              "queue_and_classify_seconds": 10.60295910000059
+            },
+            "executor": "pi_local",
+            "source_frames": 77,
+            "landmark_payload_bytes": 28004
+          }
+        ],
+        "utterances": [
+          {
+            "utterance_id": "0",
+            "revision": 1,
+            "reason": "utterance_rest",
+            "timestamp": 8.08,
+            "raw_glosses": [
+              "Dài",
+              "Khăn quàng cổ"
+            ],
+            "segments": [
+              {
+                "segment_id": "1",
+                "utterance_id": "0",
+                "start": 1.18,
+                "movement_start": 1.48,
+                "movement_end": 3.0,
+                "end": 3.2,
+                "raw": {
+                  "top1_label": "Dài",
+                  "top1_id": 95,
+                  "confidence": 0.9837290644645691,
+                  "low_confidence": false,
+                  "top5": [
+                    {
+                      "label": "Dài",
+                      "label_id": 95,
+                      "score": 0.9837290644645691
+                    },
+                    {
+                      "label": "Rộng",
+                      "label_id": 274,
+                      "score": 0.01625302992761135
+                    },
+                    {
+                      "label": "Cái bàn",
+                      "label_id": 70,
+                      "score": 1.0715382813941687e-05
+                    },
+                    {
+                      "label": "Sách",
+                      "label_id": 281,
+                      "score": 3.968721102864947e-06
+                    },
+                    {
+                      "label": "Dễ",
+                      "label_id": 101,
+                      "score": 8.149536370183341e-07
+                    }
+                  ]
+                },
+                "timing": {
+                  "preprocessing_seconds": 6.5647941999995965,
+                  "inference_seconds": 0.43615370000043185,
+                  "network_seconds": 6.597665699999197,
+                  "queue_and_classify_seconds": 8.054820299999847
+                },
+                "executor": "pi_local",
+                "source_frames": 51,
+                "landmark_payload_bytes": 18146
+              },
+              {
+                "segment_id": "2",
+                "utterance_id": "0",
+                "start": 3.7,
+                "movement_start": 4.0,
+                "movement_end": 6.5600000000000005,
+                "end": 6.760000000000001,
+                "raw": {
+                  "top1_label": "Khăn quàng cổ",
+                  "top1_id": 154,
+                  "confidence": 0.9965906143188477,
+                  "low_confidence": false,
+                  "top5": [
+                    {
+                      "label": "Khăn quàng cổ",
+                      "label_id": 154,
+                      "score": 0.9965906143188477
+                    },
+                    {
+                      "label": "Bánh bao",
+                      "label_id": 12,
+                      "score": 0.0014257329748943448
+                    },
+                    {
+                      "label": "Chơi cờ",
+                      "label_id": 45,
+                      "score": 0.0011870620073750615
+                    },
+                    {
+                      "label": "Buổi chiều",
+                      "label_id": 3,
+                      "score": 0.0004873481811955571
+                    },
+                    {
+                      "label": "Hát",
+                      "label_id": 135,
+                      "score": 0.0001533326430944726
+                    }
+                  ]
+                },
+                "timing": {
+                  "preprocessing_seconds": 6.871588099998917,
+                  "inference_seconds": 0.2622736999983317,
+                  "network_seconds": 6.900795100002142,
+                  "queue_and_classify_seconds": 10.60295910000059
+                },
+                "executor": "pi_local",
+                "source_frames": 77,
+                "landmark_payload_bytes": 28004
+              }
+            ],
+            "revised_glosses": null,
+            "vietnamese_sentence": null
+          }
+        ],
+        "incomplete_events": [],
+        "last_error": null
+      }
+    }
+  ],
+  "final_snapshot": {
+    "schema_version": "m2.v1",
+    "session_id": "live-2bedd06acf",
+    "epoch": 1,
+    "running": false,
+    "draining": false,
+    "segmenter_state": "READY",
+    "arms": [
+      "rest",
+      "rest"
+    ],
+    "queue_depth": 0,
+    "capture_fps": 15.6,
+    "config": {
+      "onset": 0.35,
+      "leading": 0.3,
+      "rest": 0.35,
+      "trailing": 0.2,
+      "utterance_rest": 1.5,
+      "max_duration": 15.0,
+      "gap": 0.5,
+      "visibility": 0.5,
+      "wrist_below_hip": -0.15,
+      "elbow_below_shoulder": 0.3
+    },
+    "glosses": [
+      {
+        "segment_id": "1",
+        "utterance_id": "0",
+        "start": 1.18,
+        "movement_start": 1.48,
+        "movement_end": 3.0,
+        "end": 3.2,
+        "raw": {
+          "top1_label": "Dài",
+          "top1_id": 95,
+          "confidence": 0.9837290644645691,
+          "low_confidence": false,
+          "top5": [
+            {
+              "label": "Dài",
+              "label_id": 95,
+              "score": 0.9837290644645691
+            },
+            {
+              "label": "Rộng",
+              "label_id": 274,
+              "score": 0.01625302992761135
+            },
+            {
+              "label": "Cái bàn",
+              "label_id": 70,
+              "score": 1.0715382813941687e-05
+            },
+            {
+              "label": "Sách",
+              "label_id": 281,
+              "score": 3.968721102864947e-06
+            },
+            {
+              "label": "Dễ",
+              "label_id": 101,
+              "score": 8.149536370183341e-07
+            }
+          ]
+        },
+        "timing": {
+          "preprocessing_seconds": 6.5647941999995965,
+          "inference_seconds": 0.43615370000043185,
+          "network_seconds": 6.597665699999197,
+          "queue_and_classify_seconds": 8.054820299999847
+        },
+        "executor": "pi_local",
+        "source_frames": 51,
+        "landmark_payload_bytes": 18146
+      },
+      {
+        "segment_id": "2",
+        "utterance_id": "0",
+        "start": 3.7,
+        "movement_start": 4.0,
+        "movement_end": 6.5600000000000005,
+        "end": 6.760000000000001,
+        "raw": {
+          "top1_label": "Khăn quàng cổ",
+          "top1_id": 154,
+          "confidence": 0.9965906143188477,
+          "low_confidence": false,
+          "top5": [
+            {
+              "label": "Khăn quàng cổ",
+              "label_id": 154,
+              "score": 0.9965906143188477
+            },
+            {
+              "label": "Bánh bao",
+              "label_id": 12,
+              "score": 0.0014257329748943448
+            },
+            {
+              "label": "Chơi cờ",
+              "label_id": 45,
+              "score": 0.0011870620073750615
+            },
+            {
+              "label": "Buổi chiều",
+              "label_id": 3,
+              "score": 0.0004873481811955571
+            },
+            {
+              "label": "Hát",
+              "label_id": 135,
+              "score": 0.0001533326430944726
+            }
+          ]
+        },
+        "timing": {
+          "preprocessing_seconds": 6.871588099998917,
+          "inference_seconds": 0.2622736999983317,
+          "network_seconds": 6.900795100002142,
+          "queue_and_classify_seconds": 10.60295910000059
+        },
+        "executor": "pi_local",
+        "source_frames": 77,
+        "landmark_payload_bytes": 28004
+      }
+    ],
+    "utterances": [
+      {
+        "utterance_id": "0",
+        "revision": 1,
+        "reason": "utterance_rest",
+        "timestamp": 8.08,
+        "raw_glosses": [
+          "Dài",
+          "Khăn quàng cổ"
+        ],
+        "segments": [
+          {
+            "segment_id": "1",
+            "utterance_id": "0",
+            "start": 1.18,
+            "movement_start": 1.48,
+            "movement_end": 3.0,
+            "end": 3.2,
+            "raw": {
+              "top1_label": "Dài",
+              "top1_id": 95,
+              "confidence": 0.9837290644645691,
+              "low_confidence": false,
+              "top5": [
+                {
+                  "label": "Dài",
+                  "label_id": 95,
+                  "score": 0.9837290644645691
+                },
+                {
+                  "label": "Rộng",
+                  "label_id": 274,
+                  "score": 0.01625302992761135
+                },
+                {
+                  "label": "Cái bàn",
+                  "label_id": 70,
+                  "score": 1.0715382813941687e-05
+                },
+                {
+                  "label": "Sách",
+                  "label_id": 281,
+                  "score": 3.968721102864947e-06
+                },
+                {
+                  "label": "Dễ",
+                  "label_id": 101,
+                  "score": 8.149536370183341e-07
+                }
+              ]
+            },
+            "timing": {
+              "preprocessing_seconds": 6.5647941999995965,
+              "inference_seconds": 0.43615370000043185,
+              "network_seconds": 6.597665699999197,
+              "queue_and_classify_seconds": 8.054820299999847
+            },
+            "executor": "pi_local",
+            "source_frames": 51,
+            "landmark_payload_bytes": 18146
+          },
+          {
+            "segment_id": "2",
+            "utterance_id": "0",
+            "start": 3.7,
+            "movement_start": 4.0,
+            "movement_end": 6.5600000000000005,
+            "end": 6.760000000000001,
+            "raw": {
+              "top1_label": "Khăn quàng cổ",
+              "top1_id": 154,
+              "confidence": 0.9965906143188477,
+              "low_confidence": false,
+              "top5": [
+                {
+                  "label": "Khăn quàng cổ",
+                  "label_id": 154,
+                  "score": 0.9965906143188477
+                },
+                {
+                  "label": "Bánh bao",
+                  "label_id": 12,
+                  "score": 0.0014257329748943448
+                },
+                {
+                  "label": "Chơi cờ",
+                  "label_id": 45,
+                  "score": 0.0011870620073750615
+                },
+                {
+                  "label": "Buổi chiều",
+                  "label_id": 3,
+                  "score": 0.0004873481811955571
+                },
+                {
+                  "label": "Hát",
+                  "label_id": 135,
+                  "score": 0.0001533326430944726
+                }
+              ]
+            },
+            "timing": {
+              "preprocessing_seconds": 6.871588099998917,
+              "inference_seconds": 0.2622736999983317,
+              "network_seconds": 6.900795100002142,
+              "queue_and_classify_seconds": 10.60295910000059
+            },
+            "executor": "pi_local",
+            "source_frames": 77,
+            "landmark_payload_bytes": 28004
+          }
+        ],
+        "revised_glosses": null,
+        "vietnamese_sentence": null
+      }
+    ],
+    "incomplete_events": [],
+    "last_error": null
+  },
+  "error": null
+}

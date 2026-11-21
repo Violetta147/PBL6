@@ -1,0 +1,11 @@
+# M2.2 Raspberry Pi 4B Edge runtime (intentionally NO mediapipe; Vision runs on LAN backend)
+# Hardware-verified on Pi 4B Cortex-A72 (ARMv8.0-A), Debian 13 Trixie, via `uv venv --python 3.11`:
+#   pip install torch==2.3.1 --index-url https://download.pytorch.org/whl/cpu
+# Avoid torch>=2.6 or default +cu132 PyPI wheels on Pi 4B: they emit ARMv8.1+ instructions (SIGILL / Illegal instruction).
+numpy==1.26.4
+opencv-python-headless==4.11.0.86
+torch==2.3.1
+fastapi==0.115.6
+uvicorn==0.34.0
+httpx==0.28.1
+websockets==14.2
