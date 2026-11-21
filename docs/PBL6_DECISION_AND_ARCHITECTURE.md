@@ -137,8 +137,8 @@ flowchart TD
 | **App STT & UI chung (`stt-app/`)** | **ĐÃ CHẠY THẬT TRÊN PI 4B** | Next.js 16 standalone (`:3100`), Deepgram Nova-3 STT tiếng Việt với mic USB tích hợp Webcam, `Squeekboard` OSK + `Fcitx5` Wayland, nút `Bắt đầu ký`, `/companion`. |
 | **Lõi phân đoạn & model M1 (`slr-m2/`)** | **ĐÃ CHẠY SẠCH WINDOWS & PI** | `test_segmenter`, `test_m2`, `test_m2_split` đều PASS; checkpoint `07b_bone_seed42/best.pt` xác minh SHA-256 `7934805b...`. |
 | **Kho âm thanh TTS Offline** | **ĐÃ CÓ 400/400 MP3** | `slr-app/MVP/local_data/tts/0.mp3..399.mp3` (`2.97 MB`), phát qua `/api/tts/{id}.mp3`. |
-| **SLR Live M2.2 Split (`slr-m2/deployment/m2/`)** | **ĐÃ CHẠY LIVE + TỐI ƯU GÓI 1** | Giữ `--inference-mode pi-split` & ngưỡng M1 `0.35s`; đã tách luồng camera `20 FPS` lưu RAM `_ring` độc lập với HTTP Pose (`320px`), bỏ ghi ổ đĩa `.avi` qua gói RAM `.pbl6`, giữ nóng & chạy song song `Pose || Hands` trên Laptop, và bật Phương án A (`utterance_rest = 4.0s`, `autoSaveOnRest = true`). |
-| **LLM M3 & ThingsBoard** | **CHƯA TRIỂN KHAI** | Đợi người dùng test thực tế Gói 1 mượt & chính xác rồi mới gắn **Bước 6**. *(Ghi chú UX tùy chọn: có thể thêm nút mềm **Tạm dừng (Pause)** nếu cần.)* |
+| **SLR Live M2.2 Split (`slr-m2/deployment/m2/`)** | **ĐÃ CHẠY LIVE + STREAMING 1 LUỒNG + ONNX (`perf/streaming-onnx`)** | Trên nhánh `perf/streaming-onnx`: xuất `slgcn_07b.onnx` dùng chung cho Pi & Laptop Fallback (đo độc lập trên Pi 4B giảm từ `4.94s` PyTorch xuống **`0.741s` median / `0.760s` p95**, khớp `Dài 98.14%`); hợp nhất thành **1 luồng Streaming Extraction `640×480` + `SessionStreamBuffer` + Smart Gating `run_hands`** (giảm chờ trích xuất sau khi hạ tay trên `014159.mp4` từ `3.960s` xuống **`0.335s`**; phiên live `live-91a0955bb5` trên Pi đạt **`0.49s–0.77s`** ở các từ không dính `crop_rescue`, `queue_depth = 0`, `incomplete = 0`); UI `stt-app` đã gắn cố định tiền tố `http://` trong cài đặt SLR. |
+| **LLM M3 & ThingsBoard** | **CHƯA TRIỂN KHAI** | Xử lý nốt 3 điểm tinh chỉnh nhỏ phát hiện từ phiên live `live-91a0955bb5` (Bước 5.6) rồi mới gắn **Bước 6**. *(Ghi chú UX tùy chọn: có thể thêm nút mềm **Tạm dừng (Pause)** nếu cần.)* |
 | **Ngoài phạm vi (KHÔNG làm)** | **LOẠI BỎ (YAGNI)** | Offline MediaPipe trên Pi, nâng cấp camera CSI, cảm biến xoay hướng người dùng, remote control phần cứng, AI Agent OS, Speech → Sign bằng ML. |
 
 ---
@@ -150,7 +150,14 @@ flowchart TD
 - [x] **Bước 3 (M2.1):** Xây `slr-m2/deployment/m2/` (`classifier.py`, `pipeline.py`, `server.py`, `test_m2.py`).
 - [x] **Bước 4:** Ghép `SlrDock` + `LiveSigningCard` + `speakOutput()` + `/companion` + `/api/tts/{id}.mp3` vào `stt-app/`.
 - [x] **Bước 5 (M2.2 + Vận hành thực tế trên Pi 4B):** Tách `VisionExtractor` (`vision_backend.py`) ↔ `BoneClassifier` (`remote_clients.py` auto-fallback), triển khai `deploy_to_pi.ps1` / `pi_bootstrap.sh` / `pi_start.sh` (`uv` Python 3.11 + `torch==2.3.1`, Node 22 ARM64, Firefox Wayland `--new-window`, Squeekboard, `WayVNC :5900` tự hồi phục khi tắt màn HDMI), chạy live thành công trên Pi 4B thật.
-- [x] **Bước 5.5 (Gói 1 + Phương án A `4.0s`, giữ `pi-split`):** Tách luồng đọc webcam `20 FPS` độc lập với HTTP Pose (`320px`), bỏ ghi file `.avi` bằng gói RAM `.pbl6`, giữ nóng & chạy song song `Pose || Hands` trên Laptop, và bật Phương án A (`utterance_rest = 4.0s`). *(Ghi chú UX tùy chọn backlog: nút mềm Tạm dừng Pause.)*
-- [ ] **Bước 6 (M3 + IoT tối giản — chờ test Gói 1 đạt mượt & chính xác):** Gắn 1 lần gọi LLM API (JSON) tạo câu tiếng Việt khi chốt `utterance` + gửi telemetry tối giản lên ThingsBoard.
+- [x] **Bước 5.5 (Gói 1 + Phương án A `4.0s` trên `main` → Pha 1 ONNX + Pha 2 Streaming 1 luồng trên `perf/streaming-onnx`):**
+  - Đã xuất `slgcn_07b.onnx` (`1.91e-5` max logit diff vs `best.pt`, chạy `0.741s` median trên Pi 4B ARM64 so với `4.94s` PyTorch).
+  - Đã hợp 1 luồng Streaming Extraction `640×480` + `SessionStreamBuffer` + Smart Gating `run_hands` + chạy bù `Hands` cho `-0.30s` `leading` (đạt `0.49s–0.77s/từ` trong phiên live `live-91a0955bb5` khi không dính `crop_rescue`, `26/26` Python tests & `124/124` TS tests PASS).
+  - Đã gắn cố định tiền tố `http://` ở menu cài đặt SLR trên `stt-app`.
+- [ ] **Bước 5.6 (Tinh chỉnh 3 điểm phát hiện từ phiên live `live-91a0955bb5` trên `perf/streaming-onnx` → Merge `main`):**
+  1. Tối ưu `_run_crop_rescue_unlocked` chỉ chạy `crop_hands` trên các frame thiếu tay (kéo 5/9 từ có `crop_rescue` từ `~1.6–1.9s` xuống `< 0.9s`).
+  2. Giảm tải tranh chấp CPU trên Pi khi chạy live (giảm `/video_feed` xuống `~10 FPS`, đặt `onnx_threads=3`, hỗ trợ `--no-vnc` khi demo màn 7") để Từ 1 trên Pi giữ tốc độ `< 1.2s` như khi benchmark độc lập (`0.74s`).
+  3. Bổ sung chốt `utterance_rest = 4.0s` ở lớp M2 (`pipeline.py`) khi người ký rời khung / mất khớp (`UNKNOWN`) sau khi đã có từ trong câu (không sửa `deployment/m1/segmenter.py`).
+- [ ] **Bước 6 (M3 + IoT tối giản — sau khi chốt Bước 5.6):** Gắn 1 lần gọi LLM API (JSON) tạo câu tiếng Việt khi chốt `utterance` + gửi telemetry tối giản lên ThingsBoard.
 - [ ] **Bước 7:** Kiểm thử tích hợp toàn trình (SLR + STT + Companion + ThingsBoard) và review độc lập.
 - [ ] **Bước 8 (Thử nghiệm phụ 5B — sau MVP):** Đánh giá VLM trên 20 clip VSL400 low-confidence.

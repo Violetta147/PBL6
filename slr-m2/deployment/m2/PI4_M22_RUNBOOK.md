@@ -99,17 +99,18 @@ uv venv --python 3.11 ~/pbl6-venv
 source ~/pbl6-venv/bin/activate
 
 uv pip install torch==2.3.1 --index-url https://download.pytorch.org/whl/cpu --extra-index-url https://pypi.org/simple
-uv pip install "numpy==1.26.4" "opencv-python-headless==4.11.0.86" fastapi==0.115.6 uvicorn==0.34.0 httpx==0.28.1 websockets==14.2
+uv pip install "numpy==1.26.4" "onnxruntime>=1.19.0" "opencv-python-headless==4.11.0.86" fastapi==0.115.6 uvicorn==0.34.0 httpx==0.28.1 websockets==14.2
 ```
 
 Chạy benchmark bằng file landmark trích sẵn từ mẫu thật `014159.mp4` (`Dài`, `98.14%`, không dùng MediaPipe):
 
 ```bash
-python -m deployment.m2.benchmark_pi_gcn --npz outputs/sample_014159_landmarks.npz --runs 10 --warmup 2 --threads 4 --threshold 1.5
+python -m deployment.m2.benchmark_pi_gcn --npz outputs/sample_014159_landmarks.npz --backend onnx --runs 5 --warmup 1 --threads 4 --threshold 1.5
 ```
 
-- **Kết quả đo thực tế trên Raspberry Pi 4B (`Linux-6.18.60+rpt-rpi-v8-aarch64`, `Python 3.11.18`, `torch==2.3.1`, `threads=4`, `mediapipe_imported=false`):**
-  - `cold = 1.108s`, `min = 1.072s`, `median = 1.116s`, **`p95 = 1.168s <= 1.50s`**, `max = 1.176s`, top-1 **`Dài` (`98.14%`)** → **Verdict: `PASS` (`--inference-mode pi-split`)**.
+- **Kết quả đo thực tế trên Raspberry Pi 4B (`Linux-6.18.50+rpt-rpi-v8-aarch64`, `Python 3.11.18`, `threads=4`, `mediapipe_imported=false`):**
+  - **ONNX Runtime `1.32.0` (`--backend onnx`, mặc định trên nhánh `perf/streaming-onnx`):** `cold = 0.764s`, `min = 0.737s`, **`median = 0.741s`**, **`p95 = 0.760s <= 1.50s`**, `max = 0.761s`, top-1 **`Dài` (`98.14%`)** → **Verdict: `PASS` (`--inference-mode pi-split`, nhanh gấp ~6.6× so với `4.94s` khi chạy PyTorch live)**.
+  - **PyTorch `2.3.1` (`--backend torch`):** `cold = 1.108s`, `median = 1.116s`, `p95 = 1.168s` khi CPU rảnh (nhưng khi chạy live kèm Firefox/VNC/Camera lên tới `4.94s`).
 - Nếu về sau đổi checkpoint nặng hơn làm `p95 > 1.5s`, chuyển sang `--inference-mode remote-fallback` (hoặc giữ `pi-split` — server tự fallback sang `:8767/api/vision/classify-clip` sau `2` lần liên tiếp `> 1.5s`).
 
 ---
