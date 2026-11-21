@@ -1,6 +1,8 @@
-# M2.2 LAN Vision Backend runtime (MediaPipe extraction + SL-GCN fallback)
+# M2.2 LAN Vision Backend runtime (MediaPipe extraction + SL-GCN ONNX/PyTorch fallback)
 -r ../../extraction/requirements.txt
+protobuf>=4.25.3,<5
 torch>=2.5.1
+onnxruntime>=1.19.0
 fastapi==0.115.6
 uvicorn==0.34.0
 httpx==0.28.1

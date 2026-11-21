@@ -1,7 +1,9 @@
 """Warm-loaded SL-GCN 07b classifier with clean Vision/Inference split for M2.1 & M2.2."""
 from __future__ import annotations
 
+from collections import deque
 from concurrent.futures import ThreadPoolExecutor
+from dataclasses import dataclass
 import hashlib
 import io
 import json
@@ -22,6 +24,7 @@ from deployment.m1.common import DEFAULT_BUNDLE, ROOT
 
 LOW_CONFIDENCE_THRESHOLD = 0.50
 FRAME_BUNDLE_MAGIC = b"PBL6FRM1"
+POSE_SLOTS = (11, 12, 13, 14, 15, 16, 23, 24)
 
 BONE_WIRE_KEYS = (
     "xy",
@@ -232,6 +235,130 @@ def decode_bundle_bytes_to_frames(payload: bytes) -> tuple[list[np.ndarray], lis
     return frames, timestamps
 
 
+def extract_pose_8(pose_result: Any) -> tuple[list[list[float]], list[float]]:
+    """Extract the 8 M1 torso/arm joints (x, y, z) and visibility scores from MediaPipe Pose."""
+    pose = [[0.0, 0.0, 0.0] for _ in range(8)]
+    visibility = [0.0] * 8
+    if pose_result and pose_result.pose_landmarks:
+        landmarks = pose_result.pose_landmarks.landmark
+        for slot, joint in enumerate(POSE_SLOTS):
+            pt = landmarks[joint]
+            x, y, z, vis = float(pt.x), float(pt.y), float(pt.z), float(pt.visibility)
+            if math.isfinite(x) and math.isfinite(y) and math.isfinite(z) and math.isfinite(vis):
+                pose[slot] = [x, y, z]
+                visibility[slot] = vis
+    return pose, visibility
+
+
+def _normalize_timestamps(timestamps: list[float], fallback_fps: float) -> tuple[np.ndarray, float]:
+    safe_fps = float(min(max(fallback_fps, 5.0), 60.0))
+    default_dt = 1.0 / safe_fps
+    norm_ts: list[float] = []
+    for idx, raw_t in enumerate(timestamps):
+        val = float(raw_t)
+        if idx == 0:
+            norm_ts.append(max(0.0, val) if math.isfinite(val) else 0.0)
+        else:
+            prev = norm_ts[-1]
+            cand = val if math.isfinite(val) else (prev + default_dt)
+            if cand <= prev:
+                cand = prev + max(1e-4, default_dt)
+            norm_ts.append(cand)
+    ts_arr = np.asarray(norm_ts, dtype=np.float64)
+    eff_fps = (
+        float((len(ts_arr) - 1) / (ts_arr[-1] - ts_arr[0]))
+        if len(ts_arr) >= 2 and ts_arr[-1] > ts_arr[0]
+        else safe_fps
+    )
+    return ts_arr, eff_fps
+
+
+@dataclass
+class StreamFrameEntry:
+    """Single streamed frame plus MediaPipe extraction state held in Laptop RAM."""
+
+    seq: int
+    ts: float
+    bgr: np.ndarray
+    pose_res: Any
+    hand_res: Any | None = None
+    packed: dict[str, Any] | None = None
+
+
+class SessionStreamBuffer:
+    """Thread-safe bounded RAM buffer of streamed frames and per-frame MediaPipe detections."""
+
+    def __init__(self, max_seconds: float = 20.0, max_sessions: int = 2) -> None:
+        self.max_seconds = float(max_seconds)
+        self.max_sessions = max(1, int(max_sessions))
+        self._cond = threading.Condition()
+        self._sessions: dict[str, list[StreamFrameEntry]] = {}
+        self._max_seq: dict[str, int] = {}
+        self._session_order: deque[str] = deque()
+
+    def reset(self, session_id: str) -> None:
+        with self._cond:
+            self._sessions[session_id] = []
+            self._max_seq[session_id] = 0
+            try:
+                self._session_order.remove(session_id)
+            except ValueError:
+                pass
+            self._session_order.append(session_id)
+            while len(self._session_order) > self.max_sessions:
+                old = self._session_order.popleft()
+                if old != session_id:
+                    self._sessions.pop(old, None)
+                    self._max_seq.pop(old, None)
+            self._cond.notify_all()
+
+    def append(self, session_id: str, entry: StreamFrameEntry) -> None:
+        with self._cond:
+            if session_id not in self._sessions:
+                self._sessions[session_id] = []
+                self._max_seq[session_id] = 0
+                self._session_order.append(session_id)
+                while len(self._session_order) > self.max_sessions:
+                    old = self._session_order.popleft()
+                    if old != session_id:
+                        self._sessions.pop(old, None)
+                        self._max_seq.pop(old, None)
+            buf = self._sessions[session_id]
+            if not buf or (entry.ts, entry.seq) >= (buf[-1].ts, buf[-1].seq):
+                buf.append(entry)
+            else:
+                idx = len(buf)
+                while idx > 0 and (buf[idx - 1].ts, buf[idx - 1].seq) > (entry.ts, entry.seq):
+                    idx -= 1
+                buf.insert(idx, entry)
+            self._max_seq[session_id] = max(self._max_seq.get(session_id, 0), int(entry.seq))
+            cutoff = buf[-1].ts - self.max_seconds
+            while len(buf) > 1 and buf[0].ts < cutoff:
+                buf.pop(0)
+            self._cond.notify_all()
+
+    def wait_and_slice(
+        self,
+        session_id: str,
+        start: float,
+        end: float,
+        target_seq: int | None = None,
+        wait_timeout: float = 0.25,
+    ) -> list[StreamFrameEntry]:
+        deadline = time.monotonic() + max(0.0, float(wait_timeout))
+        with self._cond:
+            if session_id not in self._sessions:
+                return []
+            if target_seq is not None and target_seq > 0:
+                while self._max_seq.get(session_id, 0) < target_seq:
+                    remaining = deadline - time.monotonic()
+                    if remaining <= 0:
+                        break
+                    self._cond.wait(timeout=remaining)
+            buf = self._sessions.get(session_id, [])
+            return [entry for entry in buf if start <= entry.ts <= end]
+
+
 class VisionExtractor:
     """Stage A (Vision backend): MediaPipe extraction, crop rescue, and normalization."""
 
@@ -310,6 +437,134 @@ class VisionExtractor:
                 self._pool.shutdown(wait=False)
                 self._pool = None
 
+    def reset_stream_models(self) -> None:
+        """Reset stateful video-mode MediaPipe trackers between live sessions."""
+        with self._mp_lock:
+            for attr in ("_pose_model", "_hands_model"):
+                model = getattr(self, attr, None)
+                if model is not None:
+                    close_fn = getattr(model, "close", None)
+                    if callable(close_fn):
+                        try:
+                            close_fn()
+                        except Exception:
+                            pass
+                    setattr(self, attr, None)
+
+    def _run_crop_rescue_unlocked(
+        self,
+        rgbs: list[np.ndarray],
+        full: dict[str, np.ndarray],
+        ts_arr: np.ndarray,
+        width: int,
+        height: int,
+    ) -> Any | None:
+        roi = self._pilot_extraction.upper_body_crop(full, width, height, padding=0.6)
+        x0, y0, x1, y1 = [int(v) for v in roi]
+        crop_hands = self._ensure_crop_hands_unlocked()
+        crop_packed = []
+        for rgb in rgbs:
+            crop_rgb = np.ascontiguousarray(rgb[y0:y1, x0:x1])
+            crop_rgb.flags.writeable = False
+            crop_packed.append(
+                self._rescue_candidates.pack_candidates(
+                    crop_hands.process(crop_rgb),
+                    roi,
+                    width,
+                    height,
+                )
+            )
+        return self._rescue_candidates.assemble(crop_packed, full, ts_arr * 1000.0, roi)
+
+    def process_stream_frame(
+        self,
+        bgr: np.ndarray,
+        run_hands: bool = False,
+    ) -> tuple[list[list[float]], list[float], Any, Any | None, dict[str, Any] | None, float]:
+        """Process one streamed camera frame, optionally running Pose || Hands in parallel."""
+        started = time.perf_counter()
+        rgb = cv2.cvtColor(bgr, cv2.COLOR_BGR2RGB)
+        rgb.flags.writeable = False
+        with self._mp_lock:
+            pose_model, hands_model = self._ensure_models_unlocked()
+            if run_hands:
+                if self._pool is None:
+                    self._pool = ThreadPoolExecutor(max_workers=2, thread_name_prefix="m2-vis")
+                f_pose = self._pool.submit(pose_model.process, rgb)
+                f_hands = self._pool.submit(hands_model.process, rgb)
+                pose_res = f_pose.result()
+                hand_res = f_hands.result()
+                packed = self._extract_raw.pack_frame(pose_res, hand_res)
+            else:
+                pose_res = pose_model.process(rgb)
+                hand_res = None
+                packed = None
+        pose_8, vis_8 = extract_pose_8(pose_res)
+        return pose_8, vis_8, pose_res, hand_res, packed, time.perf_counter() - started
+
+    def extract_from_stream_entries(
+        self,
+        entries: list[StreamFrameEntry],
+        fallback_fps: float = 15.0,
+    ) -> tuple[dict[str, np.ndarray], dict[str, Any], bool, float, int]:
+        """Finalize a sliced segment from Laptop RAM, running catch-up Hands only on missing frames."""
+        if not entries:
+            raise ValueError("Cannot extract landmarks from empty stream slice")
+        started = time.perf_counter()
+        ordered = sorted(entries, key=lambda e: (e.ts, e.seq))
+        height, width = ordered[0].bgr.shape[:2]
+        ts_arr, eff_fps = _normalize_timestamps([e.ts for e in ordered], fallback_fps=fallback_fps)
+
+        crop = None
+        rgbs_for_rescue: list[np.ndarray] | None = None
+        catchup_hands_frames = 0
+
+        with self._mp_lock:
+            _, hands_model = self._ensure_models_unlocked()
+            packed_list: list[dict[str, Any]] = []
+            for entry in ordered:
+                if entry.packed is None:
+                    rgb = cv2.cvtColor(entry.bgr, cv2.COLOR_BGR2RGB)
+                    rgb.flags.writeable = False
+                    hand_res = hands_model.process(rgb)
+                    entry.hand_res = hand_res
+                    entry.packed = self._extract_raw.pack_frame(entry.pose_res, hand_res)
+                    catchup_hands_frames += 1
+                packed_list.append(entry.packed)
+
+            full = self._extract_raw.assemble_frames(packed_list, None, height / width)
+            full["frame_indices"] = np.arange(len(ordered), dtype=np.int32)
+            full["decoder_timestamps"] = ts_arr.copy()
+            full["timestamps"] = ts_arr
+            self._extract_raw.validate_arrays(full)
+
+            meta: dict[str, Any] = {
+                "fps": eff_fps,
+                "width": width,
+                "height": height,
+                "decoded_frames": len(ordered),
+            }
+            profile = self._rescue_candidates.detector_profile(full, eff_fps) | {"view": "front"}
+            if self._rescue_candidates.selected(profile, self._rescue_policy):
+                rgbs_for_rescue = []
+                for entry in ordered:
+                    frame = entry.bgr
+                    if frame.shape[0] != height or frame.shape[1] != width:
+                        frame = cv2.resize(frame, (width, height))
+                    rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                    rgb.flags.writeable = False
+                    rgbs_for_rescue.append(rgb)
+                crop = self._run_crop_rescue_unlocked(rgbs_for_rescue, full, ts_arr, width, height)
+
+        arrays, qc = self._pilot.process(
+            full,
+            crop,
+            meta,
+            dict(self._association),
+            pair_guard_policy=self._pair_guard.POLICY,
+        )
+        return arrays, qc, crop is not None, time.perf_counter() - started, catchup_hands_frames
+
     def extract_from_frames(
         self,
         frames: list[np.ndarray],
@@ -332,25 +587,7 @@ class VisionExtractor:
             rgb.flags.writeable = False
             rgbs.append(rgb)
 
-        safe_fps = float(min(max(fallback_fps, 5.0), 60.0))
-        default_dt = 1.0 / safe_fps
-        norm_ts: list[float] = []
-        for idx, raw_t in enumerate(timestamps):
-            val = float(raw_t)
-            if idx == 0:
-                norm_ts.append(max(0.0, val) if math.isfinite(val) else 0.0)
-            else:
-                prev = norm_ts[-1]
-                cand = val if math.isfinite(val) else (prev + default_dt)
-                if cand <= prev:
-                    cand = prev + max(1e-4, default_dt)
-                norm_ts.append(cand)
-        ts_arr = np.asarray(norm_ts, dtype=np.float64)
-        eff_fps = (
-            float((len(ts_arr) - 1) / (ts_arr[-1] - ts_arr[0]))
-            if len(ts_arr) >= 2 and ts_arr[-1] > ts_arr[0]
-            else safe_fps
-        )
+        ts_arr, eff_fps = _normalize_timestamps(timestamps, fallback_fps=fallback_fps)
 
         with self._mp_lock:
             pose_model, hands_model = self._ensure_models_unlocked()
@@ -377,22 +614,7 @@ class VisionExtractor:
             profile = self._rescue_candidates.detector_profile(full, eff_fps) | {"view": "front"}
             crop = None
             if self._rescue_candidates.selected(profile, self._rescue_policy):
-                roi = self._pilot_extraction.upper_body_crop(full, width, height, padding=0.6)
-                x0, y0, x1, y1 = [int(v) for v in roi]
-                crop_hands = self._ensure_crop_hands_unlocked()
-                crop_packed = []
-                for rgb in rgbs:
-                    crop_rgb = np.ascontiguousarray(rgb[y0:y1, x0:x1])
-                    crop_rgb.flags.writeable = False
-                    crop_packed.append(
-                        self._rescue_candidates.pack_candidates(
-                            crop_hands.process(crop_rgb),
-                            roi,
-                            width,
-                            height,
-                        )
-                    )
-                crop = self._rescue_candidates.assemble(crop_packed, full, ts_arr * 1000.0, roi)
+                crop = self._run_crop_rescue_unlocked(rgbs, full, ts_arr, width, height)
 
         arrays, qc = self._pilot.process(
             full,
@@ -439,7 +661,11 @@ class BoneClassifier:
         self,
         bundle: Path = DEFAULT_BUNDLE,
         low_confidence_threshold: float = LOW_CONFIDENCE_THRESHOLD,
+        backend: str = "auto",
+        onnx_threads: int | None = None,
     ) -> None:
+        if backend not in ("auto", "onnx", "torch"):
+            raise ValueError(f"Unsupported BoneClassifier backend: {backend}")
         self.bundle = Path(bundle).resolve()
         self.low_confidence_threshold = float(low_confidence_threshold)
         self.identity = verify_bundle_utf8(self.bundle)
@@ -450,19 +676,69 @@ class BoneClassifier:
         if code_dir not in sys.path:
             sys.path.insert(0, code_dir)
 
-        import torch
+        import architecture_data as arch_data
         import slgcn_bone_07b as frozen
-        import architecture_models
 
-        self._torch = torch
+        self._arch_data = arch_data
         self._frozen = frozen
-
-        model = architecture_models.build_model("sl_gcn", 400)
-        checkpoint = torch.load(self.bundle / "best.pt", map_location="cpu", weights_only=False)
-        model.load_state_dict(checkpoint["model"])
-        model.float().eval()
-        self._model = model
+        self._torch: Any = None
+        self._model: Any = None
+        self._ort_session: Any = None
         self._lock = threading.Lock()
+
+        onnx_path = self.bundle / "slgcn_07b.onnx"
+        ort = None
+        if backend in ("auto", "onnx"):
+            try:
+                import onnxruntime as ort_mod
+
+                ort = ort_mod
+            except ImportError:
+                ort = None
+
+        if backend in ("auto", "onnx") and ort is not None and onnx_path.is_file():
+            sess_opts = ort.SessionOptions()
+            sess_opts.graph_optimization_level = ort.GraphOptimizationLevel.ORT_ENABLE_ALL
+            sess_opts.intra_op_num_threads = int(onnx_threads) if (onnx_threads and onnx_threads > 0) else min(4, os.cpu_count() or 4)
+            sess_opts.inter_op_num_threads = 1
+            self._ort_session = ort.InferenceSession(
+                str(onnx_path),
+                sess_options=sess_opts,
+                providers=["CPUExecutionProvider"],
+            )
+            self.runtime_backend = "onnx"
+        elif backend == "onnx":
+            raise RuntimeError(
+                f"ONNX backend requested but model/runtime missing ({onnx_path})"
+            )
+        else:
+            import torch
+            import architecture_models
+
+            self._torch = torch
+            model = architecture_models.build_model("sl_gcn", 400)
+            checkpoint = torch.load(self.bundle / "best.pt", map_location="cpu", weights_only=False)
+            model.load_state_dict(checkpoint["model"])
+            model.float().eval()
+            self._model = model
+            self.runtime_backend = "torch"
+
+        self.identity["runtime_backend"] = self.runtime_backend
+
+    def _prepare_bone_input(self, arrays: dict[str, np.ndarray]) -> np.ndarray:
+        frozen = self._frozen
+        arch_data = self._arch_data
+        repaired = frozen.repair(arrays)
+        joints = arch_data.joint_features(repaired)[:, arch_data.SL_NODES]
+        if not len(joints):
+            raise ValueError("Empty landmark sequence")
+        frames = int(frozen.CACHE_FRAMES)
+        indices = np.arange(frames) % len(joints)
+        x = arch_data.bone_features(joints)[indices].astype(np.float32, copy=True)
+        valid = x[:, 0, 4] != 0
+        if np.any(valid):
+            x[valid, 0, :2] -= x[valid, 0, :2].mean(axis=0, keepdims=True)
+        return np.ascontiguousarray(x[None, ...], dtype=np.float32)
 
     def infer_from_arrays(
         self,
@@ -470,38 +746,60 @@ class BoneClassifier:
         inference_executor: str = "local",
     ) -> dict[str, Any]:
         """Build 150x28x8 bone window and run warm SL-GCN 07b forward."""
-        torch = self._torch
-        frozen = self._frozen
-
-        source = object.__new__(frozen.BoneSequenceDataset)
-        adapted = source.adapt_clip(arrays)
-
-        class _SingleClip:
-            def __len__(self) -> int:
-                return 1
-
-            def __getitem__(self, _index: int) -> dict[str, Any]:
-                return {key: value.clone() for key, value in adapted.items()}
-
-        window = frozen.BoneWindowDataset(_SingleClip(), training=False)[0]
-        inputs = [window[key].unsqueeze(0) for key in ("x", "real", "time")]
-
-        started = time.perf_counter()
-        with self._lock, torch.inference_mode():
-            logits = self._model(*inputs)[0]
-            if not torch.isfinite(logits).all():
+        if self.runtime_backend == "onnx":
+            x_np = self._prepare_bone_input(arrays)
+            started = time.perf_counter()
+            with self._lock:
+                logits_np = self._ort_session.run(["logits"], {"x": x_np})[0][0]
+            inference_seconds = time.perf_counter() - started
+            if not np.isfinite(logits_np).all():
                 raise ValueError("Non-finite model output")
-            scores, indices = logits.softmax(-1).topk(5)
-        inference_seconds = time.perf_counter() - started
+            shifted = logits_np - np.max(logits_np)
+            probs = np.exp(shifted)
+            probs /= np.sum(probs)
+            top_indices = np.argsort(-probs, kind="stable")[:5]
+            top5 = [
+                {
+                    "label": self.id_to_label[int(idx)],
+                    "label_id": int(idx),
+                    "score": float(probs[int(idx)]),
+                }
+                for idx in top_indices
+            ]
+        else:
+            torch = self._torch
+            frozen = self._frozen
 
-        top5 = [
-            {
-                "label": self.id_to_label[int(idx)],
-                "label_id": int(idx),
-                "score": float(score),
-            }
-            for idx, score in zip(indices.tolist(), scores.tolist())
-        ]
+            source = object.__new__(frozen.BoneSequenceDataset)
+            adapted = source.adapt_clip(arrays)
+
+            class _SingleClip:
+                def __len__(self) -> int:
+                    return 1
+
+                def __getitem__(self, _index: int) -> dict[str, Any]:
+                    return {key: value.clone() for key, value in adapted.items()}
+
+            window = frozen.BoneWindowDataset(_SingleClip(), training=False)[0]
+            inputs = [window[key].unsqueeze(0) for key in ("x", "real", "time")]
+
+            started = time.perf_counter()
+            with self._lock, torch.inference_mode():
+                logits = self._model(*inputs)[0]
+                if not torch.isfinite(logits).all():
+                    raise ValueError("Non-finite model output")
+                scores, indices = logits.softmax(-1).topk(5)
+            inference_seconds = time.perf_counter() - started
+
+            top5 = [
+                {
+                    "label": self.id_to_label[int(idx)],
+                    "label_id": int(idx),
+                    "score": float(score),
+                }
+                for idx, score in zip(indices.tolist(), scores.tolist())
+            ]
+
         top1 = top5[0]
         source_frames = int(len(arrays["xy"]))
 
@@ -513,6 +811,7 @@ class BoneClassifier:
             "top5": top5,
             "inference_seconds": inference_seconds,
             "inference_executor": inference_executor,
+            "inference_backend": self.runtime_backend,
             "source_frames": source_frames,
             "repeated_positions": max(0, 150 - source_frames),
             "truncated_frames": max(0, source_frames - 150),

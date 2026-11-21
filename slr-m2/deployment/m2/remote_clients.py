@@ -30,9 +30,9 @@ class RemotePoseClient:
     def __init__(
         self,
         base_url: str,
-        timeout: float = 1.5,
-        jpeg_quality: int = 70,
-        max_width: int = 320,
+        timeout: float = 2.5,
+        jpeg_quality: int = 75,
+        max_width: int = 640,
         http_client: httpx.Client | None = None,
     ) -> None:
         self.base_url = _clean_base_url(base_url)
@@ -56,6 +56,10 @@ class RemotePoseClient:
         self,
         bgr: np.ndarray,
         session_id: str,
+        *,
+        ts: float | None = None,
+        seq: int | None = None,
+        run_hands: bool = False,
     ) -> tuple[list[list[float]], list[float]]:
         frame = bgr
         if self.max_width > 0 and frame.shape[1] > self.max_width:
@@ -71,10 +75,16 @@ class RemotePoseClient:
         if not ok:
             raise RuntimeError("Failed to JPEG-encode frame for remote pose estimation")
 
+        params: dict[str, Any] = {"session_id": session_id}
+        if ts is not None and seq is not None:
+            params["ts"] = float(ts)
+            params["seq"] = int(seq)
+            params["run_hands"] = 1 if run_hands else 0
+
         with self._lock:
             resp = self._client.post(
                 f"{self.base_url}/api/vision/pose-frame",
-                params={"session_id": session_id},
+                params=params,
                 content=buf.tobytes(),
                 headers={"Content-Type": "image/jpeg"},
             )
@@ -153,47 +163,15 @@ class SplitClassifierClient:
                 "vision_backend_url": self.vision_backend_url,
             }
 
-    def classify_frames(
+    def _finish_pi_local(
         self,
-        frames: list[np.ndarray],
-        timestamps: list[float],
-        fallback_fps: float = 30.0,
+        npz_bytes: bytes,
+        meta: dict[str, Any],
+        network_seconds: float,
+        *,
+        streaming_used: bool,
     ) -> dict[str, Any]:
-        clip_bytes = encode_frames_to_bundle_bytes(frames, timestamps)
-        ext = ".pbl6"
-        with self._lock:
-            use_fallback = self._fallback_active or self.bone_classifier is None
-
-        if use_fallback:
-            started = time.perf_counter()
-            resp = self._client.post(
-                f"{self.vision_backend_url}/api/vision/classify-clip",
-                params={"ext": ext},
-                content=clip_bytes,
-                headers={"Content-Type": "application/octet-stream"},
-            )
-            resp.raise_for_status()
-            network_seconds = time.perf_counter() - started
-            result = resp.json()
-            result["network_seconds"] = network_seconds
-            result["inference_executor"] = "backend_fallback"
-            with self._lock:
-                self._last_network_seconds = network_seconds
-            return result
-
         assert self.bone_classifier is not None
-        started = time.perf_counter()
-        resp = self._client.post(
-            f"{self.vision_backend_url}/api/vision/extract-landmarks",
-            params={"ext": ext},
-            content=clip_bytes,
-            headers={"Content-Type": "application/octet-stream"},
-        )
-        resp.raise_for_status()
-        network_seconds = time.perf_counter() - started
-
-        meta = json.loads(resp.headers.get("X-Vision-Meta", "{}"))
-        npz_bytes = resp.content
         arrays = deserialize_landmark_arrays(npz_bytes)
         pred = self.bone_classifier.infer_from_arrays(arrays, inference_executor="pi_local")
         inference_seconds = float(pred["inference_seconds"])
@@ -222,11 +200,113 @@ class SplitClassifierClient:
             network_seconds=network_seconds,
             landmark_payload_bytes=len(npz_bytes),
             crop_rescue=bool(meta.get("crop_rescue", False)),
+            streaming_used=streaming_used,
+            catchup_hands_frames=int(meta.get("catchup_hands_frames", 0)),
             qc=meta.get("qc", {}),
             inference_executor="pi_local",
             fallback_triggered=fallback_triggered,
         )
         return pred
+
+    def classify_segment(
+        self,
+        frames: list[np.ndarray],
+        timestamps: list[float],
+        *,
+        session_id: str | None = None,
+        start: float | None = None,
+        end: float | None = None,
+        target_seq: int | None = None,
+        fallback_fps: float = 30.0,
+    ) -> dict[str, Any]:
+        """Classify a closed segment via Laptop RAM stream slice, falling back cleanly to .pbl6."""
+        if not session_id or start is None or end is None:
+            return self.classify_frames(frames, timestamps, fallback_fps=fallback_fps)
+
+        with self._lock:
+            use_fallback = self._fallback_active or self.bone_classifier is None
+
+        payload = {
+            "session_id": session_id,
+            "start": float(start),
+            "end": float(end),
+            "target_seq": target_seq,
+        }
+        started = time.perf_counter()
+        try:
+            if use_fallback:
+                resp = self._client.post(
+                    f"{self.vision_backend_url}/api/vision/classify-segment",
+                    json=payload,
+                )
+                resp.raise_for_status()
+                network_seconds = time.perf_counter() - started
+                result = resp.json()
+                result["network_seconds"] = network_seconds
+                result["inference_executor"] = "backend_fallback"
+                result["streaming_used"] = bool(result.get("streaming_used", True))
+                with self._lock:
+                    self._last_network_seconds = network_seconds
+                return result
+
+            resp = self._client.post(
+                f"{self.vision_backend_url}/api/vision/extract-segment",
+                json=payload,
+            )
+            resp.raise_for_status()
+            network_seconds = time.perf_counter() - started
+            meta = json.loads(resp.headers.get("X-Vision-Meta", "{}"))
+            return self._finish_pi_local(
+                resp.content,
+                meta,
+                network_seconds,
+                streaming_used=bool(meta.get("streaming_used", True)),
+            )
+        except httpx.HTTPStatusError as exc:
+            if exc.response.status_code in (404, 405):
+                return self.classify_frames(frames, timestamps, fallback_fps=fallback_fps)
+            raise
+
+    def classify_frames(
+        self,
+        frames: list[np.ndarray],
+        timestamps: list[float],
+        fallback_fps: float = 30.0,
+    ) -> dict[str, Any]:
+        clip_bytes = encode_frames_to_bundle_bytes(frames, timestamps)
+        ext = ".pbl6"
+        with self._lock:
+            use_fallback = self._fallback_active or self.bone_classifier is None
+
+        if use_fallback:
+            started = time.perf_counter()
+            resp = self._client.post(
+                f"{self.vision_backend_url}/api/vision/classify-clip",
+                params={"ext": ext},
+                content=clip_bytes,
+                headers={"Content-Type": "application/octet-stream"},
+            )
+            resp.raise_for_status()
+            network_seconds = time.perf_counter() - started
+            result = resp.json()
+            result["network_seconds"] = network_seconds
+            result["inference_executor"] = "backend_fallback"
+            result["streaming_used"] = False
+            with self._lock:
+                self._last_network_seconds = network_seconds
+            return result
+
+        started = time.perf_counter()
+        resp = self._client.post(
+            f"{self.vision_backend_url}/api/vision/extract-landmarks",
+            params={"ext": ext},
+            content=clip_bytes,
+            headers={"Content-Type": "application/octet-stream"},
+        )
+        resp.raise_for_status()
+        network_seconds = time.perf_counter() - started
+        meta = json.loads(resp.headers.get("X-Vision-Meta", "{}"))
+        return self._finish_pi_local(resp.content, meta, network_seconds, streaming_used=False)
 
     def close(self) -> None:
         if self._owns_client:

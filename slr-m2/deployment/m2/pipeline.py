@@ -4,6 +4,7 @@ from __future__ import annotations
 from collections import deque
 from contextlib import contextmanager
 from dataclasses import asdict
+import inspect
 import json
 import math
 import platform
@@ -19,10 +20,11 @@ import numpy as np
 
 from deployment.m1.common import ROOT
 from deployment.m1.segmenter import Config, Segmenter, arm_states
+from deployment.m2.classifier import POSE_SLOTS, extract_pose_8
 
 SCHEMA_VERSION = "m2.v1"
 FROZEN_CONFIG_PATH = ROOT / "deployment/m1/frozen-config.json"
-POSE_SLOTS = (11, 12, 13, 14, 15, 16, 23, 24)
+_extract_pose_8 = extract_pose_8
 
 
 def load_frozen_config(path: Path = FROZEN_CONFIG_PATH) -> Config:
@@ -60,18 +62,16 @@ class FrameRingBuffer:
             self._items.clear()
 
 
-def _extract_pose_8(pose_result: Any) -> tuple[list[list[float]], list[float]]:
-    pose = [[0.0, 0.0, 0.0] for _ in range(8)]
-    visibility = [0.0] * 8
-    if pose_result and pose_result.pose_landmarks:
-        landmarks = pose_result.pose_landmarks.landmark
-        for slot, joint in enumerate(POSE_SLOTS):
-            pt = landmarks[joint]
-            x, y, z, vis = float(pt.x), float(pt.y), float(pt.z), float(pt.visibility)
-            if math.isfinite(x) and math.isfinite(y) and math.isfinite(z) and math.isfinite(vis):
-                pose[slot] = [x, y, z]
-                visibility[slot] = vis
-    return pose, visibility
+def _accepts_kwargs(fn: Any, required_names: tuple[str, ...]) -> bool:
+    try:
+        sig = inspect.signature(fn)
+    except (TypeError, ValueError):
+        return False
+    params = sig.parameters.values()
+    if any(p.kind == inspect.Parameter.VAR_KEYWORD for p in params):
+        return True
+    param_names = set(sig.parameters.keys())
+    return all(name in param_names for name in required_names)
 
 
 class LiveSessionManager:
@@ -88,6 +88,9 @@ class LiveSessionManager:
         on_capture_start: Callable[[str], None] | None = None,
     ) -> None:
         self._classifier_fn = classifier_fn
+        self._classifier_accepts_stream = _accepts_kwargs(
+            classifier_fn, ("session_id", "start", "end", "target_seq")
+        )
         self.config = config or load_frozen_config()
         self._on_event = on_event
         self._max_queue_size = max_queue_size
@@ -131,6 +134,7 @@ class LiveSessionManager:
         self._pose_fps = 0.0
         self._latest_capture_item: tuple[float, np.ndarray] | None = None
         self._latest_capture_seq = 0
+        self._last_streamed_seq = 0
         self._pose_cond = threading.Condition()
 
     def _emit(self, event_type: str, payload: dict[str, Any]) -> dict[str, Any]:
@@ -201,6 +205,7 @@ class LiveSessionManager:
             self._pose_fps = 0.0
             self._latest_capture_item = None
             self._latest_capture_seq = 0
+            self._last_streamed_seq = 0
             return self._session_id
 
     def start_manual_session(self) -> str:
@@ -342,9 +347,11 @@ class LiveSessionManager:
             self._enqueue_work(
                 {
                     "kind": "segment",
+                    "session_id": self._session_id,
                     "segment": ev,
                     "frames": frames,
                     "timestamps": timestamps,
+                    "target_seq": self._last_streamed_seq,
                     "enqueued_at": time.perf_counter(),
                 }
             )
@@ -478,28 +485,53 @@ class LiveSessionManager:
                     with self._state_lock:
                         self._last_error = msg
                     self._emit("error", {"message": msg})
-            yield lambda bgr: self._pose_provider(bgr, session_id)
+            accepts_stream = _accepts_kwargs(self._pose_provider, ("ts", "seq", "run_hands"))
+
+            def _remote_pose(
+                bgr: np.ndarray,
+                *,
+                ts: float | None = None,
+                seq: int | None = None,
+                run_hands: bool = False,
+            ) -> tuple[list[list[float]], list[float]]:
+                if accepts_stream:
+                    return self._pose_provider(
+                        bgr,
+                        session_id,
+                        ts=ts,
+                        seq=seq,
+                        run_hands=run_hands,
+                    )
+                return self._pose_provider(bgr, session_id)
+
+            yield _remote_pose
             return
         import mediapipe as mp
 
         with mp.solutions.pose.Pose(model_complexity=1, smooth_landmarks=False) as pose_model:
-            def _local_pose(bgr: np.ndarray) -> tuple[list[list[float]], list[float]]:
+            def _local_pose(bgr: np.ndarray, **_kwargs: Any) -> tuple[list[list[float]], list[float]]:
                 rgb = cv2.cvtColor(bgr, cv2.COLOR_BGR2RGB)
                 rgb.flags.writeable = False
                 pose_res = pose_model.process(rgb)
-                return _extract_pose_8(pose_res)
+                return extract_pose_8(pose_res)
 
             yield _local_pose
 
     def _estimate_arm_states(
         self,
-        estimate_pose: Callable[[np.ndarray], tuple[list[list[float]], list[float]]],
+        estimate_pose: Callable[..., tuple[list[list[float]], list[float]]],
         bgr: np.ndarray,
         last_pose_err_emit: float,
+        *,
+        ts: float | None = None,
+        seq: int | None = None,
+        run_hands: bool = False,
     ) -> tuple[list[str | None], float]:
         try:
-            pose, visibility = estimate_pose(bgr)
+            pose, visibility = estimate_pose(bgr, ts=ts, seq=seq, run_hands=run_hands)
             arms = arm_states(pose, visibility, self.config)
+            if seq is not None:
+                self._last_streamed_seq = int(seq)
             with self._state_lock:
                 if self._last_error and self._last_error.startswith("Không kết nối được Vision Backend"):
                     self._last_error = None
@@ -605,8 +637,18 @@ class LiveSessionManager:
                         ts, bgr = self._latest_capture_item
                         last_seq = self._latest_capture_seq
 
+                    with self._state_lock:
+                        want_hands = (
+                            self._segmenter.state in ("CAPTURING", "END_PENDING")
+                            or self._segmenter.onset_since is not None
+                        )
                     arms, last_pose_err_emit = self._estimate_arm_states(
-                        estimate_pose, bgr, last_pose_err_emit
+                        estimate_pose,
+                        bgr,
+                        last_pose_err_emit,
+                        ts=ts,
+                        seq=last_seq,
+                        run_hands=want_hands,
                     )
                     now = time.perf_counter()
                     fps_window.append(now)
@@ -675,8 +717,18 @@ class LiveSessionManager:
                     last_ts = ts
                     frame_idx += 1
 
+                    with self._state_lock:
+                        want_hands = (
+                            self._segmenter.state in ("CAPTURING", "END_PENDING")
+                            or self._segmenter.onset_since is not None
+                        )
                     arms, last_pose_err_emit = self._estimate_arm_states(
-                        estimate_pose, bgr, last_pose_err_emit
+                        estimate_pose,
+                        bgr,
+                        last_pose_err_emit,
+                        ts=ts,
+                        seq=last_seq,
+                        run_hands=want_hands,
                     )
                     self._pose_fps = self._capture_fps
 
@@ -729,8 +781,29 @@ class LiveSessionManager:
             try:
                 if kind == "segment":
                     seg = item["segment"]
-                    pred = self._classifier_fn(item["frames"], item["timestamps"])
+                    if self._classifier_accepts_stream:
+                        pred = self._classifier_fn(
+                            item["frames"],
+                            item["timestamps"],
+                            session_id=item.get("session_id"),
+                            start=seg["start"],
+                            end=seg["end"],
+                            target_seq=item.get("target_seq"),
+                        )
+                    else:
+                        pred = self._classifier_fn(item["frames"], item["timestamps"])
                     end_to_display = time.perf_counter() - item["enqueued_at"]
+                    timing_info: dict[str, Any] = {
+                        "preprocessing_seconds": pred.get("preprocessing_seconds", 0.0),
+                        "inference_seconds": pred.get("inference_seconds", 0.0),
+                        "network_seconds": pred.get("network_seconds", 0.0),
+                        "queue_and_classify_seconds": end_to_display,
+                        "streaming_used": bool(pred.get("streaming_used", False)),
+                    }
+                    if "catchup_hands_frames" in pred:
+                        timing_info["catchup_hands_frames"] = int(pred["catchup_hands_frames"])
+                    if "inference_backend" in pred:
+                        timing_info["inference_backend"] = pred["inference_backend"]
                     record = {
                         "segment_id": seg["segment_id"],
                         "utterance_id": seg["utterance_id"],
@@ -745,12 +818,7 @@ class LiveSessionManager:
                             "low_confidence": pred["low_confidence"],
                             "top5": pred["top5"],
                         },
-                        "timing": {
-                            "preprocessing_seconds": pred.get("preprocessing_seconds", 0.0),
-                            "inference_seconds": pred.get("inference_seconds", 0.0),
-                            "network_seconds": pred.get("network_seconds", 0.0),
-                            "queue_and_classify_seconds": end_to_display,
-                        },
+                        "timing": timing_info,
                         "executor": pred.get("inference_executor", "local"),
                         "source_frames": pred.get("source_frames", len(item["frames"])),
                     }

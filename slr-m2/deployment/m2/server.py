@@ -161,7 +161,7 @@ def _build_runtime(
             model_identity = {"bundle": "remote-vision-backend", "vision_backend_url": vision_backend_url}
 
         return {
-            "fn": split_client.classify_frames,
+            "fn": split_client.classify_segment,
             "model_identity": model_identity,
             "pose_provider": pose_provider,
             "on_capture_start": on_capture_start,

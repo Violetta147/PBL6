@@ -31,6 +31,7 @@ from deployment.m2.server import create_app
 from deployment.m2.vision_backend import create_vision_app
 
 SAMPLE_CLIP = Path(r"C:\Users\LAPTOP T&T\VIOLETTA\Documents\ChatGPT\PBL6\slr-app\MVP\local_data\014159.mp4")
+SAMPLE_NPZ = ROOT / "outputs" / "sample_014159_landmarks.npz"
 
 
 def _synthetic_arrays(frames: int = 24) -> dict[str, np.ndarray]:
@@ -213,6 +214,78 @@ class M2SplitContractAndFallbackTests(unittest.TestCase):
             res = client.post("/api/vision/classify-clip?ext=.avi", content=clip_bytes)
             self.assertEqual(res.status_code, 503)
 
+    def test_streaming_segment_endpoints_and_404_fallback_to_pbl6(self):
+        vision_app = create_vision_app(
+            enable_fallback_classifier=True,
+            vision_extractor=_fake_vision_extractor(),
+            bone_classifier=_fake_bone_classifier(inference_seconds=0.01),
+            pose_detector=lambda _bgr, _sid: ([[0.4, 0.5, 0.0]] * 8, [0.99] * 8),
+        )
+        pi_bone = _fake_bone_classifier(inference_seconds=0.02)
+        frames, ts = _dummy_bgr_frames(count=6)
+
+        with TestClient(vision_app) as vision_client:
+            pose_client = RemotePoseClient("http://testserver", http_client=vision_client)
+            pose_client.reset("s-stream")
+            for idx, (frame, t_val) in enumerate(zip(frames, ts)):
+                p8, v8 = pose_client.detect_pose_8(
+                    frame,
+                    "s-stream",
+                    ts=t_val,
+                    seq=idx + 1,
+                    run_hands=(idx >= 2),
+                )
+                self.assertEqual(len(p8), 8)
+                self.assertEqual(len(v8), 8)
+
+            split_pi = SplitClassifierClient(
+                vision_backend_url="http://testserver",
+                bone_classifier=pi_bone,
+                mode="pi-split",
+                http_client=vision_client,
+            )
+            res_pi = split_pi.classify_segment(
+                frames,
+                ts,
+                session_id="s-stream",
+                start=0.0,
+                end=ts[-1],
+                target_seq=len(frames),
+            )
+            self.assertTrue(res_pi["streaming_used"])
+            self.assertEqual(res_pi["inference_executor"], "pi_local")
+            self.assertEqual(res_pi["top1_label"], "Dài")
+
+            split_fb = SplitClassifierClient(
+                vision_backend_url="http://testserver",
+                bone_classifier=None,
+                mode="remote-fallback",
+                http_client=vision_client,
+            )
+            res_fb = split_fb.classify_segment(
+                frames,
+                ts,
+                session_id="s-stream",
+                start=0.0,
+                end=ts[-1],
+                target_seq=len(frames),
+            )
+            self.assertTrue(res_fb["streaming_used"])
+            self.assertEqual(res_fb["inference_executor"], "backend_fallback")
+            self.assertEqual(res_fb["top1_label"], "Dài")
+
+            # Missing session on backend triggers 404 and transparent .pbl6 fallback
+            res_404 = split_pi.classify_segment(
+                frames,
+                ts,
+                session_id="missing-session",
+                start=0.0,
+                end=ts[-1],
+                target_seq=1,
+            )
+            self.assertFalse(res_404["streaming_used"])
+            self.assertEqual(res_404["top1_label"], "Dài")
+
     def test_auto_slow_fallback_and_manual_runtime_toggle(self):
         vision_app = create_vision_app(
             enable_fallback_classifier=True,
@@ -381,6 +454,89 @@ class M2RealSplitParityTests(unittest.TestCase):
             self.assertEqual(body["top1_label"], "Dài")
             self.assertGreaterEqual(body["confidence"], 0.90)
 
+    @unittest.skipUnless(SAMPLE_NPZ.is_file(), "Sample landmark NPZ not present")
+    def test_onnx_bone_classifier_parity_with_torch_on_sample_npz(self):
+        arrays = deserialize_landmark_arrays(SAMPLE_NPZ.read_bytes())
+        torch_clf = BoneClassifier(bundle=DEFAULT_BUNDLE, backend="torch")
+        onnx_clf = BoneClassifier(bundle=DEFAULT_BUNDLE, backend="onnx")
+        self.assertEqual(torch_clf.runtime_backend, "torch")
+        self.assertEqual(onnx_clf.runtime_backend, "onnx")
+
+        res_t = torch_clf.infer_from_arrays(arrays, inference_executor="pi_local")
+        res_o = onnx_clf.infer_from_arrays(arrays, inference_executor="pi_local")
+        self.assertEqual(res_t["top1_label"], "Dài")
+        self.assertEqual(res_o["top1_label"], "Dài")
+        self.assertEqual(
+            [item["label_id"] for item in res_t["top5"]],
+            [item["label_id"] for item in res_o["top5"]],
+        )
+        self.assertLess(abs(res_t["confidence"] - res_o["confidence"]), 1e-4)
+
+    @unittest.skipUnless(SAMPLE_CLIP.is_file(), "Sample VSL400 clip 014159.mp4 not present")
+    def test_real_streaming_extraction_parity_and_speedup_on_014159(self):
+        from deployment.m2.classifier import StreamFrameEntry
+
+        cap = cv2.VideoCapture(str(SAMPLE_CLIP))
+        frames: list[np.ndarray] = []
+        timestamps: list[float] = []
+        try:
+            fps = cap.get(cv2.CAP_PROP_FPS) or 25.0
+            i = 0
+            while True:
+                ok, bgr = cap.read()
+                if not ok:
+                    break
+                frames.append(bgr)
+                timestamps.append(i / fps)
+                i += 1
+        finally:
+            cap.release()
+
+        vision = VisionExtractor()
+        try:
+            vision.extract_from_frames(frames, timestamps, fallback_fps=25.0)
+            batch_t0 = time.perf_counter()
+            _, _, _, _ = vision.extract_from_frames(frames, timestamps, fallback_fps=25.0)
+            batch_s = time.perf_counter() - batch_t0
+
+            vision.reset_stream_models()
+            entries: list[StreamFrameEntry] = []
+            for idx, (bgr, ts_val) in enumerate(zip(frames, timestamps)):
+                # First 8 frames simulate leading -0.30s during READY (run_hands=False)
+                _, _, pose_res, hand_res, packed, _ = vision.process_stream_frame(
+                    bgr,
+                    run_hands=(idx >= 8),
+                )
+                entries.append(
+                    StreamFrameEntry(
+                        seq=idx + 1,
+                        ts=ts_val,
+                        bgr=bgr,
+                        pose_res=pose_res,
+                        hand_res=hand_res,
+                        packed=packed,
+                    )
+                )
+
+            arrays, qc, crop_rescue, post_s, catchup = vision.extract_from_stream_entries(
+                entries,
+                fallback_fps=25.0,
+            )
+        finally:
+            vision.close()
+
+        onnx_clf = BoneClassifier(bundle=DEFAULT_BUNDLE, backend="onnx")
+        pred = onnx_clf.infer_from_arrays(arrays, inference_executor="pi_local")
+        self.assertEqual(pred["top1_label"], "Dài")
+        self.assertGreater(pred["confidence"], 0.90)
+        self.assertEqual(catchup, 8)
+        self.assertLess(post_s, batch_s * 0.5)
+        print(
+            f"\n[Streaming+ONNX Parity 014159.mp4] top1={pred['top1_label']} ({pred['confidence']:.4f}) "
+            f"batch_post={batch_s:.3f}s stream_post={post_s:.3f}s catchup_frames={catchup} "
+            f"onnx_infer={pred['inference_seconds']:.3f}s crop={crop_rescue}"
+        )
+
 
 class LinuxCameraProbeTests(unittest.TestCase):
     def test_linux_open_capture_falls_back_to_working_v4l2_index(self):
@@ -529,6 +685,87 @@ class LinuxCameraProbeTests(unittest.TestCase):
         self.assertFalse(snap["running"])
         self.assertGreater(len(ring_frames), pose_calls + 2)
         self.assertGreaterEqual(pose_calls, 2)
+
+    def test_live_pipeline_smart_gating_passes_stream_kwargs(self):
+        seen_calls: list[dict] = []
+        cls_calls: list[dict] = []
+
+        def fake_pose(_bgr, _sid, *, ts=None, seq=None, run_hands=False):
+            idx = len(seen_calls)
+            seen_calls.append({"ts": ts, "seq": seq, "run_hands": run_hands})
+            # shoulder_y=0.2, hip_y=0.6 -> torso=0.4 (rest requires wrist>=0.54 and elbow>=0.32)
+            # 0..11 rest (>=0.55s -> READY), 12..28 active (>=0.80s -> onset & CAPTURING), >=29 rest (END_PENDING -> complete)
+            is_active = 12 <= idx <= 28
+            pose = [
+                [0.5, 0.2, 0.0],
+                [0.5, 0.2, 0.0],
+                [0.5, 0.25 if is_active else 0.45, 0.0],
+                [0.5, 0.45, 0.0],
+                [0.5, 0.1 if is_active else 0.65, 0.0],
+                [0.5, 0.65, 0.0],
+                [0.5, 0.6, 0.0],
+                [0.5, 0.6, 0.0],
+            ]
+            return pose, [0.95] * 8
+
+        def fake_cls(frames, timestamps, *, session_id=None, start=None, end=None, target_seq=None):
+            cls_calls.append({
+                "session_id": session_id,
+                "start": start,
+                "end": end,
+                "target_seq": target_seq,
+                "n_frames": len(frames),
+            })
+            return {
+                "top1_label": "Dài",
+                "top1_id": 95,
+                "confidence": 0.99,
+                "low_confidence": False,
+                "top5": [{"label": "Dài", "label_id": 95, "score": 0.99}],
+                "preprocessing_seconds": 0.05,
+                "inference_seconds": 0.02,
+                "streaming_used": True,
+                "catchup_hands_frames": 3,
+                "inference_backend": "onnx",
+                "source_frames": len(frames),
+            }
+
+        service = LiveSessionManager(classifier_fn=fake_cls, pose_provider=fake_pose)
+        dummy = np.full((64, 64, 3), 50, dtype=np.uint8)
+
+        class _StepCap:
+            def isOpened(self) -> bool:
+                return True
+
+            def set(self, *_args) -> bool:
+                return True
+
+            def get(self, *_args) -> float:
+                return 20.0
+
+            def read(self):
+                time.sleep(0.05)
+                return True, dummy
+
+            def release(self) -> None:
+                pass
+
+        with mock.patch.object(service, "_open_capture", return_value=_StepCap()):
+            service.start_camera_session(camera_index=0)
+            deadline = time.monotonic() + 5.0
+            while len(cls_calls) == 0 and time.monotonic() < deadline:
+                time.sleep(0.05)
+            snap = service.stop_session(wait_timeout=3.0)
+
+        self.assertGreaterEqual(len(seen_calls), 25)
+        self.assertTrue(all(c["ts"] is not None and c["seq"] is not None for c in seen_calls))
+        self.assertFalse(seen_calls[0]["run_hands"])
+        self.assertTrue(any(c["run_hands"] for c in seen_calls))
+        self.assertEqual(len(cls_calls), 1)
+        self.assertTrue(cls_calls[0]["session_id"])
+        self.assertGreater(cls_calls[0]["target_seq"], 0)
+        self.assertTrue(snap["glosses"][0]["timing"]["streaming_used"])
+        self.assertEqual(snap["glosses"][0]["timing"]["inference_backend"], "onnx")
 
 
 if __name__ == "__main__":

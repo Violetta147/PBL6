@@ -48,6 +48,7 @@ VIRTUAL_ENV="$VENV_DIR" uv pip install \
 
 VIRTUAL_ENV="$VENV_DIR" uv pip install \
   "numpy==1.26.4" \
+  "onnxruntime>=1.19.0" \
   "opencv-python-headless==4.11.0.86" \
   fastapi==0.115.6 \
   uvicorn==0.34.0 \

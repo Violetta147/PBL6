@@ -42,11 +42,12 @@ def run_benchmark(
     runs: int = 10,
     threads: int | None = None,
     threshold_seconds: float = 1.5,
+    backend: str = "auto",
 ) -> dict[str, Any]:
     if threads is not None and threads > 0:
         torch.set_num_threads(threads)
 
-    clf = BoneClassifier(bundle=bundle)
+    clf = BoneClassifier(bundle=bundle, backend=backend, onnx_threads=threads)
     if npz_path is not None:
         arrays = deserialize_landmark_arrays(Path(npz_path).read_bytes())
         fixture = str(Path(npz_path).resolve())
@@ -77,6 +78,7 @@ def run_benchmark(
         "python": platform.python_version(),
         "torch_version": torch.__version__,
         "torch_num_threads": torch.get_num_threads(),
+        "inference_backend": clf.runtime_backend,
         "mediapipe_imported": "mediapipe" in sys.modules,
         "fixture": fixture,
         "source_frames": int(last_res["source_frames"]),
@@ -105,6 +107,7 @@ def main() -> None:
     parser.add_argument("--runs", type=int, default=10)
     parser.add_argument("--threads", type=int, default=None)
     parser.add_argument("--threshold", type=float, default=1.5)
+    parser.add_argument("--backend", choices=("auto", "onnx", "torch"), default="auto")
     parser.add_argument("--out", type=Path, default=None)
     args = parser.parse_args()
 
@@ -115,6 +118,7 @@ def main() -> None:
         runs=args.runs,
         threads=args.threads,
         threshold_seconds=args.threshold,
+        backend=args.backend,
     )
     print(json.dumps(result, ensure_ascii=False, indent=2))
     print(
