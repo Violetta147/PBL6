@@ -4,6 +4,7 @@ from __future__ import annotations
 import argparse
 import asyncio
 from contextlib import asynccontextmanager
+import dataclasses
 import json
 from pathlib import Path
 from typing import Any
@@ -17,7 +18,7 @@ from pydantic import BaseModel
 
 from deployment.m1.common import DEFAULT_BUNDLE, ROOT
 from deployment.m2.classifier import BoneClassifier, SLRClassifier
-from deployment.m2.pipeline import LiveSessionManager
+from deployment.m2.pipeline import LiveSessionManager, load_frozen_config
 from deployment.m2.remote_clients import RemotePoseClient, SplitClassifierClient
 
 INDEX_HTML = Path(__file__).with_name("index.html")
@@ -196,6 +197,7 @@ def create_app(
     pose_provider: Any = None,
     on_capture_start: Any = None,
     runtime_controller: Any = None,
+    utterance_rest: float | None = None,
 ) -> FastAPI:
     hub = WebSocketHub()
     rt = _build_runtime(
@@ -213,8 +215,13 @@ def create_app(
     model_identity = rt["model_identity"]
     controller = rt["controller"]
 
+    cfg = load_frozen_config()
+    if utterance_rest is not None:
+        cfg = dataclasses.replace(cfg, utterance_rest=float(utterance_rest))
+
     manager = LiveSessionManager(
         classifier_fn=rt["fn"],
+        config=cfg,
         on_event=hub.publish_from_thread,
         pose_provider=rt["pose_provider"],
         on_capture_start=rt["on_capture_start"],
@@ -372,6 +379,7 @@ def main() -> None:
     )
     parser.add_argument("--vision-backend-url", default=None)
     parser.add_argument("--fallback-threshold", type=float, default=1.5)
+    parser.add_argument("--utterance-rest", type=float, default=4.0)
     parser.add_argument("--tts-dir", type=Path, default=DEFAULT_TTS_DIR)
     args = parser.parse_args()
 
@@ -384,6 +392,7 @@ def main() -> None:
         inference_mode=args.inference_mode,
         vision_backend_url=args.vision_backend_url,
         fallback_threshold_seconds=args.fallback_threshold,
+        utterance_rest=args.utterance_rest,
     )
     uvicorn.run(app, host=args.host, port=args.port)
 

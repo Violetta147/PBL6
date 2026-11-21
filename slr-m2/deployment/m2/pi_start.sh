@@ -8,6 +8,8 @@ set -euo pipefail
 LAPTOP_IP="${PBL6_VISION_HOST:-192.168.1.155}"
 INFERENCE_MODE="pi-split"
 FALLBACK_THRESHOLD="1.5"
+UTTERANCE_REST="4.0"
+ENABLE_VNC=1
 LAUNCH_KIOSK=1
 KIOSK_FLAG="--new-window"
 STOP_ONLY=0
@@ -22,6 +24,14 @@ while [ $# -gt 0 ]; do
     --threshold)
       FALLBACK_THRESHOLD="${2:?missing threshold value}"
       shift 2
+      ;;
+    --utterance-rest)
+      UTTERANCE_REST="${2:?missing utterance-rest value}"
+      shift 2
+      ;;
+    --no-vnc)
+      ENABLE_VNC=0
+      shift
       ;;
     --no-kiosk)
       LAUNCH_KIOSK=0
@@ -40,7 +50,7 @@ while [ $# -gt 0 ]; do
       shift
       ;;
     -h|--help)
-      echo "Usage: $0 [LAPTOP_IP] [--mode pi-split|remote-fallback] [--threshold 1.5] [--windowed] [--fullscreen-kiosk] [--no-kiosk] [--stop]"
+      echo "Usage: $0 [LAPTOP_IP] [--mode pi-split|remote-fallback] [--threshold 1.5] [--utterance-rest 4.0] [--no-vnc] [--windowed] [--fullscreen-kiosk] [--no-kiosk] [--stop]"
       exit 0
       ;;
     *)
@@ -117,6 +127,7 @@ nohup "$PY_BIN" -u -m deployment.m2.server \
   --inference-mode "$INFERENCE_MODE" \
   --vision-backend-url "$VISION_URL" \
   --fallback-threshold "$FALLBACK_THRESHOLD" \
+  --utterance-rest "$UTTERANCE_REST" \
   >/tmp/pbl6-slr.log 2>&1 </dev/null &
 SLR_PID=$!
 
@@ -150,7 +161,7 @@ if command -v wlr-randr >/dev/null 2>&1; then
   done
 fi
 
-if command -v wayvnc >/dev/null 2>&1; then
+if [ "$ENABLE_VNC" -eq 1 ] && command -v wayvnc >/dev/null 2>&1; then
   sudo -n systemctl stop wayvnc.service 2>/dev/null || true
   pkill -f "pbl6-wayvnc-loop" 2>/dev/null || true
   pkill -x wayvnc 2>/dev/null || true
@@ -166,6 +177,10 @@ if command -v wayvnc >/dev/null 2>&1; then
       sleep 1
     done
   ' >/tmp/pbl6-wayvnc.log 2>&1 </dev/null &
+else
+  sudo -n systemctl stop wayvnc.service 2>/dev/null || true
+  pkill -f "pbl6-wayvnc-loop" 2>/dev/null || true
+  pkill -x wayvnc 2>/dev/null || true
 fi
 
 gsettings set org.gnome.desktop.a11y.applications screen-keyboard-enabled true 2>/dev/null || true
@@ -242,8 +257,12 @@ fi
 
 PI_IP="$(hostname -I 2>/dev/null | awk '{print $1}')"
 echo "=== PBL6 Pi Running ==="
-echo "  SLR Edge : http://${PI_IP:-127.0.0.1}:8765/api/health (mode=$INFERENCE_MODE -> $VISION_URL)"
+echo "  SLR Edge : http://${PI_IP:-127.0.0.1}:8765/api/health (mode=$INFERENCE_MODE, utterance_rest=${UTTERANCE_REST}s -> $VISION_URL)"
 echo "  Web UI   : http://${PI_IP:-127.0.0.1}:3100/"
 echo "  Companion: http://${PI_IP:-127.0.0.1}:3100/companion"
-echo "  TightVNC : ${PI_IP:-127.0.0.1}:5900"
+if [ "$ENABLE_VNC" -eq 1 ]; then
+  echo "  TightVNC : ${PI_IP:-127.0.0.1}:5900"
+else
+  echo "  TightVNC : disabled (--no-vnc)"
+fi
 echo "  Logs     : /tmp/pbl6-slr.log | /tmp/pbl6-ui.log | /tmp/pbl6-kiosk.log"

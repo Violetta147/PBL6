@@ -346,19 +346,51 @@ export default function Home() {
             );
           }
         } else if (msg.type === 'utterance_ready') {
-          // Keep recognized words accumulated in LiveSigningCard across 1.5s pauses.
+          const utt = msg.utterance;
+          if (slrSettingsRef.current.autoSaveOnRest) {
+            const matchingLive = liveGlossesRef.current.filter(
+              (g) =>
+                g.utteranceId === utt.utterance_id &&
+                !savedSegmentIdsRef.current.has(g.segmentId)
+            );
+            const fallbackSegments = (utt.segments ?? []).filter(
+              (s) => !savedSegmentIdsRef.current.has(s.segment_id)
+            );
+            const segIds =
+              matchingLive.length > 0
+                ? matchingLive.map((g) => g.segmentId)
+                : fallbackSegments.map((s) => s.segment_id);
+            const text =
+              matchingLive.length > 0
+                ? matchingLive.map((g) => g.label).join(' ').trim()
+                : fallbackSegments.map((s) => s.raw.top1_label).join(' ').trim();
+            for (const sid of segIds) {
+              savedSegmentIdsRef.current.add(sid);
+            }
+            if (segIds.length > 0) {
+              const segSet = new Set(segIds);
+              setLiveGlosses((prev) => prev.filter((g) => !segSet.has(g.segmentId)));
+            }
+            if (text) {
+              enqueueSignSave(text);
+            }
+          }
         } else if (msg.type === 'session_stopped') {
           setSlrRunning(Boolean(msg.snapshot?.running));
           setSlrDraining(Boolean(msg.snapshot?.draining));
-          if (slrSettingsRef.current.autoSaveOnRest && liveGlossesRef.current.length > 0) {
-            const pending = liveGlossesRef.current;
-            for (const g of pending) {
-              savedSegmentIdsRef.current.add(g.segmentId);
-            }
-            const text = pending.map((g) => g.label).join(' ').trim();
-            setLiveGlosses([]);
-            if (text) {
-              enqueueSignSave(text);
+          if (slrSettingsRef.current.autoSaveOnRest) {
+            const pending = liveGlossesRef.current.filter(
+              (g) => !savedSegmentIdsRef.current.has(g.segmentId)
+            );
+            if (pending.length > 0) {
+              for (const g of pending) {
+                savedSegmentIdsRef.current.add(g.segmentId);
+              }
+              const text = pending.map((g) => g.label).join(' ').trim();
+              setLiveGlosses([]);
+              if (text) {
+                enqueueSignSave(text);
+              }
             }
           }
         } else if (msg.type === 'error') {

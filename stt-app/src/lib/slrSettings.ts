@@ -10,11 +10,11 @@ export const DEFAULT_SLR_SETTINGS: SlrSettings = {
   slrBaseUrl: '',
   cameraIndex: 0,
   autoSpeak: true,
-  autoSaveOnRest: false,
+  autoSaveOnRest: true,
   showDiagnostics: false,
 };
 
-const STORAGE_KEY = 'pbl6.slr.settings.v2';
+const STORAGE_KEY = 'pbl6.slr.settings.v3';
 
 export function loadSlrSettings(): SlrSettings {
   if (typeof window === 'undefined') {
@@ -30,7 +30,7 @@ export function loadSlrSettings(): SlrSettings {
       cameraIndex: Number.isInteger(cam) && cam >= 0 && cam <= 16 ? cam : 0,
       autoSpeak: typeof parsed.autoSpeak === 'boolean' ? parsed.autoSpeak : true,
       autoSaveOnRest:
-        typeof parsed.autoSaveOnRest === 'boolean' ? parsed.autoSaveOnRest : false,
+        typeof parsed.autoSaveOnRest === 'boolean' ? parsed.autoSaveOnRest : true,
       showDiagnostics:
         typeof parsed.showDiagnostics === 'boolean' ? parsed.showDiagnostics : false,
     };

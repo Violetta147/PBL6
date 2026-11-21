@@ -13,7 +13,7 @@ import numpy as np
 from deployment.m2.classifier import (
     BoneClassifier,
     deserialize_landmark_arrays,
-    encode_frames_to_clip_bytes,
+    encode_frames_to_bundle_bytes,
 )
 
 
@@ -32,7 +32,7 @@ class RemotePoseClient:
         base_url: str,
         timeout: float = 1.5,
         jpeg_quality: int = 70,
-        max_width: int = 640,
+        max_width: int = 320,
         http_client: httpx.Client | None = None,
     ) -> None:
         self.base_url = _clean_base_url(base_url)
@@ -159,12 +159,8 @@ class SplitClassifierClient:
         timestamps: list[float],
         fallback_fps: float = 30.0,
     ) -> dict[str, Any]:
-        clip_bytes, ext = encode_frames_to_clip_bytes(
-            frames,
-            timestamps,
-            fallback_fps=fallback_fps,
-            prefer_compact=True,
-        )
+        clip_bytes = encode_frames_to_bundle_bytes(frames, timestamps)
+        ext = ".pbl6"
         with self._lock:
             use_fallback = self._fallback_active or self.bone_classifier is None
 

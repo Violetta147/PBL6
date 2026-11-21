@@ -14,7 +14,7 @@ import {
 
 test('DEFAULT_SLR_SETTINGS keeps end-user defaults and hides dev diagnostics', () => {
   assert.equal(DEFAULT_SLR_SETTINGS.autoSpeak, true);
-  assert.equal(DEFAULT_SLR_SETTINGS.autoSaveOnRest, false);
+  assert.equal(DEFAULT_SLR_SETTINGS.autoSaveOnRest, true);
   assert.equal(DEFAULT_SLR_SETTINGS.showDiagnostics, false);
   assert.equal(DEFAULT_SLR_SETTINGS.cameraIndex, 0);
   assert.equal(DEFAULT_SLR_SETTINGS.slrBaseUrl, '');

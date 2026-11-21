@@ -19,7 +19,9 @@ from deployment.m2.classifier import (
     BONE_WIRE_KEYS,
     BoneClassifier,
     VisionExtractor,
+    decode_bundle_bytes_to_frames,
     deserialize_landmark_arrays,
+    encode_frames_to_bundle_bytes,
     encode_frames_to_clip_bytes,
     serialize_landmark_arrays,
 )
@@ -63,6 +65,10 @@ def _fake_vision_extractor():
             self.calls += 1
             return _synthetic_arrays(), {"frames": 24, "normalized_usable_fraction": 1.0}, False, 0.02
 
+        def extract_from_frames(self, _frames, _timestamps, **_kwargs):
+            self.calls += 1
+            return _synthetic_arrays(), {"frames": 24, "normalized_usable_fraction": 1.0}, False, 0.02
+
     return _FakeVision()
 
 
@@ -103,6 +109,15 @@ class M2SplitWireTests(unittest.TestCase):
         np.testing.assert_allclose(decoded["xy"], orig["xy"])
         np.testing.assert_array_equal(decoded["usable_mask"], orig["usable_mask"])
         np.testing.assert_array_equal(decoded["association_method"], orig["association_method"])
+
+    def test_frame_bundle_roundtrip_preserves_shapes_and_timestamps(self):
+        frames, timestamps = _dummy_bgr_frames(count=8)
+        payload = encode_frames_to_bundle_bytes(frames, timestamps, jpeg_quality=90)
+        self.assertGreater(len(payload), 0)
+        decoded_frames, decoded_ts = decode_bundle_bytes_to_frames(payload)
+        self.assertEqual(len(decoded_frames), len(frames))
+        self.assertEqual([f.shape for f in decoded_frames], [f.shape for f in frames])
+        np.testing.assert_allclose(decoded_ts, timestamps)
 
     def test_bone_classifier_imports_zero_mediapipe_in_isolated_process(self):
         env = dict(os.environ)
@@ -325,6 +340,47 @@ class M2RealSplitParityTests(unittest.TestCase):
                 f"pre={pre_s:.2f}s gcn={res['inference_seconds']:.3f}s crop={crop_rescue}"
             )
 
+    @unittest.skipUnless(SAMPLE_CLIP.is_file(), "Sample VSL400 clip 014159.mp4 not present")
+    def test_real_014159_pbl6_ram_bundle_warm_parallel_parity(self):
+        cap = cv2.VideoCapture(str(SAMPLE_CLIP))
+        frames: list[np.ndarray] = []
+        timestamps: list[float] = []
+        try:
+            fps = cap.get(cv2.CAP_PROP_FPS) or 25.0
+            i = 0
+            while True:
+                ok, bgr = cap.read()
+                if not ok:
+                    break
+                frames.append(bgr)
+                timestamps.append(i / fps)
+                i += 1
+        finally:
+            cap.release()
+
+        bundle_bytes = encode_frames_to_bundle_bytes(frames, timestamps)
+        bone = BoneClassifier(bundle=DEFAULT_BUNDLE)
+        vision = VisionExtractor()
+        vision_app = create_vision_app(
+            enable_fallback_classifier=True,
+            vision_extractor=vision,
+            bone_classifier=bone,
+            pose_detector=lambda _bgr, _sid: ([[0.5, 0.5, 0.0]] * 8, [0.9] * 8),
+        )
+        with TestClient(vision_app) as client:
+            ext_res = client.post("/api/vision/extract-landmarks?ext=.pbl6", content=bundle_bytes)
+            self.assertEqual(ext_res.status_code, 200)
+            arrays = deserialize_landmark_arrays(ext_res.content)
+            pred_pi = bone.infer_from_arrays(arrays, inference_executor="pi_local")
+            self.assertEqual(pred_pi["top1_label"], "Dài")
+            self.assertGreaterEqual(pred_pi["confidence"], 0.90)
+
+            cls_res = client.post("/api/vision/classify-clip?ext=.pbl6", content=bundle_bytes)
+            self.assertEqual(cls_res.status_code, 200)
+            body = cls_res.json()
+            self.assertEqual(body["top1_label"], "Dài")
+            self.assertGreaterEqual(body["confidence"], 0.90)
+
 
 class LinuxCameraProbeTests(unittest.TestCase):
     def test_linux_open_capture_falls_back_to_working_v4l2_index(self):
@@ -431,6 +487,48 @@ class LinuxCameraProbeTests(unittest.TestCase):
         encoded = json.dumps({"pose": pose, "visibility": visibility}, allow_nan=False)
         self.assertIn("pose", encoded)
         self.assertEqual(arm_states(pose, visibility, load_frozen_config()), [None, None])
+
+    def test_decoupled_capture_records_denser_ring_frames_than_slow_pose(self):
+        pose_calls = 0
+
+        def slow_pose(_bgr, _sid):
+            nonlocal pose_calls
+            pose_calls += 1
+            time.sleep(0.14)
+            return [[0.5, 0.5, 0.0]] * 8, [0.95] * 8
+
+        service = LiveSessionManager(
+            classifier_fn=lambda *_a, **_k: {},
+            pose_provider=slow_pose,
+        )
+        dummy_frame = np.full((120, 160, 3), 24, dtype=np.uint8)
+
+        class _FastFakeCap:
+            def isOpened(self) -> bool:
+                return True
+
+            def set(self, *_args) -> bool:
+                return True
+
+            def get(self, *_args) -> float:
+                return 30.0
+
+            def read(self):
+                time.sleep(0.01)
+                return True, dummy_frame
+
+            def release(self) -> None:
+                pass
+
+        with mock.patch.object(service, "_open_capture", return_value=_FastFakeCap()):
+            service.start_camera_session(camera_index=0)
+            time.sleep(0.55)
+            ring_frames, _ = service._ring.slice(0.0, 10.0)
+            snap = service.stop_session(wait_timeout=3.0)
+
+        self.assertFalse(snap["running"])
+        self.assertGreater(len(ring_frames), pose_calls + 2)
+        self.assertGreaterEqual(pose_calls, 2)
 
 
 if __name__ == "__main__":

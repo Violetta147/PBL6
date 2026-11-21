@@ -879,10 +879,10 @@ export function SettingsView({
               <label className="flex items-start justify-between gap-4 rounded-xl border border-[#BAC5D0] bg-[#F5F7F9] p-4 cursor-pointer">
                 <div>
                   <div className="text-[17px] font-bold text-[#18212B]">
-                    Tự động lưu vào hội thoại khi kết thúc ký
+                    Tự động lưu câu vào hội thoại khi nghỉ 4 giây (Phương án A)
                   </div>
                   <div className="text-[14px] text-[#4F5D6B]">
-                    Mặc định TẮT để giữ các từ vừa ký trong khung Đang ký trực tiếp (bấm &ldquo;Lưu vào hội thoại&rdquo; khi muốn gửi).
+                    Gom toàn bộ các từ ký trong cùng 1 câu và tự gửi thành 1 tin nhắn vào hội thoại khi buông 2 tay nghỉ 4 giây.
                   </div>
                 </div>
                 <input

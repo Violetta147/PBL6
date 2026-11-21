@@ -24,15 +24,16 @@ $StandaloneDir = Join-Path $Pbl6Root "stt-app\.next\standalone"
 $Target = "${PiUser}@${PiHost}"
 
 $RequiredPaths = @(
+  (Join-Path $M2Dir "classifier.py"),
   (Join-Path $M2Dir "pipeline.py"),
   (Join-Path $M2Dir "remote_clients.py"),
+  (Join-Path $M2Dir "server.py"),
   (Join-Path $M2Dir "pi_bootstrap.sh"),
   (Join-Path $M2Dir "pi_start.sh"),
   (Join-Path $StandaloneDir "server.js")
 )
 if (-not $FastSync) {
   $RequiredPaths += @(
-    (Join-Path $M2Dir "server.py"),
     (Join-Path $SlrM2Root "models\checkpoints\sl_gcn_bone_07b\07b_bone_seed42\best.pt"),
     (Join-Path $SlrM2Root "outputs\sample_014159_landmarks.npz"),
     (Join-Path $TtsParent "tts")
@@ -93,8 +94,10 @@ try {
 
     $ScpItems += @(
       $SttTar,
+      (Join-Path $M2Dir "classifier.py"),
       (Join-Path $M2Dir "pipeline.py"),
       (Join-Path $M2Dir "remote_clients.py"),
+      (Join-Path $M2Dir "server.py"),
       (Join-Path $M2Dir "pi_bootstrap.sh"),
       (Join-Path $M2Dir "pi_start.sh")
     )
@@ -121,8 +124,8 @@ try {
       'sleep 1',
       'rm -rf ~/PBL6/stt-app && mkdir -p ~/PBL6/stt-app ~/PBL6/slr-m2/deployment/m2',
       'tar -C ~/PBL6/stt-app -xzf /tmp/stt-app-standalone.tar.gz && rm -f /tmp/stt-app-standalone.tar.gz',
-      'mv /tmp/pipeline.py /tmp/remote_clients.py /tmp/pi_bootstrap.sh /tmp/pi_start.sh ~/PBL6/slr-m2/deployment/m2/',
-      "sed -i 's/\r$//' ~/PBL6/slr-m2/deployment/m2/pipeline.py ~/PBL6/slr-m2/deployment/m2/remote_clients.py ~/PBL6/slr-m2/deployment/m2/pi_bootstrap.sh ~/PBL6/slr-m2/deployment/m2/pi_start.sh",
+      'mv /tmp/classifier.py /tmp/pipeline.py /tmp/remote_clients.py /tmp/server.py /tmp/pi_bootstrap.sh /tmp/pi_start.sh ~/PBL6/slr-m2/deployment/m2/',
+      "sed -i 's/\r$//' ~/PBL6/slr-m2/deployment/m2/classifier.py ~/PBL6/slr-m2/deployment/m2/pipeline.py ~/PBL6/slr-m2/deployment/m2/remote_clients.py ~/PBL6/slr-m2/deployment/m2/server.py ~/PBL6/slr-m2/deployment/m2/pi_bootstrap.sh ~/PBL6/slr-m2/deployment/m2/pi_start.sh",
       'chmod +x ~/PBL6/slr-m2/deployment/m2/pi_bootstrap.sh ~/PBL6/slr-m2/deployment/m2/pi_start.sh',
       'if [ ! -x "$HOME/pbl6-venv/bin/python" ] || [ ! -x "$HOME/.local/node/bin/node" ]; then bash ~/PBL6/slr-m2/deployment/m2/pi_bootstrap.sh; fi',
       'echo "=== Pi Hardware Diagnostics ==="',

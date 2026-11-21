@@ -21,13 +21,14 @@ from deployment.m1.common import DEFAULT_BUNDLE
 from deployment.m2.classifier import (
     BoneClassifier,
     VisionExtractor,
+    decode_bundle_bytes_to_frames,
     serialize_landmark_arrays,
 )
 from deployment.m2.pipeline import _extract_pose_8
 
 MAX_POSE_FRAME_BYTES = 4 * 1024 * 1024
 MAX_CLIP_BYTES = 64 * 1024 * 1024
-ALLOWED_CLIP_EXTENSIONS = {".avi", ".mp4"}
+ALLOWED_CLIP_EXTENSIONS = {".avi", ".mp4", ".pbl6"}
 
 
 class LivePoseRunner:
@@ -138,6 +139,9 @@ def create_vision_app(
             yield
         finally:
             pose_runner.close()
+            close_ext = getattr(extractor, "close", None)
+            if callable(close_ext):
+                close_ext()
 
     app = FastAPI(title="PBL6 SLR M2.2 Vision Backend", version="0.1.0", lifespan=lifespan)
     app.add_middleware(
@@ -154,6 +158,36 @@ def create_vision_app(
     def _run_extract_locked(clip_path: Path) -> tuple[dict[str, np.ndarray], dict[str, Any], bool, float]:
         with extract_lock:
             return extractor.extract_landmarks(clip_path)
+
+    def _run_extract_bundle_locked(payload: bytes) -> tuple[dict[str, np.ndarray], dict[str, Any], bool, float]:
+        frames, timestamps = decode_bundle_bytes_to_frames(payload)
+        fn = getattr(extractor, "extract_from_frames", None)
+        with extract_lock:
+            if callable(fn):
+                return fn(frames, timestamps)
+            return extractor.extract_landmarks(Path("in_memory_bundle.pbl6"))
+
+    async def _extract_from_request(
+        request: Request,
+        ext: str,
+    ) -> tuple[dict[str, np.ndarray], dict[str, Any], bool, float]:
+        clean_ext = ext.lower()
+        if clean_ext not in ALLOWED_CLIP_EXTENSIONS:
+            raise HTTPException(
+                status_code=400,
+                detail="Unsupported clip extension; use .avi, .mp4, or .pbl6",
+            )
+        body = await _read_bounded_body(request, MAX_CLIP_BYTES)
+        if clean_ext == ".pbl6":
+            try:
+                return await asyncio.to_thread(_run_extract_bundle_locked, body)
+            except ValueError as error:
+                raise HTTPException(status_code=400, detail=str(error)) from error
+        tmp_path = _write_temp_bytes(body, clean_ext)
+        try:
+            return await asyncio.to_thread(_run_extract_locked, tmp_path)
+        finally:
+            tmp_path.unlink(missing_ok=True)
 
     @app.get("/api/vision/health")
     def vision_health():
@@ -182,55 +216,39 @@ def create_vision_app(
 
     @app.post("/api/vision/extract-landmarks")
     async def vision_extract_landmarks(request: Request, ext: str = ".avi"):
-        clean_ext = ext.lower()
-        if clean_ext not in ALLOWED_CLIP_EXTENSIONS:
-            raise HTTPException(status_code=400, detail="Unsupported clip extension; use .avi or .mp4")
-        body = await _read_bounded_body(request, MAX_CLIP_BYTES)
-        tmp_path = _write_temp_bytes(body, clean_ext)
-        try:
-            arrays, qc, crop_rescue, pre_s = await asyncio.to_thread(_run_extract_locked, tmp_path)
-            npz_bytes = serialize_landmark_arrays(arrays)
-            meta = {
-                "preprocessing_seconds": pre_s,
-                "crop_rescue": crop_rescue,
-                "source_frames": int(len(arrays["xy"])),
-                "landmark_payload_bytes": len(npz_bytes),
-                "qc": qc,
-            }
-            return Response(
-                content=npz_bytes,
-                media_type="application/octet-stream",
-                headers={"X-Vision-Meta": json.dumps(meta, ensure_ascii=True)},
-            )
-        finally:
-            tmp_path.unlink(missing_ok=True)
+        arrays, qc, crop_rescue, pre_s = await _extract_from_request(request, ext)
+        npz_bytes = serialize_landmark_arrays(arrays)
+        meta = {
+            "preprocessing_seconds": pre_s,
+            "crop_rescue": crop_rescue,
+            "source_frames": int(len(arrays["xy"])),
+            "landmark_payload_bytes": len(npz_bytes),
+            "qc": qc,
+        }
+        return Response(
+            content=npz_bytes,
+            media_type="application/octet-stream",
+            headers={"X-Vision-Meta": json.dumps(meta, ensure_ascii=True)},
+        )
 
     @app.post("/api/vision/classify-clip")
     async def vision_classify_clip(request: Request, ext: str = ".avi"):
         if fallback_bone is None:
             raise HTTPException(status_code=503, detail="Fallback classifier is disabled on this backend")
-        clean_ext = ext.lower()
-        if clean_ext not in ALLOWED_CLIP_EXTENSIONS:
-            raise HTTPException(status_code=400, detail="Unsupported clip extension; use .avi or .mp4")
-        body = await _read_bounded_body(request, MAX_CLIP_BYTES)
-        tmp_path = _write_temp_bytes(body, clean_ext)
-        try:
-            arrays, qc, crop_rescue, pre_s = await asyncio.to_thread(_run_extract_locked, tmp_path)
-            result = await asyncio.to_thread(
-                fallback_bone.infer_from_arrays,
-                arrays,
-                "backend_fallback",
-            )
-            result.update(
-                schema_version="m2.v1",
-                model=dict(fallback_bone.identity),
-                preprocessing_seconds=pre_s,
-                crop_rescue=crop_rescue,
-                qc=qc,
-            )
-            return result
-        finally:
-            tmp_path.unlink(missing_ok=True)
+        arrays, qc, crop_rescue, pre_s = await _extract_from_request(request, ext)
+        result = await asyncio.to_thread(
+            fallback_bone.infer_from_arrays,
+            arrays,
+            "backend_fallback",
+        )
+        result.update(
+            schema_version="m2.v1",
+            model=dict(fallback_bone.identity),
+            preprocessing_seconds=pre_s,
+            crop_rescue=crop_rescue,
+            qc=qc,
+        )
+        return result
 
     return app
 

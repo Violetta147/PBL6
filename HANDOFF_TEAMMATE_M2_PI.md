@@ -29,14 +29,12 @@ USB Webcam + Mic (Pi 4B)
 ### Đã kiểm chứng chạy thật trên phần cứng Pi 4B
 - **Phần cứng & dịch vụ trên Pi:** USB Webcam (`Wed Camera 32e6:9221` video + USB Audio mic), Deepgram Nova-3 STT tiếng Việt, bàn phím ảo `Squeekboard` + `Fcitx5`, và `WayVNC :5900` tự khôi phục khi tắt/bật màn hình HDMI 7".
 - **Nhận dạng ký hiệu live trên Pi (`mode=pi-split` + `backend_fallback`):** Các phiên thử thực tế trước camera đã nhận đúng nhiều từ VSL400 với **`incomplete = 0`**, ví dụ: **`Dài` (`99.6%`)**, **`Khăn quàng cổ` (`98.8%–99.8%`)**, **`Xin` (`99.8%`)**, **`Bơi lội` (`95.5%`)**, **`Cái quần` (`95.1%`)**.
-- **Giao diện giữ tích lũy ký hiệu (Phương án B tạm thời):** Các từ nhận được giữ thành chip xanh có nút `×` xóa từ thừa trong ô **Đang ký trực tiếp** cho đến khi bấm **Lưu vào hội thoại** (cài đặt mặc định `autoSaveOnRest = false` trong `stt-app/src/lib/slrSettings.ts`).
+- **Tối ưu Gói 1 & Phương án A (`utterance_rest = 4.0s`, giữ `pi-split`):** Đã tách luồng đọc camera trên Pi (`15–20 FPS` lưu RAM `_ring`) độc lập với luồng Pose (`320px`), bỏ ghi ổ đĩa `.avi` bằng gói RAM `.pbl6`, giữ nóng + chạy song song `Pose || Hands` trên Laptop, và bật Phương án A (`utterance_rest = 4.0s`, `autoSaveOnRest = true`) để gom chuỗi từ của cùng 1 câu gửi vào hội thoại khi buông 2 tay nghỉ `4s`. *(Ghi chú UX tùy chọn sau này: có thể bổ sung nút mềm **Tạm dừng (Pause)** trên khung camera nếu muốn đóng băng luồng để xem kỹ kết quả.)*
 
 ### Hàng đợi việc tiếp theo (chỉ sửa khi nhóm chốt/duyệt)
-1. **Tối ưu tốc độ & độ mượt SLR trước khi sang LLM:**
-   - Thực tế đo trên Pi qua Wi-Fi mới chỉ đạt **`~5.1–7.2 FPS`** trong `_capture_loop` (vì [pipeline.py](slr-m2/deployment/m2/pipeline.py) đọc camera tuần tự chờ HTTP Pose trả về) và `preprocessing` mất **`5–12s`/từ** (vì `extract_raw.extract_video()` khởi tạo lại MediaPipe sau mỗi clip).
-   - Hướng tối ưu đã đề xuất: tách luồng đọc camera lưu `_ring` ở `15–20 FPS` độc lập với luồng Pose (thu nhỏ khung Pose `320px`) và giữ nóng (warm) MediaPipe Extractor trong [vision_backend.py](slr-m2/deployment/m2/vision_backend.py) / [classifier.py](slr-m2/deployment/m2/classifier.py).
-2. **Chuyển sang Phương án A + Bước 6 (Giai đoạn cuối):**
-   - Chuyển sang **Phương án A** (tự động chốt câu sau khoảng nghỉ dài giữa các câu) + **Bước 6**: 1 lần gọi **LLM JSON** ghép chuỗi gloss thành câu tiếng Việt tự nhiên + đẩy telemetry tối giản (`online`, `session_count`, `gloss_count`, `latency_ms`) lên **ThingsBoard**.
+1. **Test lại độ mượt & độ chính xác sau tối ưu Gói 1 trên Pi 4B** (`pose_fps`, `capture_fps`, tỷ lệ nhận đúng nhiều từ liên tiếp).
+2. **Bước 6 (Giai đoạn cuối — sau khi test Gói 1 đạt mượt & chính xác):**
+   - Gắn 1 lần gọi **LLM JSON** vào cuối mỗi `utterance` để biến chuỗi gloss thô thành câu tiếng Việt tự nhiên + đẩy telemetry tối giản (`online`, `session_count`, `gloss_count`, `latency_ms`) lên **ThingsBoard**.
 
 ---
 

@@ -113,6 +113,7 @@ class LiveSessionManager:
         self._pending_segments = 0
 
         self._capture_thread: threading.Thread | None = None
+        self._pose_thread: threading.Thread | None = None
         self._worker_thread: threading.Thread | None = None
 
         # Session history retained on screen after stop_session().
@@ -127,6 +128,10 @@ class LiveSessionManager:
         self._capture_open_error: Exception | None = None
         self._last_status_emit = 0.0
         self._capture_fps = 0.0
+        self._pose_fps = 0.0
+        self._latest_capture_item: tuple[float, np.ndarray] | None = None
+        self._latest_capture_seq = 0
+        self._pose_cond = threading.Condition()
 
     def _emit(self, event_type: str, payload: dict[str, Any]) -> dict[str, Any]:
         with self._state_lock:
@@ -163,6 +168,7 @@ class LiveSessionManager:
                 "arms": list(self._arms),
                 "queue_depth": self._pending_segments,
                 "capture_fps": round(self._capture_fps, 1),
+                "pose_fps": round(self._pose_fps, 1),
                 "config": asdict(self.config),
                 "glosses": list(self._glosses),
                 "utterances": list(self._utterances),
@@ -192,6 +198,9 @@ class LiveSessionManager:
             self._capture_open_event = threading.Event()
             self._capture_open_error = None
             self._capture_fps = 0.0
+            self._pose_fps = 0.0
+            self._latest_capture_item = None
+            self._latest_capture_seq = 0
             return self._session_id
 
     def start_manual_session(self) -> str:
@@ -229,20 +238,43 @@ class LiveSessionManager:
         )
         self._worker_thread.start()
 
-        self._capture_thread = threading.Thread(
-            target=self._capture_loop,
-            args=(session_id, epoch, camera_index, video_path, realtime_video),
-            daemon=True,
-            name="m2-capture-pose",
-        )
-        self._capture_thread.start()
-        self._capture_open_event.wait(timeout=3.0)
-        if self._capture_open_error is not None:
-            err = self._capture_open_error
-            self.stop_session(wait_timeout=1.0)
-            with self._state_lock:
-                self._last_error = str(err)
-            raise ValueError(str(err))
+        if video_path:
+            self._capture_thread = threading.Thread(
+                target=self._capture_loop,
+                args=(session_id, epoch, camera_index, video_path, realtime_video),
+                daemon=True,
+                name="m2-capture-pose",
+            )
+            self._capture_thread.start()
+            self._capture_open_event.wait(timeout=3.0)
+            if self._capture_open_error is not None:
+                err = self._capture_open_error
+                self.stop_session(wait_timeout=1.0)
+                with self._state_lock:
+                    self._last_error = str(err)
+                raise ValueError(str(err))
+        else:
+            self._capture_thread = threading.Thread(
+                target=self._camera_reader_loop,
+                args=(session_id, epoch, camera_index),
+                daemon=True,
+                name="m2-capture-reader",
+            )
+            self._capture_thread.start()
+            self._capture_open_event.wait(timeout=3.0)
+            if self._capture_open_error is not None:
+                err = self._capture_open_error
+                self.stop_session(wait_timeout=1.0)
+                with self._state_lock:
+                    self._last_error = str(err)
+                raise ValueError(str(err))
+            self._pose_thread = threading.Thread(
+                target=self._pose_consumer_loop,
+                args=(session_id, epoch),
+                daemon=True,
+                name="m2-pose-seg",
+            )
+            self._pose_thread.start()
         self._emit(
             "session_started",
             {
@@ -283,6 +315,7 @@ class LiveSessionManager:
                     "timestamp": timestamp,
                     "queue_depth": self._pending_segments,
                     "capture_fps": round(self._capture_fps, 1),
+                    "pose_fps": round(self._pose_fps, 1),
                 },
             )
 
@@ -344,10 +377,16 @@ class LiveSessionManager:
             self._draining = True
             self._stop_event.set()
             capture_thread = self._capture_thread
+            pose_thread = self._pose_thread
             worker_thread = self._worker_thread
+
+        with self._pose_cond:
+            self._pose_cond.notify_all()
 
         if capture_thread is not None and capture_thread.is_alive() and capture_thread is not threading.current_thread():
             capture_thread.join(timeout=5.0)
+        if pose_thread is not None and pose_thread.is_alive() and pose_thread is not threading.current_thread():
+            pose_thread.join(timeout=5.0)
 
         # Mark any open movement incomplete (end_of_file), keeping already-queued completed segments.
         for ev in self._segmenter.finish():
@@ -362,6 +401,7 @@ class LiveSessionManager:
         with self._state_lock:
             self._draining = False
             self._capture_thread = None
+            self._pose_thread = None
             self._worker_thread = None
 
         self._emit("session_stopped", {"snapshot": self.snapshot()})
@@ -451,6 +491,134 @@ class LiveSessionManager:
 
             yield _local_pose
 
+    def _estimate_arm_states(
+        self,
+        estimate_pose: Callable[[np.ndarray], tuple[list[list[float]], list[float]]],
+        bgr: np.ndarray,
+        last_pose_err_emit: float,
+    ) -> tuple[list[str | None], float]:
+        try:
+            pose, visibility = estimate_pose(bgr)
+            arms = arm_states(pose, visibility, self.config)
+            with self._state_lock:
+                if self._last_error and self._last_error.startswith("Không kết nối được Vision Backend"):
+                    self._last_error = None
+            return arms, last_pose_err_emit
+        except Exception as exc:
+            now_err = time.perf_counter()
+            if now_err - last_pose_err_emit >= 5.0:
+                last_pose_err_emit = now_err
+                err_msg = (
+                    "Không kết nối được Vision Backend trên Laptop "
+                    f"— hãy mở Firewall cổng 8767 trên Windows ({exc})."
+                )
+                with self._state_lock:
+                    self._last_error = err_msg
+                self._emit("error", {"message": err_msg})
+            return [None, None], last_pose_err_emit
+
+    def _camera_reader_loop(
+        self,
+        session_id: str,
+        epoch: int,
+        camera_index: int,
+    ) -> None:
+        cap = None
+        try:
+            cap = self._open_capture(camera_index, None)
+            self._capture_open_event.set()
+            cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
+            cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
+            cap.set(cv2.CAP_PROP_FPS, 30)
+            buf_prop = getattr(cv2, "CAP_PROP_BUFFERSIZE", None)
+            if buf_prop is not None:
+                try:
+                    cap.set(buf_prop, 1)
+                except Exception:
+                    pass
+
+            t0 = time.perf_counter()
+            last_ts = -1.0
+            fps_window: deque[float] = deque(maxlen=40)
+            target_interval = 0.05  # Cap live ring buffer capture at 20 FPS
+
+            while not self._stop_event.is_set():
+                loop_start = time.perf_counter()
+                ok, bgr = cap.read()
+                if not ok:
+                    time.sleep(0.01)
+                    continue
+
+                now = time.perf_counter()
+                ts = now - t0
+                if ts <= last_ts:
+                    ts = last_ts + 1e-4
+                last_ts = ts
+
+                self._ring.append(ts, bgr)
+                with self._frame_lock:
+                    self._latest_frame = bgr.copy()
+
+                fps_window.append(now)
+                if len(fps_window) >= 2 and fps_window[-1] > fps_window[0]:
+                    self._capture_fps = (len(fps_window) - 1) / (fps_window[-1] - fps_window[0])
+
+                with self._pose_cond:
+                    self._latest_capture_item = (ts, bgr)
+                    self._latest_capture_seq += 1
+                    self._pose_cond.notify_all()
+
+                remaining = target_interval - (time.perf_counter() - loop_start)
+                if remaining > 0.002:
+                    self._stop_event.wait(remaining)
+        except Exception as error:
+            if not self._capture_open_event.is_set():
+                self._capture_open_error = error
+                self._capture_open_event.set()
+            with self._state_lock:
+                self._last_error = str(error)
+            self._emit("error", {"message": str(error)})
+        finally:
+            if cap is not None:
+                cap.release()
+            with self._pose_cond:
+                self._pose_cond.notify_all()
+            if self._running and self._capture_open_error is None:
+                threading.Thread(target=self.stop_session, daemon=True, name="m2-auto-stop").start()
+
+    def _pose_consumer_loop(self, session_id: str, epoch: int) -> None:
+        try:
+            fps_window: deque[float] = deque(maxlen=30)
+            last_seq = 0
+            last_pose_err_emit = -10.0
+
+            with self._pose_context(session_id) as estimate_pose:
+                while not self._stop_event.is_set():
+                    with self._pose_cond:
+                        while (
+                            not self._stop_event.is_set()
+                            and self._latest_capture_seq <= last_seq
+                        ):
+                            self._pose_cond.wait(timeout=0.5)
+                        if self._stop_event.is_set() or self._latest_capture_item is None:
+                            continue
+                        ts, bgr = self._latest_capture_item
+                        last_seq = self._latest_capture_seq
+
+                    arms, last_pose_err_emit = self._estimate_arm_states(
+                        estimate_pose, bgr, last_pose_err_emit
+                    )
+                    now = time.perf_counter()
+                    fps_window.append(now)
+                    if len(fps_window) >= 2 and fps_window[-1] > fps_window[0]:
+                        self._pose_fps = (len(fps_window) - 1) / (fps_window[-1] - fps_window[0])
+
+                    self.feed_step(ts, arms, frame=None)
+        except Exception as error:
+            with self._state_lock:
+                self._last_error = str(error)
+            self._emit("error", {"message": str(error)})
+
     def _capture_loop(
         self,
         session_id: str,
@@ -507,24 +675,10 @@ class LiveSessionManager:
                     last_ts = ts
                     frame_idx += 1
 
-                    try:
-                        pose, visibility = estimate_pose(bgr)
-                        arms = arm_states(pose, visibility, self.config)
-                        with self._state_lock:
-                            if self._last_error and self._last_error.startswith("Không kết nối được Vision Backend"):
-                                self._last_error = None
-                    except Exception as exc:
-                        arms = [None, None]
-                        now_err = time.perf_counter()
-                        if now_err - last_pose_err_emit >= 5.0:
-                            last_pose_err_emit = now_err
-                            err_msg = (
-                                "Không kết nối được Vision Backend trên Laptop (192.168.1.155:8767) "
-                                f"— hãy mở Firewall cổng 8767 trên Windows ({exc})."
-                            )
-                            with self._state_lock:
-                                self._last_error = err_msg
-                            self._emit("error", {"message": err_msg})
+                    arms, last_pose_err_emit = self._estimate_arm_states(
+                        estimate_pose, bgr, last_pose_err_emit
+                    )
+                    self._pose_fps = self._capture_fps
 
                     self.feed_step(ts, arms, frame=bgr)
 
