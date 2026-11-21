@@ -107,6 +107,10 @@ test('send failure preserves composer draft, shows error beside mic, and re-enab
 });
 
 test('smart latch: clicking Send during recording triggers stop, enters transcribing, and auto-sends combined message', async ({ page }) => {
+  await page.addInitScript(() => {
+    // This test mocks the server recorder rather than the browser microphone.
+    Object.defineProperty(navigator, 'mediaDevices', { value: undefined });
+  });
   let recordStarted = false;
   let recordStopped = false;
 
@@ -158,8 +162,8 @@ test('smart latch: clicking Send during recording triggers stop, enters transcri
 
   // Start recording
   await micButton.click();
-  expect(recordStarted).toBe(true);
   await expect(micButton).toHaveAttribute('data-status', 'recording');
+  expect(recordStarted).toBe(true);
 
   // Click Send during recording
   await sendButton.click();
@@ -173,6 +177,9 @@ test('smart latch: clicking Send during recording triggers stop, enters transcri
 });
 
 test('smart latch: clicking Send during transcribing (after stopping) auto-sends once transcript arrives', async ({ page }) => {
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, 'mediaDevices', { value: undefined });
+  });
   let resolveStopFetch: ((value: any) => void) | null = null;
   const stopPromise = new Promise((resolve) => {
     resolveStopFetch = resolve;
@@ -307,6 +314,48 @@ test('touchscreen target dimensions 1024x600 has no horizontal overflow and mini
   expect(settBox?.height).toBeGreaterThanOrEqual(44);
 
   await page.screenshot({ path: info.outputPath('stage2-touchscreen-1024x600.png'), fullPage: true });
+});
+
+test('the Pi conversation and controls fit above a system keyboard overlay', async ({ page }, info) => {
+  await page.setViewportSize({ width: 1024, height: 600 });
+  await page.addInitScript(() => {
+    Object.defineProperty(window.screen, 'height', { value: 600 });
+    Object.defineProperty(window, 'electronAPI', {
+      value: {
+        onScreenKeyboardChange: (listener: (visible: boolean) => void) => {
+          const handle = (event: Event) => listener((event as CustomEvent<boolean>).detail);
+          window.addEventListener('test:system-keyboard', handle);
+          return () => window.removeEventListener('test:system-keyboard', handle);
+        },
+      },
+    });
+  });
+  await page.goto('/');
+  await page.getByTestId('composer-textarea').fill('Ngày mai chúng ta không có bài kiểm tra.');
+  const showKeyboard = (visible: boolean) => page.evaluate((detail) => {
+    window.dispatchEvent(new CustomEvent('test:system-keyboard', { detail }));
+  }, visible);
+  const bottom = async (id: string) => {
+    const box = await page.getByTestId(id).boundingBox();
+    if (!box) throw new Error(`Missing element: ${id}`);
+    return box.y + box.height;
+  };
+
+  await expect.poll(() => bottom('composer')).toBe(600);
+  await showKeyboard(true);
+  await expect.poll(() => bottom('composer')).toBe(348);
+  for (const id of ['composer-textarea', 'mic-button', 'send-button']) {
+    expect(await bottom(id)).toBeLessThanOrEqual(348);
+  }
+  expect((await page.getByTestId('conversation-area').boundingBox())?.height).toBeGreaterThan(0);
+  await expect(page.getByTestId('composer-textarea')).toBeFocused();
+  await page.screenshot({ path: info.outputPath('pi-keyboard-overlay-1024x600.png') });
+
+  await page.setViewportSize({ width: 1024, height: 320 });
+  await expect.poll(() => bottom('composer')).toBe(320);
+  await page.setViewportSize({ width: 1024, height: 600 });
+  await showKeyboard(false);
+  await expect.poll(() => bottom('composer')).toBe(600);
 });
 
 test('Stage 3 History Drawer opens, shows empty state, closes via 3 methods, and + Hội thoại mới resets draft', async ({ page }, info) => {

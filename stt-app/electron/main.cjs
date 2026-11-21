@@ -1,8 +1,9 @@
-const { app, BrowserWindow, session, utilityProcess, ipcMain } = require('electron');
+const { app, BrowserWindow, screen, session, utilityProcess, ipcMain } = require('electron');
 const path = require('node:path');
 const fs = require('node:fs');
 const net = require('node:net');
-const { execSync, spawn } = require('node:child_process');
+const { execFile, execSync, spawn } = require('node:child_process');
+const { createInterface } = require('node:readline');
 
 app.setName('PBL6 STT');
 
@@ -26,6 +27,47 @@ function log(line) {
 
 let configuredOrigin = process.env.PBL6_STT_APP_URL;
 let backendProcess = null;
+
+function observeScreenKeyboard(window) {
+  if (process.platform !== 'linux' || !process.env.WAYLAND_DISPLAY) return;
+
+  const endpoint = ['--session', '--dest', 'sm.puri.OSK0', '--object-path', '/sm/puri/OSK0'];
+  let visible = false;
+  const send = () => {
+    if (!window.isDestroyed()) window.webContents.send('app:screen-keyboard', visible);
+  };
+  const update = (next) => {
+    if (next === visible) return;
+    visible = next;
+    send();
+  };
+  const read = () => execFile('gdbus', [
+    'call', ...endpoint, '--timeout', '1', '--method', 'org.freedesktop.DBus.Properties.Get',
+    'sm.puri.OSK0', 'Visible',
+  ], (err, output) => {
+    if (!err) update(output.includes('<true>'));
+  });
+
+  const monitor = spawn('gdbus', ['monitor', ...endpoint], {
+    stdio: ['ignore', 'pipe', 'ignore'],
+    env: { ...process.env, LC_ALL: 'C' },
+  });
+  const lines = createInterface({ input: monitor.stdout });
+  lines.on('line', (line) => {
+    const match = line.match(/['"]Visible['"]:\s*<(true|false)>/);
+    if (match) update(match[1] === 'true');
+    else if (line.includes('is owned by')) read();
+    else if (line.includes('does not have an owner')) update(false);
+  });
+  monitor.on('error', (error) => log(`Screen keyboard monitor unavailable: ${error.message}`));
+  monitor.on('exit', () => update(false));
+  window.webContents.on('did-finish-load', send);
+  window.once('closed', () => {
+    lines.close();
+    monitor.kill();
+  });
+  read();
+}
 
 function stopBackend() {
   if (!backendProcess) return;
@@ -288,17 +330,19 @@ if (!app.requestSingleInstanceLock()) {
 
   app.whenReady().then(async () => {
     const preloadPath = path.join(__dirname, 'preload.cjs');
+    const { width, height } = screen.getPrimaryDisplay().workAreaSize;
+    const kiosk = process.env.PBL6_STT_KIOSK === '1';
 
     window = new BrowserWindow({
-      width: 1180,
-      height: 860,
-      minWidth: 640,
-      minHeight: 600,
+      width: Math.min(1180, width),
+      height: Math.min(860, height),
+      minWidth: Math.min(640, width),
+      minHeight: Math.min(480, height),
       title: 'STT · Tiếng Việt',
       backgroundColor: '#F5F7F9',
       autoHideMenuBar: true,
       show: true,
-      kiosk: process.env.PBL6_STT_KIOSK === '1',
+      kiosk,
       webPreferences: {
         nodeIntegration: false,
         contextIsolation: true,
@@ -308,6 +352,7 @@ if (!app.requestSingleInstanceLock()) {
       },
     });
 
+    observeScreenKeyboard(window);
     window.setMenu(null);
     window.webContents.setWindowOpenHandler(() => ({ action: 'deny' }));
 

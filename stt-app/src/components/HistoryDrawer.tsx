@@ -88,10 +88,10 @@ export function HistoryDrawer({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex select-none" role="dialog" aria-modal="true" aria-label="Bảng lịch sử hội thoại">
+    <div className="absolute inset-0 z-50 flex select-none" role="dialog" aria-modal="true" aria-label="Bảng lịch sử hội thoại">
       {/* Dark backdrop overlay covering the rest of the screen */}
       <div
-        className="fixed inset-0 bg-black/50 transition-opacity"
+        className="absolute inset-0 bg-black/50 transition-opacity"
         onClick={onClose}
         data-testid="history-drawer-backdrop"
         aria-label="Đóng bảng lịch sử"

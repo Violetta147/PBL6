@@ -9,7 +9,7 @@ import {
   getEffectiveMaxRecordSeconds,
 } from '../utils/composerLogic';
 import { WebAudioRecorder } from '../utils/audioRecorder';
-import { MicIcon, SquareIcon, SpinnerIcon } from './Icons';
+import { MicIcon, SquareIcon, SpinnerIcon, KeyboardIcon } from './Icons';
 
 interface ComposerProps {
   onSendMessage: (text: string, sources: MessageSource[]) => Promise<boolean>;
@@ -20,6 +20,9 @@ interface ComposerProps {
   onRecordingStateChange?: (status: 'idle' | 'recording' | 'transcribing') => void;
   selectedMicrophoneId?: string;
   maxRecordSeconds?: number;
+  isOskOpen?: boolean;
+  onToggleOsk?: () => void;
+  onRequestOsk?: (visible: boolean) => void;
 }
 
 export function Composer({
@@ -31,6 +34,9 @@ export function Composer({
   onRecordingStateChange,
   selectedMicrophoneId,
   maxRecordSeconds = 120,
+  isOskOpen = false,
+  onToggleOsk,
+  onRequestOsk,
 }: ComposerProps) {
   const [draft, setDraft] = useState(draftProp ?? '');
   const [hasTyped, setHasTyped] = useState(false);
@@ -229,6 +235,8 @@ export function Composer({
       try {
         const success = await onSendMessage(trimmed, sources);
         if (success) {
+          textareaRef.current?.blur();
+          onRequestOsk?.(false);
           setDraft('');
           draftRef.current = '';
           onDraftChange?.('');
@@ -251,7 +259,7 @@ export function Composer({
         isLatchedRef.current = false;
       }
     },
-    [errorMessage, onSendMessage, onDraftChange]
+    [errorMessage, onSendMessage, onDraftChange, onRequestOsk]
   );
 
   // Handle final transcript from recording
@@ -577,56 +585,91 @@ export function Composer({
 
   return (
     <footer
-      className="shrink-0 border-t border-[#BAC5D0] bg-[#FFFFFF] p-4 sm:p-5"
+      className={`shrink-0 border-t border-[#BAC5D0] bg-[#FFFFFF] ${
+        isOskOpen ? 'px-3 py-2' : 'p-4 sm:p-5'
+      }`}
       data-testid="composer"
     >
-      <div className="mx-auto flex max-w-4xl flex-col space-y-3">
+      <div className={`mx-auto flex max-w-4xl flex-col ${isOskOpen ? 'space-y-1.5' : 'space-y-3'}`}>
         {/* Multi-line Textarea */}
         <textarea
           ref={textareaRef}
-          rows={3}
+          rows={isOskOpen ? 1 : 3}
           value={draft}
           onChange={handleTextChange}
+          onFocus={() => {
+            updateCaret();
+            onRequestOsk?.(true);
+          }}
           onSelect={updateCaret}
-          onClick={updateCaret}
-          onTouchEnd={updateCaret}
+          onClick={() => {
+            updateCaret();
+            onRequestOsk?.(true);
+          }}
+          onTouchEnd={() => {
+            updateCaret();
+            onRequestOsk?.(true);
+          }}
           onKeyUp={updateCaret}
           onBlur={updateCaret}
           disabled={disabled || isSending}
           placeholder="Nhập tin nhắn hoặc chạm mic để nói…"
           aria-label="Vùng soạn tin nhắn"
           data-testid="composer-textarea"
-          className="w-full resize-none rounded-xl border border-[#BAC5D0] bg-[#FFFFFF] p-3 text-[21px] leading-relaxed text-[#18212B] placeholder:text-[#4F5D6B] focus:border-[#273D53] focus:outline-none select-text"
+          className={`w-full resize-none rounded-xl border border-[#BAC5D0] bg-[#FFFFFF] leading-relaxed text-[#18212B] placeholder:text-[#4F5D6B] focus:border-[#273D53] focus:outline-none select-text ${
+            isOskOpen ? 'px-3 py-1.5 text-[19px]' : 'p-3 text-[21px]'
+          }`}
         />
 
-        {/* Controls row: Mic | Error notice | Send */}
+        {/* Controls row: Mic (+ OSK toggle) | Error notice | Send */}
         <div className="flex items-center justify-between gap-3 select-none">
-          {/* Left: Mic button */}
-          <button
-            type="button"
-            onClick={handleMicClick}
-            disabled={disabled || recordingStatus === 'transcribing' || isSending}
-            aria-label={
-              recordingStatus === 'idle'
-                ? 'Bắt đầu thu âm'
-                : recordingStatus === 'recording'
-                ? 'Dừng thu âm'
-                : 'Đang nhận dạng…'
-            }
-            data-testid="mic-button"
-            data-status={recordingStatus}
-            className={`flex min-h-[48px] min-w-[48px] items-center justify-center rounded-xl transition-all ${
-              recordingStatus === 'recording'
-                ? 'bg-[#DC2626] text-white hover:bg-[#B91C1C]'
-                : recordingStatus === 'transcribing'
-                ? 'cursor-not-allowed bg-[#BAC5D0] text-[#18212B]'
-                : 'bg-[#273D53] text-white hover:bg-[#1E2F40]'
-            }`}
-          >
-            {recordingStatus === 'idle' && <MicIcon size={24} />}
-            {recordingStatus === 'recording' && <SquareIcon size={20} />}
-            {recordingStatus === 'transcribing' && <SpinnerIcon size={24} />}
-          </button>
+          {/* Left: Mic & Virtual Keyboard buttons */}
+          <div className="flex items-center gap-2 shrink-0">
+            <button
+              type="button"
+              onClick={handleMicClick}
+              disabled={disabled || recordingStatus === 'transcribing' || isSending}
+              aria-label={
+                recordingStatus === 'idle'
+                  ? 'Bắt đầu thu âm'
+                  : recordingStatus === 'recording'
+                  ? 'Dừng thu âm'
+                  : 'Đang nhận dạng…'
+              }
+              data-testid="mic-button"
+              data-status={recordingStatus}
+              className={`flex min-h-[48px] min-w-[48px] items-center justify-center rounded-xl transition-all ${
+                recordingStatus === 'recording'
+                  ? 'bg-[#DC2626] text-white hover:bg-[#B91C1C]'
+                  : recordingStatus === 'transcribing'
+                  ? 'cursor-not-allowed bg-[#BAC5D0] text-[#18212B]'
+                  : 'bg-[#273D53] text-white hover:bg-[#1E2F40]'
+              }`}
+            >
+              {recordingStatus === 'idle' && <MicIcon size={24} />}
+              {recordingStatus === 'recording' && <SquareIcon size={20} />}
+              {recordingStatus === 'transcribing' && <SpinnerIcon size={24} />}
+            </button>
+
+            {onToggleOsk && (
+              <button
+                type="button"
+                onMouseDown={(e) => e.preventDefault()}
+                onClick={onToggleOsk}
+                disabled={disabled}
+                aria-label={isOskOpen ? 'Ẩn bàn phím ảo' : 'Hiện bàn phím ảo'}
+                aria-pressed={Boolean(isOskOpen)}
+                data-testid="osk-button"
+                className={`flex min-h-[48px] min-w-[48px] items-center justify-center rounded-xl border transition-all cursor-pointer ${
+                  isOskOpen
+                    ? 'border-[#273D53] bg-[#273D53] text-white hover:bg-[#1E2F40]'
+                    : 'border-[#BAC5D0] bg-[#FFFFFF] text-[#273D53] hover:bg-[#F5F7F9]'
+                }`}
+              >
+                <KeyboardIcon size={22} />
+              </button>
+            )}
+          </div>
 
           {/* Center / Beside Mic: Error notice */}
           <div

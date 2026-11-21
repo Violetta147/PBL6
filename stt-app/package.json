@@ -11,6 +11,7 @@
     "dev": "node node_modules/next/dist/bin/next dev --hostname 127.0.0.1 --port 3100",
     "build": "node node_modules/next/dist/bin/next build",
     "start": "node node_modules/next/dist/bin/next start --hostname 127.0.0.1 --port 3100",
+    "start:lan": "node node_modules/next/dist/bin/next start --hostname 0.0.0.0 --port 3100",
     "desktop:dev": "node scripts/desktop.mjs --dev",
     "desktop": "node scripts/desktop.mjs",
     "desktop:kiosk": "node scripts/desktop.mjs --kiosk",

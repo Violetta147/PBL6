@@ -16,6 +16,9 @@ import {
   postRecordStopHandler,
   postRecordCancelHandler,
   getMicrophonesHandler,
+  getSettings,
+  getOskHandler,
+  postOskHandler,
 } from '../src/server/handlers';
 import { updateSettings } from '../src/server/settings';
 
@@ -252,4 +255,67 @@ test('Record stop handler accepts multipart WAV audio payload', async () => {
   } else {
     assert.ok(data.error);
   }
+});
+
+test('LAN companion read access allows GET conversations from RFC1918 LAN while keeping mutations and settings loopback-only', async () => {
+  const createRes = await postConversationHandler(req('/api/conversations', {
+    method: 'POST',
+    body: JSON.stringify({ text: 'Xin chào từ Kiosk', sources: ['sign'] }),
+  }));
+  assert.equal(createRes.status, 201);
+  const { conversation } = await createRes.json();
+
+  const lanHost = '192.168.1.50:3100';
+  const lanOrigin = `http://${lanHost}`;
+  const lanHeaders = { Host: lanHost, Origin: lanOrigin };
+
+  const lanList = await getConversationsHandler(new Request(`${lanOrigin}/api/conversations`, { headers: lanHeaders }));
+  assert.equal(lanList.status, 200);
+  const listData = await lanList.json();
+  assert.equal(listData.length, 1);
+
+  const lanDetail = await getConversationHandler(
+    new Request(`${lanOrigin}/api/conversations/${conversation.id}`, { headers: lanHeaders }),
+    { params: Promise.resolve({ id: conversation.id }) }
+  );
+  assert.equal(lanDetail.status, 200);
+  assert.equal((await lanDetail.json()).messages[0].text, 'Xin chào từ Kiosk');
+
+  const lanCreateBlocked = await postConversationHandler(new Request(`${lanOrigin}/api/conversations`, {
+    method: 'POST',
+    headers: lanHeaders,
+    body: JSON.stringify({ text: 'Blocked remote mutation', sources: ['keyboard'] }),
+  }));
+  assert.equal(lanCreateBlocked.status, 403);
+  assert.equal((await lanCreateBlocked.json()).error.code, 'local_only');
+
+  const lanSettingsBlocked = await getSettings(new Request(`${lanOrigin}/api/settings`, { headers: lanHeaders }));
+  assert.equal(lanSettingsBlocked.status, 403);
+  assert.equal((await lanSettingsBlocked.json()).error.code, 'local_only');
+});
+
+test('OSK endpoint toggles visibility on loopback and blocks non-local origins', async () => {
+  const showRes = await postOskHandler(req('/api/osk', {
+    method: 'POST',
+    body: JSON.stringify({ visible: true }),
+  }));
+  assert.equal(showRes.status, 200);
+  assert.equal((await showRes.json()).visible, true);
+
+  const getRes = await getOskHandler(req('/api/osk'));
+  assert.equal(getRes.status, 200);
+  assert.equal((await getRes.json()).visible, true);
+
+  const toggleOffRes = await postOskHandler(req('/api/osk', { method: 'POST' }));
+  assert.equal(toggleOffRes.status, 200);
+  assert.equal((await toggleOffRes.json()).visible, false);
+
+  const lanOrigin = 'http://192.168.1.50:3100';
+  const lanBlocked = await postOskHandler(new Request(`${lanOrigin}/api/osk`, {
+    method: 'POST',
+    headers: { Host: '192.168.1.50:3100', Origin: lanOrigin },
+    body: JSON.stringify({ visible: true }),
+  }));
+  assert.equal(lanBlocked.status, 403);
+  assert.equal((await lanBlocked.json()).error.code, 'local_only');
 });

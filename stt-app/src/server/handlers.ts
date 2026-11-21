@@ -1,6 +1,8 @@
+import { execFile, spawn } from 'node:child_process';
+import { promisify } from 'node:util';
 import { AppError, errorResponse, jsonResponse } from './errors';
-import { boundedBody, requireLocalOrigin } from './http';
-import { publicSettings, readSettings, updateSettings } from './settings';
+import { boundedBody, requireCompanionReadOrigin, requireLocalOrigin } from './http';
+import { publicSettings, readSettings, runtimePlatform, updateSettings } from './settings';
 import { readAudio } from './audio';
 import { transcribe } from './deepgram';
 import { MAX_AUDIO_BYTES } from '../contracts';
@@ -64,7 +66,7 @@ export function makeTranscriptionHandler(deps = { readSettings, readAudio, trans
   };
 }
 
-type RouteContext<T> = { params: Promise<T> | T };
+type RouteContext<T> = { params: Promise<T> };
 
 async function resolveParams<T>(context: RouteContext<T>): Promise<T> {
   return Promise.resolve(context.params);
@@ -73,7 +75,7 @@ async function resolveParams<T>(context: RouteContext<T>): Promise<T> {
 // Conversation Handlers
 export async function getConversationsHandler(request: Request): Promise<Response> {
   try {
-    requireLocalOrigin(request);
+    requireCompanionReadOrigin(request);
     const url = new URL(request.url);
     const query = url.searchParams.get('query') || undefined;
     const filterDaysParam = url.searchParams.get('filterDays') || url.searchParams.get('olderThanDays');
@@ -116,7 +118,7 @@ export async function getConversationHandler(
   context: RouteContext<{ id: string }>
 ): Promise<Response> {
   try {
-    requireLocalOrigin(request);
+    requireCompanionReadOrigin(request);
     const { id } = await resolveParams(context);
     const data = await getConversationWithMessages(id);
     if (!data) {
@@ -324,6 +326,148 @@ export async function getMicrophonesHandler(request: Request): Promise<Response>
     const errLine = `[Devices] Failed to enumerate microphones: ${error}`;
     console.error(errLine);
     try { process.stderr.write(errLine + '\n'); } catch {}
+    return errorResponse(error);
+  }
+}
+
+const execFileAsync = promisify(execFile);
+let oskVisibleState = false;
+
+function buildDesktopDbusEnv(): NodeJS.ProcessEnv {
+  const uid = typeof process.getuid === 'function' ? process.getuid() : 1000;
+  const runtimeDir = process.env.XDG_RUNTIME_DIR || `/run/user/${uid}`;
+  return {
+    ...process.env,
+    XDG_RUNTIME_DIR: runtimeDir,
+    DBUS_SESSION_BUS_ADDRESS:
+      process.env.DBUS_SESSION_BUS_ADDRESS || `unix:path=${runtimeDir}/bus`,
+    WAYLAND_DISPLAY: process.env.WAYLAND_DISPLAY || 'wayland-0',
+  };
+}
+
+async function callSqueekboardSetVisible(visible: boolean, env: NodeJS.ProcessEnv): Promise<void> {
+  const val = visible ? 'true' : 'false';
+  try {
+    await execFileAsync(
+      'gdbus',
+      [
+        'call',
+        '--session',
+        '--dest',
+        'sm.puri.OSK0',
+        '--object-path',
+        '/sm/puri/OSK0',
+        '--method',
+        'sm.puri.OSK0.SetVisible',
+        val,
+      ],
+      { env, timeout: 1500 }
+    );
+  } catch {
+    await execFileAsync(
+      'busctl',
+      ['--user', 'call', 'sm.puri.OSK0', '/sm/puri/OSK0', 'sm.puri.OSK0', 'SetVisible', 'b', val],
+      { env, timeout: 1500 }
+    );
+  }
+}
+
+async function setSqueekboardVisible(
+  visible: boolean
+): Promise<{ visible: boolean; supported: boolean }> {
+  oskVisibleState = Boolean(visible);
+  const isTest = Boolean(process.env.NODE_TEST_CONTEXT);
+  if (runtimePlatform() !== 'linux' || isTest) {
+    return { visible: oskVisibleState, supported: false };
+  }
+
+  const env = buildDesktopDbusEnv();
+  try {
+    await callSqueekboardSetVisible(oskVisibleState, env);
+    return { visible: oskVisibleState, supported: true };
+  } catch (err) {
+    console.error('[OSK] initial D-Bus SetVisible failed:', err);
+    if (oskVisibleState) {
+      try {
+        const child = spawn('squeekboard', [], { env, detached: true, stdio: 'ignore' });
+        child.unref();
+        await new Promise((resolve) => setTimeout(resolve, 250));
+        await callSqueekboardSetVisible(true, env);
+        return { visible: oskVisibleState, supported: true };
+      } catch (spawnErr) {
+        console.error('[OSK] retry after spawning squeekboard failed:', spawnErr);
+      }
+    }
+    return { visible: oskVisibleState, supported: true };
+  }
+}
+
+export async function getOskHandler(request: Request): Promise<Response> {
+  try {
+    requireLocalOrigin(request);
+    const isTest = Boolean(process.env.NODE_TEST_CONTEXT);
+    let supported = false;
+    if (runtimePlatform() === 'linux' && !isTest) {
+      try {
+        const { stdout } = await execFileAsync(
+          'gdbus',
+          [
+            'call',
+            '--session',
+            '--dest',
+            'sm.puri.OSK0',
+            '--object-path',
+            '/sm/puri/OSK0',
+            '--method',
+            'org.freedesktop.DBus.Properties.Get',
+            'sm.puri.OSK0',
+            'Visible',
+          ],
+          { env: buildDesktopDbusEnv(), timeout: 1000 }
+        );
+        oskVisibleState = stdout.includes('true');
+        supported = true;
+      } catch {
+        supported = false;
+      }
+    }
+    return jsonResponse({ visible: oskVisibleState, supported });
+  } catch (error) {
+    return errorResponse(error);
+  }
+}
+
+export async function postOskHandler(request: Request): Promise<Response> {
+  try {
+    requireLocalOrigin(request, true);
+    let targetVisible = !oskVisibleState;
+    if (request.body) {
+      let raw = '';
+      try {
+        raw = new TextDecoder().decode(await boundedBody(request, 1024)).trim();
+      } catch (error) {
+        if (!(error instanceof AppError && error.code === 'body_empty')) {
+          throw error;
+        }
+      }
+      if (raw) {
+        let body: unknown;
+        try {
+          body = JSON.parse(raw);
+        } catch {
+          throw new AppError('json_invalid', 'Dữ liệu điều khiển bàn phím không phải JSON hợp lệ.');
+        }
+        if (body && typeof body === 'object' && 'visible' in body) {
+          const val = (body as { visible?: unknown }).visible;
+          if (typeof val === 'boolean') {
+            targetVisible = val;
+          }
+        }
+      }
+    }
+    const result = await setSqueekboardVisible(targetVisible);
+    return jsonResponse(result);
+  } catch (error) {
     return errorResponse(error);
   }
 }

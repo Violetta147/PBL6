@@ -4,6 +4,7 @@ import { join } from 'node:path';
 import { randomUUID } from 'node:crypto';
 import { MESSAGE_SOURCES, type Conversation, type Message, type MessageSource } from '../contracts';
 import { AppError } from './errors';
+import { runtimePlatform } from './settings';
 
 export type StorageData = {
   schemaVersion: 1;
@@ -21,7 +22,7 @@ export function storageDirectory(): string {
   if (process.env.PBL6_STT_DATA_DIR) {
     return process.env.PBL6_STT_DATA_DIR;
   }
-  if (process.platform === 'win32') {
+  if (runtimePlatform() === 'win32') {
     return join(process.env.LOCALAPPDATA || join(homedir(), 'AppData', 'Local'), 'PBL6-STT');
   }
   if (process.env.XDG_DATA_HOME) {

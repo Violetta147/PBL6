@@ -7,7 +7,7 @@ import { randomUUID } from 'node:crypto';
 import { promisify } from 'node:util';
 import type { AudioDevice, RecorderState, Transcript } from '../contracts';
 import { AppError } from './errors';
-import { readSettings, type Settings } from './settings';
+import { readSettings, runtimePlatform, type Settings } from './settings';
 import { transcribe as defaultTranscribe } from './deepgram';
 
 const execFileAsync = promisify(execFile);
@@ -194,7 +194,7 @@ export class HardwareRecorder {
       execCommand: deps.execCommand || execFileAsync,
       enableSox: deps.enableSox,
     };
-    this.isSubprocessMode = process.platform === 'linux' || Boolean(deps.spawnProcess);
+    this.isSubprocessMode = runtimePlatform() === 'linux' || Boolean(deps.spawnProcess);
     const isTest = Boolean(
       deps.spawnProcess ||
       deps.readSettings ||
@@ -203,7 +203,7 @@ export class HardwareRecorder {
       process.env.NODE_TEST_CONTEXT
     );
     const soxBinaryPath = process.env.PBL6_STT_SOX_PATH || ['C:', 'sox', 'sox.exe'].join('\\');
-    this.isSoxMode = process.platform === 'win32'
+    this.isSoxMode = runtimePlatform() === 'win32'
       && (deps.enableSox !== undefined
         ? deps.enableSox
         : (!isTest && (process.env.PBL6_STT_WIN_MIC === '1' || process.env.PBL6_STT_WIN_MIC === 'sox') && existsSync(soxBinaryPath)));
@@ -222,7 +222,7 @@ export class HardwareRecorder {
   }
 
   public async listMicrophones(): Promise<AudioDevice[]> {
-    if (process.platform === 'linux' || Boolean(this.deps.execCommand)) {
+    if (runtimePlatform() === 'linux' || Boolean(this.deps.execCommand)) {
       try {
         const execCmd = this.deps.execCommand || execFileAsync;
         const { stdout } = await execCmd('pw-dump', ['Node']);
@@ -269,7 +269,7 @@ export class HardwareRecorder {
       ];
     }
 
-    if (process.platform === 'win32') {
+    if (runtimePlatform() === 'win32') {
       try {
         const winDevices = enumerateWindowsAudioDevices();
         if (winDevices.length > 0) {

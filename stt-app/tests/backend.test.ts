@@ -6,7 +6,7 @@ import { join } from 'node:path';
 import { MAX_AUDIO_BYTES } from '../src/contracts';
 import { readSettings, publicSettings, updateSettings, type Settings } from '../src/server/settings';
 import { AppError, errorResponse } from '../src/server/errors';
-import { requireLocalOrigin, boundedBody } from '../src/server/http';
+import { requireLocalOrigin, requireCompanionReadOrigin, boundedBody } from '../src/server/http';
 import { readAudio } from '../src/server/audio';
 import { transcribe } from '../src/server/deepgram';
 import { getSettings, putSettings, makeTranscriptionHandler } from '../src/server/handlers';
@@ -81,7 +81,32 @@ test('local-origin guard rejects foreign origins, missing mutation origin and LA
   requireLocalOrigin(new Request('http://localhost:3100/api/settings', {
     headers: { Host: '127.0.0.1:3100', Origin: origin },
   }), true);
+  requireLocalOrigin(new Request('http://0.0.0.0:3100/api/settings', {
+    headers: { Host: '127.0.0.1:3100', Origin: origin },
+  }), true);
+  assert.throws(() => requireLocalOrigin(new Request('http://0.0.0.0:3100/api/settings', {
+    headers: { Host: '0.0.0.0:3100', Origin: 'http://0.0.0.0:3100' },
+  }), true), { code: 'local_only' });
   assert.throws(() => requireLocalOrigin(request(undefined, { headers: { Host: 'other.example', Origin: origin } }), true), { code: 'local_only' });
+});
+test('companion read guard allows private LAN / .local hosts but rejects public/invalid hosts and origin mismatch', () => {
+  for (const host of ['192.168.1.50:3100', '10.0.0.12:3100', '172.16.5.2:3100', 'raspberrypi.local:3100']) {
+    requireCompanionReadOrigin(new Request(`http://${host}/api/conversations`, { headers: { Host: host } }));
+    requireCompanionReadOrigin(new Request(`http://${host}/api/conversations`, { headers: { Host: host, Origin: `http://${host}` } }));
+  }
+  requireCompanionReadOrigin(new Request('http://0.0.0.0:3100/api/conversations', { headers: { Host: '192.168.1.50:3100' } }));
+  for (const badHost of ['8.8.8.8:3100', '172.32.0.1:3100', '192.168.300.1:3100', 'other.example:3100', '0.0.0.0:3100']) {
+    assert.throws(
+      () => requireCompanionReadOrigin(new Request(`http://0.0.0.0:3100/api/conversations`, { headers: { Host: badHost } })),
+      { code: 'local_only' }
+    );
+  }
+  assert.throws(
+    () => requireCompanionReadOrigin(new Request('http://192.168.1.50:3100/api/conversations', {
+      headers: { Host: '192.168.1.50:3100', Origin: 'https://evil.example' },
+    })),
+    { code: 'origin_denied' }
+  );
 });
 test('body limit works for streamed input without content-length', async () => {
   await assert.rejects(boundedBody(request(undefined, { body: '12345' }), 4), { code: 'body_too_large' });

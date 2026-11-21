@@ -23,7 +23,7 @@ export function ConversationArea({ messages }: ConversationAreaProps) {
   return (
     <section
       aria-label="Vùng hội thoại"
-      className="flex flex-1 flex-col overflow-y-auto px-4 py-6 sm:px-8 space-y-4"
+      className="flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain px-4 py-6 sm:px-8 space-y-4"
       data-testid="conversation-area"
     >
       {messages.length === 0 ? (

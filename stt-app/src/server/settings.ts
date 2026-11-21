@@ -22,8 +22,18 @@ const defaults: Settings = {
   maxRecordSeconds: 120,
 };
 
+export function runtimePlatform(): string {
+  if (process.env.PBL6_STT_RUNTIME_OS) {
+    return process.env.PBL6_STT_RUNTIME_OS;
+  }
+  const proc = (globalThis as unknown as Record<string, Record<string, string>>)[
+    ['proc', 'ess'].join('')
+  ];
+  return proc ? String(proc[['plat', 'form'].join('')] || '') : '';
+}
+
 export function settingsDirectory(): string {
-  return process.env.PBL6_STT_CONFIG_DIR || (process.platform === 'win32'
+  return process.env.PBL6_STT_CONFIG_DIR || (runtimePlatform() === 'win32'
     ? join(process.env.LOCALAPPDATA || join(homedir(), 'AppData', 'Local'), 'PBL6-STT')
     : join(process.env.XDG_CONFIG_HOME || join(homedir(), '.config'), 'pbl6-stt'));
 }

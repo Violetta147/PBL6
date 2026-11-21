@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import type { AudioDevice, PublicSettings, Conversation } from '../contracts';
+import { DEFAULT_SLR_SETTINGS, type SlrSettings } from '../lib/slrSettings';
 import { WebAudioRecorder } from '../utils/audioRecorder';
 import { ArrowLeftIcon, SearchIcon, TrashIcon } from './Icons';
 
@@ -11,9 +12,11 @@ interface SettingsViewProps {
   activeConversationId?: string | null;
   onActiveConversationDeleted?: () => void;
   onSettingsSaved?: () => void;
+  slrSettings?: SlrSettings;
+  onSlrSettingsChange?: (next: SlrSettings) => void;
 }
 
-type TabType = 'stt' | 'history';
+type TabType = 'stt' | 'slr' | 'history';
 
 interface InitialSttState {
   selectedMicrophoneId: string;
@@ -38,6 +41,8 @@ export function SettingsView({
   activeConversationId,
   onActiveConversationDeleted,
   onSettingsSaved,
+  slrSettings = DEFAULT_SLR_SETTINGS,
+  onSlrSettingsChange,
 }: SettingsViewProps) {
   const [activeTab, setActiveTab] = useState<TabType>('stt');
 
@@ -527,7 +532,7 @@ export function SettingsView({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex flex-col bg-[#F5F7F9] select-none text-[#18212B]"
+      className="absolute inset-0 z-50 flex flex-col bg-[#F5F7F9] select-none text-[#18212B]"
       data-testid="settings-view"
       role="dialog"
       aria-modal="true"
@@ -573,6 +578,19 @@ export function SettingsView({
             }`}
           >
             Giọng nói thành chữ (STT)
+          </button>
+
+          <button
+            type="button"
+            onClick={() => navigateWithGuard(() => setActiveTab('slr'))}
+            data-testid="settings-tab-slr"
+            className={`flex min-h-[48px] w-full items-center rounded-xl px-4 py-3 text-left text-[18px] transition-colors focus-visible:outline-2 focus-visible:outline-[#273D53] ${
+              activeTab === 'slr'
+                ? 'bg-[#273D53] font-semibold text-white'
+                : 'text-[#18212B] hover:bg-[#F5F7F9] font-medium'
+            }`}
+          >
+            Ngôn ngữ ký hiệu (SLR)
           </button>
 
           <button
@@ -828,8 +846,133 @@ export function SettingsView({
                 </button>
               </div>
             </div>
+          ) : activeTab === 'slr' ? (
+            /* Tab 2: Ngôn ngữ ký hiệu (SLR) */
+            <div className="mx-auto flex w-full max-w-2xl flex-col gap-5 rounded-2xl border border-[#BAC5D0] bg-[#FFFFFF] p-6 shadow-sm">
+              <h2 className="text-[20px] font-bold text-[#273D53]">
+                Nhận dạng ký hiệu &amp; Phát loa
+              </h2>
+
+              <label className="flex items-start justify-between gap-4 rounded-xl border border-[#BAC5D0] bg-[#F5F7F9] p-4 cursor-pointer">
+                <div>
+                  <div className="text-[17px] font-bold text-[#18212B]">
+                    Tự động đọc loa
+                  </div>
+                  <div className="text-[14px] text-[#4F5D6B]">
+                    Tự phát MP3 khi nhận được ký hiệu rõ ràng (bỏ qua từ chưa rõ).
+                  </div>
+                </div>
+                <input
+                  type="checkbox"
+                  checked={slrSettings.autoSpeak}
+                  data-testid="slr-setting-autospeak"
+                  onChange={(e) =>
+                    onSlrSettingsChange?.({
+                      ...slrSettings,
+                      autoSpeak: e.target.checked,
+                    })
+                  }
+                  className="mt-1 h-5 w-5 accent-[#273D53] cursor-pointer"
+                />
+              </label>
+
+              <label className="flex items-start justify-between gap-4 rounded-xl border border-[#BAC5D0] bg-[#F5F7F9] p-4 cursor-pointer">
+                <div>
+                  <div className="text-[17px] font-bold text-[#18212B]">
+                    Tự động lưu vào hội thoại khi kết thúc ký
+                  </div>
+                  <div className="text-[14px] text-[#4F5D6B]">
+                    Mặc định TẮT để giữ các từ vừa ký trong khung Đang ký trực tiếp (bấm &ldquo;Lưu vào hội thoại&rdquo; khi muốn gửi).
+                  </div>
+                </div>
+                <input
+                  type="checkbox"
+                  checked={slrSettings.autoSaveOnRest}
+                  data-testid="slr-setting-autosave"
+                  onChange={(e) =>
+                    onSlrSettingsChange?.({
+                      ...slrSettings,
+                      autoSaveOnRest: e.target.checked,
+                    })
+                  }
+                  className="mt-1 h-5 w-5 accent-[#273D53] cursor-pointer"
+                />
+              </label>
+
+              <label className="flex items-start justify-between gap-4 rounded-xl border border-[#BAC5D0] bg-[#F5F7F9] p-4 cursor-pointer">
+                <div>
+                  <div className="text-[17px] font-bold text-[#18212B]">
+                    Hiển thị thông số chẩn đoán (Dev)
+                  </div>
+                  <div className="text-[14px] text-[#4F5D6B]">
+                    Mặc định TẮT. Chỉ bật khi cần đo FPS, hàng đợi và độ trễ xử lý trên camera.
+                  </div>
+                </div>
+                <input
+                  type="checkbox"
+                  checked={slrSettings.showDiagnostics}
+                  data-testid="slr-setting-diagnostics"
+                  onChange={(e) =>
+                    onSlrSettingsChange?.({
+                      ...slrSettings,
+                      showDiagnostics: e.target.checked,
+                    })
+                  }
+                  className="mt-1 h-5 w-5 accent-[#273D53] cursor-pointer"
+                />
+              </label>
+
+              <div className="flex flex-col gap-1.5">
+                <label
+                  htmlFor="slr-base-url"
+                  className="text-[16px] font-semibold text-[#18212B]"
+                >
+                  Địa chỉ máy chủ SLR
+                </label>
+                <input
+                  id="slr-base-url"
+                  type="text"
+                  value={slrSettings.slrBaseUrl}
+                  placeholder="Để trống để tự nhận http://<host>:8765"
+                  data-testid="slr-setting-baseurl"
+                  onChange={(e) =>
+                    onSlrSettingsChange?.({
+                      ...slrSettings,
+                      slrBaseUrl: e.target.value,
+                    })
+                  }
+                  className="min-h-[44px] w-full rounded-xl border border-[#BAC5D0] bg-[#FFFFFF] px-3.5 py-2 font-mono text-[16px] text-[#18212B] focus:border-[#273D53] focus:outline-none"
+                />
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <label
+                  htmlFor="slr-camera-index"
+                  className="text-[16px] font-semibold text-[#18212B]"
+                >
+                  Chỉ số camera USB
+                </label>
+                <input
+                  id="slr-camera-index"
+                  type="number"
+                  min={0}
+                  max={16}
+                  value={slrSettings.cameraIndex}
+                  data-testid="slr-setting-camera"
+                  onChange={(e) => {
+                    const num = Number(e.target.value);
+                    onSlrSettingsChange?.({
+                      ...slrSettings,
+                      cameraIndex:
+                        Number.isInteger(num) && num >= 0 && num <= 16 ? num : 0,
+                    });
+                  }}
+                  className="min-h-[44px] w-full rounded-xl border border-[#BAC5D0] bg-[#FFFFFF] px-3.5 py-2 text-[18px] text-[#18212B] focus:border-[#273D53] focus:outline-none"
+                />
+              </div>
+            </div>
           ) : (
-            /* Tab 2: Lịch sử */
+            /* Tab 3: Lịch sử */
             <div className="mx-auto flex h-full max-h-[calc(100vh-112px)] w-full max-w-4xl flex-col rounded-2xl border border-[#BAC5D0] bg-[#FFFFFF] p-5 shadow-sm overflow-hidden">
               {/* Top Controls: Search box | Date filter | Select all */}
               <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#BAC5D0] pb-4">
@@ -980,7 +1123,7 @@ export function SettingsView({
       {/* Confirmation Modal for Unsaved Changes */}
       {showUnsavedModal && (
         <div
-          className="fixed inset-0 z-60 flex items-center justify-center bg-black/50 p-4 select-none"
+          className="absolute inset-0 z-60 flex items-center justify-center bg-black/50 p-4 select-none"
           role="alertdialog"
           aria-modal="true"
           aria-labelledby="unsaved-modal-title"

@@ -265,3 +265,77 @@ export function CheckIcon({ size = 24, className, ...props }: IconProps) {
     </svg>
   );
 }
+
+export function CameraIcon({ size = 24, className, ...props }: IconProps) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      className={className}
+      {...props}
+    >
+      <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z" />
+      <circle cx="12" cy="13" r="3" />
+    </svg>
+  );
+}
+
+export function VolumeIcon({ size = 24, className, ...props }: IconProps) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      className={className}
+      {...props}
+    >
+      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+      <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+      <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+    </svg>
+  );
+}
+
+export function KeyboardIcon({ size = 24, className, ...props }: IconProps) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      className={className}
+      {...props}
+    >
+      <rect width="20" height="16" x="2" y="4" rx="2" />
+      <path d="M6 8h.001" />
+      <path d="M10 8h.001" />
+      <path d="M14 8h.001" />
+      <path d="M18 8h.001" />
+      <path d="M8 12h.001" />
+      <path d="M12 12h.001" />
+      <path d="M16 12h.001" />
+      <path d="M7 16h10" />
+    </svg>
+  );
+}
