@@ -2,7 +2,12 @@
 
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import type { AudioDevice, PublicSettings, Conversation } from '../contracts';
-import { DEFAULT_SLR_SETTINGS, type SlrSettings } from '../lib/slrSettings';
+import {
+  DEFAULT_SLR_SETTINGS,
+  normalizeSlrBaseUrl,
+  stripSlrUrlScheme,
+  type SlrSettings,
+} from '../lib/slrSettings';
 import { WebAudioRecorder } from '../utils/audioRecorder';
 import { ArrowLeftIcon, SearchIcon, TrashIcon } from './Icons';
 
@@ -929,20 +934,35 @@ export function SettingsView({
                 >
                   Địa chỉ máy chủ SLR
                 </label>
-                <input
-                  id="slr-base-url"
-                  type="text"
-                  value={slrSettings.slrBaseUrl}
-                  placeholder="Để trống để tự nhận http://<host>:8765"
-                  data-testid="slr-setting-baseurl"
-                  onChange={(e) =>
-                    onSlrSettingsChange?.({
-                      ...slrSettings,
-                      slrBaseUrl: e.target.value,
-                    })
-                  }
-                  className="min-h-[44px] w-full rounded-xl border border-[#BAC5D0] bg-[#FFFFFF] px-3.5 py-2 font-mono text-[16px] text-[#18212B] focus:border-[#273D53] focus:outline-none"
-                />
+                <div className="flex min-h-[44px] w-full items-stretch overflow-hidden rounded-xl border border-[#BAC5D0] bg-[#FFFFFF] focus-within:border-[#273D53]">
+                  <span
+                    aria-hidden="true"
+                    className="flex items-center border-r border-[#BAC5D0] bg-[#F5F7F9] px-3 font-mono text-[16px] font-semibold text-[#4F5D6B] select-none"
+                  >
+                    http://
+                  </span>
+                  <input
+                    id="slr-base-url"
+                    type="text"
+                    inputMode="url"
+                    autoCapitalize="off"
+                    autoCorrect="off"
+                    spellCheck={false}
+                    value={stripSlrUrlScheme(slrSettings.slrBaseUrl)}
+                    placeholder="172.16.59.16:8765 (để trống = tự nhận)"
+                    data-testid="slr-setting-baseurl"
+                    onChange={(e) =>
+                      onSlrSettingsChange?.({
+                        ...slrSettings,
+                        slrBaseUrl: normalizeSlrBaseUrl(e.target.value),
+                      })
+                    }
+                    className="min-w-0 flex-1 bg-[#FFFFFF] px-3.5 py-2 font-mono text-[16px] text-[#18212B] focus:outline-none"
+                  />
+                </div>
+                <p className="text-[13px] text-[#4F5D6B]">
+                  Chỉ cần nhập IP:cổng (ví dụ 172.16.59.16:8765), hệ thống tự gắn http://.
+                </p>
               </div>
 
               <div className="flex flex-col gap-1.5">

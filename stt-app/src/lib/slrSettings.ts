@@ -16,6 +16,26 @@ export const DEFAULT_SLR_SETTINGS: SlrSettings = {
 
 const STORAGE_KEY = 'pbl6.slr.settings.v3';
 
+export function normalizeSlrBaseUrl(raw?: string): string {
+  const trimmed = (raw ?? '').trim().replace(/\/+$/, '');
+  if (!trimmed) {
+    return '';
+  }
+  if (/^https?:\/\//i.test(trimmed)) {
+    const withoutScheme = trimmed.replace(/^https?:\/\//i, '');
+    return withoutScheme ? trimmed : '';
+  }
+  if (/^https?:$/i.test(trimmed)) {
+    return '';
+  }
+  const hostPort = trimmed.replace(/^\/+/, '');
+  return hostPort ? `http://${hostPort}` : '';
+}
+
+export function stripSlrUrlScheme(raw?: string): string {
+  return (raw ?? '').trim().replace(/^http:\/\//i, '').replace(/\/+$/, '');
+}
+
 export function loadSlrSettings(): SlrSettings {
   if (typeof window === 'undefined') {
     return { ...DEFAULT_SLR_SETTINGS };
@@ -26,7 +46,7 @@ export function loadSlrSettings(): SlrSettings {
     const parsed = JSON.parse(raw) as Partial<SlrSettings>;
     const cam = Number(parsed.cameraIndex);
     return {
-      slrBaseUrl: typeof parsed.slrBaseUrl === 'string' ? parsed.slrBaseUrl.trim() : '',
+      slrBaseUrl: typeof parsed.slrBaseUrl === 'string' ? normalizeSlrBaseUrl(parsed.slrBaseUrl) : '',
       cameraIndex: Number.isInteger(cam) && cam >= 0 && cam <= 16 ? cam : 0,
       autoSpeak: typeof parsed.autoSpeak === 'boolean' ? parsed.autoSpeak : true,
       autoSaveOnRest:
@@ -41,7 +61,7 @@ export function loadSlrSettings(): SlrSettings {
 
 export function saveSlrSettings(next: SlrSettings): SlrSettings {
   const sanitized: SlrSettings = {
-    slrBaseUrl: next.slrBaseUrl.trim().replace(/\/+$/, ''),
+    slrBaseUrl: normalizeSlrBaseUrl(next.slrBaseUrl),
     cameraIndex:
       Number.isInteger(next.cameraIndex) && next.cameraIndex >= 0 && next.cameraIndex <= 16
         ? next.cameraIndex
@@ -64,9 +84,9 @@ export function resolveSlrBaseUrl(
   configuredUrl?: string,
   fallbackHost?: string
 ): string {
-  const trimmed = (configuredUrl ?? '').trim().replace(/\/+$/, '');
-  if (trimmed) {
-    return trimmed;
+  const normalized = normalizeSlrBaseUrl(configuredUrl);
+  if (normalized) {
+    return normalized;
   }
   const host =
     fallbackHost ??

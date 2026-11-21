@@ -3,8 +3,10 @@ import assert from 'node:assert/strict';
 import {
   DEFAULT_SLR_SETTINGS,
   loadSlrSettings,
+  normalizeSlrBaseUrl,
   resolveSlrBaseUrl,
   saveSlrSettings,
+  stripSlrUrlScheme,
   toWsUrl,
 } from '../src/lib/slrSettings';
 import {
@@ -20,12 +22,25 @@ test('DEFAULT_SLR_SETTINGS keeps end-user defaults and hides dev diagnostics', (
   assert.equal(DEFAULT_SLR_SETTINGS.slrBaseUrl, '');
 });
 
-test('resolveSlrBaseUrl resolves default host:8765 and strips trailing slashes', () => {
+test('resolveSlrBaseUrl resolves default host:8765, normalizes host-only input, and strips trailing slashes', () => {
   assert.equal(resolveSlrBaseUrl('', '192.168.1.42'), 'http://192.168.1.42:8765');
   assert.equal(
     resolveSlrBaseUrl('http://10.0.0.5:8765///', '192.168.1.42'),
     'http://10.0.0.5:8765'
   );
+  assert.equal(
+    resolveSlrBaseUrl('172.16.59.16:8765', '192.168.1.42'),
+    'http://172.16.59.16:8765'
+  );
+});
+
+test('normalizeSlrBaseUrl and stripSlrUrlScheme support http-prefixed input without typing //', () => {
+  assert.equal(normalizeSlrBaseUrl(''), '');
+  assert.equal(normalizeSlrBaseUrl('http://'), '');
+  assert.equal(normalizeSlrBaseUrl('172.16.59.16:8765/'), 'http://172.16.59.16:8765');
+  assert.equal(normalizeSlrBaseUrl('http://172.16.59.16:8765/'), 'http://172.16.59.16:8765');
+  assert.equal(stripSlrUrlScheme('http://172.16.59.16:8765/'), '172.16.59.16:8765');
+  assert.equal(stripSlrUrlScheme('172.16.59.16:8765'), '172.16.59.16:8765');
 });
 
 test('toWsUrl converts http/https cleanly to ws/wss', () => {
@@ -49,6 +64,15 @@ test('loadSlrSettings and saveSlrSettings degrade safely during SSR without wind
   assert.equal(sanitized.cameraIndex, 0);
   assert.equal(sanitized.autoSpeak, false);
   assert.equal(sanitized.showDiagnostics, true);
+
+  const hostOnlySaved = saveSlrSettings({
+    slrBaseUrl: '172.16.59.16:8765',
+    cameraIndex: 0,
+    autoSpeak: true,
+    autoSaveOnRest: true,
+    showDiagnostics: false,
+  });
+  assert.equal(hostOnlySaved.slrBaseUrl, 'http://172.16.59.16:8765');
 });
 
 test('formatUserFacingState and getStateBorderColor map M1 states cleanly', () => {
