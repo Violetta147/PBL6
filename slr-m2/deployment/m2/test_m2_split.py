@@ -6,18 +6,21 @@ import os
 from pathlib import Path
 import subprocess
 import sys
+import threading
 import time
 import unittest
 from unittest import mock
 
 import cv2
 from fastapi.testclient import TestClient
+import httpx
 import numpy as np
 
 from deployment.m1.common import DEFAULT_BUNDLE, ROOT
 from deployment.m2.classifier import (
     BONE_WIRE_KEYS,
     BoneClassifier,
+    StreamFrameEntry,
     VisionExtractor,
     decode_bundle_bytes_to_frames,
     deserialize_landmark_arrays,
@@ -30,7 +33,7 @@ from deployment.m2.remote_clients import RemotePoseClient, SplitClassifierClient
 from deployment.m2.server import create_app
 from deployment.m2.vision_backend import create_vision_app
 
-SAMPLE_CLIP = Path(r"C:\Users\LAPTOP T&T\VIOLETTA\Documents\ChatGPT\PBL6\slr-app\MVP\local_data\014159.mp4")
+SAMPLE_CLIP = Path(os.environ.get("PBL6_M2_SAMPLE_CLIP", ROOT.parent / "slr-app/MVP/local_data/014159.mp4"))
 SAMPLE_NPZ = ROOT / "outputs" / "sample_014159_landmarks.npz"
 
 
@@ -99,6 +102,50 @@ def _fake_bone_classifier(inference_seconds: float = 0.02):
 
 
 class M2SplitWireTests(unittest.TestCase):
+    def test_crop_rescue_is_opt_in_for_all_extraction_paths(self):
+        frames, timestamps = _dummy_bgr_frames()
+        entries = [
+            StreamFrameEntry(seq, ts, frame, pose_res=None, packed={"landmarks": []})
+            for seq, (ts, frame) in enumerate(zip(timestamps, frames), start=1)
+        ]
+        for enabled in (False, True):
+            with self.subTest(enabled=enabled):
+                extractor = VisionExtractor(crop_rescue_enabled=True) if enabled else VisionExtractor()
+                try:
+                    full = _synthetic_arrays(len(frames))
+                    meta = {"fps": 25.0, "width": 64, "height": 64, "decoded_frames": len(frames)}
+                    crop = mock.sentinel.crop
+                    extractor._extract_raw = mock.Mock()
+                    extractor._extract_raw.assemble_frames.side_effect = lambda *_: dict(full)
+                    extractor._extract_raw.extract_video.return_value = (full, meta)
+                    extractor._rescue_candidates = mock.Mock()
+                    extractor._rescue_candidates.detector_profile.return_value = {}
+                    extractor._rescue_candidates.selected.return_value = True
+                    extractor._rescue_candidates.extract_crop.return_value = (crop, {})
+                    extractor._pilot_extraction = mock.Mock()
+                    extractor._pilot = mock.Mock()
+                    extractor._pilot.process.return_value = (full, {})
+                    with (
+                        mock.patch.object(extractor, "_ensure_models_unlocked", return_value=(mock.Mock(), mock.Mock())),
+                        mock.patch.object(extractor, "_run_crop_rescue_unlocked", return_value=crop) as run_crop,
+                    ):
+                        outcomes = (
+                            extractor.extract_from_stream_entries(entries),
+                            extractor.extract_from_frames(frames, timestamps),
+                            extractor.extract_landmarks(Path("sample.mp4")),
+                        )
+                    self.assertEqual([result[2] for result in outcomes], [enabled] * 3)
+                    self.assertEqual(extractor._rescue_candidates.detector_profile.call_count, 3 if enabled else 0)
+                    self.assertEqual(extractor._rescue_candidates.selected.call_count, 3 if enabled else 0)
+                    self.assertEqual(run_crop.call_count, 2 if enabled else 0)
+                    self.assertEqual(extractor._rescue_candidates.extract_crop.call_count, int(enabled))
+                    self.assertEqual(
+                        [call.args[1] for call in extractor._pilot.process.call_args_list],
+                        [crop if enabled else None] * 3,
+                    )
+                finally:
+                    extractor.close()
+
     def test_landmark_npz_roundtrip_without_pickle(self):
         orig = _synthetic_arrays(frames=40)
         payload = serialize_landmark_arrays(orig)
@@ -286,6 +333,26 @@ class M2SplitContractAndFallbackTests(unittest.TestCase):
             self.assertFalse(res_404["streaming_used"])
             self.assertEqual(res_404["top1_label"], "Dài")
 
+    def test_slow_inference_stays_on_pi_by_default(self):
+        laptop_bone = _fake_bone_classifier()
+        vision_app = create_vision_app(
+            vision_extractor=_fake_vision_extractor(), bone_classifier=laptop_bone,
+        )
+        with TestClient(vision_app) as vision_client:
+            pi_bone = _fake_bone_classifier(inference_seconds=1.75)
+            split_client = SplitClassifierClient(
+                "http://testserver", bone_classifier=pi_bone, http_client=vision_client,
+            )
+            frames, timestamps = _dummy_bgr_frames()
+            for _ in range(3):
+                result = split_client.classify_frames(frames, timestamps)
+                self.assertEqual(result["inference_executor"], "pi_local")
+                self.assertFalse(result["fallback_triggered"])
+            self.assertEqual(pi_bone.calls, 3)
+            self.assertEqual(laptop_bone.calls, 0)
+            self.assertEqual(split_client.status()["fallback_threshold_seconds"], 0.0)
+            self.assertFalse(split_client.status()["fallback_active"])
+
     def test_auto_slow_fallback_and_manual_runtime_toggle(self):
         vision_app = create_vision_app(
             enable_fallback_classifier=True,
@@ -366,10 +433,12 @@ class M2RealSplitParityTests(unittest.TestCase):
         self.assertLess(len(payload), 100_000)
 
         decoded = deserialize_landmark_arrays(payload)
+        direct = bone.infer_from_arrays(arrays)
         pred = bone.infer_from_arrays(decoded, inference_executor="pi_local")
         self.assertEqual(pred["top1_label"], "Dài")
         self.assertEqual(pred["top1_id"], 95)
-        self.assertGreater(pred["confidence"], 0.98)
+        self.assertGreater(pred["confidence"], 0.95)
+        self.assertAlmostEqual(pred["confidence"], direct["confidence"], places=6)
         self.assertEqual(pred["inference_executor"], "pi_local")
 
         # Also test compact MJPG LAN transport end-to-end against real Vision Backend
@@ -474,8 +543,6 @@ class M2RealSplitParityTests(unittest.TestCase):
 
     @unittest.skipUnless(SAMPLE_CLIP.is_file(), "Sample VSL400 clip 014159.mp4 not present")
     def test_real_streaming_extraction_parity_and_speedup_on_014159(self):
-        from deployment.m2.classifier import StreamFrameEntry
-
         cap = cv2.VideoCapture(str(SAMPLE_CLIP))
         frames: list[np.ndarray] = []
         timestamps: list[float] = []
@@ -539,6 +606,101 @@ class M2RealSplitParityTests(unittest.TestCase):
 
 
 class LinuxCameraProbeTests(unittest.TestCase):
+    def test_slow_pose_processes_every_queued_frame_in_order_and_discards_stale_response(self):
+        requested_sequences: list[int] = []
+        first_requested = threading.Event()
+        latest_requested = threading.Event()
+        release_first = threading.Event()
+        release_latest = threading.Event()
+
+        def respond(request: httpx.Request) -> httpx.Response:
+            seq = int(request.url.params["seq"])
+            requested_sequences.append(seq)
+            if seq == 1:
+                first_requested.set()
+                release_first.wait(timeout=5)
+            elif seq == 5:
+                latest_requested.set()
+                release_latest.wait(timeout=5)
+            return httpx.Response(200, json={"pose": [[0.0, 0.0, 0.0]] * 8, "visibility": [0.0] * 8})
+
+        with httpx.Client(transport=httpx.MockTransport(respond)) as client:
+            remote_pose = RemotePoseClient("http://testserver", http_client=client)
+            manager = LiveSessionManager(classifier_fn=lambda *_: {}, pose_provider=remote_pose.detect_pose_8)
+            session_id = manager.start_manual_session()
+            consumer = threading.Thread(target=manager._pose_consumer_loop, args=(session_id, manager._epoch), daemon=True)
+            frame = np.zeros((16, 16, 3), dtype=np.uint8)
+
+            def publish_capture(seq: int) -> None:
+                with manager._pose_cond:
+                    manager._pose_frames.append((seq, seq / 10, frame))
+                    manager._pose_cond.notify_all()
+
+            consumer.start()
+            try:
+                publish_capture(1)
+                self.assertTrue(first_requested.wait(timeout=2))
+                for seq in range(2, 6):
+                    publish_capture(seq)
+                self.assertEqual(requested_sequences, [1])
+                release_first.set()
+                self.assertTrue(latest_requested.wait(timeout=2))
+                self.assertEqual(requested_sequences, [1, 2, 3, 4, 5])
+                self.assertEqual(manager._last_streamed_seq, 4)
+
+                publish_capture(6)
+                manager.stop_session(wait_timeout=5)
+                self.assertFalse(manager._pose_frames)
+                manager.start_manual_session()
+                release_latest.set()
+                consumer.join(timeout=2)
+                self.assertFalse(consumer.is_alive())
+                self.assertEqual(manager._last_streamed_seq, 0)
+                self.assertIsNone(manager._segmenter.last)
+                self.assertEqual(requested_sequences, [1, 2, 3, 4, 5])
+            finally:
+                release_first.set()
+                release_latest.set()
+                manager.stop_session(wait_timeout=5)
+                consumer.join(timeout=2)
+
+    def test_full_pose_queue_pauses_camera_reads_until_space_is_available(self):
+        release_pose = threading.Event()
+        queue_filled = threading.Event()
+        resumed = threading.Event()
+        read_count = 0
+        frame = np.zeros((16, 16, 3), dtype=np.uint8)
+
+        def read_frame():
+            nonlocal read_count
+            read_count += 1
+            if read_count == 3:
+                queue_filled.set()
+            elif read_count == 4:
+                resumed.set()
+            return True, frame
+
+        def slow_pose(_frame, _session_id):
+            release_pose.wait(timeout=5)
+            return [[0.0, 0.0, 0.0]] * 8, [0.0] * 8
+
+        manager = LiveSessionManager(classifier_fn=lambda *_: {}, pose_provider=slow_pose)
+        capture = mock.Mock()
+        capture.read.side_effect = read_frame
+        with (
+            mock.patch("deployment.m2.pipeline.MAX_PENDING_POSE_FRAMES", 2),
+            mock.patch.object(manager, "_open_capture", return_value=capture),
+        ):
+            try:
+                manager.start_camera_session()
+                self.assertTrue(queue_filled.wait(timeout=2))
+                self.assertFalse(resumed.wait(timeout=0.2))
+                release_pose.set()
+                self.assertTrue(resumed.wait(timeout=2))
+            finally:
+                release_pose.set()
+                manager.stop_session(wait_timeout=5)
+
     def test_linux_open_capture_falls_back_to_working_v4l2_index(self):
         service = LiveSessionManager(classifier_fn=lambda *_a, **_k: {})
         dummy_frame = np.zeros((480, 640, 3), dtype=np.uint8)

@@ -7,7 +7,7 @@ set -euo pipefail
 
 LAPTOP_IP="${PBL6_VISION_HOST:-192.168.1.155}"
 INFERENCE_MODE="pi-split"
-FALLBACK_THRESHOLD="1.5"
+FALLBACK_THRESHOLD="0"
 UTTERANCE_REST="4.0"
 ENABLE_VNC=1
 LAUNCH_KIOSK=1
@@ -50,7 +50,8 @@ while [ $# -gt 0 ]; do
       shift
       ;;
     -h|--help)
-      echo "Usage: $0 [LAPTOP_IP] [--mode pi-split|remote-fallback] [--threshold 1.5] [--utterance-rest 4.0] [--no-vnc] [--windowed] [--fullscreen-kiosk] [--no-kiosk] [--stop]"
+      echo "Usage: $0 [LAPTOP_IP] [--mode pi-split|remote-fallback] [--threshold SECONDS] [--utterance-rest 4.0] [--no-vnc] [--windowed] [--fullscreen-kiosk] [--no-kiosk] [--stop]"
+      echo "  Automatic laptop inference fallback is off by default (--threshold 0). Use --threshold 1.5 to enable it."
       exit 0
       ;;
     *)

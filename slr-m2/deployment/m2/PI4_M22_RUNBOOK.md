@@ -3,8 +3,8 @@
 > **Hướng dẫn tổng hợp cho đồng đội (Clone, Firewall, SSH, TightVNC, Launch):** Xem [HANDOFF_TEAMMATE_M2_PI.md](../../../HANDOFF_TEAMMATE_M2_PI.md).
 
 Kiến trúc phân tải **1A** sau Bước 5:
-- **Laptop / Server LAN (`vision_backend.py`, `:8767`)**: chạy MediaPipe (`pose-frame` real-time + `extract-landmarks` chuẩn hóa trả `.npz` ~15–100 KB), đồng thời giữ sẵn `/api/vision/classify-clip` để dự phòng.
-- **Raspberry Pi 4B (`Debian 13 Trixie`, `aarch64`, `Python 3.11` qua `uv`, `:8765` + `stt-app`, `:3100`, `WayVNC :5900`)**: đọc USB Webcam, chạy `M1 Segmenter`, chạy `SL-GCN 07b` (`best.pt`, **không cần cài MediaPipe**), giữ 400 MP3 TTS offline và phục vụ giao diện `stt-app` + `/companion` trên LAN.
+- **Laptop / Server LAN (`vision_backend.py`, `:8767`)** chạy MediaPipe cho luồng pose và trả landmark chuẩn hóa cho Pi. Laptop có thể chạy SL-GCN khi bật chuyển dự phòng.
+- **Raspberry Pi 4B** đọc USB webcam, chạy bộ phân đoạn M1 và mặc định suy luận toàn bộ bằng SL-GCN 07b. Pi phục vụ SLR ở cổng `8765`, giao diện và `/companion` ở cổng `3100`, cùng TTS offline và WayVNC.
 
 ---
 
@@ -111,7 +111,7 @@ python -m deployment.m2.benchmark_pi_gcn --npz outputs/sample_014159_landmarks.n
 - **Kết quả đo thực tế trên Raspberry Pi 4B (`Linux-6.18.50+rpt-rpi-v8-aarch64`, `Python 3.11.18`, `threads=4`, `mediapipe_imported=false`):**
   - **ONNX Runtime `1.32.0` (`--backend onnx`, mặc định trên nhánh `perf/streaming-onnx`):** `cold = 0.764s`, `min = 0.737s`, **`median = 0.741s`**, **`p95 = 0.760s <= 1.50s`**, `max = 0.761s`, top-1 **`Dài` (`98.14%`)** → **Verdict: `PASS` (`--inference-mode pi-split`, nhanh gấp ~6.6× so với `4.94s` khi chạy PyTorch live)**.
   - **PyTorch `2.3.1` (`--backend torch`):** `cold = 1.108s`, `median = 1.116s`, `p95 = 1.168s` khi CPU rảnh (nhưng khi chạy live kèm Firefox/VNC/Camera lên tới `4.94s`).
-- Nếu về sau đổi checkpoint nặng hơn làm `p95 > 1.5s`, chuyển sang `--inference-mode remote-fallback` (hoặc giữ `pi-split` — server tự fallback sang `:8767/api/vision/classify-clip` sau `2` lần liên tiếp `> 1.5s`).
+- Mặc định Pi chạy cả các đoạn suy luận chậm. Để bật hybrid, chạy `pi_start.sh <LAPTOP_IP> --threshold 1.5` hoặc thêm `--fallback-threshold 1.5` vào lệnh server. Sau hai lần liên tiếp vượt ngưỡng, các đoạn sau được suy luận trên laptop.
 
 ---
 
@@ -126,11 +126,14 @@ python -m deployment.m2.server \
   --host 0.0.0.0 \
   --port 8765 \
   --inference-mode pi-split \
-  --vision-backend-url http://<LAPTOP_IP>:8767 \
-  --fallback-threshold 1.5
+  --vision-backend-url http://<LAPTOP_IP>:8767
 ```
 
 *(Thay `<LAPTOP_IP>` bằng IP Wi-Fi của Laptop; kiểm tra nhanh trên Pi: `curl -s http://127.0.0.1:8765/api/health`.)*
+
+- `crop_rescue` mặc định tắt. Bật bằng `--crop-rescue` khi khởi động Vision Backend. Khi chạy M2 độc lập bằng `--inference-mode local`, truyền cờ này vào server M2. Dùng `--no-crop-rescue` để tắt tường minh.
+- Luồng camera gửi pose lần lượt theo thứ tự thu. Khi hàng đợi đủ 32 frame, Pi tạm dừng đọc camera cho đến khi có chỗ. Pi tự chốt lượt sau 4 giây REST đã quan sát. Mất dấu tối đa 0,5 giây tạm dừng bộ đếm, còn mất dấu lâu hơn đặt lại bộ đếm.
+- Khi kiểm tra trên Pi, ký lặp cùng một từ, rồi che cổ tay trong một khoảng ngắn lúc nghỉ. Xác nhận hai gloss hiện đúng thứ tự, lượt ký tự chốt và `glosses[].executor` trong `/api/state` là `pi_local`. Đo từ lúc hạ tay đến lúc gloss hiện trên giao diện.
 
 ### 3.2 Web UI `stt-app` (`:3100`) chế độ standalone (Pi + LAN Companion)
 

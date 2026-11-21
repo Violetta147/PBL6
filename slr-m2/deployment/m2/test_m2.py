@@ -1,6 +1,7 @@
 """Automated verification suite for M2.1 live pipeline, FastAPI/WS contract, and 07b parity."""
 from __future__ import annotations
 
+import os
 from pathlib import Path
 import time
 import unittest
@@ -8,12 +9,12 @@ import unittest
 import numpy as np
 from fastapi.testclient import TestClient
 
-from deployment.m1.common import DEFAULT_BUNDLE
+from deployment.m1.common import DEFAULT_BUNDLE, ROOT
 from deployment.m2.classifier import SLRClassifier
 from deployment.m2.pipeline import LiveSessionManager, load_frozen_config
 from deployment.m2.server import DEFAULT_TTS_DIR, create_app
 
-SAMPLE_CLIP = Path(r"C:\Users\LAPTOP T&T\VIOLETTA\Documents\ChatGPT\PBL6\slr-app\MVP\local_data\014159.mp4")
+SAMPLE_CLIP = Path(os.environ.get("PBL6_M2_SAMPLE_CLIP", ROOT.parent / "slr-app/MVP/local_data/014159.mp4"))
 
 
 def _dummy_frame(val: int = 0) -> np.ndarray:
@@ -44,6 +45,68 @@ def _fake_classifier_factory(labels: list[tuple[str, int, float]], delay: float 
 
 
 class M2PipelineTests(unittest.TestCase):
+    def test_utterance_resumes_after_half_second_tracking_loss(self):
+        published: list[dict] = []
+        classifier, _ = _fake_classifier_factory([("Dài", 95, 0.99)], delay=0)
+        manager = LiveSessionManager(classifier_fn=classifier, on_event=published.append)
+        manager.start_manual_session()
+        self.addCleanup(manager.stop_session, wait_timeout=5)
+        self.assertEqual(manager.config.utterance_rest, 4.0)
+
+        def feed(step: int):
+            if 49 <= step < 53:
+                arms = [None, None]
+            elif 8 <= step < 18 or 64 <= step < 75:
+                arms = ["active", "rest"]
+            else:
+                arms = ["rest", "rest"]
+            return manager.feed_step(step / 10, arms, frame=_dummy_frame())
+
+        # Three seconds of REST, half a second unobserved, then one more second of REST.
+        for step in range(63):
+            self.assertFalse(any(event.get("type") == "utterance_end" for event in feed(step)))
+        self.assertEqual(feed(63), [{"type": "utterance_end", "utterance_id": "0", "timestamp": 6.3}])
+
+        for step in range(64, 115):
+            self.assertFalse(any(event.get("type") == "utterance_end" for event in feed(step)))
+        self.assertEqual(feed(115), [{"type": "utterance_end", "utterance_id": "1", "timestamp": 11.5}])
+
+        snapshot = manager.stop_session(wait_timeout=5)
+        self.assertEqual([item["utterance_id"] for item in snapshot["glosses"]], ["0", "1"])
+        self.assertEqual([item["raw_glosses"] for item in snapshot["utterances"]], [["Dài"], ["Dài"]])
+        self.assertEqual(
+            [event["type"] for event in published if event["type"] in ("gloss_result", "utterance_ready")],
+            ["gloss_result", "utterance_ready", "gloss_result", "utterance_ready"],
+        )
+
+    def test_utterance_rest_resets_after_long_loss_active_hand_or_timestamp_gap(self):
+        for scenario, interruptions, resumed in (
+            ("long tracking loss", [(step, [None, None]) for step in range(49, 54)], 54),
+            ("one visible active hand", [(49, ["active", None])], 50),
+            ("timestamp gap", [], 54),
+        ):
+            with self.subTest(scenario=scenario):
+                classifier, _ = _fake_classifier_factory([("Dài", 95, 0.99)], delay=0)
+                manager = LiveSessionManager(classifier_fn=classifier)
+                manager.start_manual_session()
+                try:
+                    observations = [
+                        (step, ["active", "rest"] if 8 <= step < 18 else ["rest", "rest"])
+                        for step in range(49)
+                    ]
+                    observations.extend(interruptions)
+                    observations.extend((step, ["rest", "rest"]) for step in range(resumed, resumed + 40))
+                    for step, arms in observations:
+                        events = manager.feed_step(step / 10, arms, frame=_dummy_frame())
+                        self.assertFalse(any(event.get("type") == "utterance_end" for event in events))
+                    timestamp = (resumed + 40) / 10
+                    self.assertEqual(
+                        manager.feed_step(timestamp, ["rest", "rest"], frame=_dummy_frame()),
+                        [{"type": "utterance_end", "utterance_id": "0", "timestamp": timestamp}],
+                    )
+                finally:
+                    manager.stop_session(wait_timeout=5)
+
     def test_repeated_signs_keep_order_and_utterance_waits_for_worker(self):
         events: list[dict] = []
         clf, calls = _fake_classifier_factory([("Cảm ơn", 86, 0.96), ("Cảm ơn", 86, 0.91)], delay=0.12)

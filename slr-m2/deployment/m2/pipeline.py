@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from collections import deque
 from contextlib import contextmanager
-from dataclasses import asdict
+from dataclasses import asdict, replace
 import inspect
 import json
 import math
@@ -24,6 +24,10 @@ from deployment.m2.classifier import POSE_SLOTS, extract_pose_8
 
 SCHEMA_VERSION = "m2.v1"
 FROZEN_CONFIG_PATH = ROOT / "deployment/m1/frozen-config.json"
+DEFAULT_UTTERANCE_REST_SECONDS = 4.0
+UTTERANCE_TRACKING_GRACE_SECONDS = 0.5
+TIMESTAMP_TOLERANCE = 1e-9
+MAX_PENDING_POSE_FRAMES = 32
 _extract_pose_8 = extract_pose_8
 
 
@@ -74,6 +78,40 @@ def _accepts_kwargs(fn: Any, required_names: tuple[str, ...]) -> bool:
     return all(name in param_names for name in required_names)
 
 
+class _UtteranceRestTimer:
+    """Count observed rest time, pausing across brief tracking losses."""
+
+    def __init__(self, config: Config) -> None:
+        self._config = config
+        self._last_timestamp: float | None = None
+        self._last_rest: float | None = None
+        self._rest_seconds = 0.0
+
+    def observe(self, timestamp: float, arms: list[str | None]) -> bool:
+        previous_timestamp = self._last_timestamp
+        self._last_timestamp = timestamp
+        timestamp_gap = (
+            previous_timestamp is not None
+            and timestamp - previous_timestamp > self._config.gap + TIMESTAMP_TOLERANCE
+        )
+        if timestamp_gap or "active" in arms:
+            self._last_rest = None
+            self._rest_seconds = 0.0
+
+        if not all(arm == "rest" for arm in arms):
+            return False
+
+        if self._last_rest is not None:
+            elapsed = timestamp - self._last_rest
+            if self._last_rest == previous_timestamp:
+                self._rest_seconds += elapsed
+            elif elapsed > UTTERANCE_TRACKING_GRACE_SECONDS + TIMESTAMP_TOLERANCE:
+                self._rest_seconds = 0.0
+
+        self._last_rest = timestamp
+        return self._rest_seconds + TIMESTAMP_TOLERANCE >= self._config.utterance_rest
+
+
 class LiveSessionManager:
     """Coordinates live capture, M1 arms-down segmentation, FIFO 07b worker, and event broadcasts."""
 
@@ -91,7 +129,7 @@ class LiveSessionManager:
         self._classifier_accepts_stream = _accepts_kwargs(
             classifier_fn, ("session_id", "start", "end", "target_seq")
         )
-        self.config = config or load_frozen_config()
+        self.config = config or replace(load_frozen_config(), utterance_rest=DEFAULT_UTTERANCE_REST_SECONDS)
         self._on_event = on_event
         self._max_queue_size = max_queue_size
         self._ring_seconds = ring_seconds
@@ -110,6 +148,9 @@ class LiveSessionManager:
         self._stop_event = threading.Event()
 
         self._segmenter = Segmenter(self.config)
+        self._utterance_rest = _UtteranceRestTimer(self.config)
+        self._utterance_id = 0
+        self._utterance_has_segments = False
         self._ring = FrameRingBuffer(max_seconds=ring_seconds)
         # Unbounded queue for tiny control events; heavy segment jobs are capped by _pending_segments.
         self._work_queue: queue.Queue[dict[str, Any]] = queue.Queue()
@@ -132,8 +173,7 @@ class LiveSessionManager:
         self._last_status_emit = 0.0
         self._capture_fps = 0.0
         self._pose_fps = 0.0
-        self._latest_capture_item: tuple[float, np.ndarray] | None = None
-        self._latest_capture_seq = 0
+        self._pose_frames: deque[tuple[int, float, np.ndarray]] = deque()
         self._last_streamed_seq = 0
         self._pose_cond = threading.Condition()
 
@@ -189,6 +229,9 @@ class LiveSessionManager:
             self._draining = False
             self._stop_event.clear()
             self._segmenter = Segmenter(self.config)
+            self._utterance_rest = _UtteranceRestTimer(self.config)
+            self._utterance_id = 0
+            self._utterance_has_segments = False
             self._ring = FrameRingBuffer(max_seconds=self._ring_seconds)
             self._work_queue = queue.Queue()
             self._pending_segments = 0
@@ -203,8 +246,8 @@ class LiveSessionManager:
             self._capture_open_error = None
             self._capture_fps = 0.0
             self._pose_fps = 0.0
-            self._latest_capture_item = None
-            self._latest_capture_seq = 0
+            with self._pose_cond:
+                self._pose_frames.clear()
             self._last_streamed_seq = 0
             return self._session_id
 
@@ -304,7 +347,7 @@ class LiveSessionManager:
                 self._latest_frame = frame
 
         prev_state = self._segmenter.state
-        events = self._segmenter.feed(timestamp, arms)
+        segmenter_events = self._segmenter.feed(timestamp, arms)
         with self._state_lock:
             self._arms = list(arms)
             new_state = self._segmenter.state
@@ -324,15 +367,26 @@ class LiveSessionManager:
                 },
             )
 
-        for ev in events:
-            self._handle_segmenter_event(ev, timestamp)
+        # M1 owns segment boundaries. M2 owns utterance IDs and the pause-aware rest clock.
+        events = [
+            self._handle_segmenter_event(ev)
+            for ev in segmenter_events
+            if ev.get("type") != "utterance_end"
+        ]
+        if self._utterance_rest.observe(timestamp, arms) and self._utterance_has_segments:
+            ended = {
+                "type": "utterance_end",
+                "utterance_id": str(self._utterance_id),
+                "timestamp": timestamp,
+            }
+            self._enqueue_work({"kind": "utterance_end", **ended})
+            self._utterance_id += 1
+            self._utterance_has_segments = False
+            events.append(ended)
         return events
 
-    def _handle_segmenter_event(self, ev: dict[str, Any], wall_ts: float) -> None:
-        if ev.get("type") == "utterance_end":
-            self._enqueue_work({"kind": "utterance_end", "utterance_id": ev["utterance_id"], "timestamp": ev["timestamp"]})
-            return
-
+    def _handle_segmenter_event(self, ev: dict[str, Any]) -> dict[str, Any]:
+        ev = {**ev, "utterance_id": str(self._utterance_id)}
         status = ev.get("status")
         if status == "complete":
             frames, timestamps = self._ring.slice(ev["start"], ev["end"])
@@ -341,10 +395,10 @@ class LiveSessionManager:
                 with self._state_lock:
                     self._incomplete_events.append(incomplete)
                 self._emit("segment_incomplete", {"segment": incomplete})
-                return
+                return ev
 
             self._emit("segment_complete", {"segment": ev, "frame_count": len(frames)})
-            self._enqueue_work(
+            queued = self._enqueue_work(
                 {
                     "kind": "segment",
                     "session_id": self._session_id,
@@ -355,12 +409,14 @@ class LiveSessionManager:
                     "enqueued_at": time.perf_counter(),
                 }
             )
+            self._utterance_has_segments |= queued
         elif status == "incomplete":
             with self._state_lock:
                 self._incomplete_events.append(ev)
             self._emit("segment_incomplete", {"segment": ev})
+        return ev
 
-    def _enqueue_work(self, item: dict[str, Any]) -> None:
+    def _enqueue_work(self, item: dict[str, Any]) -> bool:
         if item.get("kind") == "segment":
             with self._state_lock:
                 if self._pending_segments >= self._max_queue_size:
@@ -372,8 +428,9 @@ class LiveSessionManager:
                     overflow = None
             if overflow is not None:
                 self._emit("segment_incomplete", {"segment": overflow})
-                return
+                return False
         self._work_queue.put_nowait(item)
+        return True
 
     def stop_session(self, wait_timeout: float = 120.0) -> dict[str, Any]:
         """Stop capturing, mark open movement incomplete, drain already-completed segments, keep history."""
@@ -388,6 +445,7 @@ class LiveSessionManager:
             worker_thread = self._worker_thread
 
         with self._pose_cond:
+            self._pose_frames.clear()
             self._pose_cond.notify_all()
 
         if capture_thread is not None and capture_thread.is_alive() and capture_thread is not threading.current_thread():
@@ -397,7 +455,7 @@ class LiveSessionManager:
 
         # Mark any open movement incomplete (end_of_file), keeping already-queued completed segments.
         for ev in self._segmenter.finish():
-            self._handle_segmenter_event(ev, self._segmenter.last or 0.0)
+            self._handle_segmenter_event(ev)
 
         # Push deterministic end sentinel so FIFO worker drains all queued segments first.
         self._work_queue.put({"kind": "session_end", "timestamp": self._segmenter.last or 0.0})
@@ -523,31 +581,39 @@ class LiveSessionManager:
         bgr: np.ndarray,
         last_pose_err_emit: float,
         *,
+        epoch: int,
         ts: float | None = None,
         seq: int | None = None,
         run_hands: bool = False,
-    ) -> tuple[list[str | None], float]:
+    ) -> tuple[list[str | None] | None, float]:
+        pose_error: Exception | None = None
         try:
             pose, visibility = estimate_pose(bgr, ts=ts, seq=seq, run_hands=run_hands)
             arms = arm_states(pose, visibility, self.config)
-            if seq is not None:
-                self._last_streamed_seq = int(seq)
-            with self._state_lock:
+        except Exception as exc:
+            pose_error = exc
+            arms = [None, None]
+
+        with self._state_lock:
+            # A slow response can arrive after Stop or after the next session starts.
+            if not self._running or epoch != self._epoch:
+                return None, last_pose_err_emit
+            if pose_error is None:
+                if seq is not None:
+                    self._last_streamed_seq = int(seq)
                 if self._last_error and self._last_error.startswith("Không kết nối được Vision Backend"):
                     self._last_error = None
-            return arms, last_pose_err_emit
-        except Exception as exc:
+                return arms, last_pose_err_emit
             now_err = time.perf_counter()
-            if now_err - last_pose_err_emit >= 5.0:
-                last_pose_err_emit = now_err
-                err_msg = (
-                    "Không kết nối được Vision Backend trên Laptop "
-                    f"— hãy mở Firewall cổng 8767 trên Windows ({exc})."
-                )
-                with self._state_lock:
-                    self._last_error = err_msg
-                self._emit("error", {"message": err_msg})
-            return [None, None], last_pose_err_emit
+            if now_err - last_pose_err_emit < 5.0:
+                return arms, last_pose_err_emit
+            err_msg = (
+                "Không kết nối được Vision Backend trên Laptop "
+                f"— hãy mở Firewall cổng 8767 trên Windows ({pose_error})."
+            )
+            self._last_error = err_msg
+        self._emit("error", {"message": err_msg})
+        return arms, now_err
 
     def _camera_reader_loop(
         self,
@@ -571,12 +637,24 @@ class LiveSessionManager:
 
             t0 = time.perf_counter()
             last_ts = -1.0
+            sequence = 0
             fps_window: deque[float] = deque(maxlen=40)
             target_interval = 0.05  # Cap live ring buffer capture at 20 FPS
 
             while not self._stop_event.is_set():
+                with self._pose_cond:
+                    self._pose_cond.wait_for(
+                        lambda: self._stop_event.is_set()
+                        or epoch != self._epoch
+                        or len(self._pose_frames) < MAX_PENDING_POSE_FRAMES
+                    )
+                    if self._stop_event.is_set() or epoch != self._epoch:
+                        break
+
                 loop_start = time.perf_counter()
                 ok, bgr = cap.read()
+                if self._stop_event.is_set() or epoch != self._epoch:
+                    break
                 if not ok:
                     time.sleep(0.01)
                     continue
@@ -596,8 +674,10 @@ class LiveSessionManager:
                     self._capture_fps = (len(fps_window) - 1) / (fps_window[-1] - fps_window[0])
 
                 with self._pose_cond:
-                    self._latest_capture_item = (ts, bgr)
-                    self._latest_capture_seq += 1
+                    if self._stop_event.is_set() or epoch != self._epoch:
+                        break
+                    sequence += 1
+                    self._pose_frames.append((sequence, ts, bgr))
                     self._pose_cond.notify_all()
 
                 remaining = target_interval - (time.perf_counter() - loop_start)
@@ -615,27 +695,26 @@ class LiveSessionManager:
                 cap.release()
             with self._pose_cond:
                 self._pose_cond.notify_all()
-            if self._running and self._capture_open_error is None:
+            if self._running and epoch == self._epoch and self._capture_open_error is None:
                 threading.Thread(target=self.stop_session, daemon=True, name="m2-auto-stop").start()
 
     def _pose_consumer_loop(self, session_id: str, epoch: int) -> None:
         try:
             fps_window: deque[float] = deque(maxlen=30)
-            last_seq = 0
             last_pose_err_emit = -10.0
 
             with self._pose_context(session_id) as estimate_pose:
-                while not self._stop_event.is_set():
+                while True:
                     with self._pose_cond:
-                        while (
-                            not self._stop_event.is_set()
-                            and self._latest_capture_seq <= last_seq
-                        ):
-                            self._pose_cond.wait(timeout=0.5)
-                        if self._stop_event.is_set() or self._latest_capture_item is None:
-                            continue
-                        ts, bgr = self._latest_capture_item
-                        last_seq = self._latest_capture_seq
+                        self._pose_cond.wait_for(
+                            lambda: self._stop_event.is_set()
+                            or epoch != self._epoch
+                            or bool(self._pose_frames)
+                        )
+                        if self._stop_event.is_set() or epoch != self._epoch:
+                            return
+                        sequence, ts, bgr = self._pose_frames.popleft()
+                        self._pose_cond.notify_all()
 
                     with self._state_lock:
                         want_hands = (
@@ -646,10 +725,13 @@ class LiveSessionManager:
                         estimate_pose,
                         bgr,
                         last_pose_err_emit,
+                        epoch=epoch,
                         ts=ts,
-                        seq=last_seq,
+                        seq=sequence,
                         run_hands=want_hands,
                     )
+                    if arms is None:
+                        return
                     now = time.perf_counter()
                     fps_window.append(now)
                     if len(fps_window) >= 2 and fps_window[-1] > fps_window[0]:
@@ -658,6 +740,8 @@ class LiveSessionManager:
                     self.feed_step(ts, arms, frame=None)
         except Exception as error:
             with self._state_lock:
+                if not self._running or epoch != self._epoch:
+                    return
                 self._last_error = str(error)
             self._emit("error", {"message": str(error)})
 
@@ -726,10 +810,13 @@ class LiveSessionManager:
                         estimate_pose,
                         bgr,
                         last_pose_err_emit,
+                        epoch=epoch,
                         ts=ts,
-                        seq=last_seq,
+                        seq=frame_idx,
                         run_hands=want_hands,
                     )
+                    if arms is None:
+                        return
                     self._pose_fps = self._capture_fps
 
                     self.feed_step(ts, arms, frame=bgr)
@@ -750,7 +837,7 @@ class LiveSessionManager:
             if cap is not None:
                 cap.release()
             # Ensure failed or finished capture loops never leave a zombie running=True session.
-            if self._running and self._capture_open_error is None:
+            if self._running and epoch == self._epoch and self._capture_open_error is None:
                 threading.Thread(target=self.stop_session, daemon=True, name="m2-auto-stop").start()
 
     def _finalize_utterance(self, utterance_id: str, timestamp: float, reason: str) -> None:

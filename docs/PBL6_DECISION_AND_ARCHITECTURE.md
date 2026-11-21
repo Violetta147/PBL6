@@ -30,7 +30,7 @@
 flowchart LR
     subgraph Pi["Raspberry Pi 4B 8GB - Man cam ung 7 inch 1024x600"]
         CAM["USB Camera + Ring Buffer"]
-        SEG["M1 Segmenter 0.35s / 1.5s"]
+        SEG["M1 Segmenter 0.35s + chot luot M2 4.0s REST"]
         GCN["SL-GCN 07b CPU - best.pt san sang OTA"]
         UI["Firefox Wayland UI: SLR Live + STT"]
         TTS["Loa TTS Offline 400 MP3"]
@@ -51,7 +51,7 @@ flowchart LR
     SEG -->|"Chot 1 Segment - gui clip dem -0.30s/+0.20s"| MP_RESCUE
     MP_RESCUE -->|"Mang landmark / xuong chuan hoa ~100KB"| GCN
     GCN -->|"Top-5 gloss + confidence"| HUB
-    SEG -->|"Su kien utterance_end sau nghi 1.5s"| HUB
+    SEG -->|"Chot luot sau 4.0s REST da quan sat"| HUB
     HUB -->|"Chuoi raw_glosses + top5"| LLM
     LLM -->|"Cau tieng Viet - timeout thi giu raw"| HUB
     HUB -->|"WebSocket live"| UI
@@ -154,10 +154,7 @@ flowchart TD
   - Đã xuất `slgcn_07b.onnx` (`1.91e-5` max logit diff vs `best.pt`, chạy `0.741s` median trên Pi 4B ARM64 so với `4.94s` PyTorch).
   - Đã hợp 1 luồng Streaming Extraction `640×480` + `SessionStreamBuffer` + Smart Gating `run_hands` + chạy bù `Hands` cho `-0.30s` `leading` (đạt `0.49s–0.77s/từ` trong phiên live `live-91a0955bb5` khi không dính `crop_rescue`, `26/26` Python tests & `124/124` TS tests PASS).
   - Đã gắn cố định tiền tố `http://` ở menu cài đặt SLR trên `stt-app`.
-- [ ] **Bước 5.6 (Tinh chỉnh 3 điểm phát hiện từ phiên live `live-91a0955bb5` trên `perf/streaming-onnx` → Merge `main`):**
-  1. Tối ưu `_run_crop_rescue_unlocked` chỉ chạy `crop_hands` trên các frame thiếu tay (kéo 5/9 từ có `crop_rescue` từ `~1.6–1.9s` xuống `< 0.9s`).
-  2. Giảm tải tranh chấp CPU trên Pi khi chạy live (giảm `/video_feed` xuống `~10 FPS`, đặt `onnx_threads=3`, hỗ trợ `--no-vnc` khi demo màn 7") để Từ 1 trên Pi giữ tốc độ `< 1.2s` như khi benchmark độc lập (`0.74s`).
-  3. Bổ sung chốt `utterance_rest = 4.0s` ở lớp M2 (`pipeline.py`) khi người ký rời khung / mất khớp (`UNKNOWN`) sau khi đã có từ trong câu (không sửa `deployment/m1/segmenter.py`).
+- [ ] **Bước 5.6** còn phần kiểm tra trên Pi. M2 mặc định tắt crop rescue và tắt tự chuyển suy luận sang laptop. Luồng pose gửi từng frame theo thứ tự thu, với tối đa 32 frame chờ. Bộ đếm M2 chốt sau 4 giây REST, giữ phần đã đếm khi mất dấu tối đa 0,5 giây. Cần đo độ trễ hiển thị và tranh tải CPU trên Pi.
 - [ ] **Bước 6 (M3 + IoT tối giản — sau khi chốt Bước 5.6):** Gắn 1 lần gọi LLM API (JSON) tạo câu tiếng Việt khi chốt `utterance` + gửi telemetry tối giản lên ThingsBoard.
 - [ ] **Bước 7:** Kiểm thử tích hợp toàn trình (SLR + STT + Companion + ThingsBoard) và review độc lập.
 - [ ] **Bước 8 (Thử nghiệm phụ 5B — sau MVP):** Đánh giá VLM trên 20 clip VSL400 low-confidence.

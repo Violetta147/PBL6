@@ -362,7 +362,7 @@ class SessionStreamBuffer:
 class VisionExtractor:
     """Stage A (Vision backend): MediaPipe extraction, crop rescue, and normalization."""
 
-    def __init__(self) -> None:
+    def __init__(self, *, crop_rescue_enabled: bool = False) -> None:
         for path_str in (str(ROOT / "extraction"), str(ROOT / "preprocessing")):
             if path_str not in sys.path:
                 sys.path.insert(0, path_str)
@@ -378,6 +378,7 @@ class VisionExtractor:
         self._pilot_extraction = pilot_extraction
         self._pilot = pilot
         self._pair_guard = pair_guard
+        self.crop_rescue_enabled = crop_rescue_enabled
 
         self._raw_cfg = _read_json_utf8(ROOT / "extraction/raw_extraction.json")
         self._rescue_policy = _read_json_utf8(ROOT / "extraction/rescue_policy.json")
@@ -450,6 +451,12 @@ class VisionExtractor:
                         except Exception:
                             pass
                     setattr(self, attr, None)
+
+    def _should_rescue(self, full: dict[str, np.ndarray], fps: float) -> bool:
+        if not self.crop_rescue_enabled:
+            return False
+        profile = self._rescue_candidates.detector_profile(full, fps) | {"view": "front"}
+        return self._rescue_candidates.selected(profile, self._rescue_policy)
 
     def _run_crop_rescue_unlocked(
         self,
@@ -544,8 +551,7 @@ class VisionExtractor:
                 "height": height,
                 "decoded_frames": len(ordered),
             }
-            profile = self._rescue_candidates.detector_profile(full, eff_fps) | {"view": "front"}
-            if self._rescue_candidates.selected(profile, self._rescue_policy):
+            if self._should_rescue(full, eff_fps):
                 rgbs_for_rescue = []
                 for entry in ordered:
                     frame = entry.bgr
@@ -611,9 +617,8 @@ class VisionExtractor:
                 "height": height,
                 "decoded_frames": len(frames),
             }
-            profile = self._rescue_candidates.detector_profile(full, eff_fps) | {"view": "front"}
             crop = None
-            if self._rescue_candidates.selected(profile, self._rescue_policy):
+            if self._should_rescue(full, eff_fps):
                 crop = self._run_crop_rescue_unlocked(rgbs, full, ts_arr, width, height)
 
         arrays, qc = self._pilot.process(
@@ -629,9 +634,8 @@ class VisionExtractor:
         """Run M1 raw extraction + optional crop rescue + association + normalization."""
         started = time.perf_counter()
         full, meta = self._extract_raw.extract_video(str(video_path), self._raw_cfg)
-        profile = self._rescue_candidates.detector_profile(full, meta["fps"]) | {"view": "front"}
         crop = None
-        if self._rescue_candidates.selected(profile, self._rescue_policy):
+        if self._should_rescue(full, meta["fps"]):
             roi = self._pilot_extraction.upper_body_crop(full, meta["width"], meta["height"], padding=0.6)
             crop, _ = self._rescue_candidates.extract_crop(str(video_path), full, meta, self._rescue_policy, roi)
 
@@ -834,10 +838,12 @@ class SLRClassifier:
         self,
         bundle: Path = DEFAULT_BUNDLE,
         low_confidence_threshold: float = LOW_CONFIDENCE_THRESHOLD,
+        *,
+        crop_rescue_enabled: bool = False,
     ) -> None:
         self.bundle = Path(bundle).resolve()
         self.low_confidence_threshold = float(low_confidence_threshold)
-        self._vision = VisionExtractor()
+        self._vision = VisionExtractor(crop_rescue_enabled=crop_rescue_enabled)
         self._bone = BoneClassifier(bundle=self.bundle, low_confidence_threshold=self.low_confidence_threshold)
         self.identity = self._bone.identity
         self.id_to_label = self._bone.id_to_label
@@ -851,7 +857,7 @@ class SLRClassifier:
         return self._bone.infer_from_arrays(arrays, inference_executor="local")
 
     def classify_video(self, video_path: Path) -> dict[str, Any]:
-        """Run full M1-parity extraction + inference on a video file."""
+        """Run extraction, normalization, and inference on a video file."""
         arrays, qc, crop_rescue, preprocess_seconds = self.extract_landmarks(Path(video_path))
         result = self.infer_from_arrays(arrays)
         result.update(
@@ -869,7 +875,7 @@ class SLRClassifier:
         timestamps: list[float],
         fallback_fps: float = 30.0,
     ) -> dict[str, Any]:
-        """Classify an in-memory segment slice with exact M1 preprocessing parity."""
+        """Classify an in-memory segment slice through the video extraction path."""
         fps = _effective_fps(timestamps, fallback_fps=fallback_fps)
         clip_path = _write_temp_clip(frames, fps, prefer_compact=False)
         try:

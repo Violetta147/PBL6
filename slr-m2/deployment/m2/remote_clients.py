@@ -16,6 +16,8 @@ from deployment.m2.classifier import (
     encode_frames_to_bundle_bytes,
 )
 
+DEFAULT_FALLBACK_THRESHOLD_SECONDS = 0.0
+
 
 def _clean_base_url(base_url: str) -> str:
     clean = base_url.strip().rstrip("/")
@@ -105,7 +107,7 @@ class SplitClassifierClient:
         vision_backend_url: str,
         bone_classifier: BoneClassifier | None = None,
         mode: str = "pi-split",
-        fallback_threshold_seconds: float = 1.5,
+        fallback_threshold_seconds: float = DEFAULT_FALLBACK_THRESHOLD_SECONDS,
         consecutive_slow_limit: int = 2,
         timeout: float = 120.0,
         http_client: httpx.Client | None = None,

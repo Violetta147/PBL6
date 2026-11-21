@@ -34,7 +34,7 @@ Luồng 2: Pose Consumer ──(1 luồng JPEG 640x480 + ts + seq + run_hands)�
 Khi hạ tay >= 0.35s (Segmenter chốt [start, end]):
 Worker FIFO trên Pi ───(JSON < 100B: {session_id, start, end, target_seq})──► /api/vision/extract-segment (hoặc classify-segment)
   ├─► Laptop đợi seq >= target_seq (<=0.25s), chỉ chạy bù Hands cho ~2-4 frame đệm đầu (-0.30s leading)
-  ├─► Kiểm tra crop_rescue trực tiếp trên frame 640x480 có sẵn trong RAM Laptop (không gửi lại video .pbl6!)
+  ├─► Nếu bật crop_rescue, kiểm tra frame 640x480 có sẵn trong RAM laptop
   ├─► Chạy nguyên vẹn M1 assemble_frames() + pilot.process() (pair_guard)
   └─► Suy luận SL-GCN 07b bằng ONNX Runtime (slgcn_07b.onnx dùng chung cho cả Pi pi_local & Laptop backend_fallback)
 ```
@@ -45,10 +45,11 @@ Worker FIFO trên Pi ───(JSON < 100B: {session_id, start, end, target_seq}
    - **Lưu ý phụ thuộc quan trọng:** Trong [slr-m2/deployment/m2/requirements-vision.txt](slr-m2/deployment/m2/requirements-vision.txt) đã khóa **`protobuf>=4.25.3,<5`** vì `onnx>=1.23` kéo `protobuf 7.x` sẽ làm vỡ `mediapipe==0.10.14` (`AttributeError: 'MessageFactory' object has no attribute 'GetPrototype'`).
 2. **Pha 2 — Extract While Signing (Hợp 1 luồng Streaming + RAM Laptop + Smart Gating):**
    - Hợp nhất 2 luồng cũ (`pose-frame 320px` + gửi lại clip `.pbl6`) thành **1 luồng `640×480` duy nhất** qua `/api/vision/pose-frame?session_id=...&ts=...&seq=...&run_hands=0|1`.
+   - Luồng camera gửi từng frame theo thứ tự thu, mỗi lần chờ một phản hồi pose. Khi 32 frame đang chờ, Pi tạm ngừng đọc thêm từ camera tới khi hàng đợi có chỗ.
    - Giữ đủ 100% vùng đệm M1: **`leading = -0.30s`** (đệm trước lúc nhấc tay, được giữ sẵn trong RAM Laptop lúc `READY` và chỉ chạy bù `Hands` ~`2–4` frame khi chốt từ) và **`trailing = +0.20s`** (đệm sau lúc hạ tay, nằm gọn trong `rest = 0.35s` nên đã chạy xong `Pose || Hands` trên đường đi).
    - Tự động fallback an toàn: Nếu `/api/vision/extract-segment` hoặc `/api/vision/classify-segment` trả `404`/`405`, `SplitClassifierClient.classify_segment` trong [slr-m2/deployment/m2/remote_clients.py](slr-m2/deployment/m2/remote_clients.py) tự rơi về gửi gói RAM `.pbl6` như cũ.
 3. **Phương án A (`utterance_rest = 4.0s`) & Sửa UI cảm ứng Pi (`stt-app`):**
-   - **`utterance_rest = 4.0s` là logic Backend trên Pi** (`Segmenter` đếm đủ `4.0s` nghỉ → phát sự kiện WebSocket `utterance_ready`); Frontend [stt-app/app/page.tsx](stt-app/app/page.tsx) không tự đếm giờ mà chỉ nghe `utterance_ready` để lưu gộp các từ của câu đó vào khung chat khi bật `autoSaveOnRest`.
+   - **Backend M2 trên Pi chốt sau `4.0s` REST đã quan sát.** Mất dấu tối đa `0.5s` tạm dừng bộ đếm. Khi nhận `utterance_ready`, app lưu các gloss của lượt vào hội thoại nếu đã bật `autoSaveOnRest`.
    - Ô **Địa chỉ máy chủ SLR** trong [stt-app/src/components/SettingsView.tsx](stt-app/src/components/SettingsView.tsx) đã gắn cố định tiền tố `http://` bên trái (`normalizeSlrBaseUrl`, `stripSlrUrlScheme` trong [stt-app/src/lib/slrSettings.ts](stt-app/src/lib/slrSettings.ts)) để trên bàn phím cảm ứng Pi không cần gõ ký tự `//`.
 
 ---
@@ -77,14 +78,11 @@ Worker FIFO trên Pi ───(JSON < 100B: {session_id, start, end, target_seq}
 
 ---
 
-### 0.4 Ba vấn đề vừa phát hiện từ phiên Live & Việc cần làm tiếp (Cho AI Agent kế tiếp)
-
-> [!IMPORTANT]
-> **AI Agent tiếp nhận hãy đọc kỹ 3 mục dưới đây.** Đây là 3 điểm nghẽn thực tế duy nhất còn lại sau khi phân tích log phiên `live-91a0955bb5`. Hãy hỏi người dùng xác nhận trước khi sửa code:
+### 0.4 Các vấn đề ghi nhận trong phiên live và trạng thái xử lý
 
 1. **Vấn đề A — `crop_rescue` quét lại toàn bộ clip làm 5/9 từ bị cộng thêm `~1.1–1.5s` (`prep = 1.12s – 1.68s`):**
    - **Nguyên nhân:** Khi clip có `no_hand_fraction > 0.2` và `longest_gap >= 0.4s` (rất dễ xảy ra vì riêng vùng đệm `-0.30s` trước + `+0.20s` sau khi tay hạ ở hông đã chiếm `~5` frame không thấy bàn tay), `_run_crop_rescue_unlocked` trong [slr-m2/deployment/m2/classifier.py](slr-m2/deployment/m2/classifier.py) hiện chạy `crop_hands.process()` trên **tất cả `24–36` frame** của đoạn ký.
-   - **Hướng sửa:** Chỉ chạy `crop_hands.process()` trên những frame thực sự thiếu tay (hoặc tận dụng kết quả đã có cho những frame bắt đủ 2 tay) trước khi đưa vào `rescue_candidates.assemble()`, giúp kéo cả 5 từ này về mức `~0.5–0.9s`.
+   - M2 đã tắt crop rescue mặc định cho cả streaming, gói `.pbl6` và video file. Khi bật bằng `--crop-rescue`, nhánh này vẫn quét toàn đoạn đủ điều kiện.
 
 2. **Vấn đề B — Tranh chấp CPU trên Pi 4B khi chạy live làm ONNX Từ `#1` tăng từ `0.74s` lên `2.12s` (rồi tự trượt sang Laptop Fallback):**
    - **Nguyên nhân:** Khi benchmark độc lập, CPU Pi 4B rảnh nên ONNX chạy `0.741s`. Khi chạy live, 4 nhân Cortex-A72 đồng thời gánh Firefox Wayland + stream MJPEG `/video_feed` (`20 FPS` trong [slr-m2/deployment/m2/server.py](slr-m2/deployment/m2/server.py)) + `wayvnc` (`30 FPS`) + đọc/nén Camera + `onnxruntime` (`4` threads) gây tranh chấp luồng.
@@ -92,10 +90,10 @@ Worker FIFO trên Pi ───(JSON < 100B: {session_id, start, end, target_seq}
 
 3. **Vấn đề C — Bộ đếm `utterance_rest = 4.0s` bị hủy khi người dùng bước ra ngoài / rớt 1 frame khớp (`arms: [null, null]`):**
    - **Nguyên nhân:** Trong [slr-m2/deployment/m1/segmenter.py](slr-m2/deployment/m1/segmenter.py), để phát `utterance_end`, người ký phải đứng nguyên trong khung với đủ 8 khớp (`visibility >= 0.5`) và hạ tay liên tục suốt `4.0s`. Chỉ cần 1 frame bị `None in arms` (ví dụ nghiêng người nhìn màn hình hoặc bước ra khỏi camera), `Segmenter` chuyển về `UNKNOWN` và xóa `rest_since = None`. Hệ quả là trong phiên `live-91a0955bb5`, dù nghỉ `19.8s` và `88.5s` giữa các lượt ký, cả 9 từ vẫn dính chung trong `utterance_id = "0"` và chưa chốt câu (`utterances = []`).
-   - **Hướng sửa (ở lớp M2 `pipeline.py`, KHÔNG sửa `deployment/m1/segmenter.py`):** Trong `LiveSessionManager`, theo dõi thời gian trôi qua kể từ segment hoàn chỉnh cuối cùng; nếu sau `>= 4.0s` không có cử động tay `active` nào (dù đang ở `READY` hay `UNKNOWN` do bước ra ngoài khung), lớp M2 chủ động chốt `utterance_ready` cho câu hiện tại và đồng bộ `utterance_id` mới.
+   - M2 đã tích lũy 4 giây REST quan sát được. Nếu bắt lại REST trong 0,5 giây kể từ frame REST cuối, bộ đếm giữ phần đã tích lũy. Mất dấu lâu hơn, gián đoạn timestamp hoặc thấy tay hoạt động sẽ đặt lại bộ đếm.
 
 #### Hàng đợi công việc kế tiếp (Next Steps)
-- [ ] **Bước 5.6:** Xin người dùng duyệt và sửa 3 điểm A, B, C ở trên trên nhánh `perf/streaming-onnx` → deploy `-FastSync` test lại trên Pi 4B → merge `perf/streaming-onnx` vào `main`.
+- [ ] **Bước 5.6** gồm đo lại độ trễ trên Pi 4B với cấu hình mặc định mới và kiểm tra chốt lượt khi mất dấu ngắn. Việc giảm tải camera preview và VNC vẫn đang mở.
 - [ ] **Bước 6 (Giai đoạn cuối — M3 LLM + IoT ThingsBoard tối giản):**
   - Khi nhận `utterance_ready`, gọi 1 lần **LLM API (JSON Structured Output)** trả về `revised_glosses` + `vietnamese_sentence` (timeout `~3–4s` thì giữ nguyên `raw_glosses`, không chặn câu tiếp theo).
   - Đẩy telemetry tối giản (~50 dòng code: `online`, `session_count`, `gloss_count`, `latency_ms`) lên **ThingsBoard**.
@@ -114,7 +112,7 @@ USB Webcam + Mic (Pi 4B)
    └──► WayVNC (:5900, vòng lặp tự hồi pbl6-wayvnc-loop trên Firefox Wayland --new-window + Squeekboard)
 ```
 
-- **Laptop LAN (`vision_backend.py`, cổng `8767`):** Nhận luồng frame `640×480` (`/api/vision/pose-frame`), chạy `Pose` (và song song `Hands` khi tay chuyển động), giữ bộ đệm RAM 20s `SessionStreamBuffer`, hoàn tất chuẩn hóa đoạn ký từ RAM (`/api/vision/extract-segment`), và tự làm dự phòng SL-GCN ONNX (`/api/vision/classify-segment`) nếu Pi chạy chậm hơn ngưỡng `1.50s` `2` lần liên tiếp.
+- **Laptop LAN (`vision_backend.py`, cổng `8767`)** chạy MediaPipe và chuẩn hóa landmark. Mặc định Pi thực hiện suy luận SL-GCN. Dùng `pi_start.sh <LAPTOP_IP> --threshold 1.5` để bật chuyển dự phòng sang laptop sau hai lần Pi suy luận vượt 1,5 giây. Dùng `--crop-rescue` lúc khởi động Vision Backend để bật lại lượt quét crop.
 - **Raspberry Pi 4B 8GB (Debian 13 Trixie `aarch64`):** Chạy SLR Edge (`:8765`), Next.js standalone `stt-app` (`:3100`), Firefox Wayland (`--new-window` chromeless để không đè bàn phím ảo `Squeekboard`), `fcitx5`, và `wayvnc` (`:5900`).
 
 ---

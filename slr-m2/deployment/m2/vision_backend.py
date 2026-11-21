@@ -135,8 +135,10 @@ def create_vision_app(
     vision_extractor: VisionExtractor | None = None,
     bone_classifier: BoneClassifier | None = None,
     pose_detector: Any = None,
+    *,
+    crop_rescue_enabled: bool = False,
 ) -> FastAPI:
-    extractor = vision_extractor or VisionExtractor()
+    extractor = vision_extractor or VisionExtractor(crop_rescue_enabled=crop_rescue_enabled)
     fallback_bone = bone_classifier
     if fallback_bone is None and enable_fallback_classifier:
         fallback_bone = BoneClassifier(bundle=bundle)
@@ -384,6 +386,10 @@ def main() -> None:
     parser.add_argument("--port", type=int, default=8767)
     parser.add_argument("--bundle", type=Path, default=DEFAULT_BUNDLE)
     parser.add_argument(
+        "--crop-rescue", action=argparse.BooleanOptionalAction, default=False,
+        help="Enable the extra hand-landmark crop pass for eligible segments",
+    )
+    parser.add_argument(
         "--no-fallback-classifier",
         action="store_true",
         help="Disable SL-GCN fallback classification endpoint (/api/vision/classify-clip)",
@@ -395,6 +401,7 @@ def main() -> None:
     app = create_vision_app(
         bundle=args.bundle,
         enable_fallback_classifier=not args.no_fallback_classifier,
+        crop_rescue_enabled=args.crop_rescue,
     )
     uvicorn.run(app, host=args.host, port=args.port)
 

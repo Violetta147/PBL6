@@ -18,8 +18,8 @@ from pydantic import BaseModel
 
 from deployment.m1.common import DEFAULT_BUNDLE, ROOT
 from deployment.m2.classifier import BoneClassifier, SLRClassifier
-from deployment.m2.pipeline import LiveSessionManager, load_frozen_config
-from deployment.m2.remote_clients import RemotePoseClient, SplitClassifierClient
+from deployment.m2.pipeline import DEFAULT_UTTERANCE_REST_SECONDS, LiveSessionManager, load_frozen_config
+from deployment.m2.remote_clients import DEFAULT_FALLBACK_THRESHOLD_SECONDS, RemotePoseClient, SplitClassifierClient
 
 INDEX_HTML = Path(__file__).with_name("index.html")
 DEFAULT_TTS_DIR = ROOT.parent / "slr-app" / "MVP" / "local_data" / "tts"
@@ -105,6 +105,7 @@ def _build_runtime(
     pose_provider: Any,
     on_capture_start: Any,
     runtime_controller: Any,
+    crop_rescue_enabled: bool,
 ) -> dict[str, Any]:
     if inference_mode not in ("local", "pi-split", "remote-fallback"):
         raise ValueError(f"Unsupported inference_mode: {inference_mode}")
@@ -171,7 +172,7 @@ def _build_runtime(
 
     loaded_classifier = classifier
     if loaded_classifier is None and preload_model:
-        loaded_classifier = SLRClassifier(bundle=bundle)
+        loaded_classifier = SLRClassifier(bundle=bundle, crop_rescue_enabled=crop_rescue_enabled)
     if loaded_classifier is None:
         raise ValueError("Either classifier, classifier_fn, or preload_model=True is required")
 
@@ -193,11 +194,13 @@ def create_app(
     tts_dir: Path = DEFAULT_TTS_DIR,
     inference_mode: str = "local",
     vision_backend_url: str | None = None,
-    fallback_threshold_seconds: float = 1.5,
+    fallback_threshold_seconds: float = DEFAULT_FALLBACK_THRESHOLD_SECONDS,
     pose_provider: Any = None,
     on_capture_start: Any = None,
     runtime_controller: Any = None,
-    utterance_rest: float | None = None,
+    utterance_rest: float | None = DEFAULT_UTTERANCE_REST_SECONDS,
+    *,
+    crop_rescue_enabled: bool = False,
 ) -> FastAPI:
     hub = WebSocketHub()
     rt = _build_runtime(
@@ -211,6 +214,7 @@ def create_app(
         pose_provider=pose_provider,
         on_capture_start=on_capture_start,
         runtime_controller=runtime_controller,
+        crop_rescue_enabled=crop_rescue_enabled,
     )
     model_identity = rt["model_identity"]
     controller = rt["controller"]
@@ -378,8 +382,15 @@ def main() -> None:
         default="local",
     )
     parser.add_argument("--vision-backend-url", default=None)
-    parser.add_argument("--fallback-threshold", type=float, default=1.5)
-    parser.add_argument("--utterance-rest", type=float, default=4.0)
+    parser.add_argument(
+        "--fallback-threshold", type=float, default=DEFAULT_FALLBACK_THRESHOLD_SECONDS,
+        help="Enable automatic LAN inference fallback above this many seconds (0 disables it)",
+    )
+    parser.add_argument("--utterance-rest", type=float, default=DEFAULT_UTTERANCE_REST_SECONDS)
+    parser.add_argument(
+        "--crop-rescue", action=argparse.BooleanOptionalAction, default=False,
+        help="Enable crop rescue for local extraction; configure the Vision Backend in split mode",
+    )
     parser.add_argument("--tts-dir", type=Path, default=DEFAULT_TTS_DIR)
     args = parser.parse_args()
 
@@ -393,6 +404,7 @@ def main() -> None:
         vision_backend_url=args.vision_backend_url,
         fallback_threshold_seconds=args.fallback_threshold,
         utterance_rest=args.utterance_rest,
+        crop_rescue_enabled=args.crop_rescue,
     )
     uvicorn.run(app, host=args.host, port=args.port)
 
