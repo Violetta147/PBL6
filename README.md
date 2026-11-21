@@ -1,5 +1,7 @@
 # PBL6 — nghiên cứu STT tiếng Việt cho kính thông minh
 
+> **[BÀN GIAO MỚI NHẤT — ĐỌC TẠI ĐÂY NẾU BẠN MỚI PULL VỀ LÀM TIẾP]:** Xem [HANDOFF_TEAMMATE_M2_PI.md](HANDOFF_TEAMMATE_M2_PI.md) để cài môi trường trên máy bạn, kết nối **SSH / TightVNC (`:5900`)** vào **Raspberry Pi 4B**, chạy **Vision Backend (`:8767`)** và đồng bộ code bằng `-FastSync`. Kiến trúc & các quyết định đã chốt (`1A, 2A, 3A, 4A, 5B`) nằm tại [docs/PBL6_DECISION_AND_ARCHITECTURE.md](docs/PBL6_DECISION_AND_ARCHITECTURE.md).
+
 > Giữ dự án STT tại thư mục C hiện tại. Hạn hoàn thành là thứ Năm 05/11/2026. Dùng [kế hoạch hiện tại](STT_PLAN_1_WEEK.md), [đặc tả Settings/phụ đề/IoT](STT_SYSTEM_SPEC.md), [bàn giao năm ca nối tiếp](STT_SHIFT_HANDOFF.md), [BOM tổng thể](STT_BOM.md) và [kiểm kê bằng chứng](experiments/inventory_20261102/README.md). Các tài liệu cũ bên dưới giữ vai trò lịch sử và tra cứu; không tự động là phạm vi hiện tại.
 
 ## Tài liệu định hướng hiện tại
