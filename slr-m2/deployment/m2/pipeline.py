@@ -200,6 +200,42 @@ class LiveSessionManager:
         with self._frame_lock:
             return None if self._latest_frame is None else self._latest_frame.copy()
 
+    def pick_gloss_candidate(
+        self, session_id: str, segment_id: str, label_id: int, *, allow_closed: bool = False
+    ) -> dict[str, Any]:
+        with self._state_lock:
+            if session_id != self._session_id:
+                raise ValueError("Phiên ký đã thay đổi.")
+            for index, record in enumerate(self._glosses):
+                if record["segment_id"] == segment_id:
+                    break
+            else:
+                raise ValueError("Không tìm thấy ký hiệu trong phiên này.")
+
+            selected = record.get("selected_candidate")
+            if selected is not None:
+                if selected["label_id"] == label_id:
+                    return record
+                raise ValueError("Ký hiệu này đã được xác nhận.")
+            if record["utterance_id"] in self._closed_utterances and not allow_closed:
+                raise ValueError("Lượt ký đã chốt.")
+            if not record["raw"]["low_confidence"]:
+                raise ValueError("Ký hiệu này đã rõ.")
+            candidate = next(
+                (item for item in record["raw"]["top5"][:3] if item["label_id"] == label_id),
+                None,
+            )
+            if candidate is None:
+                raise ValueError("Ứng viên nằm ngoài ba gợi ý của ký hiệu.")
+
+            updated = {**record, "selected_candidate": candidate}
+            self._glosses[index] = updated
+            pending = self._pending_utterance_items.get(record["utterance_id"])
+            if pending is not None:
+                pending[pending.index(record)] = updated
+            self._emit("gloss_corrected", {"gloss": updated})
+            return updated
+
     def snapshot(self) -> dict[str, Any]:
         with self._state_lock:
             return {
@@ -859,7 +895,7 @@ class LiveSessionManager:
                 "vietnamese_sentence": None,
             }
             self._utterances.append(utterance)
-        self._emit("utterance_ready", {"utterance": utterance})
+            self._emit("utterance_ready", {"utterance": utterance})
 
     def _worker_loop(self, session_id: str, epoch: int) -> None:
         while True:

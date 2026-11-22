@@ -31,6 +31,12 @@ class StartSessionRequest(BaseModel):
     realtime_video: bool = True
 
 
+class PickGlossCandidateRequest(BaseModel):
+    session_id: str
+    label_id: int
+    allow_closed: bool = False
+
+
 class RuntimeFallbackRequest(BaseModel):
     fallback_active: bool
     reason: str | None = None
@@ -334,6 +340,16 @@ def create_app(
     async def session_stop():
         snap = await asyncio.to_thread(manager.stop_session, 120.0)
         return {"ok": True, "state": snap}
+
+    @app.post("/api/session/glosses/{segment_id}/candidate")
+    def pick_gloss_candidate(segment_id: str, req: PickGlossCandidateRequest):
+        try:
+            gloss = manager.pick_gloss_candidate(
+                req.session_id, segment_id, req.label_id, allow_closed=req.allow_closed,
+            )
+        except ValueError as error:
+            raise HTTPException(status_code=409, detail=str(error)) from error
+        return {"gloss": gloss}
 
     @app.get("/video_feed")
     async def video_feed():

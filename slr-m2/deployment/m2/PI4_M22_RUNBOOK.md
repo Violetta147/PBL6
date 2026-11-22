@@ -158,12 +158,14 @@ PBL6_STT_RUNTIME_OS=linux HOSTNAME=0.0.0.0 PORT=3100 ~/.local/node/bin/node ~/PB
 > [!NOTE]
 > Quyền truy cập LAN: `/api/conversations` (`GET`) và `/api/conversations/[id]` (`GET`) cho phép xem lịch sử từ thiết bị cùng mạng nội bộ (`192.168.x.x`, `10.x.x.x`, `172.16-31.x.x`, `*.local`) để `/companion` hoạt động bình thường. Các endpoint nhạy cảm (`Cài đặt`, `Ghi âm/Mic`, `POST/PATCH/DELETE` hội thoại) vẫn khóa chặt chỉ chấp nhận loopback trên Pi.
 
-### 3.3 Mở Kiosk 7 inch (`1024×600`), TightVNC (`:5900`) & `/companion` trên điện thoại
+### 3.3 Mở giao diện Pi, TightVNC (`:5900`) và Companion
 
 - **Trên Pi 4B (dùng Firefox Wayland `--new-window` chromeless — đã xác minh lên hình thật):** Trên Debian 13 Trixie (`labwc`), bản Chromium `156` mặc định bị `Illegal instruction` / màn hình trắng, còn `--kiosk` che mất bàn phím ảo `Squeekboard`. Dùng `pi_start.sh` để mở Firefox `--new-window` chromeless + `Squeekboard` + `fcitx5` + vòng lặp `pbl6-wayvnc-loop` (`wayvnc --render-cursor --max-fps=30 0.0.0.0 5900`, tự bám sang màn ảo `NOOP-1` `1024×600` nếu tắt/rút HDMI).
 - **TightVNC Viewer trên Windows:** nhập `<PI_IP>` (hoặc `<PI_IP>::5900`) và chọn **`Connect without encryption`** khi được hỏi.
 - **Trong `Cài đặt -> SLR` trên UI Pi:** để trống (tự dùng `http://127.0.0.1:8765`) hoặc nhập `http://127.0.0.1:8765`.
+- Với màn hình dọc, camera nằm trên gloss trực tiếp và hội thoại. Các tab Cài đặt nằm ngang phía trên nội dung. Khi chữ và cả giao diện hệ điều hành trông méo tỷ lệ, dùng `wlr-randr` trong phiên Wayland để đối chiếu HDMI mode với độ phân giải vật lý của panel.
 - **Trên điện thoại / Laptop trong LAN:** mở `http://<PI_IP>:3100/companion` (trình duyệt tự suy ra `http://<PI_IP>:8765`).
+- Trên cả Pi và Companion, chạm từ màu cam để mở ba gợi ý của từ đó. Viền cam đậm đánh dấu từ đang được xem. Khi Pi lưu lượt ký, hội thoại giữ trạng thái và ba gợi ý của từng từ. Từ chưa xác nhận vẫn hiện màu cam trong lịch sử.
 
 ---
 

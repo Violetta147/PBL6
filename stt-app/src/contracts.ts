@@ -5,6 +5,16 @@ export type Model = (typeof MODELS)[number];
 export const MESSAGE_SOURCES = ['voice', 'keyboard', 'sign', 'external'] as const;
 export type MessageSource = (typeof MESSAGE_SOURCES)[number];
 
+export type SignGloss = {
+  segmentId: string;
+  utteranceId: string;
+  label: string;
+  labelId: number;
+  originalLabel: string;
+  status: 'recognized' | 'unconfirmed' | 'confirmed';
+  top3: { label: string; label_id: number; score: number }[];
+};
+
 export type Conversation = {
   id: string;
   title: string;
@@ -19,6 +29,7 @@ export type Message = {
   text: string;
   createdAt: string;
   sources: MessageSource[];
+  signGlosses?: SignGloss[];
 };
 
 export type AudioDevice = {

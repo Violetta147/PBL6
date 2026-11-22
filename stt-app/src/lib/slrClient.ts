@@ -13,6 +13,7 @@ export interface SlrGlossRecord {
   movement_start: number;
   movement_end: number;
   end: number;
+  selected_candidate?: SlrTopCandidate;
   raw: {
     top1_label: string;
     top1_id: number;
@@ -67,8 +68,9 @@ export type SlrWsEvent =
   | { type: 'segment_complete'; segment: { segment_id: string }; frame_count: number }
   | { type: 'segment_incomplete'; segment: { segment_id: string; reason?: string } }
   | { type: 'gloss_result'; gloss: SlrGlossRecord }
+  | { type: 'gloss_corrected'; session_id: string; gloss: SlrGlossRecord }
   | { type: 'utterance_ready'; utterance: SlrUtteranceRecord }
-  | { type: 'session_started'; source: string }
+  | { type: 'session_started'; source: string; session_id?: string }
   | { type: 'session_stopped'; snapshot: SlrSnapshot }
   | { type: 'error'; message: string };
 
@@ -145,4 +147,21 @@ export async function stopSlrSession(baseUrl: string): Promise<SlrSnapshot> {
     throw new Error(data?.detail || `Không dừng được phiên SLR (${res.status})`);
   }
   return data.state;
+}
+
+export async function pickSlrCandidate(
+  baseUrl: string, sessionId: string, segmentId: string, labelId: number, allowClosed = false
+): Promise<SlrGlossRecord> {
+  const res = await fetch(`${baseUrl}/api/session/glosses/${encodeURIComponent(segmentId)}/candidate`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ session_id: sessionId, label_id: labelId, allow_closed: allowClosed }),
+  });
+  const data = (await res.json().catch(() => null)) as
+    | { detail?: string; gloss?: SlrGlossRecord }
+    | null;
+  if (!res.ok || !data?.gloss) {
+    throw new Error(typeof data?.detail === 'string' ? data.detail : 'Không xác nhận được từ này.');
+  }
+  return data.gloss;
 }

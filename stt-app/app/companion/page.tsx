@@ -2,6 +2,8 @@
 
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import type { Conversation, Message } from '../../src/contracts';
+import { LiveGlossPicker, toLiveGlossItem } from '../../src/components/LiveSigningCard';
+import { MessageText } from '../../src/components/MessageCard';
 import {
   DEFAULT_SLR_SETTINGS,
   loadSlrSettings,
@@ -11,10 +13,12 @@ import {
 } from '../../src/lib/slrSettings';
 import {
   formatUserFacingState,
+  pickSlrCandidate,
   startSlrSession,
   stopSlrSession,
   type SegmenterState,
   type SlrGlossRecord,
+  type SlrTopCandidate,
   type SlrWsEvent,
 } from '../../src/lib/slrClient';
 
@@ -36,6 +40,7 @@ export default function CompanionPage() {
 
   const seenSegIdsRef = useRef<Set<string>>(new Set());
   const activeSessionKeyRef = useRef<string | null>(null);
+  const activeSessionIdRef = useRef<string | null>(null);
   const selectedConvIdRef = useRef<string>('');
   selectedConvIdRef.current = selectedConvId;
 
@@ -129,6 +134,7 @@ export default function CompanionPage() {
 
         if (msg.type === 'snapshot') {
           const snap = msg.snapshot;
+          activeSessionIdRef.current = snap.session_id;
           const sessionKey = snap.session_id ? `${snap.session_id}:${snap.epoch}` : null;
           if (sessionKey && sessionKey !== activeSessionKeyRef.current) {
             activeSessionKeyRef.current = sessionKey;
@@ -149,9 +155,12 @@ export default function CompanionPage() {
           );
           const lastUtt = snap.utterances?.[snap.utterances.length - 1];
           if (lastUtt) {
-            setLatestUtterance(lastUtt.raw_glosses.join(' '));
+            setLatestUtterance(lastUtt.segments?.length
+              ? lastUtt.segments.map((g) => toLiveGlossItem(g).label).join(' ')
+              : lastUtt.raw_glosses.join(' '));
           }
         } else if (msg.type === 'session_started') {
+          activeSessionIdRef.current = msg.session_id ?? null;
           seenSegIdsRef.current.clear();
           setLiveGlosses([]);
           setRunning(true);
@@ -164,8 +173,14 @@ export default function CompanionPage() {
           if (seenSegIdsRef.current.has(msg.gloss.segment_id)) return;
           seenSegIdsRef.current.add(msg.gloss.segment_id);
           setLiveGlosses((prev) => [...prev, msg.gloss]);
+        } else if (msg.type === 'gloss_corrected') {
+          if (msg.session_id !== activeSessionIdRef.current) return;
+          setLiveGlosses((prev) => prev.map((g) => g.segment_id === msg.gloss.segment_id ? msg.gloss : g));
         } else if (msg.type === 'utterance_ready') {
-          const joined = (msg.utterance.raw_glosses ?? []).join(' ');
+          const utt = msg.utterance;
+          const joined = utt.segments?.length
+            ? utt.segments.map((g) => toLiveGlossItem(g).label).join(' ')
+            : (utt.raw_glosses ?? []).join(' ');
           setLatestUtterance(joined);
           setLiveGlosses((prev) =>
             prev.filter((g) => g.utterance_id !== msg.utterance.utterance_id)
@@ -216,6 +231,7 @@ export default function CompanionPage() {
         seenSegIdsRef.current.clear();
         setLiveGlosses([]);
         const snap = await startSlrSession(slrBaseUrl, slrSettings.cameraIndex);
+        activeSessionIdRef.current = snap.session_id;
         setRunning(Boolean(snap.running));
         setDraining(Boolean(snap.draining));
         setSegmenterState(snap.segmenter_state ?? 'UNKNOWN');
@@ -228,6 +244,22 @@ export default function CompanionPage() {
       );
     } finally {
       setBusy(false);
+    }
+  };
+
+  const handlePickCandidate = async (segmentId: string, candidate: SlrTopCandidate) => {
+    const sessionId = activeSessionIdRef.current;
+    if (!sessionId) return;
+    setErrorText(null);
+    try {
+      const gloss = await pickSlrCandidate(slrBaseUrl, sessionId, segmentId, candidate.label_id);
+      if (activeSessionIdRef.current === sessionId) {
+        setLiveGlosses((prev) => prev.map((g) => g.segment_id === segmentId ? gloss : g));
+      }
+    } catch (error) {
+      if (activeSessionIdRef.current === sessionId) {
+        setErrorText(error instanceof Error ? error.message : 'Không xác nhận được từ này.');
+      }
     }
   };
 
@@ -288,30 +320,12 @@ export default function CompanionPage() {
             </span>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2 min-h-[40px]">
-            {liveGlosses.length === 0 ? (
-              <span className="text-[16px] text-[#4F5D6B]">
-                {running
-                  ? 'Chờ ký hiệu mới...'
-                  : 'Chưa bật phiên ký. Chạm "Bắt đầu ký" để bắt đầu.'}
-              </span>
-            ) : (
-              liveGlosses.map((g) => (
-                <span
-                  key={g.segment_id}
-                  className={`rounded-xl px-3 py-1 text-[20px] font-bold ${
-                    g.raw.low_confidence
-                      ? 'bg-[#FDE7E7] text-[#C52236] border border-[#FCA5A5]'
-                      : 'bg-[#DDF7E9] text-[#0B6B45]'
-                  }`}
-                >
-                  {g.raw.low_confidence
-                    ? `CHƯA RÕ (${g.raw.top1_label})`
-                    : g.raw.top1_label}
-                </span>
-              ))
-            )}
-          </div>
+          <LiveGlossPicker
+            key={activeSessionIdRef.current}
+            glosses={liveGlosses.map(toLiveGlossItem)}
+            onPickCandidate={handlePickCandidate}
+            emptyText={running ? 'Chờ ký hiệu mới...' : 'Chưa bật phiên ký.'}
+          />
 
           {latestUtterance && (
             <div className="border-t border-[#E2E8F0] pt-2">
@@ -387,7 +401,7 @@ export default function CompanionPage() {
                     </span>
                   </div>
                   <p className="text-[19px] leading-relaxed text-[#18212B] whitespace-pre-wrap break-words m-0">
-                    {m.text}
+                    <MessageText message={m} />
                   </p>
                 </article>
               ))

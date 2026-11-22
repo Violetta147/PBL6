@@ -2,7 +2,7 @@ import { mkdir, readFile, writeFile, rename, rm } from 'node:fs/promises';
 import { homedir } from 'node:os';
 import { join } from 'node:path';
 import { randomUUID } from 'node:crypto';
-import { MESSAGE_SOURCES, type Conversation, type Message, type MessageSource } from '../contracts';
+import { MESSAGE_SOURCES, type Conversation, type Message, type MessageSource, type SignGloss } from '../contracts';
 import { AppError } from './errors';
 import { runtimePlatform } from './settings';
 
@@ -157,9 +157,36 @@ export async function getConversationWithMessages(
   return { conversation: { ...conversation }, messages };
 }
 
+function signMessageMetadata(value: unknown, sources: MessageSource[], text: string): Pick<Message, 'signGlosses'> {
+  if (value === undefined) return {};
+  const invalid = () => new AppError('sign_glosses_invalid', 'Dữ liệu ký hiệu không hợp lệ.', 400);
+  if (!sources.includes('sign') || !Array.isArray(value) || value.length === 0) throw invalid();
+  const signGlosses = value.map((entry: unknown): SignGloss => {
+    if (!entry || typeof entry !== 'object') throw invalid();
+    const { segmentId, utteranceId, label, labelId, originalLabel, status, top3 } = entry as Partial<SignGloss>;
+    if (
+      typeof segmentId !== 'string' || !segmentId ||
+      typeof utteranceId !== 'string' || !utteranceId ||
+      typeof label !== 'string' || !label || typeof labelId !== 'number' || !Number.isInteger(labelId) ||
+      typeof originalLabel !== 'string' || !originalLabel ||
+      (status !== 'recognized' && status !== 'unconfirmed' && status !== 'confirmed') ||
+      !Array.isArray(top3) || top3.length > 3
+    ) throw invalid();
+    const candidates = top3.map((candidate) => {
+      if (!candidate || typeof candidate.label !== 'string' || !Number.isInteger(candidate.label_id) ||
+          !Number.isFinite(candidate.score) || candidate.score < 0 || candidate.score > 1) throw invalid();
+      return { label: candidate.label, label_id: candidate.label_id, score: candidate.score };
+    });
+    return { segmentId, utteranceId, label, labelId, originalLabel, status, top3: candidates };
+  });
+  if (signGlosses.map(({ label }) => label).join(' ').trim() !== text) throw invalid();
+  return { signGlosses };
+}
+
 export function createConversationWithFirstMessage(
   text: string,
-  sources: MessageSource[] = ['keyboard']
+  sources: MessageSource[] = ['keyboard'],
+  signGlosses?: unknown
 ): Promise<{ conversation: Conversation; message: Message }> {
   return serializeWrite(async () => {
     const trimmed = (text || '').trim();
@@ -188,6 +215,7 @@ export function createConversationWithFirstMessage(
       text: trimmed,
       createdAt: now,
       sources: cleanSources,
+      ...signMessageMetadata(signGlosses, cleanSources, trimmed),
     };
 
     data.conversations.push(conversation);
@@ -201,7 +229,8 @@ export function createConversationWithFirstMessage(
 export function appendMessage(
   conversationId: string,
   text: string,
-  sources: MessageSource[] = ['keyboard']
+  sources: MessageSource[] = ['keyboard'],
+  signGlosses?: unknown
 ): Promise<Message> {
   return serializeWrite(async () => {
     const trimmed = (text || '').trim();
@@ -225,6 +254,7 @@ export function appendMessage(
       text: trimmed,
       createdAt: now,
       sources: cleanSources,
+      ...signMessageMetadata(signGlosses, cleanSources, trimmed),
     };
 
     conv.updatedAt = now;

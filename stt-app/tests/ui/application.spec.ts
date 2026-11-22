@@ -1,4 +1,4 @@
-import { test, expect, _electron } from '@playwright/test';
+import { test, expect, _electron, type WebSocketRoute } from '@playwright/test';
 import { resolve } from 'node:path';
 import { spawn, execFileSync } from 'node:child_process';
 import { mkdtemp, rm } from 'node:fs/promises';
@@ -6,6 +6,144 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
 const fakeKey = 'TEST_NOT_A_REAL_KEY_0123456789';
+
+test('portrait settings tabs and signing camera use the full width', async ({ page }) => {
+  await page.routeWebSocket('**/ws/live', (socket) => {
+    socket.send(JSON.stringify({
+      type: 'snapshot',
+      snapshot: {
+        session_id: 'portrait-test', epoch: 1, running: true, draining: false,
+        segmenter_state: 'READY', arms: ['rest', 'rest'], queue_depth: 0,
+        capture_fps: 20, glosses: [], utterances: [],
+      },
+    }));
+  });
+  await page.setViewportSize({ width: 600, height: 1024 });
+  await page.goto('/');
+  const dock = page.getByTestId('slr-dock');
+  const conversation = page.getByTestId('conversation-area');
+  await expect(dock).toBeVisible();
+  await expect(dock.getByRole('img')).toHaveCSS('object-fit', 'contain');
+
+  for (const width of [360, 600, 768]) {
+    await page.setViewportSize({ width, height: 1024 });
+    const cameraBox = (await dock.boundingBox())!;
+    const conversationBox = (await conversation.boundingBox())!;
+    expect(cameraBox.width).toBe(width);
+    expect(cameraBox.y + cameraBox.height).toBeLessThan(conversationBox.y);
+    await expect(page.getByTestId('slr-toggle-button')).toBeInViewport();
+    await expect(page.getByTestId('send-button')).toBeInViewport();
+
+    await page.getByTestId('settings-button').click();
+    const settings = page.getByTestId('settings-content');
+    const tabs = await Promise.all(['stt', 'slr', 'history'].map((tab) =>
+      page.getByTestId(`settings-tab-${tab}`).boundingBox()));
+    const settingsBox = (await settings.boundingBox())!;
+    expect(tabs).toHaveLength(3);
+    expect(tabs[0]!.y).toBe(tabs[2]!.y);
+    expect(tabs[0]!.x).toBeLessThan(tabs[1]!.x);
+    expect(tabs[1]!.x).toBeLessThan(tabs[2]!.x);
+    expect(tabs[2]!.y + tabs[2]!.height).toBeLessThan(settingsBox.y);
+    expect(settingsBox.width).toBe(width);
+    await page.getByTestId('settings-tab-slr').click();
+    await expect(page.getByTestId('settings-tab-slr')).toHaveAttribute('aria-pressed', 'true');
+    await page.getByTestId('settings-back-button').click();
+  }
+
+  await page.setViewportSize({ width: 1024, height: 600 });
+  const wideDock = (await dock.boundingBox())!;
+  const wideConversation = (await conversation.boundingBox())!;
+  expect(wideDock.x + wideDock.width).toBeLessThanOrEqual(wideConversation.x);
+});
+
+test('Companion can correct an earlier unclear gloss and sync the choice to Pi', async ({ context, page }) => {
+  const candidate = (label: string, label_id: number, score: number) => ({ label, label_id, score });
+  const gloss = (segment_id: string, top5: ReturnType<typeof candidate>[]) => ({
+    segment_id, utterance_id: '0', start: 0, movement_start: 0, movement_end: 1, end: 1,
+    raw: {
+      top1_label: top5[0].label, top1_id: top5[0].label_id, confidence: top5[0].score,
+      low_confidence: true, top5,
+    },
+  });
+  const first = gloss('1', [candidate('Cái bàn', 1, 0.42), candidate('Cái ghế', 2, 0.31), candidate('Cái tủ', 3, 0.16)]);
+  const second = gloss('2', [candidate('Bơi lội', 4, 0.42), candidate('Đi bộ', 5, 0.33), candidate('Chạy', 6, 0.11)]);
+  const corrected = { ...first, selected_candidate: first.raw.top5[1] };
+  const sockets: WebSocketRoute[] = [];
+  await context.routeWebSocket('**/ws/live', (socket) => {
+    sockets.push(socket);
+    socket.send(JSON.stringify({
+      type: 'snapshot',
+      snapshot: {
+        session_id: 'sign-test', epoch: 1, running: true, draining: false,
+        segmenter_state: 'READY', arms: ['rest', 'rest'], queue_depth: 0,
+        capture_fps: 20, glosses: [first, second], utterances: [],
+      },
+    }));
+  });
+  await context.route('**/api/session/glosses/1/candidate', async (route) => {
+    const headers = {
+      'access-control-allow-origin': '*', 'access-control-allow-methods': 'POST',
+      'access-control-allow-headers': 'content-type',
+    };
+    if (route.request().method() === 'OPTIONS') {
+      await route.fulfill({ status: 204, headers });
+      return;
+    }
+    expect(route.request().postDataJSON()).toMatchObject({ session_id: 'sign-test', label_id: 2 });
+    for (const socket of sockets) {
+      socket.send(JSON.stringify({ type: 'gloss_corrected', session_id: 'sign-test', gloss: corrected }));
+    }
+    await route.fulfill({ headers, json: { gloss: corrected } });
+  });
+  await page.goto('/');
+  const companion = await context.newPage();
+  await companion.goto('/companion');
+  await expect(page.getByRole('button', { name: 'Cái bàn, từ chưa rõ' })).toHaveText('Cái bàn');
+  await expect(companion.getByText('Gợi ý cho “Bơi lội”')).toBeVisible();
+  const earlier = companion.getByRole('button', { name: 'Cái bàn, từ chưa rõ' });
+  const latest = companion.getByRole('button', { name: 'Bơi lội, từ chưa rõ' });
+  await expect(latest).toHaveAttribute('aria-pressed', 'true');
+  const restingBorder = await earlier.evaluate((button) => getComputedStyle(button).borderTopColor);
+  await earlier.click();
+  await expect(earlier).toHaveAttribute('aria-pressed', 'true');
+  await expect(latest).toHaveAttribute('aria-pressed', 'false');
+  expect(await earlier.evaluate((button) => getComputedStyle(button).borderTopColor)).not.toBe(restingBorder);
+  await expect(companion.getByText('Gợi ý cho “Cái bàn”')).toBeVisible();
+  await companion.getByRole('button', { name: 'Cái ghế', exact: true }).click();
+  for (const display of [page, companion]) {
+    await expect(display.getByText('Cái ghế', { exact: true })).toBeVisible();
+    await expect(display.getByRole('button', { name: 'Cái bàn, từ chưa rõ' })).toHaveCount(0);
+  }
+
+  await page.route('**/api/conversations', async (route) => {
+    if (route.request().method() !== 'POST') return route.continue();
+    const timestamp = new Date().toISOString();
+    const conversation = { id: 'sign-conversation', title: 'Ký trực tiếp', createdAt: timestamp, updatedAt: timestamp, messageCount: 1 };
+    await route.fulfill({
+      status: 201,
+      json: {
+        conversation,
+        message: { id: 'sign-message', conversationId: conversation.id, createdAt: timestamp, ...route.request().postDataJSON() },
+      },
+    });
+  });
+  const saved = page.waitForRequest((request) =>
+    request.url().endsWith('/api/conversations') && request.method() === 'POST');
+  sockets[0].send(JSON.stringify({
+    type: 'utterance_ready',
+    utterance: { utterance_id: '0', raw_glosses: ['Cái bàn', 'Bơi lội'], segments: [corrected, second] },
+  }));
+  expect((await saved).postDataJSON()).toMatchObject({
+    text: 'Cái ghế Bơi lội',
+    signGlosses: [
+      { label: 'Cái ghế', originalLabel: 'Cái bàn', status: 'confirmed', top3: first.raw.top5 },
+      { label: 'Bơi lội', status: 'unconfirmed', top3: second.raw.top5 },
+    ],
+  });
+  const savedMessage = page.getByTestId('message-card');
+  await expect(savedMessage).toHaveText('Cái ghế Bơi lội');
+  await expect(savedMessage.getByLabel('Bơi lội, từ chưa rõ')).toHaveClass(/bg-orange-100/);
+});
 
 test('initial screen displays Header, empty conversation, and composer with idle mic and disabled Send', async ({ page }, info) => {
   await page.goto('/');

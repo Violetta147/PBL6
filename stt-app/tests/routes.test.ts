@@ -54,6 +54,37 @@ function req(path: string, init: RequestInit = {}) {
   });
 }
 
+test('Conversation history saves gloss status and Top 3 on both message routes', async () => {
+  const signGlosses = [{
+    segmentId: '1', utteranceId: '0', label: 'Cái bàn', labelId: 1, originalLabel: 'Cái bàn',
+    status: 'unconfirmed',
+    top3: [
+      { label: 'Cái bàn', label_id: 1, score: 0.43 },
+      { label: 'Cái ghế', label_id: 2, score: 0.30 },
+      { label: 'Cái tủ', label_id: 3, score: 0.10 },
+    ],
+  }];
+  const input = { text: 'Cái bàn', sources: ['sign'], signGlosses };
+  const created = await postConversationHandler(req('/api/conversations', {
+    method: 'POST', body: JSON.stringify(input),
+  }));
+  assert.equal(created.status, 201);
+  const { conversation } = await created.json();
+  const context = { params: Promise.resolve({ id: conversation.id }) };
+  const path = `/api/conversations/${conversation.id}`;
+  const appended = await postMessageHandler(req(`${path}/messages`, {
+    method: 'POST', body: JSON.stringify(input),
+  }), context);
+  assert.equal(appended.status, 201);
+  const history = await getConversationHandler(req(path), context);
+  const { messages } = await history.json();
+  assert.equal(messages.length, 2);
+  for (const message of messages) {
+    assert.equal(message.text, 'Cái bàn');
+    assert.deepEqual(message.signGlosses, signGlosses);
+  }
+});
+
 test('Conversations API: create, list, get, patch, message, batch-delete, delete', async () => {
   // 1. Create conversation with first message
   const createRes = await postConversationHandler(

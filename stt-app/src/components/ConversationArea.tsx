@@ -6,9 +6,10 @@ import { MessageCard } from './MessageCard';
 
 interface ConversationAreaProps {
   messages: Message[];
+  className?: string;
 }
 
-export function ConversationArea({ messages }: ConversationAreaProps) {
+export function ConversationArea({ messages, className = '' }: ConversationAreaProps) {
   const bottomRef = useRef<HTMLDivElement>(null);
   const prevCountRef = useRef(messages.length);
 
@@ -23,7 +24,7 @@ export function ConversationArea({ messages }: ConversationAreaProps) {
   return (
     <section
       aria-label="Vùng hội thoại"
-      className="flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain px-4 py-6 sm:px-8 space-y-4"
+      className={`flex min-h-0 flex-1 flex-col space-y-4 overflow-y-auto overscroll-contain px-3 py-3 sm:px-5 min-[900px]:landscape:px-8 min-[900px]:landscape:py-6 ${className}`}
       data-testid="conversation-area"
     >
       {messages.length === 0 ? (

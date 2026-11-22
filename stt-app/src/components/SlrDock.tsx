@@ -22,6 +22,7 @@ interface SlrDockProps {
   showDiagnostics: boolean;
   errorMessage?: string | null;
   busy?: boolean;
+  compact?: boolean;
   onStop: () => void;
 }
 
@@ -37,6 +38,7 @@ export function SlrDock({
   showDiagnostics,
   errorMessage,
   busy = false,
+  compact = false,
   onStop,
 }: SlrDockProps) {
   const borderColor = getStateBorderColor(running, segmenterState);
@@ -54,10 +56,12 @@ export function SlrDock({
     <aside
       aria-label="Khung camera ký hiệu"
       data-testid="slr-dock"
-      className="flex w-[320px] sm:w-[340px] shrink-0 flex-col justify-between gap-2.5 border-r border-[#BAC5D0] bg-[#FFFFFF] p-3 select-none"
+      className="flex w-full shrink-0 flex-col gap-2 border-b border-[#BAC5D0] bg-white p-2.5 select-none sm:p-3 min-[900px]:landscape:w-[340px] min-[900px]:landscape:border-r min-[900px]:landscape:border-b-0"
     >
       <div
-        className="relative flex-1 min-h-0 overflow-hidden rounded-xl border-4 bg-[#0F172A] flex items-center justify-center transition-colors"
+        className={`relative flex min-h-0 items-center justify-center overflow-hidden rounded-xl border-4 bg-[#0F172A] transition-colors min-[900px]:landscape:h-auto min-[900px]:landscape:flex-1 ${
+          compact ? 'h-[clamp(100px,16dvh,170px)]' : 'h-[clamp(116px,31dvh,320px)]'
+        }`}
         style={{ borderColor }}
       >
         {/* Mirrored preview for natural signer feedback; backend keeps raw orientation */}
@@ -65,7 +69,7 @@ export function SlrDock({
         <img
           src={`${slrBaseUrl}/video_feed`}
           alt="Camera nhận dạng ký hiệu"
-          className="h-full w-full object-cover -scale-x-100"
+          className="h-full w-full object-contain -scale-x-100"
         />
 
         <div className="absolute top-2.5 inset-x-2.5 flex justify-center">
@@ -78,7 +82,7 @@ export function SlrDock({
         </div>
 
         {!wsConnected && (
-          <div className="absolute inset-x-2.5 bottom-10 rounded-lg bg-[#DC2626]/90 px-2.5 py-1.5 text-center text-[12px] font-semibold text-white">
+          <div className="absolute inset-x-2.5 bottom-10 rounded-lg bg-[#DC2626]/90 px-2.5 py-1.5 text-center text-[12px] font-semibold text-white wrap-anywhere">
             Mất kết nối tới máy chủ SLR ({slrBaseUrl})
           </div>
         )}
@@ -107,7 +111,7 @@ export function SlrDock({
         onClick={onStop}
         disabled={busy || draining}
         data-testid="slr-dock-stop"
-        className="flex h-[52px] w-full shrink-0 items-center justify-center rounded-xl bg-[#DC2626] px-4 text-[18px] font-semibold text-white transition-opacity hover:opacity-95 disabled:opacity-50 cursor-pointer"
+        className="hidden h-[52px] w-full shrink-0 items-center justify-center rounded-xl bg-[#DC2626] px-4 text-[18px] font-semibold text-white transition-opacity hover:opacity-95 disabled:opacity-50 cursor-pointer min-[900px]:landscape:flex"
       >
         {draining ? 'Đang hoàn tất...' : 'Kết thúc ký'}
       </button>

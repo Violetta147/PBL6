@@ -558,14 +558,12 @@ export function SettingsView({
 
         <h1 className="text-[24px] font-bold text-[#18212B]">Cài đặt</h1>
 
-        <div className="w-[88px]" aria-hidden="true" />
+        <div className="w-[106px] shrink-0" aria-hidden="true" />
       </header>
 
-      {/* Main Body: 2 columns on 1024x600 screen */}
-      <div className="flex flex-1 overflow-hidden">
-        {/* Left Navigation Sidebar */}
+      <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
         <nav
-          className="flex w-[260px] shrink-0 flex-col gap-2 border-r border-[#BAC5D0] bg-[#FFFFFF] p-4"
+          className="grid shrink-0 grid-cols-3 gap-1.5 border-b border-[#BAC5D0] bg-white px-2 py-2 sm:gap-2 sm:px-4"
           aria-label="Nhóm cài đặt"
         >
           <button
@@ -576,33 +574,38 @@ export function SettingsView({
               }
             }}
             data-testid="settings-tab-stt"
-            className={`flex min-h-[48px] w-full items-center rounded-xl px-4 py-3 text-left text-[18px] transition-colors focus-visible:outline-2 focus-visible:outline-[#273D53] ${
+            aria-pressed={activeTab === 'stt'}
+            aria-label="Giọng nói thành chữ (STT)"
+            className={`min-h-[48px] min-w-0 rounded-xl px-1.5 py-2 text-center text-[15px] leading-tight transition-colors focus-visible:outline-2 focus-visible:outline-[#273D53] sm:px-3 sm:text-[17px] ${
               activeTab === 'stt'
                 ? 'bg-[#273D53] font-semibold text-white'
                 : 'text-[#18212B] hover:bg-[#F5F7F9] font-medium'
             }`}
           >
-            Giọng nói thành chữ (STT)
+            Giọng nói (STT)
           </button>
 
           <button
             type="button"
             onClick={() => navigateWithGuard(() => setActiveTab('slr'))}
             data-testid="settings-tab-slr"
-            className={`flex min-h-[48px] w-full items-center rounded-xl px-4 py-3 text-left text-[18px] transition-colors focus-visible:outline-2 focus-visible:outline-[#273D53] ${
+            aria-pressed={activeTab === 'slr'}
+            aria-label="Ngôn ngữ ký hiệu (SLR)"
+            className={`min-h-[48px] min-w-0 rounded-xl px-1.5 py-2 text-center text-[15px] leading-tight transition-colors focus-visible:outline-2 focus-visible:outline-[#273D53] sm:px-3 sm:text-[17px] ${
               activeTab === 'slr'
                 ? 'bg-[#273D53] font-semibold text-white'
                 : 'text-[#18212B] hover:bg-[#F5F7F9] font-medium'
             }`}
           >
-            Ngôn ngữ ký hiệu (SLR)
+            Ký hiệu (SLR)
           </button>
 
           <button
             type="button"
             onClick={() => navigateWithGuard(() => setActiveTab('history'))}
             data-testid="settings-tab-history"
-            className={`flex min-h-[48px] w-full items-center rounded-xl px-4 py-3 text-left text-[18px] transition-colors focus-visible:outline-2 focus-visible:outline-[#273D53] ${
+            aria-pressed={activeTab === 'history'}
+            className={`min-h-[48px] min-w-0 rounded-xl px-1.5 py-2 text-center text-[15px] leading-tight transition-colors focus-visible:outline-2 focus-visible:outline-[#273D53] sm:px-3 sm:text-[17px] ${
               activeTab === 'history'
                 ? 'bg-[#273D53] font-semibold text-white'
                 : 'text-[#18212B] hover:bg-[#F5F7F9] font-medium'
@@ -612,11 +615,10 @@ export function SettingsView({
           </button>
         </nav>
 
-        {/* Right Content Panel */}
-        <main className="flex flex-1 flex-col overflow-y-auto p-4 sm:p-6" data-testid="settings-content">
+        <main className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-3 sm:p-5" data-testid="settings-content">
           {activeTab === 'stt' ? (
             /* Tab 1: Giọng nói thành chữ (STT) */
-            <div className="mx-auto flex w-full max-w-2xl flex-col gap-6 rounded-2xl border border-[#BAC5D0] bg-[#FFFFFF] p-6 shadow-sm">
+            <div className="mx-auto flex w-full max-w-3xl flex-col gap-6 rounded-2xl border border-[#BAC5D0] bg-[#FFFFFF] p-4 shadow-sm sm:p-6">
               {/* Group: Thu âm */}
               <section className="flex flex-col gap-4 border-b border-[#BAC5D0] pb-5">
                 <h2 className="text-[20px] font-bold text-[#273D53]">Thu âm</h2>
@@ -853,7 +855,7 @@ export function SettingsView({
             </div>
           ) : activeTab === 'slr' ? (
             /* Tab 2: Ngôn ngữ ký hiệu (SLR) */
-            <div className="mx-auto flex w-full max-w-2xl flex-col gap-5 rounded-2xl border border-[#BAC5D0] bg-[#FFFFFF] p-6 shadow-sm">
+            <div className="mx-auto flex w-full max-w-3xl flex-col gap-5 rounded-2xl border border-[#BAC5D0] bg-[#FFFFFF] p-4 shadow-sm sm:p-6">
               <h2 className="text-[20px] font-bold text-[#273D53]">
                 Nhận dạng ký hiệu &amp; Phát loa
               </h2>
@@ -993,11 +995,11 @@ export function SettingsView({
             </div>
           ) : (
             /* Tab 3: Lịch sử */
-            <div className="mx-auto flex h-full max-h-[calc(100vh-112px)] w-full max-w-4xl flex-col rounded-2xl border border-[#BAC5D0] bg-[#FFFFFF] p-5 shadow-sm overflow-hidden">
+            <div className="mx-auto flex h-full min-h-[340px] w-full max-w-4xl flex-col overflow-hidden rounded-2xl border border-[#BAC5D0] bg-[#FFFFFF] p-3 shadow-sm sm:p-5">
               {/* Top Controls: Search box | Date filter | Select all */}
               <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#BAC5D0] pb-4">
                 {/* Search input */}
-                <div className="relative flex flex-1 min-w-[200px] max-w-xs items-center">
+                <div className="relative flex min-w-0 flex-[1_1_200px] max-w-xs items-center">
                   <SearchIcon
                     size={20}
                     className="absolute left-3 text-[#4F5D6B] pointer-events-none"
@@ -1013,7 +1015,7 @@ export function SettingsView({
                 </div>
 
                 {/* Filter dropdown */}
-                <div className="flex items-center gap-2">
+                <div className="flex flex-wrap items-center gap-2">
                   <select
                     value={filterDays}
                     onChange={handleFilterChange}

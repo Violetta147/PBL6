@@ -194,6 +194,52 @@ class M2PipelineTests(unittest.TestCase):
 
 
 class M2ServerContractTests(unittest.TestCase):
+    def test_candidate_selection_reaches_both_displays_and_final_utterance(self):
+        classify, _ = _fake_classifier_factory([("Cái bàn", 1, 0.40)], delay=0)
+        fourth = {"label": "Cửa", "label_id": 4, "score": 0.05}
+        picked = {"label": "Cái ghế", "label_id": 2, "score": 0.30}
+
+        def classifier(frames, timestamps):
+            result = classify(frames, timestamps)
+            result["top5"].extend([picked, {"label": "Cái tủ", "label_id": 3, "score": 0.1}, fourth])
+            return result
+
+        app = create_app(classifier_fn=classifier, preload_model=False)
+        manager = app.state.manager
+        self.addCleanup(manager.stop_session, wait_timeout=5)
+
+        def receive_until(socket, event_type):
+            for _ in range(30):
+                event = socket.receive_json()
+                if event["type"] == event_type:
+                    return event
+            self.fail(f"Did not receive {event_type}")
+
+        with TestClient(app) as client, client.websocket_connect("/ws/live") as pi, client.websocket_connect("/ws/live") as companion:
+            session_id = manager.start_manual_session()
+            for step in range(24):
+                arms = ["active", "rest"] if 8 <= step < 18 else ["rest", "rest"]
+                manager.feed_step(step / 10, arms, frame=_dummy_frame())
+            gloss = receive_until(pi, "gloss_result")["gloss"]
+            receive_until(companion, "gloss_result")
+            url = f"/api/session/glosses/{gloss['segment_id']}/candidate"
+            self.assertEqual(client.post(url, json={"session_id": "old", "label_id": 2}).status_code, 409)
+            self.assertEqual(client.post(url, json={"session_id": session_id, "label_id": 4}).status_code, 409)
+
+            response = client.post(url, json={"session_id": session_id, "label_id": 2})
+            self.assertEqual(response.status_code, 200)
+            for display in (pi, companion):
+                updated = receive_until(display, "gloss_corrected")["gloss"]
+                self.assertEqual(updated["selected_candidate"], picked)
+                self.assertEqual(updated["raw"], gloss["raw"])
+            self.assertEqual(client.post(url, json={"session_id": session_id, "label_id": 3}).status_code, 409)
+            self.assertEqual(client.get("/api/state").json()["glosses"][0]["selected_candidate"], picked)
+
+            manager.stop_session(wait_timeout=5)
+            utterance = receive_until(pi, "utterance_ready")["utterance"]
+            self.assertEqual(utterance["raw_glosses"], ["Cái bàn"])
+            self.assertEqual(utterance["segments"][0]["selected_candidate"], picked)
+
     def test_http_and_websocket_snapshot(self):
         clf, _ = _fake_classifier_factory([("Dài", 95, 0.99)], delay=0.01)
         app = create_app(classifier_fn=clf, preload_model=False)

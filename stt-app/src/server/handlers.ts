@@ -106,7 +106,7 @@ export async function postConversationHandler(request: Request): Promise<Respons
     if (!body || typeof body !== 'object' || typeof body.text !== 'string') {
       throw new AppError('text_missing', 'Nội dung tin nhắn không hợp lệ.', 400);
     }
-    const result = await createConversationWithFirstMessage(body.text, body.sources);
+    const result = await createConversationWithFirstMessage(body.text, body.sources, body.signGlosses);
     return jsonResponse(result, 201);
   } catch (error) {
     return errorResponse(error);
@@ -185,7 +185,7 @@ export async function postMessageHandler(
     if (!body || typeof body !== 'object' || typeof body.text !== 'string') {
       throw new AppError('text_missing', 'Nội dung tin nhắn không hợp lệ.', 400);
     }
-    const message = await appendMessage(id, body.text, body.sources);
+    const message = await appendMessage(id, body.text, body.sources, body.signGlosses);
     return jsonResponse(message, 201);
   } catch (error) {
     return errorResponse(error);

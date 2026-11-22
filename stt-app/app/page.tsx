@@ -1,14 +1,14 @@
 'use client';
 
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
-import type { Conversation, Message, MessageSource } from '../src/contracts';
+import type { Conversation, Message, MessageSource, SignGloss } from '../src/contracts';
 import { Header } from '../src/components/Header';
 import { ConversationArea } from '../src/components/ConversationArea';
 import { Composer } from '../src/components/Composer';
 import { HistoryDrawer } from '../src/components/HistoryDrawer';
 import { SettingsView } from '../src/components/SettingsView';
 import { SlrDock } from '../src/components/SlrDock';
-import { LiveSigningCard, type LiveGlossItem } from '../src/components/LiveSigningCard';
+import { LiveSigningCard, toLiveGlossItem, type LiveGlossItem } from '../src/components/LiveSigningCard';
 import {
   loadSlrSettings,
   saveSlrSettings,
@@ -18,10 +18,10 @@ import {
   type SlrSettings,
 } from '../src/lib/slrSettings';
 import {
+  pickSlrCandidate,
   startSlrSession,
   stopSlrSession,
   type SegmenterState,
-  type SlrGlossRecord,
   type SlrTopCandidate,
   type SlrWsEvent,
 } from '../src/lib/slrClient';
@@ -76,6 +76,7 @@ export default function Home() {
   const seenSegmentIdsRef = useRef<Set<string>>(new Set());
   const savedSegmentIdsRef = useRef<Set<string>>(new Set());
   const activeSessionKeyRef = useRef<string | null>(null);
+  const activeSessionIdRef = useRef<string | null>(null);
   const signSaveChainRef = useRef<Promise<void>>(Promise.resolve());
 
   useEffect(() => {
@@ -174,7 +175,8 @@ export default function Home() {
   // Send message handler (First message creates conversation; subsequent appends)
   const handleSendMessage = useCallback(async (
     text: string,
-    sources: MessageSource[]
+    sources: MessageSource[],
+    signGlosses?: SignGloss[]
   ): Promise<boolean> => {
     try {
       const currentConv = conversationRef.current;
@@ -183,7 +185,7 @@ export default function Home() {
         const response = await fetch('/api/conversations', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ text, sources }),
+          body: JSON.stringify({ text, sources, signGlosses }),
         });
 
         if (!response.ok) {
@@ -203,7 +205,7 @@ export default function Home() {
           {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ text, sources }),
+            body: JSON.stringify({ text, sources, signGlosses }),
           }
         );
 
@@ -221,12 +223,14 @@ export default function Home() {
   }, []);
 
   const enqueueSignSave = useCallback(
-    (text: string) => {
-      const clean = text.trim();
+    (items: LiveGlossItem[]) => {
+      const signGlosses = items.map(({ segmentId, utteranceId, label, labelId, originalLabel, status, top3 }) =>
+        ({ segmentId, utteranceId, label, labelId, originalLabel, status, top3 }));
+      const clean = signGlosses.map((gloss) => gloss.label).join(' ').trim();
       if (!clean) return;
       signSaveChainRef.current = signSaveChainRef.current
         .then(async () => {
-          const ok = await handleSendMessage(clean, ['sign']);
+          const ok = await handleSendMessage(clean, ['sign'], signGlosses);
           if (!ok) {
             setSlrError('Không lưu được câu ký hiệu vào hội thoại.');
           }
@@ -244,16 +248,6 @@ export default function Home() {
     let ws: WebSocket | null = null;
     let reconnectTimer: ReturnType<typeof setTimeout> | null = null;
     let attempt = 0;
-
-    const toLiveItem = (gloss: SlrGlossRecord): LiveGlossItem => ({
-      segmentId: gloss.segment_id,
-      utteranceId: gloss.utterance_id,
-      label: gloss.raw.top1_label,
-      labelId: gloss.raw.top1_id,
-      confidence: gloss.raw.confidence,
-      lowConfidence: gloss.raw.low_confidence,
-      top3: (gloss.raw.top5 ?? []).slice(0, 3),
-    });
 
     const connect = () => {
       if (disposed) return;
@@ -290,6 +284,7 @@ export default function Home() {
 
         if (msg.type === 'snapshot') {
           const snap = msg.snapshot;
+          activeSessionIdRef.current = snap.session_id;
           const sessionKey = snap.session_id ? `${snap.session_id}:${snap.epoch}` : null;
           if (sessionKey && sessionKey !== activeSessionKeyRef.current) {
             activeSessionKeyRef.current = sessionKey;
@@ -310,10 +305,11 @@ export default function Home() {
           if (snap.running) {
             const activeItems = (snap.glosses ?? [])
               .filter((g) => !savedSegmentIdsRef.current.has(g.segment_id))
-              .map(toLiveItem);
+              .map(toLiveGlossItem);
             setLiveGlosses(activeItems);
           }
         } else if (msg.type === 'session_started') {
+          activeSessionIdRef.current = msg.session_id ?? null;
           seenSegmentIdsRef.current.clear();
           savedSegmentIdsRef.current.clear();
           setLiveGlosses([]);
@@ -332,7 +328,7 @@ export default function Home() {
           seenSegmentIdsRef.current.add(gloss.segment_id);
           setLastTiming(gloss.timing ?? null);
 
-          const item = toLiveItem(gloss);
+          const item = toLiveGlossItem(gloss);
           setLiveGlosses((prev) => [...prev, item]);
 
           if (!item.lowConfidence && slrSettingsRef.current.autoSpeak) {
@@ -345,25 +341,25 @@ export default function Home() {
               setTtsStatus
             );
           }
+        } else if (msg.type === 'gloss_corrected') {
+          if (msg.session_id !== activeSessionIdRef.current) return;
+          const item = toLiveGlossItem(msg.gloss);
+          if (savedSegmentIdsRef.current.has(item.segmentId)) return;
+          setLiveGlosses((prev) => prev.map((g) => g.segmentId === item.segmentId ? item : g));
+          if (slrSettingsRef.current.autoSpeak) {
+            speakOutput(
+              { glossIds: [item.labelId], labels: [item.label], slrBaseUrl: slrBaseUrlRef.current },
+              setTtsStatus
+            );
+          }
         } else if (msg.type === 'utterance_ready') {
           const utt = msg.utterance;
           if (slrSettingsRef.current.autoSaveOnRest) {
-            const matchingLive = liveGlossesRef.current.filter(
-              (g) =>
-                g.utteranceId === utt.utterance_id &&
-                !savedSegmentIdsRef.current.has(g.segmentId)
-            );
-            const fallbackSegments = (utt.segments ?? []).filter(
-              (s) => !savedSegmentIdsRef.current.has(s.segment_id)
-            );
-            const segIds =
-              matchingLive.length > 0
-                ? matchingLive.map((g) => g.segmentId)
-                : fallbackSegments.map((s) => s.segment_id);
-            const text =
-              matchingLive.length > 0
-                ? matchingLive.map((g) => g.label).join(' ').trim()
-                : fallbackSegments.map((s) => s.raw.top1_label).join(' ').trim();
+            const items = (utt.segments?.length
+              ? utt.segments.map(toLiveGlossItem)
+              : liveGlossesRef.current.filter((g) => g.utteranceId === utt.utterance_id)
+            ).filter((g) => !savedSegmentIdsRef.current.has(g.segmentId));
+            const segIds = items.map((g) => g.segmentId);
             for (const sid of segIds) {
               savedSegmentIdsRef.current.add(sid);
             }
@@ -371,26 +367,21 @@ export default function Home() {
               const segSet = new Set(segIds);
               setLiveGlosses((prev) => prev.filter((g) => !segSet.has(g.segmentId)));
             }
-            if (text) {
-              enqueueSignSave(text);
-            }
+            enqueueSignSave(items);
           }
         } else if (msg.type === 'session_stopped') {
           setSlrRunning(Boolean(msg.snapshot?.running));
           setSlrDraining(Boolean(msg.snapshot?.draining));
           if (slrSettingsRef.current.autoSaveOnRest) {
-            const pending = liveGlossesRef.current.filter(
+            const pending = (msg.snapshot?.glosses?.map(toLiveGlossItem) ?? liveGlossesRef.current).filter(
               (g) => !savedSegmentIdsRef.current.has(g.segmentId)
             );
             if (pending.length > 0) {
               for (const g of pending) {
                 savedSegmentIdsRef.current.add(g.segmentId);
               }
-              const text = pending.map((g) => g.label).join(' ').trim();
               setLiveGlosses([]);
-              if (text) {
-                enqueueSignSave(text);
-              }
+              enqueueSignSave(pending);
             }
           }
         } else if (msg.type === 'error') {
@@ -442,6 +433,7 @@ export default function Home() {
         setLiveGlosses([]);
         setTtsStatus('');
         const snap = await startSlrSession(slrBaseUrl, slrSettings.cameraIndex);
+        activeSessionIdRef.current = snap.session_id;
         setSlrRunning(Boolean(snap.running));
         setSlrDraining(Boolean(snap.draining));
         setSegmenterState(snap.segmenter_state ?? 'UNKNOWN');
@@ -458,29 +450,22 @@ export default function Home() {
   }, [slrBusy, slrRunning, slrDraining, slrBaseUrl, slrSettings.cameraIndex, requestOskVisible]);
 
   const handlePickSlrCandidate = useCallback(
-    (segmentId: string, candidate: SlrTopCandidate) => {
-      setLiveGlosses((prev) =>
-        prev.map((g) =>
-          g.segmentId === segmentId
-            ? {
-                ...g,
-                label: candidate.label,
-                labelId: candidate.label_id,
-                confidence: candidate.score,
-                lowConfidence: false,
-              }
-            : g
-        )
-      );
-      if (slrSettingsRef.current.autoSpeak) {
-        speakOutput(
-          {
-            glossIds: [candidate.label_id],
-            labels: [candidate.label],
-            slrBaseUrl: slrBaseUrlRef.current,
-          },
-          setTtsStatus
+    async (segmentId: string, candidate: SlrTopCandidate) => {
+      const sessionId = activeSessionIdRef.current;
+      if (!sessionId) return;
+      setSlrError(null);
+      try {
+        const gloss = await pickSlrCandidate(
+          slrBaseUrlRef.current, sessionId, segmentId, candidate.label_id,
+          !slrSettingsRef.current.autoSaveOnRest
         );
+        if (activeSessionIdRef.current === sessionId) {
+          setLiveGlosses((prev) => prev.map((g) => g.segmentId === segmentId ? toLiveGlossItem(gloss) : g));
+        }
+      } catch (error) {
+        if (activeSessionIdRef.current === sessionId) {
+          setSlrError(error instanceof Error ? error.message : 'Không xác nhận được từ này.');
+        }
       }
     },
     []
@@ -507,12 +492,11 @@ export default function Home() {
   const handleManualSaveSlr = useCallback(() => {
     const current = liveGlossesRef.current;
     if (current.length === 0) return;
-    const text = current.map((g) => g.label).join(' ').trim();
     for (const g of current) {
       savedSegmentIdsRef.current.add(g.segmentId);
     }
     setLiveGlosses([]);
-    enqueueSignSave(text);
+    enqueueSignSave(current);
   }, [enqueueSignSave]);
 
   // Conversation title rename handler
@@ -679,8 +663,7 @@ export default function Home() {
         </div>
       )}
 
-      {/* Unified Multimodal Workspace: optional left Camera Dock + Conversation + Composer */}
-      <div className="flex flex-1 min-h-0 overflow-hidden">
+      <div className="flex min-h-0 flex-1 flex-col overflow-y-auto min-[900px]:landscape:flex-row min-[900px]:landscape:overflow-hidden">
         {showSlrDock && (
           <SlrDock
             slrBaseUrl={slrBaseUrl}
@@ -694,22 +677,20 @@ export default function Home() {
             showDiagnostics={slrSettings.showDiagnostics}
             errorMessage={slrError}
             busy={slrBusy}
+            compact={isOskOpen}
             onStop={() => void handleToggleSigning()}
           />
         )}
 
-        <div className="flex flex-1 min-w-0 flex-col">
-          {/* Main Conversation Message Area */}
-          <ConversationArea messages={messages} />
-
-          {/* Live Signing Bubble directly above Composer */}
+        <div className="flex min-h-0 min-w-0 flex-1 flex-col">
           {showLiveCard && (
             <div
-              className={`shrink-0 overflow-y-auto px-4 pb-3 sm:px-8 ${
+              className={`shrink-0 overflow-y-auto px-3 py-2 sm:px-5 min-[900px]:landscape:px-8 min-[900px]:landscape:pt-0 ${
                 isOskOpen ? 'max-h-[96px]' : 'max-h-[260px]'
               }`}
             >
               <LiveSigningCard
+                key={activeSessionIdRef.current}
                 running={slrRunning}
                 glosses={liveGlosses}
                 autoSpeak={slrSettings.autoSpeak}
@@ -722,6 +703,8 @@ export default function Home() {
               />
             </div>
           )}
+
+          <ConversationArea messages={messages} className="min-[900px]:landscape:-order-1" />
 
           {/* Shared Bottom Composer */}
           <Composer
