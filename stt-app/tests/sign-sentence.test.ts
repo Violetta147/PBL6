@@ -13,6 +13,11 @@ const glosses: SignGloss[] = [
   { segmentId: '2', utteranceId: '0', label: 'Đi', labelId: 380, originalLabel: 'Ăn', status: 'confirmed', top3: [] },
   { segmentId: '3', utteranceId: '0', label: 'Bệnh viện', labelId: 32, originalLabel: 'Bệnh viện', status: 'recognized', top3: [] },
 ];
+const thanksGlosses: SignGloss[] = [
+  { ...glosses[0], label: 'Xin', labelId: 363, originalLabel: 'Xin' },
+  { ...glosses[1], label: 'Cảm ơn', labelId: 86, originalLabel: 'Cảm ơn' },
+];
+const chatReply = 'Xin ở đây là một câu hỏi hay hay xin phép được bơi lội?';
 function request(body: unknown, method = 'POST', origin = 'http://localhost:3100') {
   return new Request('http://localhost:3100/api/sign-sentence', { method, headers: { origin, host: 'localhost:3100', 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
 }
@@ -23,21 +28,22 @@ test('Real HTTP adapter, reviewed sentence storage, and guarded failures', async
   process.env.PBL6_STT_CONFIG_DIR = dir; process.env.PBL6_STT_DATA_DIR = dir;
   for (const key of Object.keys(process.env)) if (key.startsWith('PBL6_LLM_')) delete process.env[key];
   let upstreamCalls = 0;
-  let mode = 'ok';
+  let output = JSON.stringify({ status: 'ok', sentence: 'Bố đi bệnh viện.' });
+  let expectedGlosses = glosses;
   const server = createServer((req, res) => {
     let raw = ''; req.on('data', b => raw += b); req.on('end', () => {
       upstreamCalls += 1;
       const data = JSON.parse(raw);
+      assert.ok(!raw.includes('video') && !raw.includes('landmark'));
+      res.setHeader('Content-Type', 'application/json');
+      const expectedInput = { glosses: expectedGlosses.map(({ label, labelId }) => ({ label, labelId })) };
       assert.equal(req.url, '/v1/chat/completions');
       assert.equal(req.headers.authorization, 'Bearer test-sentence-secret');
       assert.equal(data.model, 'test-model');
-      const input = JSON.parse(data.messages[1].content);
-      assert.deepEqual(input.glosses.map((g: any) => g.label), ['Bố', 'Đi', 'Bệnh viện']);
-      assert.ok(!raw.includes('video') && !raw.includes('landmark'));
-      res.setHeader('Content-Type', 'application/json');
-      const output = mode === 'clarify' ? { sentence: '', needsClarification: true, explanation: 'Ai đi bệnh viện?' }
-        : { sentence: 'Bố đi bệnh viện.', needsClarification: false, explanation: '' };
-      res.end(JSON.stringify({ choices: [{ message: { content: mode === 'invalid' ? 'invalid' : JSON.stringify(output) } }] }));
+      assert.deepEqual(JSON.parse(data.messages[1].content), expectedInput);
+      assert.deepEqual(data.response_format, { type: 'json_object' });
+      assert.ok(data.messages[0].content.includes('{"status":"ok","sentence":"Xin cảm ơn."}'));
+      res.end(JSON.stringify({ choices: [{ message: { content: output } }] }));
     });
   });
   await new Promise<void>(resolve => server.listen(0, '127.0.0.1', resolve));
@@ -81,11 +87,50 @@ test('Real HTTP adapter, reviewed sentence storage, and guarded failures', async
       await assert.rejects(createConversationWithFirstMessage('Bố đi bệnh viện.', ['sign'], glosses, { ...result.metadata, sourceGlossText: 'Khác' }));
       await assert.rejects(createConversationWithFirstMessage('Bố đi bệnh viện.', ['sign'], glosses));
     });
-    await t.test('Ambiguity stays a clarification, invalid output stays an error', async () => {
-      mode = 'clarify';
+    await t.test('Ambiguity uses fixed UI text supplied by the application', async () => {
+      output = JSON.stringify({ status: 'needs_clarification', sentence: '' });
       const response = await handler(request({ glosses, requestId: 'clarify' }));
-      const data = await response.json(); assert.equal(data.needsClarification, true); assert.equal(data.sentence, '');
-      mode = 'invalid'; assert.equal((await handler(request({ glosses, requestId: 'invalid' }))).status, 502);
+      assert.equal(response.status, 200);
+      const data = await response.json();
+      assert.equal(data.needsClarification, true);
+      assert.equal(data.sentence, '');
+      assert.equal(data.explanation, 'Chưa đủ thông tin để tạo câu. Hãy kiểm tra chuỗi gloss.');
+    });
+    await t.test('Xin + Cảm ơn yields a sentence and rejects chatbot or invalid structured output', async () => {
+      expectedGlosses = thanksGlosses;
+      const body = { glosses: thanksGlosses, requestId: 'thanks' };
+      output = JSON.stringify({ status: 'ok', sentence: 'Xin cảm ơn.' });
+      const response = await handler(request(body));
+      assert.equal(response.status, 200);
+      const data = await response.json();
+      assert.equal(data.sentence, 'Xin cảm ơn.');
+      assert.equal(data.needsClarification, false);
+      assert.equal(data.explanation, '');
+
+      for (const invalid of [
+        chatReply,
+        '```json\n{"status":"ok","sentence":"Xin cảm ơn."}\n```',
+        '{"status":"ok","sentence":"  "}',
+        '{"status":"ok","sentence":"Xin cảm ơn.\\nBạn có muốn tôi giúp gì thêm không?"}',
+        '{"status":"other","sentence":"Xin cảm ơn."}',
+        '{"status":"needs_clarification","sentence":"Xin cảm ơn."}',
+        JSON.stringify({ status: 'needs_clarification', sentence: '', explanation: chatReply }),
+        JSON.stringify({ status: 'ok', sentence: chatReply }),
+      ]) {
+        output = invalid;
+        const rejected = await handler(request(body));
+        assert.equal(rejected.status, 502);
+        const error = await rejected.json();
+        assert.equal(error.error.code, 'llm_output');
+        assert.ok(!JSON.stringify(error).includes(chatReply));
+      }
+    });
+    await t.test('A signed question can still be returned as a sentence', async () => {
+      expectedGlosses = glosses;
+      output = JSON.stringify({ status: 'ok', sentence: 'Bố đi bệnh viện không?' });
+      const result = await handler(request({ glosses, requestId: 'question' }));
+      assert.equal(result.status, 200);
+      assert.equal((await result.json()).sentence, 'Bố đi bệnh viện không?');
     });
   } finally {
     await new Promise<void>(resolve => server.close(() => resolve()));

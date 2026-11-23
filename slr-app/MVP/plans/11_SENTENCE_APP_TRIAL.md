@@ -5,6 +5,8 @@
 - Mục tiêu: nhận chuỗi gloss thật trên app, chỉnh/xóa từ chưa rõ, tạo câu bằng LLM thật, kiểm tra/sửa câu và gửi vào hội thoại. Không thay mô hình hoặc ngưỡng nhận dạng.
 - Nhánh: `codex/gloss-sentence-flow`, từ `cd6d0917`. Giữ nguyên mọi thay đổi có sẵn. Chưa merge main, chưa commit.
 - Đầu vào: SLR WebSocket hiện có, gloss đã chọn/bỏ, cấu hình LLM phía server. Không gửi video hoặc landmark cho LLM.
+- Đầu ra từ model gồm đúng `status` và `sentence`. Với gloss `Xin`, `Cảm ơn`, ví dụ hợp lệ là `{"status":"ok","sentence":"Xin cảm ơn."}`. Nếu thiếu ngữ cảnh, model trả `{"status":"needs_clarification","sentence":""}`. Backend kiểm tra cả hai trường và dùng thông báo của ứng dụng khi cần làm rõ. Đầu ra sai hợp đồng trả HTTP 502 (`llm_output`) và giao diện giữ bản nháp để thử lại.
+- Kết nối ChatGPT dùng `text.format` với JSON Schema trong Responses API. Các nhà cung cấp cấu hình qua API key dùng chế độ JSON và cùng quy tắc kiểm tra ở backend.
 - Đầu ra: câu gợi ý tách khỏi gloss nguồn; người dùng xác nhận trước khi lưu; phản hồi cũ không được ghi đè chuỗi mới; lỗi giữ bản nháp.
 - File được phép sửa: `stt-app/app/page.tsx`, API route tạo câu/kết nối ChatGPT, `src/server/signSentence.ts`, `src/server/chatgptConnection.ts`, contracts/storage/handlers liên quan, component thẻ ký, lib trạng thái câu, nhãn nút, kiểm thử liên quan. Không sửa frozen bundle, checkpoint hoặc ngưỡng. Không triển khai demo chính thức hoặc commit nếu chưa được duyệt riêng.
 - Kiểm chứng: `npm run typecheck`, `npm run build`, kiểm thử endpoint/model/storage, UI bằng Playwright ở 1024×600; cuối cùng thử app với nhà cung cấp thật và nguồn gloss thật. Mock chỉ kiểm chứng luồng, không chứng minh đạt mục tiêu thực tế.

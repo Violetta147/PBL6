@@ -267,13 +267,13 @@ export class ChatGptConnection {
     });
     return this.status();
   }
-  async generate(instructions: string, input: string, signal?: AbortSignal) {
+  async generate(instructions: string, input: string, format: { type: 'json_schema'; name: string; strict: true; schema: object }, signal?: AbortSignal) {
     const selected = await this.selected(); if (!selected?.model) throw failure('Hãy chọn model ChatGPT trong Cài đặt.');
     const controller = new AbortController(); this.requests.add(controller);
     try {
       const a = await this.access(selected.id);
       const r = await this.transport(`${RESOURCE}/responses`, { method: 'POST', headers: { Authorization: `Bearer ${a.accessToken}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ model: selected.model, instructions, input: [{ role: 'user', content: input }], store: false, stream: true }),
+        body: JSON.stringify({ model: selected.model, instructions, input: [{ role: 'user', content: input }], text: { format }, store: false, stream: true }),
         signal: AbortSignal.any([controller.signal, AbortSignal.timeout(90000), ...(signal ? [signal] : [])]) });
       const text = await readCompletedResponse(r);
       const current = await this.selected();

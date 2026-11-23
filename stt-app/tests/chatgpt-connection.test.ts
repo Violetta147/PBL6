@@ -4,7 +4,8 @@ import { createHash, generateKeyPairSync, sign } from 'node:crypto';
 import { mkdtemp, readFile, rm } from 'node:fs/promises';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
-import { ChatGptConnection, readCompletedResponse, verifyChatGptIdentity } from '../src/server/chatgptConnection';
+import { chatgpt, ChatGptConnection, readCompletedResponse, verifyChatGptIdentity } from '../src/server/chatgptConnection';
+import { makeSignSentenceHandler } from '../src/server/signSentence';
 
 const { privateKey, publicKey } = generateKeyPairSync('rsa', { modulusLength: 2048 });
 const jwk = { ...publicKey.export({ format: 'jwk' }), kid: 'test-key', use: 'sig' };
@@ -27,7 +28,7 @@ test('ID token requires signed identity, matching issuer/audience/nonce and unex
 });
 
 test('Responses stream must complete; partial text and failed/quota streams never become sentences', async () => {
-  const text = JSON.stringify({ sentence: 'Tôi cần hỗ trợ.', needsClarification: false, explanation: '' });
+  const text = JSON.stringify({ status: 'ok', sentence: 'Tôi cần hỗ trợ.' });
   assert.equal(await readCompletedResponse(sse([{ type: 'response.output_text.delta', delta: text }, { type: 'response.completed' }])), text);
   await assert.rejects(readCompletedResponse(sse([{ type: 'response.output_text.delta', delta: text }])));
   await assert.rejects(readCompletedResponse(sse([{ type: 'response.output_text.delta', delta: text }, { type: 'response.failed' }])));
@@ -37,8 +38,13 @@ test('Responses stream must complete; partial text and failed/quota streams neve
   assert.equal(await readCompletedResponse(new Response(stream)), 'Tiếng Việt');
 });
 
-test('OAuth loopback, granted scope, private storage, refresh, model selection and disconnect', async () => {
+test('OAuth loopback, private storage, refresh, model selection, structured inference and disconnect', async t => {
   const dir = await mkdtemp(join(tmpdir(), 'pbl6-chatgpt-test-'));
+  const glosses = [
+    { segmentId: '1', utteranceId: '0', label: 'Xin', labelId: 363, originalLabel: 'Xin', status: 'recognized' },
+    { segmentId: '2', utteranceId: '0', label: 'Cảm ơn', labelId: 86, originalLabel: 'Cảm ơn', status: 'recognized' },
+  ];
+  const modelOutput = { status: 'ok', sentence: 'Xin cảm ơn.' };
   let auth: URL, grantPlan = false, refreshes = 0, inferenceCalls = 0;
   const transport: typeof fetch = async (input, init) => {
     const url = String(input);
@@ -64,8 +70,19 @@ test('OAuth loopback, granted scope, private storage, refresh, model selection a
     if (url.endsWith('/responses')) {
       inferenceCalls++;
       const body = JSON.parse(String(init?.body));
-      assert.deepEqual(body, { model: 'available-model', instructions: 'Keep meaning', input: [{ role: 'user', content: 'Gloss input' }], store: false, stream: true });
-      return sse([{ type: 'response.output_text.delta', delta: 'Completed sentence' }, { type: 'response.completed' }]);
+      assert.equal(body.model, 'available-model');
+      assert.equal(body.store, false);
+      assert.equal(body.stream, true);
+      assert.equal(body.instructions.includes(JSON.stringify(modelOutput)), true);
+      assert.deepEqual(body.input, [{ role: 'user', content: JSON.stringify({ glosses: glosses.map(({ label, labelId }) => ({ label, labelId })) }) }]);
+      assert.deepEqual(body.text.format, {
+        type: 'json_schema', name: 'pbl6_sign_sentence', strict: true,
+        schema: {
+          type: 'object', properties: { status: { type: 'string', enum: ['ok', 'needs_clarification'] }, sentence: { type: 'string' } },
+          required: ['status', 'sentence'], additionalProperties: false,
+        },
+      });
+      return sse([{ type: 'response.output_text.delta', delta: JSON.stringify(modelOutput) }, { type: 'response.completed' }]);
     }
     if (url.endsWith('/oauth/revoke')) {
       assert.equal(new URLSearchParams(String(init?.body)).get('token'), 'TEST_REFRESH_2');
@@ -108,7 +125,17 @@ test('OAuth loopback, granted scope, private storage, refresh, model selection a
     assert.equal(refreshes, 1);
     await assert.rejects(connection.select(id, 'hidden-model'));
     await connection.select(id, 'available-model');
-    assert.deepEqual(await connection.generate('Keep meaning', 'Gloss input'), { text: 'Completed sentence', model: 'available-model' });
+    t.mock.method(chatgpt, 'selected', connection.selected.bind(connection));
+    t.mock.method(chatgpt, 'generate', connection.generate.bind(connection));
+    const generated = await makeSignSentenceHandler()(new Request('http://localhost:3100/api/sign-sentence', {
+      method: 'POST', headers: { origin: 'http://localhost:3100', host: 'localhost:3100', 'Content-Type': 'application/json' },
+      body: JSON.stringify({ glosses, requestId: 'trial-subscription' }),
+    }));
+    assert.equal(generated.status, 200);
+    assert.deepEqual(await generated.json(), {
+      sentence: 'Xin cảm ơn.', needsClarification: false, explanation: '',
+      metadata: { generatedText: 'Xin cảm ơn.', sourceGlossText: 'Xin Cảm ơn', requestId: 'trial-subscription', model: 'available-model' },
+    });
     assert.equal(inferenceCalls, 1);
     auth = new URL((await connection.start(id)).url);
     assert.equal(auth.searchParams.get('client_id'), 'oaiapp_test');
