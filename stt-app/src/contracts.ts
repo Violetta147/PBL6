@@ -30,6 +30,15 @@ export type Message = {
   createdAt: string;
   sources: MessageSource[];
   signGlosses?: SignGloss[];
+  signSentence?: SignSentence;
+};
+
+export type SignSentence = {
+  sourceGlossText: string;
+  generatedText: string;
+  model: string;
+  requestId: string;
+  confirmedAt: string;
 };
 
 export type AudioDevice = {

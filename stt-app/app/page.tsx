@@ -1,14 +1,14 @@
 'use client';
 
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
-import type { Conversation, Message, MessageSource, SignGloss } from '../src/contracts';
+import type { Conversation, Message, MessageSource, SignGloss, SignSentence } from '../src/contracts';
 import { Header } from '../src/components/Header';
 import { ConversationArea } from '../src/components/ConversationArea';
 import { Composer } from '../src/components/Composer';
 import { HistoryDrawer } from '../src/components/HistoryDrawer';
 import { SettingsView } from '../src/components/SettingsView';
 import { SlrDock } from '../src/components/SlrDock';
-import { LiveSigningCard, toLiveGlossItem, type LiveGlossItem } from '../src/components/LiveSigningCard';
+import { toLiveGlossItem, type LiveGlossItem } from '../src/components/LiveSigningCard';
 import {
   loadSlrSettings,
   saveSlrSettings,
@@ -25,7 +25,8 @@ import {
   type SlrTopCandidate,
   type SlrWsEvent,
 } from '../src/lib/slrClient';
-import { speakOutput } from '../src/lib/slrTts';
+import { SentenceSigningCard } from '../src/components/SentenceSigningCard';
+import { speakSentence } from '../src/lib/slrTts';
 
 type KeyboardBridge = {
   onScreenKeyboardChange?: (listener: (visible: boolean) => void) => () => void;
@@ -47,6 +48,7 @@ export default function Home() {
   const [keyboardCeiling, setKeyboardCeiling] = useState<number>();
   const [isOskOpen, setIsOskOpen] = useState<boolean>(false);
   const lastOskReqRef = useRef<{ visible: boolean; at: number } | null>(null);
+  const baseViewportHeightRef = useRef<number>(0);
 
   // SLR Live + Unified Conversation State
   const [hasMounted, setHasMounted] = useState<boolean>(false);
@@ -56,6 +58,7 @@ export default function Home() {
   const [slrDraining, setSlrDraining] = useState<boolean>(false);
   const [slrBusy, setSlrBusy] = useState<boolean>(false);
   const [segmenterState, setSegmenterState] = useState<SegmenterState>('UNKNOWN');
+  const [slrArms, setSlrArms] = useState<(string | null)[]>([null, null]);
   const [captureFps, setCaptureFps] = useState<number>(0);
   const [queueDepth, setQueueDepth] = useState<number>(0);
   const [liveGlosses, setLiveGlosses] = useState<LiveGlossItem[]>([]);
@@ -77,12 +80,37 @@ export default function Home() {
   const savedSegmentIdsRef = useRef<Set<string>>(new Set());
   const activeSessionKeyRef = useRef<string | null>(null);
   const activeSessionIdRef = useRef<string | null>(null);
-  const signSaveChainRef = useRef<Promise<void>>(Promise.resolve());
+  const [closedUtteranceIds, setClosedUtteranceIds] = useState<string[]>([]);
+  const [autoReadyIds, setAutoReadyIds] = useState<string[]>([]);
+  const [sentenceEditing, setSentenceEditing] = useState(false);
+  const closedRef = useRef<string[]>([]); closedRef.current = closedUtteranceIds;
 
   useEffect(() => {
     setHasMounted(true);
     setSlrSettings(loadSlrSettings());
+    try {
+      const saved = JSON.parse(localStorage.getItem('pbl6.sign.pending.v1') || 'null');
+      if (saved && Array.isArray(saved.items) && Array.isArray(saved.savedIds)) {
+        setLiveGlosses(saved.items);
+        savedSegmentIdsRef.current = new Set(saved.savedIds);
+        activeSessionIdRef.current = saved.sessionId || null;
+        setClosedUtteranceIds(saved.closedIds || []);
+        if (saved.conversationId) void fetch(`/api/conversations/${encodeURIComponent(saved.conversationId)}`)
+          .then(r => r.ok ? r.json() : null).then(data => { if (data) { setConversation(data.conversation); setMessages(data.messages); } }).catch(() => {});
+      }
+    } catch { /* Keep a fresh session when an old browser cache is invalid. */ }
   }, []);
+
+  useEffect(() => {
+    if (!hasMounted) return;
+    try {
+      localStorage.setItem('pbl6.sign.pending.v1', JSON.stringify({
+        items: liveGlosses, savedIds: [...savedSegmentIdsRef.current],
+        sessionId: activeSessionIdRef.current, closedIds: closedUtteranceIds,
+        conversationId: conversation?.id || null,
+      }));
+    } catch { setSlrError('Không lưu được bản nháp trên trình duyệt. Hãy giữ trang mở cho đến khi gửi xong.'); }
+  }, [hasMounted, liveGlosses, closedUtteranceIds, conversation?.id]);
 
   const slrBaseUrl = useMemo(
     () =>
@@ -103,12 +131,25 @@ export default function Home() {
     });
   }, []);
 
+  useEffect(() => {
+    if (isOskOpen || typeof window === 'undefined') return;
+    const updateBaseHeight = () => {
+      if (window.innerHeight > 0) {
+        baseViewportHeightRef.current = window.innerHeight;
+      }
+    };
+    updateBaseHeight();
+    window.addEventListener('resize', updateBaseHeight);
+    return () => window.removeEventListener('resize', updateBaseHeight);
+  }, [isOskOpen]);
+
   const computeOskCeiling = useCallback((visible: boolean): number | undefined => {
     if (!visible || typeof window === 'undefined') return undefined;
     const vh = window.innerHeight || 564;
-    // When labwc resizes the maximized Firefox viewport for Squeekboard's 210px exclusive zone
-    // (vh drops from ~564px to ~354px), let h-dvh fill 100% down to the keyboard edge with 0px gap.
-    if (vh <= 420) return undefined;
+    const baseVh = baseViewportHeightRef.current;
+    // When labwc resizes the maximized Firefox viewport for Squeekboard's exclusive zone
+    // (landscape ~564 -> ~354, portrait ~988 -> ~680), let h-dvh fill 100% with 0px gap.
+    if (vh <= 420 || (baseVh > 0 && baseVh - vh >= 120)) return undefined;
     return Math.max(336, vh - 210);
   }, []);
 
@@ -176,7 +217,8 @@ export default function Home() {
   const handleSendMessage = useCallback(async (
     text: string,
     sources: MessageSource[],
-    signGlosses?: SignGloss[]
+    signGlosses?: SignGloss[],
+    signSentence?: SignSentence
   ): Promise<boolean> => {
     try {
       const currentConv = conversationRef.current;
@@ -185,7 +227,7 @@ export default function Home() {
         const response = await fetch('/api/conversations', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ text, sources, signGlosses }),
+          body: JSON.stringify({ text, sources, signGlosses, signSentence }),
         });
 
         if (!response.ok) {
@@ -205,7 +247,7 @@ export default function Home() {
           {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ text, sources, signGlosses }),
+            body: JSON.stringify({ text, sources, signGlosses, signSentence }),
           }
         );
 
@@ -222,195 +264,77 @@ export default function Home() {
     }
   }, []);
 
-  const enqueueSignSave = useCallback(
-    (items: LiveGlossItem[]) => {
-      const signGlosses = items.map(({ segmentId, utteranceId, label, labelId, originalLabel, status, top3 }) =>
-        ({ segmentId, utteranceId, label, labelId, originalLabel, status, top3 }));
-      const clean = signGlosses.map((gloss) => gloss.label).join(' ').trim();
-      if (!clean) return;
-      signSaveChainRef.current = signSaveChainRef.current
-        .then(async () => {
-          const ok = await handleSendMessage(clean, ['sign'], signGlosses);
-          if (!ok) {
-            setSlrError('Không lưu được câu ký hiệu vào hội thoại.');
-          }
-        })
-        .catch(() => {
-          setSlrError('Không lưu được câu ký hiệu vào hội thoại.');
-        });
-    },
-    [handleSendMessage]
-  );
+  const mergeGlosses = useCallback((records: LiveGlossItem[]) => {
+    setLiveGlosses(prev => {
+      const merged = [...prev];
+      for (const item of records) {
+        if (savedSegmentIdsRef.current.has(item.segmentId)) continue;
+        const i = merged.findIndex(g => g.segmentId === item.segmentId);
+        if (i < 0) merged.push(item);
+        else if (merged[i].status !== 'confirmed' || item.status === 'confirmed') merged[i] = item;
+      }
+      return merged;
+    });
+  }, []);
 
   useEffect(() => {
     if (!hasMounted) return;
     let disposed = false;
     let ws: WebSocket | null = null;
     let reconnectTimer: ReturnType<typeof setTimeout> | null = null;
-    let attempt = 0;
-
+    const markClosed = (utterances: { utterance_id: string; reason: string }[]) => {
+      setClosedUtteranceIds(prev => [...new Set([...prev, ...utterances.map(u => u.utterance_id)])]);
+      setAutoReadyIds(prev => [...new Set([...prev, ...utterances.filter(u => u.reason === 'utterance_rest').map(u => u.utterance_id)])]);
+    };
     const connect = () => {
       if (disposed) return;
-      const wsUrl = `${toWsUrl(slrBaseUrl)}/ws/live`;
-      try {
-        ws = new WebSocket(wsUrl);
-      } catch {
-        scheduleReconnect();
-        return;
-      }
-
-      ws.onopen = () => {
-        attempt = 0;
-        setSlrWsConnected(true);
-        setSlrError(null);
-      };
-
-      ws.onclose = () => {
-        setSlrWsConnected(false);
-        scheduleReconnect();
-      };
-
-      ws.onerror = () => {
-        // Quietly handle connection errors when SLR backend is offline.
-      };
-
-      ws.onmessage = (event) => {
+      try { ws = new WebSocket(`${toWsUrl(slrBaseUrl)}/ws/live`); }
+      catch { scheduleReconnect(); return; }
+      ws.onopen = () => { setSlrWsConnected(true); setSlrError(null); };
+      ws.onclose = () => { setSlrWsConnected(false); scheduleReconnect(); };
+      ws.onerror = () => {};
+      ws.onmessage = event => {
         let msg: SlrWsEvent;
-        try {
-          msg = JSON.parse(String(event.data)) as SlrWsEvent;
-        } catch {
-          return;
-        }
-
+        try { msg = JSON.parse(String(event.data)); } catch { return; }
         if (msg.type === 'snapshot') {
           const snap = msg.snapshot;
-          activeSessionIdRef.current = snap.session_id;
-          const sessionKey = snap.session_id ? `${snap.session_id}:${snap.epoch}` : null;
-          if (sessionKey && sessionKey !== activeSessionKeyRef.current) {
-            activeSessionKeyRef.current = sessionKey;
-            seenSegmentIdsRef.current.clear();
-            savedSegmentIdsRef.current.clear();
+          if (activeSessionIdRef.current && snap.session_id && snap.session_id !== activeSessionIdRef.current && liveGlossesRef.current.length) {
+            setSlrError('Máy nhận dạng đã mở phiên khác. Bản nháp cũ vẫn được giữ, hãy xử lý trước khi bắt đầu lại.'); return;
           }
-
-          setSlrRunning(Boolean(snap.running));
-          setSlrDraining(Boolean(snap.draining));
-          setSegmenterState(snap.segmenter_state ?? 'UNKNOWN');
-          setCaptureFps(snap.capture_fps ?? 0);
-          setQueueDepth(snap.queue_depth ?? 0);
-
-          for (const g of snap.glosses ?? []) {
-            seenSegmentIdsRef.current.add(g.segment_id);
-          }
-
-          if (snap.running) {
-            const activeItems = (snap.glosses ?? [])
-              .filter((g) => !savedSegmentIdsRef.current.has(g.segment_id))
-              .map(toLiveGlossItem);
-            setLiveGlosses(activeItems);
-          }
+          activeSessionIdRef.current = snap.session_id || activeSessionIdRef.current;
+          activeSessionKeyRef.current = snap.session_id ? `${snap.session_id}:${snap.epoch}` : null;
+          setSlrRunning(Boolean(snap.running)); setSlrDraining(Boolean(snap.draining));
+          setSlrError(snap.last_error ?? null);
+          setSegmenterState(snap.segmenter_state ?? 'UNKNOWN'); setSlrArms(snap.arms ?? [null, null]); setCaptureFps(snap.capture_fps ?? 0); setQueueDepth(snap.queue_depth ?? 0);
+          for (const g of snap.glosses ?? []) seenSegmentIdsRef.current.add(g.segment_id);
+          mergeGlosses((snap.glosses ?? []).map(toLiveGlossItem)); markClosed(snap.utterances ?? []);
         } else if (msg.type === 'session_started') {
           activeSessionIdRef.current = msg.session_id ?? null;
-          seenSegmentIdsRef.current.clear();
-          savedSegmentIdsRef.current.clear();
-          setLiveGlosses([]);
-          setTtsStatus('');
-          setSlrError(null);
-          setSlrRunning(true);
-          setSlrDraining(false);
-          setSegmenterState('UNKNOWN');
+          seenSegmentIdsRef.current.clear(); savedSegmentIdsRef.current.clear();
+          setClosedUtteranceIds([]); setAutoReadyIds([]); setTtsStatus(''); setSlrError(null);
+          setSlrRunning(true); setSlrDraining(false); setSegmenterState('UNKNOWN'); setSlrArms([null, null]);
         } else if (msg.type === 'status') {
-          setSegmenterState(msg.segmenter_state ?? 'UNKNOWN');
-          setQueueDepth(msg.queue_depth ?? 0);
-          setCaptureFps(msg.capture_fps ?? 0);
+          setSlrError((prev) => (prev && prev.includes('Vision Backend') ? null : prev));
+          setSegmenterState(msg.segmenter_state ?? 'UNKNOWN'); setSlrArms(msg.arms ?? [null, null]); setQueueDepth(msg.queue_depth ?? 0); setCaptureFps(msg.capture_fps ?? 0);
         } else if (msg.type === 'gloss_result') {
-          const gloss = msg.gloss;
-          if (seenSegmentIdsRef.current.has(gloss.segment_id)) return;
-          seenSegmentIdsRef.current.add(gloss.segment_id);
-          setLastTiming(gloss.timing ?? null);
-
-          const item = toLiveGlossItem(gloss);
-          setLiveGlosses((prev) => [...prev, item]);
-
-          if (!item.lowConfidence && slrSettingsRef.current.autoSpeak) {
-            speakOutput(
-              {
-                glossIds: [item.labelId],
-                labels: [item.label],
-                slrBaseUrl: slrBaseUrlRef.current,
-              },
-              setTtsStatus
-            );
-          }
+          if (seenSegmentIdsRef.current.has(msg.gloss.segment_id)) return;
+          seenSegmentIdsRef.current.add(msg.gloss.segment_id); setLastTiming(msg.gloss.timing ?? null);
+          mergeGlosses([toLiveGlossItem(msg.gloss)]);
         } else if (msg.type === 'gloss_corrected') {
-          if (msg.session_id !== activeSessionIdRef.current) return;
-          const item = toLiveGlossItem(msg.gloss);
-          if (savedSegmentIdsRef.current.has(item.segmentId)) return;
-          setLiveGlosses((prev) => prev.map((g) => g.segmentId === item.segmentId ? item : g));
-          if (slrSettingsRef.current.autoSpeak) {
-            speakOutput(
-              { glossIds: [item.labelId], labels: [item.label], slrBaseUrl: slrBaseUrlRef.current },
-              setTtsStatus
-            );
-          }
+          if (msg.session_id === activeSessionIdRef.current) mergeGlosses([toLiveGlossItem(msg.gloss)]);
         } else if (msg.type === 'utterance_ready') {
-          const utt = msg.utterance;
-          if (slrSettingsRef.current.autoSaveOnRest) {
-            const items = (utt.segments?.length
-              ? utt.segments.map(toLiveGlossItem)
-              : liveGlossesRef.current.filter((g) => g.utteranceId === utt.utterance_id)
-            ).filter((g) => !savedSegmentIdsRef.current.has(g.segmentId));
-            const segIds = items.map((g) => g.segmentId);
-            for (const sid of segIds) {
-              savedSegmentIdsRef.current.add(sid);
-            }
-            if (segIds.length > 0) {
-              const segSet = new Set(segIds);
-              setLiveGlosses((prev) => prev.filter((g) => !segSet.has(g.segmentId)));
-            }
-            enqueueSignSave(items);
-          }
+          mergeGlosses((msg.utterance.segments ?? []).map(toLiveGlossItem)); markClosed([msg.utterance]);
         } else if (msg.type === 'session_stopped') {
-          setSlrRunning(Boolean(msg.snapshot?.running));
-          setSlrDraining(Boolean(msg.snapshot?.draining));
-          if (slrSettingsRef.current.autoSaveOnRest) {
-            const pending = (msg.snapshot?.glosses?.map(toLiveGlossItem) ?? liveGlossesRef.current).filter(
-              (g) => !savedSegmentIdsRef.current.has(g.segmentId)
-            );
-            if (pending.length > 0) {
-              for (const g of pending) {
-                savedSegmentIdsRef.current.add(g.segmentId);
-              }
-              setLiveGlosses([]);
-              enqueueSignSave(pending);
-            }
-          }
-        } else if (msg.type === 'error') {
-          setSlrError(msg.message || 'Lỗi từ máy chủ nhận dạng SLR.');
-        }
+          setSlrRunning(Boolean(msg.snapshot?.running)); setSlrDraining(Boolean(msg.snapshot?.draining));
+          mergeGlosses((msg.snapshot?.glosses ?? []).map(toLiveGlossItem)); markClosed(msg.snapshot?.utterances ?? []);
+        } else if (msg.type === 'error') setSlrError(msg.message || 'Lỗi từ máy chủ nhận dạng SLR.');
+        else if (msg.type === 'error_cleared') setSlrError(null);
       };
     };
-
-    const scheduleReconnect = () => {
-      if (disposed || reconnectTimer !== null) return;
-      attempt += 1;
-      const delay = Math.min(5000, 2000 + attempt * 500);
-      reconnectTimer = setTimeout(() => {
-        reconnectTimer = null;
-        connect();
-      }, delay);
-    };
-
+    const scheduleReconnect = () => { if (!disposed && reconnectTimer === null) reconnectTimer = setTimeout(() => { reconnectTimer = null; connect(); }, 2000); };
     connect();
-    return () => {
-      disposed = true;
-      if (reconnectTimer !== null) clearTimeout(reconnectTimer);
-      try {
-        ws?.close();
-      } catch {
-        // Ignore close errors.
-      }
-    };
-  }, [hasMounted, slrBaseUrl, enqueueSignSave]);
+    return () => { disposed = true; if (reconnectTimer) clearTimeout(reconnectTimer); ws?.close(); };
+  }, [hasMounted, slrBaseUrl, mergeGlosses]);
 
   const handleSlrSettingsChange = useCallback((next: SlrSettings) => {
     const saved = saveSlrSettings(next);
@@ -427,6 +351,10 @@ export default function Home() {
         setSlrRunning(Boolean(snap.running));
         setSlrDraining(Boolean(snap.draining));
       } else {
+        if (liveGlossesRef.current.length) {
+          setSlrError('Hãy gửi hoặc bỏ bản nháp trước khi bắt đầu phiên ký mới.');
+          return;
+        }
         void requestOskVisible(false);
         seenSegmentIdsRef.current.clear();
         savedSegmentIdsRef.current.clear();
@@ -457,7 +385,7 @@ export default function Home() {
       try {
         const gloss = await pickSlrCandidate(
           slrBaseUrlRef.current, sessionId, segmentId, candidate.label_id,
-          !slrSettingsRef.current.autoSaveOnRest
+          true
         );
         if (activeSessionIdRef.current === sessionId) {
           setLiveGlosses((prev) => prev.map((g) => g.segmentId === segmentId ? toLiveGlossItem(gloss) : g));
@@ -476,50 +404,31 @@ export default function Home() {
     setLiveGlosses((prev) => prev.filter((g) => g.segmentId !== segmentId));
   }, []);
 
-  const handleReplaySlrAudio = useCallback(() => {
-    const clear = liveGlossesRef.current.filter((g) => !g.lowConfidence);
-    if (clear.length === 0) return;
-    speakOutput(
-      {
-        glossIds: clear.map((g) => g.labelId),
-        labels: clear.map((g) => g.label),
-        slrBaseUrl: slrBaseUrlRef.current,
-      },
-      setTtsStatus
-    );
+  const handleFinishSentence = useCallback(async (utteranceId: string) => {
+    if (closedRef.current.includes(utteranceId)) return;
+    const response = await fetch(`${slrBaseUrlRef.current}/api/session/utterance/finish`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ session_id: activeSessionIdRef.current, utterance_id: utteranceId }),
+    });
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.detail || 'Chưa hoàn tất lượt ký. Hãy chờ và thử lại.');
+    mergeGlosses((data.state?.glosses ?? []).map(toLiveGlossItem));
+    setClosedUtteranceIds(prev => [...new Set([...prev, utteranceId])]);
+  }, [mergeGlosses]);
+
+  const handleDiscardSentence = useCallback((ids: string[]) => {
+    for (const id of ids) savedSegmentIdsRef.current.add(id);
+    const removed = new Set(ids);
+    setLiveGlosses(prev => prev.filter(g => !removed.has(g.segmentId)));
   }, []);
 
-  const handleManualSaveSlr = useCallback(() => {
-    const current = liveGlossesRef.current;
-    if (current.length === 0) return;
-    for (const g of current) {
-      savedSegmentIdsRef.current.add(g.segmentId);
-    }
-    setLiveGlosses([]);
-    enqueueSignSave(current);
-  }, [enqueueSignSave]);
-
-  // Conversation title rename handler
-  async function handleRename(newTitle: string) {
-    if (!conversation) return;
-    try {
-      const response = await fetch(
-        `/api/conversations/${encodeURIComponent(conversation.id)}`,
-        {
-          method: 'PATCH',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ title: newTitle }),
-        }
-      );
-
-      if (response.ok) {
-        const updated: Conversation = await response.json();
-        setConversation(updated);
-      }
-    } catch {
-      // Revert / ignore on error
-    }
-  }
+  const handleSendSentence = useCallback(async (text: string, items: SignGloss[], metadata: SignSentence) => {
+    const ok = await handleSendMessage(text, ['sign'], items, metadata);
+    if (!ok) return false;
+    handleDiscardSentence(items.map(g => g.segmentId));
+    if (slrSettingsRef.current.autoSpeak) speakSentence(text, setTtsStatus);
+    return true;
+  }, [handleSendMessage, handleDiscardSentence]);
 
   // History Drawer openers / actions
   function handleOpenHistory() {
@@ -533,6 +442,9 @@ export default function Home() {
   }
 
   async function handleSelectConversation(id: string) {
+    if (liveGlossesRef.current.length && id !== conversationRef.current?.id) {
+      setSlrError('Hãy gửi hoặc bỏ bản nháp trước khi đổi hội thoại.'); setIsHistoryOpen(false); return;
+    }
     if (conversation && conversation.id === id) {
       // Tapping the active conversation closes drawer without discarding draft or cancelling recording
       setIsHistoryOpen(false);
@@ -556,6 +468,9 @@ export default function Home() {
   }
 
   function handleNewConversation() {
+    if (liveGlossesRef.current.length) {
+      setSlrError('Hãy gửi hoặc bỏ bản nháp trước khi tạo hội thoại mới.'); setIsHistoryOpen(false); return;
+    }
     if (
       !conversation &&
       messages.length === 0 &&
@@ -606,7 +521,7 @@ export default function Home() {
         const target = e.target as HTMLElement | null;
         if (!target) return;
         if (
-          target.closest('textarea, input, select, [data-testid="osk-button"], [data-testid="send-button"]')
+          target.closest('textarea, input, select, [data-testid="osk-button"], [data-testid="send-button"], [data-testid="live-signing-card"]')
         ) {
           return;
         }
@@ -636,9 +551,6 @@ export default function Home() {
     >
       {/* Top Header */}
       <Header
-        title={conversation ? conversation.title : 'Hội thoại mới'}
-        isNew={conversation === null || messages.length === 0}
-        onRename={handleRename}
         onOpenHistory={handleOpenHistory}
         onOpenSettings={handleOpenSettings}
         isSigning={showSlrDock}
@@ -664,12 +576,13 @@ export default function Home() {
       )}
 
       <div className="flex min-h-0 flex-1 flex-col overflow-y-auto min-[900px]:landscape:flex-row min-[900px]:landscape:overflow-hidden">
-        {showSlrDock && (
+        {(showSlrDock || liveGlosses.length > 0) && (
           <SlrDock
             slrBaseUrl={slrBaseUrl}
             running={slrRunning}
             draining={slrDraining}
             segmenterState={segmenterState}
+            arms={slrArms}
             wsConnected={slrWsConnected}
             captureFps={captureFps}
             queueDepth={queueDepth}
@@ -686,28 +599,34 @@ export default function Home() {
           {showLiveCard && (
             <div
               className={`shrink-0 overflow-y-auto px-3 py-2 sm:px-5 min-[900px]:landscape:px-8 min-[900px]:landscape:pt-0 ${
-                isOskOpen ? 'max-h-[96px]' : 'max-h-[260px]'
+                sentenceEditing && isOskOpen ? 'min-h-0 flex-1' : 'max-h-[330px]'
               }`}
             >
-              <LiveSigningCard
-                key={activeSessionIdRef.current}
+              <SentenceSigningCard
+                key={`${activeSessionIdRef.current}:${liveGlosses[0]?.utteranceId ?? 'empty'}`}
                 running={slrRunning}
                 glosses={liveGlosses}
                 autoSpeak={slrSettings.autoSpeak}
-                autoSaveOnRest={slrSettings.autoSaveOnRest}
-                ttsStatus={ttsStatus}
+                sessionId={activeSessionIdRef.current}
+                autoReadyIds={autoReadyIds}
+                autoCreate={slrSettings.autoSaveOnRest}
+                pendingRecognition={!closedUtteranceIds.includes(liveGlosses[0]?.utteranceId) && (slrDraining || queueDepth > 0 || segmenterState === 'CAPTURING' || segmenterState === 'END_PENDING')}
+                onFinish={handleFinishSentence}
+                onDiscard={handleDiscardSentence}
+                onSend={handleSendSentence}
+                onEditFocus={setSentenceEditing}
+                keyboardOpen={sentenceEditing && isOskOpen}
+                onHideKeyboard={() => { setSentenceEditing(false); void requestOskVisible(false); }}
                 onPickCandidate={handlePickSlrCandidate}
                 onDropGloss={handleDropSlrGloss}
-                onReplayAudio={handleReplaySlrAudio}
-                onManualSave={handleManualSaveSlr}
               />
             </div>
           )}
 
-          <ConversationArea messages={messages} className="min-[900px]:landscape:-order-1" />
+          {!(sentenceEditing && isOskOpen) && <ConversationArea messages={messages} className="-order-1" />}
 
           {/* Shared Bottom Composer */}
-          <Composer
+          {!(sentenceEditing && isOskOpen) && <Composer
             onSendMessage={handleSendMessage}
             draft={draft}
             onDraftChange={setDraft}
@@ -718,7 +637,7 @@ export default function Home() {
             isOskOpen={isOskOpen}
             onToggleOsk={handleToggleOsk}
             onRequestOsk={(visible) => void requestOskVisible(visible)}
-          />
+          />}
         </div>
       </div>
 

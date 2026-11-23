@@ -10,6 +10,7 @@ import {
 } from '../lib/slrSettings';
 import { WebAudioRecorder } from '../utils/audioRecorder';
 import { ArrowLeftIcon, SearchIcon, TrashIcon } from './Icons';
+import { SentenceServiceSettings } from './SentenceServiceSettings';
 
 interface SettingsViewProps {
   isOpen: boolean;
@@ -85,6 +86,21 @@ export function SettingsView({
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
   const [deleteError, setDeleteError] = useState<string>('');
   const searchSeqRef = React.useRef(0);
+  const [slrSavedAt, setSlrSavedAt] = useState<number>(0);
+
+  useEffect(() => {
+    if (!slrSavedAt) return;
+    const t = setTimeout(() => setSlrSavedAt(0), 2500);
+    return () => clearTimeout(t);
+  }, [slrSavedAt]);
+
+  const updateSlrSetting = useCallback(
+    (next: SlrSettings) => {
+      onSlrSettingsChange?.(next);
+      setSlrSavedAt(Date.now());
+    },
+    [onSlrSettingsChange]
+  );
 
   // Load Settings and Microphones (only when SettingsView opens)
   const loadSttSettings = useCallback(async () => {
@@ -561,9 +577,9 @@ export function SettingsView({
         <div className="w-[106px] shrink-0" aria-hidden="true" />
       </header>
 
-      <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
+      <div className="flex min-h-0 flex-1 flex-col overflow-hidden min-[900px]:landscape:flex-row">
         <nav
-          className="grid shrink-0 grid-cols-3 gap-1.5 border-b border-[#BAC5D0] bg-white px-2 py-2 sm:gap-2 sm:px-4"
+          className="grid shrink-0 grid-cols-3 gap-1.5 border-b border-[#BAC5D0] bg-white px-2 py-2 sm:gap-2 sm:px-4 min-[900px]:landscape:flex min-[900px]:landscape:w-[190px] min-[900px]:landscape:flex-col min-[900px]:landscape:border-r min-[900px]:landscape:border-b-0"
           aria-label="Nhóm cài đặt"
         >
           <button
@@ -856,9 +872,24 @@ export function SettingsView({
           ) : activeTab === 'slr' ? (
             /* Tab 2: Ngôn ngữ ký hiệu (SLR) */
             <div className="mx-auto flex w-full max-w-3xl flex-col gap-5 rounded-2xl border border-[#BAC5D0] bg-[#FFFFFF] p-4 shadow-sm sm:p-6">
-              <h2 className="text-[20px] font-bold text-[#273D53]">
-                Nhận dạng ký hiệu &amp; Phát loa
-              </h2>
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <h2 className="text-[20px] font-bold text-[#273D53]">
+                  Nhận dạng ký hiệu &amp; Phát loa
+                </h2>
+                <span
+                  role="status"
+                  data-testid="slr-autosave-status"
+                  className={`rounded-full px-3 py-1 text-[13px] font-semibold ${
+                    slrSavedAt > 0
+                      ? 'bg-emerald-50 text-emerald-700'
+                      : 'bg-[#F5F7F9] text-[#4F5D6B]'
+                  }`}
+                >
+                  {slrSavedAt > 0 ? '✓ Đã lưu thay đổi' : '✓ Tự động lưu'}
+                </span>
+              </div>
+
+              <SentenceServiceSettings />
 
               <label className="flex items-start justify-between gap-4 rounded-xl border border-[#BAC5D0] bg-[#F5F7F9] p-4 cursor-pointer">
                 <div>
@@ -866,7 +897,7 @@ export function SettingsView({
                     Tự động đọc loa
                   </div>
                   <div className="text-[14px] text-[#4F5D6B]">
-                    Tự phát MP3 khi nhận được ký hiệu rõ ràng (bỏ qua từ chưa rõ).
+                    Đọc câu tiếng Việt sau khi bạn bấm Gửi câu, nếu thiết bị có hỗ trợ giọng đọc.
                   </div>
                 </div>
                 <input
@@ -874,7 +905,7 @@ export function SettingsView({
                   checked={slrSettings.autoSpeak}
                   data-testid="slr-setting-autospeak"
                   onChange={(e) =>
-                    onSlrSettingsChange?.({
+                    updateSlrSetting({
                       ...slrSettings,
                       autoSpeak: e.target.checked,
                     })
@@ -886,10 +917,10 @@ export function SettingsView({
               <label className="flex items-start justify-between gap-4 rounded-xl border border-[#BAC5D0] bg-[#F5F7F9] p-4 cursor-pointer">
                 <div>
                   <div className="text-[17px] font-bold text-[#18212B]">
-                    Tự động lưu câu vào hội thoại khi nghỉ 4 giây (Phương án A)
+                    Tự tạo câu gợi ý khi kết thúc thời gian nghỉ
                   </div>
                   <div className="text-[14px] text-[#4F5D6B]">
-                    Gom toàn bộ các từ ký trong cùng 1 câu và tự gửi thành 1 tin nhắn vào hội thoại khi buông 2 tay nghỉ 4 giây.
+                    Nếu còn từ chưa rõ, giữ lại để chỉnh. Câu tạo xong luôn chờ bạn kiểm tra và bấm Gửi câu.
                   </div>
                 </div>
                 <input
@@ -897,7 +928,7 @@ export function SettingsView({
                   checked={slrSettings.autoSaveOnRest}
                   data-testid="slr-setting-autosave"
                   onChange={(e) =>
-                    onSlrSettingsChange?.({
+                    updateSlrSetting({
                       ...slrSettings,
                       autoSaveOnRest: e.target.checked,
                     })
@@ -920,7 +951,7 @@ export function SettingsView({
                   checked={slrSettings.showDiagnostics}
                   data-testid="slr-setting-diagnostics"
                   onChange={(e) =>
-                    onSlrSettingsChange?.({
+                    updateSlrSetting({
                       ...slrSettings,
                       showDiagnostics: e.target.checked,
                     })
@@ -954,7 +985,7 @@ export function SettingsView({
                     placeholder="172.16.59.16:8765 (để trống = tự nhận)"
                     data-testid="slr-setting-baseurl"
                     onChange={(e) =>
-                      onSlrSettingsChange?.({
+                      updateSlrSetting({
                         ...slrSettings,
                         slrBaseUrl: normalizeSlrBaseUrl(e.target.value),
                       })
@@ -983,7 +1014,7 @@ export function SettingsView({
                   data-testid="slr-setting-camera"
                   onChange={(e) => {
                     const num = Number(e.target.value);
-                    onSlrSettingsChange?.({
+                    updateSlrSetting({
                       ...slrSettings,
                       cameraIndex:
                         Number.isInteger(num) && num >= 0 && num <= 16 ? num : 0,

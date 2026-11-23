@@ -7,6 +7,165 @@ import { join } from 'node:path';
 
 const fakeKey = 'TEST_NOT_A_REAL_KEY_0123456789';
 
+test('unclear gloss waits for correction, generated sentence waits for review, edited sentence is sent', async ({ page }) => {
+  const candidate = (label: string, label_id: number, score: number) => ({ label, label_id, score });
+  const record = (id: string, top5: ReturnType<typeof candidate>[], low = false) => ({
+    segment_id: id, utterance_id: '0', start: 0, movement_start: 0, movement_end: 1, end: 1,
+    raw: { top1_label: top5[0].label, top1_id: top5[0].label_id, confidence: top5[0].score, low_confidence: low, top5 },
+  });
+  const glosses = [record('1', [candidate('Bố', 33, .99)]), record('2', [candidate('Ăn', 10, .4), candidate('Đi', 380, .3), candidate('Uống', 11, .2)], true), record('3', [candidate('Bệnh viện', 32, .99)])];
+  let socket: WebSocketRoute;
+  await page.routeWebSocket('**/ws/live', ws => {
+    socket = ws;
+    ws.send(JSON.stringify({ type: 'snapshot', snapshot: { session_id: 'sentence-ui', epoch: 1, running: true, draining: false,
+      segmenter_state: 'READY', arms: ['rest', 'rest'], queue_depth: 0, capture_fps: 20, glosses, utterances: [] } }));
+  });
+  await page.route('**/api/session/glosses/2/candidate', async route => {
+    const headers = { 'access-control-allow-origin': '*', 'access-control-allow-methods': 'POST', 'access-control-allow-headers': 'content-type' };
+    if (route.request().method() === 'OPTIONS') return route.fulfill({ status: 204, headers });
+    expect(route.request().postDataJSON()).toMatchObject({ session_id: 'sentence-ui', label_id: 380, allow_closed: true });
+    const corrected = { ...glosses[1], selected_candidate: glosses[1].raw.top5[1] };
+    socket.send(JSON.stringify({ type: 'gloss_corrected', session_id: 'sentence-ui', gloss: corrected }));
+    await route.fulfill({ headers, json: { gloss: corrected } });
+  });
+  let generated = 0, sent = 0;
+  await page.route('**/api/sign-sentence', async route => {
+    generated++;
+    const body = route.request().postDataJSON();
+    expect(body.glosses.map((g: { label: string }) => g.label)).toEqual(['Bố', 'Đi', 'Bệnh viện']);
+    await route.fulfill({ json: { sentence: 'Bố đi bệnh viện.', needsClarification: false, explanation: '',
+      metadata: { generatedText: 'Bố đi bệnh viện.', sourceGlossText: 'Bố Đi Bệnh viện', model: 'fixture-model', requestId: body.requestId } } });
+  });
+  await page.route('**/api/conversations', async route => {
+    if (route.request().method() !== 'POST') return route.fulfill({ json: [] });
+    sent++; const body = route.request().postDataJSON();
+    expect(body.text).toBe('Bố muốn đi bệnh viện.'); expect(body.signSentence.generatedText).toBe('Bố đi bệnh viện.');
+    const now = new Date().toISOString();
+    const conversation = { id: 'sentence-conversation', title: body.text, createdAt: now, updatedAt: now, messageCount: 1 };
+    await route.fulfill({ status: 201, json: { conversation, message: { id: 'sentence-message', conversationId: conversation.id, createdAt: now, ...body } } });
+  });
+  await page.goto('/');
+  await expect(page.getByRole('button', { name: 'Ăn, từ chưa rõ' })).toBeVisible();
+  socket!.send(JSON.stringify({ type: 'utterance_ready', utterance: { utterance_id: '0', revision: 1, reason: 'utterance_rest', timestamp: 4, raw_glosses: ['Bố', 'Ăn', 'Bệnh viện'], segments: glosses } }));
+  await expect(page.getByTestId('slr-save-message-button')).toBeDisabled();
+  expect(generated).toBe(0); expect(sent).toBe(0);
+  await page.getByRole('button', { name: 'Đi', exact: true }).click();
+  await expect(page.getByTestId('slr-save-message-button')).toBeEnabled();
+  expect(generated).toBe(0);
+  await page.getByTestId('slr-save-message-button').click();
+  const sentence = page.getByTestId('sign-sentence-input');
+  await expect(sentence).toHaveValue('Bố đi bệnh viện.');
+  await expect(page.getByTestId('message-card')).toHaveCount(0); expect(sent).toBe(0);
+  await sentence.fill('Bố muốn đi bệnh viện.');
+  await page.getByTestId('sign-sentence-send').click();
+  await expect(page.getByTestId('message-text')).toHaveText('Bố muốn đi bệnh viện.');
+  expect(generated).toBe(1); expect(sent).toBe(1);
+});
+
+test('provider settings keep sidebar in landscape, top tabs in portrait, and select account models', async ({ page }, info) => {
+  const account = { id: 'test-account', email: 'fixture@example.test', label: 'Tài khoản thử', connected: true, model: '' };
+  const connection = { activeId: account.id, source: 'chatgpt', accounts: [account], pending: false, notice: '' };
+  await page.route('**/api/chatgpt*', async route => {
+    if (route.request().method() === 'POST') {
+      const body = route.request().postDataJSON();
+      expect(body).toMatchObject({ action: 'select', id: account.id, model: 'available-model' });
+      account.model = body.model;
+      await route.fulfill({ json: connection });
+    } else if (new URL(route.request().url()).searchParams.has('models')) {
+      await route.fulfill({ json: { models: [{ id: 'available-model', name: 'Model được cấp quyền' }] } });
+    } else await route.fulfill({ json: connection });
+  });
+  await page.route('**/api/sign-sentence*', route => route.fulfill({ json: { configured: false } }));
+  for (const viewport of [{ width: 1024, height: 600 }, { width: 600, height: 1024 }]) {
+    await page.setViewportSize(viewport); await page.goto('/');
+    await page.getByTestId('settings-button').click();
+    await page.getByTestId('settings-tab-slr').click();
+    const tabs = page.getByRole('navigation', { name: 'Nhóm cài đặt' });
+    const content = page.getByTestId('settings-content');
+    const nav = (await tabs.boundingBox())!, main = (await content.boundingBox())!;
+    if (viewport.width > viewport.height) expect(nav.x + nav.width).toBeLessThanOrEqual(main.x);
+    else expect(nav.y + nav.height).toBeLessThanOrEqual(main.y);
+    await expect(page.getByRole('heading', { name: 'Nhà cung cấp AI', exact: true })).toBeVisible();
+    await expect(page.getByLabel('API key', { exact: true })).toHaveCount(0);
+    const model = page.getByTestId('chatgpt-model');
+    await expect(model).toBeEnabled(); await model.selectOption('available-model');
+    await expect(model).toHaveValue('available-model');
+    await page.getByRole('button', { name: 'Quản lý…', exact: true }).click();
+    await expect(page.getByRole('dialog', { name: 'Quản lý ChatGPT', exact: true })).toBeVisible();
+    await page.getByRole('button', { name: 'Đóng', exact: true }).click();
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+    await page.screenshot({ path: info.outputPath(`providers-${viewport.width}.png`) });
+  }
+});
+
+test('camera and colored status occupy separate portrait halves and stack in landscape', async ({ page }, info) => {
+  let live: WebSocketRoute | undefined;
+  await page.routeWebSocket('**/ws/live', socket => {
+    live = socket;
+    socket.send(JSON.stringify({ type: 'snapshot', snapshot: {
+      session_id: 'status-layout-test', epoch: 1, running: true, draining: false,
+      segmenter_state: 'UNKNOWN', arms: [null, null], queue_depth: 0,
+      capture_fps: 20, glosses: [], utterances: [],
+    } }));
+  });
+  await page.setViewportSize({ width: 600, height: 1024 });
+  await page.goto('/');
+  const video = page.getByTestId('slr-video-panel');
+  const status = page.getByTestId('slr-status-panel');
+  await expect(status).toHaveAttribute('data-state', 'unknown');
+  await expect(status).toHaveCSS('background-color', 'rgb(255, 247, 237)');
+  await expect(video.getByTestId('slr-user-status')).toHaveCount(0);
+  await expect(page.getByRole('button', { name: 'Nghe lại', exact: true })).toHaveCount(0);
+  for (const width of [600, 768]) {
+    await page.setViewportSize({ width, height: 1024 });
+    const v = (await video.boundingBox())!;
+    const s = (await status.boundingBox())!;
+    expect(Math.abs(v.width - s.width)).toBeLessThanOrEqual(1);
+    expect(v.y).toBe(s.y);
+    expect(v.height).toBe(s.height);
+    expect(v.x + v.width).toBeLessThan(s.x);
+    expect(s.x + s.width).toBeLessThanOrEqual(width);
+  }
+  const sendState = (segmenter_state: string, arms: (string | null)[]) => live!.send(JSON.stringify({
+    type: 'status', segmenter_state, arms, timestamp: 1, queue_depth: 0, capture_fps: 20,
+  }));
+  sendState('UNKNOWN', ['rest', 'rest']);
+  await expect(status).toHaveAttribute('data-state', 'rest');
+  await expect(status).toHaveCSS('background-color', 'rgb(239, 246, 255)');
+  sendState('READY', ['rest', 'rest']);
+  await expect(status).toHaveAttribute('data-state', 'ready');
+  await expect(status).toHaveCSS('background-color', 'rgb(221, 247, 233)');
+  await page.screenshot({ path: info.outputPath('portrait-camera-status.png') });
+  await page.setViewportSize({ width: 1024, height: 600 });
+  const v = (await video.boundingBox())!;
+  const s = (await status.boundingBox())!;
+  expect(v.y + v.height).toBeLessThan(s.y);
+  await expect(page.getByTestId('slr-dock-stop')).toBeInViewport();
+});
+
+test('conversation Read button speaks the displayed message in Vietnamese', async ({ page }) => {
+  await page.addInitScript(() => {
+    Object.defineProperty(window, 'speechSynthesis', { value: {
+      cancel() {}, getVoices: () => [],
+      speak(u: SpeechSynthesisUtterance) {
+        (window as unknown as { spoken: unknown }).spoken = { text: u.text, lang: u.lang };
+      },
+    } });
+  });
+  const now = new Date().toISOString();
+  const conversation = { id: 'read-test', title: 'Tin nhắn', createdAt: now, updatedAt: now, messageCount: 1 };
+  await page.route('**/api/conversations', route => route.fulfill({ json: [conversation] }));
+  await page.route('**/api/conversations/read-test', route => route.fulfill({ json: { conversation,
+    messages: [{ id: 'read-message', conversationId: conversation.id, text: 'Tôi cần hỗ trợ.', createdAt: now, sources: ['keyboard'] }],
+  } }));
+  await page.goto('/');
+  await page.getByTestId('history-button').click();
+  await page.getByTestId('history-item-read-test').click();
+  await page.getByTestId('message-read-button').click();
+  expect(await page.evaluate(() => (window as unknown as { spoken: unknown }).spoken))
+    .toEqual({ text: 'Tôi cần hỗ trợ.', lang: 'vi-VN' });
+});
+
 test('portrait settings tabs and signing camera use the full width', async ({ page }) => {
   await page.routeWebSocket('**/ws/live', (socket) => {
     socket.send(JSON.stringify({
@@ -141,7 +300,7 @@ test('Companion can correct an earlier unclear gloss and sync the choice to Pi',
     ],
   });
   const savedMessage = page.getByTestId('message-card');
-  await expect(savedMessage).toHaveText('Cái ghế Bơi lội');
+  await expect(savedMessage.getByTestId('message-text')).toHaveText('Cái ghế Bơi lội');
   await expect(savedMessage.getByLabel('Bơi lội, từ chưa rõ')).toHaveClass(/bg-orange-100/);
 });
 
@@ -149,7 +308,7 @@ test('initial screen displays Header, empty conversation, and composer with idle
   await page.goto('/');
   // Header controls
   await expect(page.getByTestId('history-button')).toHaveText('Hội thoại');
-  await expect(page.getByTestId('conversation-title-locked')).toHaveText('Hội thoại mới');
+  await expect(page.getByTestId('conversation-title-locked')).toHaveCount(0);
   await expect(page.getByTestId('settings-button')).toHaveText('Cài đặt');
 
   // Composer
@@ -165,7 +324,7 @@ test('initial screen displays Header, empty conversation, and composer with idle
   await page.screenshot({ path: info.outputPath('stage2-initial-screen.png'), fullPage: true });
 });
 
-test('typing enables Send button; sending first message creates conversation and unlocks title editing', async ({ page }, info) => {
+test('typing enables Send and creates a conversation without a header title', async ({ page }, info) => {
   const convFixture = {
     id: 'conv-test-1',
     title: 'Xin chào bạn',
@@ -207,12 +366,11 @@ test('typing enables Send button; sending first message creates conversation and
   // Message card rendered
   const messageCard = page.getByTestId('message-card');
   await expect(messageCard).toHaveCount(1);
-  await expect(messageCard).toHaveText('Xin chào bạn');
+  await expect(messageCard.getByTestId('message-text')).toHaveText('Xin chào bạn');
 
-  // Title unlocked for inline editing
-  const titleInput = page.getByTestId('conversation-title-input');
-  await expect(titleInput).toBeVisible();
-  await expect(titleInput).toHaveValue('Xin chào bạn');
+  // Conversation names belong to history, not the chat header.
+  await expect(page.getByTestId('conversation-title-input')).toHaveCount(0);
+  await expect(page.locator('header').first().getByText('Xin chào bạn', { exact: true })).toHaveCount(0);
 
   await page.screenshot({ path: info.outputPath('stage2-message-sent.png'), fullPage: true });
 });
@@ -309,7 +467,7 @@ test('smart latch: clicking Send during recording triggers stop, enters transcri
 
   // Combined message sent automatically
   await expect(page.getByTestId('message-card')).toHaveCount(1);
-  await expect(page.getByTestId('message-card')).toHaveText('Tôi muốn hẹn gặp vào sáng mai');
+  await expect(page.getByTestId('message-text')).toHaveText('Tôi muốn hẹn gặp vào sáng mai');
   expect(sentText).toBe('Tôi muốn hẹn gặp vào sáng mai');
   expect(sentSources).toContain('voice');
 });
@@ -381,52 +539,38 @@ test('smart latch: clicking Send during transcribing (after stopping) auto-sends
 
   // Combined message is sent automatically
   await expect(page.getByTestId('message-card')).toHaveCount(1);
-  await expect(page.getByTestId('message-card')).toHaveText('Tôi muốn hẹn gặp vào sáng mai');
+  await expect(page.getByTestId('message-text')).toHaveText('Tôi muốn hẹn gặp vào sáng mai');
   expect(sentText).toBe('Tôi muốn hẹn gặp vào sáng mai');
 });
 
-test('inline title rename cancels and restores original title on Escape', async ({ page }) => {
-  const convFixture = {
-    id: 'conv-escape-test',
-    title: 'Tiêu đề gốc',
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-    messageCount: 1,
-  };
-  const msgFixture = {
-    id: 'msg-escape-test',
-    conversationId: 'conv-escape-test',
-    text: 'Tiêu đề gốc',
-    createdAt: new Date().toISOString(),
-    sources: ['keyboard'],
-  };
-
-  let patchCalled = false;
-  await page.route('**/api/conversations', async route => {
-    return route.fulfill({ status: 201, json: { conversation: convFixture, message: msgFixture } });
-  });
-  await page.route('**/api/conversations/**', async route => {
-    if (route.request().method() === 'PATCH') {
-      patchCalled = true;
-      return route.fulfill({ status: 200, json: convFixture });
+test('chat header has one row without a title in landscape and portrait, while history keeps names', async ({ page }) => {
+  const now = new Date().toISOString();
+  const conversation = { id: 'header-history-test', title: 'Tên chỉ nằm trong lịch sử', createdAt: now, updatedAt: now, messageCount: 1 };
+  const message = { id: 'header-message', conversationId: conversation.id, text: 'Nội dung hội thoại đã lưu', createdAt: now, sources: ['keyboard'] };
+  await page.route('**/api/conversations', route => route.fulfill({ json: [conversation] }));
+  await page.route('**/api/conversations/header-history-test', route => route.fulfill({ json: { conversation, messages: [message] } }));
+  for (const viewport of [{ width: 1024, height: 600 }, { width: 600, height: 1024 }, { width: 768, height: 1024 }]) {
+    await page.setViewportSize(viewport);
+    await page.goto('/');
+    const header = page.locator('header').first();
+    await expect(page.getByTestId('conversation-title-locked')).toHaveCount(0);
+    await expect(page.getByLabel('Tiêu đề hội thoại')).toHaveCount(0);
+    await page.getByTestId('history-button').click();
+    const historyItem = page.getByTestId('history-item-header-history-test');
+    await expect(historyItem).toContainText(conversation.title);
+    await historyItem.click();
+    await expect(page.getByTestId('message-text')).toHaveText(message.text);
+    await expect(header.getByText(conversation.title, { exact: true })).toHaveCount(0);
+    await expect(page.getByTestId('conversation-title-input')).toHaveCount(0);
+    const box = (await header.boundingBox())!;
+    expect(box.height).toBeLessThanOrEqual(64);
+    for (const id of ['history-button', 'slr-toggle-button', 'settings-button']) {
+      await expect(page.getByTestId(id)).toBeInViewport();
+      const button = (await page.getByTestId(id).boundingBox())!;
+      expect(button.y + button.height).toBeLessThanOrEqual(box.y + box.height);
     }
-    return route.continue();
-  });
-
-  await page.goto('/');
-  await page.getByTestId('composer-textarea').fill('Tiêu đề gốc');
-  await page.getByTestId('send-button').click();
-
-  const titleInput = page.getByTestId('conversation-title-input');
-  await expect(titleInput).toHaveValue('Tiêu đề gốc');
-
-  // Edit title then press Escape
-  await titleInput.fill('Tiêu đề mới không mong muốn');
-  await titleInput.press('Escape');
-
-  // Value should revert to original title and PATCH should not have been called
-  await expect(titleInput).toHaveValue('Tiêu đề gốc');
-  expect(patchCalled).toBe(false);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  }
 });
 
 test('touchscreen target dimensions 1024x600 has no horizontal overflow and minimum 44px tap targets', async ({ page }, info) => {
@@ -547,7 +691,7 @@ test('Stage 3 History Drawer opens, shows empty state, closes via 3 methods, and
 
   // Draft must be discarded per spec
   await expect(textarea).toHaveValue('');
-  await expect(page.getByTestId('conversation-title-locked')).toHaveText('Hội thoại mới');
+  await expect(page.getByTestId('conversation-title-locked')).toHaveCount(0);
 
   // Method 3 to close: Select a conversation
   const convA = {
@@ -583,8 +727,8 @@ test('Stage 3 History Drawer opens, shows empty state, closes via 3 methods, and
 
   // Drawer closes and conversation is loaded
   await expect(drawer).toBeHidden();
-  await expect(page.getByTestId('conversation-title-input')).toHaveValue('Hội thoại kiểm tra A');
-  await expect(page.getByTestId('message-card')).toHaveText('Nội dung tin nhắn trong A');
+  await expect(page.getByTestId('conversation-title-input')).toHaveCount(0);
+  await expect(page.getByTestId('message-text')).toHaveText('Nội dung tin nhắn trong A');
 
   // Test selecting the currently active conversation: draft must be preserved
   await textarea.fill('Bản nháp không được mất khi bấm lại cùng hội thoại');
@@ -753,7 +897,7 @@ test('Stage 3 Settings View: History management batch delete resets active sessi
   // Load conv1 as active conversation
   await page.getByTestId('history-button').click();
   await page.getByTestId('history-item-c-active').click();
-  await expect(page.getByTestId('conversation-title-input')).toHaveValue('Hội thoại đang hoạt động');
+  await expect(page.getByTestId('message-text')).toHaveText('Tin nhắn c-active');
 
   // Enter some draft
   const textarea = page.getByTestId('composer-textarea');
@@ -782,7 +926,7 @@ test('Stage 3 Settings View: History management batch delete resets active sessi
   await page.getByTestId('settings-back-button').click();
 
   // Since active conversation was deleted, active session reset to blank and draft cleared!
-  await expect(page.getByTestId('conversation-title-locked')).toHaveText('Hội thoại mới');
+  await expect(page.getByTestId('conversation-title-locked')).toHaveCount(0);
   await expect(textarea).toHaveValue('');
   await expect(page.getByTestId('message-card')).toHaveCount(0);
 });
@@ -824,7 +968,7 @@ test('Electron opens the same local UI with isolated renderer', async ({}, info)
   const desktop = await _electron.launch({ args: [resolve('electron/main.cjs')], env });
   try {
     const window = await desktop.firstWindow();
-    await expect(window.getByTestId('conversation-title-locked')).toHaveText('Hội thoại mới');
+    await expect(window.getByTestId('conversation-title-locked')).toHaveCount(0);
     const globals = await window.evaluate(() => ({ require: 'require' in window, process: 'process' in window }));
     expect(globals.require).toBe(false);
     expect(globals.process).toBe(false);

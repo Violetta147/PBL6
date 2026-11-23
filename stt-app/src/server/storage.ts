@@ -2,7 +2,7 @@ import { mkdir, readFile, writeFile, rename, rm } from 'node:fs/promises';
 import { homedir } from 'node:os';
 import { join } from 'node:path';
 import { randomUUID } from 'node:crypto';
-import { MESSAGE_SOURCES, type Conversation, type Message, type MessageSource, type SignGloss } from '../contracts';
+import { MESSAGE_SOURCES, type Conversation, type Message, type MessageSource, type SignGloss, type SignSentence } from '../contracts';
 import { AppError } from './errors';
 import { runtimePlatform } from './settings';
 
@@ -157,8 +157,11 @@ export async function getConversationWithMessages(
   return { conversation: { ...conversation }, messages };
 }
 
-function signMessageMetadata(value: unknown, sources: MessageSource[], text: string): Pick<Message, 'signGlosses'> {
-  if (value === undefined) return {};
+function signMessageMetadata(value: unknown, sources: MessageSource[], text: string, sentence?: unknown): Pick<Message, 'signGlosses' | 'signSentence'> {
+  if (value === undefined) {
+    if (sentence !== undefined) throw new AppError('sign_sentence_invalid', 'Thiếu chuỗi gloss nguồn.', 400);
+    return {};
+  }
   const invalid = () => new AppError('sign_glosses_invalid', 'Dữ liệu ký hiệu không hợp lệ.', 400);
   if (!sources.includes('sign') || !Array.isArray(value) || value.length === 0) throw invalid();
   const signGlosses = value.map((entry: unknown): SignGloss => {
@@ -179,14 +182,26 @@ function signMessageMetadata(value: unknown, sources: MessageSource[], text: str
     });
     return { segmentId, utteranceId, label, labelId, originalLabel, status, top3: candidates };
   });
-  if (signGlosses.map(({ label }) => label).join(' ').trim() !== text) throw invalid();
-  return { signGlosses };
+  const sourceText = signGlosses.map(({ label }) => label).join(' ').trim();
+  if (sentence === undefined) {
+    if (sourceText !== text) throw invalid();
+    return { signGlosses };
+  }
+  const s = sentence as Partial<SignSentence>;
+  if (!s || typeof s !== 'object' || s.sourceGlossText !== sourceText ||
+      typeof s.generatedText !== 'string' || !s.generatedText.trim() || s.generatedText.length > 2000 ||
+      typeof s.model !== 'string' || !s.model || s.model.length > 200 ||
+      typeof s.requestId !== 'string' || !/^[a-zA-Z0-9_-]{1,100}$/.test(s.requestId) ||
+      text.length > 2000 || signGlosses.some(g => g.status === 'unconfirmed')) throw invalid();
+  return { signGlosses, signSentence: { sourceGlossText: sourceText, generatedText: s.generatedText,
+    model: s.model, requestId: s.requestId, confirmedAt: new Date().toISOString() } };
 }
 
 export function createConversationWithFirstMessage(
   text: string,
   sources: MessageSource[] = ['keyboard'],
-  signGlosses?: unknown
+  signGlosses?: unknown,
+  signSentence?: unknown
 ): Promise<{ conversation: Conversation; message: Message }> {
   return serializeWrite(async () => {
     const trimmed = (text || '').trim();
@@ -215,7 +230,7 @@ export function createConversationWithFirstMessage(
       text: trimmed,
       createdAt: now,
       sources: cleanSources,
-      ...signMessageMetadata(signGlosses, cleanSources, trimmed),
+      ...signMessageMetadata(signGlosses, cleanSources, trimmed, signSentence),
     };
 
     data.conversations.push(conversation);
@@ -230,7 +245,8 @@ export function appendMessage(
   conversationId: string,
   text: string,
   sources: MessageSource[] = ['keyboard'],
-  signGlosses?: unknown
+  signGlosses?: unknown,
+  signSentence?: unknown
 ): Promise<Message> {
   return serializeWrite(async () => {
     const trimmed = (text || '').trim();
@@ -254,7 +270,7 @@ export function appendMessage(
       text: trimmed,
       createdAt: now,
       sources: cleanSources,
-      ...signMessageMetadata(signGlosses, cleanSources, trimmed),
+      ...signMessageMetadata(signGlosses, cleanSources, trimmed, signSentence),
     };
 
     conv.updatedAt = now;

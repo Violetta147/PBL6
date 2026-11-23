@@ -12,6 +12,7 @@ import {
 import {
   formatUserFacingState,
   getStateBorderColor,
+  signingIndicator,
 } from '../src/lib/slrClient';
 
 test('DEFAULT_SLR_SETTINGS keeps end-user defaults and hides dev diagnostics', () => {
@@ -20,6 +21,24 @@ test('DEFAULT_SLR_SETTINGS keeps end-user defaults and hides dev diagnostics', (
   assert.equal(DEFAULT_SLR_SETTINGS.showDiagnostics, false);
   assert.equal(DEFAULT_SLR_SETTINGS.cameraIndex, 0);
   assert.equal(DEFAULT_SLR_SETTINGS.slrBaseUrl, '');
+});
+
+test('signing status distinguishes tracking loss, resting and ready without red', () => {
+  const unknown = signingIndicator(true, false, 'UNKNOWN', [null, null]);
+  const resting = signingIndicator(true, false, 'UNKNOWN', ['rest', 'rest']);
+  const ready = signingIndicator(true, false, 'READY', ['rest', 'rest']);
+  assert.equal(unknown.kind, 'unknown');
+  assert.equal(unknown.background, '#FFF7ED');
+  assert.equal(resting.kind, 'rest');
+  assert.equal(resting.background, '#EFF6FF');
+  assert.equal(ready.kind, 'ready');
+  assert.equal(ready.background, '#DDF7E9');
+  assert.equal(signingIndicator(true, false, 'UNKNOWN', ['rest', null]).kind, 'unknown');
+  assert.equal(signingIndicator(true, false, 'UNKNOWN', ['active', 'rest']).label, 'Chờ tư thế bắt đầu');
+  assert.equal(signingIndicator(true, false, 'END_PENDING', ['rest', 'rest']).kind, 'rest');
+  assert.equal(signingIndicator(true, true, 'READY', ['rest', 'rest']).kind, 'processing');
+  assert.equal(signingIndicator(true, false, 'READY', ['rest', 'rest'], false).kind, 'unknown');
+  assert.equal(signingIndicator(false, false, 'READY').kind, 'stopped');
 });
 
 test('resolveSlrBaseUrl resolves default host:8765, normalizes host-only input, and strips trailing slashes', () => {
@@ -85,6 +104,6 @@ test('formatUserFacingState and getStateBorderColor map M1 states cleanly', () =
 
   assert.equal(getStateBorderColor(false, 'READY'), '#BAC5D0');
   assert.equal(getStateBorderColor(true, 'READY'), '#087A47');
-  assert.equal(getStateBorderColor(true, 'CAPTURING'), '#DC2626');
-  assert.equal(getStateBorderColor(true, 'END_PENDING'), '#D97706');
+  assert.equal(getStateBorderColor(true, 'CAPTURING'), '#2563EB');
+  assert.equal(getStateBorderColor(true, 'END_PENDING'), '#2563EB');
 });

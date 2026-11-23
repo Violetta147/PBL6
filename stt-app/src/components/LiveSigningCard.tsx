@@ -3,7 +3,6 @@
 import React, { useId, useState } from 'react';
 import type { SignGloss } from '../contracts';
 import type { SlrGlossRecord, SlrTopCandidate } from '../lib/slrClient';
-import { VolumeIcon } from './Icons';
 
 export interface LiveGlossItem extends SignGloss {
   confidence: number;
@@ -33,7 +32,6 @@ interface LiveSigningCardProps {
   ttsStatus: string;
   onPickCandidate: (segmentId: string, candidate: SlrTopCandidate) => void;
   onDropGloss: (segmentId: string) => void;
-  onReplayAudio: () => void;
   onManualSave: () => void;
 }
 
@@ -45,10 +43,8 @@ export function LiveSigningCard({
   ttsStatus,
   onPickCandidate,
   onDropGloss,
-  onReplayAudio,
   onManualSave,
 }: LiveSigningCardProps) {
-  const clearGlosses = glosses.filter((g) => !g.lowConfidence);
   const showManualSave = true;
 
   return (
@@ -82,17 +78,6 @@ export function LiveSigningCard({
       />
 
       <div className="flex flex-wrap items-center justify-end gap-2 border-t border-[#E2E8F0] pt-2">
-        <button
-          type="button"
-          onClick={onReplayAudio}
-          disabled={clearGlosses.length === 0}
-          data-testid="slr-replay-audio-button"
-          className="flex min-h-[42px] items-center gap-1.5 rounded-xl border border-[#BAC5D0] bg-[#FFFFFF] px-3.5 py-1.5 text-[16px] font-semibold text-[#18212B] hover:bg-[#F5F7F9] disabled:opacity-45 cursor-pointer"
-        >
-          <VolumeIcon size={18} />
-          Nghe lại
-        </button>
-
         {showManualSave && (
           <button
             type="button"
@@ -120,7 +105,7 @@ export function LiveGlossPicker({
   const [focusedSegment, setFocusedSegment] = useState<string | null>(null);
   const panelId = useId();
   const unclear = glosses.filter((gloss) => gloss.lowConfidence);
-  const active = unclear.find((gloss) => gloss.segmentId === focusedSegment) ?? unclear.at(-1);
+  const active = unclear.find((gloss) => gloss.segmentId === focusedSegment) ?? unclear[0];
 
   return (
     <>
@@ -167,12 +152,12 @@ export function LiveGlossPicker({
         <div id={panelId} className="rounded-xl border border-orange-300 bg-orange-50 p-2.5 space-y-1.5">
           <div className="flex items-center justify-between gap-2">
             <span className="text-[13px] font-bold text-orange-900">
-              Gợi ý cho “{active.label}”
+              Đang chỉnh: {active.label}
             </span>
             {onDropGloss && <button
               type="button"
               onClick={() => onDropGloss(active.segmentId)}
-              className="text-[13px] font-semibold text-orange-900 underline cursor-pointer"
+              className="min-h-[44px] rounded-lg border border-orange-300 px-3 text-[15px] font-semibold text-orange-900 cursor-pointer"
             >
               Bỏ từ này
             </button>}

@@ -72,7 +72,8 @@ export type SlrWsEvent =
   | { type: 'utterance_ready'; utterance: SlrUtteranceRecord }
   | { type: 'session_started'; source: string; session_id?: string }
   | { type: 'session_stopped'; snapshot: SlrSnapshot }
-  | { type: 'error'; message: string };
+  | { type: 'error'; message: string }
+  | { type: 'error_cleared' };
 
 export function formatUserFacingState(
   running: boolean,
@@ -103,13 +104,35 @@ export function getStateBorderColor(
     case 'READY':
       return '#087A47';
     case 'CAPTURING':
-      return '#DC2626';
+      return '#2563EB';
     case 'END_PENDING':
-      return '#D97706';
+      return '#2563EB';
     case 'UNKNOWN':
     default:
-      return '#BAC5D0';
+      return '#F97316';
   }
+}
+
+export function signingIndicator(running: boolean, draining: boolean, state: SegmenterState,
+  arms: readonly (string | null)[] = [], connected = true) {
+  const colors = {
+    orange: { background: '#FFF7ED', border: '#FFB86A', color: '#7E2A0C' },
+    blue: { background: '#EFF6FF', border: '#93C5FD', color: '#1D4ED8' },
+    green: { background: '#DDF7E9', border: '#86D4B0', color: '#087A47' },
+    gray: { background: '#F0F3F6', border: '#BAC5D0', color: '#4F5D6B' },
+  };
+  if (!running && !draining) return { kind: 'stopped', label: 'Camera đã dừng', detail: 'Không ghi hình', ...colors.gray };
+  if (!connected) return { kind: 'unknown', label: 'Mất kết nối', detail: 'Đang kết nối lại máy nhận dạng', ...colors.orange };
+  if (draining) return { kind: 'processing', label: 'Đang hoàn tất', detail: 'Chờ kết quả nhận dạng còn lại', ...colors.blue };
+  if (state === 'READY') return { kind: 'ready', label: 'Sẵn sàng ký', detail: 'Bạn có thể bắt đầu ký hiệu tiếp theo', ...colors.green };
+  if (state === 'CAPTURING') return { kind: 'capturing', label: 'Đang nhận ký hiệu', detail: 'Giữ người và hai tay trong khung', ...colors.blue };
+  if (state === 'END_PENDING' || (arms.length === 2 && arms.every(a => a === 'rest'))) {
+    return { kind: 'rest', label: 'Đang nghỉ', detail: 'Đang chờ xác nhận tư thế', ...colors.blue };
+  }
+  if (arms.length === 2 && arms.every(a => a === 'rest' || a === 'active')) {
+    return { kind: 'unknown', label: 'Chờ tư thế bắt đầu', detail: 'Buông hai tay để sẵn sàng ký', ...colors.orange };
+  }
+  return { kind: 'unknown', label: 'Chưa thấy rõ người ký', detail: 'Đưa vai và hai tay vào khung', ...colors.orange };
 }
 
 export async function fetchSlrState(baseUrl: string): Promise<SlrSnapshot> {

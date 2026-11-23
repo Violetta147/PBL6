@@ -1,13 +1,9 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
-import { validateTitle } from '../utils/composerLogic';
+import React from 'react';
 import { CameraIcon } from './Icons';
 
 interface HeaderProps {
-  title: string;
-  isNew: boolean;
-  onRename?: (newTitle: string) => Promise<boolean | void>;
   onOpenHistory?: () => void;
   onOpenSettings?: () => void;
   isSigning?: boolean;
@@ -16,53 +12,14 @@ interface HeaderProps {
 }
 
 export function Header({
-  title,
-  isNew,
-  onRename,
   onOpenHistory,
   onOpenSettings,
   isSigning = false,
   isSigningBusy = false,
   onToggleSigning,
 }: HeaderProps) {
-  const [editableTitle, setEditableTitle] = useState(title);
-  const cancelCommitRef = useRef(false);
-
-  useEffect(() => {
-    setEditableTitle(title);
-  }, [title]);
-
-  async function handleCommit() {
-    if (cancelCommitRef.current) {
-      cancelCommitRef.current = false;
-      return;
-    }
-    const { title: finalTitle, changed } = validateTitle(editableTitle, title);
-    setEditableTitle(finalTitle);
-    if (changed && onRename) {
-      try {
-        const ok = await onRename(finalTitle);
-        if (ok === false) {
-          setEditableTitle(title);
-        }
-      } catch {
-        setEditableTitle(title);
-      }
-    }
-  }
-
-  function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
-    if (e.key === 'Enter') {
-      e.currentTarget.blur();
-    } else if (e.key === 'Escape') {
-      cancelCommitRef.current = true;
-      setEditableTitle(title);
-      e.currentTarget.blur();
-    }
-  }
-
   return (
-    <header className="grid w-full shrink-0 grid-cols-[auto_minmax(0,1fr)] items-center gap-x-2 gap-y-1 border-b border-[#BAC5D0] bg-white px-2 py-2 sm:px-4 min-[900px]:landscape:flex min-[900px]:landscape:h-[64px] min-[900px]:landscape:justify-between">
+    <header className="flex w-full shrink-0 items-center justify-between gap-2 border-b border-[#BAC5D0] bg-white px-2 py-2 sm:px-4 min-[900px]:landscape:h-[64px]">
       {/* Left button: Hội thoại */}
       <div className="flex items-center select-none">
         <button
@@ -76,32 +33,8 @@ export function Header({
         </button>
       </div>
 
-      {/* Center: Inline Title */}
-      <div className="col-span-2 col-start-1 row-start-2 flex min-w-0 flex-1 items-center justify-center px-2">
-        {isNew ? (
-          <span
-            className="max-w-full truncate text-center text-[22px] font-bold text-[#18212B] select-none sm:text-[24px]"
-            data-testid="conversation-title-locked"
-          >
-            Hội thoại mới
-          </span>
-        ) : (
-          <input
-            type="text"
-            maxLength={72}
-            value={editableTitle}
-            onChange={(e) => setEditableTitle(e.target.value)}
-            onBlur={handleCommit}
-            onKeyDown={handleKeyDown}
-            aria-label="Tiêu đề hội thoại"
-            data-testid="conversation-title-input"
-            className="w-full min-w-0 max-w-[380px] truncate border-0 bg-transparent text-center text-[22px] font-bold text-[#18212B] outline-none transition-opacity focus:ring-0 select-text sm:text-[24px]"
-          />
-        )}
-      </div>
-
       {/* Right buttons: Bắt đầu ký + Cài đặt */}
-      <div className="col-start-2 row-start-1 flex shrink-0 items-center justify-end gap-1.5 select-none sm:gap-2">
+      <div className="flex shrink-0 items-center justify-end gap-1.5 select-none sm:gap-2">
         {onToggleSigning && (
           <button
             type="button"
@@ -116,7 +49,7 @@ export function Header({
             }`}
           >
             <CameraIcon size={18} />
-            <span>{isSigning ? 'Dừng ký' : 'Bắt đầu ký'}</span>
+            <span>{isSigning ? 'Kết thúc phiên ký' : 'Bắt đầu ký'}</span>
           </button>
         )}
         <button

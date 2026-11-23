@@ -63,6 +63,7 @@ function playNext(): void {
 }
 
 export function stopSpeech(): void {
+  if (typeof window !== 'undefined') window.speechSynthesis?.cancel();
   audioQueue.length = 0;
   if (activeAudio) {
     try {
@@ -75,6 +76,22 @@ export function stopSpeech(): void {
   }
   isPlaying = false;
   notify('');
+}
+
+/** Read only a user-confirmed sentence; never read an AI draft automatically. */
+export function speakSentence(sentence: string, onStatus?: (status: string) => void): void {
+  if (typeof window === 'undefined' || !window.speechSynthesis) {
+    onStatus?.('Thiết bị chưa hỗ trợ đọc câu.'); return;
+  }
+  stopSpeech();
+  const utterance = new SpeechSynthesisUtterance(sentence);
+  utterance.lang = 'vi-VN';
+  const voice = window.speechSynthesis.getVoices().find(v => v.lang.toLowerCase().startsWith('vi'));
+  if (voice) utterance.voice = voice;
+  utterance.onstart = () => onStatus?.('Đang đọc câu đã gửi…');
+  utterance.onend = () => onStatus?.('');
+  utterance.onerror = () => onStatus?.('Không đọc được câu trên thiết bị này.');
+  window.speechSynthesis.speak(utterance);
 }
 
 /**
