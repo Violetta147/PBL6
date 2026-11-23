@@ -9,7 +9,6 @@ LAPTOP_IP="${PBL6_VISION_HOST:-192.168.1.155}"
 INFERENCE_MODE="pi-split"
 FALLBACK_THRESHOLD="0"
 UTTERANCE_REST="4.0"
-ENABLE_VNC=1
 LAUNCH_KIOSK=1
 KIOSK_FLAG="--new-window"
 STOP_ONLY=0
@@ -30,7 +29,7 @@ while [ $# -gt 0 ]; do
       shift 2
       ;;
     --no-vnc)
-      ENABLE_VNC=0
+      # Legacy flag kept as no-op: VNC is managed independently by OS wayvnc.service.
       shift
       ;;
     --no-kiosk)
@@ -42,6 +41,8 @@ while [ $# -gt 0 ]; do
       shift
       ;;
     --fullscreen-kiosk)
+      # Warning: on labwc Wayland, firefox --kiosk (fullscreen) renders above squeekboard (labwc #2926),
+      # hiding the on-screen keyboard. Keep --windowed (the default) for touchscreen OSK and OAuth popups.
       KIOSK_FLAG="--kiosk"
       shift
       ;;
@@ -50,8 +51,9 @@ while [ $# -gt 0 ]; do
       shift
       ;;
     -h|--help)
-      echo "Usage: $0 [LAPTOP_IP] [--mode pi-split|remote-fallback] [--threshold SECONDS] [--utterance-rest 4.0] [--no-vnc] [--windowed] [--fullscreen-kiosk] [--no-kiosk] [--stop]"
+      echo "Usage: $0 [LAPTOP_IP] [--mode pi-split|remote-fallback] [--threshold SECONDS] [--utterance-rest 4.0] [--windowed] [--fullscreen-kiosk] [--no-kiosk] [--stop]"
       echo "  Automatic laptop inference fallback is off by default (--threshold 0). Use --threshold 1.5 to enable it."
+      echo "  Note: --fullscreen-kiosk covers squeekboard under labwc Wayland (labwc #2926); keep --windowed (default) for touchscreen OSK."
       exit 0
       ;;
     *)
@@ -68,6 +70,8 @@ while [ $# -gt 0 ]; do
 done
 
 stop_services() {
+  # Stop the managed UI before killing ports so its restart policy stays quiet.
+  systemctl --user stop pbl6-ui.service 2>/dev/null || true
   pkill -f "deployment\.m2\.server" 2>/dev/null || true
   pkill -f "PBL6/stt-app/server\.js" 2>/dev/null || true
   pkill -f "next-server" 2>/dev/null || true
@@ -78,8 +82,6 @@ stop_services() {
   pkill -f "firefox.*--kiosk" 2>/dev/null || true
   pkill -x firefox 2>/dev/null || true
   pkill -x firefox-esr 2>/dev/null || true
-  pkill -f "pbl6-wayvnc-loop" 2>/dev/null || true
-  pkill -x wayvnc 2>/dev/null || true
 }
 
 stop_services
@@ -162,28 +164,6 @@ if command -v wlr-randr >/dev/null 2>&1; then
   done
 fi
 
-if [ "$ENABLE_VNC" -eq 1 ] && command -v wayvnc >/dev/null 2>&1; then
-  sudo -n systemctl stop wayvnc.service 2>/dev/null || true
-  pkill -f "pbl6-wayvnc-loop" 2>/dev/null || true
-  pkill -x wayvnc 2>/dev/null || true
-  nohup bash -c '
-    # pbl6-wayvnc-loop
-    while true; do
-      rm -f "${XDG_RUNTIME_DIR}/wayvncctl" 2>/dev/null || true
-      if command -v wlr-randr >/dev/null 2>&1; then
-        wlr-randr --output NOOP-1 --custom-mode 1024x600 2>/dev/null || true
-        wlr-randr --output HEADLESS-1 --custom-mode 1024x600 2>/dev/null || true
-      fi
-      wayvnc --render-cursor --max-fps=30 0.0.0.0 5900
-      sleep 1
-    done
-  ' >/tmp/pbl6-wayvnc.log 2>&1 </dev/null &
-else
-  sudo -n systemctl stop wayvnc.service 2>/dev/null || true
-  pkill -f "pbl6-wayvnc-loop" 2>/dev/null || true
-  pkill -x wayvnc 2>/dev/null || true
-fi
-
 gsettings set org.gnome.desktop.a11y.applications screen-keyboard-enabled true 2>/dev/null || true
 if command -v squeekboard >/dev/null 2>&1 && ! pgrep -x squeekboard >/dev/null 2>&1; then
   nohup squeekboard >/tmp/pbl6-squeekboard.log 2>&1 </dev/null &
@@ -193,12 +173,30 @@ if command -v fcitx5 >/dev/null 2>&1 && ! pgrep -x fcitx5 >/dev/null 2>&1; then
 fi
 
 cd "$UI_DIR"
+if systemctl --user is-active default.target >/dev/null 2>&1 && command -v systemd-run >/dev/null 2>&1; then
+  # Keep Node outside the launching SSH session and restart it after a crash.
+  systemd-run --user --unit=pbl6-ui --collect \
+    --property=Type=exec --property=Restart=on-failure --property=RestartSec=2 \
+    --property="WorkingDirectory=$UI_DIR" \
+    --property=StandardOutput=append:/tmp/pbl6-ui.log \
+    --property=StandardError=append:/tmp/pbl6-ui.log \
+    --setenv=HOSTNAME=0.0.0.0 --setenv=PORT=3100 \
+    --setenv=PBL6_STT_RUNTIME_OS=linux \
+    --setenv="PBL6_STT_CONFIG_DIR=${XDG_CONFIG_HOME:-$HOME/.config}/pbl6-stt" \
+    --setenv="PBL6_STT_DATA_DIR=${XDG_DATA_HOME:-$HOME/.local/share}/pbl6-stt" \
+    --setenv="XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR" \
+    --setenv="WAYLAND_DISPLAY=$WAYLAND_DISPLAY" \
+    --setenv="DBUS_SESSION_BUS_ADDRESS=${DBUS_SESSION_BUS_ADDRESS:-unix:path=$XDG_RUNTIME_DIR/bus}" \
+    "$NODE_BIN" "$UI_DIR/server.js"
+  UI_PID="$(systemctl --user show pbl6-ui.service --property=MainPID --value)"
+else
 PBL6_STT_RUNTIME_OS=linux \
 PBL6_STT_CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/pbl6-stt" \
 PBL6_STT_DATA_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/pbl6-stt" \
 HOSTNAME=0.0.0.0 PORT=3100 nohup "$NODE_BIN" "$UI_DIR/server.js" \
   >/tmp/pbl6-ui.log 2>&1 </dev/null &
 UI_PID=$!
+fi
 
 wait_http() {
   local url="$1"
@@ -241,6 +239,9 @@ user_pref("browser.tabs.inTitlebar", 1);
 user_pref("browser.shell.checkDefaultBrowser", false);
 user_pref("toolkit.telemetry.reportingpolicy.firstRun", false);
 user_pref("datareporting.policy.dataSubmissionPolicyBypassNotification", true);
+user_pref("browser.link.open_newwindow", 3);
+user_pref("browser.link.open_newwindow.restriction", 2);
+user_pref("dom.allow_scripts_to_close_windows", true);
 EOF
   cat > "$KIOSK_PROFILE/chrome/userChrome.css" <<'EOF'
 #TabsToolbar, #nav-bar, #PersonalToolbar {
@@ -261,9 +262,5 @@ echo "=== PBL6 Pi Running ==="
 echo "  SLR Edge : http://${PI_IP:-127.0.0.1}:8765/api/health (mode=$INFERENCE_MODE, utterance_rest=${UTTERANCE_REST}s -> $VISION_URL)"
 echo "  Web UI   : http://${PI_IP:-127.0.0.1}:3100/"
 echo "  Companion: http://${PI_IP:-127.0.0.1}:3100/companion"
-if [ "$ENABLE_VNC" -eq 1 ]; then
-  echo "  TightVNC : ${PI_IP:-127.0.0.1}:5900"
-else
-  echo "  TightVNC : disabled (--no-vnc)"
-fi
+echo "  VNC (OS) : managed independently by wayvnc.service (${PI_IP:-127.0.0.1}:5900, use TigerVNC)"
 echo "  Logs     : /tmp/pbl6-slr.log | /tmp/pbl6-ui.log | /tmp/pbl6-kiosk.log"

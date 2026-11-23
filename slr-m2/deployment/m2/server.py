@@ -42,6 +42,11 @@ class RuntimeFallbackRequest(BaseModel):
     reason: str | None = None
 
 
+class FinishUtteranceRequest(BaseModel):
+    session_id: str
+    utterance_id: str
+
+
 class WebSocketHub:
     """Thread-safe fan-out hub broadcasting M2 events to Pi UI & Companion browsers."""
 
@@ -340,6 +345,22 @@ def create_app(
     async def session_stop():
         snap = await asyncio.to_thread(manager.stop_session, 120.0)
         return {"ok": True, "state": snap}
+
+    @app.post("/api/session/utterance/finish")
+    async def finish_utterance(req: FinishUtteranceRequest):
+        try:
+            uid = manager.finish_utterance(req.session_id, req.utterance_id)
+        except ValueError as error:
+            raise HTTPException(status_code=409, detail=str(error)) from error
+        # Wait for this utterance's FIFO marker, not for future camera work.
+        for _ in range(900):
+            snap = manager.snapshot()
+            if snap["session_id"] != req.session_id:
+                raise HTTPException(status_code=409, detail="Phiên ký đã thay đổi.")
+            if any(u["utterance_id"] == uid for u in snap["utterances"]):
+                return {"ok": True, "utterance_id": uid, "state": snap}
+            await asyncio.sleep(0.05)
+        raise HTTPException(status_code=504, detail="Nhận dạng chưa hoàn tất. Bản nháp vẫn được giữ, hãy thử lại.")
 
     @app.post("/api/session/glosses/{segment_id}/candidate")
     def pick_gloss_candidate(segment_id: str, req: PickGlossCandidateRequest):

@@ -27,7 +27,7 @@ FROZEN_CONFIG_PATH = ROOT / "deployment/m1/frozen-config.json"
 DEFAULT_UTTERANCE_REST_SECONDS = 4.0
 UTTERANCE_TRACKING_GRACE_SECONDS = 0.5
 TIMESTAMP_TOLERANCE = 1e-9
-MAX_PENDING_POSE_FRAMES = 32
+MAX_PENDING_POSE_FRAMES = 1
 _extract_pose_8 = extract_pose_8
 
 
@@ -168,6 +168,7 @@ class LiveSessionManager:
         self._closed_utterances: set[str] = set()
         self._incomplete_events: list[dict[str, Any]] = []
         self._last_error: str | None = None
+        self._consecutive_pose_errors = 0
         self._capture_open_event = threading.Event()
         self._capture_open_error: Exception | None = None
         self._last_status_emit = 0.0
@@ -278,6 +279,7 @@ class LiveSessionManager:
             self._closed_utterances = set()
             self._incomplete_events = []
             self._last_error = None
+            self._consecutive_pose_errors = 0
             self._capture_open_event = threading.Event()
             self._capture_open_error = None
             self._capture_fps = 0.0
@@ -369,6 +371,39 @@ class LiveSessionManager:
         return session_id
 
     def feed_step(
+        self,
+        timestamp: float,
+        arms: list[str | None],
+        frame: np.ndarray | None = None,
+    ) -> list[dict[str, Any]]:
+        # Serialize the manual utterance marker with pose observations. No thresholds change.
+        with self._state_lock:
+            return self._feed_step(timestamp, arms, frame)
+
+    def finish_utterance(self, session_id: str, utterance_id: str) -> str:
+        """Close an idle utterance through the FIFO, without stopping capture."""
+        with self._state_lock:
+            if session_id != self._session_id:
+                raise ValueError("Phiên ký đã thay đổi.")
+            if utterance_id in self._closed_utterances:
+                return utterance_id
+            if not self._running or self._draining:
+                raise ValueError("Đang hoàn tất phiên ký. Hãy chờ kết quả nhận dạng.")
+            if utterance_id != str(self._utterance_id):
+                raise ValueError("Lượt này đang được hoàn tất. Hãy chờ kết quả.")
+            if self._segmenter.state in ("CAPTURING", "END_PENDING"):
+                raise ValueError("Hãy buông hai tay để hoàn tất ký hiệu đang ghi trước khi kết thúc câu.")
+            if not self._utterance_has_segments:
+                raise ValueError("Chưa có ký hiệu hoàn tất trong lượt này.")
+            self._enqueue_work({"kind": "utterance_end", "utterance_id": utterance_id,
+                                "timestamp": self._utterance_rest._last_timestamp or 0.0,
+                                "reason": "manual"})
+            self._utterance_id += 1
+            self._utterance_has_segments = False
+            self._utterance_rest = _UtteranceRestTimer(self.config)
+            return utterance_id
+
+    def _feed_step(
         self,
         timestamp: float,
         arms: list[str | None],
@@ -630,26 +665,50 @@ class LiveSessionManager:
             pose_error = exc
             arms = [None, None]
 
+        emit_cleared = False
+        err_msg: str | None = None
+        next_emit = last_pose_err_emit
         with self._state_lock:
             # A slow response can arrive after Stop or after the next session starts.
             if not self._running or epoch != self._epoch:
                 return None, last_pose_err_emit
             if pose_error is None:
+                self._consecutive_pose_errors = 0
                 if seq is not None:
                     self._last_streamed_seq = int(seq)
-                if self._last_error and self._last_error.startswith("Không kết nối được Vision Backend"):
+                if self._last_error and "Vision Backend" in self._last_error:
                     self._last_error = None
-                return arms, last_pose_err_emit
-            now_err = time.perf_counter()
-            if now_err - last_pose_err_emit < 5.0:
-                return arms, last_pose_err_emit
-            err_msg = (
-                "Không kết nối được Vision Backend trên Laptop "
-                f"— hãy mở Firewall cổng 8767 trên Windows ({pose_error})."
-            )
-            self._last_error = err_msg
-        self._emit("error", {"message": err_msg})
-        return arms, now_err
+                    emit_cleared = True
+            else:
+                self._consecutive_pose_errors += 1
+                now_err = time.perf_counter()
+                if (
+                    self._consecutive_pose_errors >= 3
+                    and now_err - last_pose_err_emit >= 5.0
+                ):
+                    err_lower = str(pose_error).lower()
+                    if (
+                        "timed out" in err_lower
+                        or "timeout" in err_lower
+                        or "timeout" in type(pose_error).__name__.lower()
+                    ):
+                        err_msg = (
+                            "Vision Backend trên Laptop phản hồi chậm "
+                            f"({pose_error}) — kiểm tra Wi-Fi hoặc cửa sổ Vision Backend."
+                        )
+                    else:
+                        err_msg = (
+                            "Không kết nối được Vision Backend trên Laptop "
+                            f"— kiểm tra Vision Backend & Firewall cổng 8767 ({pose_error})."
+                        )
+                    self._last_error = err_msg
+                    next_emit = now_err
+
+        if emit_cleared:
+            self._emit("error_cleared", {})
+        elif err_msg is not None:
+            self._emit("error", {"message": err_msg})
+        return arms, next_emit
 
     def _camera_reader_loop(
         self,
@@ -678,14 +737,8 @@ class LiveSessionManager:
             target_interval = 0.05  # Cap live ring buffer capture at 20 FPS
 
             while not self._stop_event.is_set():
-                with self._pose_cond:
-                    self._pose_cond.wait_for(
-                        lambda: self._stop_event.is_set()
-                        or epoch != self._epoch
-                        or len(self._pose_frames) < MAX_PENDING_POSE_FRAMES
-                    )
-                    if self._stop_event.is_set() or epoch != self._epoch:
-                        break
+                if epoch != self._epoch:
+                    break
 
                 loop_start = time.perf_counter()
                 ok, bgr = cap.read()
@@ -712,6 +765,8 @@ class LiveSessionManager:
                 with self._pose_cond:
                     if self._stop_event.is_set() or epoch != self._epoch:
                         break
+                    while len(self._pose_frames) >= MAX_PENDING_POSE_FRAMES:
+                        self._pose_frames.popleft()
                     sequence += 1
                     self._pose_frames.append((sequence, ts, bgr))
                     self._pose_cond.notify_all()
@@ -953,7 +1008,7 @@ class LiveSessionManager:
                     self._emit("gloss_result", {"gloss": record})
 
                 elif kind == "utterance_end":
-                    self._finalize_utterance(item["utterance_id"], item["timestamp"], reason="utterance_rest")
+                    self._finalize_utterance(item["utterance_id"], item["timestamp"], reason=item.get("reason", "utterance_rest"))
 
                 elif kind == "session_end":
                     # Flush any remaining open utterance(s) that already have completed segments.

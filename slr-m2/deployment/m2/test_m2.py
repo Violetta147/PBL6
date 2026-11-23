@@ -194,6 +194,40 @@ class M2PipelineTests(unittest.TestCase):
 
 
 class M2ServerContractTests(unittest.TestCase):
+    def test_manual_finish_waits_for_fifo_keeps_capture_and_supports_next_sentence(self):
+        classify, _ = _fake_classifier_factory([("Dài", 95, 0.99)], delay=0.05)
+        app = create_app(classifier_fn=classify, preload_model=False)
+        manager = app.state.manager
+        self.addCleanup(manager.stop_session, wait_timeout=5)
+        url = "/api/session/utterance/finish"
+        with TestClient(app) as client:
+            session_id = manager.start_manual_session()
+            body = {"session_id": session_id, "utterance_id": "0"}
+            self.assertEqual(client.post(url, json={**body, "session_id": "stale"}).status_code, 409)
+            self.assertEqual(client.post(url, json=body).status_code, 409)
+            for step in range(16):
+                arms = ["active", "rest"] if step >= 8 else ["rest", "rest"]
+                manager.feed_step(step / 10, arms, frame=_dummy_frame())
+            self.assertEqual(client.post(url, json=body).status_code, 409)
+            for step in range(16, 24):
+                arms = ["active", "rest"] if step < 18 else ["rest", "rest"]
+                manager.feed_step(step / 10, arms, frame=_dummy_frame())
+            response = client.post(url, json=body)
+            self.assertEqual(response.status_code, 200, response.text)
+            state = response.json()["state"]
+            self.assertTrue(state["running"])
+            self.assertEqual(state["utterances"][0]["reason"], "manual")
+            self.assertEqual(state["utterances"][0]["raw_glosses"], ["Dài"])
+            self.assertEqual(client.post(url, json=body).status_code, 200)
+            self.assertEqual(len(manager.snapshot()["utterances"]), 1)
+            for step in range(24, 46):
+                arms = ["active", "rest"] if 30 <= step < 40 else ["rest", "rest"]
+                manager.feed_step(step / 10, arms, frame=_dummy_frame())
+            response = client.post(url, json={**body, "utterance_id": "1"})
+            self.assertEqual(response.status_code, 200, response.text)
+            self.assertTrue(response.json()["state"]["running"])
+            self.assertEqual([u["utterance_id"] for u in response.json()["state"]["utterances"]], ["0", "1"])
+
     def test_candidate_selection_reaches_both_displays_and_final_utterance(self):
         classify, _ = _fake_classifier_factory([("Cái bàn", 1, 0.40)], delay=0)
         fourth = {"label": "Cửa", "label_id": 4, "score": 0.05}

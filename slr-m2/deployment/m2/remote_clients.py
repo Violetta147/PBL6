@@ -32,7 +32,7 @@ class RemotePoseClient:
     def __init__(
         self,
         base_url: str,
-        timeout: float = 2.5,
+        timeout: float = 4.0,
         jpeg_quality: int = 75,
         max_width: int = 640,
         http_client: httpx.Client | None = None,

@@ -606,7 +606,7 @@ class M2RealSplitParityTests(unittest.TestCase):
 
 
 class LinuxCameraProbeTests(unittest.TestCase):
-    def test_slow_pose_processes_every_queued_frame_in_order_and_discards_stale_response(self):
+    def test_slow_pose_drops_stale_frames_and_discards_stale_response(self):
         requested_sequences: list[int] = []
         first_requested = threading.Event()
         latest_requested = threading.Event()
@@ -633,6 +633,8 @@ class LinuxCameraProbeTests(unittest.TestCase):
 
             def publish_capture(seq: int) -> None:
                 with manager._pose_cond:
+                    while len(manager._pose_frames) >= 1:
+                        manager._pose_frames.popleft()
                     manager._pose_frames.append((seq, seq / 10, frame))
                     manager._pose_cond.notify_all()
 
@@ -645,8 +647,8 @@ class LinuxCameraProbeTests(unittest.TestCase):
                 self.assertEqual(requested_sequences, [1])
                 release_first.set()
                 self.assertTrue(latest_requested.wait(timeout=2))
-                self.assertEqual(requested_sequences, [1, 2, 3, 4, 5])
-                self.assertEqual(manager._last_streamed_seq, 4)
+                self.assertEqual(requested_sequences, [1, 5])
+                self.assertEqual(manager._last_streamed_seq, 1)
 
                 publish_capture(6)
                 manager.stop_session(wait_timeout=5)
@@ -657,27 +659,25 @@ class LinuxCameraProbeTests(unittest.TestCase):
                 self.assertFalse(consumer.is_alive())
                 self.assertEqual(manager._last_streamed_seq, 0)
                 self.assertIsNone(manager._segmenter.last)
-                self.assertEqual(requested_sequences, [1, 2, 3, 4, 5])
+                self.assertEqual(requested_sequences, [1, 5])
             finally:
                 release_first.set()
                 release_latest.set()
                 manager.stop_session(wait_timeout=5)
                 consumer.join(timeout=2)
 
-    def test_full_pose_queue_pauses_camera_reads_until_space_is_available(self):
+    def test_slow_pose_never_blocks_camera_reads(self):
         release_pose = threading.Event()
-        queue_filled = threading.Event()
-        resumed = threading.Event()
+        kept_reading = threading.Event()
         read_count = 0
         frame = np.zeros((16, 16, 3), dtype=np.uint8)
 
         def read_frame():
             nonlocal read_count
             read_count += 1
-            if read_count == 3:
-                queue_filled.set()
-            elif read_count == 4:
-                resumed.set()
+            if read_count >= 5:
+                kept_reading.set()
+            time.sleep(0.01)
             return True, frame
 
         def slow_pose(_frame, _session_id):
@@ -688,15 +688,14 @@ class LinuxCameraProbeTests(unittest.TestCase):
         capture = mock.Mock()
         capture.read.side_effect = read_frame
         with (
-            mock.patch("deployment.m2.pipeline.MAX_PENDING_POSE_FRAMES", 2),
+            mock.patch("deployment.m2.pipeline.MAX_PENDING_POSE_FRAMES", 1),
             mock.patch.object(manager, "_open_capture", return_value=capture),
         ):
             try:
                 manager.start_camera_session()
-                self.assertTrue(queue_filled.wait(timeout=2))
-                self.assertFalse(resumed.wait(timeout=0.2))
-                release_pose.set()
-                self.assertTrue(resumed.wait(timeout=2))
+                self.assertTrue(kept_reading.wait(timeout=2))
+                self.assertLessEqual(len(manager._pose_frames), 1)
+                self.assertGreaterEqual(read_count, 5)
             finally:
                 release_pose.set()
                 manager.stop_session(wait_timeout=5)
@@ -796,6 +795,39 @@ class LinuxCameraProbeTests(unittest.TestCase):
         self.assertIsNotNone(latest)
         self.assertEqual(latest.shape, (240, 320, 3))
         self.assertIn("Vision Backend", snap["last_error"] or "")
+
+    def test_transient_pose_errors_require_3_frames_and_auto_clear(self):
+        events: list[dict] = []
+        service = LiveSessionManager(classifier_fn=lambda *_a, **_k: {}, on_event=events.append)
+        service._reset_session_state()
+        epoch = service._epoch
+        bgr = np.zeros((16, 16, 3), dtype=np.uint8)
+        calls = 0
+
+        def flaky_pose(_frame, **_kwargs):
+            nonlocal calls
+            calls += 1
+            if calls <= 3:
+                raise TimeoutError("timed out")
+            return [[0.5, 0.5, 0.0]] * 8, [0.95] * 8
+
+        try:
+            last_emit = -10.0
+            for _ in range(2):
+                _, last_emit = service._estimate_arm_states(flaky_pose, bgr, last_emit, epoch=epoch)
+                self.assertIsNone(service.snapshot()["last_error"])
+
+            _, last_emit = service._estimate_arm_states(flaky_pose, bgr, last_emit, epoch=epoch)
+            err = service.snapshot()["last_error"] or ""
+            self.assertIn("Vision Backend", err)
+            self.assertIn("phản hồi chậm", err)
+
+            _, last_emit = service._estimate_arm_states(flaky_pose, bgr, last_emit, epoch=epoch, seq=4)
+            self.assertIsNone(service.snapshot()["last_error"])
+            self.assertTrue(any(ev.get("type") == "error_cleared" for ev in events))
+        finally:
+            with service._state_lock:
+                service._running = False
 
     def test_extract_pose_8_none_is_strictly_json_compliant_and_arms_unknown(self):
         from deployment.m1.segmenter import arm_states
