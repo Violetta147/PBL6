@@ -9,6 +9,7 @@ import { chatgpt } from './chatgptConnection';
 
 type LlmConfig = { provider: 'openai' | 'gemini'; baseUrl: string; apiKey: string; model: string };
 export type SentenceResult = {
+  status: 'ok' | 'needs_clarification';
   sentence: string;
   needsClarification: boolean;
   explanation: string;
@@ -34,23 +35,19 @@ Nếu tạo được một câu, dùng {"status":"ok","sentence":"<một câu ti
 Nếu các cách hiểu khác nghĩa nhau và đầu vào không đủ thông tin để chọn, dùng {"status":"needs_clarification","sentence":""}.
 Ví dụ gloss ["xin", "cảm ơn"] trả {"status":"ok","sentence":"Xin cảm ơn."}.`;
 
-function parseSentenceOutput(raw: unknown, sourceGlossText: string): Pick<SentenceResult, 'sentence' | 'needsClarification' | 'explanation'> {
+function parseSentenceOutput(raw: unknown): Omit<SentenceResult, 'metadata'> {
   try {
     if (typeof raw !== 'string' || raw.length > 16000) throw new Error();
     const output = JSON.parse(raw);
     if (!output || typeof output !== 'object' || Object.keys(output).length !== 2 ||
         typeof output.sentence !== 'string' || output.sentence.length > 2000) throw new Error();
 
-    const sentence = output.sentence.trim();
     if (output.status === 'needs_clarification' && output.sentence === '') {
-      return { sentence, needsClarification: true, explanation: clarificationMessage };
+      return { status: 'needs_clarification', sentence: '', needsClarification: true, explanation: clarificationMessage };
     }
-    if (output.status === 'ok' && sentence && !/[\r\n]|```/u.test(sentence)) {
-      // Catch explicit requests to clarify the input even if the model puts one in the sentence field.
-      const metaQuestion = sentence.match(/(bạn muốn nói(?: là| gì)|bạn có thể nói rõ|là một câu hỏi hay)[^?？]*[?？]/iu)?.[1];
-      if (!metaQuestion || sourceGlossText.toLowerCase().includes(metaQuestion.toLowerCase())) {
-        return { sentence, needsClarification: false, explanation: '' };
-      }
+    const sentence = output.sentence.trim();
+    if (output.status === 'ok' && sentence) {
+      return { status: 'ok', sentence, needsClarification: false, explanation: '' };
     }
   } catch {
     // Malformed output and invalid results use the same retryable API error.
@@ -137,7 +134,7 @@ export async function generateSignSentence(glosses: SignGloss[], requestId: stri
     throw new AppError('llm_unavailable', 'Chưa tạo được câu: mất kết nối hoặc quá thời gian chờ. Bản nháp vẫn còn, bạn có thể thử lại.', 502);
   }
   const sourceGlossText = glosses.map(g => g.label).join(' ');
-  const output = parseSentenceOutput(raw, sourceGlossText);
+  const output = parseSentenceOutput(raw);
   return { ...output, metadata: { generatedText: output.sentence, sourceGlossText, model, requestId } };
 }
 
@@ -150,8 +147,11 @@ export function makeSignSentenceHandler(generate = generateSignSentence) {
       catch (e) { if (e instanceof AppError) throw e; throw new AppError('json_invalid', 'Dữ liệu tạo câu không hợp lệ.'); }
       const glosses = validateSentenceGlosses(body?.glosses);
       if (typeof body.requestId !== 'string' || !/^[a-zA-Z0-9_-]{1,100}$/.test(body.requestId)) throw new AppError('revision_invalid', 'Mã bản nháp không hợp lệ.');
-      return jsonResponse(await generate(glosses, body.requestId, request.signal));
-    } catch (e) { return errorResponse(e); }
+      const result = await generate(glosses, body.requestId, request.signal);
+      return jsonResponse({ ...result, error: null });
+    } catch (e) {
+      return errorResponse(e, { status: 'error', sentence: '', needsClarification: false, explanation: '', metadata: null });
+    }
   };
 }
 

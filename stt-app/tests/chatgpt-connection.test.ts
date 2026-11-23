@@ -45,6 +45,7 @@ test('OAuth loopback, private storage, refresh, model selection, structured infe
     { segmentId: '2', utteranceId: '0', label: 'Cảm ơn', labelId: 86, originalLabel: 'Cảm ơn', status: 'recognized' },
   ];
   const modelOutput = { status: 'ok', sentence: 'Xin cảm ơn.' };
+  let events: unknown[] = [{ type: 'response.output_text.delta', delta: JSON.stringify(modelOutput) }, { type: 'response.completed' }];
   let auth: URL, grantPlan = false, refreshes = 0, inferenceCalls = 0;
   const transport: typeof fetch = async (input, init) => {
     const url = String(input);
@@ -82,7 +83,7 @@ test('OAuth loopback, private storage, refresh, model selection, structured infe
           required: ['status', 'sentence'], additionalProperties: false,
         },
       });
-      return sse([{ type: 'response.output_text.delta', delta: JSON.stringify(modelOutput) }, { type: 'response.completed' }]);
+      return sse(events);
     }
     if (url.endsWith('/oauth/revoke')) {
       assert.equal(new URLSearchParams(String(init?.body)).get('token'), 'TEST_REFRESH_2');
@@ -127,16 +128,31 @@ test('OAuth loopback, private storage, refresh, model selection, structured infe
     await connection.select(id, 'available-model');
     t.mock.method(chatgpt, 'selected', connection.selected.bind(connection));
     t.mock.method(chatgpt, 'generate', connection.generate.bind(connection));
-    const generated = await makeSignSentenceHandler()(new Request('http://localhost:3100/api/sign-sentence', {
+    const handler = makeSignSentenceHandler();
+    const generate = () => handler(new Request('http://localhost:3100/api/sign-sentence', {
       method: 'POST', headers: { origin: 'http://localhost:3100', host: 'localhost:3100', 'Content-Type': 'application/json' },
       body: JSON.stringify({ glosses, requestId: 'trial-subscription' }),
     }));
+    const generated = await generate();
     assert.equal(generated.status, 200);
     assert.deepEqual(await generated.json(), {
-      sentence: 'Xin cảm ơn.', needsClarification: false, explanation: '',
+      status: 'ok', sentence: 'Xin cảm ơn.', needsClarification: false, explanation: '', error: null,
       metadata: { generatedText: 'Xin cảm ơn.', sourceGlossText: 'Xin Cảm ơn', requestId: 'trial-subscription', model: 'available-model' },
     });
-    assert.equal(inferenceCalls, 1);
+    for (const { streamEvents, code } of [
+      { streamEvents: [{ type: 'response.output_text.delta', delta: 'Unstructured output' }, { type: 'response.completed' }], code: 'llm_output' },
+      { streamEvents: [{ type: 'response.refusal.delta', delta: 'Refusal text' }, { type: 'response.completed' }], code: 'chatgpt_incomplete' },
+      { streamEvents: [{ type: 'response.incomplete' }], code: 'chatgpt_incomplete' },
+    ]) {
+      events = streamEvents;
+      const failed = await generate();
+      assert.equal(failed.status, 502);
+      assert.match(failed.headers.get('content-type') ?? '', /^application\/json\b/);
+      const body = await failed.json();
+      assert.equal(typeof body.error?.message, 'string');
+      assert.deepEqual(body, { status: 'error', sentence: '', needsClarification: false, explanation: '', metadata: null, error: { code, message: body.error.message } });
+    }
+    assert.equal(inferenceCalls, 4);
     auth = new URL((await connection.start(id)).url);
     assert.equal(auth.searchParams.get('client_id'), 'oaiapp_test');
     assert.equal(auth.searchParams.has('agent_name_hint'), false);

@@ -22,6 +22,15 @@ function request(body: unknown, method = 'POST', origin = 'http://localhost:3100
   return new Request('http://localhost:3100/api/sign-sentence', { method, headers: { origin, host: 'localhost:3100', 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
 }
 
+async function assertErrorEnvelope(response: Response, status: number, code: string) {
+  assert.equal(response.status, status);
+  assert.match(response.headers.get('content-type') ?? '', /^application\/json\b/);
+  const body = await response.json();
+  assert.equal(typeof body.error?.message, 'string');
+  assert.deepEqual(body, { status: 'error', sentence: '', needsClarification: false, explanation: '', metadata: null, error: { code, message: body.error.message } });
+  return body;
+}
+
 test('Real HTTP adapter, reviewed sentence storage, and guarded failures', async t => {
   const dir = await mkdtemp(join(tmpdir(), 'pbl6-sentence-'));
   const previous = { ...process.env };
@@ -52,7 +61,7 @@ test('Real HTTP adapter, reviewed sentence storage, and guarded failures', async
   try {
     await t.test('Missing provider is an explicit failure, not a fabricated sentence', async () => {
       const response = await handler(request({ glosses, requestId: 'trial-1' }));
-      assert.equal(response.status, 503); assert.equal((await response.json()).error.code, 'llm_not_configured');
+      await assertErrorEnvelope(response, 503, 'llm_not_configured');
     });
     await t.test('Configure provider without returning its key', async () => {
       const response = await putSentenceConfiguration(request({ provider: 'openai', baseUrl: `http://127.0.0.1:${port}/v1`, model: 'test-model', apiKey: 'test-sentence-secret' }, 'PUT'));
@@ -78,8 +87,8 @@ test('Real HTTP adapter, reviewed sentence storage, and guarded failures', async
     });
     await t.test('Reject unresolved and mixed-utterance inputs before calling provider', async () => {
       const calls = upstreamCalls;
-      assert.equal((await handler(request({ glosses: [{ ...glosses[0], status: 'unconfirmed' }], requestId: 'bad' }))).status, 409);
-      assert.equal((await handler(request({ glosses: [glosses[0], { ...glosses[1], utteranceId: '1' }], requestId: 'bad' }))).status, 400);
+      await assertErrorEnvelope(await handler(request({ glosses: [{ ...glosses[0], status: 'unconfirmed' }], requestId: 'bad' })), 409, 'glosses_unconfirmed');
+      await assertErrorEnvelope(await handler(request({ glosses: [glosses[0], { ...glosses[1], utteranceId: '1' }], requestId: 'bad' })), 400, 'glosses_invalid');
       assert.equal(upstreamCalls, calls);
     });
     await t.test('Reject foreign origin and stale source metadata', async () => {
@@ -92,36 +101,40 @@ test('Real HTTP adapter, reviewed sentence storage, and guarded failures', async
       const response = await handler(request({ glosses, requestId: 'clarify' }));
       assert.equal(response.status, 200);
       const data = await response.json();
+      assert.equal(data.status, 'needs_clarification');
       assert.equal(data.needsClarification, true);
       assert.equal(data.sentence, '');
+      assert.equal(data.error, null);
       assert.equal(data.explanation, 'Chưa đủ thông tin để tạo câu. Hãy kiểm tra chuỗi gloss.');
     });
-    await t.test('Xin + Cảm ơn yields a sentence and rejects chatbot or invalid structured output', async () => {
+    await t.test('Sentence validation accepts well-formed JSON regardless of wording', async () => {
       expectedGlosses = thanksGlosses;
       const body = { glosses: thanksGlosses, requestId: 'thanks' };
-      output = JSON.stringify({ status: 'ok', sentence: 'Xin cảm ơn.' });
-      const response = await handler(request(body));
-      assert.equal(response.status, 200);
-      const data = await response.json();
-      assert.equal(data.sentence, 'Xin cảm ơn.');
-      assert.equal(data.needsClarification, false);
-      assert.equal(data.explanation, '');
+      for (const sentence of ['Xin cảm ơn.', chatReply, 'Xin cảm ơn.\nBạn có muốn tôi giúp gì thêm không?']) {
+        output = JSON.stringify({ status: 'ok', sentence });
+        const response = await handler(request(body));
+        assert.equal(response.status, 200);
+        assert.deepEqual(await response.json(), {
+          status: 'ok', sentence, needsClarification: false, explanation: '', error: null,
+          metadata: { generatedText: sentence, sourceGlossText: 'Xin Cảm ơn', model: 'test-model', requestId: 'thanks' },
+        });
+      }
+    });
 
+    await t.test('Invalid provider output is returned in the application JSON envelope', async () => {
       for (const invalid of [
         chatReply,
         '```json\n{"status":"ok","sentence":"Xin cảm ơn."}\n```',
+        '{"status":"ok"}',
+        '{"status":"ok","sentence":3}',
         '{"status":"ok","sentence":"  "}',
-        '{"status":"ok","sentence":"Xin cảm ơn.\\nBạn có muốn tôi giúp gì thêm không?"}',
         '{"status":"other","sentence":"Xin cảm ơn."}',
         '{"status":"needs_clarification","sentence":"Xin cảm ơn."}',
         JSON.stringify({ status: 'needs_clarification', sentence: '', explanation: chatReply }),
-        JSON.stringify({ status: 'ok', sentence: chatReply }),
       ]) {
         output = invalid;
-        const rejected = await handler(request(body));
-        assert.equal(rejected.status, 502);
-        const error = await rejected.json();
-        assert.equal(error.error.code, 'llm_output');
+        const rejected = await handler(request({ glosses: thanksGlosses, requestId: 'thanks' }));
+        const error = await assertErrorEnvelope(rejected, 502, 'llm_output');
         assert.ok(!JSON.stringify(error).includes(chatReply));
       }
     });
