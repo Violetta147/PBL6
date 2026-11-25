@@ -29,6 +29,7 @@ from deployment.m2.classifier import (
     serialize_landmark_arrays,
 )
 from deployment.m2.pipeline import LiveSessionManager
+from deployment.m2.pose_wire import POSE_FRAME_HEADER, POSE_MEASURE
 from deployment.m2.remote_clients import RemotePoseClient, SplitClassifierClient
 from deployment.m2.server import create_app
 from deployment.m2.vision_backend import create_vision_app
@@ -188,6 +189,29 @@ class M2SplitWireTests(unittest.TestCase):
 
 
 class M2SplitContractAndFallbackTests(unittest.TestCase):
+    def test_binary_pose_socket_returns_ordered_replies_and_populates_stream_buffer(self):
+        extractor = _fake_vision_extractor()
+        def detect_pose(_frame, _session):
+            return [[0.0, 0.0, 0.0]] * 8, [0.0] * 8
+
+        app = create_vision_app(
+            enable_fallback_classifier=False, vision_extractor=extractor, pose_detector=detect_pose,
+        )
+        jpeg = cv2.imencode(".jpg", _dummy_bgr_frames()[0][0])[1].tobytes()
+        with TestClient(app) as client:
+            with client.websocket_connect("/ws/vision/pose?session_id=socket-test") as socket:
+                for seq, timestamp in ((1, 0.10), (3, 0.15)):
+                    socket.send_bytes(POSE_FRAME_HEADER.pack(seq, timestamp, POSE_MEASURE) + jpeg)
+                    result = socket.receive_json()
+                    self.assertEqual(result["seq"], seq)
+                    self.assertEqual(len(result["pose"]), 8)
+                    self.assertIn("decode", result["timing_ms"])
+            extracted = client.post("/api/vision/extract-segment", json={
+                "session_id": "socket-test", "start": 0.10, "end": 0.15, "target_seq": 3,
+            })
+        self.assertEqual(extracted.status_code, 200)
+        self.assertEqual(extractor.calls, 1)
+
     def test_vision_backend_contract_and_size_bounds(self):
         fake_pose = lambda _bgr, _sid: ([[0.5, 0.5, 0.0]] * 8, [0.95] * 8)
         vision_ext = _fake_vision_extractor()

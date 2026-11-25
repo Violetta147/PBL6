@@ -5,6 +5,7 @@ import argparse
 import asyncio
 from contextlib import asynccontextmanager
 import json
+import math
 import os
 from pathlib import Path
 import tempfile
@@ -13,7 +14,7 @@ import time
 from typing import Any
 
 import cv2
-from fastapi import FastAPI, HTTPException, Request, Response
+from fastapi import FastAPI, HTTPException, Request, Response, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 import numpy as np
 from pydantic import BaseModel
@@ -29,7 +30,9 @@ from deployment.m2.classifier import (
     serialize_landmark_arrays,
 )
 
-MAX_POSE_FRAME_BYTES = 4 * 1024 * 1024
+from deployment.m2.pose_wire import (
+    MAX_POSE_FRAME_BYTES, POSE_FRAME_HEADER, POSE_MEASURE, POSE_RUN_HANDS, POSE_WS_PATH,
+)
 MAX_CLIP_BYTES = 64 * 1024 * 1024
 ALLOWED_CLIP_EXTENSIONS = {".avi", ".mp4", ".pbl6"}
 
@@ -254,15 +257,60 @@ def create_vision_app(
     ):
         started = time.perf_counter() if measure else None
         body = await _read_bounded_body(request, MAX_POSE_FRAME_BYTES)
-        decode_started = time.perf_counter() if measure else None
+        body_read_ms = (time.perf_counter() - started) * 1000 if started is not None else None
+        return await process_pose_frame(body, session_id, ts, seq, bool(run_hands), started, body_read_ms)
+
+    @app.websocket(POSE_WS_PATH)
+    async def vision_pose_socket(websocket: WebSocket, session_id: str):
+        await websocket.accept()
+        try:
+            while True:
+                event = await websocket.receive()
+                if event["type"] == "websocket.disconnect":
+                    return
+                message = event.get("bytes")
+                if message is None:
+                    await websocket.close(code=1003)
+                    return
+                if not POSE_FRAME_HEADER.size < len(message) <= POSE_FRAME_HEADER.size + MAX_POSE_FRAME_BYTES:
+                    await websocket.close(code=1009)
+                    return
+                seq, ts, flags = POSE_FRAME_HEADER.unpack_from(message)
+                if not math.isfinite(ts) or flags & ~(POSE_RUN_HANDS | POSE_MEASURE):
+                    await websocket.close(code=1003)
+                    return
+                started = time.perf_counter() if flags & POSE_MEASURE else None
+                try:
+                    result = await process_pose_frame(
+                        message[POSE_FRAME_HEADER.size:], session_id,
+                        ts if seq else None, seq or None, bool(flags & POSE_RUN_HANDS), started,
+                    )
+                except HTTPException as exc:
+                    await websocket.send_json({"seq": seq, "error": exc.detail})
+                else:
+                    await websocket.send_json(result)
+        except WebSocketDisconnect:
+            return
+
+    async def process_pose_frame(
+        body: bytes,
+        session_id: str | None,
+        ts: float | None,
+        seq: int | None,
+        run_hands: bool,
+        started: float | None,
+        body_read_ms: float | None = None,
+    ):
+        decode_started = time.perf_counter() if started is not None else None
         buf = np.frombuffer(body, dtype=np.uint8)
         bgr = cv2.imdecode(buf, cv2.IMREAD_COLOR)
         timing_ms: dict[str, float] | None = None
         if started is not None and decode_started is not None:
             timing_ms = {
-                "body_read": (decode_started - started) * 1000,
                 "decode": (time.perf_counter() - decode_started) * 1000,
             }
+            if body_read_ms is not None:
+                timing_ms["body_read"] = body_read_ms
 
         async def run_pose(fn, *args, **kwargs):
             if timing_ms is None:

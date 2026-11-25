@@ -14,6 +14,7 @@ KIOSK_FLAG="--new-window"
 STOP_ONLY=0
 POSITIONAL_IP_SET=0
 POSE_METRICS_ARGS=()
+POSE_TRANSPORT="websocket"
 
 while [ $# -gt 0 ]; do
   case "$1" in
@@ -27,6 +28,10 @@ while [ $# -gt 0 ]; do
       ;;
     --utterance-rest)
       UTTERANCE_REST="${2:?missing utterance-rest value}"
+      shift 2
+      ;;
+    --pose-transport)
+      POSE_TRANSPORT="${2:?missing pose transport}"
       shift 2
       ;;
     --measure-pose)
@@ -56,7 +61,7 @@ while [ $# -gt 0 ]; do
       shift
       ;;
     -h|--help)
-      echo "Usage: $0 [LAPTOP_IP] [--mode pi-split|remote-fallback] [--threshold SECONDS] [--utterance-rest 4.0] [--measure-pose] [--windowed] [--fullscreen-kiosk] [--no-kiosk] [--stop]"
+      echo "Usage: $0 [LAPTOP_IP] [--mode pi-split|remote-fallback] [--threshold SECONDS] [--utterance-rest 4.0] [--pose-transport websocket|http] [--measure-pose] [--windowed] [--fullscreen-kiosk] [--no-kiosk] [--stop]"
       echo "  Automatic laptop inference fallback is off by default (--threshold 0). Use --threshold 1.5 to enable it."
       echo "  Note: --fullscreen-kiosk covers squeekboard under labwc Wayland (labwc #2926); keep --windowed (default) for touchscreen OSK."
       exit 0
@@ -134,6 +139,7 @@ nohup "$PY_BIN" -u -m deployment.m2.server \
   --port 8765 \
   --inference-mode "$INFERENCE_MODE" \
   --vision-backend-url "$VISION_URL" \
+  --pose-transport "$POSE_TRANSPORT" \
   --fallback-threshold "$FALLBACK_THRESHOLD" \
   --utterance-rest "$UTTERANCE_REST" \
   "${POSE_METRICS_ARGS[@]}" \

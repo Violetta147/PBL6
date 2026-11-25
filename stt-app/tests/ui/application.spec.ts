@@ -7,7 +7,7 @@ import { join } from 'node:path';
 
 const fakeKey = 'TEST_NOT_A_REAL_KEY_0123456789';
 
-test('unclear gloss waits for correction, generated sentence waits for review, edited sentence is sent', async ({ page }) => {
+test('unclear gloss waits for correction, local gloss draft waits for review, edited sentence is sent', async ({ page }) => {
   const candidate = (label: string, label_id: number, score: number) => ({ label, label_id, score });
   const record = (id: string, top5: ReturnType<typeof candidate>[], low = false) => ({
     segment_id: id, utterance_id: '0', start: 0, movement_start: 0, movement_end: 1, end: 1,
@@ -29,17 +29,14 @@ test('unclear gloss waits for correction, generated sentence waits for review, e
     await route.fulfill({ headers, json: { gloss: corrected } });
   });
   let generated = 0, sent = 0;
-  await page.route('**/api/sign-sentence', async route => {
+  await page.route('**/api/sign-sentence', route => {
     generated++;
-    const body = route.request().postDataJSON();
-    expect(body.glosses.map((g: { label: string }) => g.label)).toEqual(['Bố', 'Đi', 'Bệnh viện']);
-    await route.fulfill({ json: { sentence: 'Bố đi bệnh viện.', needsClarification: false, explanation: '',
-      metadata: { generatedText: 'Bố đi bệnh viện.', sourceGlossText: 'Bố Đi Bệnh viện', model: 'fixture-model', requestId: body.requestId } } });
+    return route.abort();
   });
   await page.route('**/api/conversations', async route => {
     if (route.request().method() !== 'POST') return route.fulfill({ json: [] });
     sent++; const body = route.request().postDataJSON();
-    expect(body.text).toBe('Bố muốn đi bệnh viện.'); expect(body.signSentence.generatedText).toBe('Bố đi bệnh viện.');
+    expect(body.text).toBe('Bố muốn đi bệnh viện.'); expect(body.signSentence).toMatchObject({ generatedText: 'Bố Đi Bệnh viện', model: 'local-gloss' });
     const now = new Date().toISOString();
     const conversation = { id: 'sentence-conversation', title: body.text, createdAt: now, updatedAt: now, messageCount: 1 };
     await route.fulfill({ status: 201, json: { conversation, message: { id: 'sentence-message', conversationId: conversation.id, createdAt: now, ...body } } });
@@ -54,28 +51,15 @@ test('unclear gloss waits for correction, generated sentence waits for review, e
   expect(generated).toBe(0);
   await page.getByTestId('slr-save-message-button').click();
   const sentence = page.getByTestId('sign-sentence-input');
-  await expect(sentence).toHaveValue('Bố đi bệnh viện.');
+  await expect(sentence).toHaveValue('Bố Đi Bệnh viện');
   await expect(page.getByTestId('message-card')).toHaveCount(0); expect(sent).toBe(0);
   await sentence.fill('Bố muốn đi bệnh viện.');
   await page.getByTestId('sign-sentence-send').click();
   await expect(page.getByTestId('message-text')).toHaveText('Bố muốn đi bệnh viện.');
-  expect(generated).toBe(1); expect(sent).toBe(1);
+  expect(generated).toBe(0); expect(sent).toBe(1);
 });
 
-test('provider settings keep sidebar in landscape, top tabs in portrait, and select account models', async ({ page }, info) => {
-  const account = { id: 'test-account', email: 'fixture@example.test', label: 'Tài khoản thử', connected: true, model: '' };
-  const connection = { activeId: account.id, source: 'chatgpt', accounts: [account], pending: false, notice: '' };
-  await page.route('**/api/chatgpt*', async route => {
-    if (route.request().method() === 'POST') {
-      const body = route.request().postDataJSON();
-      expect(body).toMatchObject({ action: 'select', id: account.id, model: 'available-model' });
-      account.model = body.model;
-      await route.fulfill({ json: connection });
-    } else if (new URL(route.request().url()).searchParams.has('models')) {
-      await route.fulfill({ json: { models: [{ id: 'available-model', name: 'Model được cấp quyền' }] } });
-    } else await route.fulfill({ json: connection });
-  });
-  await page.route('**/api/sign-sentence*', route => route.fulfill({ json: { configured: false } }));
+test('settings keep sidebar in landscape and top tabs in portrait', async ({ page }, info) => {
   for (const viewport of [{ width: 1024, height: 600 }, { width: 600, height: 1024 }]) {
     await page.setViewportSize(viewport); await page.goto('/');
     await page.getByTestId('settings-button').click();
@@ -85,16 +69,10 @@ test('provider settings keep sidebar in landscape, top tabs in portrait, and sel
     const nav = (await tabs.boundingBox())!, main = (await content.boundingBox())!;
     if (viewport.width > viewport.height) expect(nav.x + nav.width).toBeLessThanOrEqual(main.x);
     else expect(nav.y + nav.height).toBeLessThanOrEqual(main.y);
-    await expect(page.getByRole('heading', { name: 'Nhà cung cấp AI', exact: true })).toBeVisible();
-    await expect(page.getByLabel('API key', { exact: true })).toHaveCount(0);
-    const model = page.getByTestId('chatgpt-model');
-    await expect(model).toBeEnabled(); await model.selectOption('available-model');
-    await expect(model).toHaveValue('available-model');
-    await page.getByRole('button', { name: 'Quản lý…', exact: true }).click();
-    await expect(page.getByRole('dialog', { name: 'Quản lý ChatGPT', exact: true })).toBeVisible();
-    await page.getByRole('button', { name: 'Đóng', exact: true }).click();
+    await expect(page.getByRole('heading', { name: 'Nhà cung cấp AI', exact: true })).toHaveCount(0);
+    await expect(page.getByTestId('slr-setting-autosave')).toBeVisible();
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
-    await page.screenshot({ path: info.outputPath(`providers-${viewport.width}.png`) });
+    await page.screenshot({ path: info.outputPath(`settings-${viewport.width}.png`) });
   }
 });
 

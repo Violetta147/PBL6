@@ -5,16 +5,20 @@ import json
 import threading
 import time
 from typing import Any
+from urllib.parse import urlencode, urlsplit
 
 import cv2
 import httpx
 import numpy as np
+from websockets.sync.client import ClientConnection, connect
 
 from deployment.m2.classifier import (
     BoneClassifier,
     deserialize_landmark_arrays,
     encode_frames_to_bundle_bytes,
 )
+
+from deployment.m2.pose_wire import POSE_FRAME_HEADER, POSE_MEASURE, POSE_RUN_HANDS, POSE_WS_PATH
 
 DEFAULT_FALLBACK_THRESHOLD_SECONDS = 0.0
 
@@ -27,7 +31,7 @@ def _clean_base_url(base_url: str) -> str:
 
 
 class RemotePoseClient:
-    """Streams capture frames to LAN Vision Backend /api/vision/pose-frame over keep-alive HTTP."""
+    """Single in-flight pose request over a persistent WebSocket or HTTP for comparison."""
 
     def __init__(
         self,
@@ -36,17 +40,48 @@ class RemotePoseClient:
         jpeg_quality: int = 75,
         max_width: int = 640,
         http_client: httpx.Client | None = None,
+        *,
+        transport: str = "http",
     ) -> None:
         self.base_url = _clean_base_url(base_url)
         self.jpeg_quality = int(jpeg_quality)
         self.max_width = int(max_width)
         self._owns_client = http_client is None
         self._client = http_client or httpx.Client(timeout=timeout)
+        if transport not in ("http", "websocket"):
+            raise ValueError(f"Unsupported pose transport: {transport}")
+        self.transport = transport
+        self._timeout = timeout
+        self._socket: ClientConnection | None = None
+        self._socket_session: str | None = None
         self._lock = threading.Lock()
+
+    def _close_socket(self) -> None:
+        socket, self._socket = self._socket, None
+        self._socket_session = None
+        if socket is not None:
+            socket.close()
+
+    def _pose_socket(self, session_id: str) -> ClientConnection:
+        if self._socket is None or self._socket_session != session_id:
+            self._close_socket()
+            url = urlsplit(self.base_url)
+            scheme = "wss" if url.scheme == "https" else "ws"
+            query = urlencode({"session_id": session_id})
+            self._socket = connect(
+                f"{scheme}://{url.netloc}{url.path}{POSE_WS_PATH}?{query}",
+                open_timeout=self._timeout,
+                close_timeout=0.5,
+                compression=None,
+                max_size=64 * 1024,
+            )
+            self._socket_session = session_id
+        return self._socket
 
     def reset(self, session_id: str) -> None:
         try:
             with self._lock:
+                self._close_socket()
                 self._client.post(
                     f"{self.base_url}/api/vision/pose-reset",
                     params={"session_id": session_id},
@@ -92,25 +127,10 @@ class RemotePoseClient:
             params["run_hands"] = 1 if run_hands else 0
 
         with self._lock:
-            if timing is not None:
-                timing["send_at"] = time.perf_counter()
-            try:
-                resp = self._client.post(
-                    f"{self.base_url}/api/vision/pose-frame",
-                    params=params,
-                    content=payload,
-                    headers={"Content-Type": "image/jpeg"},
-                )
-            finally:
-                if timing is not None:
-                    finished = time.perf_counter()
-                    timing["http_ms"] = (finished - timing["send_at"]) * 1000
-            if timing is not None:
-                timing["response_at"] = finished
-                timing["http_status"] = resp.status_code
-                timing["frame_age_ms"] = (finished - timing["captured_at"]) * 1000
-            resp.raise_for_status()
-            data = resp.json()
+            if self.transport == "websocket":
+                data = self._request_websocket(session_id, params, payload, timing)
+            else:
+                data = self._request_http(params, payload, timing)
         if timing is not None:
             vision = data.get("timing_ms", {})
             for key in ("handler", "body_read", "decode", "worker_wait", "mediapipe_lock_wait", "mediapipe"):
@@ -122,9 +142,68 @@ class RemotePoseClient:
                 timing["laptop_pose_total_ms"] = pose_seconds * 1000
         return data["pose"], data["visibility"]
 
+    def _request_http(self, params, jpeg, timing) -> dict[str, Any]:
+        if timing is not None:
+            timing["send_at"] = time.perf_counter()
+        try:
+            response = self._client.post(
+                f"{self.base_url}/api/vision/pose-frame",
+                params=params,
+                content=jpeg,
+                headers={"Content-Type": "image/jpeg"},
+            )
+        finally:
+            self._record_roundtrip(timing)
+        if timing is not None:
+            timing["http_status"] = response.status_code
+        response.raise_for_status()
+        return response.json()
+
+    def _request_websocket(self, session_id, params, jpeg, timing) -> dict[str, Any]:
+        flags = (POSE_RUN_HANDS if params.get("run_hands") else 0) | (POSE_MEASURE if timing is not None else 0)
+        seq = params.get("seq", 0)
+        message = POSE_FRAME_HEADER.pack(seq, params.get("ts", 0.0), flags) + jpeg
+        try:
+            if timing is not None and (self._socket is None or self._socket_session != session_id):
+                connect_started = time.perf_counter()
+                try:
+                    socket = self._pose_socket(session_id)
+                finally:
+                    timing["websocket_connect_ms"] = (time.perf_counter() - connect_started) * 1000
+            else:
+                socket = self._pose_socket(session_id)
+            if timing is not None:
+                timing["send_at"] = time.perf_counter()
+            try:
+                socket.send(message)
+                reply = socket.recv(timeout=self._timeout)
+            finally:
+                self._record_roundtrip(timing)
+            response = json.loads(reply)
+            if response.get("error"):
+                raise RuntimeError(response["error"])
+            if response.get("seq", 0) != seq:
+                raise RuntimeError("Vision WebSocket returned a mismatched frame sequence")
+            return response
+        except Exception:
+            # A late reply from this socket must never be consumed by the next request.
+            self._close_socket()
+            raise
+
+    def _record_roundtrip(self, timing: dict[str, Any] | None) -> None:
+        if timing is not None:
+            finished = time.perf_counter()
+            duration_ms = (finished - timing["send_at"]) * 1000
+            timing["pose_roundtrip_ms"] = duration_ms
+            timing["http_ms" if self.transport == "http" else "websocket_ms"] = duration_ms
+            timing["response_at"] = finished
+            timing["frame_age_ms"] = (finished - timing["captured_at"]) * 1000
+
     def close(self) -> None:
-        if self._owns_client:
-            self._client.close()
+        with self._lock:
+            self._close_socket()
+            if self._owns_client:
+                self._client.close()
 
 
 class SplitClassifierClient:

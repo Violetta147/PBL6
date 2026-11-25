@@ -10,7 +10,6 @@ import {
 } from '../lib/slrSettings';
 import { WebAudioRecorder } from '../utils/audioRecorder';
 import { ArrowLeftIcon, SearchIcon, TrashIcon } from './Icons';
-import { SentenceServiceSettings } from './SentenceServiceSettings';
 
 interface SettingsViewProps {
   isOpen: boolean;
@@ -889,8 +888,6 @@ export function SettingsView({
                 </span>
               </div>
 
-              <SentenceServiceSettings />
-
               <label className="flex items-start justify-between gap-4 rounded-xl border border-[#BAC5D0] bg-[#F5F7F9] p-4 cursor-pointer">
                 <div>
                   <div className="text-[17px] font-bold text-[#18212B]">
@@ -917,10 +914,10 @@ export function SettingsView({
               <label className="flex items-start justify-between gap-4 rounded-xl border border-[#BAC5D0] bg-[#F5F7F9] p-4 cursor-pointer">
                 <div>
                   <div className="text-[17px] font-bold text-[#18212B]">
-                    Tự tạo câu gợi ý khi kết thúc thời gian nghỉ
+                    Tự tạo bản nháp khi kết thúc thời gian nghỉ
                   </div>
                   <div className="text-[14px] text-[#4F5D6B]">
-                    Nếu còn từ chưa rõ, giữ lại để chỉnh. Câu tạo xong luôn chờ bạn kiểm tra và bấm Gửi câu.
+                    Nếu còn từ chưa rõ, giữ lại để chỉnh. Bản nháp ghép từ các gloss đã duyệt và chờ bạn sửa hoặc gửi.
                   </div>
                 </div>
                 <input

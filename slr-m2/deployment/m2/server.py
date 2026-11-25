@@ -117,6 +117,7 @@ def _build_runtime(
     on_capture_start: Any,
     runtime_controller: Any,
     crop_rescue_enabled: bool,
+    pose_transport: str,
 ) -> dict[str, Any]:
     if inference_mode not in ("local", "pi-split", "remote-fallback"):
         raise ValueError(f"Unsupported inference_mode: {inference_mode}")
@@ -139,7 +140,7 @@ def _build_runtime(
             raise ValueError(f"vision_backend_url is required when inference_mode={inference_mode!r}")
         closables: list[Any] = []
         if pose_provider is None:
-            remote_pose = RemotePoseClient(vision_backend_url)
+            remote_pose = RemotePoseClient(vision_backend_url, transport=pose_transport)
             closables.append(remote_pose)
             pose_provider = remote_pose.detect_pose_8
             if on_capture_start is None:
@@ -213,6 +214,7 @@ def create_app(
     *,
     crop_rescue_enabled: bool = False,
     measure_pose: bool = False,
+    pose_transport: str = "websocket",
 ) -> FastAPI:
     hub = WebSocketHub()
     rt = _build_runtime(
@@ -227,6 +229,7 @@ def create_app(
         on_capture_start=on_capture_start,
         runtime_controller=runtime_controller,
         crop_rescue_enabled=crop_rescue_enabled,
+        pose_transport=pose_transport,
     )
     model_identity = rt["model_identity"]
     controller = rt["controller"]
@@ -312,7 +315,7 @@ def create_app(
             raise HTTPException(status_code=404, detail="Start the edge server with --measure-pose")
         if metrics is None:
             raise HTTPException(status_code=409, detail="Start a live camera session with remote vision")
-        return metrics.report(include_frames)
+        return {**metrics.report(include_frames), "pose_transport": pose_transport}
 
     @app.post("/api/runtime/fallback")
     def runtime_fallback(req: RuntimeFallbackRequest):
@@ -430,6 +433,7 @@ def main() -> None:
         default="local",
     )
     parser.add_argument("--vision-backend-url", default=None)
+    parser.add_argument("--pose-transport", choices=("websocket", "http"), default="websocket")
     parser.add_argument(
         "--fallback-threshold", type=float, default=DEFAULT_FALLBACK_THRESHOLD_SECONDS,
         help="Enable automatic LAN inference fallback above this many seconds (0 disables it)",
@@ -458,6 +462,7 @@ def main() -> None:
         utterance_rest=args.utterance_rest,
         crop_rescue_enabled=args.crop_rescue,
         measure_pose=args.measure_pose,
+        pose_transport=args.pose_transport,
     )
     uvicorn.run(app, host=args.host, port=args.port)
 
