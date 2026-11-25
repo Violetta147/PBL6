@@ -62,7 +62,10 @@ class RemotePoseClient:
         ts: float | None = None,
         seq: int | None = None,
         run_hands: bool = False,
+        timing: dict[str, Any] | None = None,
     ) -> tuple[list[list[float]], list[float]]:
+        if timing is not None:
+            encode_started = time.perf_counter()
         frame = bgr
         if self.max_width > 0 and frame.shape[1] > self.max_width:
             scale = self.max_width / float(frame.shape[1])
@@ -77,21 +80,46 @@ class RemotePoseClient:
         if not ok:
             raise RuntimeError("Failed to JPEG-encode frame for remote pose estimation")
 
+        payload = buf.tobytes()
         params: dict[str, Any] = {"session_id": session_id}
+        if timing is not None:
+            timing["encode_ms"] = (time.perf_counter() - encode_started) * 1000
+            timing["jpeg_bytes"] = len(payload)
+            params["measure"] = 1
         if ts is not None and seq is not None:
             params["ts"] = float(ts)
             params["seq"] = int(seq)
             params["run_hands"] = 1 if run_hands else 0
 
         with self._lock:
-            resp = self._client.post(
-                f"{self.base_url}/api/vision/pose-frame",
-                params=params,
-                content=buf.tobytes(),
-                headers={"Content-Type": "image/jpeg"},
-            )
+            if timing is not None:
+                timing["send_at"] = time.perf_counter()
+            try:
+                resp = self._client.post(
+                    f"{self.base_url}/api/vision/pose-frame",
+                    params=params,
+                    content=payload,
+                    headers={"Content-Type": "image/jpeg"},
+                )
+            finally:
+                if timing is not None:
+                    finished = time.perf_counter()
+                    timing["http_ms"] = (finished - timing["send_at"]) * 1000
+            if timing is not None:
+                timing["response_at"] = finished
+                timing["http_status"] = resp.status_code
+                timing["frame_age_ms"] = (finished - timing["captured_at"]) * 1000
             resp.raise_for_status()
             data = resp.json()
+        if timing is not None:
+            vision = data.get("timing_ms", {})
+            for key in ("handler", "body_read", "decode", "worker_wait", "mediapipe_lock_wait", "mediapipe"):
+                duration_ms = vision.get(key)
+                if isinstance(duration_ms, (int, float)):
+                    timing[f"laptop_{key}_ms"] = duration_ms
+            pose_seconds = data.get("pose_seconds")
+            if isinstance(pose_seconds, (int, float)):
+                timing["laptop_pose_total_ms"] = pose_seconds * 1000
         return data["pose"], data["visibility"]
 
     def close(self) -> None:

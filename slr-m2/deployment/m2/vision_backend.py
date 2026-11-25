@@ -250,23 +250,46 @@ def create_vision_app(
         ts: float | None = None,
         seq: int | None = None,
         run_hands: int = 0,
+        measure: bool = False,
     ):
+        started = time.perf_counter() if measure else None
         body = await _read_bounded_body(request, MAX_POSE_FRAME_BYTES)
+        decode_started = time.perf_counter() if measure else None
         buf = np.frombuffer(body, dtype=np.uint8)
         bgr = cv2.imdecode(buf, cv2.IMREAD_COLOR)
+        timing_ms: dict[str, float] | None = None
+        if started is not None and decode_started is not None:
+            timing_ms = {
+                "body_read": (decode_started - started) * 1000,
+                "decode": (time.perf_counter() - decode_started) * 1000,
+            }
+
+        async def run_pose(fn, *args, **kwargs):
+            if timing_ms is None:
+                return await asyncio.to_thread(fn, *args, **kwargs)
+            queued_at = time.perf_counter()
+
+            def measured():
+                timing_ms["worker_wait"] = (time.perf_counter() - queued_at) * 1000
+                return fn(*args, **kwargs)
+
+            return await asyncio.to_thread(measured)
         if bgr is None:
             raise HTTPException(status_code=400, detail="Invalid encoded image frame")
         if ts is not None and seq is not None:
             sid = session_id or "default"
             stream_frame_fn = getattr(extractor, "process_stream_frame", None)
             if pose_detector is None and callable(stream_frame_fn):
-                pose_8, vis_8, pose_res, hand_res, packed, pose_s = await asyncio.to_thread(
-                    stream_frame_fn,
-                    bgr,
-                    bool(run_hands),
+                timing_kwargs = (
+                    {"timing_ms": timing_ms}
+                    if timing_ms is not None and isinstance(extractor, VisionExtractor)
+                    else {}
+                )
+                pose_8, vis_8, pose_res, hand_res, packed, pose_s = await run_pose(
+                    stream_frame_fn, bgr, bool(run_hands), **timing_kwargs,
                 )
             else:
-                pose_8, vis_8, pose_s = await asyncio.to_thread(pose_runner.process_bgr, bgr, session_id)
+                pose_8, vis_8, pose_s = await run_pose(pose_runner.process_bgr, bgr, session_id)
                 pose_res = None
                 hand_res = None
                 packed = None
@@ -281,15 +304,14 @@ def create_vision_app(
                     packed=packed,
                 ),
             )
-            return {
-                "pose": pose_8,
-                "visibility": vis_8,
-                "pose_seconds": pose_s,
-                "hands_ran": bool(run_hands),
-                "seq": int(seq),
-            }
-        pose_8, vis_8, pose_s = await asyncio.to_thread(pose_runner.process_bgr, bgr, session_id)
-        return {"pose": pose_8, "visibility": vis_8, "pose_seconds": pose_s}
+            metadata = {"hands_ran": bool(run_hands), "seq": int(seq)}
+        else:
+            pose_8, vis_8, pose_s = await run_pose(pose_runner.process_bgr, bgr, session_id)
+            metadata = {}
+        if timing_ms is not None and started is not None:
+            timing_ms["handler"] = (time.perf_counter() - started) * 1000
+            metadata["timing_ms"] = timing_ms
+        return {"pose": pose_8, "visibility": vis_8, "pose_seconds": pose_s, **metadata}
 
     @app.post("/api/vision/extract-segment")
     async def vision_extract_segment(req: SegmentSliceRequest):

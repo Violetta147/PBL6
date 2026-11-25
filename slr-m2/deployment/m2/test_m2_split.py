@@ -606,6 +606,69 @@ class M2RealSplitParityTests(unittest.TestCase):
 
 
 class LinuxCameraProbeTests(unittest.TestCase):
+    def test_live_pose_metrics_reports_fifo_http_and_laptop_timings(self):
+        frame = np.zeros((16, 16, 3), dtype=np.uint8)
+        capture = mock.Mock()
+        capture.read.return_value = (True, frame)
+        third_request = threading.Event()
+        extractor = VisionExtractor()
+        model = mock.Mock()
+        model.process.return_value = None
+        vision_app = create_vision_app(vision_extractor=extractor, enable_fallback_classifier=False)
+
+        with (
+            mock.patch.object(extractor, "_ensure_models_unlocked", return_value=(model, model)),
+            TestClient(vision_app) as vision,
+        ):
+            def respond(request: httpx.Request) -> httpx.Response:
+                if request.url.path.endswith("/pose-frame"):
+                    self.assertEqual(request.url.params["measure"], "1")
+                    seq = int(request.url.params["seq"])
+                    if seq == 2:
+                        return httpx.Response(503)
+                response = vision.request(
+                    request.method, str(request.url), content=request.content,
+                )
+                if request.url.params.get("seq") == "3":
+                    third_request.set()
+                return response
+
+            with httpx.Client(transport=httpx.MockTransport(respond)) as http:
+                remote = RemotePoseClient("http://testserver", http_client=http)
+                edge_app = create_app(
+                    classifier_fn=lambda *_: {},
+                    pose_provider=remote.detect_pose_8,
+                    on_capture_start=remote.reset,
+                    measure_pose=True,
+                )
+                with (
+                    mock.patch.object(edge_app.state.manager, "_open_capture", return_value=capture),
+                    TestClient(edge_app) as edge,
+                ):
+                    self.assertEqual(edge.get("/api/metrics/pose").status_code, 409)
+                    started = edge.post("/api/session/start").json()
+                    self.assertTrue(started["ok"])
+                    self.assertTrue(third_request.wait(timeout=3))
+                    self.assertEqual(edge.post("/api/session/stop").status_code, 200)
+                    summary = edge.get("/api/metrics/pose").json()
+                    self.assertNotIn("frames", summary)
+                    report = edge.get("/api/metrics/pose?include_frames=1").json()
+
+        self.assertEqual(report["session_id"], started["session_id"])
+        self.assertEqual(report["target_capture_fps"], 25)
+        counts = report["counts"]
+        self.assertEqual(counts["captured"], counts["dequeued"] + counts["discarded_at_stop"])
+        self.assertEqual(counts["sent"], counts["pose_replies"] + counts["pose_errors"])
+        self.assertEqual(counts["in_flight"], 0)
+        self.assertEqual(counts["pose_errors"], 1)
+        self.assertEqual([frame["seq"] for frame in report["frames"]], list(range(1, counts["sent"] + 1)))
+        self.assertEqual(report["frames"][1]["http_status"], 503)
+        metrics = report["successful_frame_timings_ms"]
+        for key in ("fifo_ms", "encode_ms", "http_ms", "frame_age_ms", "laptop_decode_ms",
+                    "laptop_worker_wait_ms", "laptop_mediapipe_lock_wait_ms", "laptop_mediapipe_ms"):
+            self.assertEqual(metrics[key]["n"], counts["pose_replies"])
+            self.assertGreaterEqual(metrics[key]["p95"], metrics[key]["p50"])
+
     def test_slow_pose_processes_every_queued_frame_in_order_and_discards_stale_response(self):
         requested_sequences: list[int] = []
         first_requested = threading.Event()
@@ -684,7 +747,9 @@ class LinuxCameraProbeTests(unittest.TestCase):
             release_pose.wait(timeout=5)
             return [[0.0, 0.0, 0.0]] * 8, [0.0] * 8
 
-        manager = LiveSessionManager(classifier_fn=lambda *_: {}, pose_provider=slow_pose)
+        manager = LiveSessionManager(
+            classifier_fn=lambda *_: {}, pose_provider=slow_pose, measure_pose=True,
+        )
         capture = mock.Mock()
         capture.read.side_effect = read_frame
         with (
@@ -700,6 +765,11 @@ class LinuxCameraProbeTests(unittest.TestCase):
             finally:
                 release_pose.set()
                 manager.stop_session(wait_timeout=5)
+
+        report = manager.pose_metrics.report(include_frames=False)
+        self.assertEqual(report["fifo_peak_pending"], 2)
+        self.assertGreater(report["counts"]["fifo_block_events"], 0)
+        self.assertGreater(report["fifo_block_seconds"], 0)
 
     def test_linux_open_capture_falls_back_to_working_v4l2_index(self):
         service = LiveSessionManager(classifier_fn=lambda *_a, **_k: {})

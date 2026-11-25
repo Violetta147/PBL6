@@ -21,12 +21,14 @@ import numpy as np
 from deployment.m1.common import ROOT
 from deployment.m1.segmenter import Config, Segmenter, arm_states
 from deployment.m2.classifier import POSE_SLOTS, extract_pose_8
+from deployment.m2.pose_metrics import PoseMetrics
 
 SCHEMA_VERSION = "m2.v1"
 FROZEN_CONFIG_PATH = ROOT / "deployment/m1/frozen-config.json"
 DEFAULT_UTTERANCE_REST_SECONDS = 4.0
 UTTERANCE_TRACKING_GRACE_SECONDS = 0.5
 TIMESTAMP_TOLERANCE = 1e-9
+LIVE_CAPTURE_FPS = 25
 MAX_PENDING_POSE_FRAMES = 32
 _extract_pose_8 = extract_pose_8
 
@@ -124,6 +126,7 @@ class LiveSessionManager:
         ring_seconds: float = 20.0,
         pose_provider: Callable[[np.ndarray, str], tuple[list[list[float]], list[float]]] | None = None,
         on_capture_start: Callable[[str], None] | None = None,
+        measure_pose: bool = False,
     ) -> None:
         self._classifier_fn = classifier_fn
         self._classifier_accepts_stream = _accepts_kwargs(
@@ -135,6 +138,8 @@ class LiveSessionManager:
         self._ring_seconds = ring_seconds
         self._pose_provider = pose_provider
         self._on_capture_start = on_capture_start
+        self._measure_pose = measure_pose
+        self.pose_metrics: PoseMetrics | None = None
 
         self._state_lock = threading.RLock()
         self._frame_lock = threading.RLock()
@@ -262,6 +267,7 @@ class LiveSessionManager:
             self._event_seq = 0
             self._session_id = f"live-{uuid.uuid4().hex[:10]}"
             self._running = True
+            self.pose_metrics = None
             self._draining = False
             self._stop_event.clear()
             self._segmenter = Segmenter(self.config)
@@ -338,6 +344,8 @@ class LiveSessionManager:
                     self._last_error = str(err)
                 raise ValueError(str(err))
         else:
+            if self._measure_pose and self._pose_provider is not None:
+                self.pose_metrics = PoseMetrics(session_id, LIVE_CAPTURE_FPS, MAX_PENDING_POSE_FRAMES)
             self._capture_thread = threading.Thread(
                 target=self._camera_reader_loop,
                 args=(session_id, epoch, camera_index),
@@ -482,6 +490,8 @@ class LiveSessionManager:
 
         with self._pose_cond:
             self._pose_frames.clear()
+            if self.pose_metrics is not None:
+                self.pose_metrics.discard_pending()
             self._pose_cond.notify_all()
 
         if capture_thread is not None and capture_thread.is_alive() and capture_thread is not threading.current_thread():
@@ -580,6 +590,7 @@ class LiveSessionManager:
                         self._last_error = msg
                     self._emit("error", {"message": msg})
             accepts_stream = _accepts_kwargs(self._pose_provider, ("ts", "seq", "run_hands"))
+            accepts_timing = _accepts_kwargs(self._pose_provider, ("timing",))
 
             def _remote_pose(
                 bgr: np.ndarray,
@@ -587,6 +598,7 @@ class LiveSessionManager:
                 ts: float | None = None,
                 seq: int | None = None,
                 run_hands: bool = False,
+                timing: dict[str, Any] | None = None,
             ) -> tuple[list[list[float]], list[float]]:
                 if accepts_stream:
                     return self._pose_provider(
@@ -595,6 +607,7 @@ class LiveSessionManager:
                         ts=ts,
                         seq=seq,
                         run_hands=run_hands,
+                        **({"timing": timing} if accepts_timing and timing is not None else {}),
                     )
                 return self._pose_provider(bgr, session_id)
 
@@ -621,14 +634,23 @@ class LiveSessionManager:
         ts: float | None = None,
         seq: int | None = None,
         run_hands: bool = False,
+        metrics: PoseMetrics | None = None,
+        timing: dict[str, Any] | None = None,
     ) -> tuple[list[str | None] | None, float]:
         pose_error: Exception | None = None
         try:
-            pose, visibility = estimate_pose(bgr, ts=ts, seq=seq, run_hands=run_hands)
+            pose, visibility = estimate_pose(
+                bgr, ts=ts, seq=seq, run_hands=run_hands, timing=timing,
+            )
             arms = arm_states(pose, visibility, self.config)
         except Exception as exc:
             pose_error = exc
             arms = [None, None]
+
+        if metrics is not None and timing is not None:
+            timing["ok"] = pose_error is None
+            timing["hands_requested"] = run_hands
+            metrics.finish(timing)
 
         with self._state_lock:
             # A slow response can arrive after Stop or after the next session starts.
@@ -658,12 +680,13 @@ class LiveSessionManager:
         camera_index: int,
     ) -> None:
         cap = None
+        metrics = self.pose_metrics
         try:
             cap = self._open_capture(camera_index, None)
             self._capture_open_event.set()
             cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
             cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
-            cap.set(cv2.CAP_PROP_FPS, 30)
+            cap.set(cv2.CAP_PROP_FPS, LIVE_CAPTURE_FPS)
             buf_prop = getattr(cv2, "CAP_PROP_BUFFERSIZE", None)
             if buf_prop is not None:
                 try:
@@ -675,15 +698,20 @@ class LiveSessionManager:
             last_ts = -1.0
             sequence = 0
             fps_window: deque[float] = deque(maxlen=40)
-            target_interval = 0.05  # Cap live ring buffer capture at 20 FPS
+            target_interval = 1.0 / LIVE_CAPTURE_FPS
 
             while not self._stop_event.is_set():
                 with self._pose_cond:
+                    blocked_at = None
+                    if metrics is not None and len(self._pose_frames) >= MAX_PENDING_POSE_FRAMES:
+                        blocked_at = time.perf_counter()
                     self._pose_cond.wait_for(
                         lambda: self._stop_event.is_set()
                         or epoch != self._epoch
                         or len(self._pose_frames) < MAX_PENDING_POSE_FRAMES
                     )
+                    if blocked_at is not None and metrics is not None:
+                        metrics.block(time.perf_counter() - blocked_at)
                     if self._stop_event.is_set() or epoch != self._epoch:
                         break
 
@@ -714,6 +742,8 @@ class LiveSessionManager:
                         break
                     sequence += 1
                     self._pose_frames.append((sequence, ts, bgr))
+                    if metrics is not None:
+                        metrics.capture(sequence, now)
                     self._pose_cond.notify_all()
 
                 remaining = target_interval - (time.perf_counter() - loop_start)
@@ -729,12 +759,15 @@ class LiveSessionManager:
         finally:
             if cap is not None:
                 cap.release()
+            if metrics is not None:
+                metrics.stop_capture()
             with self._pose_cond:
                 self._pose_cond.notify_all()
             if self._running and epoch == self._epoch and self._capture_open_error is None:
                 threading.Thread(target=self.stop_session, daemon=True, name="m2-auto-stop").start()
 
     def _pose_consumer_loop(self, session_id: str, epoch: int) -> None:
+        metrics = self.pose_metrics
         try:
             fps_window: deque[float] = deque(maxlen=30)
             last_pose_err_emit = -10.0
@@ -750,6 +783,7 @@ class LiveSessionManager:
                         if self._stop_event.is_set() or epoch != self._epoch:
                             return
                         sequence, ts, bgr = self._pose_frames.popleft()
+                        timing = metrics.dequeue(sequence) if metrics is not None else None
                         self._pose_cond.notify_all()
 
                     with self._state_lock:
@@ -765,6 +799,8 @@ class LiveSessionManager:
                         ts=ts,
                         seq=sequence,
                         run_hands=want_hands,
+                        metrics=metrics,
+                        timing=timing,
                     )
                     if arms is None:
                         return
@@ -796,7 +832,7 @@ class LiveSessionManager:
             if not video_path:
                 cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
                 cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
-                cap.set(cv2.CAP_PROP_FPS, 30)
+                cap.set(cv2.CAP_PROP_FPS, LIVE_CAPTURE_FPS)
 
             video_fps = cap.get(cv2.CAP_PROP_FPS)
             if not np.isfinite(video_fps) or video_fps <= 0:

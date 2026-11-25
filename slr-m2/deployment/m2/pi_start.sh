@@ -14,6 +14,7 @@ LAUNCH_KIOSK=1
 KIOSK_FLAG="--new-window"
 STOP_ONLY=0
 POSITIONAL_IP_SET=0
+POSE_METRICS_ARGS=()
 
 while [ $# -gt 0 ]; do
   case "$1" in
@@ -28,6 +29,10 @@ while [ $# -gt 0 ]; do
     --utterance-rest)
       UTTERANCE_REST="${2:?missing utterance-rest value}"
       shift 2
+      ;;
+    --measure-pose)
+      POSE_METRICS_ARGS=(--measure-pose)
+      shift
       ;;
     --no-vnc)
       ENABLE_VNC=0
@@ -50,7 +55,7 @@ while [ $# -gt 0 ]; do
       shift
       ;;
     -h|--help)
-      echo "Usage: $0 [LAPTOP_IP] [--mode pi-split|remote-fallback] [--threshold SECONDS] [--utterance-rest 4.0] [--no-vnc] [--windowed] [--fullscreen-kiosk] [--no-kiosk] [--stop]"
+      echo "Usage: $0 [LAPTOP_IP] [--mode pi-split|remote-fallback] [--threshold SECONDS] [--utterance-rest 4.0] [--measure-pose] [--no-vnc] [--windowed] [--fullscreen-kiosk] [--no-kiosk] [--stop]"
       echo "  Automatic laptop inference fallback is off by default (--threshold 0). Use --threshold 1.5 to enable it."
       exit 0
       ;;
@@ -129,6 +134,7 @@ nohup "$PY_BIN" -u -m deployment.m2.server \
   --vision-backend-url "$VISION_URL" \
   --fallback-threshold "$FALLBACK_THRESHOLD" \
   --utterance-rest "$UTTERANCE_REST" \
+  "${POSE_METRICS_ARGS[@]}" \
   >/tmp/pbl6-slr.log 2>&1 </dev/null &
 SLR_PID=$!
 
