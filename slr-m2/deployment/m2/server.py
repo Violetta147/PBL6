@@ -212,6 +212,7 @@ def create_app(
     utterance_rest: float | None = DEFAULT_UTTERANCE_REST_SECONDS,
     *,
     crop_rescue_enabled: bool = False,
+    measure_pose: bool = False,
 ) -> FastAPI:
     hub = WebSocketHub()
     rt = _build_runtime(
@@ -240,6 +241,7 @@ def create_app(
         on_event=hub.publish_from_thread,
         pose_provider=rt["pose_provider"],
         on_capture_start=rt["on_capture_start"],
+        measure_pose=measure_pose,
     )
     idle_jpeg = _make_idle_jpeg()
 
@@ -302,6 +304,15 @@ def create_app(
     @app.get("/api/state")
     def state():
         return manager.snapshot()
+
+    @app.get("/api/metrics/pose")
+    def pose_metrics(include_frames: bool = False):
+        metrics = manager.pose_metrics
+        if not measure_pose:
+            raise HTTPException(status_code=404, detail="Start the edge server with --measure-pose")
+        if metrics is None:
+            raise HTTPException(status_code=409, detail="Start a live camera session with remote vision")
+        return metrics.report(include_frames)
 
     @app.post("/api/runtime/fallback")
     def runtime_fallback(req: RuntimeFallbackRequest):
@@ -428,6 +439,10 @@ def main() -> None:
         "--crop-rescue", action=argparse.BooleanOptionalAction, default=False,
         help="Enable crop rescue for local extraction; configure the Vision Backend in split mode",
     )
+    parser.add_argument(
+        "--measure-pose", action="store_true",
+        help="Collect live LAN pose timing at GET /api/metrics/pose",
+    )
     parser.add_argument("--tts-dir", type=Path, default=DEFAULT_TTS_DIR)
     args = parser.parse_args()
 
@@ -442,6 +457,7 @@ def main() -> None:
         fallback_threshold_seconds=args.fallback_threshold,
         utterance_rest=args.utterance_rest,
         crop_rescue_enabled=args.crop_rescue,
+        measure_pose=args.measure_pose,
     )
     uvicorn.run(app, host=args.host, port=args.port)
 

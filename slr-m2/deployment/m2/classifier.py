@@ -487,13 +487,21 @@ class VisionExtractor:
         self,
         bgr: np.ndarray,
         run_hands: bool = False,
+        *,
+        timing_ms: dict[str, float] | None = None,
     ) -> tuple[list[list[float]], list[float], Any, Any | None, dict[str, Any] | None, float]:
         """Process one streamed camera frame, optionally running Pose || Hands in parallel."""
         started = time.perf_counter()
         rgb = cv2.cvtColor(bgr, cv2.COLOR_BGR2RGB)
         rgb.flags.writeable = False
+        if timing_ms is not None:
+            lock_started = time.perf_counter()
         with self._mp_lock:
+            if timing_ms is not None:
+                timing_ms["mediapipe_lock_wait"] = (time.perf_counter() - lock_started) * 1000
             pose_model, hands_model = self._ensure_models_unlocked()
+            if timing_ms is not None:
+                mediapipe_started = time.perf_counter()
             if run_hands:
                 if self._pool is None:
                     self._pool = ThreadPoolExecutor(max_workers=2, thread_name_prefix="m2-vis")
@@ -501,11 +509,12 @@ class VisionExtractor:
                 f_hands = self._pool.submit(hands_model.process, rgb)
                 pose_res = f_pose.result()
                 hand_res = f_hands.result()
-                packed = self._extract_raw.pack_frame(pose_res, hand_res)
             else:
                 pose_res = pose_model.process(rgb)
                 hand_res = None
-                packed = None
+            if timing_ms is not None:
+                timing_ms["mediapipe"] = (time.perf_counter() - mediapipe_started) * 1000
+            packed = self._extract_raw.pack_frame(pose_res, hand_res) if run_hands else None
         pose_8, vis_8 = extract_pose_8(pose_res)
         return pose_8, vis_8, pose_res, hand_res, packed, time.perf_counter() - started
 
